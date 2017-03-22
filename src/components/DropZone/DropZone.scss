@@ -1,0 +1,52 @@
+/**
+ * style definitions for the DropZone component
+ *
+ * @module fonio/components/DropZone
+ */
+
+@import '../../parameters.scss';
+
+.fonio-drop-zone
+{
+    /*
+     * root component
+     */
+    position: relative;
+
+    width: 100%;
+    height: 10rem;
+
+    text-align: center;
+
+    border: 1px dashed $color-very-dark;
+
+    @extend .interactive-item;
+    /*
+     * secondary layout components
+     */
+    .caption-wrapper
+    {
+        display: flex;
+
+        @extend .absolute-stretched;
+        flex-flow: row nowrap;
+        align-items: center;
+
+        &.active
+        {
+            @extend .important-item;
+        }
+        &.reject
+        {
+            @extend .dangerous-item-intent;
+        }
+        .caption-container
+        {
+            display: flex;
+
+            flex-flow: column nowrap;
+            align-items: center;
+            flex: 1;
+        }
+    }
+}

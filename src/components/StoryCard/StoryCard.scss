@@ -1,0 +1,124 @@
+/**
+ * style definitions for the PresentationCard component
+ *
+ * @module fonio/components/PresentationCard
+ */
+
+@import '../../parameters.scss';
+
+.fonio-presentation-card
+{
+    /*
+     * root component
+     */
+    padding: $gutter-medium;
+
+    list-style-type: none;
+
+    @extend .animated;
+    @extend .primary-item;
+    &:hover
+    {
+        @extend .primary-item-intent;
+    }
+    /*
+     * secondary layout components
+     */
+    .card-header,
+    .card-body
+    {
+        display: flex;
+
+        flex-flow: row nowrap;
+    }
+    .card-body
+    {
+        .info-column
+        {
+            overflow-y: hidden;
+
+            max-height: 10rem;
+            margin-top: 0;
+            padding-right: $gutter-medium;
+
+            flex: 3;
+            h5
+            {
+                font-size: $font-size-3;
+
+                display: flex;
+
+                margin: 0;
+                margin-bottom: $gutter-medium;
+
+                cursor: pointer;
+
+                flex-flow: row nowrap;
+                .icons-container
+                {
+                    margin-right: $gutter-medium;
+                    padding-top: $gutter-small;
+                }
+                img
+                {
+                    height: $font-size-3;
+                }
+            }
+            .description
+            {
+                font-style: italic;
+
+                overflow: auto;
+            }
+        }
+        .buttons-column
+        {
+            display: flex;
+
+            flex: 1;
+            flex-flow: column nowrap;
+            .edit-btn
+            {
+                font-size: $font-size-3;
+
+                @extend .important-item;
+                &:hover
+                {
+                    @extend .important-item-intent;
+                }
+            }
+            .delete-btn
+            {
+                &:hover
+                {
+                    @extend .dangerous-item-intent;
+                }
+                &.inactive
+                {
+                    @extend .dangerous-item-inactive;
+                }
+            }
+        }
+    }
+    .card-footer
+    {
+        .button-row
+        {
+            display: flex;
+
+            flex-flow: row nowrap;
+            justify-content: stretch;
+            .delete-btn
+            {
+                padding: $gutter-small;
+
+                flex: 1;
+                @extend .dangerous-item;
+                &:hover
+                {
+                    @extend .dangerous-item-intent;
+                }
+            }
+        }
+    }
+}

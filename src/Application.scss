@@ -1,0 +1,119 @@
+/**
+ * style definitions for the root component
+ *
+ * @module fonio
+ */
+@import './parameters.scss';
+
+html
+{
+    font-size: 12px;
+
+    min-height: 100%;
+}
+
+/*
+ * fonio positionning and dimensionning
+ */
+.fonio-editor
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+/*
+ * Responsive layout adjustments
+ */
+@media #{$breakpoint-phone}
+{
+    html
+    {
+        font-size: 20px;
+    }
+}
+
+.ReactModalPortal > *
+{
+    // When the modal is closed, overlay div has no css class
+    // This selector should be overridden by the `&--after-open` class below
+    opacity: 0;
+}
+
+.ReactModal__Overlay
+{
+    display: flex;
+
+    transition: opacity $time-short ease-in-out;
+
+    opacity: 0;
+    background: rgba(0, 0, 0, .15);
+
+    align-items: center;
+    &--after-open
+    {
+        opacity: 1;
+    }
+    &--before-close
+    {
+        opacity: 0;
+    }
+}
+
+.ReactModal__Content
+{
+    top: 5%!important;
+    bottom: unset!important;
+
+    max-height: 90%;
+    padding: 0!important;
+
+    .modal-header
+    {
+        font-size: $font-size-3;
+
+        margin: 0 0 $gutter-large 0;
+        padding: $gutter-medium;
+        padding-left: $gutter-large;
+
+        @extend .important-item-active;
+    }
+
+    .modal-footer
+    {
+        padding: $gutter-medium;
+        padding-left: $gutter-large;
+
+        @extend .primary-item;
+
+        button
+        {
+            padding: $gutter-small;
+
+            @extend .interactive-item;
+            &:hover
+            {
+                @extend .interactive-item-intent;
+            }
+        }
+    }
+
+    .modal-row
+    {
+        position: relative;
+
+        max-height: 1000rem;
+        padding: 0 $gutter-large $gutter-large $gutter-large;
+
+        @extend .animated;
+        &.empty
+        {
+            max-height: 0;
+            margin: 0;
+            padding: 0;
+        }
+    }
+}

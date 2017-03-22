@@ -1,0 +1,120 @@
+/**
+ * style definitions for the TakeAwayDialogLayout component
+ *
+ * @module fonio/features/ConfigurationDialog
+ */
+@import '../../../parameters.scss';
+
+.fonio-configuration-dialog-layout
+{
+    /*
+     * root component
+     */
+    font-family: $main-font-stack;
+
+    display: flex;
+    flex-direction: column;
+
+    -webkit-user-select: none; /* Chrome/Safari */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+            user-select: none;
+
+         -o-user-select: none;
+    /*
+     * specific micro-components
+     */
+    ul
+    {
+        padding: 0;
+    }
+    pre
+    {
+        overflow-y: auto;
+
+        max-height: 20rem;
+        margin: 0;
+        padding: $gutter-medium;
+
+        white-space:      pre-wrap;       /* Since CSS 2.1 */
+        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space:   -o-pre-wrap;    /* Opera 7 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+
+        @extend .primary-item;
+        flex: 1;
+    }
+    h4
+    {
+        font-size: $font-size-3;
+    }
+    h5
+    {
+        font-size: $font-size-2;
+
+        margin-top: 0;
+    }
+    input[type='text'],
+    textarea
+    {
+        font-family: $editable-font-stack;
+        font-size: $font-size-2;
+
+        padding: $gutter-medium;
+
+        resize: none;
+        cursor: text;
+
+        border: none;
+        outline: none;
+
+        @extend .animated;
+        @extend .interactive-item;
+
+        &:hover
+        {
+            @extend .interactive-item-intent;
+        }
+        &:focus
+        {
+            @extend .interactive-item-active;
+        }
+    }
+
+    .input-group
+    {
+        display: flex;
+
+        flex-flow: column nowrap;
+        &:not(:last-of-type)
+        {
+            margin-bottom: $gutter-medium;
+        }
+        label
+        {
+            margin-bottom: $gutter-small;
+        }
+    }
+
+    .fonio-toaster
+    {
+        margin-top: $gutter-medium;
+    }
+
+    .modal-footer
+    {
+        @extend .flex-stretched-row;
+        .valid-btn
+        {
+            font-size: $font-size-3;
+
+            @extend .important-item;
+            flex: 1;
+            &:hover
+            {
+                @extend .important-item-intent;
+            }
+        }
+    }
+}

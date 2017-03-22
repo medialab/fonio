@@ -1,0 +1,171 @@
+/**
+ * style definitions for the StoriesManagerLayout component
+ *
+ * @module fonio/features/StoriesManager
+ */
+@import '../../../parameters.scss';
+/*
+ * Primary layout
+ */
+.fonio-stories-manager-layout
+{
+    display: flex;
+    overflow-y: auto;
+    /*
+     * root component
+     */
+
+    @extend .absolute-stretched;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    @media #{$breakpoint-tablet}
+    {
+        overflow: auto;
+
+        flex-flow: column nowrap;
+    }
+    @extends .normal-item;
+    /*
+     * secondary layout components
+     */
+    .landing-group
+    {
+        display: flex;
+        overflow: visible;
+
+        height: 100%;
+        padding: $gutter-medium;
+        padding-top: 3%;
+
+        flex: 1;
+        flex-flow: column nowrap;
+        &:first-of-type
+        {
+            padding-left: 10%;
+        }
+        &:last-of-type
+        {
+            padding-right: 10%;
+            padding-left: 10%;
+        }
+        @media #{$breakpoint-tablet}
+        {
+            width: 100%;
+            padding: $gutter-medium!important;
+        }
+        .row-section
+        {
+            margin-bottom: $gutter-medium;
+            &.about
+            {
+                font-style: italic;
+
+                @extend .normal-item-secondary;
+            }
+            h4
+            {
+                margin-top: 0;
+            }
+        }
+        .medialab
+        {
+            display: block;
+            img
+            {
+                max-width: 8rem;
+            }
+        }
+        h1
+        {
+            font-size: $font-size-5;
+
+            margin: 0;
+        }
+        h1,
+        .new-story
+        {
+            height: $font-size-5 * 1.3;
+            margin-bottom: $gutter-medium;
+        }
+        .new-story
+        {
+            font-size: $font-size-3;
+
+            width: 100%;
+
+            text-align: center;
+
+            @extend .important-item;
+            &:hover
+            {
+                @extend .important-item-intent;
+            }
+        }
+        h4
+        {
+            font-size: 1.2rem;
+
+            margin-bottom: $gutter-medium;
+        }
+
+        .local-story-list
+        {
+            margin: 0;
+            padding: 0;
+            .fonio-story-card:not(:last-of-type)
+            {
+                margin-bottom: $gutter-large;
+            }
+        }
+    }
+    .import-from-url
+    {
+        form
+        {
+            display: flex;
+
+            flex-flow: row nowrap;
+            @extend .interactive-item;
+
+            input[type='text']
+            {
+                padding: $gutter-medium;
+
+                cursor: text;
+
+                flex: 1;
+                &:hover
+                {
+                    @extend .interactive-item-intent;
+                }
+                &:focus
+                {
+                    @extend .interactive-item-active;
+                }
+            }
+            input[type='submit']
+            {
+                padding: $gutter-medium;
+
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.override-modal-footer
+{
+    display: flex;
+
+    flex-flow: row nowrap;
+    button:first-of-type
+    {
+        flex: 1;
+        @extend .dangerous-item;
+        &:hover
+        {
+            @extend .dangerous-item-intent;
+        }
+    }
+}

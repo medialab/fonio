@@ -1,0 +1,23 @@
+/**
+ * style definitions for the LangToggler component
+ *
+ * @module fonio/components/LangToggler
+ */
+
+@import '../../parameters.scss';
+
+.fonio-lang-toggler
+{
+    cursor: pointer;
+
+    @extend .interactive-item;
+    &:hover
+    {
+        @extend .interactive-item-intent;
+    }
+
+    .active
+    {
+        font-weight: 800;
+    }
+}

@@ -1,0 +1,146 @@
+/**
+ * style definitions for the TakeAwayDialogLayout component
+ *
+ * @module fonio/features/TakeAwayDialog
+ */
+
+@import '../../../parameters.scss';
+
+.fonio-take-away-dialog-layout
+{
+    /*
+     * root component
+     */
+    font-family: $main-font-stack;
+
+    -webkit-user-select: none; /* Chrome/Safari */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+            user-select: none;
+
+    @extend .flex-stretched-column;
+         -o-user-select: none;
+    .modal-content
+    {
+        overflow-y: auto;
+
+        flex: 1;
+    }
+    /*
+     * specific micro-components
+     */
+    // for iframes code
+    pre
+    {
+        white-space:      pre-wrap;       /* Since CSS 2.1 */
+        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space:   -o-pre-wrap;    /* Opera 7 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    }
+    code
+    {
+        -webkit-user-select: all; /* Chrome/Safari */
+           -moz-user-select: all; /* Firefox */
+            -ms-user-select: all; /* IE10+ */
+                user-select: all;
+
+             -o-user-select: all;
+    }
+    h2
+    {
+        margin-top: 0;
+        img
+        {
+            position: relative;
+            top: $gutter-small;
+
+            height: $font-size-3;
+            margin-right: $gutter-medium;
+        }
+    }
+    // fonio-help-pin
+    button .fonio-help-pin
+    {
+        margin-left: $gutter-small;
+
+        color: $background-default;
+        .pin-icon
+        {
+            color: $background-default;
+            border: 1px solid $background-default;
+        }
+    }
+    /*
+     * secondary layout components
+     */
+    .sync-section
+    {
+        display: flex;
+
+        flex-flow: row nowrap;
+        .column
+        {
+            flex: 1;
+            pre
+            {
+                overflow-y: auto;
+
+                padding: $gutter-medium;
+
+                background: $color-sec-bg;
+            }
+            &:not(:first-of-type)
+            {
+                margin-left: $gutter-large;
+            }
+            p
+            {
+                margin-top: 0;
+            }
+            a
+            {
+                display: block;
+
+                margin-bottom: $gutter-small;
+                padding: $gutter-medium;
+
+                text-decoration: none;
+
+                @extend .important-item;
+                &:hover
+                {
+                    @extend .important-item-intent;
+                }
+            }
+        }
+        .operations
+        {
+            display: flex;
+
+            flex-flow: column nowrap;
+            button
+            {
+                margin-bottom: $gutter-medium;
+                padding: $gutter-medium;
+
+                text-align: left;
+
+                flex: 1;
+                @extend .important-item;
+                &:hover
+                {
+                    @extend .important-item-intent;
+                }
+                &.update-from
+                {
+                    @extend .dangerous-item;
+                    &:hover
+                    {
+                        @extend .dangerous-item-intent;
+                    }
+                }
+            }
+        }
+    }
+}

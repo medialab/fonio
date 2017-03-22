@@ -1,0 +1,50 @@
+{
+    "type": "object",
+    "keys": {
+        "id": {
+            "type": "string",
+            "required": true
+        },
+        "type": {
+            "type":"string",
+            "required": true
+        },
+        "metadata": {
+            "type": "object",
+            "required": true,
+            "keys": {
+                "title": {
+                    "type": "string",
+                    "required": false
+                },
+                "description": {
+                    "type": "string",
+                    "required": false
+                },
+                "authors": {
+                    "type": "array",
+                    "required": false
+                },
+                "gistId": {
+                    "type": "string"
+                }
+            }
+        },
+        "assets": {
+            "type": "object",
+            "required": true,
+            "keys": {
+                "$each": {
+                    "type": "object",
+                    "keyType": "uuid",
+                    "keys": {
+                        "metadata": {
+                            "type": "object",
+                            "required": true
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
