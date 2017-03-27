@@ -1,14 +1,13 @@
 /**
- * style definitions for the PresentationCard component
+ * style definitions for the AssetCard component
  *
- * @module fonio/components/PresentationCard
+ * @module fonio/components/AssetCard
  */
-
 @import '../../parameters.scss';
 
-.fonio-story-card
+.fonio-asset-card
 {
-    /*
+  /*
      * root component
      */
     padding: $gutter-medium;
@@ -30,6 +29,16 @@
         display: flex;
 
         flex-flow: row nowrap;
+    }
+    .card-header
+    {
+      img{
+        max-height: $font-size-3;
+      }
+      font-size: $font-size-3;
+      h5{
+        margin: 0;
+      }
     }
     .card-body
     {
@@ -75,7 +84,7 @@
         {
             display: flex;
 
-            flex: 1;
+            flex: 2;
             flex-flow: column nowrap;
             .edit-btn
             {
@@ -85,17 +94,6 @@
                 &:hover
                 {
                     @extend .important-item-intent;
-                }
-            }
-            .delete-btn
-            {
-                &:hover
-                {
-                    @extend .dangerous-item-intent;
-                }
-                &.inactive
-                {
-                    @extend .dangerous-item-inactive;
                 }
             }
         }
@@ -108,17 +106,6 @@
 
             flex-flow: row nowrap;
             justify-content: stretch;
-            .delete-btn
-            {
-                padding: $gutter-small;
-
-                flex: 1;
-                @extend .dangerous-item;
-                &:hover
-                {
-                    @extend .dangerous-item-intent;
-                }
-            }
         }
     }
 }

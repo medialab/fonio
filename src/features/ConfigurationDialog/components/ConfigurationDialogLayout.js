@@ -60,7 +60,7 @@ const ConfigurationDialogLayout = ({
   const setStoryTitle = (e) => setCandidateStoryMetadata('title', e.target.value);
   const setStoryAuthors = (e) => setCandidateStoryMetadata('authors', e.target.value);
   const setStoryDescription = (e) => setCandidateStoryMetadata('description', e.target.value);
-
+  // todo this is temporary and should be replaced by a test
   const storyBegan = true;
   return (
     <div className="fonio-configuration-dialog-layout">

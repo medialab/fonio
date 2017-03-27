@@ -50,7 +50,7 @@ export const ChooseTakeAwayStep = ({
  // todo : put this data in a model file ? to decide
   const options = [{
           id: 'project',
-          icon: require('../assets/fonio-take-away-type-project.svg'),
+          icon: require('../assets/project.svg'),
           label: <span>
             {translate('project-file')}
             <HelpPin>
@@ -60,7 +60,7 @@ export const ChooseTakeAwayStep = ({
         },
         {
           id: 'html',
-          icon: require('../assets/fonio-take-away-type-html.svg'),
+          icon: require('../assets/html.svg'),
           label: <span>
             {translate('html-file')}
             <HelpPin>
@@ -71,7 +71,7 @@ export const ChooseTakeAwayStep = ({
         },
         {
           id: 'github',
-          icon: require('../assets/fonio-take-away-type-github.svg'),
+          icon: require('../assets/github.svg'),
           label: <span>
             {translate('gist-powered-website')}
             <HelpPin>
@@ -81,7 +81,7 @@ export const ChooseTakeAwayStep = ({
         },
         {
           id: 'server',
-          icon: require('../assets/fonio-take-away-type-server.svg'),
+          icon: require('../assets/server.svg'),
           label: <span>
             {translate('forccast-website')}
             <HelpPin position="left">
@@ -151,7 +151,7 @@ const TakeAwayDialogLayout = ({
   return (
     <div className="fonio-take-away-dialog-layout">
       <h1 className="modal-header">
-        {translate('take-away-your-presentation')}
+        {translate('take-away-your-story')}
       </h1>
       <section className="modal-content">
         <section className="modal-row">
@@ -174,7 +174,7 @@ const TakeAwayDialogLayout = ({
           takeAwayType === 'github' &&
           activePresentation && activePresentation.metadata && activePresentation.metadata.gistId ?
             <div className="sync-section-container">
-              <h2><img src={require('../assets/fonio-take-away-type-github.svg')} />Your presentation is online on the gist platform</h2>
+              <h2><img src={require('../assets/github.svg')} />{translate('your-story-is-online-on-gist')}</h2>
               <div className="sync-section">
                 <div className="column">
                   <p>
@@ -216,7 +216,7 @@ const TakeAwayDialogLayout = ({
           takeAwayType === 'server' &&
           activePresentation && activePresentation.metadata && activePresentation.metadata.serverHTMLUrl ?
             <div className="sync-section-container">
-              <h2><img src={require('../assets/fonio-take-away-type-server.svg')} />Your presentation is online on the forccast server</h2>
+              <h2><img src={require('../assets/server.svg')} />Your presentation is online on the forccast server</h2>
               <div className="sync-section">
                 <div className="column">
                   <p>

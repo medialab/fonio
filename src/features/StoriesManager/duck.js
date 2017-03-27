@@ -2,7 +2,7 @@
  * This module exports logic-related elements for the management of (locally stored) fonio stories
  * This module follows the ducks convention for putting in the same place actions, action types,
  * state selectors and reducers about a given feature (see https://github.com/erikras/ducks-modular-redux)
- * @module fonio/features/PresentationsManager
+ * @module fonio/features/StoriesManager
  */
 
 import {combineReducers} from 'redux';
@@ -22,24 +22,30 @@ import {
 } from '../Editor/duck';
 
 import {
+  CREATE_ASSET,
+  UPDATE_ASSET,
+  DELETE_ASSET
+} from '../AssetsManager/duck';
+
+import {
   EXPORT_TO_GIST,
   EXPORT_TO_SERVER
 } from '../TakeAwayDialog/duck';
 
-const CREATE_STORY = '§Fonio/PresentationsManager/CREATE_STORY';
-const DELETE_STORY = '§Fonio/PresentationsManager/DELETE_STORY';
-const UPDATE_STORY = '§Fonio/PresentationsManager/UPDATE_STORY';
-const COPY_STORY = '§Fonio/PresentationsManager/COPY_STORY';
+const CREATE_STORY = '§Fonio/StoriesManager/CREATE_STORY';
+const DELETE_STORY = '§Fonio/StoriesManager/DELETE_STORY';
+const UPDATE_STORY = '§Fonio/StoriesManager/UPDATE_STORY';
+const COPY_STORY = '§Fonio/StoriesManager/COPY_STORY';
 
-const PROMPT_DELETE_STORY = '§Fonio/PresentationsManager/PROMPT_DELETE_STORY';
-const UNPROMPT_DELETE_STORY = '§Fonio/PresentationsManager/UNPROMPT_DELETE_STORY';
+const PROMPT_DELETE_STORY = '§Fonio/StoriesManager/PROMPT_DELETE_STORY';
+const UNPROMPT_DELETE_STORY = '§Fonio/StoriesManager/UNPROMPT_DELETE_STORY';
 
-const IMPORT_ABORD = '§Fonio/PresentationsManager/IMPORT_ABORD';
-const IMPORT_OVERRIDE_PROMPT = '§Fonio/PresentationsManager/IMPORT_OVERRIDE_PROMPT';
-const IMPORT_FAIL = '§Fonio/PresentationsManager/IMPORT_FAIL';
-const IMPORT_SUCCESS = '§Fonio/PresentationsManager/IMPORT_SUCCESS';
-const IMPORT_RESET = '§Fonio/PresentationsManager/IMPORT_RESET';
-const SET_IMPORT_FROM_URL_CANDIDATE = '§Fonio/PresentationsManager/SET_IMPORT_FROM_URL_CANDIDATE';
+const IMPORT_ABORD = '§Fonio/StoriesManager/IMPORT_ABORD';
+const IMPORT_OVERRIDE_PROMPT = '§Fonio/StoriesManager/IMPORT_OVERRIDE_PROMPT';
+const IMPORT_FAIL = '§Fonio/StoriesManager/IMPORT_FAIL';
+const IMPORT_SUCCESS = '§Fonio/StoriesManager/IMPORT_SUCCESS';
+const IMPORT_RESET = '§Fonio/StoriesManager/IMPORT_RESET';
+const SET_IMPORT_FROM_URL_CANDIDATE = '§Fonio/StoriesManager/SET_IMPORT_FROM_URL_CANDIDATE';
 
 /*
  * Action creators
@@ -49,7 +55,7 @@ const SET_IMPORT_FROM_URL_CANDIDATE = '§Fonio/PresentationsManager/SET_IMPORT_F
  * @param {object} story - the data of the story to create
  * @param {boolean} setActive - whether to set the story as active (edited) story in app
  */
-export const createPresentation = (id, story, setActive = true) => ({
+export const createStory = (id, story, setActive = true) => ({
   type: CREATE_STORY,
   story,
   setActive,
@@ -58,27 +64,27 @@ export const createPresentation = (id, story, setActive = true) => ({
 /**
  * @param {object} story - the data of the story to copy
  */
-export const copyPresentation = (story) => ({
+export const copyStory = (story) => ({
   type: COPY_STORY,
   story
 });
 /**
  * @param {string} id - the uuid of the story to query for deletion
  */
-export const promptDeletePresentation = (id) => ({
+export const promptDeleteStory = (id) => ({
   type: PROMPT_DELETE_STORY,
   id
 });
 /**
  *
  */
-export const unpromptDeletePresentation = () => ({
+export const unpromptDeleteStory = () => ({
   type: UNPROMPT_DELETE_STORY
 });
 /**
  * @param {string} id - the uuid of the story to delete
  */
-export const deletePresentation = (id) => ({
+export const deleteStory = (id) => ({
   type: DELETE_STORY,
   id
 });
@@ -86,7 +92,7 @@ export const deletePresentation = (id) => ({
  * @param {string} id - the uuid of the story to update
  * @param {object} story - the data of the story to update
  */
-export const updatePresentation = (id, story) => ({
+export const updateStory = (id, story) => ({
   type: UPDATE_STORY,
   id,
   story
@@ -153,7 +159,7 @@ const STORIES_DEFAULT_STATE = {
    * Restory of the id of the story being edited in editor
    * @type {string}
    */
-  activePresentationId: undefined
+  activeStoryId: undefined
 };
 /**
  * This redux reducer handles the modification of the data state for the stories stored in the application's state
@@ -161,9 +167,10 @@ const STORIES_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  */
 function stories(state = STORIES_DEFAULT_STATE, action) {
+  let newState;
   switch (action.type) {
     case APPLY_STORY_CANDIDATE_CONFIGURATION:
-      if (state.activePresentationId) {
+      if (state.activeStoryId) {
         // case update
         return {
           ...state,
@@ -174,7 +181,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
               ...action.story
             }
           },
-          activePresentationId: action.story.id
+          activeStoryId: action.story.id
         };
       }
       else {
@@ -185,18 +192,18 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
             ...state.stories,
             [action.story.id]: action.story
           },
-          activePresentationId: action.story.id
+          activeStoryId: action.story.id
         };
       }
     case SET_ACTIVE_STORY:
       return {
         ...state,
-        activePresentationId: action.story.id
+        activeStoryId: action.story.id
       };
     case UNSET_ACTIVE_STORY:
       return {
         ...state,
-        activePresentationId: undefined
+        activeStoryId: undefined
       };
     case CREATE_STORY:
       const id = action.id;
@@ -212,7 +219,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         }
       };
     case DELETE_STORY:
-      const newState = Object.assign({}, state);
+      newState = Object.assign({}, state);
       delete newState.stories[action.id];
       return newState;
     case UPDATE_STORY:
@@ -237,7 +244,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case COPY_STORY:
       const original = action.story;
       const newId = uuid();
-      const newPresentation = {
+      const newStory = {
         ...original,
         id: newId,
         metadata: {
@@ -249,9 +256,36 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         ...state,
         stories: {
           ...state.stories,
-          [newId]: newPresentation
+          [newId]: newStory
         }
       };
+    /*
+     * ASSETS-RELATED
+     */
+    case UPDATE_ASSET:
+    case CREATE_ASSET:
+      const {
+        storyId,
+        id: assetId,
+        asset
+      } = action;
+      return {
+        ...state,
+        stories: {
+          ...state.stories,
+          [storyId]: {
+            ...state.stories[storyId],
+            assets: {
+              ...state.stories[storyId].assets,
+              [assetId]: asset
+            }
+          }
+        }
+      };
+    case DELETE_ASSET:
+      newState = {...state};
+      delete newState.stories[action.storyId].assets[action.id];
+      return newState;
     /*
      * EXPORT-RELATED
      */
@@ -260,10 +294,10 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         ...state,
         stories: {
           ...state.stories,
-          [state.activePresentationId]: {
-            ...state.stories[state.activePresentationId],
+          [state.activeStoryId]: {
+            ...state.stories[state.activeStoryId],
             metadata: {
-              ...state.stories[state.activePresentationId].metadata,
+              ...state.stories[state.activeStoryId].metadata,
               gistUrl: action.result.gistUrl,
               gistId: action.result.gistId
             }
@@ -275,12 +309,12 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         ...state,
         stories: {
           ...state.stories,
-          [state.activePresentationId]: {
-            ...state.stories[state.activePresentationId],
+          [state.activeStoryId]: {
+            ...state.stories[state.activeStoryId],
             metadata: {
-              ...state.stories[state.activePresentationId].metadata,
-              serverJSONUrl: serverUrl + '/stories/' + state.stories[state.activePresentationId].id,
-              serverHTMLUrl: serverUrl + '/stories/' + state.stories[state.activePresentationId].id + '?format=html'
+              ...state.stories[state.activeStoryId].metadata,
+              serverJSONUrl: serverUrl + '/stories/' + state.stories[state.activeStoryId].id,
+              serverHTMLUrl: serverUrl + '/stories/' + state.stories[state.activeStoryId].id + '?format=html'
             }
           }
         }
@@ -295,7 +329,7 @@ const STORIES_UI_DEFAULT_STATE = {
    * Restory of the id of the story being edited in editor
    * @type {string}
    */
-  activePresentationId: undefined,
+  activeStoryId: undefined,
   /**
    * Restory of the id of the item being prompted to delete
    * @type {string}
@@ -311,12 +345,12 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
   switch (action.type) {
     case START_CANDIDATE_STORY_CONFIGURATION:
       return {
-        activePresentationId: action.id
+        activeStoryId: action.id
       };
     case CREATE_STORY:
       return {
         ...state,
-        activePresentationId: action.setActive ? action.id : state.activePresentationId
+        activeStoryId: action.setActive ? action.id : state.activeStoryId
       };
     case PROMPT_DELETE_STORY:
       return {
@@ -332,7 +366,7 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
       return {
         ...state,
         promptedToDelete: undefined,
-        activePresentationId: state.activePresentationId === action.id ? undefined : state.activePresentationId
+        activeStoryId: state.activeStoryId === action.id ? undefined : state.activeStoryId
       };
     default:
       return state;
@@ -412,8 +446,8 @@ export default persistentReducer(
  * Selectors
  */
 const storiesList = state => Object.keys(state.stories.stories).map(key => state.stories.stories[key]);
-const activePresentation = state => state.stories.stories[state.stories.activePresentationId];
-const activePresentationId = state => state.stories.activePresentationId;
+const activeStory = state => state.stories.stories[state.stories.activeStoryId];
+const activeStoryId = state => state.stories.activeStoryId;
 
 const promptedToDeleteId = state => state.storiesUi.promptedToDelete;
 const importStatus = state => state.storyImport.importStatus;
@@ -425,8 +459,8 @@ const importFromUrlCandidate = state => state.storyImport.importFromUrlCandidate
  * @type {object}
  */
 export const selector = createStructuredSelector({
-  activePresentation,
-  activePresentationId,
+  activeStory,
+  activeStoryId,
 
   importCandidate,
   importError,

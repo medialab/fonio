@@ -50,7 +50,8 @@ const EMPTY_STORY = {
     authors: [],
     description: '',
     gistId: undefined
-  }
+  },
+  assets: {}
 };
 
 const DEFAULT_STORY_CANDIDATE_DATA = {

@@ -2,19 +2,21 @@
  * This module exports a stateless component rendering the layout of the editor feature interface
  * @module fonio/features/Editor
  */
-import React from 'react';
+import React, {PropTypes} from 'react';
 import Modal from 'react-modal';
 
 import './EditorLayout.scss';
 
 // import QuinoaStoryPlayer from 'quinoa-story-player';
 
+import {translateNameSpacer} from '../../../helpers/translateUtils';
+
 import Footer from '../../../components/Footer/Footer';
 
 import StoriesManagerContainer from '../../StoriesManager/components/StoriesManagerContainer';
-
-import ConfigurationDialog from '../../ConfigurationDialog/components/ConfigurationDialogContainer.js';
-import TakeAwayDialog from '../../TakeAwayDialog/components/TakeAwayDialogContainer.js';
+import ConfigurationDialog from '../../ConfigurationDialog/components/ConfigurationDialogContainer';
+import TakeAwayDialog from '../../TakeAwayDialog/components/TakeAwayDialogContainer';
+import AsideViewLayout from './AsideViewLayout';
 
 /**
  * Renders the main layout component of the editor
@@ -34,8 +36,6 @@ import TakeAwayDialog from '../../TakeAwayDialog/components/TakeAwayDialogContai
  * @param {function} props.onProjectImport
  * @param {function} props.returnToLanding
  * @param {object} props.actions - actions passed by redux logic
- * @param {function} props.addSlide
- * @param {function} props.duplicateSlide
  * @param {function} props.openSettings
  * @param {function} props.closeAndResetDialog
  * @return {ReactElement} markup
@@ -52,8 +52,7 @@ const EditorLayout = ({
   isTakeAwayModalOpen,
   // edited story state
   activeStoryId,
-  // activeStory,
-  // activeStoryId,
+  activeStory,
 
   // actions
   returnToLanding,
@@ -63,8 +62,9 @@ const EditorLayout = ({
     setUiMode,
     setLanguage
   },
+  openSettings,
   closeAndResetDialog,
-}) => {
+}, context) => {
 
   const closeModal = () => {
     if (isStoryCandidateModalOpen) {
@@ -83,12 +83,21 @@ const EditorLayout = ({
       setUiMode('edition');
     }
   };
+  const translate = translateNameSpacer(context.t, 'Features.Editor');
   return (<div id={id} className={className}>
     {activeStoryId ?
       <div className={className}>
         {globalUiMode === 'edition' ?
           <section className="fonio-main-row">
-            Hello Fonio
+            <AsideViewLayout
+              activeStory={activeStory}
+              activeStoryId={activeStoryId}
+              openSettings={openSettings}
+              closeAndResetDialog={closeAndResetDialog}
+              returnToLanding={returnToLanding} />
+            <div className="fonio-editor-container">
+              Hello Fonio
+            </div>
           </section>
         :
           <section className="fonio-main-row">
@@ -108,7 +117,7 @@ const EditorLayout = ({
       : <StoriesManagerContainer />}
     <Modal
       onRequestClose={closeModal}
-      contentLabel="new presentation"
+      contentLabel={translate('edit-story')}
       isOpen={isStoryCandidateModalOpen || isTakeAwayModalOpen}>
       {
         isStoryCandidateModalOpen ?
@@ -118,5 +127,10 @@ const EditorLayout = ({
     </Modal>
   </div>);
 };
+
+EditorLayout.contextTypes = {
+  t: PropTypes.func.isRequired
+};
+
 
 export default EditorLayout;

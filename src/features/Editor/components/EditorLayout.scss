@@ -32,6 +32,16 @@
 
         flex-wrap: nowrap;
         flex: 10;
+
+        .fonio-aside-view
+        {
+            flex: 1;
+        }
+
+        .fonio-editor-container
+        {
+            flex: 5;
+        }
     }
     .fonio-footer
     {

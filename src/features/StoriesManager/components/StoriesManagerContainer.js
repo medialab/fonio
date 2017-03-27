@@ -52,14 +52,14 @@ export default class StoriesManagerContainer extends Component {
     this.attemptImport = this.attemptImport.bind(this);
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.isPresentationCandidateModalOpen === false;
+  shouldComponentUpdate() {
+    return true;
   }
 
   attemptImport (str) {
     try {
       const project = JSON.parse(str);
-      const valid = true;//  validatePresentation(project);
+      const valid = true;//  validateStory(project);
       if (valid) {
         const existant = this.props.storiessList.find(pres => pres.id === project.id);
         // has preexisting story, prompt for override

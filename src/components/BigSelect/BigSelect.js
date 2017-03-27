@@ -25,8 +25,8 @@ const BigSelect = ({
               key={key}>
               <input
                 type="radio"
-                id={option}
-                name={option}
+                id={option.id}
+                name={option.id}
                 value="type"
                 checked={false} />
               <label

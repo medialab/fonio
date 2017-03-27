@@ -54,6 +54,7 @@
     "react-dom": "^15.3.2",
     "react-dropzone": "^3.6.0",
     "react-markdown": "^2.4.2",
+    "react-media-player": "^0.6.1",
     "react-modal": "^1.4.0",
     "react-redux": "^4.4.5",
     "react-textarea-autosize": "^4.0.5",

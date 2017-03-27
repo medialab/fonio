@@ -1,0 +1,61 @@
+/**
+ * style definitions for the AsideView component
+ *
+ * @module fonio/features/Editor
+ */
+
+@import '../../../parameters.scss';
+
+
+.fonio-aside-view
+{
+    /*
+     * root component
+     */
+    @extend .flex-stretched-column;
+    overflow: hidden;    
+
+    border-right: 1px solid $color-sec-stroke;
+    background: $color-sec-bg;
+    /*
+     * secondary layout components
+     */
+    .aside-header
+    {
+        display: flex;
+
+        flex-flow: column nowrap;
+        button
+        {
+            padding: $gutter-medium;
+
+            text-align: left;
+        }
+        .returnToLanding-btn
+        {
+            @extend .primary-item;
+
+            .bulgur-icon
+            {
+                padding-right: $gutter-small;
+            }
+            &:hover
+            {
+                @extend .primary-item-intent;
+            }
+        }
+        .settings-btn
+        {
+            img
+            {
+                position: relative;
+                top: $gutter-small;
+            }
+        }
+    }
+
+    .fonio-assets-manager-layout
+    {
+      flex: 1;
+    }
+}
