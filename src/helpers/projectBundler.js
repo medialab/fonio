@@ -1,45 +1,36 @@
 /**
- * This module helps for processes related to the exports of a presentation
+ * This module helps for processes related to the exports of a story
  * @module fonio/utils/projectBundler
  */
 import {post} from 'superagent';
 import {serverUrl} from '../../secrets';
 
 /**
- * Prepares a presentation data for a clean version to export
- * @param {object} presentation - the input data to clean
- * @return {object} newPresentation - the cleaned presentation
+ * Prepares a story data for a clean version to export
+ * @param {object} story - the input data to clean
+ * @return {object} newStory - the cleaned story
  */
-export function cleanPresentationForExport(presentation) {
+export function cleanStoryForExport(story) {
   return {
-    ...presentation,
-    slides: Object.keys(presentation.slides).reduce((slides, id) => {
-      const slide = presentation.slides[id];
-      slide.id = id;
-      delete slide.draft;
-      return {
-        ...slides,
-        [id]: slide
-      };
-    }, {})
+    ...story
   };
 }
 
 /*
- * Wraps a server call for rendering a presentation as all-in-one html presentation file
- * @param {object} presentation - the presentation to bundle
+ * Wraps a server call for rendering a story as all-in-one html story file
+ * @param {object} story - the story to bundle
  * @param {function} callback
  */
-export function bundleProjectAsHtml (presentation, callback) {
-  post(serverUrl + '/render-presentation')
-    .send(cleanPresentationForExport(presentation))
+export function bundleProjectAsHtml (story, callback) {
+  post(serverUrl + '/render-story')
+    .send(cleanStoryForExport(story))
     .end((err, response) => callback(err, response && response.text));
 }
 /*
- * Cleans and serializes a presentation representation
- * @param {object} presentation - the presentation to bundle
- * @return {string} result - the resulting serialized presentation
+ * Cleans and serializes a story representation
+ * @param {object} story - the story to bundle
+ * @return {string} result - the resulting serialized story
  */
-export function bundleProjectAsJSON (presentation) {
-  return JSON.stringify(cleanPresentationForExport(presentation), null, 2);
+export function bundleProjectAsJSON (story) {
+  return JSON.stringify(cleanStoryForExport(story), null, 2);
 }

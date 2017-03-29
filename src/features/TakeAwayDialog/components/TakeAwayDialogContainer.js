@@ -24,7 +24,7 @@ import downloadFile from '../../../helpers/fileDownloader';
 import {
   bundleProjectAsHtml,
   // bundleProjectAsJSON,
-  cleanPresentationForExport
+  cleanStoryForExport
 } from '../../../helpers/projectBundler';
 
 import {
@@ -58,18 +58,18 @@ class TakeAwayDialogContainer extends Component {
   constructor(props) {
     super(props);
     this.takeAway = debounce(this.takeAway.bind(this), 300);
-    this.updateActivePresentationFromServer = this.updateActivePresentationFromServer.bind(this);
-    this.updateActivePresentationFromGist = this.updateActivePresentationFromGist.bind(this);
+    this.updateActiveStoryFromServer = this.updateActiveStoryFromServer.bind(this);
+    this.updateActiveStoryFromGist = this.updateActiveStoryFromGist.bind(this);
   }
 
   shouldComponentUpdate() {
     return true;
   }
 
-  updateActivePresentationFromServer() {
+  updateActiveStoryFromServer() {
     // todo : rewrite that as an action
     this.props.actions.setExportToServerStatus('processing', 'updating from the distant server');
-    const url = this.props.activePresentation.metadata.serverJSONUrl;
+    const url = this.props.activeStory.metadata.serverJSONUrl;
     get(url)
       .end((err, res) => {
         if (err) {
@@ -85,9 +85,9 @@ class TakeAwayDialogContainer extends Component {
         }
       });
   }
-  updateActivePresentationFromGist() {
+  updateActiveStoryFromGist() {
     // todo : rewrite that as an action
-    const gistId = this.props.activePresentation.metadata.gistId;
+    const gistId = this.props.activeStory.metadata.gistId;
     const entryUrl = 'https://api.github.com/gists/' + gistId;
     return get(entryUrl)
     .end((err, res) => {
@@ -124,8 +124,8 @@ class TakeAwayDialogContainer extends Component {
   }
 
   takeAway(takeAwayType) {
-    const JSONbundle = cleanPresentationForExport(this.props.activePresentation); // bundleProjectAsJSON(this.props.activePresentation);
-    const title = this.props.activePresentation.metadata.title;
+    const JSONbundle = cleanStoryForExport(this.props.activeStory); // bundleProjectAsJSON(this.props.activeStory);
+    const title = this.props.activeStory.metadata.title;
     switch (takeAwayType.id) {
       case 'project':
         downloadFile(JSON.stringify(JSONbundle, null, 2), 'json', title);
@@ -133,7 +133,7 @@ class TakeAwayDialogContainer extends Component {
       case 'html':
         this.props.actions.setTakeAwayType('html');
         this.props.actions.setBundleHtmlStatus('processing', 'Asking the server to bundle a custom html file');
-        bundleProjectAsHtml(this.props.activePresentation, (err, html) => {
+        bundleProjectAsHtml(this.props.activeStory, (err, html) => {
           this.props.actions.setTakeAwayType(undefined);
           if (err === null) {
             downloadFile(html, 'html', title);
@@ -147,9 +147,9 @@ class TakeAwayDialogContainer extends Component {
         break;
       case 'github':
         this.props.actions.setBundleHtmlStatus('processing', 'Asking the server to bundle a custom html file');
-        bundleProjectAsHtml(this.props.activePresentation, (err, html) => {
+        bundleProjectAsHtml(this.props.activeStory, (err, html) => {
           if (err === null) {
-            this.props.actions.exportToGist(html, JSONbundle, this.props.activePresentation.metadata.gistId);
+            this.props.actions.exportToGist(html, JSONbundle, this.props.activeStory.metadata.gistId);
             this.props.actions.setBundleHtmlStatus('success', 'Bundling is a success !');
           }
           else {
@@ -174,8 +174,8 @@ class TakeAwayDialogContainer extends Component {
         serverAvailable={serverAvailable}
         serverUrl={serverUrl}
         gistAvailable={gistAvailable}
-        updateActivePresentationFromServer={this.updateActivePresentationFromServer}
-        updateActivePresentationFromGist={this.updateActivePresentationFromGist}
+        updateActiveStoryFromServer={this.updateActiveStoryFromServer}
+        updateActiveStoryFromGist={this.updateActiveStoryFromGist}
         takeAway={this.takeAway} />
     );
   }
