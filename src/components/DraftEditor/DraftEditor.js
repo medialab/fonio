@@ -8,11 +8,10 @@ import React, {Component, PropTypes} from 'react';
 import Editor from 'draft-js-plugins-editor';
 import {
   RichUtils,
-  EditorState
+  EditorState,
+  convertFromRaw,
+  convertToRaw
 } from 'draft-js';
-
-import {stateFromMarkdown} from 'draft-js-import-markdown';
-import {stateToMarkdown} from 'draft-js-export-markdown';
 
 import createRichButtonsPlugin from 'draft-js-richbuttons-plugin';
 
@@ -57,18 +56,23 @@ export default class QuinoaDraftEditor extends Component {
     this.state = {
       initialized: false,
       focused: false,
-      editorState: props.slide && props.slide.markdown ? EditorState.createWithContent(stateFromMarkdown(props.slide.markdown)) : EditorState.createEmpty(),
-      markdown: props.slide && props.slide.markdown ? props.slide.markdown : ''
+      editorState: props.content ? EditorState.createWithContent(convertFromRaw(props.content)) : EditorState.createEmpty(),
+      content: props.content
     };
 
     this.onEditorChange = (editorState) => {
       if (this.state.initialized) {
-        const markdown = stateToMarkdown(editorState.getCurrentContent());
+        const newContent = convertToRaw(editorState.getCurrentContent());
+        let content;
+        if (JSON.stringify(newContent) !== JSON.stringify(this.state.content)) {
+          content = newContent;
+        }
+ else content = this.state.content;
         this.setState({
           editorState,
-          markdown
+          content
         });
-        this.props.update(markdown);
+        this.props.update(content);
       }
       else {
         this.setState({
@@ -79,28 +83,21 @@ export default class QuinoaDraftEditor extends Component {
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
   }
 
+  // todo : rehabilitate that if editor's content can be changed by external contents
   componentWillReceiveProps() {
-    // update editor if markdown representation of content is different between props and state
-    if (this.props.slide && this.props.slide.markdown && this.props.slide.markdown !== this.state.markdown) {
-      this.setState({
-        editorState: EditorState.createWithContent(stateFromMarkdown(this.props.slide.markdown)),
-        markdown: this.props.slide.markdown
-      });
-    }
+    // update editor if content representation is different between props and state
+    // if (this.state.content && props.content && JSON.stringify(props.content) !== JSON.stringify(this.state.content)) {
+    //   console.log('update editor');
+    //   this.setState({
+    //     editorState: EditorState.createWithContent(convertFromRaw(props.content)),
+    //     content: props.content
+    //   });
+    // }
   }
 
   shouldComponentUpdate() {
     return true;
-    //this.state.markdown !== nextState.markdown;
-  }
-
-  componentDidUpdate() {
-    if (this.props.slide && typeof this.props.slide.markdown === 'string' && this.props.slide.markdown !== this.state.markdown) {
-      this.setState({
-        editorState: EditorState.createWithContent(stateFromMarkdown(this.props.slide.markdown)),
-        markdown: this.props.slide.markdown
-      });
-    }
+    //this.state.content !== nextState.content;
   }
 
   handleKeyCommand(command) {
@@ -144,7 +141,7 @@ export default class QuinoaDraftEditor extends Component {
           editorState={this.state.editorState}
           onChange={onChange}
           handleKeyCommand={this.handleKeyCommand}
-          placeholder={translate('write-your-slide-comment-here')}
+          placeholder={translate('write-your-story-here')}
           ref={(editorComponent) => {
 this.editorComponent = editorComponent;
 }}

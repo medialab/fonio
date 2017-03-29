@@ -34,7 +34,8 @@
         overflow-y: auto;
 
         padding: $gutter-medium;
-
+        padding-left: 0;
+        
         cursor: text;
         transition: background $time-short ease;
 

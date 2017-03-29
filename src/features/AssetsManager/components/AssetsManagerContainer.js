@@ -7,6 +7,7 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {v4 as uuid} from 'uuid';
+// import { DraggableDecorator } from 'draft-js-dnd-plugin';
 
 import * as duck from '../duck';
 import * as managerDuck from '../../StoriesManager/duck';

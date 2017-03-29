@@ -29,6 +29,11 @@ const CLOSE_STORY_CANDIDATE_MODAL = '$Fonio/Editor/CLOSE_STORY_CANDIDATE_MODAL';
 const OPEN_TAKE_AWAY_MODAL = '$Fonio/Editor/OPEN_TAKE_AWAY_MODAL';
 const CLOSE_TAKE_AWAY_MODAL = '$Fonio/Editor/CLOSE_TAKE_AWAY_MODAL';
 const SET_UI_MODE = '$Fonio/Editor/SET_UI_MODE';
+/*
+ * actions related to story edition
+ */
+export const UPDATE_STORY_CONTENT = '$Fonio/Editor/UPDATE_STORY_CONTENT';
+export const UPDATE_STORY_METADATA_FIELD = '$Fonio/Editor/UPDATE_STORY_METADATA_FIELD';
 
 /*
  * Action creators
@@ -92,6 +97,17 @@ export const closeTakeAwayModal = () => ({
 export const setUiMode = (mode = 'edition') => ({
   type: SET_UI_MODE,
   mode
+});
+export const updateStoryContent = (id, content) => ({
+  type: UPDATE_STORY_CONTENT,
+  content,
+  id
+});
+export const updateStoryMetadataField = (id, key, value) => ({
+  type: UPDATE_STORY_METADATA_FIELD,
+  id,
+  key,
+  value
 });
 /**
  *

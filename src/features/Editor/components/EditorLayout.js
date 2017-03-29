@@ -63,7 +63,9 @@ const EditorLayout = ({
     openTakeAwayModal,
     closeTakeAwayModal,
     setUiMode,
-    setLanguage
+    setLanguage,
+    updateStoryContent,
+    updateStoryMetadataField
   },
   openSettings,
   closeAndResetDialog,
@@ -87,6 +89,8 @@ const EditorLayout = ({
     }
   };
   const translate = translateNameSpacer(context.t, 'Features.Editor');
+  const onStoryUpdate = (content) => updateStoryContent(activeStory.id, content);
+  const onTitleChange = (e) => updateStoryMetadataField(activeStory.id, 'title', e.target.value);
   return (<div id={id} className={className}>
     {activeStoryId ?
       <div className={className}>
@@ -102,9 +106,13 @@ const EditorLayout = ({
               <h1 className="editable-title">
                 <input
                   type="text"
-                  value={activeStory.metadata.title || translate('untitled-story')} />
+                  value={activeStory.metadata.title}
+                  onChange={onTitleChange}
+                  placeholder={translate('story-title')} />
               </h1>
-              <DraftEditor />
+              <DraftEditor
+                update={onStoryUpdate}
+                content={activeStory.content} />
             </div>
           </section>
         :

@@ -19,6 +19,8 @@ import {
   APPLY_STORY_CANDIDATE_CONFIGURATION,
   UNSET_ACTIVE_STORY,
   SET_ACTIVE_STORY,
+  UPDATE_STORY_CONTENT,
+  UPDATE_STORY_METADATA_FIELD,
 } from '../Editor/duck';
 
 import {
@@ -278,6 +280,31 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
             assets: {
               ...state.stories[storyId].assets,
               [assetId]: asset
+            }
+          }
+        }
+      };
+    case UPDATE_STORY_CONTENT:
+      return {
+        ...state,
+        stories: {
+          ...state.stories,
+          [action.id]: {
+            ...state.stories[action.id],
+            content: {...action.content}
+          }
+        }
+      };
+    case UPDATE_STORY_METADATA_FIELD:
+    return {
+        ...state,
+        stories: {
+          ...state.stories,
+          [action.id]: {
+            ...state.stories[action.id],
+            metadata: {
+              ...state.stories[action.id].metadata,
+              [action.key]: action.value
             }
           }
         }
