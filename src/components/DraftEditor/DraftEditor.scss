@@ -17,16 +17,17 @@
     @extend .flex-stretched-column;
     @extend .animated;
 
-    &.focused .DraftEditor-root,
-    &:hover .DraftEditor-root
-    {
-        background: $background-intent;
-    }
+    // &.focused .DraftEditor-root,
+    // &:hover .DraftEditor-root
+    // {
+    //     background: $background-intent;
+    // }
     /*
      * secondary layout components
      */
     .DraftEditor-root
     {
+        cursor: text;
         font-family: $editable-font-stack;
 
         position: relative;
