@@ -34,17 +34,18 @@
         flex: 10;
         .fonio-aside-view
         {
-            flex: 2;
+            flex: 1;
         }
         .fonio-editor-container
         {
-            padding-right: 10%;
-            padding-left: 10%;
-
             flex: 5;
             @extend .flex-stretched-column;
             .editable-title
             {
+                margin: 0;
+                padding-right: 10%;
+                padding-left: 10%;
+
                 @extend .flex-stretched-row;
                 input
                 {
@@ -58,6 +59,9 @@
                 .DraftEditor-editorContainer
                 {
                     overflow-y: auto;
+
+                    padding-right: 10%;
+                    padding-left: 10%;
                 }
             }
         }

@@ -7,6 +7,7 @@ import React, {PropTypes} from 'react';
 import Textarea from 'react-textarea-autosize';
 
 import HelpPin from '../../../components/HelpPin/HelpPin';
+import DropZone from '../../../components/DropZone/DropZone';
 // import Toaster from '../../../components/Toaster/Toaster';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -48,7 +49,8 @@ const ConfigurationDialogLayout = ({
     setStoryCandidateColor,
     applyStoryCandidateConfiguration,
     setStoryCandidateViewOption,
-    setDataSourceTab
+    setDataSourceTab,
+    submitCoverImage
   },
   closeStoryCandidate,
   onFileDrop,
@@ -60,6 +62,7 @@ const ConfigurationDialogLayout = ({
   const setStoryTitle = (e) => setCandidateStoryMetadata('title', e.target.value);
   const setStoryAuthors = (e) => setCandidateStoryMetadata('authors', e.target.value);
   const setStoryDescription = (e) => setCandidateStoryMetadata('description', e.target.value);
+  const onCoverSubmit = (files) => submitCoverImage(files[0]);
   // todo this is temporary and should be replaced by a test
   const storyBegan = true;
   return (
@@ -110,6 +113,31 @@ const ConfigurationDialogLayout = ({
               </div>
             </div>
           </form>
+        </section>
+        <section className="modal-row">
+          <h2>{translate('story-cover')}
+            <HelpPin>
+              {translate('story-cover-help')}
+            </HelpPin>
+          </h2>
+          <div className="modal-columns-container">
+            <div className="modal-column">
+              <DropZone
+                onDrop={onCoverSubmit}>
+                <div>
+                  <p>{translate('drop-a-cover-image-file')}</p>
+                </div>
+              </DropZone>
+            </div>
+            {
+              storyCandidate.metadata.coverImage ?
+                <div className="modal-column">
+                  <img
+                    src={storyCandidate.metadata.coverImage} />
+                </div>
+              : null
+            }
+          </div>
         </section>
       </section>
       <section className="modal-footer">

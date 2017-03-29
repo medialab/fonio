@@ -107,5 +107,8 @@
   "Features.TakeAway.update-local-version-from-the-repository": "update-local-version-from-the-repository",
   "Features.TakeAway.your-current-version-will-be-overriden-with-the-distant-version": "your-current-version-will-be-overriden-with-the-distant-version",
   "Features.TakeAway.go-to-the-online-webpage": "go-to-the-online-webpage",
-  "Features.TakeAway.close": "close"
+  "Features.TakeAway.close": "close",
+  "Features.ConfigurationDialog.story-cover": "story-cover",
+  "Features.ConfigurationDialog.story-cover-help": "story-cover-help",
+  "Features.ConfigurationDialog.drop-a-cover-image-file": "drop-a-cover-image-file"
 }

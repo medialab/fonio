@@ -71,7 +71,6 @@
 
         @extend .animated;
         @extend .interactive-item;
-
         &:hover
         {
             @extend .interactive-item-intent;
@@ -81,7 +80,6 @@
             @extend .interactive-item-active;
         }
     }
-
     .input-group
     {
         display: flex;
@@ -96,12 +94,14 @@
             margin-bottom: $gutter-small;
         }
     }
-
     .fonio-toaster
     {
         margin-top: $gutter-medium;
     }
-
+    img
+    {
+        width: 100%;
+    }
     .modal-footer
     {
         @extend .flex-stretched-row;

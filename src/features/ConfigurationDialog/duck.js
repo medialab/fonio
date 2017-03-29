@@ -8,6 +8,11 @@ import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {persistentReducer} from 'redux-pouchdb';
 
+import {
+  fileIsAnImage,
+  loadImage
+} from '../../helpers/assetsUtils';
+
 /*
  * Action names
  */
@@ -19,6 +24,7 @@ import {
 } from '../Editor/duck';
 
 const RESET_STORY_CANDIDATE_SETTINGS = '§Fonio/ConfigurationDialog/RESET_STORY_CANDIDATE_SETTINGS';
+const SUBMIT_COVER_IMAGE = '§Fonio/ConfigurationDialog/SUBMIT_COVER_IMAGE';
 
 const SET_STORY_CANDIDATE_METADATA = '§Fonio/ConfigurationDialog/SET_STORY_CANDIDATE_METADATA';
 /*
@@ -32,6 +38,41 @@ export const setCandidateStoryMetadata = (field, value) => ({
   type: SET_STORY_CANDIDATE_METADATA,
   field,
   value
+});
+export const submitCoverImage = (file) => ({
+  type: SUBMIT_COVER_IMAGE,
+  promise: (dispatch) => {
+    return new Promise((resolve, reject) => {
+      return fileIsAnImage(file)
+        .then(thatFile => {
+            setTimeout(() => {
+              dispatch({
+                type: SUBMIT_COVER_IMAGE + '_RESET'
+              });
+            }, 2000);
+            return thatFile;
+          })
+          .then(thatFile => {
+            return loadImage(thatFile);
+          })
+          .then(base64 => {
+            setTimeout(() => {
+              dispatch({
+                type: SUBMIT_COVER_IMAGE + '_RESET'
+              });
+            }, 2000);
+            resolve(base64);
+          })
+          .catch(e => {
+            reject(e);
+            setTimeout(() => {
+              dispatch({
+                type: SUBMIT_COVER_IMAGE + '_RESET'
+              });
+            }, 2000);
+          });
+    });
+  }
 });
 /**
  *
@@ -96,6 +137,17 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
           }
         }
       };
+    case SUBMIT_COVER_IMAGE + '_SUCCESS':
+      return {
+        ...state,
+        storyCandidate: {
+          ...state.storyCandidate,
+          metadata: {
+            ...state.storyCandidate.metadata,
+            coverImage: action.result
+          }
+        }
+      };
     case RESET_STORY_CANDIDATE_SETTINGS:
       return DEFAULT_STORY_CANDIDATE_DATA;
     default:
@@ -104,26 +156,12 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
 }
 
 const STORY_CANDIDATE_UI_DEFAULT_STATE = {
-  /**
-   * Restory of the color being edited in the editor
-   * @type {object}
-   */
-  editedColor: undefined,
-  /**
-   * Restory of the previews states
-   * @type {object}
-   */
-   previewsParameters: {},
    /**
     * Restory of the status of file fetching status
     * @type {string}
     */
    fetchUserFileStatus: undefined,
-   /**
-    * Restory of the datasource tab
-    * @type {string}
-    */
-    dataSourceTab: 'computer'
+   coverImageLoadingState: undefined
 };
 /**
  * This redux reducer handles the modification of the ui state of a story configuration dialog
@@ -136,6 +174,26 @@ function storyCandidateUi (state = STORY_CANDIDATE_UI_DEFAULT_STATE, action) {
     case CLOSE_STORY_CANDIDATE_MODAL:
     case APPLY_STORY_CANDIDATE_CONFIGURATION:
       return STORY_CANDIDATE_UI_DEFAULT_STATE;
+    case SUBMIT_COVER_IMAGE:
+      return {
+        ...state,
+        coverImageLoadingState: 'processing'
+      };
+    case SUBMIT_COVER_IMAGE + '_SUCCESS':
+      return {
+        ...state,
+        coverImageLoadingState: 'success'
+      };
+    case SUBMIT_COVER_IMAGE + '_FAIL':
+      return {
+        ...state,
+        coverImageLoadingState: 'fail'
+      };
+    case SUBMIT_COVER_IMAGE + '_RESET':
+      return {
+        ...state,
+        coverImageLoadingState: undefined
+      };
     default:
       return state;
   }
@@ -153,11 +211,13 @@ export default persistentReducer(combineReducers({
  */
 const storyCandidate = state => state.storyCandidateData &&
   state.storyCandidateData.storyCandidate;
+const coverImageLoadingState = state => state.storyCandidateUi && state.storyCandidateUi.coverImageLoadingState;
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
  */
 export const selector = createStructuredSelector({
-  storyCandidate
+  storyCandidate,
+  coverImageLoadingState
 });
 
