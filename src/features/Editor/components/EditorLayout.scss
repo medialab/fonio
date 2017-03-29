@@ -19,7 +19,7 @@
     font-size: $font-size-2;
 
     @extend .flex-stretched-column;
-    @extends .normal-item;
+    @extend .normal-item;
     /*
      * secondary layout components
      */
@@ -32,15 +32,34 @@
 
         flex-wrap: nowrap;
         flex: 10;
-
         .fonio-aside-view
         {
             flex: 1;
         }
-
         .fonio-editor-container
         {
+            padding-right: 10%;
+            padding-left: 10%;
+
             flex: 5;
+            @extend .flex-stretched-column;
+            .editable-title
+            {
+                @extend .flex-stretched-row;
+                input
+                {
+                    flex: 1;
+                }
+            }
+            .fonio-draft-editor
+            {
+                flex: 1;
+                @extend .flex-stretched-column;
+                .DraftEditor-editorContainer
+                {
+                    overflow-y: auto;
+                }
+            }
         }
     }
     .fonio-footer
@@ -98,12 +117,10 @@
 
         background: $background-intent;
     }
-
     button
     {
         text-align: left;
     }
-
     input
     {
         padding: $gutter-medium;

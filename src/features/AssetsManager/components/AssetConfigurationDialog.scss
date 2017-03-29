@@ -8,16 +8,17 @@
 
 .fonio-asset-configuration-dialog
 {
-  .modal-columns-container
-  {
-    @extend .flex-stretched-row;
-
-    .modal-column
+    .modal-columns-container
     {
-      flex: 1;
-      padding-right: $gutter-medium;
+        @extend .flex-stretched-row;
+
+        .modal-column
+        {
+            padding-right: $gutter-medium;
+
+            flex: 1;
+        }
     }
-  }
     h4
     {
         font-size: $font-size-3;
@@ -85,20 +86,22 @@
     }
 
     .data-row
-      {
+    {
         @extend .flex-stretched-row;
         .modal-column
         {
-          padding-right: $gutter-medium;
-          flex: 1;
-          img{
-            width: 100%;
-          }
+            padding-right: $gutter-medium;
 
-          &.preview-container
-          {
-            position : relative;
-          }
+            flex: 1;
+            img
+            {
+                width: 100%;
+            }
+
+            &.preview-container
+            {
+                position: relative;
+            }
         }
-      }
+    }
 }

@@ -1,0 +1,80 @@
+/**
+ * style definitions for the DraftEditor component
+ *
+ * @module bulgur/components/DraftEditor
+ */
+@import '../../parameters.scss';
+
+.fonio-draft-editor
+{
+    /*
+     * root component
+     */
+    font-size: $font-size-2;
+
+    padding: $gutter-small;
+
+    @extend .flex-stretched-column;
+    @extend .animated;
+
+    &.focused .DraftEditor-root,
+    &:hover .DraftEditor-root
+    {
+        background: $background-intent;
+    }
+    /*
+     * secondary layout components
+     */
+    .DraftEditor-root
+    {
+        font-family: $editable-font-stack;
+
+        position: relative;
+
+        overflow-y: auto;
+
+        padding: $gutter-medium;
+
+        cursor: text;
+        transition: background $time-short ease;
+
+        flex: 5;
+        .public-DraftEditorPlaceholder-inner
+        {
+            font-style: italic;
+
+            position: absolute;
+            top: $gutter-medium;
+            left: $gutter-medium;
+
+            opacity: .5;
+        }
+    }
+    .rich-buttons
+    {
+        display: flex;
+
+        margin-bottom: $gutter-medium;
+        padding-top: $gutter-small;
+        padding-bottom: $gutter-small;
+
+        border-bottom: 1px solid $color-sec-stroke;
+
+        flex-flow: row nowrap;
+        align-content: space-between;
+        .buttons-group
+        {
+            &:first-of-type
+            {
+                flex: 1;
+            }
+            span
+            {
+                &:hover
+                {
+                    font-weight: 800;
+                }
+            }
+        }
+    }
+}

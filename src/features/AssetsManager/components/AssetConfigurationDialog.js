@@ -21,17 +21,17 @@ const AssetDataInput = ({
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.Editor');
   switch (type) {
-    case 'media':
-      const onVideoUrlSubmit = (e) => submitAssetData('mediaUrl', e.target.value);
+    case 'video':
+      const onVideoUrlSubmit = (e) => submitAssetData('videoUrl', e.target.value);
       return (
         <div className="input-group">
-          <label htmlFor="title">{translate('url-of-the-media')}</label>
+          <label htmlFor="title">{translate('url-of-the-video')}</label>
           <input
             onChange={onVideoUrlSubmit}
             type="text"
             name="url"
-            placeholder={translate('url-of-the-media')}
-            value={assetCandidate.metadata.mediaUrl} />
+            placeholder={translate('url-of-the-video')}
+            value={assetCandidate.metadata.videoUrl} />
         </div>
       );
     case 'image':
@@ -101,29 +101,29 @@ const AssetConfigurationDialog = ({
   const translate = translateNameSpacer(context.t, 'Features.Editor');
 
   const assetsTypes = [
-  {
-    id: 'image',
-    icon: require('../assets/image.svg'),
-    label: (<span>{translate('asset-type-image')} <HelpPin>
-      {translate('asset-type-image-help')}
-    </HelpPin></span>),
-    possible: true
-  },
-  {
-    id: 'media',
-    icon: require('../assets/media.svg'),
-    label: (<span>{translate('asset-type-media')} <HelpPin>
-      {translate('asset-type-media-help')}
-    </HelpPin></span>),
-    possible: true
-  }, {
-    id: 'data-presentation',
-    icon: require('../assets/data-presentation.svg'),
-    label: (<span>{translate('asset-type-data-presentation')} <HelpPin position="left">
-      {translate('asset-type-data-presentation-help')}
-    </HelpPin></span>),
-    possible: true
-  }
+    {
+      id: 'image',
+      icon: require('../assets/image.svg'),
+      label: (<span>{translate('asset-type-image')} <HelpPin>
+        {translate('asset-type-image-help')}
+      </HelpPin></span>),
+      possible: true
+    },
+    {
+      id: 'video',
+      icon: require('../assets/video.svg'),
+      label: (<span>{translate('asset-type-video')} <HelpPin>
+        {translate('asset-type-video-help')}
+      </HelpPin></span>),
+      possible: true
+    }, {
+      id: 'data-presentation',
+      icon: require('../assets/data-presentation.svg'),
+      label: (<span>{translate('asset-type-data-presentation')} <HelpPin position="left">
+        {translate('asset-type-data-presentation-help')}
+      </HelpPin></span>),
+      possible: true
+    }
   ];
   const onApplyChange = () => {
     if (assetCandidateId) {

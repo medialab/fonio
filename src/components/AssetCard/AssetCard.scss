@@ -7,7 +7,7 @@
 
 .fonio-asset-card
 {
-  /*
+    /*
      * root component
      */
     padding: $gutter-medium;
@@ -32,13 +32,15 @@
     }
     .card-header
     {
-      img{
-        max-height: $font-size-3;
-      }
-      font-size: $font-size-3;
-      h5{
-        margin: 0;
-      }
+        font-size: $font-size-3;
+        img
+        {
+            max-height: $font-size-3;
+        }
+        h5
+        {
+            margin: 0;
+        }
     }
     .card-body
     {

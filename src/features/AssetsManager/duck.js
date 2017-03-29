@@ -10,7 +10,7 @@ import {persistentReducer} from 'redux-pouchdb';
 
 import {
   fileIsAnImage,
-  mediaUrlIsValid,
+  videoUrlIsValid,
   loadImage
 } from '../../helpers/assetsUtils';
 
@@ -105,8 +105,8 @@ export const submitAssetData = (type, data) => ({
                 });
               }, 2000);
             });
-        case 'mediaUrl':
-          return mediaUrlIsValid(data)
+        case 'videoUrl':
+          return videoUrlIsValid(data)
             .then(() => {
               setTimeout(() => {
               dispatch({

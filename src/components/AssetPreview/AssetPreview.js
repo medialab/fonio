@@ -15,7 +15,7 @@ const AssetPreview = ({
   switch (type) {
     case 'image':
       return <img src={data} />;
-    case 'media':
+    case 'video':
       return (
         <Media>
           <Player src={data} />

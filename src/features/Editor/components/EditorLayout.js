@@ -18,6 +18,9 @@ import ConfigurationDialog from '../../ConfigurationDialog/components/Configurat
 import TakeAwayDialog from '../../TakeAwayDialog/components/TakeAwayDialogContainer';
 import AsideViewLayout from './AsideViewLayout';
 
+import DraftEditor from '../../../components/DraftEditor/DraftEditor';
+
+
 /**
  * Renders the main layout component of the editor
  * @param {object} props - the props to render
@@ -96,7 +99,12 @@ const EditorLayout = ({
               closeAndResetDialog={closeAndResetDialog}
               returnToLanding={returnToLanding} />
             <div className="fonio-editor-container">
-              Hello Fonio
+              <h1 className="editable-title">
+                <input
+                  type="text"
+                  value={activeStory.metadata.title || translate('untitled-story')} />
+              </h1>
+              <DraftEditor />
             </div>
           </section>
         :

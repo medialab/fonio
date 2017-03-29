@@ -13,7 +13,7 @@ export function fileIsAnImage(file) {
   });
 }
 
-export function mediaUrlIsValid(url) {
+export function videoUrlIsValid(url) {
   return new Promise((resolve, reject) => {
     const validUrlParts = ['youtube', 'vimeo'];
     const hasMatch = validUrlParts.some(exp => url.match(exp) !== null);

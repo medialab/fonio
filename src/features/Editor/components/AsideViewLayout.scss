@@ -9,14 +9,15 @@
 
 .fonio-aside-view
 {
-    /*
-     * root component
-     */
-    @extend .flex-stretched-column;
-    overflow: hidden;    
+    overflow: hidden;
 
     border-right: 1px solid $color-sec-stroke;
     background: $color-sec-bg;
+    /*
+     * root component
+     */
+
+    @extend .flex-stretched-column;
     /*
      * secondary layout components
      */
@@ -56,6 +57,6 @@
 
     .fonio-assets-manager-layout
     {
-      flex: 1;
+        flex: 1;
     }
 }
