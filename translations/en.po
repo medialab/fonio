@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2017-3-29\n"
-"PO-Revision-Date: Wed Mar 29 2017 11:47:41 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Mar 29 2017 16:28:59 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -337,3 +337,12 @@ msgstr "go-to-the-online-webpage"
 
 msgid "Features.TakeAway.close"
 msgstr "close"
+
+msgid "Features.ConfigurationDialog.story-cover"
+msgstr "story-cover"
+
+msgid "Features.ConfigurationDialog.story-cover-help"
+msgstr "story-cover-help"
+
+msgid "Features.ConfigurationDialog.drop-a-cover-image-file"
+msgstr "drop-a-cover-image-file"

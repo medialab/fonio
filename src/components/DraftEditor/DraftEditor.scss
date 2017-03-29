@@ -27,7 +27,6 @@
      */
     .DraftEditor-root
     {
-        cursor: text;
         font-family: $editable-font-stack;
 
         position: relative;
@@ -37,6 +36,7 @@
         padding: $gutter-medium;
         padding-left: 0;
 
+        cursor: text;
         cursor: text;
         transition: background $time-short ease;
 
@@ -59,6 +59,8 @@
         margin-bottom: $gutter-medium;
         padding-top: $gutter-small;
         padding-bottom: $gutter-small;
+        padding-left: 10%;
+        padding-right: 10%;
 
         border-bottom: 1px solid $color-sec-stroke;
 
