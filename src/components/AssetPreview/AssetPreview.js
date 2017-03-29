@@ -1,3 +1,4 @@
+/* eslint react/no-danger : 0 */
 /**
  * This module provides a asset preview element component
  * @module fonio/components/AssetPreview
@@ -25,6 +26,13 @@ const AssetPreview = ({
       return (
         <QuinoaPresentationPlayer
           presentation={data} />
+      );
+    case 'embed':
+      return (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: data
+          }} />
       );
     default:
       return null;

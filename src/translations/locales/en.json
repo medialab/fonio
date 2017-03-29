@@ -175,8 +175,6 @@
   "Features.Editor.loading-asset-data": "loading-asset-data",
   "Features.Editor.loading-asset-data-success": "loading-asset-data-success",
   "Features.Editor.loading-asset-data-fail": "loading-asset-data-fail",
-  "Features.Editor.asset-type-video": "asset-type-video",
-  "Features.Editor.asset-type-video-help": "asset-type-video-help",
   "Features.Editor.asset-data": "asset-data",
   "Features.Editor.asset-data-help": "asset-data-help",
   "Features.Editor.asset-metadata": "asset-metadata",
@@ -207,5 +205,8 @@
   "Features.PresentationManager.the-url-did-not-point-to-a-valid-story": "L'url ne pointe pas vers un récit valide",
   "Features.PresentationManager.you-seem-to-have-already-this-story": "Vous semblez disposer déjà une version du récit que vous essayez d'importer dans la mémoire locale de l'application.",
   "Features.PresentationManager.your-file-is-badly-formatted": "Le fichier est mal formatté",
-  "Features.PresentationManager.your-file-is-not-a-valid-story": "Le fichier n'est pas un récit valide"
+  "Features.PresentationManager.your-file-is-not-a-valid-story": "Le fichier n'est pas un récit valide",
+  "Features.Editor.paste-embed-code": "paste-embed-code",
+  "Features.Editor.asset-type-embed": "asset-type-embed",
+  "Features.Editor.asset-type-embed-help": "asset-type-embed-help"
 }

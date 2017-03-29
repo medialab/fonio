@@ -127,10 +127,12 @@ export const submitAssetData = (type, data) => ({
               const structuredData = JSON.parse(str);
               resolve(structuredData);
             }
- catch (e) {
+        catch (e) {
               reject(e);
             }
           });
+        case 'htmlCode':
+          return resolve(data);
         default:
           reject('unkown input type');
       }

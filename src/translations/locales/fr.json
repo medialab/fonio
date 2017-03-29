@@ -166,8 +166,6 @@
   "Features.Editor.loading-asset-data": "loading-asset-data",
   "Features.Editor.loading-asset-data-success": "loading-asset-data-success",
   "Features.Editor.loading-asset-data-fail": "loading-asset-data-fail",
-  "Features.Editor.asset-type-video": "asset-type-video",
-  "Features.Editor.asset-type-video-help": "asset-type-video-help",
   "Features.Editor.asset-data": "asset-data",
   "Features.Editor.asset-data-help": "asset-data-help",
   "Features.Editor.asset-metadata": "asset-metadata",
@@ -207,5 +205,8 @@
   "Features.StoryManager.the-url-did-not-point-to-a-valid-story": "The url do not point to a valid story",
   "Features.StoryManager.you-seem-to-have-already-this-story": "You seem to have already a version of the story you are trying to import stored in the application's memory.",
   "Features.StoryManager.your-file-is-badly-formatted": "The file is badly formatted",
-  "Features.StoryManager.your-file-is-not-a-valid-story": "The file is not a valid story"
+  "Features.StoryManager.your-file-is-not-a-valid-story": "The file is not a valid story",
+  "Features.Editor.paste-embed-code": "paste-embed-code",
+  "Features.Editor.asset-type-embed": "asset-type-embed",
+  "Features.Editor.asset-type-embed-help": "asset-type-embed-help"
 }

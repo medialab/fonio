@@ -54,6 +54,17 @@ const AssetDataInput = ({
           </div>
         </DropZone>
       );
+    case 'embed':
+      const onEmbedSubmit = (evt) => submitAssetData('htmlCode', evt.target.value);
+      return (
+        <Textarea
+          onChange={onEmbedSubmit}
+          type="text"
+          name="description"
+          placeholder={translate('paste-embed-code')}
+          style={{flex: 1, width: '100%'}}
+          value={assetCandidate.data || ''} />
+      );
     default:
       return null;
   }
@@ -119,11 +130,20 @@ const AssetConfigurationDialog = ({
     }, {
       id: 'data-presentation',
       icon: require('../assets/data-presentation.svg'),
-      label: (<span>{translate('asset-type-data-presentation')} <HelpPin position="left">
+      label: (<span>{translate('asset-type-data-presentation')} <HelpPin>
         {translate('asset-type-data-presentation-help')}
       </HelpPin></span>),
       possible: true
+    },
+    {
+      id: 'embed',
+      icon: require('../assets/embed.svg'),
+      label: (<span>{translate('asset-type-embed')} <HelpPin position="left">
+        {translate('asset-type-embed-help')}
+      </HelpPin></span>),
+      possible: true
     }
+
   ];
   const onApplyChange = () => {
     if (assetCandidateId) {
