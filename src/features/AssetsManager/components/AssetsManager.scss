@@ -8,6 +8,14 @@
 .fonio-assets-manager-layout
 {
     @extend .flex-stretched-column;
+
+
+    &.assets-prompted
+    {
+        background: $primary-color;
+        color: $background-default;
+    }
+
     .header,
     .body,
     .footer

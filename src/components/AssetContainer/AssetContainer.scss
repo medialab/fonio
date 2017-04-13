@@ -1,0 +1,66 @@
+/**
+ * style definitions for the AssetContainer component
+ *
+ * @module fonio/components/AssetContainer
+ */
+@import '../../parameters.scss';
+
+
+.fonio-asset-container
+{
+  padding: $gutter-medium;
+  width: 100%;
+  margin: 0;
+
+  @extend .interactive-item;
+  &:hover
+  {
+    @extend .interactive-item-intent;
+  }
+
+  &.data-presentation{
+    .figure-container{
+      min-height: 30rem;
+    }
+    figcaption
+    {
+      display: none;
+    }
+  }
+
+  .figure-container
+  {
+    display : flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    img{
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+  figcaption
+  {
+    margin-top: $gutter-medium;
+    @extend .flex-stretched-column;
+
+    input,
+    textarea
+    {
+      padding: $gutter-medium;
+      margin-bottom: $gutter-small;
+    }
+
+    .source-container
+    {
+      @extend .flex-stretched-row;
+      align-items: center;
+      input{
+        flex: 1;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

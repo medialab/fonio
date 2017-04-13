@@ -5,6 +5,8 @@
 import React, {PropTypes} from 'react';
 import Modal from 'react-modal';
 
+import StoryPlayer from 'quinoa-story-player';
+
 import './EditorLayout.scss';
 
 // import QuinoaStoryPlayer from 'quinoa-story-player';
@@ -19,7 +21,6 @@ import TakeAwayDialog from '../../TakeAwayDialog/components/TakeAwayDialogContai
 import AsideViewLayout from './AsideViewLayout';
 
 import DraftEditor from '../../../components/DraftEditor/DraftEditor';
-
 
 /**
  * Renders the main layout component of the editor
@@ -65,7 +66,10 @@ const EditorLayout = ({
     setUiMode,
     setLanguage,
     updateStoryContent,
-    updateStoryMetadataField
+    updateStoryMetadataField,
+    promptAssetEmbed,
+    updateAsset,
+    embedAsset
   },
   openSettings,
   closeAndResetDialog,
@@ -110,16 +114,22 @@ const EditorLayout = ({
                   onChange={onTitleChange}
                   placeholder={translate('story-title')} />
               </h1>
+
               <DraftEditor
                 update={onStoryUpdate}
-                content={activeStory.content} />
+                content={activeStory.content}
+                assets={activeStory.assets}
+                onAssetPrompted={promptAssetEmbed}
+                storyId={activeStoryId}
+                updateAsset={updateAsset}
+                embedAsset={embedAsset}
+                translate={translate} />
             </div>
           </section>
         :
           <section className="fonio-main-row">
-            {/*<QuinoaStoryPlayer
-              presentation={activeStory}
-              beginAt={activeStory.order.indexOf(activeSlideId)} /> */}
+            <StoryPlayer
+              story={activeStory} />
           </section>
         }
         <Footer

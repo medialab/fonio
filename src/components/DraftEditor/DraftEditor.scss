@@ -81,4 +81,47 @@
             }
         }
     }
+
+    .public-DraftEditorPlaceholder-inner
+    {
+        padding-left: 10%;
+    }
+
+    pre{
+        background: $color-fade-grey;
+        padding: $gutter-medium;
+        font-family: $editable-font-stack;
+        color: $background-default;
+    }
+
+    blockquote
+    {
+        background: $color-light-blue;
+        padding: $gutter-large;
+        margin: 0;
+        quotes: "\00ab" "\00bb";
+        position: relative;
+    }
+    blockquote:before,
+    blockquote:after{
+        position : absolute;
+    }
+
+    blockquote:before{
+        content: open-quote;
+        left: $gutter-small;
+        top: $gutter-small;
+    }
+
+    blockquote:after{
+        content: close-quote;
+        right: $gutter-small;
+        bottom: $gutter-small;
+    }
+
+    figure
+    {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }

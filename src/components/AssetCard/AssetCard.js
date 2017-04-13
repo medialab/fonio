@@ -10,20 +10,54 @@ import './AssetCard.scss';
 const AssetCard = ({
   metadata,
   onDelete,
-  onConfigure
+  onConfigure,
+  selectMode,
+  onSelect
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Components.AssetCard');
-  const onDeleteClick = () => onDelete();
-  const onConfigureClick = () => onConfigure();
+  const onDeleteClick = e => {
+    e.stopPropagation();
+    onDelete();
+  };
+
+  const onConfigureClick = e => {
+    e.stopPropagation();
+    onConfigure();
+  };
+
+  const onGlobalClick = () => {
+    if (selectMode) {
+      onSelect(metadata);
+    }
+ else {
+      onConfigure();
+    }
+  };
+
+  const startDrag = (e) => {
+      if (selectMode) {
+        return e.preventDefault();
+      }
+       // console.log('start drag', metadata);
+       e.dataTransfer.dropEffect = 'move';
+       // e.dataTransfer.setData('text/plain', 'DRAFTJS_BLOCK_TYPE:' + metadata.type.toUpperCase());
+       e.dataTransfer.setData('text', 'DRAFTJS_ASSET_ID:' + metadata.id);
+   };
   return (
-    <li className="fonio-asset-card">
-      <div className="card-header">
+    <li
+      draggable
+      onDragStart={startDrag}
+      className={'fonio-asset-card' + (selectMode ? ' select-mode' : '')}
+      onClick={onGlobalClick}>
+      <div
+        className="card-header">
         <img src={require('./assets/' + metadata.type + '.svg')} />
         <h5>
           <span className="title">{metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset')}</span>
         </h5>
       </div>
-      <div className="card-body">
+      <div
+        className="card-body">
         <div className="info-column">
           <p className="description">
             {metadata.description && metadata.description.length ? metadata.description : translate('no-description')}

@@ -23,9 +23,11 @@ const AssetsManagerLayout = ({
   assetDataLoadingState,
   assets,
   assetsModalState = 'closed',
+  assetsPrompted,
   assetsSearchQuery,
   createAsset,
   updateAsset,
+  insertionSelection,
   actions: {
     deleteAsset,
     setAssetCandidateMetadataValue,
@@ -35,30 +37,52 @@ const AssetsManagerLayout = ({
     startExistingAssetConfiguration,
     startNewAssetConfiguration,
     submitAssetData,
+    unpromptAssetEmbed,
+    embedAsset
   },
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.AssetsManager');
   const onModalClose = () => setAssetsModalState('closed');
   const onSearchInputChange = (e) => setAssetsSearchQuery(e.target.value);
   return (
-    <div className="fonio-assets-manager-layout">
+    <div className={'fonio-assets-manager-layout' + (assetsPrompted ? ' assets-prompted' : '')}>
+      {
+        assetsPrompted && (
+          assets.length > 0 ?
+            <h2>Choose an asset to embed in your story</h2> :
+            <div>
+              <h2>You must first add assets to your library to be able to embed them inside your story</h2>
+              <button onClick={unpromptAssetEmbed}>Got it</button>
+            </div>
+        )
+      }
       <ul className="body">
         {
           assets.map((asset, index) => {
             const onDelete = () => deleteAsset(activeStoryId, asset.id);
             const onEdit = () => startExistingAssetConfiguration(asset.id, asset);
+            const onEmbedAsset = (metadata) => {
+              embedAsset(activeStoryId, asset.id, metadata, insertionSelection);
+            };
             return (
               <AssetCard
                 key={index}
                 onDelete={onDelete}
                 onConfigure={onEdit}
+                selectMode={assetsPrompted}
+                onSelect={onEmbedAsset}
+                style={{cursor: 'move'}}
                 {...asset} />
             );
           })
         }
-        <li id="new-asset" onClick={startNewAssetConfiguration}>
-          + {translate('new-asset')}
-        </li>
+        {
+          !assetsPrompted && (
+            <li id="new-asset" onClick={startNewAssetConfiguration}>
+              + {translate('new-asset')}
+            </li>
+          )
+        }
       </ul>
       <div className="footer">
         <input

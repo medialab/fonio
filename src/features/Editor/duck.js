@@ -15,7 +15,7 @@ import {persistentReducer} from 'redux-pouchdb';
  */
 export const RESET_APP = 'RESET_APP';
 /*
- * actions related to global storys management in ui
+ * actions related to global stories management in ui
  */
 export const START_STORY_CANDIDATE_CONFIGURATION = '$Fonio/Editor/START_STORY_CANDIDATE_CONFIGURATION';
 export const APPLY_STORY_CANDIDATE_CONFIGURATION = '$Fonio/Editor/APPLY_STORY_CANDIDATE_CONFIGURATION';
@@ -35,6 +35,10 @@ const SET_UI_MODE = '$Fonio/Editor/SET_UI_MODE';
 export const UPDATE_STORY_CONTENT = '$Fonio/Editor/UPDATE_STORY_CONTENT';
 export const UPDATE_STORY_METADATA_FIELD = '$Fonio/Editor/UPDATE_STORY_METADATA_FIELD';
 
+
+export const PROMPT_ASSET_EMBED = '$Fonio/Editor/PROMPT_ASSET_EMBED';
+export const UNPROMPT_ASSET_EMBED = '$Fonio/Editor/UNPROMPT_ASSET_EMBED';
+export const EMBED_ASSET = '§Fonio/AssetsManager/EMBED_ASSET';
 /*
  * Action creators
  */
@@ -108,6 +112,13 @@ export const updateStoryMetadataField = (id, key, value) => ({
   id,
   key,
   value
+});
+export const promptAssetEmbed = (selection) => ({
+  type: PROMPT_ASSET_EMBED,
+  selection
+});
+export const unpromptAssetEmbed = () => ({
+  type: UNPROMPT_ASSET_EMBED
 });
 /**
  *

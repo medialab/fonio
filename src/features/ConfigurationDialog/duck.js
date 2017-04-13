@@ -8,6 +8,7 @@ import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {persistentReducer} from 'redux-pouchdb';
 
+
 import {
   fileIsAnImage,
   loadImage

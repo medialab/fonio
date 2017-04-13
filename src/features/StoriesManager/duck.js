@@ -11,6 +11,15 @@ import {persistentReducer} from 'redux-pouchdb';
 import {v4 as uuid} from 'uuid';
 
 import {serverUrl} from '../../../secrets';
+
+import {
+  convertFromRaw,
+  convertToRaw,
+  EditorState,
+  AtomicBlockUtils,
+  Entity,
+} from 'draft-js';
+
 /*
  * Action names
  */
@@ -21,12 +30,13 @@ import {
   SET_ACTIVE_STORY,
   UPDATE_STORY_CONTENT,
   UPDATE_STORY_METADATA_FIELD,
+  EMBED_ASSET,
 } from '../Editor/duck';
 
 import {
   CREATE_ASSET,
-  UPDATE_ASSET,
-  DELETE_ASSET
+  DELETE_ASSET,
+  UPDATE_ASSET
 } from '../AssetsManager/duck';
 
 import {
@@ -294,6 +304,38 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
             content: {...action.content}
           }
         }
+      };
+    case EMBED_ASSET:
+      // building a rawContent representation of story content
+      const prevRawContent = state.stories[action.id].content;
+      const shadowEditor = EditorState.createWithContent(convertFromRaw(prevRawContent));
+      // creating the entity
+      const newEntityKey = Entity.create(
+        action.metadata.type.toUpperCase(),
+        'MUTABLE',
+        {
+          id: action.metadata.id
+          // ...action.metadata
+        }
+      );
+      // inserting the entity as an atomic block
+      const EditorWithBlock = AtomicBlockUtils.insertAtomicBlock(
+        EditorState.forceSelection(shadowEditor, action.atSelection),
+        newEntityKey,
+        ' '
+      );
+      // reconverting the content updated with the entity
+      const newContent = convertToRaw(EditorWithBlock.getCurrentContent());
+      // const newContent = convertToRaw(contentStateWithLink);
+      return {
+        ...state,
+        stories: {
+          ...state.stories,
+          [action.id]: {
+            ...state.stories[action.id],
+            content: newContent
+          }
+        },
       };
     case UPDATE_STORY_METADATA_FIELD:
     return {

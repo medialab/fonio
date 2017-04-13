@@ -17,6 +17,11 @@ import {
   setupStoryCandidate
 } from '../../ConfigurationDialog/duck';
 
+import {
+  updateAsset,
+  embedAsset
+} from '../../AssetsManager/duck';
+
 /**
  * Redux-decorated component class rendering the takeaway dialog feature to the app
  */
@@ -31,6 +36,8 @@ import {
       ...duck,
       resetStoryCandidateSettings,
       setupStoryCandidate,
+      updateAsset,
+      embedAsset,
       setLanguage
     }, dispatch)
   })

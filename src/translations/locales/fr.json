@@ -110,5 +110,8 @@
   "Features.TakeAway.close": "close",
   "Features.ConfigurationDialog.story-cover": "story-cover",
   "Features.ConfigurationDialog.story-cover-help": "story-cover-help",
-  "Features.ConfigurationDialog.drop-a-cover-image-file": "drop-a-cover-image-file"
+  "Features.ConfigurationDialog.drop-a-cover-image-file": "drop-a-cover-image-file",
+  "Components.AssetContainer.title": "title",
+  "Components.AssetContainer.description": "description",
+  "Components.AssetContainer.source": "source"
 }

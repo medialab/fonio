@@ -23,7 +23,10 @@ import {
  */
 import {
   RESET_APP,
-  SET_ACTIVE_STORY
+  SET_ACTIVE_STORY,
+  PROMPT_ASSET_EMBED,
+  UNPROMPT_ASSET_EMBED,
+  EMBED_ASSET
 } from '../Editor/duck';
 
 /*
@@ -48,6 +51,14 @@ const SUBMIT_ASSET_DATA = '§Fonio/AssetsManager/SUBMIT_ASSET_DATA';
 export const CREATE_ASSET = '§Fonio/AssetsManager/CREATE_ASSET';
 export const DELETE_ASSET = '§Fonio/AssetsManager/DELETE_ASSET';
 export const UPDATE_ASSET = '§Fonio/AssetsManager/UPDATE_ASSET';
+
+export const embedAsset = (id, assetId, metadata, atSelection) => ({
+  type: EMBED_ASSET,
+  id,
+  assetId,
+  metadata,
+  atSelection
+});
 
 export const selectAsset = (id) => ({
   type: SELECT_ASSET,
@@ -196,7 +207,10 @@ const ASSETS_UI_DEFAULT_STATE = {
     metadata: {}
   },
   assetCandidateId: undefined,
-  assetDataLoadingState: undefined
+  assetDataLoadingState: undefined,
+  assetsPrompted: false,
+  // it is necessary to store the current selection in the editor
+  insertionSelection: undefined
 };
 /**
  * This redux reducer handles the modification of the ui state of assets management
@@ -208,6 +222,19 @@ function assetsUi (state = ASSETS_UI_DEFAULT_STATE, action) {
     case RESET_APP:
     case SET_ACTIVE_STORY:
       return ASSETS_UI_DEFAULT_STATE;
+
+    case PROMPT_ASSET_EMBED:
+      return {
+        ...state,
+        assetsPrompted: true,
+        insertionSelection: action.selection
+      };
+    case UNPROMPT_ASSET_EMBED:
+    case EMBED_ASSET:
+      return {
+        ...state,
+        assetsPrompted: false
+      };
 
     case SELECT_ASSET:
       return {
@@ -340,6 +367,9 @@ const assetCandidateType = (state) => state.assetsUi
                                       && state.assetsUi.assetCandidate.metadata
                                       && state.assetsUi.assetCandidate.metadata.type;
 
+const assetsPrompted = (state) => state.assetsUi.assetsPrompted;
+const insertionSelection = (state) => state.assetsUi.insertionSelection;
+
 export const selector = createStructuredSelector({
   selectedAssets,
   assetsSearchQuery,
@@ -347,6 +377,8 @@ export const selector = createStructuredSelector({
   assetCandidate,
   assetCandidateId,
   assetCandidateType,
-  assetDataLoadingState
+  assetDataLoadingState,
+  assetsPrompted,
+  insertionSelection
 });
 

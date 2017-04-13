@@ -11,6 +11,7 @@ import {v4 as uuid} from 'uuid';
 
 import * as duck from '../duck';
 import * as managerDuck from '../../StoriesManager/duck';
+import {unpromptAssetEmbed} from '../../Editor/duck';
 
 import AssetsManagerLayout from './AssetsManagerLayout';
 
@@ -25,7 +26,8 @@ import AssetsManagerLayout from './AssetsManagerLayout';
   }),
   dispatch => ({
     actions: bindActionCreators({
-      ...duck
+      ...duck,
+      unpromptAssetEmbed
     }, dispatch)
   })
 )
@@ -48,7 +50,13 @@ class AssetsManagerContainer extends Component {
     const {
       activeStoryId
     } = this.props;
-    this.props.actions.createAsset(activeStoryId, id, asset);
+    this.props.actions.createAsset(activeStoryId, id, {
+      ...asset,
+      metadata: {
+        ...asset.metadata,
+        id
+      }
+    });
   }
   updateAsset(id, asset) {
     const {
