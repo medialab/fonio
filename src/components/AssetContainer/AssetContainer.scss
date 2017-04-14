@@ -8,59 +8,67 @@
 
 .fonio-asset-container
 {
-  padding: $gutter-medium;
-  width: 100%;
-  margin: 0;
+    width: 100%;
+    margin: 0;
+    padding: $gutter-medium;
 
-  @extend .interactive-item;
-  &:hover
-  {
-    @extend .interactive-item-intent;
-  }
+    @extend .interactive-item;
+    &:hover
+    {
+        @extend .interactive-item-intent;
+    }
 
-  &.data-presentation{
-    .figure-container{
-      min-height: 30rem;
+    &.data-presentation
+    {
+        .figure-container
+        {
+            min-height: 30rem;
+        }
+        figcaption
+        {
+            display: none;
+        }
+    }
+
+    .figure-container
+    {
+        position: relative;
+
+        display: flex;
+
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+
+        img
+        {
+            max-width: 100%;
+            max-height: 100%;
+        }
     }
     figcaption
     {
-      display: none;
-    }
-  }
+        margin-top: $gutter-medium;
 
-  .figure-container
-  {
-    display : flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+        @extend .flex-stretched-column;
 
-    img{
-      max-width: 100%;
-      max-height: 100%;
-    }
-  }
-  figcaption
-  {
-    margin-top: $gutter-medium;
-    @extend .flex-stretched-column;
+        input,
+        textarea
+        {
+            margin-bottom: $gutter-small;
+            padding: $gutter-medium;
+        }
 
-    input,
-    textarea
-    {
-      padding: $gutter-medium;
-      margin-bottom: $gutter-small;
-    }
+        .source-container
+        {
+            @extend .flex-stretched-row;
+            align-items: center;
+            input
+            {
+                margin-bottom: 0;
 
-    .source-container
-    {
-      @extend .flex-stretched-row;
-      align-items: center;
-      input{
-        flex: 1;
-        margin-bottom: 0;
-      }
+                flex: 1;
+            }
+        }
     }
-  }
 }

@@ -13,16 +13,16 @@
     padding: $gutter-medium;
 
     list-style-type: none;
-    cursor: move;
 
-    -webkit-touch-callout: none; /* iOS Safari */
+    cursor: move;
     -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
        -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 
+    -webkit-touch-callout: none; /* iOS Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
     @extend .animated;
     @extend .primary-item;
     &:hover
@@ -122,9 +122,10 @@
 
     &.select-mode
     {
-        border: 1px solid $background-default;
-        color: $background-default;
-        background: $primary-color;
         cursor: pointer;
+
+        color: $background-default;
+        border: 1px solid $background-default;
+        background: $primary-color;
     }
 }

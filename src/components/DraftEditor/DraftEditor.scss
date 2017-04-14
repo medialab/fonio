@@ -87,41 +87,52 @@
         padding-left: 10%;
     }
 
-    pre{
-        background: $color-fade-grey;
-        padding: $gutter-medium;
+    pre
+    {
         font-family: $editable-font-stack;
+
+        padding: $gutter-medium;
+
         color: $background-default;
+        background: $color-fade-grey;
     }
 
     blockquote
     {
-        background: $color-light-blue;
-        padding: $gutter-large;
-        margin: 0;
-        quotes: "\00ab" "\00bb";
         position: relative;
+
+        margin: 0;
+        padding: $gutter-large;
+
+        quotes: '\00ab' '\00bb';
+
+        background: $color-light-blue;
     }
     blockquote:before,
-    blockquote:after{
-        position : absolute;
+    blockquote:after
+    {
+        position: absolute;
     }
 
-    blockquote:before{
-        content: open-quote;
-        left: $gutter-small;
+    blockquote:before
+    {
         top: $gutter-small;
+        left: $gutter-small;
+
+        content: open-quote;
     }
 
-    blockquote:after{
-        content: close-quote;
+    blockquote:after
+    {
         right: $gutter-small;
         bottom: $gutter-small;
+
+        content: close-quote;
     }
 
     figure
     {
-        margin-left: 0;
         margin-right: 0;
+        margin-left: 0;
     }
 }
