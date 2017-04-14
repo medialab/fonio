@@ -20,7 +20,7 @@ const PresentationCard = ({
   onClickCopy
 }, context) => {
 
-  const translate = translateNameSpacer(context.t, 'Components.PresentationCard');
+  const translate = translateNameSpacer(context.t, 'Components.StoryCard');
   return (
     <li className="fonio-story-card">
       <div className="card-body">

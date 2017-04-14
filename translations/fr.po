@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2017-4-14\n"
-"PO-Revision-Date: Fri Apr 14 2017 09:46:45 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Fri Apr 14 2017 09:48:07 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -12,349 +12,40 @@ msgstr ""
 "X-Generator: None\n"
 
 msgid "Components.AssetCard.untitled-asset"
-msgstr "untitled-asset"
+msgstr "Ressource sans titre"
 
 msgid "Components.AssetCard.no-description"
-msgstr "no-description"
+msgstr "pas de description"
 
 msgid "Components.AssetCard.settings"
-msgstr "settings"
+msgstr "paramètres"
 
 msgid "Components.AssetCard.delete"
-msgstr "delete"
+msgstr "supprimer"
 
 msgid "Components.DraftEditor.bold"
-msgstr "bold"
+msgstr "gras"
 
 msgid "Components.DraftEditor.italic"
-msgstr "italic"
+msgstr "italique"
 
 msgid "Components.DraftEditor.underline"
-msgstr "underline"
+msgstr "sous-ligné"
 
 msgid "Components.DraftEditor.write-your-story-here"
-msgstr "write-your-story-here"
+msgstr "Écrivez votre récit ici"
 
 msgid "Components.Footer.by"
-msgstr "by"
+msgstr "par"
 
 msgid "Components.Footer.preview"
-msgstr "preview"
+msgstr "aperçu"
 
 msgid "Components.Footer.edit"
-msgstr "edit"
+msgstr "éditer"
 
 msgid "Components.Footer.take-away"
-msgstr "take-away"
-
-msgid "Components.PresentationCard.untitled_story"
-msgstr "untitled_story"
-
-msgid "Components.PresentationCard.no_description"
-msgstr "no_description"
-
-msgid "Components.PresentationCard.edit"
-msgstr "edit"
-
-msgid "Components.PresentationCard.settings"
-msgstr "settings"
-
-msgid "Components.PresentationCard.delete"
-msgstr "delete"
-
-msgid "Components.PresentationCard.sure_delete"
-msgstr "sure_delete"
-
-msgid "Components.PresentationCard.delete_confirm"
-msgstr "delete_confirm"
-
-msgid "Components.PresentationCard.cancel"
-msgstr "cancel"
-
-msgid "Components.PresentationCard.duplicate"
-msgstr "duplicate"
-
-msgid "Features.Editor.url-of-the-video"
-msgstr "url-of-the-video"
-
-msgid "Features.Editor.drop-a-file-here"
-msgstr "drop-a-file-here"
-
-msgid "Features.Editor.paste-embed-code"
-msgstr "paste-embed-code"
-
-msgid "Features.Editor.loading-asset-data"
-msgstr "loading-asset-data"
-
-msgid "Features.Editor.loading-asset-data-success"
-msgstr "loading-asset-data-success"
-
-msgid "Features.Editor.loading-asset-data-fail"
-msgstr "loading-asset-data-fail"
-
-msgid "Features.Editor.asset-type-image"
-msgstr "asset-type-image"
-
-msgid "Features.Editor.asset-type-image-help"
-msgstr "asset-type-image-help"
-
-msgid "Features.Editor.asset-type-video"
-msgstr "asset-type-video"
-
-msgid "Features.Editor.asset-type-video-help"
-msgstr "asset-type-video-help"
-
-msgid "Features.Editor.asset-type-data-presentation"
-msgstr "asset-type-data-presentation"
-
-msgid "Features.Editor.asset-type-data-presentation-help"
-msgstr "asset-type-data-presentation-help"
-
-msgid "Features.Editor.asset-type-embed"
-msgstr "asset-type-embed"
-
-msgid "Features.Editor.asset-type-embed-help"
-msgstr "asset-type-embed-help"
-
-msgid "Features.Editor.edit-asset"
-msgstr "edit-asset"
-
-msgid "Features.Editor.create-asset"
-msgstr "create-asset"
-
-msgid "Features.Editor.asset-data"
-msgstr "asset-data"
-
-msgid "Features.Editor.asset-data-help"
-msgstr "asset-data-help"
-
-msgid "Features.Editor.asset-metadata"
-msgstr "asset-metadata"
-
-msgid "Features.Editor.asset-metadata-help"
-msgstr "asset-metadata-help"
-
-msgid "Features.Editor.title-of-the-asset"
-msgstr "title-of-the-asset"
-
-msgid "Features.Editor.source-of-the-asset"
-msgstr "source-of-the-asset"
-
-msgid "Features.Editor.description-of-the-asset"
-msgstr "description-of-the-asset"
-
-msgid "Features.Editor.update-asset"
-msgstr "update-asset"
-
-msgid "Features.Editor.close"
-msgstr "close"
-
-msgid "Features.AssetsManager.new-asset"
-msgstr "new-asset"
-
-msgid "Features.AssetsManager.search-in-assets"
-msgstr "search-in-assets"
-
-msgid "Features.AssetsManager.edit-asset"
-msgstr "edit-asset"
-
-msgid "Features.ConfigurationDialog.story-configuration"
-msgstr "story-configuration"
-
-msgid "Features.ConfigurationDialog.what-is-your-story-about"
-msgstr "what-is-your-story-about"
-
-msgid "Features.ConfigurationDialog.what-is-your-story-about-help"
-msgstr "what-is-your-story-about-help"
-
-msgid "Features.ConfigurationDialog.title-of-the-story"
-msgstr "title-of-the-story"
-
-msgid "Features.ConfigurationDialog.authors-of-the-story"
-msgstr "authors-of-the-story"
-
-msgid "Features.ConfigurationDialog.description-of-the-story"
-msgstr "description-of-the-story"
-
-msgid "Features.ConfigurationDialog.apply-changes-and-continue-story-edition"
-msgstr "apply-changes-and-continue-story-edition"
-
-msgid "Features.ConfigurationDialog.start-to-edit-this-story"
-msgstr "start-to-edit-this-story"
-
-msgid "Features.ConfigurationDialog.cancel"
-msgstr "cancel"
-
-msgid "Features.ConfigurationDialog.stop-spatialization"
-msgstr "stop-spatialization"
-
-msgid "Features.ConfigurationDialog.run-spatialization"
-msgstr "run-spatialization"
-
-msgid "Features.ConfigurationDialog.run-spatialization-help"
-msgstr "run-spatialization-help"
-
-msgid "Features.ConfigurationDialog.save-nodes-positions"
-msgstr "save-nodes-positions"
-
-msgid "Features.ConfigurationDialog.save-nodes-positions-help"
-msgstr "save-nodes-positions-help"
-
-msgid "Features.Editor.back-to-home"
-msgstr "back-to-home"
-
-msgid "Features.Editor.untitled-story"
-msgstr "untitled-story"
-
-msgid "Features.Editor.settings"
-msgstr "settings"
-
-msgid "Features.Editor.story-title"
-msgstr "story-title"
-
-msgid "Features.Editor.edit-story"
-msgstr "edit-story"
-
-msgid "Features.StoriesManager.description-$1-goal"
-msgstr "description-$1-goal"
-
-msgid "Features.StoriesManager.description-$2-flow"
-msgstr "description-$2-flow"
-
-msgid "Features.StoriesManager.about-forccast"
-msgstr "about-forccast"
-
-msgid "Features.StoriesManager.about-medialab"
-msgstr "about-medialab"
-
-msgid "Features.StoriesManager.start-a-new-story"
-msgstr "start-a-new-story"
-
-msgid "Features.StoriesManager.maximum-stories-reached"
-msgstr "maximum-stories-reached"
-
-msgid "Features.StoriesManager.or-continue-locally-stored-story"
-msgstr "or-continue-locally-stored-story"
-
-msgid "Features.StoriesManager.import-project-from-computer"
-msgstr "import-project-from-computer"
-
-msgid "Features.StoriesManager.drop-a-json-file-here"
-msgstr "drop-a-json-file-here"
-
-msgid "Features.StoriesManager.fetch-an-existant-project-from-distant-server"
-msgstr "fetch-an-existant-project-from-distant-server"
-
-msgid "Features.StoriesManager.copy-paste-url-of-the-project"
-msgstr "copy-paste-url-of-the-project"
-
-msgid "Features.StoriesManager.import"
-msgstr "import"
-
-msgid "Features.StoriesManager.your-file-is-badly-formatted"
-msgstr "your-file-is-badly-formatted"
-
-msgid "Features.StoriesManager.your-file-is-not-a-valid-story"
-msgstr "your-file-is-not-a-valid-story"
-
-msgid "Features.StoriesManager.the-url-did-not-point-to-a-valid-story"
-msgstr "the-url-did-not-point-to-a-valid-story"
-
-msgid "Features.StoriesManager.the-gist-is-not-properly-formatted"
-msgstr "the-gist-is-not-properly-formatted"
-
-msgid "Features.StoriesManager.the-fetching-process-failed"
-msgstr "the-fetching-process-failed"
-
-msgid "Features.StoriesManager.story-already-exists"
-msgstr "story-already-exists"
-
-msgid "Features.StoriesManager.you-seem-to-have-already-this-story"
-msgstr "you-seem-to-have-already-this-story"
-
-msgid "Features.StoriesManager.do-you-wish-to-override-story"
-msgstr "do-you-wish-to-override-story"
-
-msgid "Features.StoriesManager.override-existing-version-of-story"
-msgstr "override-existing-version-of-story"
-
-msgid "Features.StoriesManager.cancel"
-msgstr "cancel"
-
-msgid "Features.TakeAway.project-file"
-msgstr "project-file"
-
-msgid "Features.TakeAway.project-file-help"
-msgstr "project-file-help"
-
-msgid "Features.TakeAway.html-file"
-msgstr "html-file"
-
-msgid "Features.TakeAway.html-file-help"
-msgstr "html-file-help"
-
-msgid "Features.TakeAway.gist-powered-website"
-msgstr "gist-powered-website"
-
-msgid "Features.TakeAway.gist-powered-website-help"
-msgstr "gist-powered-website-help"
-
-msgid "Features.TakeAway.forccast-website"
-msgstr "forccast-website"
-
-msgid "Features.TakeAway.forccast-website-help"
-msgstr "forccast-website-help"
-
-msgid "Features.TakeAway.take-away-your-story"
-msgstr "take-away-your-story"
-
-msgid "Features.TakeAway.your-story-is-online-on-gist"
-msgstr "your-story-is-online-on-gist"
-
-msgid "Features.TakeAway.go-to-the-gist-source-code-of-your-presentation"
-msgstr "go-to-the-gist-source-code-of-your-presentation"
-
-msgid "Features.TakeAway.go-to-the-gist-based-webpage-of-your-presentation"
-msgstr "go-to-the-gist-based-webpage-of-your-presentation"
-
-msgid "Features.TakeAway.embed-inside-an-html-webpage"
-msgstr "embed-inside-an-html-webpage"
-
-msgid "Features.TakeAway.update-local-version-to-the-repository"
-msgstr "update-local-version-to-the-repository"
-
-msgid "Features.TakeAway.the-online-version-will-be-overriden-with-your-current-version"
-msgstr "the-online-version-will-be-overriden-with-your-current-version"
-
-msgid "Features.TakeAway.update-local-version-from-the-repository"
-msgstr "update-local-version-from-the-repository"
-
-msgid "Features.TakeAway.your-current-version-will-be-overriden-with-the-distant-version"
-msgstr "your-current-version-will-be-overriden-with-the-distant-version"
-
-msgid "Features.TakeAway.go-to-the-online-webpage"
-msgstr "go-to-the-online-webpage"
-
-msgid "Features.TakeAway.close"
-msgstr "close"
-
-msgid "Features.ConfigurationDialog.story-cover"
-msgstr "story-cover"
-
-msgid "Features.ConfigurationDialog.story-cover-help"
-msgstr "story-cover-help"
-
-msgid "Features.ConfigurationDialog.drop-a-cover-image-file"
-msgstr "drop-a-cover-image-file"
-
-msgid "Components.AssetContainer.title"
-msgstr "title"
-
-msgid "Components.AssetContainer.description"
-msgstr "description"
-
-msgid "Components.AssetContainer.source"
-msgstr "source"
+msgstr "emporter"
 
 msgid "Components.StoryCard.untitled_story"
 msgstr "Récit sans titre"
@@ -382,3 +73,285 @@ msgstr "annuler"
 
 msgid "Components.StoryCard.duplicate"
 msgstr "dupliquer"
+
+msgid "Features.Editor.url-of-the-video"
+msgstr "url de la vidéo"
+
+msgid "Features.Editor.drop-a-file-here"
+msgstr "déposer un fichier ici"
+
+msgid "Features.Editor.paste-embed-code"
+msgstr "coller votre code html ici"
+
+msgid "Features.Editor.loading-asset-data"
+msgstr "chargement des données"
+
+msgid "Features.Editor.loading-asset-data-success"
+msgstr "le chargement a réussi !"
+
+msgid "Features.Editor.loading-asset-data-fail"
+msgstr "le chargement a échoué :("
+
+msgid "Features.Editor.asset-type-image"
+msgstr "image"
+
+msgid "Features.Editor.asset-type-image-help"
+msgstr "importer une image depuis votre ordinateur"
+
+msgid "Features.Editor.asset-type-video"
+msgstr "vidéo"
+
+msgid "Features.Editor.asset-type-video-help"
+msgstr "importer une vidéo depuis une url (pris en charge: vimeo, youtube)"
+
+msgid "Features.Editor.asset-type-data-presentation"
+msgstr "présentation de données"
+
+msgid "Features.Editor.asset-type-data-presentation-help"
+msgstr "importer une présentation quinoa faite avec bulgur"
+
+msgid "Features.Editor.asset-type-embed"
+msgstr "embarquer du code"
+
+msgid "Features.Editor.asset-type-embed-help"
+msgstr "coller du code html à embarquer dans votre récit"
+
+msgid "Features.Editor.edit-asset"
+msgstr "éditer la ressource"
+
+msgid "Features.Editor.create-asset"
+msgstr "créer une ressource"
+
+msgid "Features.Editor.asset-data"
+msgstr "asset's data"
+
+msgid "Features.Editor.asset-data-help"
+msgstr "how to fetch the asset's content ?"
+
+msgid "Features.Editor.asset-metadata"
+msgstr "métadonnées de la ressource"
+
+msgid "Features.Editor.asset-metadata-help"
+msgstr "elles seront utilisées pour fabriquer des documents rigoureux et riches"
+
+msgid "Features.Editor.title-of-the-asset"
+msgstr "titre de la ressource"
+
+msgid "Features.Editor.source-of-the-asset"
+msgstr "source de la resource"
+
+msgid "Features.Editor.description-of-the-asset"
+msgstr "description de la ressource"
+
+msgid "Features.Editor.update-asset"
+msgstr "mettre à jour la ressource"
+
+msgid "Features.Editor.close"
+msgstr "fermer"
+
+msgid "Features.AssetsManager.new-asset"
+msgstr "nouvelle ressource"
+
+msgid "Features.AssetsManager.search-in-assets"
+msgstr "rechercher dans les ressources"
+
+msgid "Features.AssetsManager.edit-asset"
+msgstr "éditer la ressource"
+
+msgid "Features.ConfigurationDialog.story-configuration"
+msgstr "configuration du récit"
+
+msgid "Features.ConfigurationDialog.what-is-your-story-about"
+msgstr "quel est le propos de votre récit ?"
+
+msgid "Features.ConfigurationDialog.what-is-your-story-about-help"
+msgstr "Les métadonnées aideront à documenter votre récit et améliorer son indexation"
+
+msgid "Features.ConfigurationDialog.title-of-the-story"
+msgstr "titre du récit"
+
+msgid "Features.ConfigurationDialog.authors-of-the-story"
+msgstr "auteurs du récit"
+
+msgid "Features.ConfigurationDialog.description-of-the-story"
+msgstr "description du récit"
+
+msgid "Features.ConfigurationDialog.apply-changes-and-continue-story-edition"
+msgstr "appliquer les changements et continuer l'édition du récit"
+
+msgid "Features.ConfigurationDialog.start-to-edit-this-story"
+msgstr "démarrer l'édition de cette histoire"
+
+msgid "Features.ConfigurationDialog.cancel"
+msgstr "annuler"
+
+msgid "Features.Editor.back-to-home"
+msgstr "revenir à l'accueil"
+
+msgid "Features.Editor.untitled-story"
+msgstr "récit sans titre"
+
+msgid "Features.Editor.settings"
+msgstr "paramètres"
+
+msgid "Features.Editor.story-title"
+msgstr "titre du récit"
+
+msgid "Features.Editor.edit-story"
+msgstr "éditer le récit"
+
+msgid "Features.StoriesManager.description-$1-goal"
+msgstr "Fonio est un outil qui sert à fabriquer des pages html riches d'images, vidéos, visualisations de données et autres éléments interactifs permettant de construire un argument en s'aidant de documents et de données."
+
+msgid "Features.StoriesManager.description-$2-flow"
+msgstr "On écrit son récit, puis on le sauvegarde sur le navigateur ou on le publie sur le web, sur un espace personnel ou des serveurs communs."
+
+msgid "Features.StoriesManager.about-forccast"
+msgstr "Fonio est développé dans le cadre du projet FORCCAST, un ensemble d'expérimentations pédagogiques en cartographie des controverses, une approche novatrice des problématiques socio-techniques via la simulation et l'étude des discours sur le web."
+
+msgid "Features.StoriesManager.about-medialab"
+msgstr "Fonio est développé par le médialab, un centre de recherche qui vise à connecter les sciences sociales avec de nouvelles méthodes et outils numériques."
+
+msgid "Features.StoriesManager.start-a-new-story"
+msgstr "commencer un nouveau récit"
+
+msgid "Features.StoriesManager.maximum-stories-reached"
+msgstr "vous avez atteint le nombre maximum de récits pouvant être stockés sur le navigateur, faites de la place si vous voulez en démarrer un nouveau !"
+
+msgid "Features.StoriesManager.or-continue-locally-stored-story"
+msgstr "... ou continuer un récit stocké dans le navigateur"
+
+msgid "Features.StoriesManager.import-project-from-computer"
+msgstr "... ou importer un projet depuis votre ordinateur"
+
+msgid "Features.StoriesManager.drop-a-json-file-here"
+msgstr "déposer un fichier .json dans cette zone"
+
+msgid "Features.StoriesManager.fetch-an-existant-project-from-distant-server"
+msgstr "... ou récupérer un projet existant depuis un serveur distant"
+
+msgid "Features.StoriesManager.copy-paste-url-of-the-project"
+msgstr "coller l'url où est accessible le projet"
+
+msgid "Features.StoriesManager.import"
+msgstr "importer"
+
+msgid "Features.StoriesManager.your-file-is-badly-formatted"
+msgstr "votre fichier n'est pas correctement formatté"
+
+msgid "Features.StoriesManager.your-file-is-not-a-valid-story"
+msgstr "votre fichier n'est pas un récit valide"
+
+msgid "Features.StoriesManager.the-url-did-not-point-to-a-valid-story"
+msgstr "l'url que vous avez fourni ne pointe pas vers un récit valide"
+
+msgid "Features.StoriesManager.the-gist-is-not-properly-formatted"
+msgstr "le gist n'est pas correctement formatté"
+
+msgid "Features.StoriesManager.the-fetching-process-failed"
+msgstr "le téléchargement a échoué"
+
+msgid "Features.StoriesManager.story-already-exists"
+msgstr "le récit existe déjà"
+
+msgid "Features.StoriesManager.you-seem-to-have-already-this-story"
+msgstr "il semble qu'une version de ce récit est déjà présente sur ce navigateur"
+
+msgid "Features.StoriesManager.do-you-wish-to-override-story"
+msgstr "Voulez-vous écraser la version stockée sur le navigateur avec celle que vous tentez d'importer ?"
+
+msgid "Features.StoriesManager.override-existing-version-of-story"
+msgstr "oui, écraser la version existante stockée sur ce navigateur"
+
+msgid "Features.StoriesManager.cancel"
+msgstr "annuler"
+
+msgid "Features.TakeAway.project-file"
+msgstr "fichier de travail"
+
+msgid "Features.TakeAway.project-file-help"
+msgstr "revient à télécharger un fichier de travail, qui vous permettra de ré-importer votre récit plus tard ou sur un autre navigateur"
+
+msgid "Features.TakeAway.html-file"
+msgstr "fichier html"
+
+msgid "Features.TakeAway.html-file-help"
+msgstr "revient à télécharger un fichier html autonome pouvant être mis sur n'importe quel serveur"
+
+msgid "Features.TakeAway.gist-powered-website"
+msgstr "publication en ligne via gist"
+
+msgid "Features.TakeAway.gist-powered-website-help"
+msgstr "Gist est un service proposé par l'entreprise américaine Github, il sert initialement à stocker des extraits de code source. Choisir cette option revient à stocker votre récit sur les serveurs de Gist et ainsi le publier sur le web."
+
+msgid "Features.TakeAway.forccast-website"
+msgstr "publication en ligne sur FORCCAST"
+
+msgid "Features.TakeAway.forccast-website-help"
+msgstr "FORCCAST est le projet à l'origine de Fonio, piloté par SciencesPo à Paris. Choisir cette option revient à stocker votre récit sur les serveurs institutionnels de SciencesPo et ainsi le publier sur le web."
+
+msgid "Features.TakeAway.take-away-your-story"
+msgstr "emporter votre récit"
+
+msgid "Features.TakeAway.your-story-is-online-on-gist"
+msgstr "votre récit est en ligne sur gist"
+
+msgid "Features.TakeAway.go-to-the-gist-source-code-of-your-presentation"
+msgstr "accéder au code source de votre récit stocké sur gist"
+
+msgid "Features.TakeAway.go-to-the-gist-based-webpage-of-your-presentation"
+msgstr "accéder à la page de votre récit stocké sur gist"
+
+msgid "Features.TakeAway.embed-inside-an-html-webpage"
+msgstr "embarquer le récit dans une page html"
+
+msgid "Features.TakeAway.update-local-version-to-the-repository"
+msgstr "mettre à jour le dépôt avec la version locale"
+
+msgid "Features.TakeAway.the-online-version-will-be-overriden-with-your-current-version"
+msgstr "la version en ligne sur le dépôt sera remplacée par la version actuelle sur votre navigateur"
+
+msgid "Features.TakeAway.update-local-version-from-the-repository"
+msgstr "mettre à jour la version locale avec celle du dépôt"
+
+msgid "Features.TakeAway.your-current-version-will-be-overriden-with-the-distant-version"
+msgstr "la version stockée sur votre navigateur sera remplacée par la version en ligne sur le dépôt"
+
+msgid "Features.TakeAway.go-to-the-online-webpage"
+msgstr "aller sur la page en ligne"
+
+msgid "Features.TakeAway.close"
+msgstr "fermer"
+
+msgid "Features.ConfigurationDialog.story-cover"
+msgstr "image de couverture"
+
+msgid "Features.ConfigurationDialog.story-cover-help"
+msgstr "charger une image à utiliser pour la couverture du récit"
+
+msgid "Features.ConfigurationDialog.drop-a-cover-image-file"
+msgstr "déposer une image de couverture ici"
+
+msgid "Components.AssetContainer.title"
+msgstr "titre"
+
+msgid "Components.AssetContainer.description"
+msgstr "description"
+
+msgid "Components.AssetContainer.source"
+msgstr "source"
+
+msgid "Features.ConfigurationDialog.stop-spatialization"
+msgstr "stop-spatialization"
+
+msgid "Features.ConfigurationDialog.run-spatialization"
+msgstr "run-spatialization"
+
+msgid "Features.ConfigurationDialog.run-spatialization-help"
+msgstr "run-spatialization-help"
+
+msgid "Features.ConfigurationDialog.save-nodes-positions"
+msgstr "save-nodes-positions"
+
+msgid "Features.ConfigurationDialog.save-nodes-positions-help"
+msgstr "save-nodes-positions-help"
