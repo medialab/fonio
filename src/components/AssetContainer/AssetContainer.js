@@ -35,6 +35,11 @@ const AssetContainer = ({
     toggleReadonly
   } = blockProps;
   const asset = assets[assetId];
+
+  if (!asset) {
+    return null;
+  }
+
   const {metadata, data} = asset;
 
   const updateMetadataField = (key, value) => {
