@@ -28,10 +28,7 @@ import './ConfigurationDialog.scss';
  * @return {ReactElement} markup
  */
 const ConfigurationDialogLayout = ({
-  storyCandidate = {
-    visualizations: {},
-    datasets: {}
-  },
+  storyCandidate,
   fetchUserFileStatus,
   dataSourceTab,
   // todo : delete the following variable and do everything with visualizationTypesModels
@@ -64,7 +61,7 @@ const ConfigurationDialogLayout = ({
   const setStoryDescription = (e) => setCandidateStoryMetadata('description', e.target.value);
   const onCoverSubmit = (files) => submitCoverImage(files[0]);
   // todo this is temporary and should be replaced by a test
-  const storyBegan = true;
+  const storyBegan = storyCandidate.content;
   return (
     <div className="fonio-configuration-dialog-layout">
       <h1 className="modal-header">

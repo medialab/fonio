@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-4-13\n"
-"PO-Revision-Date: Thu Apr 13 2017 15:01:40 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-4-14\n"
+"PO-Revision-Date: Fri Apr 14 2017 09:46:45 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -355,3 +355,30 @@ msgstr "description"
 
 msgid "Components.AssetContainer.source"
 msgstr "source"
+
+msgid "Components.StoryCard.untitled_story"
+msgstr "Untitled story"
+
+msgid "Components.StoryCard.no_description"
+msgstr "no description"
+
+msgid "Components.StoryCard.edit"
+msgstr "edit"
+
+msgid "Components.StoryCard.settings"
+msgstr "settings"
+
+msgid "Components.StoryCard.delete"
+msgstr "delete"
+
+msgid "Components.StoryCard.sure_delete"
+msgstr "Are you sure you want to delete this story ?"
+
+msgid "Components.StoryCard.delete_confirm"
+msgstr "delete this story permanently"
+
+msgid "Components.StoryCard.cancel"
+msgstr "cancel"
+
+msgid "Components.StoryCard.duplicate"
+msgstr "duplicate"
