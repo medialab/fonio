@@ -5,6 +5,10 @@
 import React, {PropTypes} from 'react';
 import Modal from 'react-modal';
 
+import {
+  convertToRaw
+} from 'draft-js';
+
 import StoryPlayer from 'quinoa-story-player';
 
 import './EditorLayout.scss';
@@ -129,7 +133,10 @@ const EditorLayout = ({
         :
           <section className="fonio-main-row">
             <StoryPlayer
-              story={activeStory} />
+              story={{
+                ...activeStory,
+                content: convertToRaw(activeStory.content.getCurrentContent())
+              }} />
           </section>
         }
         <Footer
