@@ -4,10 +4,10 @@
  */
 
 import React, {PropTypes} from 'react';
-import Textarea from 'react-textarea-autosize';
+// import Textarea from 'react-textarea-autosize';
 import AssetPreview from '../AssetPreview/AssetPreview';
 
-import {translateNameSpacer} from '../../helpers/translateUtils';
+// import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import {
   Entity,
@@ -18,9 +18,9 @@ import './AssetContainer.scss';
 const AssetContainer = ({
   block,
   blockProps
-}, context) => {
+}/*, context*/) => {
 
-  const translate = translateNameSpacer(context.t, 'Components.AssetContainer');
+  // const translate = translateNameSpacer(context.t, 'Components.AssetContainer');
 
   const entityId = block.getEntityAt(0);
   if (entityId === null) {
@@ -30,9 +30,9 @@ const AssetContainer = ({
   const assetId = entity.getData().id;
   const {
     assets,
-    updateAsset,
-    storyId,
-    toggleReadonly
+    // updateAsset,
+    // storyId,
+    toggleReadonly,
   } = blockProps;
   const asset = assets[assetId];
 
@@ -40,21 +40,25 @@ const AssetContainer = ({
     return null;
   }
 
-  const {metadata, data} = asset;
+  const {
+    metadata,
+    data
+  } = asset;
 
-  const updateMetadataField = (key, value) => {
-    const newAsset = {
-      ...asset,
-      metadata: {
-        ...asset.metadata,
-        [key]: value
-      }
-    };
-    updateAsset(storyId, assetId, newAsset);
-  };
-  const onTitleChange = e => updateMetadataField('title', e.target.value);
-  const onDescriptionChange = e => updateMetadataField('description', e.target.value);
-  const onSourceChange = e => updateMetadataField('source', e.target.value);
+  // const updateMetadataField = (key, value) => {
+  //   const newAsset = {
+  //     ...asset,
+  //     metadata: {
+  //       ...asset.metadata,
+  //       [key]: value
+  //     }
+  //   };
+  //   updateAsset(storyId, assetId, newAsset);
+  // };
+
+  // const onTitleChange = e => updateMetadataField('title', e.target.value);
+  // const onDescriptionChange = e => updateMetadataField('description', e.target.value);
+  // const onSourceChange = e => updateMetadataField('source', e.target.value);
   const onElementFocus = () => {
     toggleReadonly(true);
   };
@@ -73,10 +77,18 @@ const AssetContainer = ({
         className="figure-container"
         onMouseEnter={onElementFocus}
         onMouseLeave={onElementBlur}>
-        <AssetPreview type={metadata.type} data={data} />
+        <AssetPreview
+          type={metadata.type}
+          data={data} />
       </div>
       <figcaption>
-        <input
+        <p>
+          {metadata.title}
+        </p>
+        {metadata.source && metadata.source.length > 0 && <p>
+          <i>{metadata.source}</i>
+        </p>}
+        {/*<input
           onFocus={onElementFocus}
           onBlur={onElementBlur}
           value={metadata.title}
@@ -87,7 +99,8 @@ const AssetContainer = ({
           onBlur={onElementBlur}
           value={metadata.description}
           onChange={onDescriptionChange}
-          placeholder={translate('description')} />
+          placeholder={translate('description')}
+        />
         <div className="source-container">
           <span>{translate('source')} :</span>
           <input
@@ -95,8 +108,9 @@ const AssetContainer = ({
             onBlur={onElementBlur}
             value={metadata.source}
             onChange={onSourceChange}
-            placeholder={translate('source')} />
-        </div>
+            placeholder={translate('source')}
+          />
+        </div>*/}
       </figcaption>
     </figure>
   );
