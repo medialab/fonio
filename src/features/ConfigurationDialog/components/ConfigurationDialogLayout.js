@@ -93,7 +93,7 @@ const ConfigurationDialogLayout = ({
                   type="text"
                   name="authors"
                   placeholder={translate('authors-of-the-story')}
-                  value={storyCandidate.metadata.authors} />
+                  value={storyCandidate.metadata.authors || ''} />
               </div>
             </div>
 
