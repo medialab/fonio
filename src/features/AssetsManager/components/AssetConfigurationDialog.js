@@ -172,34 +172,6 @@ const AssetConfigurationDialog = ({
           </section> : null}
         {assetCandidateType ?
           <section className="modal-row">
-            <h2>{translate('asset-data')}
-              <HelpPin>
-                {translate('asset-data-help')}
-              </HelpPin>
-            </h2>
-            <div className="data-row">
-              <div className="modal-column">
-                <AssetDataInput
-                  type={assetCandidateType}
-                  assetCandidate={assetCandidate}
-                  submitAssetData={submitAssetData} />
-                <LoadingStateToaster loadingState={assetDataLoadingState} />
-              </div>
-              {
-                assetCandidate.data ?
-                (<div className="modal-column preview-container">
-                  <AssetPreview
-                    type={assetCandidateType}
-                    data={assetCandidate.data} />
-                </div>)
-                : null
-              }
-            </div>
-          </section>
-          : null}
-
-        {assetCandidateType ?
-          <section className="modal-row">
             <h2>{translate('asset-metadata')}
               <HelpPin>
                 {translate('asset-metadata-help')}
@@ -242,6 +214,35 @@ const AssetConfigurationDialog = ({
               </div>
             </form>
           </section> : null}
+        {assetCandidateType ?
+          <section className="modal-row">
+            <h2>{translate('asset-data')}
+              <HelpPin>
+                {translate('asset-data-help')}
+              </HelpPin>
+            </h2>
+            <div className="data-row">
+              <div className="modal-column">
+                <AssetDataInput
+                  type={assetCandidateType}
+                  assetCandidate={assetCandidate}
+                  submitAssetData={submitAssetData} />
+                <LoadingStateToaster loadingState={assetDataLoadingState} />
+              </div>
+              {
+                assetCandidate.data ?
+                (<div className="modal-column preview-container">
+                  <AssetPreview
+                    type={assetCandidateType}
+                    data={assetCandidate.data} />
+                </div>)
+                : null
+              }
+            </div>
+          </section>
+          : null}
+
+
       </section>
       <section className="modal-footer">
         {
