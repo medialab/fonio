@@ -13,8 +13,8 @@ import {v4 as uuid} from 'uuid';
 import {serverUrl} from '../../../secrets';
 
 import {
-  convertFromRaw,
-  convertToRaw,
+  // convertFromRaw,
+  // convertToRaw,
   EditorState,
   AtomicBlockUtils,
   Entity,
@@ -281,6 +281,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         id: assetId,
         asset
       } = action;
+      // console.log('on update', asset.metadata && asset.metadata.title);
       return {
         ...state,
         stories: {
@@ -301,14 +302,15 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           ...state.stories,
           [action.id]: {
             ...state.stories[action.id],
-            content: {...action.content}
+            content: action.content// {...action.content}
           }
         }
       };
     case EMBED_ASSET:
       // building a rawContent representation of story content
-      const prevRawContent = state.stories[action.id].content;
-      const shadowEditor = EditorState.createWithContent(convertFromRaw(prevRawContent));
+      const shadowEditor = state.stories[action.id].content;
+      // const prevRawContent = state.stories[action.id].content;
+      // const shadowEditor = EditorState.createWithContent(convertFromRaw(prevRawContent));
       // creating the entity
       const newEntityKey = Entity.create(
         action.metadata.type.toUpperCase(),
@@ -325,7 +327,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         ' '
       );
       // reconverting the content updated with the entity
-      const newContent = convertToRaw(EditorWithBlock.getCurrentContent());
+      const newContent = EditorWithBlock;// convertToRaw(EditorWithBlock.getCurrentContent());
       // const newContent = convertToRaw(contentStateWithLink);
       return {
         ...state,

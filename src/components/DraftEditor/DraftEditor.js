@@ -9,8 +9,6 @@ import Editor from 'draft-js-plugins-editor';
 import {
   RichUtils,
   EditorState,
-  convertFromRaw,
-  convertToRaw,
 } from 'draft-js';
 
 import createMarkdownShortcutsPlugin from 'draft-js-markdown-shortcuts-plugin';
@@ -79,7 +77,7 @@ export default class QuinoaDraftEditor extends Component {
     this.state = {
       focused: false,
       readonly: false,
-      editorState: props.content ? EditorState.createWithContent(convertFromRaw(props.content)) : EditorState.createEmpty(),
+      editorState: /*props.content ? EditorState.createWithContent(convertFromRaw(props.content)) :*/ EditorState.createEmpty(),
     };
 
     this.updateContent = debounce(this.updateContent, 400);
@@ -103,9 +101,9 @@ export default class QuinoaDraftEditor extends Component {
     // update editor if content representation is different between props and state
     if (this.state.content !== props.content) {
       // console.log('received in editor', props.content && Object.keys(props.content.entityMap).length);
-      const contentState = props.content && convertFromRaw(props.content);
+      // const contentState = props.content && convertFromRaw(props.content);
       this.setState({
-        editorState: EditorState.acceptSelection(EditorState.createWithContent(contentState), this.state.editorState.getSelection()),
+        editorState: props.content // EditorState.acceptSelection(EditorState.createWithContent(contentState), this.state.editorState.getSelection()),
       });
     }
   }
@@ -127,7 +125,8 @@ export default class QuinoaDraftEditor extends Component {
 
   // update is wrapped in this function to allow debouncing it
   updateContent () {
-    this.props.update(convertToRaw(this.state.editorState.getCurrentContent()));
+    this.props.update(this.state.editorState);
+    // this.props.update(convertToRaw(this.state.editorState.getCurrentContent()));
   }
 
   renderBlock (contentBlock) {
@@ -181,7 +180,7 @@ export default class QuinoaDraftEditor extends Component {
     const bindEditorComponent = (editorComponent) => {
       this.editorComponent = editorComponent;
     };
-    return (
+    return this.state.editorState && (
       <div
         className={'fonio-draft-editor ' + (this.state.focused ? 'focused' : '')}
         onClick={onGlobalClick}
