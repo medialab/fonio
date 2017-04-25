@@ -139,7 +139,8 @@ export default class QuinoaDraftEditor extends Component {
           assets: this.props.assets,
           updateAsset: this.props.updateAsset,
           storyId: this.props.storyId,
-          toggleReadonly: this.toggleReadonly
+          toggleReadonly: this.toggleReadonly,
+          currentContent: this.state.editorState.getCurrentContent()
         }
       };
     }

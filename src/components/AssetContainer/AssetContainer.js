@@ -20,20 +20,22 @@ const AssetContainer = ({
   blockProps
 }/*, context*/) => {
 
-  // const translate = translateNameSpacer(context.t, 'Components.AssetContainer');
-
-  const entityId = block.getEntityAt(0);
-  if (entityId === null) {
-    return null;
-  }
-  const entity = Entity.get(entityId);
-  const assetId = entity.getData().id;
   const {
     assets,
     // updateAsset,
     // storyId,
     toggleReadonly,
+    currentContent
   } = blockProps;
+
+  // const translate = translateNameSpacer(context.t, 'Components.AssetContainer');
+  const entityId = block.getEntityAt(0);
+  if (entityId === null) {
+    return null;
+  }
+  const entity = currentContent.getEntity(entityId);// Entity.get(entityId);
+  const assetId = entity.getData().id;
+
   const asset = assets[assetId];
 
   if (!asset) {

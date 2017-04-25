@@ -17,7 +17,6 @@ import {
   // convertToRaw,
   EditorState,
   AtomicBlockUtils,
-  Entity,
 } from 'draft-js';
 
 /*
@@ -308,11 +307,12 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       };
     case EMBED_ASSET:
       // building a rawContent representation of story content
-      const shadowEditor = state.stories[action.id].content;
+      let shadowEditor = state.stories[action.id].content;
+      const contentState = shadowEditor.getCurrentContent();
       // const prevRawContent = state.stories[action.id].content;
       // const shadowEditor = EditorState.createWithContent(convertFromRaw(prevRawContent));
       // creating the entity
-      const newEntityKey = Entity.create(
+      const newContentState = contentState.createEntity(
         action.metadata.type.toUpperCase(),
         'MUTABLE',
         {
@@ -320,6 +320,8 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           // ...action.metadata
         }
       );
+      shadowEditor = EditorState.createWithContent(newContentState);
+      const newEntityKey = newContentState.getLastCreatedEntityKey();
       // inserting the entity as an atomic block
       const EditorWithBlock = AtomicBlockUtils.insertAtomicBlock(
         EditorState.forceSelection(shadowEditor, action.atSelection),
