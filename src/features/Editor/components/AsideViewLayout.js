@@ -2,7 +2,8 @@
  * This module exports a stateless component rendering the aside contents of the editor feature interface
  * @module fonio/features/Editor
  */
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import './AsideViewLayout.scss';
 

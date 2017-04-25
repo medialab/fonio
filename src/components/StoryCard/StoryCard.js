@@ -2,7 +2,8 @@
  * This module provides a reusable story card component
  * @module fonio/components/PresentationCard
  */
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
 

@@ -2,7 +2,8 @@
  * This module exports a stateless component rendering the layout of the stories manager interface
  * @module fonio/features/StoriesManager
  */
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
 import './StoriesManagerLayout.scss';

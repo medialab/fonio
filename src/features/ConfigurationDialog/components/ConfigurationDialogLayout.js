@@ -2,7 +2,8 @@
  * This module exports a stateless component rendering the layout of the configuration dialog feature interface
  * @module fonio/features/ConfigurationDialog
  */
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Textarea from 'react-textarea-autosize';
 

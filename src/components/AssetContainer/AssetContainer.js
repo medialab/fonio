@@ -3,15 +3,12 @@
  * @module fonio/components/AssetContainer
  */
 
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 // import Textarea from 'react-textarea-autosize';
 import AssetPreview from '../AssetPreview/AssetPreview';
 
 // import {translateNameSpacer} from '../../helpers/translateUtils';
-
-import {
-  Entity,
-} from 'draft-js';
 
 import './AssetContainer.scss';
 

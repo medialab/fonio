@@ -2,7 +2,8 @@
  * This module provides a reusable big select element component
  * @module fonio/components/BigSelect
  */
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './AssetCard.scss';
