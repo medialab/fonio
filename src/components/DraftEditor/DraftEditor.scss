@@ -41,15 +41,23 @@
         transition: background $time-short ease;
 
         flex: 5;
-        .public-DraftEditorPlaceholder-inner
+        .public-DraftEditorPlaceholder-root
         {
             font-style: italic;
 
             position: absolute;
-            top: $gutter-medium;
-            left: $gutter-medium;
+            top: $gutter-large * 1.3;
+            // left: $gutter-large;
+            width: 100%;
 
             opacity: .5;
+
+            font-size: $font-size-2;
+
+            .public-DraftEditorPlaceholder-inner
+            {
+                padding-left: 10%;
+            }
         }
 
         .public-DraftStyleDefault-block
@@ -86,11 +94,6 @@
                 }
             }
         }
-    }
-
-    .public-DraftEditorPlaceholder-inner
-    {
-        padding-left: 10%;
     }
 
     pre
