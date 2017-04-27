@@ -79,7 +79,8 @@ class EditorContainer extends Component {
         {...this.props}
         openSettings={this.openSettings}
         closeAndResetDialog={this.closeAndResetDialog}
-        returnToLanding={this.returnToLanding} />
+        returnToLanding={this.returnToLanding} 
+      />
     );
   }
 }
