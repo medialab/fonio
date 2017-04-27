@@ -90,7 +90,7 @@ const AssetsManagerLayout = ({
           className="search-query"
           type="text"
           placeholder={translate('search-in-assets')}
-          value={assetsSearchQuery}
+          value={assetsSearchQuery || ''}
           onChange={onSearchInputChange} />
       </div>
 

@@ -117,7 +117,7 @@ const EditorLayout = ({
               <h1 className="editable-title">
                 <input
                   type="text"
-                  value={activeStory.metadata.title}
+                  value={activeStory.metadata.title || ''}
                   onChange={onTitleChange}
                   placeholder={translate('story-title')} />
               </h1>

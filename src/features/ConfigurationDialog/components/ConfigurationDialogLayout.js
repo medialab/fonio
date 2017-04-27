@@ -84,7 +84,7 @@ const ConfigurationDialogLayout = ({
                   type="text"
                   name="title"
                   placeholder={translate('title-of-the-story')}
-                  value={storyCandidate.metadata.title} />
+                  value={storyCandidate.metadata.title || ''} />
               </div>
 
               <div className="input-group">
@@ -107,7 +107,7 @@ const ConfigurationDialogLayout = ({
                   name="description"
                   placeholder={translate('description-of-the-story')}
                   style={{flex: 1}}
-                  value={storyCandidate.metadata.description} />
+                  value={storyCandidate.metadata.description || ''} />
               </div>
             </div>
           </form>

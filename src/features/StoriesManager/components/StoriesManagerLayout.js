@@ -165,7 +165,7 @@ const StoriesManagerLayout = ({
             </h3>
             <form onSubmit={importFromDistantJSON}>
               <input
-                value={importFromUrlCandidate}
+                value={importFromUrlCandidate || ''}
                 onChange={onImportFromUrlChange} type="text"
                 placeholder={translate('copy-paste-url-of-the-project')} />
               <input
