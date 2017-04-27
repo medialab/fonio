@@ -4,7 +4,8 @@
  * This module provides a reusable draft-powered text wysiwig editor component
  * @module bulgur/components/DraftEditor
  */
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Editor from 'draft-js-plugins-editor';
 import {
   RichUtils,
@@ -35,34 +36,14 @@ const markdownShortcutsPlugin = createMarkdownShortcutsPlugin();
 
 import {debounce} from 'lodash';
 
-const inlineToolbarPlugin = createInlineToolbarPlugin({
-  structure: [
-    BoldButton,
-    ItalicButton,
-    UnderlineButton,
-    CodeButton,
-    Separator,
-    HeadlineOneButton,
-    HeadlineTwoButton,
-    HeadlineThreeButton,
-    UnorderedListButton,
-    OrderedListButton,
-    BlockquoteButton,
-    CodeBlockButton,
-  ]
-});
 
 import createSideToolbarPlugin from 'draft-js-side-toolbar-plugin'; // eslint-disable-line import/no-unresolved
 import 'draft-js-side-toolbar-plugin/lib/plugin.css'; // eslint-disable-line import/no-unresolved
-const sideToolbarPlugin = createSideToolbarPlugin();
 
 import 'draft-js-inline-toolbar-plugin/lib/plugin.css'; // eslint-disable-line import/no-unresolved
 import './DraftEditor.scss';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
-
-const {SideToolbar} = sideToolbarPlugin;
-const {InlineToolbar} = inlineToolbarPlugin;
 
 import AssetContainer from '../AssetContainer/AssetContainer';
 
@@ -77,9 +58,10 @@ export default class QuinoaDraftEditor extends Component {
     this.state = {
       focused: false,
       readonly: false,
-      editorState: /*props.content ? EditorState.createWithContent(convertFromRaw(props.content)) :*/ EditorState.createEmpty(),
+      editorState: props.content || EditorState.createEmpty(),
     };
 
+    // this.updateContent = this.updateContent.bind(this);
     this.updateContent = debounce(this.updateContent, 400);
 
     this.handleEditorChange = (editorState) => {
@@ -94,6 +76,26 @@ export default class QuinoaDraftEditor extends Component {
     };
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
     this.renderBlock = this.renderBlock.bind(this);
+
+    this.inlineToolbarPlugin = createInlineToolbarPlugin({
+      structure: [
+        BoldButton,
+        ItalicButton,
+        UnderlineButton,
+        CodeButton,
+        Separator,
+        HeadlineOneButton,
+        HeadlineTwoButton,
+        HeadlineThreeButton,
+        UnorderedListButton,
+        OrderedListButton,
+        BlockquoteButton,
+        CodeBlockButton,
+      ]
+    });
+    this.sideToolbarPlugin = createSideToolbarPlugin();
+    this.SideToolbar = this.sideToolbarPlugin.SideToolbar;
+    this.InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
   }
 
   // todo : rehabilitate that if editor's content can be changed by external contents
@@ -158,7 +160,7 @@ export default class QuinoaDraftEditor extends Component {
   render() {
     const translate = translateNameSpacer(this.context.t, 'Components.DraftEditor');
     const onChange = state => {
-      this.handleEditorChange(state);
+        this.handleEditorChange(state);
     };
     const onGlobalClick = e => {
       e.stopPropagation();
@@ -181,6 +183,11 @@ export default class QuinoaDraftEditor extends Component {
     const bindEditorComponent = (editorComponent) => {
       this.editorComponent = editorComponent;
     };
+
+    const {
+      SideToolbar,
+      InlineToolbar
+    } = this;
     return this.state.editorState && (
       <div
         className={'fonio-draft-editor ' + (this.state.focused ? 'focused' : '')}
@@ -198,8 +205,8 @@ export default class QuinoaDraftEditor extends Component {
           readOnly={this.state.readonly}
           plugins={[
               markdownShortcutsPlugin,
-              sideToolbarPlugin,
-              inlineToolbarPlugin,
+              this.sideToolbarPlugin,
+              this.inlineToolbarPlugin,
             ]} />
         <SideToolbar />
         <InlineToolbar />
