@@ -32,7 +32,6 @@ import {
 // Deprecated for now - to use in order to add assets in the toolbar
 // import FonioBlockTypeSelect from './FonioBlockTypeSelect';
 
-const markdownShortcutsPlugin = createMarkdownShortcutsPlugin();
 
 import {debounce} from 'lodash';
 
@@ -93,17 +92,15 @@ export default class QuinoaDraftEditor extends Component {
         CodeBlockButton,
       ]
     });
+    this.markdownShortcutsPlugin = createMarkdownShortcutsPlugin();
     this.sideToolbarPlugin = createSideToolbarPlugin();
     this.SideToolbar = this.sideToolbarPlugin.SideToolbar;
     this.InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
   }
 
-  // todo : rehabilitate that if editor's content can be changed by external contents
   componentWillReceiveProps(props) {
     // update editor if content representation is different between props and state
     if (this.state.content !== props.content) {
-      // console.log('received in editor', props.content && Object.keys(props.content.entityMap).length);
-      // const contentState = props.content && convertFromRaw(props.content);
       this.setState({
         editorState: props.content // EditorState.acceptSelection(EditorState.createWithContent(contentState), this.state.editorState.getSelection()),
       });
@@ -186,7 +183,10 @@ export default class QuinoaDraftEditor extends Component {
 
     const {
       SideToolbar,
-      InlineToolbar
+      InlineToolbar,
+      // markdownShortcutsPlugin,
+      sideToolbarPlugin,
+      inlineToolbarPlugin
     } = this;
     return this.state.editorState && (
       <div
@@ -204,9 +204,9 @@ export default class QuinoaDraftEditor extends Component {
           blockRendererFn={this.renderBlock}
           readOnly={this.state.readonly}
           plugins={[
-              markdownShortcutsPlugin,
-              this.sideToolbarPlugin,
-              this.inlineToolbarPlugin,
+              // markdownShortcutsPlugin,
+              sideToolbarPlugin,
+              inlineToolbarPlugin,
             ]} />
         <SideToolbar />
         <InlineToolbar />

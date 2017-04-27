@@ -100,7 +100,7 @@ const EditorLayout = ({
   const translate = translateNameSpacer(context.t, 'Features.Editor');
   const onStoryUpdate = (content) => {
     updateStoryContent(activeStory.id, content);
-  }
+  };
   const onTitleChange = (e) => updateStoryMetadataField(activeStory.id, 'title', e.target.value);
   return (<div id={id} className={className}>
     {activeStoryId ?
@@ -130,8 +130,7 @@ const EditorLayout = ({
                 storyId={activeStoryId}
                 updateAsset={updateAsset}
                 embedAsset={embedAsset}
-                translate={translate} 
-              />
+                translate={translate} />
             </div>
           </section>
         :

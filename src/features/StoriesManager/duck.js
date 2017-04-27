@@ -280,7 +280,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         id: assetId,
         asset
       } = action;
-      // console.log('on update', asset.metadata && asset.metadata.title);
       return {
         ...state,
         stories: {
@@ -306,6 +305,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         }
       };
     case EMBED_ASSET:
+      // TODO : this should be in a helper
       // building a rawContent representation of story content
       let shadowEditor = state.stories[action.id].content;
       const contentState = shadowEditor.getCurrentContent();
