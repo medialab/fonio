@@ -4,6 +4,9 @@
  */
 import {post} from 'superagent';
 import {serverUrl} from '../../secrets';
+import {
+  convertToRaw
+} from 'draft-js';
 
 /**
  * Prepares a story data for a clean version to export
@@ -12,7 +15,8 @@ import {serverUrl} from '../../secrets';
  */
 export function cleanStoryForExport(story) {
   return {
-    ...story
+    ...story,
+    content: convertToRaw(story.content.getCurrentContent())
   };
 }
 
