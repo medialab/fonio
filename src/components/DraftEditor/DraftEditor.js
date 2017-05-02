@@ -11,6 +11,7 @@ import {
   RichUtils,
   EditorState,
 } from 'draft-js';
+import Immutable from 'immutable';
 
 import createMarkdownShortcutsPlugin from 'draft-js-markdown-shortcuts-plugin';
 import createInlineToolbarPlugin, {Separator} from 'draft-js-inline-toolbar-plugin'; // eslint-disable-line import/no-unresolved
@@ -54,10 +55,14 @@ export default class QuinoaDraftEditor extends Component {
 
   constructor (props) {
     super(props);
+    let content = props.content;
+    if (content && typeof props.content === 'object' && props.content instanceof Immutable.Map === false) {
+      content = Immutable.fromJS(content);
+    }
     this.state = {
       focused: false,
       readonly: false,
-      editorState: props.content || EditorState.createEmpty(),
+      editorState: content || EditorState.createEmpty(),
     };
 
     // this.updateContent = this.updateContent.bind(this);
