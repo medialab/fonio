@@ -13,8 +13,7 @@ import {v4 as uuid} from 'uuid';
 import {serverUrl} from '../../../secrets';
 
 import {
-  // convertFromRaw,
-  // convertToRaw,
+  convertToRaw,
   EditorState,
   AtomicBlockUtils,
 } from 'draft-js';
@@ -30,6 +29,7 @@ import {
   UPDATE_STORY_CONTENT,
   UPDATE_STORY_METADATA_FIELD,
   EMBED_ASSET,
+  SERIALIZE_EDITOR_CONTENT
 } from '../Editor/duck';
 
 import {
@@ -180,6 +180,17 @@ const STORIES_DEFAULT_STATE = {
 function stories(state = STORIES_DEFAULT_STATE, action) {
   let newState;
   switch (action.type) {
+    case SERIALIZE_EDITOR_CONTENT:
+      const modified = {
+        ...state,
+        stories: {
+          [action.id]: {
+            ...state.stories[action.id],
+            content: convertToRaw(action.content.getCurrentContent())
+          },
+        }
+      };
+      return modified;
     case APPLY_STORY_CANDIDATE_CONFIGURATION:
       if (state.activeStoryId) {
         // case update
@@ -293,24 +304,22 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           }
         }
       };
-    case UPDATE_STORY_CONTENT:
-      return {
-        ...state,
-        stories: {
-          ...state.stories,
-          [action.id]: {
-            ...state.stories[action.id],
-            content: action.content// {...action.content}
-          }
-        }
-      };
+    // case UPDATE_STORY_CONTENT:
+    //   return {
+    //     ...state,
+    //     stories: {
+    //       ...state.stories,
+    //       [action.id]: {
+    //         ...state.stories[action.id],
+    //         content: action.content// {...action.content}
+    //       }
+    //     }
+    //   };
     case EMBED_ASSET:
       // TODO : this should be in a helper
       // building a rawContent representation of story content
       let shadowEditor = state.stories[action.id].content;
       const contentState = shadowEditor.getCurrentContent();
-      // const prevRawContent = state.stories[action.id].content;
-      // const shadowEditor = EditorState.createWithContent(convertFromRaw(prevRawContent));
       // creating the entity
       const newContentState = contentState.createEntity(
         action.metadata.type.toUpperCase(),
@@ -330,7 +339,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       );
       // reconverting the content updated with the entity
       const newContent = EditorWithBlock;// convertToRaw(EditorWithBlock.getCurrentContent());
-      // const newContent = convertToRaw(contentStateWithLink);
       return {
         ...state,
         stories: {
@@ -503,17 +511,36 @@ function storyImport(state = STORY_IMPORT_DEFAULT_STATE, action) {
       return state;
   }
 }
+
+const editors = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_STORY_CONTENT:
+      return {
+        [action.id]: action.content
+      };
+    default:
+      return state;
+  }
+};
+
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default persistentReducer(
-  combineReducers({
-      stories,
-      storiesUi,
-      storyImport
-  }),
-  'fonio-stories'
-);
+export default combineReducers({
+  stories: persistentReducer(stories, 'fonio-stories'),
+  storiesUi: persistentReducer(storiesUi, 'fonio-stories-ui'),
+  storyImport,
+  editors
+});
+
+// export default persistentReducer(
+//   combineReducers({
+//       stories,
+//       storiesUi,
+//       storyImport
+//   }),
+//   'fonio-stories'
+// );
 
 /*
  * Selectors
@@ -527,6 +554,7 @@ const importStatus = state => state.storyImport.importStatus;
 const importError = state => state.storyImport.importError;
 const importCandidate = state => state.storyImport.importCandidate;
 const importFromUrlCandidate = state => state.storyImport.importFromUrlCandidate;
+const editorStates = state => state.editors;
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
@@ -542,5 +570,6 @@ export const selector = createStructuredSelector({
 
   storiesList,
   promptedToDeleteId,
+  editorStates,
 });
 

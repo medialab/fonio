@@ -58,7 +58,9 @@ export function retrieveMediaMetadata (url, credentials = {}) {
               .redirects(2)
               .end((error, res) => {
                 if (error) {
-                  return resolve({url});
+                  return resolve({url, metadata: {
+                    videoUrl: url
+                  }});
                 }
                 const info = res.body && res.body.items && res.body.items[0] && res.body.items[0].snippet;
                 return resolve({
@@ -66,17 +68,22 @@ export function retrieveMediaMetadata (url, credentials = {}) {
                   metadata: {
                     description: info.description,
                     source: info.channelTitle + ` (youtube: ${url})`,
-                    title: info.title
+                    title: info.title,
+                    videoUrl: url
                   }
                 });
               });
       }
  else {
-        return resolve({url});
+        return resolve({url, metadata: {
+        videoUrl: url
+      }});
       }
     }
  else {
-        return resolve({url});
+        return resolve({url, metadata: {
+        videoUrl: url
+      }});
       }
     }
  else if (url.match(vimeoRegexp)) {
@@ -85,7 +92,9 @@ export function retrieveMediaMetadata (url, credentials = {}) {
         .set('Accept', 'application/json')
         .end((error, res) => {
           if (error) {
-            return resolve({url});
+            return resolve({url, metadata: {
+        videoUrl: url
+      }});
           }
           const data = res.body;
           resolve({
@@ -93,13 +102,16 @@ export function retrieveMediaMetadata (url, credentials = {}) {
             metadata: {
               source: data.author_name + ` (vimeo: ${url})`,
               title: data.title,
-              description: data.description
+              description: data.description,
+              videoUrl: url
             }
           });
         });
     }
  else {
-      return resolve({url});
+      return resolve({url, metadata: {
+        videoUrl: url
+      }});
     }
   });
 }

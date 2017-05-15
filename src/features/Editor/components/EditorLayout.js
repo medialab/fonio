@@ -7,7 +7,9 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
 import {
-  convertToRaw
+  convertToRaw,
+  convertFromRaw,
+  EditorState
 } from 'draft-js';
 
 import StoryPlayer from 'quinoa-story-player';
@@ -62,6 +64,7 @@ const EditorLayout = ({
   // edited story state
   activeStoryId,
   activeStory,
+  editorStates,
 
   // actions
   returnToLanding,
@@ -70,7 +73,7 @@ const EditorLayout = ({
     closeTakeAwayModal,
     setUiMode,
     setLanguage,
-    updateStoryContent,
+    // updateStoryContent,
     updateStoryMetadataField,
     promptAssetEmbed,
     updateAsset,
@@ -78,6 +81,7 @@ const EditorLayout = ({
   },
   openSettings,
   closeAndResetDialog,
+  updateStoryContent,
 }, context) => {
 
   const closeModal = () => {
@@ -102,6 +106,16 @@ const EditorLayout = ({
     updateStoryContent(activeStory.id, content);
   };
   const onTitleChange = (e) => updateStoryMetadataField(activeStory.id, 'title', e.target.value);
+  let editorState;
+  if (editorStates[activeStoryId]) {
+    editorState = editorStates[activeStoryId];
+  }
+ else if (activeStory && activeStory.content) {
+    editorState = EditorState.createWithContent(convertFromRaw(activeStory.content));
+  }
+ else {
+    EditorState.createEmpty();
+  }
   return (<div id={id} className={className}>
     {activeStoryId ?
       <div className={className}>
@@ -122,15 +136,15 @@ const EditorLayout = ({
                   placeholder={translate('story-title')} />
               </h1>
 
-              <DraftEditor
+              {EditorState && <DraftEditor
                 update={onStoryUpdate}
-                content={activeStory.content}
+                content={editorState}
                 assets={activeStory.assets}
                 onAssetPrompted={promptAssetEmbed}
                 storyId={activeStoryId}
                 updateAsset={updateAsset}
                 embedAsset={embedAsset}
-                translate={translate} />
+                translate={translate} />}
             </div>
           </section>
         :

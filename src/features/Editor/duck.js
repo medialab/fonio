@@ -34,7 +34,7 @@ const SET_UI_MODE = '$Fonio/Editor/SET_UI_MODE';
  */
 export const UPDATE_STORY_CONTENT = '$Fonio/Editor/UPDATE_STORY_CONTENT';
 export const UPDATE_STORY_METADATA_FIELD = '$Fonio/Editor/UPDATE_STORY_METADATA_FIELD';
-
+export const SERIALIZE_EDITOR_CONTENT = 'SERIALIZE_EDITOR_CONTENT';
 
 export const PROMPT_ASSET_EMBED = '$Fonio/Editor/PROMPT_ASSET_EMBED';
 export const UNPROMPT_ASSET_EMBED = '$Fonio/Editor/UNPROMPT_ASSET_EMBED';
@@ -42,6 +42,12 @@ export const EMBED_ASSET = '§Fonio/AssetsManager/EMBED_ASSET';
 /*
  * Action creators
  */
+
+export const serializeStoryContent = (id, content) => ({
+  type: SERIALIZE_EDITOR_CONTENT,
+  content,
+  id
+});
 
 /**
  * @param {object} story - the data to use for bootstrapping story configuration

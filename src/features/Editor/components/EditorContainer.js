@@ -8,6 +8,8 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {setLanguage} from 'redux-i18n';
 
+import {debounce} from 'lodash';
+
 import EditorLayout from './EditorLayout';
 import * as duck from '../duck';
 import * as managerDuck from '../../StoriesManager/duck';
@@ -54,9 +56,15 @@ class EditorContainer extends Component {
     this.closeAndResetDialog = this.closeAndResetDialog.bind(this);
     this.returnToLanding = this.returnToLanding.bind(this);
     this.openSettings = this.openSettings.bind(this);
+    this.updateStoryContent = this.updateStoryContent.bind(this);
+
+    this.updateStoryContentDebounced = debounce(this.updateStoryContentDebounced, 1000);
   }
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps) {
+    if (this.props.serializedStories !== nextProps.serializedStories) {
+      return false;
+    }
     return true;
   }
 
@@ -73,13 +81,23 @@ class EditorContainer extends Component {
     this.props.actions.startStoryCandidateConfiguration(this.props.activeStory);
   }
 
+  updateStoryContentDebounced (id, content) {
+    this.props.actions.serializeStoryContent(id, content);
+  }
+
+  updateStoryContent (id, content) {
+    this.props.actions.updateStoryContent(id, content);
+    this.updateStoryContentDebounced(id, content);
+  }
+
   render() {
     return (
       <EditorLayout
         {...this.props}
         openSettings={this.openSettings}
         closeAndResetDialog={this.closeAndResetDialog}
-        returnToLanding={this.returnToLanding} />
+        returnToLanding={this.returnToLanding}
+        updateStoryContent={this.updateStoryContent} />
     );
   }
 }
