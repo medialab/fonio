@@ -24,6 +24,10 @@ import {
   embedAsset
 } from '../../AssetsManager/duck';
 
+import {
+  insertAssetInEditor
+} from '../../../helpers/draftUtils';
+
 /**
  * Redux-decorated component class rendering the takeaway dialog feature to the app
  */
@@ -57,12 +61,13 @@ class EditorContainer extends Component {
     this.returnToLanding = this.returnToLanding.bind(this);
     this.openSettings = this.openSettings.bind(this);
     this.updateStoryContent = this.updateStoryContent.bind(this);
+    this.embedAsset = this.embedAsset.bind(this);
 
     this.updateStoryContentDebounced = debounce(this.updateStoryContentDebounced, 1000);
   }
 
   shouldComponentUpdate(nextProps) {
-    if (this.props.serializedStories !== nextProps.serializedStories) {
+    if (this.props.activeStory && this.props.activeStory.content && this.props.activeStory.content !== nextProps.activeStory.content) {
       return false;
     }
     return true;
@@ -90,6 +95,12 @@ class EditorContainer extends Component {
     this.updateStoryContentDebounced(id, content);
   }
 
+  embedAsset (editor, id, assetId, metadata, atSelection) {
+    const editorState = insertAssetInEditor(editor, metadata, atSelection);
+    this.props.actions.updateStoryContent(this.props.activeStoryId, editorState);
+    this.updateStoryContentDebounced(this.props.activeStoryId, editorState);
+  }
+
   render() {
     return (
       <EditorLayout
@@ -97,7 +108,8 @@ class EditorContainer extends Component {
         openSettings={this.openSettings}
         closeAndResetDialog={this.closeAndResetDialog}
         returnToLanding={this.returnToLanding}
-        updateStoryContent={this.updateStoryContent} />
+        updateStoryContent={this.updateStoryContent}
+        embedAsset={this.embedAsset} />
     );
   }
 }

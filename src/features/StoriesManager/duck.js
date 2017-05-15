@@ -14,8 +14,6 @@ import {serverUrl} from '../../../secrets';
 
 import {
   convertToRaw,
-  EditorState,
-  AtomicBlockUtils,
 } from 'draft-js';
 
 /*
@@ -28,7 +26,6 @@ import {
   SET_ACTIVE_STORY,
   UPDATE_STORY_CONTENT,
   UPDATE_STORY_METADATA_FIELD,
-  EMBED_ASSET,
   SERIALIZE_EDITOR_CONTENT
 } from '../Editor/duck';
 
@@ -303,51 +300,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
             }
           }
         }
-      };
-    // case UPDATE_STORY_CONTENT:
-    //   return {
-    //     ...state,
-    //     stories: {
-    //       ...state.stories,
-    //       [action.id]: {
-    //         ...state.stories[action.id],
-    //         content: action.content// {...action.content}
-    //       }
-    //     }
-    //   };
-    case EMBED_ASSET:
-      // TODO : this should be in a helper
-      // building a rawContent representation of story content
-      let shadowEditor = state.stories[action.id].content;
-      const contentState = shadowEditor.getCurrentContent();
-      // creating the entity
-      const newContentState = contentState.createEntity(
-        action.metadata.type.toUpperCase(),
-        'MUTABLE',
-        {
-          id: action.metadata.id
-          // ...action.metadata
-        }
-      );
-      shadowEditor = EditorState.createWithContent(newContentState);
-      const newEntityKey = newContentState.getLastCreatedEntityKey();
-      // inserting the entity as an atomic block
-      const EditorWithBlock = AtomicBlockUtils.insertAtomicBlock(
-        EditorState.forceSelection(shadowEditor, action.atSelection),
-        newEntityKey,
-        ' '
-      );
-      // reconverting the content updated with the entity
-      const newContent = EditorWithBlock;// convertToRaw(EditorWithBlock.getCurrentContent());
-      return {
-        ...state,
-        stories: {
-          ...state.stories,
-          [action.id]: {
-            ...state.stories[action.id],
-            content: newContent
-          }
-        },
       };
     case UPDATE_STORY_METADATA_FIELD:
     return {

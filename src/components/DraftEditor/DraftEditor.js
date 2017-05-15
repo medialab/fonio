@@ -177,7 +177,7 @@ export default class QuinoaDraftEditor extends Component {
       if (assetId) {
         const metadata = this.props.assets[assetId] && this.props.assets[assetId].metadata;
         const atSelection = this.state.editorState.getSelection();
-        this.props.embedAsset(this.props.storyId, assetId, metadata, atSelection);
+        this.props.embedAsset(this.state.editorState, this.props.storyId, assetId, metadata, atSelection);
         // this.editorComponent.focus();
       }
     };

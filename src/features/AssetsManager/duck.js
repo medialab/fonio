@@ -58,8 +58,9 @@ export const CREATE_ASSET = '§Fonio/AssetsManager/CREATE_ASSET';
 export const DELETE_ASSET = '§Fonio/AssetsManager/DELETE_ASSET';
 export const UPDATE_ASSET = '§Fonio/AssetsManager/UPDATE_ASSET';
 
-export const embedAsset = (id, assetId, metadata, atSelection) => ({
+export const embedAsset = (editor, id, assetId, metadata, atSelection) => ({
   type: EMBED_ASSET,
+  editor,
   id,
   assetId,
   metadata,

@@ -77,11 +77,12 @@ const EditorLayout = ({
     updateStoryMetadataField,
     promptAssetEmbed,
     updateAsset,
-    embedAsset
+    // embedAsset
   },
   openSettings,
   closeAndResetDialog,
   updateStoryContent,
+  embedAsset
 }, context) => {
 
   const closeModal = () => {
