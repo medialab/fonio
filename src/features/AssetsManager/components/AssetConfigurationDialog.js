@@ -13,7 +13,6 @@ import AssetPreview from '../../../components/AssetPreview/AssetPreview';
 
 import './AssetConfigurationDialog.scss';
 
-
 const AssetDataInput = ({
   type,
   submitAssetData,
@@ -51,6 +50,16 @@ const AssetDataInput = ({
           onDrop={onPresentationSubmit}>
           <div>
             <p>{translate('drop-a-file-here')}</p>
+          </div>
+        </DropZone>
+      );
+    case 'bib':
+      const onBibTeXSubmit = (files) => submitAssetData('bibTeXFile', files[0]);
+      return (
+        <DropZone
+          onDrop={onBibTeXSubmit}>
+          <div>
+            <p>{translate('drop-bibtex-here')}</p>
           </div>
         </DropZone>
       );
@@ -142,6 +151,14 @@ const AssetConfigurationDialog = ({
         {translate('asset-type-embed-help')}
       </HelpPin></span>),
       possible: true
+    },
+    {
+      id: 'bib',
+      icon: require('../assets/bib.svg'),
+      label: (<span>{translate('asset-type-bib')} <HelpPin position="left">
+        {translate('asset-type-bib-help')}
+      </HelpPin></span>),
+      possible: true
     }
 
   ];
@@ -149,8 +166,25 @@ const AssetConfigurationDialog = ({
     if (assetCandidateId) {
       updateAsset(assetCandidateId, assetCandidate);
     }
-  else {
-      createAsset(assetCandidate);
+    else {
+      // special case of batch references
+      if (assetCandidate.metadata.type === 'bib') {
+        assetCandidate.data.forEach(bib => {
+          const asset = {
+            metadata: {
+              ...bib,
+              // title: bib.title,
+              type: 'bib'
+            },
+            data: [bib]
+          };
+          createAsset(asset);
+        });
+
+      }
+ else {
+        createAsset(assetCandidate);
+      }
     }
   };
   const onAssetTypeSelect = (asset) => setAssetCandidateType(asset.id);

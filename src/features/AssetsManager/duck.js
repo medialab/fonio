@@ -12,6 +12,7 @@ import {
   fileIsAnImage,
   inferMetadata,
   retrieveMediaMetadata,
+  parseBibTeXToCSLJSON,
   videoUrlIsValid,
   loadImage
 } from '../../helpers/assetsUtils';
@@ -154,6 +155,16 @@ export const submitAssetData = (type, data) => ({
           });
         case 'htmlCode':
           return resolve(data);
+        case 'bibTeXFile':
+          return getFileAsText(data, (err, str) => {
+            const csl = parseBibTeXToCSLJSON(str);
+            setTimeout(() => {
+              dispatch({
+                type: SUBMIT_ASSET_DATA + '_RESET'
+                });
+              }, 2000);
+            resolve(csl);
+          });
         default:
           reject('unkown input type');
       }

@@ -2,6 +2,8 @@ import {
   get
 } from 'superagent';
 
+import Cite from 'citation-js';
+
 export function fileIsAnImage(file) {
   return new Promise((resolve, reject) => {
     const validExtensions = ['gif', 'png', 'jpeg', 'jpg'];
@@ -114,6 +116,20 @@ export function retrieveMediaMetadata (url, credentials = {}) {
       }});
     }
   });
+}
+
+export function parseBibTeXToCSLJSON (str) {
+  // forcing references separation to parse a maximum of references, even with shitty formatting
+  const refs = str.split('\n\n');
+  return refs.reduce((result, ref) => {
+    return [
+      ...result,
+      ...new Cite(ref).get({
+        type: 'json',
+        style: 'csl'
+      })
+    ];
+  }, []);
 }
 
 export function inferMetadata(data, assetType) {

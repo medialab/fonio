@@ -6,6 +6,7 @@
 import React, {Component} from 'react';
 import {Media, Player} from 'react-media-player';
 import QuinoaPresentationPlayer from 'quinoa-presentation-player';
+import BibliographicPreview from '../BibliographicPreview/BibliographicPreview';
 
 import './AssetPreview.scss';
 
@@ -23,10 +24,10 @@ class EmbedContainer extends Component {
     const {
       html
     } = this.props;
-    return <div
-          dangerouslySetInnerHTML={{
+    return (<div
+      dangerouslySetInnerHTML={{
             __html: html
-          }} />
+          }} />);
   }
 }
 
@@ -51,6 +52,15 @@ const AssetPreview = ({
     case 'embed':
       return (
         <EmbedContainer html={data} />
+      );
+    case 'bib':
+      const items = data.reduce((result, item) => ({
+        ...result,
+        [item.id]: item
+      }), {});
+      return (
+        <BibliographicPreview
+          items={items} />
       );
     default:
       return null;
