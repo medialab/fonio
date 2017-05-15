@@ -3,11 +3,32 @@
  * This module provides a asset preview element component
  * @module fonio/components/AssetPreview
  */
-import React from 'react';
+import React, {Component} from 'react';
 import {Media, Player} from 'react-media-player';
 import QuinoaPresentationPlayer from 'quinoa-presentation-player';
 
 import './AssetPreview.scss';
+
+class EmbedContainer extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.html !== nextProps.html;
+  }
+
+  render() {
+    const {
+      html
+    } = this.props;
+    return <div
+          dangerouslySetInnerHTML={{
+            __html: html
+          }} />
+  }
+}
 
 const AssetPreview = ({
   type,
@@ -29,10 +50,7 @@ const AssetPreview = ({
       );
     case 'embed':
       return (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: data
-          }} />
+        <EmbedContainer html={data} />
       );
     default:
       return null;
