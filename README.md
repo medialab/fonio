@@ -48,4 +48,6 @@ For now Fnoio deploys to a [surge](http://surge.sh/) instance for preproduction 
 npm run deploy
 ```
 
-Fonio does not need a backend for composing presentations and storing them on the localStorage. Nevertheless, Fonio needs an instance of [quinoa server](https://github.com/medialab/quinoa-server) application available in order to be able to handle all-in-one html bundling, oAuth connection to github/gist and exports to distant server.
+Fonio does not need a backend for composing presentations and storing them on the localStorage. Nevertheless, Fonio needs an instance of [quinoa server](https://github.com/medialab/quinoa-server) application available in order to be able to handle all-in-one html bundling, oAuth connection to github/gist and exports to distant server. 
+
+It also needs a [youtube API key](https://developers.google.com/youtube/registering_an_application) if you want to be able to retrieve metadata from youtube assets.

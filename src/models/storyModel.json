@@ -26,9 +26,14 @@
                     "required": false
                 },
                 "gistId": {
-                    "type": "string"
+                    "type": "string",
+                    "required": false
                 }
             }
+        },
+        "content": {
+            "type": "object",
+            "required": true
         },
         "assets": {
             "type": "object",

@@ -1,4 +1,6 @@
-
+import {
+  get
+} from 'superagent';
 
 export function fileIsAnImage(file) {
   return new Promise((resolve, reject) => {
@@ -39,4 +41,88 @@ export function loadImage(file) {
     };
     reader.readAsDataURL(file);
   });
+}
+
+const youtubeRegexp = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/gi;
+const vimeoRegexp = /^(https?\:\/\/)?(www\.)?(vimeo\.com)/gi;
+export function retrieveMediaMetadata (url, credentials = {}) {
+  return new Promise((resolve) => {
+    if (url.match(youtubeRegexp)) {
+      if (credentials.youtubeAPIKey) {
+        let videoId = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+        if (videoId !== null) {
+           videoId = videoId[1];
+            const endPoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${videoId}&key=${credentials.youtubeAPIKey}`;
+            get(endPoint)
+              .set('Accept', 'application/json')
+              .redirects(2)
+              .end((error, res) => {
+                if (error) {
+                  return resolve({url});
+                }
+                const info = res.body && res.body.items && res.body.items[0] && res.body.items[0].snippet;
+                return resolve({
+                  url,
+                  metadata: {
+                    description: info.description,
+                    source: info.channelTitle + ` (youtube: ${url})`,
+                    title: info.title
+                  }
+                });
+              });
+      }
+ else {
+        return resolve({url});
+      }
+    }
+ else {
+        return resolve({url});
+      }
+    }
+ else if (url.match(vimeoRegexp)) {
+      const endpoint = 'https://vimeo.com/api/oembed.json?url=' + url;
+      get(endpoint)
+        .set('Accept', 'application/json')
+        .end((error, res) => {
+          if (error) {
+            return resolve({url});
+          }
+          const data = res.body;
+          resolve({
+            url,
+            metadata: {
+              source: data.author_name + ` (vimeo: ${url})`,
+              title: data.title,
+              description: data.description
+            }
+          });
+        });
+    }
+ else {
+      return resolve({url});
+    }
+  });
+}
+
+export function inferMetadata(data, assetType) {
+  switch (assetType) {
+    case 'video':
+      if (data.metadata) {
+        return {...data.metadata};
+      }
+      return {
+      };
+    case 'data-presentation':
+      return {...data.metadata};
+    case 'image':
+      let title = data && data.file && data.file.name && data.file.name.split('.');
+      if (title) {
+        title.pop();
+        title = title.join('.');
+      }
+      return {title};
+    case 'embed':
+    default:
+      return {};
+  }
 }

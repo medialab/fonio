@@ -21,7 +21,8 @@ const BigSelect = ({
             onOptionSelect(option);
           };
           return (
-            <div className={'option ' + (option.possible ? 'possible ' : 'impossible') + (option.id === activeOptionId ? 'active' : '')}
+            <div
+              className={'option ' + (option.possible ? 'possible ' : 'impossible') + (option.id === activeOptionId ? 'active' : '')}
               key={key}>
               <input
                 type="radio"

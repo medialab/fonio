@@ -10,6 +10,8 @@ import {persistentReducer} from 'redux-pouchdb';
 
 import {
   fileIsAnImage,
+  inferMetadata,
+  retrieveMediaMetadata,
   videoUrlIsValid,
   loadImage
 } from '../../helpers/assetsUtils';
@@ -17,6 +19,10 @@ import {
 import {
   getFileAsText
 } from '../../helpers/fileLoader';
+
+import {
+  youtubeAPIKey
+} from '../../../secrets';
 
 /*
  * Action names
@@ -88,25 +94,27 @@ export const submitAssetData = (type, data) => ({
     return new Promise((resolve, reject) => {
       switch (type) {
         case 'imageFile':
+          let file;
           return fileIsAnImage(data)
-            .then(file => {
+            .then(fileF => {
               setTimeout(() => {
                 dispatch({
                   type: SUBMIT_ASSET_DATA + '_RESET'
                 });
               }, 2000);
-              return file;
+              return fileF;
             })
-            .then(file => {
-              return loadImage(file);
+            .then(fileI => {
+              file = fileI;
+              return loadImage(fileI);
             })
-            .then(base64 => {
+            .then((base64) => {
               setTimeout(() => {
                 dispatch({
                   type: SUBMIT_ASSET_DATA + '_RESET'
                 });
               }, 2000);
-              resolve(base64);
+              resolve({base64, file});
             })
             .catch(e => {
               reject(e);
@@ -118,13 +126,14 @@ export const submitAssetData = (type, data) => ({
             });
         case 'videoUrl':
           return videoUrlIsValid(data)
-            .then(() => {
+            .then(() => retrieveMediaMetadata(data, {youtubeAPIKey}))
+            .then((info) => {
               setTimeout(() => {
               dispatch({
                 type: SUBMIT_ASSET_DATA + '_RESET'
                 });
               }, 2000);
-              return resolve(data);
+              return resolve(info);
             })
             .catch(e => reject(e));
         case 'dataPresentationFile':
@@ -320,11 +329,19 @@ function assetsUi (state = ASSETS_UI_DEFAULT_STATE, action) {
         assetDataLoadingState: 'processing'
       };
     case SUBMIT_ASSET_DATA + '_SUCCESS':
+      const inferedMetadata = inferMetadata(action.result, state.assetCandidate.metadata.type);
+      const metadata = Object.keys(inferedMetadata).reduce((result, key) => {
+        if (inferedMetadata[key] && (!result[key] || !result[key].length)) {
+          result[key] = inferedMetadata[key];
+        }
+        return result;
+      }, state.assetCandidate.metadata);
       return {
         ...state,
         assetDataLoadingState: 'success',
         assetCandidate: {
           ...state.assetCandidate,
+          metadata,
           data: action.result
         }
       };

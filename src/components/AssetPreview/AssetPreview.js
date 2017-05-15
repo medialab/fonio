@@ -15,11 +15,11 @@ const AssetPreview = ({
 }) => {
   switch (type) {
     case 'image':
-      return <img src={data} />;
+      return <img src={data.base64} />;
     case 'video':
       return (
         <Media>
-          <Player src={data} />
+          <Player src={data.url} />
         </Media>
       );
     case 'data-presentation':
