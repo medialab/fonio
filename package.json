@@ -42,7 +42,7 @@
     "draft-js": "^0.10.0",
     "draft-js-dnd-plugin": "^2.0.0-beta1",
     "draft-js-inline-toolbar-plugin": "^2.0.0-beta10",
-    "draft-js-markdown-shortcuts-plugin": "^0.1.0",
+    "draft-js-markdown-shortcuts-plugin": "^0.2.0",
     "draft-js-plugins": "git+https://github.com/robindemourat/draft-js-plugins/",
     "draft-js-plugins-editor": "^2.0.0-beta9",
     "draft-js-richbuttons-plugin": "^2.0.0",
@@ -86,7 +86,7 @@
     "csscomb": "^4.0.1",
     "enzyme": "^2.4.1",
     "eslint": "^3.7.1",
-    "eslint-plugin-react": "^6.3.0",
+    "eslint-plugin-react": "^7.0.1",
     "file-loader": "^0.11.1",
     "image-webpack-loader": "^3.3.0",
     "kotatsu": "^0.15.0",
@@ -98,7 +98,7 @@
     "raw-loader": "^0.5.1",
     "react-addons-test-utils": "^15.3.2",
     "sass-loader": "^6.0.3",
-    "style-loader": "^0.16.1",
+    "style-loader": "^0.17.0",
     "wrench": "^1.5.9"
   },
   "babel": {
