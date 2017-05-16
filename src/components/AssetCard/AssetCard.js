@@ -57,7 +57,7 @@ const AssetCard = ({
           <span className="title">{metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset')}</span>
         </h5>
       </div>
-      <div
+      {/*<div
         className="card-body">
         <div className="info-column">
           <p className="description">
@@ -65,7 +65,7 @@ const AssetCard = ({
           </p>
         </div>
         <div className="buttons-column" />
-      </div>
+      </div>*/}
       <div className="card-footer">
         <button className="settings-btn" onClick={onConfigureClick}>
           <img src={require('./assets/settings.svg')} className="fonio-icon-image" />

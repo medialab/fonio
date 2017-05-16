@@ -56,7 +56,11 @@ const ConfigurationDialogLayout = ({
   editedColor
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.ConfigurationDialog');
-  const onApplyChange = () => applyStoryCandidateConfiguration(storyCandidate);
+  const onApplyChange = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    applyStoryCandidateConfiguration(storyCandidate);
+  };
   const setStoryTitle = (e) => setCandidateStoryMetadata('title', e.target.value);
   const setStoryAuthors = (e) => setCandidateStoryMetadata('authors', e.target.value);
   const setStoryDescription = (e) => setCandidateStoryMetadata('description', e.target.value);
@@ -75,7 +79,9 @@ const ConfigurationDialogLayout = ({
               {translate('what-is-your-story-about-help')}
             </HelpPin>
           </h2>
-          <form className="modal-columns-container">
+          <form 
+            className="modal-columns-container"
+          >
             <div className="modal-column">
               <div className="input-group">
                 <label htmlFor="title">{translate('title-of-the-story')}</label>

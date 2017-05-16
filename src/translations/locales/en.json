@@ -113,5 +113,8 @@
   "Features.ConfigurationDialog.run-spatialization": "run-spatialization",
   "Features.ConfigurationDialog.run-spatialization-help": "run-spatialization-help",
   "Features.ConfigurationDialog.save-nodes-positions": "save-nodes-positions",
-  "Features.ConfigurationDialog.save-nodes-positions-help": "save-nodes-positions-help"
+  "Features.ConfigurationDialog.save-nodes-positions-help": "save-nodes-positions-help",
+  "Features.Editor.drop-bibtex-here": "drop-bibtex-here",
+  "Features.Editor.asset-type-bib": "asset-type-bib",
+  "Features.Editor.asset-type-bib-help": "asset-type-bib-help"
 }
