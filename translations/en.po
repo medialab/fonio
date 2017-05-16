@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-4-14\n"
-"PO-Revision-Date: Fri Apr 14 2017 09:48:07 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-5-16\n"
+"PO-Revision-Date: Tue May 16 2017 11:23:45 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -355,3 +355,12 @@ msgstr "save-nodes-positions"
 
 msgid "Features.ConfigurationDialog.save-nodes-positions-help"
 msgstr "save-nodes-positions-help"
+
+msgid "Features.Editor.drop-bibtex-here"
+msgstr "drop-bibtex-here"
+
+msgid "Features.Editor.asset-type-bib"
+msgstr "asset-type-bib"
+
+msgid "Features.Editor.asset-type-bib-help"
+msgstr "asset-type-bib-help"

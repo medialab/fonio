@@ -3,10 +3,10 @@ var webpack = require('webpack');
 module.exports = {
   module: {
     rules: [
-      { 
-        test: /\.(csv|gexf)$/, 
-        loader: 'raw-loader' 
-      },
+      // { 
+      //   test: /\.(csv|gexf)$/, 
+      //   loader: 'raw-loader' 
+      // },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         // use: [
@@ -22,22 +22,22 @@ module.exports = {
               }
             }
           },
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              query: {
-                mozjpeg: {
-                  progressive: true,
-                },
-                gifsicle: {
-                  interlaced: true,
-                },
-                optipng: {
-                  optimizationLevel: 7,
-                }
+        {
+          loader: 'image-webpack-loader',
+          options: {
+            query: {
+              mozjpeg: {
+                progressive: true,
+              },
+              gifsicle: {
+                interlaced: true,
+              },
+              optipng: {
+                optimizationLevel: 7,
               }
             }
-          }]
+          }
+        }]
       },
       {
         test: /\.scss$/,
@@ -55,6 +55,6 @@ module.exports = {
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new webpack.optimize.UglifyJsPlugin()
+    // new webpack.optimize.UglifyJsPlugin()
   ]
 };
