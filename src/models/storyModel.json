@@ -2,11 +2,12 @@
     "type": "object",
     "keys": {
         "id": {
-            "type": "string",
+            "type": "uuid",
             "required": true
         },
         "type": {
             "type":"string",
+            "default": "quinoa-story",
             "required": true
         },
         "metadata": {
@@ -15,15 +16,15 @@
             "keys": {
                 "title": {
                     "type": "string",
-                    "required": false
+                    "required": true
                 },
                 "description": {
                     "type": "string",
-                    "required": false
+                    "required": true
                 },
                 "authors": {
                     "type": "array",
-                    "required": false
+                    "required": true
                 },
                 "gistId": {
                     "type": "string",
@@ -31,11 +32,11 @@
                 }
             }
         },
-        "content": {
-            "type": "object",
+        "sectionsOrder": {
+            "type": "array",
             "required": true
         },
-        "assets": {
+        "sections": {
             "type": "object",
             "required": true,
             "keys": {
@@ -43,11 +44,77 @@
                     "type": "object",
                     "keyType": "uuid",
                     "keys": {
-                        "metadata": {
+                        "contents": {
                             "type": "object",
+                            "required": true
+                        },
+                        "notes": {
+                            "type": "object",
+                            "required": true,
+                            "keys": {
+                                "$each": {
+                                    "type": "object",
+                                    "keyType": "uuid"
+                                }
+                            }
+                        },
+                        "notesOrder": {
+                            "type": "array",
                             "required": true
                         }
                     }
+                }
+            }
+        },
+        "resources": {
+            "type": "object",
+            "required": true,
+            "keys": {
+                "$each": {
+                    "type": "object",
+                    "keyType": "uuid"
+                }
+            }
+        },
+        "contextualizations": {
+            "type": "object",
+            "required": true,
+            "keys": {
+                "$each": {
+                    "type": "object",
+                    "keyType": "uuid"
+                }
+            }
+        },
+        "contextualizers": {
+            "type": "object",
+            "required": true,
+            "keys": {
+                "$each": {
+                    "type": "object",
+                    "keyType": "uuid"
+                }
+            }
+        },
+        "content": {
+            "type": "object",
+            "required": true
+        },
+        "presentationSettings": {
+            "type": "object",
+            "required": true,
+            "keys": {
+                "citationStyle": {
+                    "type": "string"
+                },
+                "citationLocale": {
+                    "type": "string"
+                },
+                "cssCode": {
+                    "type": "string"
+                },
+                "referencesPosition": {
+                    "type": "string"
                 }
             }
         }
