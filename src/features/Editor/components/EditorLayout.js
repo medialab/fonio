@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
 import {
-  convertToRaw,
+  // convertToRaw,
   convertFromRaw,
   EditorState
 } from 'draft-js';
@@ -153,7 +153,7 @@ const EditorLayout = ({
             <StoryPlayer
               story={{
                 ...activeStory,
-                content: convertToRaw(activeStory.content.getCurrentContent())
+                content: activeStory.content // convertToRaw(activeStory.content.getCurrentContent())
               }} />
           </section>
         }
