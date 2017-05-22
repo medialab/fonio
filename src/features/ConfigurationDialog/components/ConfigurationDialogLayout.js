@@ -79,9 +79,8 @@ const ConfigurationDialogLayout = ({
               {translate('what-is-your-story-about-help')}
             </HelpPin>
           </h2>
-          <form 
-            className="modal-columns-container"
-          >
+          <form
+            className="modal-columns-container">
             <div className="modal-column">
               <div className="input-group">
                 <label htmlFor="title">{translate('title-of-the-story')}</label>
