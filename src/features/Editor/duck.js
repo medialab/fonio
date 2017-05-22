@@ -184,6 +184,7 @@ const GLOBAL_UI_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  */
 function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
+
   switch (action.type) {
     case RESET_APP:
       return GLOBAL_UI_DEFAULT_STATE;

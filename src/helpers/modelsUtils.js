@@ -112,7 +112,7 @@ const createDefaultPortion = model => {
   return Object.keys(model).reduce((result, key) => {
     const prop = model[key];
     if (key !== '$each') {
-      switch(prop.type) {
+      switch (prop.type) {
         case 'string':
           result[key] = prop.default || '';
           return result;
@@ -122,7 +122,8 @@ const createDefaultPortion = model => {
         case 'object':
           if (model.keyType !== 'uuid' && prop.keys) {
             result[key] = createDefaultPortion(prop.keys);
-          } else {
+          }
+ else {
             result[key] = {};
           }
           break;
@@ -135,11 +136,11 @@ const createDefaultPortion = model => {
     }
     return result;
   }, {});
-}
+};
 
 export const createDefaultStory = () => {
   return createDefaultPortion(storyModel.keys);
-}
+};
 
 /**
  * Validates the given story
