@@ -67,7 +67,7 @@ class EditorContainer extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (this.props.activeStory && this.props.activeStory.content && nextProps.activeStory && nextProps.activeStory.content && this.props.activeStory.content !== nextProps.activeStory.content) {) {
+    if (this.props.activeStory && this.props.activeStory.content && nextProps.activeStory && nextProps.activeStory.content && this.props.activeStory.content !== nextProps.activeStory.content) {
       return false;
     }
     return true;
