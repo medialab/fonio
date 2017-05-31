@@ -15,7 +15,7 @@ import fonioEditor from './../features/Editor/duck';
 import storyCandidate from './../features/ConfigurationDialog/duck';
 import stories from './../features/StoriesManager/duck';
 import takeAway from './../features/TakeAwayDialog/duck';
-import assetsManager from './../features/AssetsManager/duck';
+import resourcesManager from './../features/ResourcesManager/duck';
 
 import * as modelsModels from './../models';
 
@@ -27,6 +27,6 @@ export default combineReducers({
   stories,
   models,
   takeAway,
-  assetsManager,
+  resourcesManager,
   i18nState: persistentReducer(i18nState, 'i18n')
 });

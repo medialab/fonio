@@ -6,16 +6,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
-import './AssetCard.scss';
+import './ResourceCard.scss';
 
-const AssetCard = ({
+const ResourceCard = ({
   metadata,
   onDelete,
   onConfigure,
   selectMode,
   onSelect
 }, context) => {
-  const translate = translateNameSpacer(context.t, 'Components.AssetCard');
+  const translate = translateNameSpacer(context.t, 'Components.ResourceCard');
   const onDeleteClick = e => {
     e.stopPropagation();
     onDelete();
@@ -48,7 +48,7 @@ const AssetCard = ({
     <li
       draggable
       onDragStart={startDrag}
-      className={'fonio-asset-card' + (selectMode ? ' select-mode' : '')}
+      className={'fonio-resource-card' + (selectMode ? ' select-mode' : '')}
       onClick={onGlobalClick}>
       <div
         className="card-header">
@@ -80,8 +80,8 @@ const AssetCard = ({
   );
 };
 
-AssetCard.contextTypes = {
+ResourceCard.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default AssetCard;
+export default ResourceCard;

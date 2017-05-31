@@ -1,6 +1,6 @@
 /**
  * This module provides a wrapper for displaying assets in fonio editor
- * @module fonio/components/AssetContainer
+ * @module fonio/components/ResourceContainer
  */
 
 import React from 'react';
@@ -10,22 +10,22 @@ import AssetPreview from '../AssetPreview/AssetPreview';
 
 // import {translateNameSpacer} from '../../helpers/translateUtils';
 
-import './AssetContainer.scss';
+import './ResourceContainer.scss';
 
-const AssetContainer = ({
+const ResourceContainer = ({
   block,
   blockProps
 }/*, context*/) => {
 
   const {
     assets,
-    // updateAsset,
+    // updateResource,
     // storyId,
     toggleReadonly,
     currentContent
   } = blockProps;
 
-  // const translate = translateNameSpacer(context.t, 'Components.AssetContainer');
+  // const translate = translateNameSpacer(context.t, 'Components.ResourceContainer');
   const entityId = block.getEntityAt(0);
   if (entityId === null) {
     return null;
@@ -45,14 +45,14 @@ const AssetContainer = ({
   } = asset;
 
   // const updateMetadataField = (key, value) => {
-  //   const newAsset = {
+  //   const newResource = {
   //     ...asset,
   //     metadata: {
   //       ...asset.metadata,
   //       [key]: value
   //     }
   //   };
-  //   updateAsset(storyId, assetId, newAsset);
+  //   updateResource(storyId, assetId, newResource);
   // };
 
   // const onTitleChange = e => updateMetadataField('title', e.target.value);
@@ -69,7 +69,7 @@ const AssetContainer = ({
   };
   return (
     <figure
-      className={'fonio-asset-container ' + metadata.type}
+      className={'fonio-resource-container ' + metadata.type}
       onMouseLeave={onElementBlur}
       onScroll={onScroll}>
       <div
@@ -115,8 +115,8 @@ const AssetContainer = ({
   );
 };
 
-AssetContainer.contextTypes = {
+ResourceContainer.contextTypes = {
     t: PropTypes.func.isRequired
 };
 
-export default AssetContainer;
+export default ResourceContainer;

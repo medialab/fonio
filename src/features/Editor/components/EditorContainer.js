@@ -22,7 +22,7 @@ import {
 import {
   updateAsset,
   embedAsset
-} from '../../AssetsManager/duck';
+} from '../../ResourcesManager/duck';
 
 import {
   insertAssetInEditor

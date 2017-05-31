@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-5-16\n"
-"PO-Revision-Date: Tue May 16 2017 11:23:45 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-5-31\n"
+"PO-Revision-Date: Wed May 31 2017 19:19:54 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -364,3 +364,102 @@ msgstr "asset-type-bib"
 
 msgid "Features.Editor.asset-type-bib-help"
 msgstr "asset-type-bib-help"
+
+msgid "Components.ResourceCard.untitled-asset"
+msgstr "untitled-asset"
+
+msgid "Components.ResourceCard.no-description"
+msgstr "no-description"
+
+msgid "Components.ResourceCard.settings"
+msgstr "settings"
+
+msgid "Components.ResourceCard.delete"
+msgstr "delete"
+
+msgid "Components.ResourceContainer.title"
+msgstr "title"
+
+msgid "Components.ResourceContainer.description"
+msgstr "description"
+
+msgid "Components.ResourceContainer.source"
+msgstr "source"
+
+msgid "Features.Editor.loading-resource-data"
+msgstr "loading-resource-data"
+
+msgid "Features.Editor.loading-resource-data-success"
+msgstr "loading-resource-data-success"
+
+msgid "Features.Editor.loading-resource-data-fail"
+msgstr "loading-resource-data-fail"
+
+msgid "Features.Editor.resource-type-image"
+msgstr "resource-type-image"
+
+msgid "Features.Editor.resource-type-image-help"
+msgstr "resource-type-image-help"
+
+msgid "Features.Editor.resource-type-video"
+msgstr "resource-type-video"
+
+msgid "Features.Editor.resource-type-video-help"
+msgstr "resource-type-video-help"
+
+msgid "Features.Editor.resource-type-data-presentation"
+msgstr "resource-type-data-presentation"
+
+msgid "Features.Editor.resource-type-data-presentation-help"
+msgstr "resource-type-data-presentation-help"
+
+msgid "Features.Editor.resource-type-embed"
+msgstr "resource-type-embed"
+
+msgid "Features.Editor.resource-type-embed-help"
+msgstr "resource-type-embed-help"
+
+msgid "Features.Editor.resource-type-bib"
+msgstr "resource-type-bib"
+
+msgid "Features.Editor.resource-type-bib-help"
+msgstr "resource-type-bib-help"
+
+msgid "Features.Editor.edit-resource"
+msgstr "edit-resource"
+
+msgid "Features.Editor.create-resource"
+msgstr "create-resource"
+
+msgid "Features.Editor.resource-data"
+msgstr "resource-data"
+
+msgid "Features.Editor.resource-data-help"
+msgstr "resource-data-help"
+
+msgid "Features.Editor.resource-metadata"
+msgstr "resource-metadata"
+
+msgid "Features.Editor.resource-metadata-help"
+msgstr "resource-metadata-help"
+
+msgid "Features.Editor.title-of-the-resource"
+msgstr "title-of-the-resource"
+
+msgid "Features.Editor.source-of-the-resource"
+msgstr "source-of-the-resource"
+
+msgid "Features.Editor.description-of-the-resource"
+msgstr "description-of-the-resource"
+
+msgid "Features.Editor.update-resource"
+msgstr "update-resource"
+
+msgid "Features.ResourcesManager.new-resource"
+msgstr "new-resource"
+
+msgid "Features.ResourcesManager.search-in-resources"
+msgstr "search-in-resources"
+
+msgid "Features.ResourcesManager.edit-resource"
+msgstr "edit-resource"

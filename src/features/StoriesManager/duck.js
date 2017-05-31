@@ -30,10 +30,10 @@ import {
 } from '../Editor/duck';
 
 import {
-  CREATE_ASSET,
-  DELETE_ASSET,
-  UPDATE_ASSET
-} from '../AssetsManager/duck';
+  CREATE_RESOURCE,
+  DELETE_RESOURCE,
+  UPDATE_RESOURCE
+} from '../ResourcesManager/duck';
 
 import {
   EXPORT_TO_GIST,
@@ -279,14 +279,14 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         }
       };
     /*
-     * ASSETS-RELATED
+     * RESOURCES-RELATED
      */
-    case UPDATE_ASSET:
-    case CREATE_ASSET:
+    case UPDATE_RESOURCE:
+    case CREATE_RESOURCE:
       const {
         storyId,
-        id: assetId,
-        asset
+        id: resourceId,
+        resource
       } = action;
       return {
         ...state,
@@ -294,9 +294,9 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           ...state.stories,
           [storyId]: {
             ...state.stories[storyId],
-            assets: {
-              ...state.stories[storyId].assets,
-              [assetId]: asset
+            resources: {
+              ...state.stories[storyId].resources,
+              [resourceId]: resource
             }
           }
         }
@@ -315,9 +315,9 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           }
         }
       };
-    case DELETE_ASSET:
+    case DELETE_RESOURCE:
       newState = {...state};
-      delete newState.stories[action.storyId].assets[action.id];
+      delete newState.stories[action.storyId].resources[action.id];
       return newState;
     /*
      * EXPORT-RELATED

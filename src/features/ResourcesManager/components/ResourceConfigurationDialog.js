@@ -11,17 +11,17 @@ import Toaster from '../../../components/Toaster/Toaster';
 import DropZone from '../../../components/DropZone/DropZone';
 import AssetPreview from '../../../components/AssetPreview/AssetPreview';
 
-import './AssetConfigurationDialog.scss';
+import './ResourceConfigurationDialog.scss';
 
-const AssetDataInput = ({
+const ResourceDataInput = ({
   type,
-  submitAssetData,
-  assetCandidate
+  submitResourceData,
+  resourceCandidate
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.Editor');
   switch (type) {
     case 'video':
-      const onVideoUrlSubmit = (e) => submitAssetData('videoUrl', e.target.value);
+      const onVideoUrlSubmit = (e) => submitResourceData('videoUrl', e.target.value);
       return (
         <div className="input-group">
           <label htmlFor="title">{translate('url-of-the-video')}</label>
@@ -30,11 +30,11 @@ const AssetDataInput = ({
             type="text"
             name="url"
             placeholder={translate('url-of-the-video')}
-            value={assetCandidate.metadata.videoUrl} />
+            value={resourceCandidate.metadata.videoUrl} />
         </div>
       );
     case 'image':
-      const onImageSubmit = (files) => submitAssetData('imageFile', files[0]);
+      const onImageSubmit = (files) => submitResourceData('imageFile', files[0]);
       return (
         <DropZone
           onDrop={onImageSubmit}>
@@ -44,7 +44,7 @@ const AssetDataInput = ({
         </DropZone>
       );
     case 'data-presentation':
-      const onPresentationSubmit = (files) => submitAssetData('dataPresentationFile', files[0]);
+      const onPresentationSubmit = (files) => submitResourceData('dataPresentationFile', files[0]);
       return (
         <DropZone
           onDrop={onPresentationSubmit}>
@@ -54,7 +54,7 @@ const AssetDataInput = ({
         </DropZone>
       );
     case 'bib':
-      const onBibTeXSubmit = (files) => submitAssetData('bibTeXFile', files[0]);
+      const onBibTeXSubmit = (files) => submitResourceData('bibTeXFile', files[0]);
       return (
         <DropZone
           onDrop={onBibTeXSubmit}>
@@ -64,7 +64,7 @@ const AssetDataInput = ({
         </DropZone>
       );
     case 'embed':
-      const onEmbedSubmit = (evt) => submitAssetData('htmlCode', evt.target.value);
+      const onEmbedSubmit = (evt) => submitResourceData('htmlCode', evt.target.value);
       return (
         <Textarea
           onChange={onEmbedSubmit}
@@ -72,13 +72,13 @@ const AssetDataInput = ({
           name="description"
           placeholder={translate('paste-embed-code')}
           style={{flex: 1, width: '100%'}}
-          value={assetCandidate.data || ''} />
+          value={resourceCandidate.data || ''} />
       );
     default:
       return null;
   }
 };
-AssetDataInput.contextTypes = {
+ResourceDataInput.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
@@ -89,13 +89,13 @@ const LoadingStateToaster = ({
   let log;
   switch (loadingState) {
     case 'processing':
-      log = translate('loading-asset-data');
+      log = translate('loading-resource-data');
       break;
     case 'success':
-      log = translate('loading-asset-data-success');
+      log = translate('loading-resource-data-success');
       break;
     case 'fail':
-      log = translate('loading-asset-data-fail');
+      log = translate('loading-resource-data-fail');
       break;
     default:
       break;
@@ -106,71 +106,71 @@ LoadingStateToaster.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
-const AssetConfigurationDialog = ({
-  assetCandidate,
-  assetCandidateId,
-  assetCandidateType,
-  setAssetCandidateType,
-  assetDataLoadingState,
-  setAssetCandidateMetadataValue,
-  submitAssetData,
+const ResourceConfigurationDialog = ({
+  resourceCandidate,
+  resourceCandidateId,
+  resourceCandidateType,
+  setResourceCandidateType,
+  resourceDataLoadingState,
+  setResourceCandidateMetadataValue,
+  submitResourceData,
   onClose,
-  createAsset,
-  updateAsset
+  createResource,
+  updateResource
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.Editor');
 
-  const assetsTypes = [
+  const resourcesTypes = [
     {
       id: 'image',
       icon: require('../assets/image.svg'),
-      label: (<span>{translate('asset-type-image')} <HelpPin>
-        {translate('asset-type-image-help')}
+      label: (<span>{translate('resource-type-image')} <HelpPin>
+        {translate('resource-type-image-help')}
       </HelpPin></span>),
       possible: true
     },
     {
       id: 'video',
       icon: require('../assets/video.svg'),
-      label: (<span>{translate('asset-type-video')} <HelpPin>
-        {translate('asset-type-video-help')}
+      label: (<span>{translate('resource-type-video')} <HelpPin>
+        {translate('resource-type-video-help')}
       </HelpPin></span>),
       possible: true
     }, {
       id: 'data-presentation',
       icon: require('../assets/data-presentation.svg'),
-      label: (<span>{translate('asset-type-data-presentation')} <HelpPin>
-        {translate('asset-type-data-presentation-help')}
+      label: (<span>{translate('resource-type-data-presentation')} <HelpPin>
+        {translate('resource-type-data-presentation-help')}
       </HelpPin></span>),
       possible: true
     },
     {
       id: 'embed',
       icon: require('../assets/embed.svg'),
-      label: (<span>{translate('asset-type-embed')} <HelpPin position="left">
-        {translate('asset-type-embed-help')}
+      label: (<span>{translate('resource-type-embed')} <HelpPin position="left">
+        {translate('resource-type-embed-help')}
       </HelpPin></span>),
       possible: true
     },
     {
       id: 'bib',
       icon: require('../assets/bib.svg'),
-      label: (<span>{translate('asset-type-bib')} <HelpPin position="left">
-        {translate('asset-type-bib-help')}
+      label: (<span>{translate('resource-type-bib')} <HelpPin position="left">
+        {translate('resource-type-bib-help')}
       </HelpPin></span>),
       possible: true
     }
 
   ];
   const onApplyChange = () => {
-    if (assetCandidateId) {
-      updateAsset(assetCandidateId, assetCandidate);
+    if (resourceCandidateId) {
+      updateResource(resourceCandidateId, resourceCandidate);
     }
     else {
       // special case of batch references
-      if (assetCandidate.metadata.type === 'bib') {
-        assetCandidate.data.forEach(bib => {
-          const asset = {
+      if (resourceCandidate.metadata.type === 'bib') {
+        resourceCandidate.data.forEach(bib => {
+          const resource = {
             metadata: {
               ...bib,
               // title: bib.title,
@@ -178,99 +178,99 @@ const AssetConfigurationDialog = ({
             },
             data: [bib]
           };
-          createAsset(asset);
+          createResource(resource);
         });
 
       }
  else {
-        createAsset(assetCandidate);
+        createResource(resourceCandidate);
       }
     }
   };
-  const onAssetTypeSelect = (asset) => setAssetCandidateType(asset.id);
-  const setAssetTitle = (e) => setAssetCandidateMetadataValue('title', e.target.value);
-  const setAssetDescription = (e) => setAssetCandidateMetadataValue('description', e.target.value);
-  const setAssetSource = (e) => setAssetCandidateMetadataValue('source', e.target.value);
+  const onResourceTypeSelect = (resource) => setResourceCandidateType(resource.id);
+  const setResourceTitle = (e) => setResourceCandidateMetadataValue('title', e.target.value);
+  const setResourceDescription = (e) => setResourceCandidateMetadataValue('description', e.target.value);
+  const setResourceSource = (e) => setResourceCandidateMetadataValue('source', e.target.value);
   return (
-    <div className="fonio-asset-configuration-dialog">
+    <div className="fonio-resource-configuration-dialog">
       <h1 className="modal-header">
-        {assetCandidateId ? translate('edit-asset') : translate('create-asset')}
+        {resourceCandidateId ? translate('edit-resource') : translate('create-resource')}
       </h1>
       <section className="modal-content">
-        {assetCandidateId === undefined ?
+        {resourceCandidateId === undefined ?
           <section className="modal-row">
             <BigSelect
-              options={assetsTypes}
-              activeOptionId={assetCandidateType}
-              onOptionSelect={onAssetTypeSelect} />
+              options={resourcesTypes}
+              activeOptionId={resourceCandidateType}
+              onOptionSelect={onResourceTypeSelect} />
           </section> : null}
-        {assetCandidateType ?
+        {resourceCandidateType ?
           <section className="modal-row">
-            <h2>{translate('asset-data')}
+            <h2>{translate('resource-data')}
               <HelpPin>
-                {translate('asset-data-help')}
+                {translate('resource-data-help')}
               </HelpPin>
             </h2>
             <div className="data-row">
               <div className="modal-column">
-                <AssetDataInput
-                  type={assetCandidateType}
-                  assetCandidate={assetCandidate}
-                  submitAssetData={submitAssetData} />
-                <LoadingStateToaster loadingState={assetDataLoadingState} />
+                <ResourceDataInput
+                  type={resourceCandidateType}
+                  resourceCandidate={resourceCandidate}
+                  submitResourceData={submitResourceData} />
+                <LoadingStateToaster loadingState={resourceDataLoadingState} />
               </div>
               {
-                assetCandidate.data ?
+                resourceCandidate.data ?
                 (<div className="modal-column preview-container">
                   <AssetPreview
-                    type={assetCandidateType}
-                    data={assetCandidate.data} />
+                    type={resourceCandidateType}
+                    data={resourceCandidate.data} />
                 </div>)
                 : null
               }
             </div>
           </section>
           : null}
-        {assetCandidateType ?
+        {resourceCandidateType ?
           <section className="modal-row">
-            <h2>{translate('asset-metadata')}
+            <h2>{translate('resource-metadata')}
               <HelpPin>
-                {translate('asset-metadata-help')}
+                {translate('resource-metadata-help')}
               </HelpPin>
             </h2>
             <form className="modal-columns-container">
               <div className="modal-column">
                 <div className="input-group">
-                  <label htmlFor="title">{translate('title-of-the-asset')}</label>
+                  <label htmlFor="title">{translate('title-of-the-resource')}</label>
                   <input
-                    onChange={setAssetTitle}
+                    onChange={setResourceTitle}
                     type="text"
                     name="title"
-                    placeholder={translate('title-of-the-asset')}
-                    value={assetCandidate.metadata.title} />
+                    placeholder={translate('title-of-the-resource')}
+                    value={resourceCandidate.metadata.title} />
                 </div>
 
                 <div className="input-group">
-                  <label htmlFor="source">{translate('source-of-the-asset')}</label>
+                  <label htmlFor="source">{translate('source-of-the-resource')}</label>
                   <input
-                    onChange={setAssetSource}
+                    onChange={setResourceSource}
                     type="text"
                     name="source"
-                    placeholder={translate('source-of-the-asset')}
-                    value={assetCandidate.metadata.source} />
+                    placeholder={translate('source-of-the-resource')}
+                    value={resourceCandidate.metadata.source} />
                 </div>
               </div>
 
               <div className="modal-column">
                 <div className="input-group" style={{flex: 1}}>
-                  <label htmlFor="description">{translate('description-of-the-asset')}</label>
+                  <label htmlFor="description">{translate('description-of-the-resource')}</label>
                   <Textarea
-                    onChange={setAssetDescription}
+                    onChange={setResourceDescription}
                     type="text"
                     name="description"
-                    placeholder={translate('description-of-the-asset')}
+                    placeholder={translate('description-of-the-resource')}
                     style={{flex: 1}}
-                    value={assetCandidate.metadata.description} />
+                    value={resourceCandidate.metadata.description} />
                 </div>
               </div>
             </form>
@@ -280,14 +280,14 @@ const AssetConfigurationDialog = ({
       </section>
       <section className="modal-footer">
         {
-          assetCandidate &&
-          assetCandidate.metadata &&
-          assetCandidate.metadata.type &&
-          assetCandidate.data
+          resourceCandidate &&
+          resourceCandidate.metadata &&
+          resourceCandidate.metadata.type &&
+          resourceCandidate.data
           ?
             <button
               className="valid-btn"
-              onClick={onApplyChange}>{assetCandidateId ? translate('update-asset') : translate('create-asset')}</button>
+              onClick={onApplyChange}>{resourceCandidateId ? translate('update-resource') : translate('create-resource')}</button>
           : ''
         }
         <button
@@ -299,8 +299,8 @@ const AssetConfigurationDialog = ({
   );
 };
 
-AssetConfigurationDialog.contextTypes = {
+ResourceConfigurationDialog.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default AssetConfigurationDialog;
+export default ResourceConfigurationDialog;

@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import './AsideViewLayout.scss';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
-import AssetsManager from '../../AssetsManager/components/AssetsManagerContainer.js';
+import ResourcesManager from '../../ResourcesManager/components/ResourcesManagerContainer.js';
 
 /**
  * Renders the aside view of the editor
@@ -39,7 +39,7 @@ const AsideViewLayout = ({
                 {translate('settings')}</i>
       </button>
     </div>
-    <AssetsManager activeStory={activeStory} activeStoryId={activeStoryId} />
+    <ResourcesManager activeStory={activeStory} activeStoryId={activeStoryId} />
   </aside>);
 };
 

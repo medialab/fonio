@@ -108,9 +108,7 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
       return DEFAULT_STORY_CANDIDATE_DATA;
     case START_STORY_CANDIDATE_CONFIGURATION:
       // configure existing story or setup new ?
-      console.log('create default story', createDefaultStory());
       const candidateBeginingState = action.story ? action.story : createDefaultStory();
-      console.log('begining state', candidateBeginingState);
       return {
         ...state,
         storyCandidate: {

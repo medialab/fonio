@@ -6,13 +6,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
-import {
-  // convertToRaw,
-  convertFromRaw,
-  EditorState
-} from 'draft-js';
+// import {
+//   // convertToRaw,
+//   convertFromRaw,
+//   EditorState
+// } from 'draft-js';
 
-import StoryPlayer from 'quinoa-story-player';
+// import StoryPlayer from 'quinoa-story-player';
 
 import './EditorLayout.scss';
 
@@ -27,7 +27,7 @@ import ConfigurationDialog from '../../ConfigurationDialog/components/Configurat
 import TakeAwayDialog from '../../TakeAwayDialog/components/TakeAwayDialogContainer';
 import AsideViewLayout from './AsideViewLayout';
 
-import DraftEditor from '../../../components/DraftEditor/DraftEditor';
+// import DraftEditor from '../../../components/DraftEditor/DraftEditor';
 
 /**
  * Renders the main layout component of the editor
@@ -85,6 +85,7 @@ const EditorLayout = ({
   embedAsset
 }, context) => {
 
+  // callback for takeaway modal tweaking
   const closeModal = () => {
     if (isStoryCandidateModalOpen) {
       closeAndResetDialog();
@@ -94,6 +95,7 @@ const EditorLayout = ({
     }
   };
 
+  // callback for preview mode tweaking
   const togglePreview = () => {
     if (globalUiMode === 'edition') {
       setUiMode('preview');
@@ -102,21 +104,23 @@ const EditorLayout = ({
       setUiMode('edition');
     }
   };
+  // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.Editor');
-  const onStoryUpdate = (content) => {
-    updateStoryContent(activeStory.id, content);
-  };
+
+ //  const onStoryUpdate = (content) => {
+ //    updateStoryContent(activeStory.id, content);
+ //  };
   const onTitleChange = (e) => updateStoryMetadataField(activeStory.id, 'title', e.target.value);
-  let editorState;
-  if (editorStates[activeStoryId]) {
-    editorState = editorStates[activeStoryId];
-  }
- else if (activeStory && activeStory.content) {
-    editorState = EditorState.createWithContent(convertFromRaw(activeStory.content));
-  }
- else {
-    EditorState.createEmpty();
-  }
+ //  let editorState;
+ //  if (editorStates[activeStoryId]) {
+ //    editorState = editorStates[activeStoryId];
+ //  }
+ // else if (activeStory && activeStory.content) {
+ //    editorState = EditorState.createWithContent(convertFromRaw(activeStory.content));
+ //  }
+ // else {
+ //    EditorState.createEmpty();
+ //  }
   return (<div id={id} className={className}>
     {activeStoryId ?
       <div className={className}>
@@ -137,7 +141,7 @@ const EditorLayout = ({
                   placeholder={translate('story-title')} />
               </h1>
 
-              {EditorState && <DraftEditor
+              {/*EditorState && <DraftEditor
                 update={onStoryUpdate}
                 content={editorState}
                 assets={activeStory.assets}
@@ -145,17 +149,18 @@ const EditorLayout = ({
                 storyId={activeStoryId}
                 updateAsset={updateAsset}
                 embedAsset={embedAsset}
-                translate={translate} />}
+                translate={translate} />*/}
             </div>
           </section>
         :
-          <section className="fonio-main-row">
-            <StoryPlayer
-              story={{
-                ...activeStory,
-                content: activeStory.content
-              }} />
-          </section>
+          <span>Todo new story player</span>
+          // <section className="fonio-main-row">
+          //   <StoryPlayer
+          //     story={{
+          //       ...activeStory,
+          //       content: activeStory.content
+          //     }} />
+          // </section>
         }
         <Footer
           returnToLanding={returnToLanding}

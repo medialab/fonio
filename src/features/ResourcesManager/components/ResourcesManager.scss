@@ -5,12 +5,12 @@
  */
 @import '../../../parameters.scss';
 
-.fonio-assets-manager-layout
+.fonio-resources-manager-layout
 {
     @extend .flex-stretched-column;
 
 
-    &.assets-prompted
+    &.resources-prompted
     {
         color: $background-default;
         background: $primary-color;
@@ -28,7 +28,7 @@
         overflow-y: auto;
 
         flex: 1;
-        .fonio-asset-card
+        .fonio-resource-card
         {
             margin-bottom: $gutter-medium;
         }
@@ -54,7 +54,7 @@
         }
     }
 
-    #new-asset
+    #new-resource
     {
         padding: $gutter-medium;
 
