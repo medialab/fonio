@@ -153,7 +153,7 @@ const EditorLayout = ({
             <StoryPlayer
               story={{
                 ...activeStory,
-                content: activeStory.content // convertToRaw(activeStory.content.getCurrentContent())
+                content: activeStory.content
               }} />
           </section>
         }

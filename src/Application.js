@@ -1,5 +1,5 @@
 /**
- * Bulgur Application Component
+ * Fonio Application Component
  * =======================================
  *
  * Root component of the application.

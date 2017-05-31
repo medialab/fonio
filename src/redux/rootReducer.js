@@ -1,5 +1,5 @@
 /**
- * Bulgur Reducers Endpoint
+ * Fonio Reducers Endpoint
  * ===================================
  *
  * Combining the app's reducers.

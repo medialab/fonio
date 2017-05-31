@@ -2,7 +2,7 @@
 /* eslint react/no-did-update-set-state: 0 */
 /**
  * This module provides a reusable draft-powered text wysiwig editor component
- * @module bulgur/components/DraftEditor
+ * @module fonio/components/DraftEditor
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';

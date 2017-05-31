@@ -108,7 +108,7 @@ msgid "Features.Editor.asset-type-data-presentation"
 msgstr "data presentation"
 
 msgid "Features.Editor.asset-type-data-presentation-help"
-msgstr "import a quinoa data presentation made with bulgur"
+msgstr "import a quinoa data presentation made with fonio"
 
 msgid "Features.Editor.asset-type-embed"
 msgstr "embed code"
