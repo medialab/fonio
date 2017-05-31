@@ -14,6 +14,10 @@ import {
   loadImage
 } from '../../helpers/assetsUtils';
 
+import {
+  createDefaultStory
+} from '../../helpers/modelsUtils';
+
 /*
  * Action names
  */
@@ -81,20 +85,6 @@ export const submitCoverImage = (file) => ({
 export const resetStoryCandidateSettings = () => ({
   type: RESET_STORY_CANDIDATE_SETTINGS
 });
-/**
- * Restory of a basic, empty story
- * @type {object}
- */
-const EMPTY_STORY = {
-  type: 'story',
-  metadata: {
-    title: undefined,
-    authors: [],
-    description: '',
-    gistId: undefined
-  },
-  assets: {}
-};
 
 const DEFAULT_STORY_CANDIDATE_DATA = {
   /**
@@ -118,7 +108,9 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
       return DEFAULT_STORY_CANDIDATE_DATA;
     case START_STORY_CANDIDATE_CONFIGURATION:
       // configure existing story or setup new ?
-      const candidateBeginingState = action.story ? action.story/*JSON.parse(JSON.stringify(action.story))*/ : EMPTY_STORY;
+      console.log('create default story', createDefaultStory());
+      const candidateBeginingState = action.story ? action.story : createDefaultStory();
+      console.log('begining state', candidateBeginingState);
       return {
         ...state,
         storyCandidate: {
