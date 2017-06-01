@@ -9,6 +9,7 @@ import Textarea from 'react-textarea-autosize';
 
 import HelpPin from '../../../components/HelpPin/HelpPin';
 import DropZone from '../../../components/DropZone/DropZone';
+import AuthorsManager from '../../../components/AuthorsManager/AuthorsManager';
 // import Toaster from '../../../components/Toaster/Toaster';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -62,7 +63,7 @@ const ConfigurationDialogLayout = ({
     applyStoryCandidateConfiguration(storyCandidate);
   };
   const setStoryTitle = (e) => setCandidateStoryMetadata('title', e.target.value);
-  const setStoryAuthors = (e) => setCandidateStoryMetadata('authors', e.target.value);
+  const setStoryAuthors = authors => setCandidateStoryMetadata('authors', authors);
   const setStoryDescription = (e) => setCandidateStoryMetadata('description', e.target.value);
   const onCoverSubmit = (files) => submitCoverImage(files[0]);
   // todo this is temporary and should be replaced by a test
@@ -94,12 +95,18 @@ const ConfigurationDialogLayout = ({
 
               <div className="input-group">
                 <label htmlFor="authors">{translate('authors-of-the-story')}</label>
+                <AuthorsManager
+                  authors={storyCandidate.metadata.authors}
+                  onChange={setStoryAuthors} />
+                {/*
+                <label htmlFor="authors">{translate('authors-of-the-story')}</label>
                 <input
                   onChange={setStoryAuthors}
                   type="text"
                   name="authors"
                   placeholder={translate('authors-of-the-story')}
                   value={storyCandidate.metadata.authors || ''} />
+                */}
               </div>
             </div>
 

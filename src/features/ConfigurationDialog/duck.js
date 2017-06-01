@@ -7,7 +7,7 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {persistentReducer} from 'redux-pouchdb';
-
+import {v4 as genId} from 'uuid';
 
 import {
   fileIsAnImage,
@@ -15,7 +15,8 @@ import {
 } from '../../helpers/assetsUtils';
 
 import {
-  createDefaultStory
+  createDefaultStory,
+  createDefaultSection
 } from '../../helpers/modelsUtils';
 
 /*
@@ -108,7 +109,19 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
       return DEFAULT_STORY_CANDIDATE_DATA;
     case START_STORY_CANDIDATE_CONFIGURATION:
       // configure existing story or setup new ?
-      const candidateBeginingState = action.story ? action.story : createDefaultStory();
+      let candidateBeginingState = action.story ? action.story : createDefaultStory();
+      // add first section
+      if (!action.story) {
+        const firstSectionId = genId();
+        const firstSection = createDefaultSection();
+        candidateBeginingState = {
+          ...candidateBeginingState,
+          sections: {
+            [firstSectionId]: firstSection
+          },
+          sectionsOrder: [firstSectionId]
+        };
+      }
       return {
         ...state,
         storyCandidate: {
@@ -117,7 +130,7 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
         }
       };
     case SET_STORY_CANDIDATE_METADATA:
-      const value = action.field === 'authors' ? action.value.split(',') : action.value;
+      const value = action.value;// action.field === 'authors' ? action.value.split(',') : action.value;
       return {
         ...state,
         storyCandidate: {
