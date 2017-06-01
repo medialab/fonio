@@ -49,9 +49,9 @@ class AuthorsManager extends Component {
       this.focusOnLastAuthor();
     };
     return (
-      <form className="fonio-authors-manager" onSubmit={onAddAuthor}>
-        <ul>
-          {
+      <ul className="fonio-authors-manager">
+        {
+          authors &&
           authors.map((author, index) => {
             const onAuthorChange = e => {
               const value = e.target.value;
@@ -94,21 +94,20 @@ class AuthorsManager extends Component {
               </li>);
           })
         }
-          <li className="add-author" onClick={onAddAuthor}>
-            <span className="icon-container">
-              <img
-                src={require('./assets/close.svg')}
-                className="fonio-icon-image"
-                style={{
+        <li className="add-author" onClick={onAddAuthor}>
+          <span className="icon-container">
+            <img
+              src={require('./assets/close.svg')}
+              className="fonio-icon-image"
+              style={{
                 transform: 'rotate(45deg)'
               }} />
 
-            </span>
-            <span
-              className="main-part">{translate('add-author')}</span>
-          </li>
-        </ul>
-      </form>
+          </span>
+          <span
+            className="main-part">{translate('add-author')}</span>
+        </li>
+      </ul>
     );
   }
 }

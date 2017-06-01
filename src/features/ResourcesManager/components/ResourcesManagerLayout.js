@@ -41,12 +41,15 @@ const ResourcesManagerLayout = ({
     unpromptResourceEmbed,
     embedResource
   },
+  style,
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.ResourcesManager');
   const onModalClose = () => setResourcesModalState('closed');
   const onSearchInputChange = (e) => setResourcesSearchQuery(e.target.value);
   return (
-    <div className={'fonio-resources-manager-layout' + (resourcesPrompted ? ' resources-prompted' : '')}>
+    <div
+      className={'fonio-resources-manager-layout' + (resourcesPrompted ? ' resources-prompted' : '')}
+      style={style}>
       {
         resourcesPrompted && (
           resources.length > 0 ?

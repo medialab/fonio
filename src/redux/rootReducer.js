@@ -16,6 +16,7 @@ import storyCandidate from './../features/ConfigurationDialog/duck';
 import stories from './../features/StoriesManager/duck';
 import takeAway from './../features/TakeAwayDialog/duck';
 import resourcesManager from './../features/ResourcesManager/duck';
+import sectionsManager from './../features/SectionsManager/duck';
 
 import * as modelsModels from './../models';
 
@@ -28,5 +29,6 @@ export default combineReducers({
   models,
   takeAway,
   resourcesManager,
+  sectionsManager,
   i18nState: persistentReducer(i18nState, 'i18n')
 });

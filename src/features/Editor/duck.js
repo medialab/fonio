@@ -29,10 +29,11 @@ const CLOSE_STORY_CANDIDATE_MODAL = '$Fonio/Editor/CLOSE_STORY_CANDIDATE_MODAL';
 const OPEN_TAKE_AWAY_MODAL = '$Fonio/Editor/OPEN_TAKE_AWAY_MODAL';
 const CLOSE_TAKE_AWAY_MODAL = '$Fonio/Editor/CLOSE_TAKE_AWAY_MODAL';
 const SET_UI_MODE = '$Fonio/Editor/SET_UI_MODE';
+const SET_ASIDE_UI_MODE = '$Fonio/Editor/SET_ASIDE_UI_MODE';
 /*
  * actions related to story edition
  */
-export const UPDATE_STORY_CONTENT = '$Fonio/Editor/UPDATE_STORY_CONTENT';
+export const UPDATE_DRAFT_EDITOR_STATE = '$Fonio/Editor/UPDATE_DRAFT_EDITOR_STATE';
 export const UPDATE_STORY_METADATA_FIELD = '$Fonio/Editor/UPDATE_STORY_METADATA_FIELD';
 export const SERIALIZE_EDITOR_CONTENT = 'SERIALIZE_EDITOR_CONTENT';
 
@@ -108,9 +109,15 @@ export const setUiMode = (mode = 'edition') => ({
   type: SET_UI_MODE,
   mode
 });
-export const updateStoryContent = (id, content) => ({
-  type: UPDATE_STORY_CONTENT,
-  content,
+
+export const setAsideUiMode = (mode = 'sections') => ({
+  type: SET_ASIDE_UI_MODE,
+  mode
+});
+
+export const updateDraftEditorState = (id, editorState) => ({
+  type: UPDATE_DRAFT_EDITOR_STATE,
+  editorState,
   id
 });
 export const updateStoryMetadataField = (id, key, value) => ({
@@ -168,6 +175,11 @@ const GLOBAL_UI_DEFAULT_STATE = {
      */
     activeStoryId: undefined,
     /**
+     * Represents  the uuid of the section being edited
+     * @type {string}
+     */
+    activeSectionId: undefined,
+    /**
      * Represents whether settings are visible for selected slide
      * @type {boolean}
      */
@@ -176,7 +188,12 @@ const GLOBAL_UI_DEFAULT_STATE = {
      * Represent a state machine for the ui screens
      * @type {string}
      */
-    uiMode: 'edition' // in ['edition', 'preview']
+    uiMode: 'edition', // in ['edition', 'preview'],
+    /**
+     * Represent the state of the aside column
+     * @type {string}
+     */
+    asideUiMode: 'resources', // in ['sections', 'resources']
 };
 /**
  * This redux reducer handles the global ui state management (screen & modals opening)
@@ -184,25 +201,30 @@ const GLOBAL_UI_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  */
 function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
-
+  let activeSectionId;
   switch (action.type) {
     case RESET_APP:
       return GLOBAL_UI_DEFAULT_STATE;
     case APPLY_STORY_CANDIDATE_CONFIGURATION:
+      activeSectionId = action.story.sectionsOrder[0];
       return {
         ...state,
         storyCandidateModalOpen: false,
-        activeStoryId: action.story.id
+        activeStoryId: action.story.id,
+        activeSectionId
       };
     case SET_ACTIVE_STORY:
+      activeSectionId = action.story.sectionsOrder[0];
       return {
         ...state,
-        activeStoryId: action.story.id
+        activeStoryId: action.story.id,
+        activeSectionId
       };
     case UNSET_ACTIVE_STORY:
       return {
         ...state,
-        activeStoryId: undefined
+        activeStoryId: undefined,
+        activeSectionId: undefined
       };
     case START_STORY_CANDIDATE_CONFIGURATION:
     case OPEN_STORY_CANDIDATE_MODAL:
@@ -230,17 +252,41 @@ function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
         ...state,
         uiMode: action.mode
       };
+    case SET_ASIDE_UI_MODE:
+      return {
+        ...state,
+        asideUiMode: action.mode
+      };
     default:
       return state;
   }
 }
+
+const editorstates = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_DRAFT_EDITOR_STATE:
+      return {
+        [action.id]: action.editorState
+      };
+    default:
+      return state;
+  }
+};
+
+
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default persistentReducer(combineReducers({
-  globalUi,
-  editor
-}), 'fonio-editor');
+export default combineReducers({
+  globalUi: persistentReducer(globalUi, 'fonio-globalUi'),
+  editor: persistentReducer(editor, 'fonio-editor'),
+  editorstates
+});
+// export default persistentReducer(combineReducers({
+//   globalUi,
+//   editor,
+//   editorStates
+// }), 'fonio-editor');
 
 /*
  * Selectors
@@ -250,18 +296,24 @@ export default persistentReducer(combineReducers({
  * Selectors related to global ui
  */
 const activeStoryId = state => state.globalUi.activeStoryId;
+const activeSectionId = state => state.globalUi.activeSectionId;
 const isStoryCandidateModalOpen = state => state.globalUi.storyCandidateModalOpen;
 const isTakeAwayModalOpen = state => state.globalUi.takeAwayModalOpen;
 const slideSettingsPannelState = state => state.globalUi.slideSettingsPannelState;
 const globalUiMode = state => state.globalUi.uiMode;
+const asideUiMode = state => state.globalUi.asideUiMode;
+const editorStates = state => state.editorstates;
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
  */
 export const selector = createStructuredSelector({
   activeStoryId,
+  activeSectionId,
   globalUiMode,
+  asideUiMode,
   isStoryCandidateModalOpen,
   isTakeAwayModalOpen,
   slideSettingsPannelState,
+  editorStates,
 });

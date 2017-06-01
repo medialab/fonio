@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-5-31\n"
-"PO-Revision-Date: Wed May 31 2017 19:19:54 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-6-1\n"
+"PO-Revision-Date: Thu Jun 01 2017 22:22:42 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -463,3 +463,63 @@ msgstr "search-in-resources"
 
 msgid "Features.ResourcesManager.edit-resource"
 msgstr "edit-resource"
+
+msgid "Components.AuthorsManager.new-author"
+msgstr "new-author"
+
+msgid "Components.AuthorsManager.add-author"
+msgstr "add-author"
+
+msgid "Components.SectionCard.untitled-section"
+msgstr "untitled-section"
+
+msgid "Components.SectionCard.settings"
+msgstr "settings"
+
+msgid "Components.SectionCard.delete"
+msgstr "delete"
+
+msgid "Features.Editor.resources-header"
+msgstr "resources-header"
+
+msgid "Features.Editor.sections-header"
+msgstr "sections-header"
+
+msgid "Components.SectionCard.sub-section"
+msgstr "sub-section"
+
+msgid "Features.Editor.edit-section"
+msgstr "edit-section"
+
+msgid "Features.Editor.create-section"
+msgstr "create-section"
+
+msgid "Features.Editor.section-metadata"
+msgstr "section-metadata"
+
+msgid "Features.Editor.section-metadata-help"
+msgstr "section-metadata-help"
+
+msgid "Features.Editor.title-of-the-section"
+msgstr "title-of-the-section"
+
+msgid "Features.Editor.authors-of-the-section"
+msgstr "authors-of-the-section"
+
+msgid "Features.Editor.update-section"
+msgstr "update-section"
+
+msgid "Features.SectionsManager.new-section"
+msgstr "new-section"
+
+msgid "Features.SectionsManager.search-in-sections"
+msgstr "search-in-sections"
+
+msgid "Features.SectionsManager.edit-section"
+msgstr "edit-section"
+
+msgid "Components.SectionCard.abord-delete"
+msgstr "abord-delete"
+
+msgid "Components.SectionCard.confirm-delete"
+msgstr "confirm-delete"

@@ -60,6 +60,7 @@ const EditorLayout = ({
   // global ui related
   isStoryCandidateModalOpen,
   globalUiMode,
+  asideUiMode,
   isTakeAwayModalOpen,
   // edited story state
   activeStoryId,
@@ -77,6 +78,7 @@ const EditorLayout = ({
     updateStoryMetadataField,
     promptAssetEmbed,
     updateAsset,
+    setAsideUiMode,
     // embedAsset
   },
   openSettings,
@@ -130,6 +132,8 @@ const EditorLayout = ({
               activeStory={activeStory}
               activeStoryId={activeStoryId}
               openSettings={openSettings}
+              asideUiMode={asideUiMode}
+              setAsideUiMode={setAsideUiMode}
               closeAndResetDialog={closeAndResetDialog}
               returnToLanding={returnToLanding} />
             <div className="fonio-editor-container">

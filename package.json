@@ -58,6 +58,8 @@
     "react": "^15.3.2",
     "react-citeproc": "git+https://github.com/robindemourat/react-citeproc.git",
     "react-csl": "git+https://github.com/robindemourat/react-citeproc.git",
+    "react-dnd": "^2.4.0",
+    "react-dnd-html5-backend": "^2.4.1",
     "react-dom": "^15.3.2",
     "react-dropzone": "^3.6.0",
     "react-markdown": "^2.4.2",

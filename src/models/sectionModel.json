@@ -1,0 +1,45 @@
+{
+    "type": "object",
+    "keys": {
+        "contents": {
+            "type": "object",
+            "required": true
+        },
+        "notes": {
+            "type": "object",
+            "required": true,
+            "keys": {
+                "$each": {
+                    "type": "object",
+                    "keyType": "uuid"
+                }
+            }
+        },
+        "notesOrder": {
+            "type": "array",
+            "required": true
+        },
+        "metadata": {
+            "type": "object",
+            "required": true,
+            "keys": {
+                "title": {
+                    "type": "string",
+                    "required": true
+                },
+                "description": {
+                    "type": "string",
+                    "required": true
+                },
+                "authors": {
+                    "type": "array",
+                    "required": true
+                },
+                "level": {
+                    "type": "number",
+                    "default": 0
+                }
+            }
+        }
+    }
+}

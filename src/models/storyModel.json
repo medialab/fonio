@@ -29,6 +29,10 @@
                 "gistId": {
                     "type": "string",
                     "required": false
+                },
+                "level": {
+                    "type": "number",
+                    "default": 1
                 }
             }
         },
@@ -95,10 +99,6 @@
                     "keyType": "uuid"
                 }
             }
-        },
-        "content": {
-            "type": "object",
-            "required": true
         },
         "presentationSettings": {
             "type": "object",

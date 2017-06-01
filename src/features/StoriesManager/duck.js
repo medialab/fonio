@@ -24,9 +24,8 @@ import {
   APPLY_STORY_CANDIDATE_CONFIGURATION,
   UNSET_ACTIVE_STORY,
   SET_ACTIVE_STORY,
-  UPDATE_STORY_CONTENT,
   UPDATE_STORY_METADATA_FIELD,
-  SERIALIZE_EDITOR_CONTENT
+  SERIALIZE_EDITOR_CONTENT,
 } from '../Editor/duck';
 
 import {
@@ -34,6 +33,13 @@ import {
   DELETE_RESOURCE,
   UPDATE_RESOURCE
 } from '../ResourcesManager/duck';
+
+import {
+  CREATE_SECTION,
+  UPDATE_SECTION,
+  DELETE_SECTION,
+  UPDATE_SECTIONS_ORDER,
+} from '../SectionsManager/duck';
 
 import {
   EXPORT_TO_GIST,
@@ -279,6 +285,67 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         }
       };
     /*
+     * SECTIONS-RELATED
+     */
+    case CREATE_SECTION:
+      return {
+        ...state,
+        stories: {
+          ...state.stories,
+          [action.storyId]: {
+            ...state.stories[action.storyId],
+            sections: {
+              ...state.stories[action.storyId].sections,
+              [action.sectionId]: action.section
+            },
+            sectionsOrder: action.appendToSectionsOrder ?
+              [
+                ...state.stories[action.storyId].sectionsOrder,
+                action.sectionId
+              ]
+              : state.stories[action.storyId].sectionsOrder
+          }
+        }
+      };
+    case UPDATE_SECTION:
+      return {
+        ...state,
+        stories: {
+          ...state.stories,
+          [action.storyId]: {
+            ...state.stories[action.storyId],
+            sections: {
+              ...state.stories[action.storyId].sections,
+              [action.sectionId]: action.section
+            }
+          }
+        }
+      };
+    case DELETE_SECTION:
+      newState = {...state};
+      delete newState.stories[action.storyId].sections[action.sectionId];
+      // remove from sections order if applicable
+      if (newState.stories[action.storyId].sectionsOrder.indexOf(action.sectionId) > -1) {
+        const index = newState.stories[action.storyId].sectionsOrder.indexOf(action.sectionId);
+        newState.stories[action.storyId].sectionsOrder = [
+          ...newState.stories[action.storyId].sectionsOrder.slice(0, index),
+          ...newState.stories[action.storyId].sectionsOrder.slice(index + 1)
+        ];
+      }
+      return newState;
+
+    case UPDATE_SECTIONS_ORDER:
+      return {
+        ...state,
+        stories: {
+          ...state.stories,
+          [action.storyId]: {
+            ...state.stories[action.storyId],
+            sectionsOrder: [...action.sectionsOrder]
+          }
+        }
+      };
+    /*
      * RESOURCES-RELATED
      */
     case UPDATE_RESOURCE:
@@ -464,17 +531,6 @@ function storyImport(state = STORY_IMPORT_DEFAULT_STATE, action) {
   }
 }
 
-const editors = (state = {}, action) => {
-  switch (action.type) {
-    case UPDATE_STORY_CONTENT:
-      return {
-        [action.id]: action.content
-      };
-    default:
-      return state;
-  }
-};
-
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
@@ -482,7 +538,6 @@ export default combineReducers({
   stories: persistentReducer(stories, 'fonio-stories'),
   storiesUi: persistentReducer(storiesUi, 'fonio-stories-ui'),
   storyImport,
-  editors
 });
 
 // export default persistentReducer(
@@ -506,7 +561,6 @@ const importStatus = state => state.storyImport.importStatus;
 const importError = state => state.storyImport.importError;
 const importCandidate = state => state.storyImport.importCandidate;
 const importFromUrlCandidate = state => state.storyImport.importFromUrlCandidate;
-const editorStates = state => state.editors;
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
@@ -522,6 +576,5 @@ export const selector = createStructuredSelector({
 
   storiesList,
   promptedToDeleteId,
-  editorStates,
 });
 

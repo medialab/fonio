@@ -1,0 +1,55 @@
+/**
+ * style definitions for the AsideToggler component
+ *
+ * @module fonio/components/AsideToggler
+ */
+@import '../../parameters.scss';
+
+
+.fonio-aside-toggler
+{
+  margin: 0;
+  padding: 0;
+  li{
+    list-style-type: none;
+    padding: 0;
+  }
+
+  height: $font-size-4;
+
+  
+  @extend .flex-stretched-row;
+
+  .nav-btn
+  {
+    @extend .interactive-item;
+    &:hover{
+      @extend .interactive-item-intent;
+    }
+  }
+
+  .options-wrapper{
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    .options-container{
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      display: inline-block;
+      .option{
+        @extend .animated;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        h2{
+          font-size: $font-size-3;
+          font-weight: 800;
+          padding: 0;
+          margin: 0;
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

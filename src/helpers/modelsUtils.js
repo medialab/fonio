@@ -1,6 +1,7 @@
 import {v4 as genId} from 'uuid';
 
 import storyModel from '../models/storyModel.json';
+import sectionModel from '../models/sectionModel.json';
 
 const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -116,6 +117,9 @@ const createDefaultPortion = model => {
         case 'string':
           result[key] = prop.default || '';
           return result;
+        case 'number':
+          result[key] = prop.default || 0;
+          return result;
         case 'uuid':
           result[key] = genId();
           break;
@@ -123,7 +127,7 @@ const createDefaultPortion = model => {
           if (model.keyType !== 'uuid' && prop.keys) {
             result[key] = createDefaultPortion(prop.keys);
           }
- else {
+          else {
             result[key] = {};
           }
           break;
@@ -140,6 +144,10 @@ const createDefaultPortion = model => {
 
 export const createDefaultStory = () => {
   return createDefaultPortion(storyModel.keys);
+};
+
+export const createDefaultSection = () => {
+  return createDefaultPortion(sectionModel.keys);
 };
 
 /**

@@ -5,17 +5,10 @@
  */
 @import '../../../parameters.scss';
 
-.fonio-resources-manager-layout
+.fonio-sections-manager-layout
 {
     
     @extend .flex-stretched-column;
-
-
-    &.resources-prompted
-    {
-        color: $background-default;
-        background: $primary-color;
-    }
 
     .header,
     .body,
@@ -29,7 +22,7 @@
         overflow-y: auto;
 
         flex: 1;
-        .fonio-resource-card
+        .fonio-section-card
         {
             margin-bottom: $gutter-medium;
         }
@@ -55,7 +48,7 @@
         }
     }
 
-    #new-resource
+    #new-section
     {
         padding: $gutter-medium;
 

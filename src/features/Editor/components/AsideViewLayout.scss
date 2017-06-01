@@ -55,8 +55,17 @@
         }
     }
 
-    .fonio-assets-manager-layout
-    {
+    .aside-option-container{
         flex: 1;
+        position: relative;
+        .fonio-resources-manager-layout,
+        .fonio-sections-manager-layout
+        {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            @extend .animated;
+        }
     }
 }

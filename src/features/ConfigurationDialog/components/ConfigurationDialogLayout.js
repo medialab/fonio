@@ -98,15 +98,6 @@ const ConfigurationDialogLayout = ({
                 <AuthorsManager
                   authors={storyCandidate.metadata.authors}
                   onChange={setStoryAuthors} />
-                {/*
-                <label htmlFor="authors">{translate('authors-of-the-story')}</label>
-                <input
-                  onChange={setStoryAuthors}
-                  type="text"
-                  name="authors"
-                  placeholder={translate('authors-of-the-story')}
-                  value={storyCandidate.metadata.authors || ''} />
-                */}
               </div>
             </div>
 
