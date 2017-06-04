@@ -18,6 +18,8 @@
     @extend .primary-item;
     justify-content: space-between;
 
+    z-index: 10000;
+
     /*
      * secondary layout components
      */
