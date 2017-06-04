@@ -23,9 +23,14 @@
   .nav-btn
   {
     @extend .interactive-item;
+    background: inherit;
     &:hover{
       @extend .interactive-item-intent;
     }
+    padding: $gutter-small;
+    width: $font-size-4;
+    text-align: center;
+    @extend .animated;
   }
 
   .options-wrapper{
@@ -37,6 +42,7 @@
       height: 100%;
       width: 100%;
       display: inline-block;
+      text-align: center;
       .option{
         @extend .animated;
         position: absolute;

@@ -15,7 +15,7 @@ import {persistentReducer} from 'redux-pouchdb';
 import {
   RESET_APP,
   SET_ACTIVE_STORY,
-  APPLY_STORY_CANDIDATE_CONFIGURATION
+  APPLY_STORY_CANDIDATE_CONFIGURATION,
 } from '../Editor/duck';
 
 /*
@@ -168,6 +168,7 @@ function sectionsUi (state = SECTIONS_UI_DEFAULT_STATE, action) {
         ...state,
         sectionsModalState: action.state
       };
+
     case REQUEST_DELETE_PROMPT:
       const {
         sectionId
@@ -198,6 +199,11 @@ function sectionsUi (state = SECTIONS_UI_DEFAULT_STATE, action) {
         activeSectionId: action.sectionId
       };
     case UPDATE_SECTION:
+      return {
+        ...state,
+        sectionsModalState: 'closed',
+        sectionCandidateId: undefined,
+      };
     case DELETE_SECTION:
       return {
         ...state,

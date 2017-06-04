@@ -12,9 +12,6 @@ import SectionCard from '../../../components/SectionCard/SectionCard';
 import SectionConfigurationDialog from './SectionConfigurationDialog';
 import './SectionsManager.scss';
 
-import {DragDropContext} from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-
 /**
  * Renders the sections manager layout
  * @param {object} props - the props to render
@@ -141,5 +138,5 @@ const SectionsManagerLayout = ({
 SectionsManagerLayout.contextTypes = {
   t: PropTypes.func.isRequired
 };
-// export default SectionsManagerLayout;
-export default DragDropContext(HTML5Backend)(SectionsManagerLayout);
+export default SectionsManagerLayout;
+// export default DragDropContext(HTML5Backend)(SectionsManagerLayout);

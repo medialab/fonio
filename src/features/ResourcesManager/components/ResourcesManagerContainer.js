@@ -6,12 +6,28 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {v4 as uuid} from 'uuid';
+import {v4 as genId} from 'uuid';
+
+import {
+  convertToRaw
+} from 'draft-js';
 // import { DraggableDecorator } from 'draft-js-dnd-plugin';
 
 import * as duck from '../duck';
 import * as managerDuck from '../../StoriesManager/duck';
-import {unpromptResourceEmbed} from '../../Editor/duck';
+import * as editorDuck from '../../Editor/duck';
+
+import {
+  updateSection as updateSectionAction,
+} from '../../SectionsManager/duck';
+
+
+import {
+  // insertAssetInEditor,
+  insertInlineContextualization,
+  insertBlockContextualization,
+} from '../../../helpers/draftUtils';
+
 
 import ResourcesManagerLayout from './ResourcesManagerLayout';
 
@@ -22,12 +38,14 @@ import ResourcesManagerLayout from './ResourcesManagerLayout';
   state => ({
     ...duck.selector(state.resourcesManager),
     ...managerDuck.selector(state.stories),
+    ...editorDuck.selector(state.fonioEditor),
     lang: state.i18nState.lang
   }),
   dispatch => ({
     actions: bindActionCreators({
       ...duck,
-      unpromptResourceEmbed
+      ...editorDuck,
+      updateSection: updateSectionAction,
     }, dispatch)
   })
 )
@@ -45,8 +63,89 @@ class ResourcesManagerContainer extends Component {
     return true;
   }
 
+  embedAsset = resourceId => {
+    const {
+      assetRequestState,
+      activeStoryId,
+      activeStory,
+      activeSectionId,
+      editorStates,
+      actions,
+    } = this.props;
+
+    const contentId = assetRequestState.editorId;
+
+    const {
+      createContextualizer,
+      createContextualization,
+      updateDraftEditorState,
+      updateSection,
+      cancelAssetRequest,
+    } = actions;
+
+    const activeSection = activeStory.sections[activeSectionId];
+    const resource = activeStory.resources[resourceId];
+
+    // create contextualizer
+    // todo : consume model to do that
+    const contextualizerId = genId();
+    const contextualizer = {
+      id: contextualizerId,
+      type: resource.metadata.type,
+    };
+    createContextualizer(activeStoryId, contextualizerId, contextualizer);
+
+    // choose if inline or block
+    // todo: choose that from resource model
+    const insertionType = resource.metadata.type === 'bib' ? 'inline' : 'block';
+
+    // create contextualization
+    const contextualizationId = genId();
+    const contextualization = {
+      id: contextualizationId,
+      resourceId,
+      contextualizerId,
+      sectionId: activeSectionId
+    };
+
+    createContextualization(activeStoryId, contextualizationId, contextualization);
+    // console.log('contextualization', contextualization, activeSectionId);
+
+    const editorStateId = contentId === 'main' ? activeSectionId : contentId;
+    const editorState = editorStates[editorStateId];
+    // console.log('editor state', editorState, editorStateId, editorStates);
+    // update related editor state
+    const newEditorState = insertionType === 'block' ?
+      insertBlockContextualization(editorState, contextualization, contextualizer, resource) :
+      insertInlineContextualization(editorState, contextualization, contextualizer, resource);
+    // update immutable editor state
+    updateDraftEditorState(editorStateId, newEditorState);
+    // update serialized editor state
+    let newSection;
+    if (contentId === 'main') {
+      newSection = {
+        ...activeSection,
+        contents: convertToRaw(newEditorState.getCurrentContent())
+      };
+    }
+ else {
+      newSection = {
+        ...activeSection,
+        notes: {
+          ...activeSection.notes,
+          [contentId]: {
+            ...activeSection.notes[contentId],
+            editorState: convertToRaw(newEditorState.getCurrentContent())
+          }
+        }
+      };
+    }
+    updateSection(activeStoryId, activeSectionId, newSection);
+    cancelAssetRequest();
+  }
+
   createResource(resource) {
-    const id = uuid();
+    const id = genId();
     const {
       activeStoryId
     } = this.props;
@@ -91,7 +190,8 @@ class ResourcesManagerContainer extends Component {
         {...this.props}
         resources={resources}
         createResource={this.createResource}
-        updateResource={this.updateResource} />
+        updateResource={this.updateResource}
+        embedAsset={this.embedAsset} />
     );
   }
 }

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-6-1\n"
-"PO-Revision-Date: Thu Jun 01 2017 22:22:42 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-6-4\n"
+"PO-Revision-Date: Sun Jun 04 2017 20:05:09 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -523,3 +523,33 @@ msgstr "abord-delete"
 
 msgid "Components.SectionCard.confirm-delete"
 msgstr "confirm-delete"
+
+msgid "Components.Footer.section-title"
+msgstr "section-title"
+
+msgid "Features.Editor.no-sections-selected"
+msgstr "no-sections-selected"
+
+msgid "Features.Editor.create-new-section"
+msgstr "create-new-section"
+
+msgid "Components.InlineCitation.locator-placeholder"
+msgstr "locator-placeholder"
+
+msgid "Components.InlineCitation.comment-placeholder"
+msgstr "comment-placeholder"
+
+msgid "Components.Bibliography.bibliography-title"
+msgstr "bibliography-title"
+
+msgid "Components.InlineCitation.prefix-placeholder"
+msgstr "prefix-placeholder"
+
+msgid "Components.InlineCitation.suffix-placeholder"
+msgstr "suffix-placeholder"
+
+msgid "Components.ResourceSearchWidget.search-a-resource"
+msgstr "search-a-resource"
+
+msgid "Features.Editor.untitled-section"
+msgstr "untitled-section"

@@ -6,6 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
+
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import ResourceCard from '../../../components/ResourceCard/ResourceCard';
 
@@ -38,14 +39,18 @@ const ResourcesManagerLayout = ({
     startExistingResourceConfiguration,
     startNewResourceConfiguration,
     submitResourceData,
-    unpromptResourceEmbed,
-    embedResource
+    unpromptAssetEmbed,
   },
+  // custom functions
+  embedAsset,
+  // custom props
   style,
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.ResourcesManager');
   const onModalClose = () => setResourcesModalState('closed');
-  const onSearchInputChange = (e) => setResourcesSearchQuery(e.target.value);
+  const onSearchInputChange = (e) => {
+    setResourcesSearchQuery(e.target.value);
+  };
   return (
     <div
       className={'fonio-resources-manager-layout' + (resourcesPrompted ? ' resources-prompted' : '')}
@@ -53,10 +58,10 @@ const ResourcesManagerLayout = ({
       {
         resourcesPrompted && (
           resources.length > 0 ?
-            <h2>Choose an resource to embed in your story</h2> :
+            <h2>Click or drag a resource to embed in your story</h2> :
             <div>
               <h2>You must first add resources to your library to be able to embed them inside your story</h2>
-              <button onClick={unpromptResourceEmbed}>Got it</button>
+              <button onClick={unpromptAssetEmbed}>Got it</button>
             </div>
         )
       }
@@ -65,8 +70,8 @@ const ResourcesManagerLayout = ({
           resources.map((resource, index) => {
             const onDelete = () => deleteResource(activeStoryId, resource.id);
             const onEdit = () => startExistingResourceConfiguration(resource.id, resource);
-            const onEmbedResource = (metadata) => {
-              embedResource(activeStoryId, resource.id, metadata, insertionSelection);
+            const onEmbedResource = () => {
+              embedAsset(resource.id);
             };
             return (
               <ResourceCard

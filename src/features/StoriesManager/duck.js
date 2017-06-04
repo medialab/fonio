@@ -26,6 +26,12 @@ import {
   SET_ACTIVE_STORY,
   UPDATE_STORY_METADATA_FIELD,
   SERIALIZE_EDITOR_CONTENT,
+  CREATE_CONTEXTUALIZER,
+  UPDATE_CONTEXTUALIZER,
+  DELETE_CONTEXTUALIZER,
+  CREATE_CONTEXTUALIZATION,
+  UPDATE_CONTEXTUALIZATION,
+  DELETE_CONTEXTUALIZATION,
 } from '../Editor/duck';
 
 import {
@@ -182,6 +188,7 @@ const STORIES_DEFAULT_STATE = {
  */
 function stories(state = STORIES_DEFAULT_STATE, action) {
   let newState;
+  let storyId;
   switch (action.type) {
     case SERIALIZE_EDITOR_CONTENT:
       const modified = {
@@ -350,8 +357,8 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
      */
     case UPDATE_RESOURCE:
     case CREATE_RESOURCE:
+      storyId = action.storyId;
       const {
-        storyId,
         id: resourceId,
         resource
       } = action;
@@ -368,6 +375,81 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           }
         }
       };
+    case DELETE_RESOURCE:
+      newState = {...state};
+      delete newState.stories[action.storyId].resources[action.id];
+      // remove contextualizations using the deleted resource
+      newState.stories[action.storyId].contextualizations = Object.keys(newState.stories[action.storyId].contextualizations)
+        .filter(contId => {
+          return newState.stories[action.storyId].contextualizations[contId].resourceId !== action.id;
+        })
+        .reduce((final, thatId) => {
+          const contextualization = newState.stories[action.storyId].contextualizations[thatId];
+          // delete related contextualizer
+          // (this is dirty, a proper way to do that would be
+          // to store in an array all the contextualizers to be deleted)
+          // (this should be undone if contextualizers can be linked to several contextualizations)
+          delete newState.stories[action.storyId].contextualizers[contextualization.contextualizerId];
+          return {
+            ...final,
+            [thatId]: contextualization
+          };
+        }, {});
+      return newState;
+    /**
+     * CONTEXTUALIZATION RELATED
+     */
+    case UPDATE_CONTEXTUALIZATION:
+    case CREATE_CONTEXTUALIZATION:
+      storyId = action.storyId;
+      const {
+        contextualizationId,
+        contextualization
+      } = action;
+      return {
+        ...state,
+        stories: {
+          ...state.stories,
+          [storyId]: {
+            ...state.stories[storyId],
+            contextualizations: {
+              ...state.stories[storyId].contextualizations,
+              [contextualizationId]: contextualization
+            }
+          }
+        }
+      };
+    case DELETE_CONTEXTUALIZATION:
+      newState = {...state};
+      delete newState.stories[action.storyId].contextualizations[action.contextualizationId];
+      return newState;
+    /**
+     * CONTEXTUALIZER RELATED
+     */
+    case UPDATE_CONTEXTUALIZER:
+    case CREATE_CONTEXTUALIZER:
+      storyId = action.storyId;
+      const {
+        contextualizerId,
+        contextualizer
+      } = action;
+      return {
+        ...state,
+        stories: {
+          ...state.stories,
+          [storyId]: {
+            ...state.stories[storyId],
+            contextualizers: {
+              ...state.stories[storyId].contextualizers,
+              [contextualizerId]: contextualizer
+            }
+          }
+        }
+      };
+    case DELETE_CONTEXTUALIZER:
+      newState = {...state};
+      delete newState.stories[action.storyId].contextualizers[action.id];
+      return newState;
     case UPDATE_STORY_METADATA_FIELD:
     return {
         ...state,
@@ -382,10 +464,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           }
         }
       };
-    case DELETE_RESOURCE:
-      newState = {...state};
-      delete newState.stories[action.storyId].resources[action.id];
-      return newState;
     /*
      * EXPORT-RELATED
      */

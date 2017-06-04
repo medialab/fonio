@@ -25,12 +25,29 @@
      -khtml-user-select: none; /* Konqueror HTML */
     @extend .animated;
     @extend .primary-item;
+
+    .card-body,
+    .card-footer
+    {
+        overflow:hidden;
+        max-height: 0;
+        @extend .animated;
+    }
+
     &:hover
     {
         @extend .primary-item-intent;
     }
     &.active{
-        @extend .dangerous-item-active;
+        @extend .important-item-active;
+    }
+    &:hover,
+    &.active{
+        .card-body,
+        .card-footer
+        {
+            max-height: 200px;
+        }
     }
     /*
      * secondary layout components
@@ -42,6 +59,7 @@
 
         flex-flow: row nowrap;
     }
+
     .card-header
     {
         font-size: $font-size-2;

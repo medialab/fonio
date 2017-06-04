@@ -59,13 +59,12 @@ export const CREATE_RESOURCE = '§Fonio/ResourcesManager/CREATE_RESOURCE';
 export const DELETE_RESOURCE = '§Fonio/ResourcesManager/DELETE_RESOURCE';
 export const UPDATE_RESOURCE = '§Fonio/ResourcesManager/UPDATE_RESOURCE';
 
-export const embedResource = (editor, id, resourceId, metadata, atSelection) => ({
+
+export const embedAsset = (storyId, contentId, resourceId) => ({
   type: EMBED_ASSET,
-  editor,
-  id,
+  storyId,
+  contentId,
   resourceId,
-  metadata,
-  atSelection
 });
 
 export const selectResource = (id) => ({
@@ -80,7 +79,7 @@ export const setSelectedResources = (ids = []) => ({
   type: SET_SELECTED_RESOURCES,
   ids
 });
-export const setResourceSearchQuery = (query) => ({
+export const setResourcesSearchQuery = (query) => ({
   type: SET_RESOURCES_SEARCH_QUERY,
   query
 });

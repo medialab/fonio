@@ -53,9 +53,23 @@ class SectionsManagerContainer extends Component {
   createSection() {
     const id = uuid();
     const defaultSection = createDefaultSection();
+    const chapRegex = /(chap[^\d]+|sec[^\d]+|part[^\d]+)(\d)/gi;
+    const lastSection = this.props.activeStory.sections[this.props.activeStory.sectionsOrder[this.props.activeStory.sectionsOrder.length - 1]];
+    const lastTitle = lastSection && lastSection.metadata && lastSection.metadata.title;
+    if (lastTitle) {
+      if (lastTitle.match(chapRegex)) {
+        const parts = chapRegex.exec(lastTitle);
+        if (parts) {
+          const exp = parts[1];
+          const num = +parts[2];
+          defaultSection.metadata.title = exp + (num + 1);
+        }
+      }
+    }
     const {
       activeStoryId
     } = this.props;
+    defaultSection.id = id;
     this.props.actions.createSection(activeStoryId, id, defaultSection, true);
   }
 
@@ -69,7 +83,9 @@ class SectionsManagerContainer extends Component {
     // create section
     const id = uuid();
     const defaultSection = createDefaultSection();
+    defaultSection.id = id;
     defaultSection.metadata.level = newLevel;
+
     this.props.actions.createSection(activeStoryId, id, defaultSection, true);
 
      // change order

@@ -68,6 +68,8 @@ const ConfigurationDialogLayout = ({
   const onCoverSubmit = (files) => submitCoverImage(files[0]);
   // todo this is temporary and should be replaced by a test
   const storyBegan = storyCandidate.content;
+
+  const preventSubmit = e => e.preventDefault();
   return (
     <div className="fonio-configuration-dialog-layout">
       <h1 className="modal-header">
@@ -81,7 +83,7 @@ const ConfigurationDialogLayout = ({
             </HelpPin>
           </h2>
           <form
-            onSubmit={e => e.preventDefault()}
+            onSubmit={preventSubmit}
             className="modal-columns-container">
             <div className="modal-column">
               <div className="input-group">

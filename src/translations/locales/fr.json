@@ -169,5 +169,11 @@
   "Features.SectionsManager.search-in-sections": "search-in-sections",
   "Features.SectionsManager.edit-section": "edit-section",
   "Components.SectionCard.abord-delete": "abord-delete",
-  "Components.SectionCard.confirm-delete": "confirm-delete"
+  "Components.SectionCard.confirm-delete": "confirm-delete",
+  "Components.Footer.section-title": "section-title",
+  "Features.Editor.no-sections-selected": "no-sections-selected",
+  "Features.Editor.create-new-section": "create-new-section",
+  "Components.InlineCitation.locator-placeholder": "locator-placeholder",
+  "Components.InlineCitation.comment-placeholder": "comment-placeholder",
+  "Components.Bibliography.bibliography-title": "bibliography-title"
 }
