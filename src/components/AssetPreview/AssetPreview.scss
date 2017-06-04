@@ -4,3 +4,10 @@
  * @module fonio/components/AssetPreview
  */
 @import '../../parameters.scss';
+
+.fonio-asset-preview
+{
+  iframe{
+    width: 100%
+  }
+}
