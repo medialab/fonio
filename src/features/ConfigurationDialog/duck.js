@@ -114,6 +114,7 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
       if (!action.story) {
         const firstSectionId = genId();
         const firstSection = createDefaultSection();
+        firstSection.id = firstSectionId;
         candidateBeginingState = {
           ...candidateBeginingState,
           sections: {

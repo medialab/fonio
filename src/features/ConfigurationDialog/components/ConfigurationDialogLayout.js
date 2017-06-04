@@ -81,6 +81,7 @@ const ConfigurationDialogLayout = ({
             </HelpPin>
           </h2>
           <form
+            onSubmit={e => e.preventDefault()}
             className="modal-columns-container">
             <div className="modal-column">
               <div className="input-group">
