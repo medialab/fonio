@@ -46,6 +46,7 @@ import ResourcesManagerLayout from './ResourcesManagerLayout';
       ...duck,
       ...editorDuck,
       updateSection: updateSectionAction,
+      unpromptAssetEmbed: editorDuck.unpromptAssetEmbed,
     }, dispatch)
   })
 )
@@ -80,7 +81,7 @@ class ResourcesManagerContainer extends Component {
       createContextualization,
       updateDraftEditorState,
       updateSection,
-      cancelAssetRequest,
+      unpromptAssetEmbed,
     } = actions;
 
     const activeSection = activeStory.sections[activeSectionId];
@@ -141,7 +142,7 @@ class ResourcesManagerContainer extends Component {
       };
     }
     updateSection(activeStoryId, activeSectionId, newSection);
-    cancelAssetRequest();
+    unpromptAssetEmbed();
   }
 
   createResource(resource) {

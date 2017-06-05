@@ -175,5 +175,9 @@
   "Features.Editor.create-new-section": "create-new-section",
   "Components.InlineCitation.locator-placeholder": "locator-placeholder",
   "Components.InlineCitation.comment-placeholder": "comment-placeholder",
-  "Components.Bibliography.bibliography-title": "bibliography-title"
+  "Components.Bibliography.bibliography-title": "bibliography-title",
+  "Components.InlineCitation.prefix-placeholder": "prefix-placeholder",
+  "Components.InlineCitation.suffix-placeholder": "suffix-placeholder",
+  "Components.ResourceSearchWidget.search-a-resource": "search-a-resource",
+  "Features.Editor.untitled-section": "untitled-section"
 }

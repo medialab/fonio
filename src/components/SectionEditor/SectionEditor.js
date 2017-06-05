@@ -67,7 +67,7 @@ class SectionEditor extends Component {
 
   constructor(props) {
     super(props);
-    // this.updateContent = debounce(this.updateContent, 100);
+    this.updateContent = debounce(this.updateContent, 1000);
     this.debouncedCleanStuffFromEditorInspection = debounce(this.cleanStuffFromEditorInspection, 3000);
   }
 

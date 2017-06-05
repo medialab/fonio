@@ -62,8 +62,7 @@ const AsideViewLayout = ({
         options={asideOptions}
         activeOption={asideUiMode}
         setOption={setAsideUiMode}
-        hideNav={hideNav}
-      />
+        hideNav={hideNav} />
     </div>
     <section className="aside-option-container">
       <ResourcesManager
