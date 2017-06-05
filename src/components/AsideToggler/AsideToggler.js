@@ -5,7 +5,8 @@ import './AsideToggler.scss';
 const AsideToggler = ({
   options = [],
   setOption,
-  activeOption
+  activeOption,
+  hideNav,
 }) => {
   let aIndex;
   options.some((option, index) => {
@@ -43,7 +44,7 @@ const AsideToggler = ({
   };
   return (
     <ul className="fonio-aside-toggler">
-      {aIndex > 0 && <li onClick={onPrev} className="nav-btn">◄</li>}
+      {aIndex > 0 && !hideNav && <li onClick={onPrev} className="nav-btn">◄</li>}
       <li className="options-wrapper">
         <ul
           className="options-container">
@@ -63,7 +64,7 @@ const AsideToggler = ({
       }
         </ul>
       </li>
-      {aIndex < options.length - 1 && <li onClick={onNext} className="nav-btn">►</li>}
+      {aIndex < options.length - 1 && !hideNav && <li onClick={onNext} className="nav-btn">►</li>}
     </ul>
   );
 };

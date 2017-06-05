@@ -139,6 +139,7 @@ const EditorLayout = ({
                 activeStoryId={activeStoryId}
                 openSettings={openSettings}
                 asideUiMode={assetRequestState.assetRequested ? 'resources' : asideUiMode}
+                hideNav={assetRequestState.assetRequested === true}
                 setAsideUiMode={setAsideUiMode}
                 closeAndResetDialog={closeAndResetDialog}
                 returnToLanding={returnToLanding} />
@@ -177,7 +178,7 @@ const EditorLayout = ({
                           return (
                             <li key={id}>
                               <button onClick={setSection}>
-                                {activeStory.sections[id].metadata.title || translate('untitled-section')}
+                                {activeStory.sections[id] && activeStory.sections[id].metadata.title || translate('untitled-section')}
                               </button>
                             </li>
                         );

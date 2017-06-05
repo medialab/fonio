@@ -13,6 +13,12 @@
       background: $color-warm-grey;
     }
 
+    pre,
+    blockquote
+    {
+      background: $color-warm-grey;
+    }
+
     @extend .flex-stretched-column;
     .editable-title,
     .editor-wrapper

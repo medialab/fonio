@@ -28,6 +28,7 @@ const AsideViewLayout = ({
   activeStoryId,
   asideUiMode,
   setAsideUiMode,
+  hideNav,
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.Editor');
   const asideOptions = [
@@ -60,7 +61,9 @@ const AsideViewLayout = ({
       <AsideToggler
         options={asideOptions}
         activeOption={asideUiMode}
-        setOption={setAsideUiMode} />
+        setOption={setAsideUiMode}
+        hideNav={hideNav}
+      />
     </div>
     <section className="aside-option-container">
       <ResourcesManager
