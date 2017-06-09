@@ -5,6 +5,12 @@
 import {post} from 'superagent';
 import {serverUrl} from '../../secrets';
 
+import {
+  convertFromRaw
+} from 'draft-js';
+
+import {stateToMarkdown} from 'draft-js-export-markdown';
+
 /**
  * Prepares a story data for a clean version to export
  * @param {object} story - the input data to clean
@@ -12,6 +18,18 @@ import {serverUrl} from '../../secrets';
  */
 export function cleanStoryForExport(story) {
   return story;
+}
+
+export function convertStoryToMarkdown(story) {
+  const header = `${story.metadata.title}
+====
+${story.metadata.authors.join(', ')}
+---
+`;
+  return header + story.sectionsOrder.map(id => {
+    const content = convertFromRaw(story.sections[id].contents);
+    return stateToMarkdown(content);
+  }).join('\n \n');
 }
 
 /*

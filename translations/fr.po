@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-6-4\n"
-"PO-Revision-Date: Sun Jun 04 2017 20:05:09 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-6-9\n"
+"PO-Revision-Date: Fri Jun 09 2017 12:08:25 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -553,3 +553,9 @@ msgstr "search-a-resource"
 
 msgid "Features.Editor.untitled-section"
 msgstr "untitled-section"
+
+msgid "Features.TakeAway.markdown-file"
+msgstr "markdown-file"
+
+msgid "Features.TakeAway.markdown-file-help"
+msgstr "markdown-file-help"
