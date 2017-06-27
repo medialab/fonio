@@ -24,7 +24,8 @@ import downloadFile from '../../../helpers/fileDownloader';
 import {
   bundleProjectAsHtml,
   // bundleProjectAsJSON,
-  cleanStoryForExport
+  cleanStoryForExport,
+  convertStoryToMarkdown,
 } from '../../../helpers/projectBundler';
 
 import {
@@ -130,6 +131,10 @@ class TakeAwayDialogContainer extends Component {
       case 'project':
         downloadFile(JSON.stringify(JSONbundle, null, 2), 'json', title);
         break;
+      case 'markdown':
+        const markdownRep = convertStoryToMarkdown(JSONbundle);
+        downloadFile(markdownRep, 'markdown', title);
+        break;
       case 'html':
         this.props.actions.setTakeAwayType('html');
         this.props.actions.setBundleHtmlStatus('processing', 'Asking the server to bundle a custom html file');
@@ -143,7 +148,6 @@ class TakeAwayDialogContainer extends Component {
             this.props.actions.setBundleHtmlStatus('failure', 'Bundling failed, somehow ...');
           }
         });
-
         break;
       case 'github':
         this.props.actions.setBundleHtmlStatus('processing', 'Asking the server to bundle a custom html file');

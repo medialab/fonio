@@ -1,0 +1,51 @@
+/**
+ * style definitions for the ResourceSearchWidget component
+ *
+ * @module fonio/components/ResourceSearchWidget
+ */
+@import '../../parameters.scss';
+
+.fonio-resource-search-widget
+{
+    background: $background-default;
+    .search-form
+    {
+        @extend .flex-stretched-row;
+        .arobase
+        {
+            font-size: $font-size-3;
+
+            text-align: center;
+
+            flex: 1;
+        }
+        input
+        {
+            flex: 5;
+        }
+    }
+    .choice-options-container
+    {
+        overflow: auto;
+
+        max-height: 10rem;
+        margin: 0;
+        padding: 0;
+        .choice-option
+        {
+            padding: $gutter-medium;
+
+            list-style-type: none;
+
+            @extend .important-item;
+            @extend .animated;
+            &:hover,
+            &.active,
+            {
+                cursor: pointer;
+
+                @extend .important-item-intent;
+            }
+        }
+    }
+}

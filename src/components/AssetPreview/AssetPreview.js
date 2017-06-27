@@ -35,36 +35,42 @@ const AssetPreview = ({
   type,
   data
 }) => {
-  switch (type) {
-    case 'image':
-      return <img src={data.base64} />;
-    case 'video':
-      return (
-        <Media>
-          <Player src={data.url} />
-        </Media>
-      );
-    case 'data-presentation':
-      return (
-        <QuinoaPresentationPlayer
-          presentation={data} />
-      );
-    case 'embed':
-      return (
-        <EmbedContainer html={data} />
-      );
-    case 'bib':
-      const items = data.reduce((result, item) => ({
-        ...result,
-        [item.id]: item
-      }), {});
-      return (
-        <BibliographicPreview
-          items={items} />
-      );
-    default:
-      return null;
-  }
+  const renderPreview = () => {
+    switch (type) {
+      case 'image':
+        return <img src={data.base64} />;
+      case 'video':
+        return (
+          <Media>
+            <Player src={data.url} />
+          </Media>
+        );
+      case 'data-presentation':
+        return (
+          <QuinoaPresentationPlayer
+            presentation={data} />
+        );
+      case 'embed':
+        return (
+          <EmbedContainer html={data} />
+        );
+      case 'bib':
+        const items = data.reduce((result, item) => ({
+          ...result,
+          [item.id]: item
+        }), {});
+        return (
+          <BibliographicPreview
+            items={items} />
+        );
+      default:
+        return null;
+    }
+  };
+  return (
+    <div className="fonio-asset-preview">
+      {renderPreview()}
+    </div>);
 };
 
 export default AssetPreview;

@@ -1,0 +1,35 @@
+/**
+ * style definitions for the InlineCitation component
+ *
+ * @module fonio/components/InlineCitation
+ */
+@import '../../parameters.scss';
+
+.fonio-inline-citation
+{
+  @extend .important-item;
+  padding: $gutter-small 0 $gutter-small 0;
+  margin : 0;
+  border-radius: $gutter-medium;
+  cursor: pointer;
+  .more-options-container{
+    padding: $gutter-medium;
+
+    input{
+      padding: 0;
+      &:hover,
+      &:focus{
+        @extend .important-item-intent;
+      }
+    }
+  }
+  .more-options-btn
+  {
+    border-radius: 50%;
+    margin-left: $gutter-medium;
+    // margin-right: $gutter-medium;
+    &:hover{
+      @extend .important-item-intent;
+    }
+  }
+}

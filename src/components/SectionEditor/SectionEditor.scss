@@ -1,0 +1,93 @@
+/**
+ * style definitions for the SectionEditor component
+ *
+ * @module fonio/components/SectionEditor
+ */
+@import '../../parameters.scss';
+
+
+.fonio-section-editor
+{
+    q {
+      quotes: none;
+      background: $color-warm-grey;
+    }
+
+    pre,
+    blockquote
+    {
+      background: $color-warm-grey;
+    }
+
+    @extend .flex-stretched-column;
+    .editable-title,
+    .editor-wrapper
+    {
+        padding-right: 10%;
+        padding-left: 10%;
+    }
+    .editable-title
+    {
+        @extend .flex-stretched-row;
+        input
+        {
+            flex: 1;
+        }
+    }
+    .editor-wrapper
+    {
+        overflow: auto;
+
+        padding-bottom: 10rem;
+
+        flex: 1;
+        .scholar-draft-SectionEditor
+        {
+            .scholar-draft-BasicEditor
+            {
+              &.active,
+              &:hover{
+                .public-DraftEditor-content
+                {
+                    background: $color-very-light;
+                }
+              }
+            }
+            .public-DraftEditor-content,
+            .public-DraftEditorPlaceholder-inner
+            {
+                @extend .animated;
+                padding: $gutter-medium;
+                font-family: $editable-font-stack;
+            }
+            .scholar-draft-NoteContainer
+            {
+                margin-top: $gutter-large;
+                padding: $gutter-medium 0 $gutter-medium 0;
+                border-top: 1px solid $color-warm-grey;
+                &:not(:first-of-type){
+                  border-bottom: 1px solid $color-warm-grey;
+                }
+                .note-header
+                {
+                    @extend .flex-stretched-row;
+                border-bottom: 1px solid $color-very-light;
+
+                    button{
+                      width: $font-size-5;
+                      text-align: center;
+                      order: 2;
+                    }
+                    h3
+                    {
+                        flex: 1;
+                        order: 1;
+                    }
+                }
+            }
+            .scholar-draft-BlockAssetContainer{
+                min-height: 10rem;                   
+            }
+        }
+    }
+}

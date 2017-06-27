@@ -1,0 +1,77 @@
+/**
+ * style definitions for the AssetsManagerLayout component
+ *
+ * @module fonio/features/AssetsManager
+ */
+@import '../../../parameters.scss';
+
+.fonio-resources-manager-layout
+{
+    
+    @extend .flex-stretched-column;
+
+
+    &.resources-prompted
+    {
+        color: $background-default;
+        background: $primary-color;
+    }
+
+    .header,
+    .body,
+    .footer
+    {
+        padding-right: $gutter-medium;
+        padding-left: $gutter-medium;
+    }
+    .body
+    {
+        overflow-y: auto;
+
+        flex: 1;
+        .fonio-resource-card
+        {
+            margin-bottom: $gutter-medium;
+        }
+    }
+    .footer
+    {
+        padding-top: $gutter-small;
+        padding-bottom: $gutter-small;
+
+        @extend .flex-stretched-row;
+        .search-query
+        {
+            flex: 1;
+            @extend .interactive-item;
+            &:hover
+            {
+                @extend .interactive-item-intent;
+            }
+            &:focus
+            {
+                @extend .interactive-item-active;
+            }
+        }
+    }
+
+    #new-resource
+    {
+        padding: $gutter-medium;
+
+        text-align: left;
+
+        flex: 5;
+        @extend .flex-stretched-row;
+        flex: 1;
+        @extend .interactive-item;
+        &:hover
+        {
+            @extend .interactive-item-intent;
+        }
+        &:active
+        {
+            @extend .interactive-item-active;
+        }
+    }
+}

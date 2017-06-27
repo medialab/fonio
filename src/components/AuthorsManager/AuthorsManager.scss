@@ -1,0 +1,49 @@
+/**
+ * style definitions for the AuthorsManager component
+ *
+ * @module fonio/components/AuthorsManager
+ */
+@import '../../parameters.scss';
+
+.fonio-authors-manager
+{
+  margin: 0;
+  padding: 0;
+  li{
+    @extend .flex-stretched-row;
+    list-style-type: none;
+
+    .main-part{
+      flex: 10;
+    }
+    margin-bottom: $gutter-small;
+  }
+
+  .remove-btn
+  {
+    padding-top: $gutter-medium;
+    @extend .dangerous-item;
+    &:hover{
+      @extend .dangerous-item-intent;
+    }
+  }
+
+  .icon-container
+  {
+    flex: 1;
+    cursor: pointer;
+    img{
+      height: $font-size-3;
+    }
+  }
+
+  .add-author
+  {
+    margin-top: $gutter-large;
+    padding: $gutter-medium;
+    @extend .interactive-item;
+    &:hover{
+      @extend .interactive-item-intent;
+    }
+  }
+}

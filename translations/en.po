@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-5-16\n"
-"PO-Revision-Date: Tue May 16 2017 11:23:45 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-6-9\n"
+"PO-Revision-Date: Fri Jun 09 2017 12:08:25 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -108,7 +108,7 @@ msgid "Features.Editor.asset-type-data-presentation"
 msgstr "data presentation"
 
 msgid "Features.Editor.asset-type-data-presentation-help"
-msgstr "import a quinoa data presentation made with bulgur"
+msgstr "import a quinoa data presentation made with fonio"
 
 msgid "Features.Editor.asset-type-embed"
 msgstr "embed code"
@@ -364,3 +364,198 @@ msgstr "asset-type-bib"
 
 msgid "Features.Editor.asset-type-bib-help"
 msgstr "asset-type-bib-help"
+
+msgid "Components.ResourceCard.untitled-asset"
+msgstr "untitled-asset"
+
+msgid "Components.ResourceCard.no-description"
+msgstr "no-description"
+
+msgid "Components.ResourceCard.settings"
+msgstr "settings"
+
+msgid "Components.ResourceCard.delete"
+msgstr "delete"
+
+msgid "Components.ResourceContainer.title"
+msgstr "title"
+
+msgid "Components.ResourceContainer.description"
+msgstr "description"
+
+msgid "Components.ResourceContainer.source"
+msgstr "source"
+
+msgid "Features.Editor.loading-resource-data"
+msgstr "loading-resource-data"
+
+msgid "Features.Editor.loading-resource-data-success"
+msgstr "loading-resource-data-success"
+
+msgid "Features.Editor.loading-resource-data-fail"
+msgstr "loading-resource-data-fail"
+
+msgid "Features.Editor.resource-type-image"
+msgstr "resource-type-image"
+
+msgid "Features.Editor.resource-type-image-help"
+msgstr "resource-type-image-help"
+
+msgid "Features.Editor.resource-type-video"
+msgstr "resource-type-video"
+
+msgid "Features.Editor.resource-type-video-help"
+msgstr "resource-type-video-help"
+
+msgid "Features.Editor.resource-type-data-presentation"
+msgstr "resource-type-data-presentation"
+
+msgid "Features.Editor.resource-type-data-presentation-help"
+msgstr "resource-type-data-presentation-help"
+
+msgid "Features.Editor.resource-type-embed"
+msgstr "resource-type-embed"
+
+msgid "Features.Editor.resource-type-embed-help"
+msgstr "resource-type-embed-help"
+
+msgid "Features.Editor.resource-type-bib"
+msgstr "resource-type-bib"
+
+msgid "Features.Editor.resource-type-bib-help"
+msgstr "resource-type-bib-help"
+
+msgid "Features.Editor.edit-resource"
+msgstr "edit-resource"
+
+msgid "Features.Editor.create-resource"
+msgstr "create-resource"
+
+msgid "Features.Editor.resource-data"
+msgstr "resource-data"
+
+msgid "Features.Editor.resource-data-help"
+msgstr "resource-data-help"
+
+msgid "Features.Editor.resource-metadata"
+msgstr "resource-metadata"
+
+msgid "Features.Editor.resource-metadata-help"
+msgstr "resource-metadata-help"
+
+msgid "Features.Editor.title-of-the-resource"
+msgstr "title-of-the-resource"
+
+msgid "Features.Editor.source-of-the-resource"
+msgstr "source-of-the-resource"
+
+msgid "Features.Editor.description-of-the-resource"
+msgstr "description-of-the-resource"
+
+msgid "Features.Editor.update-resource"
+msgstr "update-resource"
+
+msgid "Features.ResourcesManager.new-resource"
+msgstr "new-resource"
+
+msgid "Features.ResourcesManager.search-in-resources"
+msgstr "search-in-resources"
+
+msgid "Features.ResourcesManager.edit-resource"
+msgstr "edit-resource"
+
+msgid "Components.AuthorsManager.new-author"
+msgstr "new-author"
+
+msgid "Components.AuthorsManager.add-author"
+msgstr "add-author"
+
+msgid "Components.SectionCard.untitled-section"
+msgstr "untitled-section"
+
+msgid "Components.SectionCard.settings"
+msgstr "settings"
+
+msgid "Components.SectionCard.delete"
+msgstr "delete"
+
+msgid "Features.Editor.resources-header"
+msgstr "resources-header"
+
+msgid "Features.Editor.sections-header"
+msgstr "sections-header"
+
+msgid "Components.SectionCard.sub-section"
+msgstr "sub-section"
+
+msgid "Features.Editor.edit-section"
+msgstr "edit-section"
+
+msgid "Features.Editor.create-section"
+msgstr "create-section"
+
+msgid "Features.Editor.section-metadata"
+msgstr "section-metadata"
+
+msgid "Features.Editor.section-metadata-help"
+msgstr "section-metadata-help"
+
+msgid "Features.Editor.title-of-the-section"
+msgstr "title-of-the-section"
+
+msgid "Features.Editor.authors-of-the-section"
+msgstr "authors-of-the-section"
+
+msgid "Features.Editor.update-section"
+msgstr "update-section"
+
+msgid "Features.SectionsManager.new-section"
+msgstr "new-section"
+
+msgid "Features.SectionsManager.search-in-sections"
+msgstr "search-in-sections"
+
+msgid "Features.SectionsManager.edit-section"
+msgstr "edit-section"
+
+msgid "Components.SectionCard.abord-delete"
+msgstr "abord-delete"
+
+msgid "Components.SectionCard.confirm-delete"
+msgstr "confirm-delete"
+
+msgid "Components.Footer.section-title"
+msgstr "section-title"
+
+msgid "Features.Editor.no-sections-selected"
+msgstr "no-sections-selected"
+
+msgid "Features.Editor.create-new-section"
+msgstr "create-new-section"
+
+msgid "Components.InlineCitation.locator-placeholder"
+msgstr "locator-placeholder"
+
+msgid "Components.InlineCitation.comment-placeholder"
+msgstr "comment-placeholder"
+
+msgid "Components.Bibliography.bibliography-title"
+msgstr "bibliography-title"
+
+msgid "Components.InlineCitation.prefix-placeholder"
+msgstr "prefix-placeholder"
+
+msgid "Components.InlineCitation.suffix-placeholder"
+msgstr "suffix-placeholder"
+
+msgid "Components.ResourceSearchWidget.search-a-resource"
+msgstr "search-a-resource"
+
+msgid "Features.Editor.untitled-section"
+msgstr "untitled-section"
+
+msgid "Features.TakeAway.markdown-file"
+msgstr "markdown-file"
+
+msgid "Features.TakeAway.markdown-file-help"
+msgstr "markdown-file-help"

@@ -7,12 +7,23 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {setLanguage} from 'redux-i18n';
+import {v4 as genId} from 'uuid';
 
 import {debounce} from 'lodash';
+
+import {
+  convertToRaw
+} from 'draft-js';
 
 import EditorLayout from './EditorLayout';
 import * as duck from '../duck';
 import * as managerDuck from '../../StoriesManager/duck';
+import {
+  selector as sectionsSelector,
+  updateSection as updateSectionAction,
+  createSection as createSectionAction,
+  setActiveSectionId,
+} from '../../SectionsManager/duck';
 
 import {
   resetStoryCandidateSettings,
@@ -21,12 +32,20 @@ import {
 
 import {
   updateAsset,
-  embedAsset
-} from '../../AssetsManager/duck';
+  embedAsset,
+  updateResource,
+} from '../../ResourcesManager/duck';
 
 import {
-  insertAssetInEditor
+  // insertAssetInEditor,
+  insertInlineContextualization,
+  insertBlockContextualization,
 } from '../../../helpers/draftUtils';
+
+import {
+  createDefaultSection
+} from '../../../helpers/modelsUtils';
+
 
 /**
  * Redux-decorated component class rendering the takeaway dialog feature to the app
@@ -35,6 +54,7 @@ import {
   state => ({
     ...duck.selector(state.fonioEditor),
     ...managerDuck.selector(state.stories),
+    ...sectionsSelector(state.sectionsManager),
     lang: state.i18nState.lang
   }),
   dispatch => ({
@@ -44,7 +64,11 @@ import {
       setupStoryCandidate,
       updateAsset,
       embedAsset,
-      setLanguage
+      setLanguage,
+      updateSection: updateSectionAction,
+      createSection: createSectionAction,
+      updateResource,
+      setActiveSectionId,
     }, dispatch)
   })
 )
@@ -61,7 +85,8 @@ class EditorContainer extends Component {
     this.returnToLanding = this.returnToLanding.bind(this);
     this.openSettings = this.openSettings.bind(this);
     this.updateStoryContent = this.updateStoryContent.bind(this);
-    this.embedAsset = this.embedAsset.bind(this);
+
+    this.createNewSection = this.createNewSection.bind(this);
 
     this.updateStoryContentDebounced = debounce(this.updateStoryContentDebounced, 1000);
   }
@@ -95,13 +120,88 @@ class EditorContainer extends Component {
     this.updateStoryContentDebounced(id, content);
   }
 
-  embedAsset (editor, id, assetId, metadata, atSelection) {
-    const editorState = insertAssetInEditor(editor, metadata, atSelection);
-    this.props.actions.updateStoryContent(this.props.activeStoryId, editorState);
-    this.updateStoryContentDebounced(this.props.activeStoryId, editorState);
+  createNewSection () {
+    const id = genId();
+    const section = createDefaultSection();
+    section.id = id;
+    this.props.actions.createSection(this.props.activeStoryId, id, section, true);
+  }
+
+  summonAsset = (contentId, resourceId) => {
+    const {
+      activeStoryId,
+      activeStory,
+      activeSectionId,
+      editorStates,
+      actions,
+    } = this.props;
+
+    const {
+      createContextualizer,
+      createContextualization,
+      updateDraftEditorState,
+      updateSection,
+    } = actions;
+
+    const activeSection = activeStory.sections[activeSectionId];
+    const resource = activeStory.resources[resourceId];
+
+    // create contextualizer
+    // todo : consume model to do that
+    const contextualizerId = genId();
+    const contextualizer = {
+      id: contextualizerId,
+      type: resource.metadata.type,
+    };
+    createContextualizer(activeStoryId, contextualizerId, contextualizer);
+
+    // choose if inline or block
+    // todo: choose that from resource model
+    const insertionType = resource.metadata.type === 'bib' ? 'inline' : 'block';
+
+    // create contextualization
+    const contextualizationId = genId();
+    const contextualization = {
+      id: contextualizationId,
+      resourceId,
+      contextualizerId,
+      sectionId: activeSectionId
+    };
+    createContextualization(activeStoryId, contextualizationId, contextualization);
+
+    const editorStateId = contentId === 'main' ? activeSectionId : contentId;
+    const editorState = editorStates[editorStateId];
+    // update related editor state
+    const newEditorState = insertionType === 'block' ?
+      insertBlockContextualization(editorState, contextualization, contextualizer, resource) :
+      insertInlineContextualization(editorState, contextualization, contextualizer, resource);
+    // update immutable editor state
+    updateDraftEditorState(editorStateId, newEditorState);
+    // update serialized editor state
+    let newSection;
+    if (contentId === 'main') {
+      newSection = {
+        ...activeSection,
+        contents: convertToRaw(newEditorState.getCurrentContent())
+      };
+    }
+ else {
+      newSection = {
+        ...activeSection,
+        notes: {
+          ...activeSection.notes,
+          [contentId]: {
+            ...activeSection.notes[contentId],
+            editorState: convertToRaw(newEditorState.getCurrentContent())
+          }
+        }
+      };
+    }
+    updateSection(activeStoryId, activeSectionId, newSection);
   }
 
   render() {
+
     return (
       <EditorLayout
         {...this.props}
@@ -109,7 +209,8 @@ class EditorContainer extends Component {
         closeAndResetDialog={this.closeAndResetDialog}
         returnToLanding={this.returnToLanding}
         updateStoryContent={this.updateStoryContent}
-        embedAsset={this.embedAsset} />
+        onCreateNewSection={this.createNewSection}
+        summonAsset={this.summonAsset} />
     );
   }
 }

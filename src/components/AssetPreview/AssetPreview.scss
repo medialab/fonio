@@ -4,3 +4,15 @@
  * @module fonio/components/AssetPreview
  */
 @import '../../parameters.scss';
+
+.fonio-asset-preview
+{
+  position: relative;
+  min-height: 20rem;
+  iframe{
+    width: 100%
+  }
+  img{
+    max-width: 100%;
+  }
+}

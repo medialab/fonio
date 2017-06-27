@@ -7,12 +7,17 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {persistentReducer} from 'redux-pouchdb';
-
+import {v4 as genId} from 'uuid';
 
 import {
   fileIsAnImage,
   loadImage
 } from '../../helpers/assetsUtils';
+
+import {
+  createDefaultStory,
+  createDefaultSection
+} from '../../helpers/modelsUtils';
 
 /*
  * Action names
@@ -81,20 +86,6 @@ export const submitCoverImage = (file) => ({
 export const resetStoryCandidateSettings = () => ({
   type: RESET_STORY_CANDIDATE_SETTINGS
 });
-/**
- * Restory of a basic, empty story
- * @type {object}
- */
-const EMPTY_STORY = {
-  type: 'story',
-  metadata: {
-    title: undefined,
-    authors: [],
-    description: '',
-    gistId: undefined
-  },
-  assets: {}
-};
 
 const DEFAULT_STORY_CANDIDATE_DATA = {
   /**
@@ -118,7 +109,20 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
       return DEFAULT_STORY_CANDIDATE_DATA;
     case START_STORY_CANDIDATE_CONFIGURATION:
       // configure existing story or setup new ?
-      const candidateBeginingState = action.story ? action.story/*JSON.parse(JSON.stringify(action.story))*/ : EMPTY_STORY;
+      let candidateBeginingState = action.story ? action.story : createDefaultStory();
+      // add first section
+      if (!action.story) {
+        const firstSectionId = genId();
+        const firstSection = createDefaultSection();
+        firstSection.id = firstSectionId;
+        candidateBeginingState = {
+          ...candidateBeginingState,
+          sections: {
+            [firstSectionId]: firstSection
+          },
+          sectionsOrder: [firstSectionId]
+        };
+      }
       return {
         ...state,
         storyCandidate: {
@@ -127,7 +131,7 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
         }
       };
     case SET_STORY_CANDIDATE_METADATA:
-      const value = action.field === 'authors' ? action.value.split(',') : action.value;
+      const value = action.value;// action.field === 'authors' ? action.value.split(',') : action.value;
       return {
         ...state,
         storyCandidate: {
