@@ -184,7 +184,7 @@ class SectionCard extends Component {
         }}>
         <div
           className="card-header">
-          <img src={require('./assets/section.svg')} />
+          <img src={require('../../sharedAssets/section-black.svg')} />
           <h5>
             <span className="title">{metadata.title && metadata.title.length ? metadata.title : translate('untitled-section')}</span>
           </h5>
@@ -198,17 +198,17 @@ class SectionCard extends Component {
           </button>
           <button className={'subsection-btn '} onClick={onCreateSubSection}>
             <img
-              src={require('./assets/close.svg')}
+              src={require('../../sharedAssets/close-black.svg')}
               className="fonio-icon-image"
               style={{transform: 'rotate(45deg)'}} />
             {translate('sub-section')}
           </button>
           <button className="settings-btn" onClick={onConfigureClick}>
-            <img src={require('./assets/settings.svg')} className="fonio-icon-image" />
+            <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
             {translate('settings')}
           </button>
           <button className={'delete-btn '} onClick={onDeletePromptRequest}>
-            <img src={require('./assets/close.svg')} className="fonio-icon-image" />
+            <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
             {translate('delete')}
           </button>
         </div> :
@@ -217,7 +217,7 @@ class SectionCard extends Component {
             {translate('abord-delete')}
           </button>
           <button className={'delete-confirm-btn '} onClick={onDeleteClick}>
-            <img src={require('./assets/close.svg')} className="fonio-icon-image" />
+            <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
             {translate('confirm-delete')}
           </button>
         </div>

@@ -31,14 +31,14 @@ const Footer = ({
         <button className="mode-btn" onClick={togglePreview}>{
           uiMode === 'edition' ?
             <span>
-              <img className="fonio-icon-image" src={require('./assets/preview.svg')} />{translate('preview')}
+              <img className="fonio-icon-image" src={require('../../sharedAssets/preview-white.svg')} />{translate('preview')}
             </span>
           :
             <span>
-              <img className="fonio-icon-image" src={require('./assets/edit.svg')} />{translate('edit')}
+              <img className="fonio-icon-image" src={require('../../sharedAssets/edit-white.svg')} />{translate('edit')}
             </span>
         }</button>
-        <button className="takeaway-btn" onClick={openTakeAwayModal}><img className="fonio-icon-image" src={require('./assets/take-away.svg')} />{translate('take-away')}</button>
+        <button className="takeaway-btn" onClick={openTakeAwayModal}><img className="fonio-icon-image" src={require('../../sharedAssets/take-away-white.svg')} />{translate('take-away')}</button>
       </div>
     </footer>
   );

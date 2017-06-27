@@ -35,15 +35,15 @@ const PresentationCard = ({
         </div>
         <div className="buttons-column">
           <button className="edit-btn" onClick={setToActive}>
-            <img src={require('./assets/edit.svg')} className="fonio-icon-image" />
+            <img src={require('../../sharedAssets/edit-white.svg')} className="fonio-icon-image" />
             {translate('edit')}
           </button>
           <button className="settings-btn" onClick={configure}>
-            <img src={require('./assets/settings.svg')} className="fonio-icon-image" />
+            <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
             {translate('settings')}
           </button>
           <button className={'delete-btn ' + (promptedToDelete ? 'inactive' : '')} onClick={onClickPrompt}>
-            <img src={require('./assets/close.svg')} className="fonio-icon-image" />
+            <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
             {translate('delete')}
           </button>
         </div>

@@ -81,7 +81,7 @@ class AuthorsManager extends Component {
             return (
               <li key={index}>
                 <span className="icon-container remove-btn" onClick={onRemoveAuthor}>
-                  <img src={require('./assets/close.svg')} className="fonio-icon-image" />
+                  <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
                 </span>
                 <input
                   className="main-part"
@@ -97,7 +97,7 @@ class AuthorsManager extends Component {
         <li className="add-author" onClick={onAddAuthor}>
           <span className="icon-container">
             <img
-              src={require('./assets/close.svg')}
+              src={require('../../sharedAssets/close-black.svg')}
               className="fonio-icon-image"
               style={{
                 transform: 'rotate(45deg)'

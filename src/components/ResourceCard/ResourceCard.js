@@ -140,7 +140,7 @@ class ResourceCard extends Component {
         onClick={onGlobalClick}>
         <div
           className="card-header">
-          <img src={require('./assets/' + metadata.type + '.svg')} />
+          <img src={require('../../sharedAssets/' + metadata.type + '-black.svg')} />
           <h5>
             <span className="title">{metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset')}</span>
           </h5>
@@ -156,11 +156,11 @@ class ResourceCard extends Component {
         </div>*/}
         <div className="card-footer">
           <button className="settings-btn" onClick={onConfigureClick}>
-            <img src={require('./assets/settings.svg')} className="fonio-icon-image" />
+            <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
             {translate('settings')}
           </button>
           <button className={'delete-btn '} onClick={onDeleteClick}>
-            <img src={require('./assets/close.svg')} className="fonio-icon-image" />
+            <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
             {translate('delete')}
           </button>
         </div>
