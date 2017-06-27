@@ -100,20 +100,28 @@
                 }
             }
         },
-        "presentationSettings": {
+        "settings": {
             "type": "object",
-            "required": true,
+            "required": false,
             "keys": {
+                "options": {
+                    "type": "object",
+                    "keys": {
+                        "notesPosition": {
+                            "type": "string"
+                        },
+                        "allowDisqusComments": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "citationStyle": {
                     "type": "string"
                 },
                 "citationLocale": {
                     "type": "string"
                 },
-                "cssCode": {
-                    "type": "string"
-                },
-                "referencesPosition": {
+                "css": {
                     "type": "string"
                 }
             }
