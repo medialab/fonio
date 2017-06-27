@@ -18,7 +18,7 @@ const PresentationCard = ({
   onClickDelete,
   onClickPrompt,
   onClickUnprompt,
-  onClickCopy
+  onClickCopy,
 }, context) => {
 
   const translate = translateNameSpacer(context.t, 'Components.StoryCard');
