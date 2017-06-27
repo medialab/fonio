@@ -67,7 +67,7 @@ var discoverTranslations = function() {
         console.log(colors.green(shortKey + ' for locale ' + locale.fileName + ' already exists'));
       } else {
         const shortKey = key.split('.').pop();
-        newTranslations = shortKey;
+        newTranslations[key] = shortKey;
         console.log(colors.red('Automatically adding the key ' + shortKey + ' to locale ' + locale.fileName));
       }
     });
