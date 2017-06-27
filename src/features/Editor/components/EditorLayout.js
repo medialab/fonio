@@ -12,11 +12,9 @@ import Modal from 'react-modal';
 //   EditorState
 // } from 'draft-js';
 
-// import StoryPlayer from 'quinoa-story-player';
+import StoryPlayer from 'quinoa-story-player';
 
 import './EditorLayout.scss';
-
-// import QuinoaStoryPlayer from 'quinoa-story-player';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -195,14 +193,10 @@ const EditorLayout = ({
               </div>
             </section>
         :
-            <span>Todo new story player</span>
-          // <section className="fonio-main-row">
-          //   <StoryPlayer
-          //     story={{
-          //       ...activeStory,
-          //       content: activeStory.content
-          //     }} />
-          // </section>
+            <section className="fonio-main-row">
+              <StoryPlayer
+                story={activeStory} />
+            </section>
         }
           <Footer
             returnToLanding={returnToLanding}
