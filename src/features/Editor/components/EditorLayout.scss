@@ -77,6 +77,42 @@
         height: $font-size-2-5;
         padding-right: $gutter-small;
     }
+
+    .no-sections-selected-container
+    {
+        @extend .flex-stretched-column;
+        padding: $gutter-large;
+        button
+        {
+            @extend .interactive-item;
+            padding: $gutter-large;
+            &:hover{
+                @extend .interactive-item-intent;
+            }
+        }
+
+        ul{
+            padding: 0;
+            @extend .flex-stretched-column;
+            li{
+                list-style-type: none;
+                padding: 0;
+                @extend .flex-stretched-column;
+            }
+        }
+        .create-new-section-container
+        {
+            @extend .flex-stretched-column;
+            margin-top: $gutter-large;
+            button{
+                @extend .important-item;
+                cursor: pointer;
+                &:hover{
+                    @extend .important-item-intent;
+                }
+            }
+        }
+    }
     /*
      * Generic components styling
      */

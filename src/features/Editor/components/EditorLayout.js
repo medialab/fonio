@@ -167,8 +167,8 @@ const EditorLayout = ({
                     setEditorFocus={setEditorFocus}
                     story={activeStory} />
                 :
-                  <div>
-                    <p>{translate('no-sections-selected')}</p>
+                  <div className="no-sections-selected-container">
+                    <h1>{translate('no-sections-selected')}</h1>
                     <ul>
                       {
                         activeStory.sectionsOrder.map(thatId => {
@@ -179,11 +179,11 @@ const EditorLayout = ({
                                 {activeStory.sections[id] && activeStory.sections[id].metadata.title || translate('untitled-section')}
                               </button>
                             </li>
-                        );
-})
+                          );
+                        })
                       }
                     </ul>
-                    <div>
+                    <div className="create-new-section-container">
                       <button onClick={onCreateNewSection}>
                         {translate('create-new-section')}
                       </button>
