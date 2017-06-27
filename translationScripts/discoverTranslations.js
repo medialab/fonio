@@ -13,11 +13,10 @@ var discoverTranslations = function() {
   const src = path.resolve(__dirname + '/' + argv.src);
   // name space function used in source code files to namespace translations keys
   const nameSpacer = argv.namespacer;
-  // const translate = translateNameSpacer(context.t, 'Components.SlidesSettingsPannel');
   const nameSpacerRegex = new RegExp(nameSpacer + '\\([^\']*\'' + '([^\']*)');
-  // function to look for in the source files for translations keys
+  // function used to look for in the source files for translations keys
   const translatorFn = argv.translatorFn;
-  const fnRegex = new RegExp (translatorFn + '\\([^\']*\'' + '([^\']*)', 'g')
+  const fnRegex = new RegExp (translatorFn + '\\([^\']*\'' + '([^\']*)', 'g');
 
   // recursively list all files
   const files = wrench.readdirSyncRecursive(src).filter(fileName => fileName.split('.').pop() === 'js');
@@ -54,13 +53,25 @@ var discoverTranslations = function() {
   const msgs = [];
 
   locales.forEach(locale => {
+    // Object.keys(keys).map(key => {
+    //   if (locale.translations[key] === undefined) {
+    //     const shortKey = key.split('.').pop();
+    //     locale.translations[key] = shortKey;
+    //     console.log(colors.red('Automatically adding the key ' + shortKey + ' to locale ' + locale.fileName));
+    //   }
+    // });
+    const newTranslations = {};
     Object.keys(keys).map(key => {
-      if (locale.translations[key] === undefined) {
+      if (locale.translations[key] !== undefined) {
         const shortKey = key.split('.').pop();
-        locale.translations[key] = shortKey;
+        console.log(colors.green(shortKey + ' for locale ' + locale.fileName + ' already exists'));
+      } else {
+        const shortKey = key.split('.').pop();
+        newTranslations = shortKey;
         console.log(colors.red('Automatically adding the key ' + shortKey + ' to locale ' + locale.fileName));
       }
     });
+    locale.translations = newTranslations;
   });
 
   locales.forEach(locale => {
