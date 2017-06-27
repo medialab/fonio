@@ -9,7 +9,7 @@
 {
   @extend .important-item;
   padding: $gutter-small 0 $gutter-small 0;
-  margin : 0 $gutter-medium 0 0;
+  margin : 0;
   border-radius: $gutter-medium;
   cursor: pointer;
   .more-options-container{
