@@ -179,5 +179,7 @@
   "Components.InlineCitation.prefix-placeholder": "prefix-placeholder",
   "Components.InlineCitation.suffix-placeholder": "suffix-placeholder",
   "Components.ResourceSearchWidget.search-a-resource": "search-a-resource",
-  "Features.Editor.untitled-section": "untitled-section"
+  "Features.Editor.untitled-section": "untitled-section",
+  "Features.TakeAway.markdown-file": "markdown-file",
+  "Features.TakeAway.markdown-file-help": "markdown-file-help"
 }
