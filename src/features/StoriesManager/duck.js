@@ -55,6 +55,13 @@ import {
   EXPORT_TO_SERVER
 } from '../TakeAwayDialog/duck';
 
+import {
+  SET_STORY_CSS,
+  SET_STORY_SETTING_OPTION,
+  FETCH_CITATION_STYLE,
+  FETCH_CITATION_LOCALE,
+} from '../StorySettingsManager/duck';
+
 const CREATE_STORY = '§Fonio/StoriesManager/CREATE_STORY';
 const DELETE_STORY = '§Fonio/StoriesManager/DELETE_STORY';
 const UPDATE_STORY = '§Fonio/StoriesManager/UPDATE_STORY';
@@ -454,18 +461,77 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       delete newState.stories[action.storyId].contextualizers[action.id];
       return newState;
     case UPDATE_STORY_METADATA_FIELD:
-    return {
-        ...state,
-        stories: {
-          ...state.stories,
-          [action.id]: {
-            ...state.stories[action.id],
-            metadata: {
-              ...state.stories[action.id].metadata,
-              [action.key]: action.value
+      return {
+          ...state,
+          stories: {
+            ...state.stories,
+            [action.id]: {
+              ...state.stories[action.id],
+              metadata: {
+                ...state.stories[action.id].metadata,
+                [action.key]: action.value
+              }
             }
           }
-        }
+        };
+    case SET_STORY_CSS :
+      return {
+        ...state,
+          stories: {
+            ...state.stories,
+            [action.id]: {
+              ...state.stories[action.id],
+              settings: {
+                ...state.stories[action.id].settings,
+                css: action.css
+              }
+            }
+          }
+      };
+    case SET_STORY_SETTING_OPTION:
+      return {
+        ...state,
+          stories: {
+            ...state.stories,
+            [action.id]: {
+              ...state.stories[action.id],
+              settings: {
+                ...state.stories[action.id].settings,
+                options: {
+                  ...state.stories[action.id].settings.options,
+                  [action.field]: action.value,
+                }
+              }
+            }
+          }
+      };
+    case FETCH_CITATION_STYLE + '_SUCCESS':
+      return {
+        ...state,
+          stories: {
+            ...state.stories,
+            [action.result.storyId]: {
+              ...state.stories[action.result.storyId],
+              settings: {
+                ...state.stories[action.result.storyId].settings,
+                citationStyle: action.result.citationStyle,
+              }
+            }
+          }
+      };
+    case FETCH_CITATION_LOCALE + '_SUCCESS':
+      return {
+        ...state,
+          stories: {
+            ...state.stories,
+            [action.result.storyId]: {
+              ...state.stories[action.result.storyId],
+              settings: {
+                ...state.stories[action.result.storyId].settings,
+                citationLocale: action.result.citationLocale,
+              }
+            }
+          }
       };
     /*
      * EXPORT-RELATED

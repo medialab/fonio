@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2017-6-28\n"
-"PO-Revision-Date: Wed Jun 28 2017 12:00:39 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Jun 28 2017 19:37:53 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -565,3 +565,48 @@ msgstr "edit-story"
 
 msgid "Features.StoriesManager.fonio-baseline"
 msgstr "fonio-baseline"
+
+msgid "Features.StorySettingsManager.story-settings-title"
+msgstr "story-settings-title"
+
+msgid "Features.StorySettingsManager.choose-a-template"
+msgstr "choose-a-template"
+
+msgid "Features.StorySettingsManager.allowDisqusComments"
+msgstr "allowDisqusComments"
+
+msgid "Features.StorySettingsManager.allow-disqus-comments"
+msgstr "allow-disqus-comments"
+
+msgid "Features.StorySettingsManager.yes"
+msgstr "yes"
+
+msgid "Features.StorySettingsManager.no"
+msgstr "no"
+
+msgid "Features.StorySettingsManager.notes-position"
+msgstr "notes-position"
+
+msgid "Features.StorySettingsManager.footnote"
+msgstr "footnote"
+
+msgid "Features.StorySettingsManager.sidenote"
+msgstr "sidenote"
+
+msgid "Features.StorySettingsManager.choose-a-citation-style"
+msgstr "choose-a-citation-style"
+
+msgid "Features.StorySettingsManager.choose-a-citation-locale"
+msgstr "choose-a-citation-locale"
+
+msgid "Features.StorySettingsManager.template-title"
+msgstr "template-title"
+
+msgid "Features.StorySettingsManager.options-title"
+msgstr "options-title"
+
+msgid "Features.StorySettingsManager.citation-settings-title"
+msgstr "citation-settings-title"
+
+msgid "Features.StorySettingsManager.customize-css-title"
+msgstr "customize-css-title"

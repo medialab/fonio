@@ -1,0 +1,128 @@
+/**
+ * style definitions for the StorySettingsManagerLayout component
+ *
+ * @module fonio/features/StorySettingsManager
+ */
+
+@import '../../../parameters.scss';
+
+.fonio-StorySettingsManagerLayout
+{
+    flex: 1;
+    @extend .flex-stretched-row;
+    .settings-pannel
+    {
+        padding: $gutter-medium;
+
+        transition: all $time-short ease;
+
+        flex: 1;
+        @extend .flex-stretched-column;
+        &.hidden
+        {
+            max-width: 10%;
+            .settings-pannel-body
+            {
+                margin: 0;
+
+                opacity: .00001;
+            }
+            h1
+            {
+                font-size: $font-size-2;
+
+                margin: 0;
+                padding: 0;
+
+            }
+            .settings-pannel-header,
+            .settings-pannel-body
+            {
+                padding: 0;
+            }
+            .settings-pannel-header
+            {
+                flex: 5;
+                display: flex;
+                flex-flow: column nowrap;
+                align-items: center;
+                justify-content: center;
+            }
+            .settings-pannel-body
+            {
+              flex: 0;
+            }
+        }
+        &.visible
+        {
+            max-width: 100%;
+        }
+        .settings-pannel-header,
+        .settings-pannel-body
+        {
+            padding-right: $gutter-large;
+            padding-left: $gutter-large;
+        }
+        .settings-pannel-header{
+          cursor: pointer;
+          .fonio-icon-image{
+            width: $font-size-3;
+            height: $font-size-3;
+            margin-left: $gutter-medium;
+          }
+          h1{
+            @extend .flex-stretched-row;
+            span{
+              flex: 1;
+            }
+          }
+        }
+        .settings-pannel-body
+        {
+            overflow-y: auto;
+
+            padding-bottom: $gutter-large * 2;
+
+            transition: all $time-short ease;
+
+            opacity: 1;
+
+            flex: 1;
+        }
+    }
+    .preview-container
+    {
+        position: relative;
+
+        flex: 5;
+    }
+    .settings-section
+    {
+        margin-top: $gutter-medium;
+        margin-bottom: $gutter-medium;
+        .css-customizer-container
+        {
+            position: relative;
+            textarea
+            {
+                width: 100%;
+
+                @extend .interactive-item;
+                &:hover
+                {
+                    @extend .interactive-item-intent;
+                }
+                &:focus
+                {
+                    @extend .interactive-item-active;
+                }
+            }
+            .css-example
+            {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
+    }
+}

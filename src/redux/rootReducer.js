@@ -12,6 +12,7 @@ import {persistentReducer} from 'redux-pouchdb';
 
 
 import storyEditor from './../features/StoryEditor/duck';
+import storySettingsManager from './../features/StorySettingsManager/duck';
 import storyCandidate from './../features/ConfigurationDialog/duck';
 import stories from './../features/StoriesManager/duck';
 import takeAway from './../features/TakeAwayDialog/duck';
@@ -25,6 +26,7 @@ const models = (state = modelsModels) => state;
 
 export default combineReducers({
   i18nState: persistentReducer(i18nState, 'i18n'),
+  storySettingsManager,
   resourcesManager,
   sectionsManager,
   storyCandidate,

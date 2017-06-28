@@ -6,14 +6,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
-import StoryPlayer from 'quinoa-story-player';
-
 import './GlobalUiLayout.scss';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import Footer from '../../../components/Footer/Footer';
-import EditorContainer from '../../StoryEditor/components/StoryEditorContainer';
+import StoryEditorContainer from '../../StoryEditor/components/StoryEditorContainer';
+import StorySettingsManagerContainer from '../../StorySettingsManager/components/StorySettingsManagerContainer';
 
 import StoriesManagerContainer from '../../StoriesManager/components/StoriesManagerContainer';
 import ConfigurationDialog from '../../ConfigurationDialog/components/ConfigurationDialogContainer';
@@ -124,7 +123,8 @@ const GlobalUiLayout = ({
         <div className="story-editor-container">
           <section className="fonio-main-row">
             {globalUiMode === 'edition' ?
-              <EditorContainer /> : <StoryPlayer story={activeStory} />
+              <StoryEditorContainer /> :
+              <StorySettingsManagerContainer />
           }
           </section>
           <Footer
