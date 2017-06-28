@@ -15,7 +15,8 @@ import {
 
 import StoriesManagerLayout from './StoriesManagerLayout';
 import * as duck from '../duck';
-import * as globalDuck from '../../Editor/duck';
+import * as editorDuck from '../../Editor/duck';
+import * as globalUiDuck from '../../GlobalUi/duck';
 import {maxNumberOfLocalStories} from '../../../../config';
 
 import {
@@ -29,13 +30,15 @@ import {
 @connect(
   state => ({
     ...duck.selector(state.stories),
-    ...globalDuck.selector(state.fonioEditor),
+    ...editorDuck.selector(state.fonioEditor),
+    ...globalUiDuck.selector(state.globalUi),
     lang: state.i18nState.lang
   }),
   dispatch => ({
     actions: bindActionCreators({
       ...duck,
-      ...globalDuck,
+      ...editorDuck,
+      ...globalUiDuck,
       setLanguage
     }, dispatch)
   })

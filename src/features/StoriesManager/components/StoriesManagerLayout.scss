@@ -81,6 +81,26 @@
             font-size: $font-size-5;
 
             margin: 0;
+
+            @extend .flex-stretched-row;
+
+            img{
+                width: $gutter-large * 2;
+                height: $gutter-large * 2;
+                margin-right: $gutter-medium;
+            }
+
+        }
+
+        .app-baseline{
+            font-style: italic;
+            margin: 0;
+            margin-left: $gutter-large * 2;
+            margin-bottom: $gutter-large * 2;
+        }
+
+        .important-explanation{
+            font-size: $font-size-3;
         }
         h1,
         .new-story

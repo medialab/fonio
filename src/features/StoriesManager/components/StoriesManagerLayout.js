@@ -66,26 +66,30 @@ const StoriesManagerLayout = ({
   return (
     <section className="fonio-stories-manager-layout">
       <section className="landing-group">
-        <h1>Fonio</h1>
+        <h1>
+          <img src={require('../assets/logo-quinoa.png')} />
+          <span>Fonio</span>
+        </h1>
+        <h2 className="app-baseline">{translate('fonio-baseline')}</h2>
         <div className="row-section">
-          <p>
-            <LangToggler lang={lang} onChange={setLanguage} />
-          </p>
-          <p>
+          <p className="important-explanation">
             {translate('description-$1-goal')}
           </p>
-          <p>
+          <p className="important-explanation">
             {translate('description-$2-flow')}
           </p>
+           <p className="important-explanation">
+            <LangToggler lang={lang} onChange={setLanguage} />
+          </p>
         </div>
-        <div className="row-section">
+        {/*<div className="row-section">
           <iframe
             width="100%"
             height="300"
             src="https://www.youtube.com/embed/y_15ar6ZyQ4"
             frameBorder="0"
             allowFullScreen />
-        </div>
+        </div>*/}
         <div className="row-section about">
           <p>
             {translate('about-forccast')}
