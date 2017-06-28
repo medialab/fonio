@@ -76,27 +76,29 @@
                 max-width: 8rem;
             }
         }
-        h1
-        {
-            font-size: $font-size-5;
 
-            margin: 0;
-
+        .brand-cartel{
             @extend .flex-stretched-row;
-
+            margin-bottom: $gutter-large;
             img{
                 width: $gutter-large * 2;
                 height: $gutter-large * 2;
                 margin-right: $gutter-medium;
             }
+            .title{
+                flex: 1;
 
-        }
+                h1
+                {
+                    font-size: $font-size-5;
+                    margin: 0;
+                }
 
-        .app-baseline{
-            font-style: italic;
-            margin: 0;
-            margin-left: $gutter-large * 2;
-            margin-bottom: $gutter-large * 2;
+                .app-baseline{
+                    font-style: italic;
+                    margin: 0;
+                }
+            }
         }
 
         .important-explanation{
