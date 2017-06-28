@@ -14,7 +14,7 @@ import {
   RESET_APP,
   OPEN_TAKE_AWAY_MODAL,
   CLOSE_TAKE_AWAY_MODAL
-} from '../Editor/duck';
+} from '../GlobalUi/duck';
 /*
  * Action names
  */

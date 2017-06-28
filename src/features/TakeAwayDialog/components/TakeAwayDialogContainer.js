@@ -11,13 +11,15 @@ import {get} from 'superagent';
 
 import * as duck from '../duck';
 import {
+  selector as editorSelector,
+} from '../../StoryEditor/duck';
+import {
   closeTakeAwayModal,
-  selector as fonioSelector
-} from '../../Editor/duck';
+} from '../../GlobalUi/duck';
 
 import {
   selector as storiesSelector,
-  updateStory
+  updateStory,
 } from '../../StoriesManager/duck';
 
 import downloadFile from '../../../helpers/fileDownloader';
@@ -42,7 +44,7 @@ import TakeAwayDialogLayout from './TakeAwayDialogLayout';
 @connect(
   state => ({
     ...duck.selector(state.takeAway),
-    ...fonioSelector(state.fonioEditor),
+    ...editorSelector(state.storyEditor),
     ...storiesSelector(state.stories),
     lang: state.i18nState.lang
   }),

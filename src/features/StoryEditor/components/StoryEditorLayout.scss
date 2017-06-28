@@ -1,0 +1,67 @@
+/**
+ * style definitions for the EditorLayout component
+ *
+ * @module fonio/features/Editor
+ */
+
+@import '../../../parameters.scss';
+
+.fonio-story-editor
+{
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+
+    @extend .flex-stretched-row;
+    flex-wrap: nowrap;
+    flex: 10;
+    .fonio-aside-view
+    {
+        min-width: 16.6%;
+
+        flex: 1;
+    }
+    .fonio-section-editor
+    {
+        flex: 5;
+        @extend .flex-stretched-column;
+    }
+
+    .no-sections-selected-container
+    {
+        @extend .flex-stretched-column;
+        padding: $gutter-large;
+        flex: 5;
+        button
+        {
+            @extend .interactive-item;
+            padding: $gutter-large;
+            &:hover{
+                @extend .interactive-item-intent;
+            }
+        }
+
+        ul{
+            padding: 0;
+            @extend .flex-stretched-column;
+            li{
+                list-style-type: none;
+                padding: 0;
+                @extend .flex-stretched-column;
+            }
+        }
+        .create-new-section-container
+        {
+            @extend .flex-stretched-column;
+            margin-top: $gutter-large;
+            button{
+                @extend .important-item;
+                cursor: pointer;
+                &:hover{
+                    @extend .important-item-intent;
+                }
+            }
+        }
+    }
+}

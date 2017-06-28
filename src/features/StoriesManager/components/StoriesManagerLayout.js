@@ -78,7 +78,7 @@ const StoriesManagerLayout = ({
           <p className="important-explanation">
             {translate('description-$2-flow')}
           </p>
-           <p className="important-explanation">
+          <p className="important-explanation">
             <LangToggler lang={lang} onChange={setLanguage} />
           </p>
         </div>

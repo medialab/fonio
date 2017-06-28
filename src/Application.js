@@ -10,16 +10,16 @@ import React from 'react';
 import './core.scss';
 import './Application.scss';
 
-import Editor from './features/Editor/components/EditorContainer.js';
+import GlobalUi from './features/GlobalUi/components/GlobalUiContainer.js';
 
 /**
  * Renders the whole fonio application
  * @return {ReactComponent} component
  */
 const Application = ({}) => (
-  <Editor
+  <GlobalUi
     id="wrapper"
-    className="fonio-editor" />
+    className="fonio" />
 );
 
 export default Application;

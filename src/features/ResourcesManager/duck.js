@@ -31,10 +31,12 @@ import {
 import {
   RESET_APP,
   SET_ACTIVE_STORY,
+} from '../GlobalUi/duck';
+import {
   PROMPT_ASSET_EMBED,
   UNPROMPT_ASSET_EMBED,
   EMBED_ASSET
-} from '../Editor/duck';
+} from '../StoryEditor/duck';
 
 /*
  * UI-RELATED

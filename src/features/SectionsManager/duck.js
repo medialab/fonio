@@ -16,7 +16,7 @@ import {
   RESET_APP,
   SET_ACTIVE_STORY,
   APPLY_STORY_CANDIDATE_CONFIGURATION,
-} from '../Editor/duck';
+} from '../GlobalUi/duck';
 
 /*
  * UI-RELATED

@@ -1,0 +1,144 @@
+/**
+ * style definitions for the GlobalUi component
+ *
+ * @module fonio/features/GlobalUi
+ */
+
+@import '../../../parameters.scss';
+
+
+
+/*
+ * Primary layout
+ */
+
+.fonio
+{
+    /*
+     * root component
+     */
+    font-family: $main-font-stack;
+    font-size: $font-size-2;
+
+    @extend .flex-stretched-column;
+    @extend .normal-item;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /*
+     * secondary layout components
+     */
+     .story-editor-container{
+        @extend .flex-stretched-column;
+        flex: 1;
+     }
+    .fonio-main-row
+    {
+                    position: relative;
+
+        display: flex;
+        flex-direction: row;
+
+        flex-wrap: nowrap;
+        flex: 10;
+        .fonio-aside-view
+        {
+            min-width: 16.6%;
+
+            flex: 1;
+        }
+        .fonio-story-editor
+        {
+            flex: 5;
+        }
+    }
+    .fonio-footer
+    {
+        z-index: 1;
+    }
+  
+    /*
+     * Generic components styling
+     */
+    input,
+    textarea,
+    button
+    {
+        @extend .animated;
+    }
+    a,
+    a:hover,
+    a:visited,
+    a:active
+    {
+        color: inherit;
+    }
+    input,
+    textarea
+    {
+        font-family: $editable-font-stack;
+    }
+    button,
+    input,
+    textarea
+    {
+        // font-size: 1rem;
+        border: none;
+        outline: none;
+        background: inherit;
+    }
+    button:hover,
+    input:hover,
+    textarea:hover,
+    input:focus,
+    textarea:focus
+    {
+        cursor: pointer;
+
+        background: $background-intent;
+    }
+    button
+    {
+        text-align: left;
+    }
+    input
+    {
+        padding: $gutter-medium;
+    }
+
+    .fonio-icon-image
+    {
+        position: relative;
+        top: $gutter-small;
+
+        display: inline;
+
+        width: $font-size-2-5;
+        height: $font-size-2-5;
+        padding-right: $gutter-small;
+    }
+}
+
+.ReactModal__Content.ReactModal__Content--after-open
+{
+    border: 1px solid $color-sec-stroke!important;
+    border-radius: 0!important;
+}
+
+/*
+ * Responsive layout adjustments
+ */
+
+@media #{$breakpoint-phone}
+{
+    .fonio
+    {
+        flex-direction: column;
+    }
+}
+@media #{$breakpoint-tablet}
+{
+}

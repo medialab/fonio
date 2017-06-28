@@ -11,7 +11,8 @@ import {v4 as uuid} from 'uuid';
 
 import * as duck from '../duck';
 import * as managerDuck from '../../StoriesManager/duck';
-import {unpromptResourceEmbed} from '../../Editor/duck';
+import {unpromptResourceEmbed} from '../../StoryEditor/duck';
+
 import {
   createDefaultSection
 } from '../../../helpers/modelsUtils';

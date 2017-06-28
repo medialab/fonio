@@ -15,9 +15,10 @@ import {
   convertToRaw
 } from 'draft-js';
 
-import EditorLayout from './EditorLayout';
+import StoryEditorLayout from './StoryEditorLayout';
 import * as duck from '../duck';
 import * as managerDuck from '../../StoriesManager/duck';
+import * as globalUiDuck from '../../GlobalUi/duck';
 import {
   selector as sectionsSelector,
   updateSection as updateSectionAction,
@@ -52,14 +53,16 @@ import {
  */
 @connect(
   state => ({
-    ...duck.selector(state.fonioEditor),
+    ...duck.selector(state.storyEditor),
     ...managerDuck.selector(state.stories),
     ...sectionsSelector(state.sectionsManager),
-    lang: state.i18nState.lang
+    ...globalUiDuck.selector(state.globalUi),
+    lang: state.i18nState.lang,
   }),
   dispatch => ({
     actions: bindActionCreators({
       ...duck,
+      ...globalUiDuck,
       resetStoryCandidateSettings,
       setupStoryCandidate,
       updateAsset,
@@ -92,7 +95,13 @@ class EditorContainer extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (this.props.activeStory && this.props.activeStory.content && nextProps.activeStory && nextProps.activeStory.content && this.props.activeStory.content !== nextProps.activeStory.content) {
+    if (
+      this.props.activeStory &&
+      this.props.activeStory.content
+      && nextProps.activeStory
+      && nextProps.activeStory.content
+      && this.props.activeStory.content !== nextProps.activeStory.content
+    ) {
       return false;
     }
     return true;
@@ -203,7 +212,7 @@ class EditorContainer extends Component {
   render() {
 
     return (
-      <EditorLayout
+      <StoryEditorLayout
         {...this.props}
         openSettings={this.openSettings}
         closeAndResetDialog={this.closeAndResetDialog}

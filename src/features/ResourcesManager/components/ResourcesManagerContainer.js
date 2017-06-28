@@ -15,7 +15,8 @@ import {
 
 import * as duck from '../duck';
 import * as managerDuck from '../../StoriesManager/duck';
-import * as editorDuck from '../../Editor/duck';
+import * as editorDuck from '../../StoryEditor/duck';
+import * as globalUiDuck from '../../GlobalUi/duck';
 
 import {
   updateSection as updateSectionAction,
@@ -38,13 +39,15 @@ import ResourcesManagerLayout from './ResourcesManagerLayout';
   state => ({
     ...duck.selector(state.resourcesManager),
     ...managerDuck.selector(state.stories),
-    ...editorDuck.selector(state.fonioEditor),
-    lang: state.i18nState.lang
+    ...editorDuck.selector(state.storyEditor),
+    ...globalUiDuck.selector(state.globalUi),
+    lang: state.i18nState.lang,
   }),
   dispatch => ({
     actions: bindActionCreators({
       ...duck,
       ...editorDuck,
+      ...globalUiDuck,
       updateSection: updateSectionAction,
       unpromptAssetEmbed: editorDuck.unpromptAssetEmbed,
     }, dispatch)

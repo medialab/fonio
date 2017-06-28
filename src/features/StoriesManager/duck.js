@@ -35,7 +35,7 @@ import {
   CREATE_CONTEXTUALIZATION,
   UPDATE_CONTEXTUALIZATION,
   DELETE_CONTEXTUALIZATION,
-} from '../Editor/duck';
+} from '../StoryEditor/duck';
 
 import {
   CREATE_RESOURCE,

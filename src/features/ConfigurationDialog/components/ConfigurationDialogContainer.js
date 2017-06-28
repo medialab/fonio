@@ -12,7 +12,7 @@ import {
   closeStoryCandidateModal,
   applyStoryCandidateConfiguration,
   setActiveStoryId
-} from '../../Editor/duck';
+} from '../../GlobalUi/duck';
 
 import ConfigurationDialogLayout from './ConfigurationDialogLayout';
 
