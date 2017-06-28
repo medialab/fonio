@@ -30,7 +30,7 @@ const SectionConfigurationDialog = ({
   const setSectionTitle = (e) => setSectionCandidateMetadataValue('title', e.target.value);
   const setSectionAuthors = authors => setSectionCandidateMetadataValue('authors', authors);
   return (
-    <div className="fonio-section-configuration-dialog">
+    <div className="fonio-SectionConfigurationDialog">
       <h1 className="modal-header">
         {sectionCandidateId ? translate('edit-section') : translate('create-section')}
       </h1>

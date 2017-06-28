@@ -119,7 +119,7 @@ class InlineCitation extends Component {
     const representation = asset && context.citations && context.citations[asset.id];
     return (
       <span
-        className="fonio-inline-citation">
+        className="fonio-InlineCitation">
         <span onClick={onMoreOptionsClick}>
           {representation && representation.Component}
         </span>

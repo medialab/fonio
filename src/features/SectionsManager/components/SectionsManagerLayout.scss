@@ -1,11 +1,11 @@
 /**
- * style definitions for the AssetsManagerLayout component
+ * style definitions for the SectionsManagerLayout component
  *
- * @module fonio/features/AssetsManager
+ * @module fonio/features/SectionsManager
  */
 @import '../../../parameters.scss';
 
-.fonio-sections-manager-layout
+.fonio-SectionsManagerLayout
 {
     
     @extend .flex-stretched-column;
@@ -22,7 +22,7 @@
         overflow-y: auto;
 
         flex: 1;
-        .fonio-section-card
+        .fonio-SectionCard
         {
             margin-bottom: $gutter-medium;
         }

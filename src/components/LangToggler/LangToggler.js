@@ -20,7 +20,7 @@ const LangToggler = ({
     }
   };
   return (
-    <button onClick={onClick} className="fonio-lang-toggler">
+    <button onClick={onClick} className="fonio-LangToggler">
       <span className="active">{lang}</span>/<span>{otherLang}</span>
     </button>
   );

@@ -41,7 +41,7 @@ const AsideViewLayout = ({
       name: translate('sections-header')
     }
   ];
-  return (<aside className="fonio-aside-view">
+  return (<aside className="fonio-AsideViewLayout">
     <div className="aside-header">
       <button className="returnToLanding-btn" onClick={returnToLanding} type="button"><span className="fonio-icon">☰</span> {translate('back-to-home')}</button>
       <button

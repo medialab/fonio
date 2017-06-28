@@ -7,7 +7,7 @@
 /*
  * Primary layout
  */
-.fonio-stories-manager-layout
+.fonio-StoriesManagerLayout
 {
     display: flex;
     overflow-y: auto;
@@ -133,7 +133,7 @@
         {
             margin: 0;
             padding: 0;
-            .fonio-story-card:not(:last-of-type)
+            .fonio-StoryCard:not(:last-of-type)
             {
                 margin-bottom: $gutter-large;
             }

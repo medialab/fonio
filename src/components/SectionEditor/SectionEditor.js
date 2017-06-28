@@ -626,7 +626,7 @@ class SectionEditor extends Component {
       this.editor = editor;
     };
     return (
-      <div className="fonio-section-editor">
+      <div className="fonio-SectionEditor">
         <h1 className="editable-title" onClick={onTitleInputClick}>
           <input
             type="text"

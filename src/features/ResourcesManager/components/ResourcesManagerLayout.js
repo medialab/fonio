@@ -11,7 +11,7 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 import ResourceCard from '../../../components/ResourceCard/ResourceCard';
 
 import ResourceConfigurationDialog from './ResourceConfigurationDialog';
-import './ResourcesManager.scss';
+import './ResourcesManagerLayout.scss';
 /**
  * Renders the resources manager layout
  * @param {object} props - the props to render
@@ -53,7 +53,7 @@ const ResourcesManagerLayout = ({
   };
   return (
     <div
-      className={'fonio-resources-manager-layout' + (resourcesPrompted ? ' resources-prompted' : '')}
+      className={'fonio-ResourcesManagerLayout ' + (resourcesPrompted ? 'resources-prompted' : '')}
       style={style}>
       {
         resourcesPrompted && (

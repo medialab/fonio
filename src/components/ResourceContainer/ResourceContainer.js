@@ -69,7 +69,7 @@ const ResourceContainer = ({
   };
   return (
     <figure
-      className={'fonio-resource-container ' + metadata.type}
+      className={'fonio-ResourceContainer ' + metadata.type}
       onMouseLeave={onElementBlur}
       onScroll={onScroll}>
       <div

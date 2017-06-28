@@ -119,7 +119,7 @@ const GlobalUiLayout = ({
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
   return (
-    <div id={id} className={'fonio ' + className}>
+    <div id={id} className={'fonio-GlobalUiLayout ' + className}>
       {activeStoryId && activeStory ?
         <div className="story-editor-container">
           <section className="fonio-main-row">

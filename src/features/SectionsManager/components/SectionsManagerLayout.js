@@ -10,7 +10,7 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 import SectionCard from '../../../components/SectionCard/SectionCard';
 
 import SectionConfigurationDialog from './SectionConfigurationDialog';
-import './SectionsManager.scss';
+import './SectionsManagerLayout.scss';
 
 /**
  * Renders the sections manager layout
@@ -50,7 +50,7 @@ const SectionsManagerLayout = ({
     const onSearchInputChange = (e) => setSectionsSearchQuery(e.target.value);
     return (
       <div
-        className={'fonio-sections-manager-layout'}
+        className={'fonio-SectionsManagerLayout'}
         style={style}>
         <ul className="body">
           {

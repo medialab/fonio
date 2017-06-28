@@ -23,7 +23,7 @@ const PresentationCard = ({
 
   const translate = translateNameSpacer(context.t, 'Components.StoryCard');
   return (
-    <li className="fonio-story-card">
+    <li className="fonio-StoryCard">
       <div className="card-body">
         <div className="info-column">
           <h5 onClick={setToActive}>

@@ -93,7 +93,7 @@ const EditorLayout = ({
   const translate = translateNameSpacer(context.t, 'Features.Editor');
   const activeSection = activeSectionId && activeStory && activeStory.sections[activeSectionId];
   return (
-    <div className="fonio-story-editor">
+    <div className="fonio-StoryEditorLayout">
       <AsideViewLayout
         activeStory={activeStory}
         activeStoryId={activeStoryId}

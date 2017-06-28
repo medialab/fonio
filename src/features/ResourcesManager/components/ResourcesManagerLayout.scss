@@ -5,7 +5,7 @@
  */
 @import '../../../parameters.scss';
 
-.fonio-resources-manager-layout
+.fonio-ResourcesManagerLayout
 {
     
     @extend .flex-stretched-column;
@@ -29,7 +29,7 @@
         overflow-y: auto;
 
         flex: 1;
-        .fonio-resource-card
+        .fonio-ResourceCard
         {
             margin-bottom: $gutter-medium;
         }

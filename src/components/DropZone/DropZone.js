@@ -13,7 +13,7 @@ const DropZone = ({
   accept
 }) => (
   <Dropzone
-    className="fonio-drop-zone"
+    className="fonio-DropZone"
     activeClassName="active"
     accept={accept}
     onDrop={onDrop}>

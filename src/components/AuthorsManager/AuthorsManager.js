@@ -49,7 +49,7 @@ class AuthorsManager extends Component {
       this.focusOnLastAuthor();
     };
     return (
-      <ul className="fonio-authors-manager">
+      <ul className="fonio-AuthorsManager">
         {
           authors &&
           authors.map((author, index) => {

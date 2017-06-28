@@ -68,7 +68,7 @@ const AssetPreview = ({
     }
   };
   return (
-    <div className="fonio-asset-preview">
+    <div className="fonio-AssetPreview">
       {renderPreview()}
     </div>);
 };

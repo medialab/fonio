@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './TakeAwayDialog.scss';
+import './TakeAwayDialogLayout.scss';
 
 import BigSelect from '../../../components/BigSelect/BigSelect';
 import Toaster from '../../../components/Toaster/Toaster';
@@ -160,7 +160,7 @@ const TakeAwayDialogLayout = ({
   const updateActivePresentationToServer = () => takeAway({id: 'server'});
   const updateActivePresentationToGist = () => takeAway({id: 'github'});
   return (
-    <div className="fonio-take-away-dialog-layout">
+    <div className="fonio-TakeAwayDialogLayout">
       <h1 className="modal-header">
         {translate('take-away-your-story')}
       </h1>

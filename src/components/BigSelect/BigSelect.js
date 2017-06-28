@@ -12,7 +12,7 @@ const BigSelect = ({
   activeOptionId
 }) => {
   return (
-    <form className="fonio-big-select">
+    <form className="fonio-BigSelect">
       {
         options
         .map((option, key) => {

@@ -64,7 +64,7 @@ const StoriesManagerLayout = ({
   const onImportFromUrlChange = (e) => setImportFromUrlCandidate(e.target.value);
   const allowNewStories = storiesList.length < maxNumberOfLocalStories;
   return (
-    <section className="fonio-stories-manager-layout">
+    <section className="fonio-StoriesManagerLayout">
       <section className="landing-group">
         <h1>
           <img src={require('../assets/logo-quinoa.png')} />

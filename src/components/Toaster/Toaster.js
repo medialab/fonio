@@ -1,5 +1,5 @@
 /**
- * This module provides a reusable toaster element component
+ * This module provides a reusable Toaster element component
  * @module fonio/components/Toaster
  */
 import React from 'react';
@@ -12,7 +12,7 @@ const Toaster = ({
 }) => {
   return (
     <p
-      className={'fonio-toaster ' + status}>
+      className={'fonio-Toaster ' + status}>
       {log}
     </p>
   );

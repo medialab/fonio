@@ -100,7 +100,7 @@ class ResourceSearchWidget extends Component {
     };
     const translate = translateNameSpacer(context.t, 'Components.ResourceSearchWidget');
     return (
-      <div className="fonio-resource-search-widget">
+      <div className="fonio-ResourceSearchWidget">
         <form className="search-form" onSubmit={this.onSubmit}>
           <span className="arobase">@</span>
           <input

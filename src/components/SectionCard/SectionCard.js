@@ -177,7 +177,7 @@ class SectionCard extends Component {
 
     return connectDragPreview(connectDragSource(connectDropTarget(
       <li
-        className={'fonio-section-card' + (active ? ' active' : '')}
+        className={'fonio-SectionCard' + (active ? ' active' : '')}
         onClick={onGlobalClick}
         style={{
           marginLeft: (metadata.level ? metadata.level : 0) + 'em'

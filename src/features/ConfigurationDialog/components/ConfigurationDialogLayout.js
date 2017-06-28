@@ -71,7 +71,7 @@ const ConfigurationDialogLayout = ({
 
   const preventSubmit = e => e.preventDefault();
   return (
-    <div className="fonio-configuration-dialog-layout">
+    <div className="fonio-ConfigurationDialogLayout">
       <h1 className="modal-header">
         {translate('story-configuration')}
       </h1>

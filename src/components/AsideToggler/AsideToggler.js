@@ -43,7 +43,7 @@ const AsideToggler = ({
     }
   };
   return (
-    <ul className="fonio-aside-toggler">
+    <ul className="fonio-AsideToggler">
       {aIndex > 0 && !hideNav && <li onClick={onPrev} className="nav-btn">◄</li>}
       <li className="options-wrapper">
         <ul

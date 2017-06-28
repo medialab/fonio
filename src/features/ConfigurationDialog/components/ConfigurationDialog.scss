@@ -1,11 +1,11 @@
 /**
- * style definitions for the TakeAwayDialogLayout component
+ * style definitions for the ConfigurationDialogLayout component
  *
  * @module fonio/features/ConfigurationDialog
  */
 @import '../../../parameters.scss';
 
-.fonio-configuration-dialog-layout
+.fonio-ConfigurationDialogLayout
 {
     /*
      * root component
@@ -94,7 +94,7 @@
             margin-bottom: $gutter-small;
         }
     }
-    .fonio-toaster
+    .fonio-Toaster
     {
         margin-top: $gutter-medium;
     }
