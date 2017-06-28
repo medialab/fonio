@@ -64,6 +64,7 @@ var discoverTranslations = function() {
     Object.keys(keys).map(key => {
       if (locale.translations[key] !== undefined) {
         const shortKey = key.split('.').pop();
+        newTranslations[key] = locale.translations[key];
         console.log(colors.green(shortKey + ' for locale ' + locale.fileName + ' already exists'));
       } else {
         const shortKey = key.split('.').pop();

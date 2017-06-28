@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-6-9\n"
-"PO-Revision-Date: Fri Jun 09 2017 12:08:25 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-6-28\n"
+"PO-Revision-Date: Wed Jun 28 2017 12:00:39 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -559,3 +559,9 @@ msgstr "markdown-file"
 
 msgid "Features.TakeAway.markdown-file-help"
 msgstr "markdown-file-help"
+
+msgid "Features.GlobalUi.edit-story"
+msgstr "edit-story"
+
+msgid "Features.StoriesManager.fonio-baseline"
+msgstr "fonio-baseline"
