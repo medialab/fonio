@@ -65,7 +65,14 @@ const ResourcesManagerLayout = ({
             </div>
         )
       }
-      <ul className="body">
+      <div className="body">
+        {
+        !resourcesPrompted &&
+          <li id="new-resource" onClick={startNewResourceConfiguration}>
+            + {translate('new-resource')}
+          </li>
+        }
+        <ul className="resources-list">
         {
           resources.map((resource, index) => {
             const onDelete = () => deleteResource(activeStoryId, resource.id);
@@ -85,14 +92,8 @@ const ResourcesManagerLayout = ({
             );
           })
         }
-        {
-          !resourcesPrompted && (
-            <li id="new-resource" onClick={startNewResourceConfiguration}>
-              + {translate('new-resource')}
-            </li>
-          )
-        }
-      </ul>
+        </ul>
+      </div>
       <div className="footer">
         <input
           className="search-query"

@@ -26,12 +26,35 @@
     }
     .body
     {
-        overflow-y: auto;
-
         flex: 1;
-        .fonio-ResourceCard
+
+        @extend .flex-stretched-column;
+        .resources-list{
+            overflow-y: auto;
+            flex: 5;
+            padding-left: 0;
+            .fonio-ResourceCard
+            {
+                margin-bottom: $gutter-medium;
+                margin-left: 0;
+            }
+        }
+
+        #new-resource
         {
-            margin-bottom: $gutter-medium;
+            padding: $gutter-medium;
+
+            text-align: left;
+            @extend .flex-stretched-row;
+            @extend .important-item;
+            &:hover
+            {
+                @extend .important-item-intent;
+            }
+            &:active
+            {
+                @extend .important-item-active;
+            }
         }
     }
     .footer
@@ -52,26 +75,6 @@
             {
                 @extend .interactive-item-active;
             }
-        }
-    }
-
-    #new-resource
-    {
-        padding: $gutter-medium;
-
-        text-align: left;
-
-        flex: 5;
-        @extend .flex-stretched-row;
-        flex: 1;
-        @extend .interactive-item;
-        &:hover
-        {
-            @extend .interactive-item-intent;
-        }
-        &:active
-        {
-            @extend .interactive-item-active;
         }
     }
 }
