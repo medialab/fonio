@@ -104,7 +104,7 @@ const StorySettingsManagerLayout = ({
                   }
                 ]}
                 onChange={onDisqusChange}
-                activeOptionId={activeStory && activeStory.settings.options && activeStory.settings.options.allowDisqusComments === false ? 'no' : 'yes'} />
+                activeOptionId={activeStory && activeStory.settings.options && activeStory.settings.options.allowDisqusComments === false ? 'no' : 'no'} />
             }
             {
               // notes position
