@@ -57,14 +57,14 @@
         flex: 5;
         @extend .flex-stretched-row;
         flex: 1;
-        @extend .interactive-item;
+        @extend .important-item;
         &:hover
         {
-            @extend .interactive-item-intent;
+            @extend .important-item-intent;
         }
         &:active
         {
-            @extend .interactive-item-active;
+            @extend .important-item-active;
         }
     }
 }

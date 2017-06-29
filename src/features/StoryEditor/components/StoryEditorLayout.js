@@ -137,7 +137,7 @@ const EditorLayout = ({
                   return (
                     <li key={id}>
                       <button onClick={setSection}>
-                        {activeStory.sections[id] && activeStory.sections[id].metadata.title || translate('untitled-section')}
+                        {activeStory.sections[thatId] && activeStory.sections[thatId].metadata.title || translate('untitled-section')}
                       </button>
                     </li>
                   );

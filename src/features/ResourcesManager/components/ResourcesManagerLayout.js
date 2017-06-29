@@ -73,7 +73,7 @@ const ResourcesManagerLayout = ({
           </li>
         }
         <ul className="resources-list">
-        {
+          {
           resources.map((resource, index) => {
             const onDelete = () => deleteResource(activeStoryId, resource.id);
             const onEdit = () => startExistingResourceConfiguration(resource.id, resource);
