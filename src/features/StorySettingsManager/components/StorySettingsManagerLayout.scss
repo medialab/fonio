@@ -12,6 +12,7 @@
     @extend .flex-stretched-row;
     .settings-pannel
     {
+        z-index: 2;
         padding: $gutter-medium;
 
         transition: all $time-short ease;
@@ -60,8 +61,8 @@
         .settings-pannel-header,
         .settings-pannel-body
         {
-            padding-right: $gutter-large;
-            padding-left: $gutter-large;
+            padding-right: $gutter-medium;
+            padding-left: $gutter-medium;
         }
         .settings-pannel-header{
           cursor: pointer;
@@ -120,8 +121,9 @@
             .css-example
             {
                 position: absolute;
-                top: 0;
+                top: -1em;
                 left: 0;
+                pointer-events: none;
             }
         }
     }
