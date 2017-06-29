@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-6-28\n"
-"PO-Revision-Date: Wed Jun 28 2017 19:37:53 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-6-29\n"
+"PO-Revision-Date: Thu Jun 29 2017 11:19:18 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,29 +11,11 @@ msgstr ""
 "Language: fr\n"
 "X-Generator: None\n"
 
-msgid "Components.AssetCard.untitled-asset"
-msgstr "Ressource sans titre"
+msgid "Components.AuthorsManager.new-author"
+msgstr "nouvel auteur"
 
-msgid "Components.AssetCard.no-description"
-msgstr "pas de description"
-
-msgid "Components.AssetCard.settings"
-msgstr "paramètres"
-
-msgid "Components.AssetCard.delete"
-msgstr "supprimer"
-
-msgid "Components.DraftEditor.bold"
-msgstr "gras"
-
-msgid "Components.DraftEditor.italic"
-msgstr "italique"
-
-msgid "Components.DraftEditor.underline"
-msgstr "sous-ligné"
-
-msgid "Components.DraftEditor.write-your-story-here"
-msgstr "Écrivez votre récit ici"
+msgid "Components.AuthorsManager.add-author"
+msgstr "ajouter un auteur"
 
 msgid "Components.Footer.by"
 msgstr "par"
@@ -46,6 +28,63 @@ msgstr "éditer"
 
 msgid "Components.Footer.take-away"
 msgstr "emporter"
+
+msgid "Components.InlineCitation.prefix-placeholder"
+msgstr "préfixe"
+
+msgid "Components.InlineCitation.locator-placeholder"
+msgstr "localisation (par ex. numéro de page)"
+
+msgid "Components.InlineCitation.suffix-placeholder"
+msgstr "suffixe"
+
+msgid "Components.ResourceCard.untitled-asset"
+msgstr "ressource sans titre"
+
+msgid "Components.ResourceCard.no-description"
+msgstr "pas de description"
+
+msgid "Components.ResourceCard.settings"
+msgstr "réglages"
+
+msgid "Components.ResourceCard.delete"
+msgstr "supprimer"
+
+msgid "Components.ResourceContainer.title"
+msgstr "titre"
+
+msgid "Components.ResourceContainer.description"
+msgstr "description"
+
+msgid "Components.ResourceContainer.source"
+msgstr "source"
+
+msgid "Components.ResourceSearchWidget.search-a-resource"
+msgstr "trouver une ressource"
+
+msgid "Components.SectionCard.untitled-section"
+msgstr "section sans titre"
+
+msgid "Components.SectionCard.sub-section"
+msgstr "section fille"
+
+msgid "Components.SectionCard.settings"
+msgstr "réglages"
+
+msgid "Components.SectionCard.delete"
+msgstr "supprimer"
+
+msgid "Components.SectionCard.abord-delete"
+msgstr "annuler"
+
+msgid "Components.SectionCard.confirm-delete"
+msgstr "supprimer la section"
+
+msgid "Components.Bibliography.bibliography-title"
+msgstr "bibliographie"
+
+msgid "Components.Footer.section-title"
+msgstr "titre de la section"
 
 msgid "Components.StoryCard.untitled_story"
 msgstr "Récit sans titre"
@@ -74,90 +113,6 @@ msgstr "annuler"
 msgid "Components.StoryCard.duplicate"
 msgstr "dupliquer"
 
-msgid "Features.Editor.url-of-the-video"
-msgstr "url de la vidéo"
-
-msgid "Features.Editor.drop-a-file-here"
-msgstr "déposer un fichier ici"
-
-msgid "Features.Editor.paste-embed-code"
-msgstr "coller votre code html ici"
-
-msgid "Features.Editor.loading-asset-data"
-msgstr "chargement des données"
-
-msgid "Features.Editor.loading-asset-data-success"
-msgstr "le chargement a réussi !"
-
-msgid "Features.Editor.loading-asset-data-fail"
-msgstr "le chargement a échoué :("
-
-msgid "Features.Editor.asset-type-image"
-msgstr "image"
-
-msgid "Features.Editor.asset-type-image-help"
-msgstr "importer une image depuis votre ordinateur"
-
-msgid "Features.Editor.asset-type-video"
-msgstr "vidéo"
-
-msgid "Features.Editor.asset-type-video-help"
-msgstr "importer une vidéo depuis une url (pris en charge: vimeo, youtube)"
-
-msgid "Features.Editor.asset-type-data-presentation"
-msgstr "présentation de données"
-
-msgid "Features.Editor.asset-type-data-presentation-help"
-msgstr "importer une présentation quinoa faite avec fonio"
-
-msgid "Features.Editor.asset-type-embed"
-msgstr "embarquer du code"
-
-msgid "Features.Editor.asset-type-embed-help"
-msgstr "coller du code html à embarquer dans votre récit"
-
-msgid "Features.Editor.edit-asset"
-msgstr "éditer la ressource"
-
-msgid "Features.Editor.create-asset"
-msgstr "créer une ressource"
-
-msgid "Features.Editor.asset-data"
-msgstr "asset's data"
-
-msgid "Features.Editor.asset-data-help"
-msgstr "how to fetch the asset's content ?"
-
-msgid "Features.Editor.asset-metadata"
-msgstr "métadonnées de la ressource"
-
-msgid "Features.Editor.asset-metadata-help"
-msgstr "elles seront utilisées pour fabriquer des documents rigoureux et riches"
-
-msgid "Features.Editor.title-of-the-asset"
-msgstr "titre de la ressource"
-
-msgid "Features.Editor.source-of-the-asset"
-msgstr "source de la resource"
-
-msgid "Features.Editor.description-of-the-asset"
-msgstr "description de la ressource"
-
-msgid "Features.Editor.update-asset"
-msgstr "mettre à jour la ressource"
-
-msgid "Features.Editor.close"
-msgstr "fermer"
-
-msgid "Features.AssetsManager.new-asset"
-msgstr "nouvelle ressource"
-
-msgid "Features.AssetsManager.search-in-assets"
-msgstr "rechercher dans les ressources"
-
-msgid "Features.AssetsManager.edit-asset"
-msgstr "éditer la ressource"
-
 msgid "Features.ConfigurationDialog.story-configuration"
 msgstr "configuration du récit"
 
@@ -176,6 +131,15 @@ msgstr "auteurs du récit"
 msgid "Features.ConfigurationDialog.description-of-the-story"
 msgstr "description du récit"
 
+msgid "Features.ConfigurationDialog.story-cover"
+msgstr "image de couverture"
+
+msgid "Features.ConfigurationDialog.story-cover-help"
+msgstr "charger une image à utiliser pour la couverture du récit"
+
+msgid "Features.ConfigurationDialog.drop-a-cover-image-file"
+msgstr "déposer une image de couverture ici"
+
 msgid "Features.ConfigurationDialog.apply-changes-and-continue-story-edition"
 msgstr "appliquer les changements et continuer l'édition du récit"
 
@@ -185,20 +149,134 @@ msgstr "démarrer l'édition de cette histoire"
 msgid "Features.ConfigurationDialog.cancel"
 msgstr "annuler"
 
-msgid "Features.Editor.back-to-home"
-msgstr "revenir à l'accueil"
-
-msgid "Features.Editor.untitled-story"
-msgstr "récit sans titre"
-
-msgid "Features.Editor.settings"
-msgstr "paramètres"
-
-msgid "Features.Editor.story-title"
-msgstr "titre du récit"
-
-msgid "Features.Editor.edit-story"
+msgid "Features.GlobalUi.edit-story"
 msgstr "éditer le récit"
+
+msgid "Features.Editor.url-of-the-video"
+msgstr "url de la vidéo"
+
+msgid "Features.Editor.drop-a-file-here"
+msgstr "déposer un fichier ici"
+
+msgid "Features.Editor.drop-bibtex-here"
+msgstr "drop-bibtex-here"
+
+msgid "Features.Editor.paste-embed-code"
+msgstr "coller votre code html ici"
+
+msgid "Features.Editor.loading-resource-data"
+msgstr "données de la ressource en chargement"
+
+msgid "Features.Editor.loading-resource-data-success"
+msgstr "données de la ressource chargées avec succès !"
+
+msgid "Features.Editor.loading-resource-data-fail"
+msgstr "les données de la ressource n'ont pas pu être chargées !"
+
+msgid "Features.Editor.resource-type-image"
+msgstr "image"
+
+msgid "Features.Editor.resource-type-image-help"
+msgstr "ajouter à la bibliothèque de votre récit une image stockée sur votre ordinateur"
+
+msgid "Features.Editor.resource-type-video"
+msgstr "vidéo"
+
+msgid "Features.Editor.resource-type-video-help"
+msgstr "ajouter à la bibliothèque de votre récit une vidéo stockée sur youtube ou vimeo"
+
+msgid "Features.Editor.resource-type-data-presentation"
+msgstr "présentation de données"
+
+msgid "Features.Editor.resource-type-data-presentation-help"
+msgstr "ajouter à la bibliothèque de votre récit une présentation de données faite avec bulgur, un autre outil de l'écosystème quinoa"
+
+msgid "Features.Editor.resource-type-embed"
+msgstr "code à embarquer"
+
+msgid "Features.Editor.resource-type-embed-help"
+msgstr "ajouter à la bibliothèque de votre récit un morceau de code récupéré sur un service externe"
+
+msgid "Features.Editor.resource-type-bib"
+msgstr "références bibliographiques"
+
+msgid "Features.Editor.resource-type-bib-help"
+msgstr "ajouter à la bibliothèque de votre récit des références bibliographiques collectées avec un logiciel comme zotero ou mendeley"
+
+msgid "Features.Editor.edit-resource"
+msgstr "éditer la ressource"
+
+msgid "Features.Editor.create-resource"
+msgstr "créer une ressource"
+
+msgid "Features.Editor.resource-data"
+msgstr "données de la ressource"
+
+msgid "Features.Editor.resource-data-help"
+msgstr "modifier les données associées à cette ressource"
+
+msgid "Features.Editor.resource-metadata"
+msgstr "métadonnées de la ressource"
+
+msgid "Features.Editor.resource-metadata-help"
+msgstr "les métadonnées sont utilisées pour documenter votre récit"
+
+msgid "Features.Editor.title-of-the-resource"
+msgstr "titre de la ressource"
+
+msgid "Features.Editor.source-of-the-resource"
+msgstr "source de la ressource"
+
+msgid "Features.Editor.description-of-the-resource"
+msgstr "description de la ressource"
+
+msgid "Features.Editor.update-resource"
+msgstr "mettre à jour la ressource"
+
+msgid "Features.Editor.close"
+msgstr "fermer"
+
+msgid "Features.ResourcesManager.new-resource"
+msgstr "nouvelle ressource"
+
+msgid "Features.ResourcesManager.search-in-resources"
+msgstr "trouver une ressource"
+
+msgid "Features.ResourcesManager.edit-resource"
+msgstr "éditer la ressource"
+
+msgid "Features.Editor.edit-section"
+msgstr "éditer la section"
+
+msgid "Features.Editor.create-section"
+msgstr "créer une section"
+
+msgid "Features.Editor.section-metadata"
+msgstr "métadonnées de la section"
+
+msgid "Features.Editor.section-metadata-help"
+msgstr "les métadonnées sont utilisées pour documenter votre récit"
+
+msgid "Features.Editor.title-of-the-section"
+msgstr "titre de la section"
+
+msgid "Features.Editor.authors-of-the-section"
+msgstr "auteurs de la section"
+
+msgid "Features.Editor.update-section"
+msgstr "mettre à jour la section"
+
+msgid "Features.SectionsManager.new-section"
+msgstr "nouvelle section"
+
+msgid "Features.SectionsManager.search-in-sections"
+msgstr "trouver une section"
+
+msgid "Features.SectionsManager.edit-section"
+msgstr "éditer la section"
+
+msgid "Features.StoriesManager.fonio-baseline"
+msgstr "l'éditeur de récits de controverses"
 
 msgid "Features.StoriesManager.description-$1-goal"
 msgstr "Fonio est un outil qui sert à fabriquer des pages html riches d'images, vidéos, visualisations de données et autres éléments interactifs permettant de construire un argument en s'aidant de documents et de données."
@@ -266,11 +344,83 @@ msgstr "oui, écraser la version existante stockée sur ce navigateur"
 msgid "Features.StoriesManager.cancel"
 msgstr "annuler"
 
+msgid "Features.Editor.resources-header"
+msgstr "resources"
+
+msgid "Features.Editor.sections-header"
+msgstr "sections"
+
+msgid "Features.Editor.back-to-home"
+msgstr "revenir à l'accueil"
+
+msgid "Features.Editor.untitled-story"
+msgstr "récit sans titre"
+
+msgid "Features.Editor.settings"
+msgstr "paramètres"
+
+msgid "Features.Editor.no-sections-selected"
+msgstr "Veuillez sélectionner une section pour l'éditer"
+
+msgid "Features.Editor.untitled-section"
+msgstr "section sans titre"
+
+msgid "Features.Editor.create-new-section"
+msgstr "créer une nouvelle section"
+
+msgid "Features.StorySettingsManager.story-settings-title"
+msgstr "réglages"
+
+msgid "Features.StorySettingsManager.template-title"
+msgstr "gabarit de présentation"
+
+msgid "Features.StorySettingsManager.choose-a-template"
+msgstr "choisir un gabarit"
+
+msgid "Features.StorySettingsManager.options-title"
+msgstr "options du gabarit"
+
+msgid "Features.StorySettingsManager.allow-disqus-comments"
+msgstr "permettre les commentaires avec disqus"
+
+msgid "Features.StorySettingsManager.yes"
+msgstr "oui"
+
+msgid "Features.StorySettingsManager.no"
+msgstr "non"
+
+msgid "Features.StorySettingsManager.notes-position"
+msgstr "position des notes"
+
+msgid "Features.StorySettingsManager.footnote"
+msgstr "bas de page"
+
+msgid "Features.StorySettingsManager.sidenote"
+msgstr "marge"
+
+msgid "Features.StorySettingsManager.citation-settings-title"
+msgstr "réglages relatifs aux citations"
+
+msgid "Features.StorySettingsManager.choose-a-citation-style"
+msgstr "style de citation"
+
+msgid "Features.StorySettingsManager.choose-a-citation-locale"
+msgstr "langue de citation"
+
+msgid "Features.StorySettingsManager.customize-css-title"
+msgstr "code css (pour utilisateurs avancés)"
+
 msgid "Features.TakeAway.project-file"
 msgstr "fichier de travail"
 
 msgid "Features.TakeAway.project-file-help"
 msgstr "revient à télécharger un fichier de travail, qui vous permettra de ré-importer votre récit plus tard ou sur un autre navigateur"
+
+msgid "Features.TakeAway.markdown-file"
+msgstr "markdown-file"
+
+msgid "Features.TakeAway.markdown-file-help"
+msgstr "markdown est un langage de balisage de plus en plus utilisé, qui vous permettra d'éditer le contenu de votre récit avec d'autres logiciels"
 
 msgid "Features.TakeAway.html-file"
 msgstr "fichier html"
@@ -323,24 +473,6 @@ msgstr "aller sur la page en ligne"
 msgid "Features.TakeAway.close"
 msgstr "fermer"
 
-msgid "Features.ConfigurationDialog.story-cover"
-msgstr "image de couverture"
-
-msgid "Features.ConfigurationDialog.story-cover-help"
-msgstr "charger une image à utiliser pour la couverture du récit"
-
-msgid "Features.ConfigurationDialog.drop-a-cover-image-file"
-msgstr "déposer une image de couverture ici"
-
-msgid "Components.AssetContainer.title"
-msgstr "titre"
-
-msgid "Components.AssetContainer.description"
-msgstr "description"
-
-msgid "Components.AssetContainer.source"
-msgstr "source"
-
 msgid "Features.ConfigurationDialog.stop-spatialization"
 msgstr "stop-spatialization"
 
@@ -355,258 +487,3 @@ msgstr "save-nodes-positions"
 
 msgid "Features.ConfigurationDialog.save-nodes-positions-help"
 msgstr "save-nodes-positions-help"
-
-msgid "Features.Editor.drop-bibtex-here"
-msgstr "drop-bibtex-here"
-
-msgid "Features.Editor.asset-type-bib"
-msgstr "asset-type-bib"
-
-msgid "Features.Editor.asset-type-bib-help"
-msgstr "asset-type-bib-help"
-
-msgid "Components.ResourceCard.untitled-asset"
-msgstr "untitled-asset"
-
-msgid "Components.ResourceCard.no-description"
-msgstr "no-description"
-
-msgid "Components.ResourceCard.settings"
-msgstr "settings"
-
-msgid "Components.ResourceCard.delete"
-msgstr "delete"
-
-msgid "Components.ResourceContainer.title"
-msgstr "title"
-
-msgid "Components.ResourceContainer.description"
-msgstr "description"
-
-msgid "Components.ResourceContainer.source"
-msgstr "source"
-
-msgid "Features.Editor.loading-resource-data"
-msgstr "loading-resource-data"
-
-msgid "Features.Editor.loading-resource-data-success"
-msgstr "loading-resource-data-success"
-
-msgid "Features.Editor.loading-resource-data-fail"
-msgstr "loading-resource-data-fail"
-
-msgid "Features.Editor.resource-type-image"
-msgstr "resource-type-image"
-
-msgid "Features.Editor.resource-type-image-help"
-msgstr "resource-type-image-help"
-
-msgid "Features.Editor.resource-type-video"
-msgstr "resource-type-video"
-
-msgid "Features.Editor.resource-type-video-help"
-msgstr "resource-type-video-help"
-
-msgid "Features.Editor.resource-type-data-presentation"
-msgstr "resource-type-data-presentation"
-
-msgid "Features.Editor.resource-type-data-presentation-help"
-msgstr "resource-type-data-presentation-help"
-
-msgid "Features.Editor.resource-type-embed"
-msgstr "resource-type-embed"
-
-msgid "Features.Editor.resource-type-embed-help"
-msgstr "resource-type-embed-help"
-
-msgid "Features.Editor.resource-type-bib"
-msgstr "resource-type-bib"
-
-msgid "Features.Editor.resource-type-bib-help"
-msgstr "resource-type-bib-help"
-
-msgid "Features.Editor.edit-resource"
-msgstr "edit-resource"
-
-msgid "Features.Editor.create-resource"
-msgstr "create-resource"
-
-msgid "Features.Editor.resource-data"
-msgstr "resource-data"
-
-msgid "Features.Editor.resource-data-help"
-msgstr "resource-data-help"
-
-msgid "Features.Editor.resource-metadata"
-msgstr "resource-metadata"
-
-msgid "Features.Editor.resource-metadata-help"
-msgstr "resource-metadata-help"
-
-msgid "Features.Editor.title-of-the-resource"
-msgstr "title-of-the-resource"
-
-msgid "Features.Editor.source-of-the-resource"
-msgstr "source-of-the-resource"
-
-msgid "Features.Editor.description-of-the-resource"
-msgstr "description-of-the-resource"
-
-msgid "Features.Editor.update-resource"
-msgstr "update-resource"
-
-msgid "Features.ResourcesManager.new-resource"
-msgstr "new-resource"
-
-msgid "Features.ResourcesManager.search-in-resources"
-msgstr "search-in-resources"
-
-msgid "Features.ResourcesManager.edit-resource"
-msgstr "edit-resource"
-
-msgid "Components.AuthorsManager.new-author"
-msgstr "new-author"
-
-msgid "Components.AuthorsManager.add-author"
-msgstr "add-author"
-
-msgid "Components.SectionCard.untitled-section"
-msgstr "untitled-section"
-
-msgid "Components.SectionCard.settings"
-msgstr "settings"
-
-msgid "Components.SectionCard.delete"
-msgstr "delete"
-
-msgid "Features.Editor.resources-header"
-msgstr "resources-header"
-
-msgid "Features.Editor.sections-header"
-msgstr "sections-header"
-
-msgid "Components.SectionCard.sub-section"
-msgstr "sub-section"
-
-msgid "Features.Editor.edit-section"
-msgstr "edit-section"
-
-msgid "Features.Editor.create-section"
-msgstr "create-section"
-
-msgid "Features.Editor.section-metadata"
-msgstr "section-metadata"
-
-msgid "Features.Editor.section-metadata-help"
-msgstr "section-metadata-help"
-
-msgid "Features.Editor.title-of-the-section"
-msgstr "title-of-the-section"
-
-msgid "Features.Editor.authors-of-the-section"
-msgstr "authors-of-the-section"
-
-msgid "Features.Editor.update-section"
-msgstr "update-section"
-
-msgid "Features.SectionsManager.new-section"
-msgstr "new-section"
-
-msgid "Features.SectionsManager.search-in-sections"
-msgstr "search-in-sections"
-
-msgid "Features.SectionsManager.edit-section"
-msgstr "edit-section"
-
-msgid "Components.SectionCard.abord-delete"
-msgstr "abord-delete"
-
-msgid "Components.SectionCard.confirm-delete"
-msgstr "confirm-delete"
-
-msgid "Components.Footer.section-title"
-msgstr "section-title"
-
-msgid "Features.Editor.no-sections-selected"
-msgstr "no-sections-selected"
-
-msgid "Features.Editor.create-new-section"
-msgstr "create-new-section"
-
-msgid "Components.InlineCitation.locator-placeholder"
-msgstr "locator-placeholder"
-
-msgid "Components.InlineCitation.comment-placeholder"
-msgstr "comment-placeholder"
-
-msgid "Components.Bibliography.bibliography-title"
-msgstr "bibliography-title"
-
-msgid "Components.InlineCitation.prefix-placeholder"
-msgstr "prefix-placeholder"
-
-msgid "Components.InlineCitation.suffix-placeholder"
-msgstr "suffix-placeholder"
-
-msgid "Components.ResourceSearchWidget.search-a-resource"
-msgstr "search-a-resource"
-
-msgid "Features.Editor.untitled-section"
-msgstr "untitled-section"
-
-msgid "Features.TakeAway.markdown-file"
-msgstr "markdown-file"
-
-msgid "Features.TakeAway.markdown-file-help"
-msgstr "markdown-file-help"
-
-msgid "Features.GlobalUi.edit-story"
-msgstr "edit-story"
-
-msgid "Features.StoriesManager.fonio-baseline"
-msgstr "fonio-baseline"
-
-msgid "Features.StorySettingsManager.story-settings-title"
-msgstr "story-settings-title"
-
-msgid "Features.StorySettingsManager.choose-a-template"
-msgstr "choose-a-template"
-
-msgid "Features.StorySettingsManager.allowDisqusComments"
-msgstr "allowDisqusComments"
-
-msgid "Features.StorySettingsManager.allow-disqus-comments"
-msgstr "allow-disqus-comments"
-
-msgid "Features.StorySettingsManager.yes"
-msgstr "yes"
-
-msgid "Features.StorySettingsManager.no"
-msgstr "no"
-
-msgid "Features.StorySettingsManager.notes-position"
-msgstr "notes-position"
-
-msgid "Features.StorySettingsManager.footnote"
-msgstr "footnote"
-
-msgid "Features.StorySettingsManager.sidenote"
-msgstr "sidenote"
-
-msgid "Features.StorySettingsManager.choose-a-citation-style"
-msgstr "choose-a-citation-style"
-
-msgid "Features.StorySettingsManager.choose-a-citation-locale"
-msgstr "choose-a-citation-locale"
-
-msgid "Features.StorySettingsManager.template-title"
-msgstr "template-title"
-
-msgid "Features.StorySettingsManager.options-title"
-msgstr "options-title"
-
-msgid "Features.StorySettingsManager.citation-settings-title"
-msgstr "citation-settings-title"
-
-msgid "Features.StorySettingsManager.customize-css-title"
-msgstr "customize-css-title"
