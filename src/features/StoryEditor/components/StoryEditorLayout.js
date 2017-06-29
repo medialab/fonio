@@ -4,6 +4,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 
 import './StoryEditorLayout.scss';
 
@@ -94,6 +95,9 @@ const EditorLayout = ({
   const activeSection = activeSectionId && activeStory && activeStory.sections[activeSectionId];
   return (
     <div className="fonio-StoryEditorLayout">
+      <Helmet>
+          <title>Fonio - {(activeStory && activeStory.metadata.title) || translate('untitled-story')}</title>
+      </Helmet>
       <AsideViewLayout
         activeStory={activeStory}
         activeStoryId={activeStoryId}
