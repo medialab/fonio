@@ -96,7 +96,7 @@ const EditorLayout = ({
   return (
     <div className="fonio-StoryEditorLayout">
       <Helmet>
-          <title>Fonio - {(activeStory && activeStory.metadata.title) || translate('untitled-story')}</title>
+        <title>Fonio - {(activeStory && activeStory.metadata.title) || translate('untitled-story')}</title>
       </Helmet>
       <AsideViewLayout
         activeStory={activeStory}

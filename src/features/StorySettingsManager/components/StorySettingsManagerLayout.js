@@ -28,15 +28,13 @@ const StorySettingsManagerLayout = ({
     setCitationStyle,
     setCitationLocale,
     setSettingsVisibility,
+    setStoryTemplate,
   }
 }, context) => {
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.StorySettingsManager');
   const activeCss = (activeStory && activeStory.settings && activeStory.settings.css) || '';
-  const onCssChange = e => {
-    const css = e.target.value;
-    setStoryCss(activeStoryId, css);
-  };
+  
   const activeTemplate = (activeStory && activeStory.settings && activeStory.settings.template) || 'garlic';
   const activeTemplateData = templates.find(template => template.id === activeTemplate);
   const activeCitationStyleId = activeStory && activeStory.settings && activeStory.settings.citationStyle && activeStory.settings.citationStyle.id;
@@ -49,11 +47,18 @@ const StorySettingsManagerLayout = ({
   const onNotePositionChange = value => {
     setStorySettingOption(activeStoryId, 'notesPosition', value);
   };
+  const onTemplateChange = value => {
+    setStoryTemplate(activeStoryId, value);
+  };
   const onCitationStyleChange = value => {
     setCitationStyle(activeStoryId, value);
   };
   const onCitationLocaleChange = value => {
     setCitationLocale(activeStoryId, value);
+  };
+  const onCssChange = e => {
+    const css = e.target.value;
+    setStoryCss(activeStoryId, css);
   };
 
   const toggleSettingsVisibility = () => {
@@ -83,7 +88,7 @@ const StorySettingsManagerLayout = ({
                 value: template.id,
                 label: template.name
               }))}
-              onChange={onNotePositionChange}
+              onChange={onTemplateChange}
               activeOptionId={activeTemplate} />
           </section>
           <section className="settings-section">

@@ -23,6 +23,7 @@ const SET_SETTINGS_VISIBILITY = '§Fonio/StorySettingsManager/SET_SETTINGS_VISIB
 
 export const SET_STORY_CSS = '§Fonio/StorySettingsManager/SET_STORY_CSS';
 export const SET_STORY_SETTING_OPTION = '§Fonio/StorySettingsManager/SET_STORY_SETTING_OPTION';
+export const SET_STORY_TEMPLATE = '§Fonio/StorySettingsManager/SET_STORY_TEMPLATE';
 
 const FETCH_CITATION_STYLES_LIST = '§Fonio/StorySettingsManager/FETCH_CITATION_STYLES_LIST';
 export const FETCH_CITATION_STYLE = '§Fonio/StorySettingsManager/FETCH_CITATION_STYLE';
@@ -46,6 +47,11 @@ export const setStorySettingOption = (id, field, value) => ({
   id,
   field,
   value,
+});
+export const setStoryTemplate = (id, template) => ({
+  type: SET_STORY_TEMPLATE,
+  id,
+  template,
 });
 export const getCitationStylesList = () => ({
   type: FETCH_CITATION_STYLES_LIST,

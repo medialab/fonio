@@ -57,6 +57,7 @@ import {
 
 import {
   SET_STORY_CSS,
+  SET_STORY_TEMPLATE,
   SET_STORY_SETTING_OPTION,
   FETCH_CITATION_STYLE,
   FETCH_CITATION_LOCALE,
@@ -484,6 +485,20 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
               settings: {
                 ...state.stories[action.id].settings,
                 css: action.css
+              }
+            }
+          }
+      };
+    case SET_STORY_TEMPLATE :
+      return {
+        ...state,
+          stories: {
+            ...state.stories,
+            [action.id]: {
+              ...state.stories[action.id],
+              settings: {
+                ...state.stories[action.id].settings,
+                template: action.template
               }
             }
           }
