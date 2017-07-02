@@ -18,7 +18,9 @@ const BigSelect = ({
         .map((option, key) => {
           const onOptionClick = (evt) => {
             evt.stopPropagation();
-            onOptionSelect(option);
+            if (option.possible) {
+              onOptionSelect(option);
+            }
           };
           return (
             <div
