@@ -126,8 +126,21 @@
 {
     border: 1px solid $color-sec-stroke!important;
     border-radius: 0!important;
-}
 
+    @extend .flex-stretched-column;
+
+    > div{
+        // flex: 1;
+        @extend .flex-stretched-column;
+        .modal-content{
+            flex: 1;
+            overflow: auto;
+        }
+        .modal-footer{
+            min-height: $gutter-large * 2;
+        }
+    }
+}
 /*
  * Responsive layout adjustments
  */

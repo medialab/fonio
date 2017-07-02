@@ -34,7 +34,7 @@ const StorySettingsManagerLayout = ({
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.StorySettingsManager');
   const activeCss = (activeStory && activeStory.settings && activeStory.settings.css) || '';
-  
+
   const activeTemplate = (activeStory && activeStory.settings && activeStory.settings.template) || 'garlic';
   const activeTemplateData = templates.find(template => template.id === activeTemplate);
   const activeCitationStyleId = activeStory && activeStory.settings && activeStory.settings.citationStyle && activeStory.settings.citationStyle.id;
