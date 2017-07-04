@@ -20,7 +20,7 @@
 
     &.success,
     &.error,
-    &.fail,
+    &.failure,
     &.processing
     {
         max-height: 100rem;
@@ -36,8 +36,9 @@
     {
         @extend .important-item-inactive;
     }
+
     &.error,
-    &.fail
+    &.failure
     {
         @extend .dangerous-item;
     }
