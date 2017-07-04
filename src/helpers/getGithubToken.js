@@ -11,11 +11,12 @@ import {githubAPIClientId, serverUrl, appUrl} from '../../secrets';
  */
 export default function getGithubToken () {
   return new Promise((resolve, reject) => {
-    // open login form
-    window.open('https://github.com' +
+    const loginUrl = 'https://github.com' +
     '/login/oauth/authorize' +
     '?client_id=' + githubAPIClientId +
-    '&scope=gist&redirect_url=' + appUrl);
+    '&scope=gist&redirect_url=' + appUrl;
+    // open login form
+    window.open(loginUrl);
     // get code from oauth response
     window.addEventListener('message', function (event) {
       let code = event.data;
@@ -23,7 +24,7 @@ export default function getGithubToken () {
         // clean the code
         code = code.split('&')[0];
         // exchange the code for a token
-        post(serverUrl + '/oauth-proxy')
+        post(serverUrl + '/oauth-proxy/fonio')
         .set('Accept', 'application/json')
         .send({code})
         .end((err, response) => {

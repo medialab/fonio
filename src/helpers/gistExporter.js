@@ -1,5 +1,5 @@
 /**
- * This module helps to export a presenetation to the gist service
+ * This module helps to export a story to the gist service
  * @module fonio/utils/gistExporter
  */
 import GitHub from 'github-api';
@@ -8,7 +8,7 @@ import getGithubToken from './getGithubToken';
 
 /**
  * @param {string} htmlContent - the content to publish to the index.html file of the gist
- * @param {object} JSONbundle - the JSON representation of the presentation to publish to project.json file of the gist
+ * @param {object} JSONbundle - the JSON restory of the story to publish to project.json file of the gist
  * @param {function} dispatch - the function to use to dispatch actions to the redux logic in which the helper is called
  * @param {string} statusActionName - the name base of the actions to dispatch to redux
  * @param {string} gistId - (optional - in update use cases) the id of the gist to update
@@ -28,7 +28,7 @@ export default function publishGist(htmlContent = '', JSONbundle = {}, dispatch,
          token
       });
       const gistContent = {
-        description: (JSONbundle && JSONbundle.metadata && JSONbundle.metadata.title) || 'quinoa presentation',
+        description: (JSONbundle && JSONbundle.metadata && JSONbundle.metadata.title) || 'quinoa story',
         public: true,
         files: {
           'index.html': {
@@ -39,38 +39,79 @@ export default function publishGist(htmlContent = '', JSONbundle = {}, dispatch,
           }
         }
       };
+      let gist = gh.getGist(gistId);
+      // gistId is specified ==> update routine
       if (gistId) {
         dispatch({
           type: statusActionName,
           log: 'updating gist',
           status: 'processing'
         });
+        gist.update(gistContent)
+          .then(() => {
+            return gist.read();
+          })
+          .then(response => {
+            const gistData = response.data;
+            // const ownerName = gistData.owner.login;
+            const gistUrl = gistData.html_url;
+            const results = {
+              gistUrl,
+              gistId: gistData.id,
+              gist
+            };
+            return resolve(results);
+          })
+          .catch(reject);
       }
+      // create routine
       else {
         dispatch({
           type: statusActionName,
           log: 'creating gist',
           status: 'processing'
         });
-      }
-      const gist = gh.getGist(gistId);
-
-      gist.create(gistContent)
-        .then(() => {
-          return gist.read();
-        })
-        .then(response => {
-          const gistData = response.data;
-          // const ownerName = gistData.owner.login;
-          const gistUrl = gistData.html_url;
-          const results = {
-            gistUrl,
-            gistId: gistData.id,
-            gist
-          };
-          return resolve(results);
+        gist.create(gistContent)
+          .then(() => {
+            return gist.read();
+          })
+          .then(response => {
+            const gistData = response.data;
+            // const ownerName = gistData.owner.login;
+            const gistUrl = gistData.html_url;
+            // as this is a new story, reuploading the story with correct gist id
+            const newGistContent = {
+              ...gistContent,
+              files: {
+                ...gistContent.files,
+                'project.json': {
+                  content: JSON.stringify({
+                    ...JSONbundle,
+                    metadata: {
+                      ...JSONbundle.metadata,
+                      gistUrl,
+                      gistId: gistData.id
+                    }
+                  }, null, 2)
+                }
+              }
+            };
+            gist = gh.getGist(gistData.id);
+            gist.update(newGistContent)
+              .then(() => {
+                return gist.read();
+              })
+              .then(() => {
+                const results = {
+                  gistUrl,
+                  gistId: gistData.id,
+                  gist
+                };
+                return resolve(results);
+              });
         })
         .catch(reject);
+      }
     })
     .catch(reject);
   });
