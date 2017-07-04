@@ -13,6 +13,9 @@ import StoryCard from '../../../components/StoryCard/StoryCard';
 import LangToggler from '../../../components/LangToggler/LangToggler';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
+import Toaster from '../../../components/Toaster/Toaster';
+
+
 /**
  * Renders the layout component of the feature
  * @param {object} props - the props to render
@@ -180,26 +183,28 @@ const StoriesManagerLayout = ({
             </form>
           </div> : null}
         <div className="import-status-display">
-          {importStatus}
-        </div>
-        <div className="import-error-display">
-          {
-            importError === 'badJSON' ?
-            translate('your-file-is-badly-formatted')
-            : ''
-          }
-          {importError === 'invalidProject' ?
-            translate('your-file-is-not-a-valid-story')
-            : ''}
-          {importError === 'invalidUrl' ?
-            translate('the-url-did-not-point-to-a-valid-story')
-            : ''}
-          {importError === 'invalidGist' ?
-            translate('the-gist-is-not-properly-formatted')
-            : ''}
-          {importError === 'fetchError' ?
-            translate('the-fetching-process-failed')
-            : ''}
+          <Toaster
+            status={importStatus} log={
+              <div className="import-error-display">
+                {
+              importError === 'badJSON' ?
+              translate('your-file-is-badly-formatted')
+              : ''
+            }
+                {importError === 'invalidProject' ?
+              translate('your-file-is-not-a-valid-story')
+              : ''}
+                {importError === 'invalidUrl' ?
+              translate('the-url-did-not-point-to-a-valid-story')
+              : ''}
+                {importError === 'invalidGist' ?
+              translate('the-gist-is-not-properly-formatted')
+              : ''}
+                {importError === 'fetchError' ?
+              translate('the-fetching-process-failed')
+              : ''}
+              </div>
+          } />
         </div>
       </section>
 

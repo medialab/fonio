@@ -8,10 +8,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {get} from 'superagent';
 import {setLanguage} from 'redux-i18n';
-import {
-  EditorState,
-  convertFromRaw
-} from 'draft-js';
 
 import StoriesManagerLayout from './StoriesManagerLayout';
 import * as duck from '../duck';
@@ -66,13 +62,7 @@ export default class StoriesManagerContainer extends Component {
   attemptImport (str) {
     try {
       const project = JSON.parse(str);
-      let valid = true;//  validateStory(project);
-      if (valid && project.content) {
-        project.content = EditorState.createWithContent(convertFromRaw(project.content));
-      }
- else {
-        valid = false;
-      }
+      const valid = true;//  validateStory(project);
       if (valid) {
         const existant = this.props.storiesList.find(pres => pres.id === project.id);
         // has preexisting story, prompt for override
