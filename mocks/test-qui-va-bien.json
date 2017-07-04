@@ -1,0 +1,81 @@
+﻿{
+  "id": "a9c08907-2193-4243-a70d-c2c2b02e9a45",
+  "type": "quinoa-story",
+  "metadata": {
+    "title": "test qui va bien",
+    "description": "",
+    "authors": [],
+    "gistId": "",
+    "level": 1
+  },
+  "sectionsOrder": [
+    "c51dfc08-d69c-48b3-960f-df343a40b0f5"
+  ],
+  "sections": {
+    "c51dfc08-d69c-48b3-960f-df343a40b0f5": {
+      "contents": {
+        "entityMap": {},
+        "blocks": [
+          {
+            "key": "dq92o",
+            "text": "ça va bien.",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [],
+            "entityRanges": [],
+            "data": {}
+          },
+          {
+            "key": "739l4",
+            "text": "",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [],
+            "entityRanges": [],
+            "data": {}
+          },
+          {
+            "key": "96fuq",
+            "text": "",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [],
+            "entityRanges": [],
+            "data": {}
+          },
+          {
+            "key": "d17rv",
+            "text": "ok okok ",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [],
+            "entityRanges": [],
+            "data": {}
+          }
+        ]
+      },
+      "notes": {},
+      "notesOrder": [],
+      "metadata": {
+        "title": "section 1",
+        "description": "",
+        "authors": [],
+        "level": 0
+      },
+      "id": "c51dfc08-d69c-48b3-960f-df343a40b0f5"
+    }
+  },
+  "resources": {},
+  "contextualizations": {},
+  "contextualizers": {},
+  "settings": {
+    "template": "garlic",
+    "options": {
+      "notesPosition": "",
+      "allowDisqusComments": ""
+    },
+    "citationStyle": "",
+    "citationLocale": "",
+    "css": ""
+  }
+}

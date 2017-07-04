@@ -19,7 +19,7 @@ import {
   getFileAsText
 } from '../../../helpers/fileLoader';
 
-// import validatePresentation from '../../../helpers/storyValidator';
+import validateStory from '../../../helpers/storyValidator';
 /**
  * Redux-decorated component class rendering the stories manager feature to the app
  */
@@ -62,7 +62,7 @@ export default class StoriesManagerContainer extends Component {
   attemptImport (str) {
     try {
       const project = JSON.parse(str);
-      const valid = true;//  validateStory(project);
+      const valid = validateStory(project);
       if (valid) {
         const existant = this.props.storiesList.find(pres => pres.id === project.id);
         // has preexisting story, prompt for override
