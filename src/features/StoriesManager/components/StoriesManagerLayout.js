@@ -11,10 +11,9 @@ import './StoriesManagerLayout.scss';
 import DropZone from '../../../components/DropZone/DropZone';
 import StoryCard from '../../../components/StoryCard/StoryCard';
 import LangToggler from '../../../components/LangToggler/LangToggler';
-import {translateNameSpacer} from '../../../helpers/translateUtils';
-
 import Toaster from '../../../components/Toaster/Toaster';
 
+import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 /**
  * Renders the layout component of the feature
