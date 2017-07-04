@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-6-29\n"
-"PO-Revision-Date: Thu Jun 29 2017 11:19:18 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-7-4\n"
+"PO-Revision-Date: Tue Jul 04 2017 11:31:19 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -487,3 +487,9 @@ msgstr "save-nodes-positions"
 
 msgid "Features.ConfigurationDialog.save-nodes-positions-help"
 msgstr "save-nodes-positions-help"
+
+msgid "Features.TakeAway.go-to-the-gist-source-code-of-your-story"
+msgstr "go-to-the-gist-source-code-of-your-story"
+
+msgid "Features.TakeAway.go-to-the-gist-based-webpage-of-your-story"
+msgstr "go-to-the-gist-based-webpage-of-your-story"

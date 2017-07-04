@@ -118,7 +118,7 @@ ChooseTakeAwayStep.contextTypes = {
 /**
  * Renders the layout of the take away dialog
  * @param {object} props - the props to render
- * @param {object} props.activePresentation - the presentation to take away
+ * @param {object} props.activeStory - the story to take away
  * @param {string} props.takeAwayType - the active takeaway type
  * @param {string} props.takeAwayGistLog
  * @param {string} props.takeAwayGistLogStatus
@@ -130,13 +130,13 @@ ChooseTakeAwayStep.contextTypes = {
  * @param {string} props.serverUrl - the url base of the distant server
  * @param {boolean} props.gistAvailable - whether app is connected to gist
  * @param {function} props.takeAway - main callback function for container
- * @param {function} props.updateActivePresentationFromGist -
- * @param {function} props.updateActivePresentationFromServer -
+ * @param {function} props.updateActiveStoryFromGist -
+ * @param {function} props.updateActiveStoryFromServer -
  * @param {object} props.actions - actions passed by redux logic
  * @return {ReactElement} markup
  */
 const TakeAwayDialogLayout = ({
-  activePresentation,
+  activeStory,
   takeAwayType,
   takeAwayGistLog,
   takeAwayGistLogStatus,
@@ -149,16 +149,16 @@ const TakeAwayDialogLayout = ({
   gistAvailable,
   // actions
   takeAway,
-  updateActivePresentationFromGist,
-  updateActivePresentationFromServer,
+  updateActiveStoryFromGist,
+  updateActiveStoryFromServer,
   actions: {
     closeTakeAwayModal,
     setTakeAwayType
   },
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.TakeAway');
-  const updateActivePresentationToServer = () => takeAway({id: 'server'});
-  const updateActivePresentationToGist = () => takeAway({id: 'github'});
+  const updateActiveStoryToServer = () => takeAway({id: 'server'});
+  const updateActiveStoryToGist = () => takeAway({id: 'github'});
   return (
     <div className="fonio-TakeAwayDialogLayout">
       <h1 className="modal-header">
@@ -172,8 +172,8 @@ const TakeAwayDialogLayout = ({
             serverAvailable={serverAvailable}
             takeAwayType={takeAwayType}
             gistAvailable={gistAvailable}
-            serverHtmlUrl={activePresentation && activePresentation.metadata && activePresentation.metadata.serverHTMLUrl}
-            gistId={activePresentation && activePresentation.metadata && activePresentation.metadata.gistId} />
+            serverHtmlUrl={activeStory && activeStory.metadata && activeStory.metadata.serverHTMLUrl}
+            gistId={activeStory && activeStory.metadata && activeStory.metadata.gistId} />
         </section>
         <section className={'modal-row ' + (bundleToHtmlLogStatus || takeAwayGistLogStatus || takeAwayServerLogStatus ? '' : 'empty')}>
           <Toaster status={bundleToHtmlLogStatus} log={bundleToHtmlLog} />
@@ -183,35 +183,35 @@ const TakeAwayDialogLayout = ({
         <section className="modal-row">
           {
           takeAwayType === 'github' &&
-          activePresentation && activePresentation.metadata && activePresentation.metadata.gistId ?
+          activeStory && activeStory.metadata && activeStory.metadata.gistId ?
             <div className="sync-section-container">
               <h2><img src={require('../assets/github.svg')} />{translate('your-story-is-online-on-gist')}</h2>
               <div className="sync-section">
                 <div className="column">
                   <p>
-                    <a target="blank" href={activePresentation.metadata.gistUrl}>
-                      → {translate('go-to-the-gist-source-code-of-your-presentation')}
+                    <a target="blank" href={activeStory.metadata.gistUrl}>
+                      → {translate('go-to-the-gist-source-code-of-your-story')}
                     </a>
-                    <a target="blank" href={serverUrl + '/gist-presentation/' + activePresentation.metadata.gistId}>
-                      → {translate('go-to-the-gist-based-webpage-of-your-presentation')}
+                    <a target="blank" href={serverUrl + '/gist-story/' + activeStory.metadata.gistId}>
+                      → {translate('go-to-the-gist-based-webpage-of-your-story')}
                     </a>
                   </p>
                   <p>{translate('embed-inside-an-html-webpage')}</p>
                   <pre>
                     <code>
-                      {`<iframe allowfullscreen src="${serverUrl + '/gist-presentation/' + activePresentation.metadata.gistId}" width="1000" height="500" frameborder=0></iframe>`}
+                      {`<iframe allowfullscreen src="${serverUrl + '/gist-story/' + activeStory.metadata.gistId}" width="1000" height="500" frameborder=0></iframe>`}
                     </code>
                   </pre>
                 </div>
                 <div className="column">
                   <div className="operations">
-                    <button className="update-to" onClick={updateActivePresentationToGist}>
+                    <button className="update-to" onClick={updateActiveStoryToGist}>
                       ↑ {translate('update-local-version-to-the-repository')}
                       <HelpPin position="left">
                         {translate('the-online-version-will-be-overriden-with-your-current-version')}
                       </HelpPin>
                     </button>
-                    <button className="update-from" onClick={updateActivePresentationFromGist}>
+                    <button className="update-from" onClick={updateActiveStoryFromGist}>
                       ↓ {translate('update-local-version-from-the-repository')}
                       <HelpPin position="left">
                         {translate('your-current-version-will-be-overriden-with-the-distant-version')}
@@ -225,32 +225,32 @@ const TakeAwayDialogLayout = ({
         }
           {
           takeAwayType === 'server' &&
-          activePresentation && activePresentation.metadata && activePresentation.metadata.serverHTMLUrl ?
+          activeStory && activeStory.metadata && activeStory.metadata.serverHTMLUrl ?
             <div className="sync-section-container">
-              <h2><img src={require('../assets/server.svg')} />Your presentation is online on the forccast server</h2>
+              <h2><img src={require('../assets/server.svg')} />Your story is online on the forccast server</h2>
               <div className="sync-section">
                 <div className="column">
                   <p>
-                    <a target="blank" href={activePresentation.metadata.serverHTMLUrl}>
+                    <a target="blank" href={activeStory.metadata.serverHTMLUrl}>
                     → {translate('go-to-the-online-webpage')}
                     </a>
                   </p>
                   <p>{translate('embed-inside-an-html-webpage')}</p>
                   <pre>
                     <code>
-                      {`<iframe allowfullscreen src="${activePresentation.metadata.serverHTMLUrl}" width="1000" height="500" frameborder=0></iframe>`}
+                      {`<iframe allowfullscreen src="${activeStory.metadata.serverHTMLUrl}" width="1000" height="500" frameborder=0></iframe>`}
                     </code>
                   </pre>
                 </div>
                 <div className="column">
                   <div className="operations">
-                    <button className="update-to" onClick={updateActivePresentationToServer}>
+                    <button className="update-to" onClick={updateActiveStoryToServer}>
                       ↑ {translate('update-local-version-to-the-repository')}
                       <HelpPin position="left">
                         {translate('the-online-version-will-be-overriden-with-your-current-version')}
                       </HelpPin>
                     </button>
-                    <button className="update-from" onClick={updateActivePresentationFromServer}>
+                    <button className="update-from" onClick={updateActiveStoryFromServer}>
                       ↓ {translate('update-local-version-from-the-repository')}
                       <HelpPin position="left">
                         {translate('your-current-version-will-be-overriden-with-the-distant-version')}
