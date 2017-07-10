@@ -184,7 +184,7 @@ const StoriesManagerLayout = ({
         <div className="import-status-display">
           <Toaster
             status={importStatus} log={
-              <div className="import-error-display">
+              <span className="import-error-display">
                 {
               importError === 'badJSON' ?
               translate('your-file-is-badly-formatted')
@@ -202,7 +202,7 @@ const StoriesManagerLayout = ({
                 {importError === 'fetchError' ?
               translate('the-fetching-process-failed')
               : ''}
-              </div>
+              </span>
           } />
         </div>
       </section>
