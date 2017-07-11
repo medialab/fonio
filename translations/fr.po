@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-7-4\n"
-"PO-Revision-Date: Tue Jul 04 2017 11:31:19 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-7-11\n"
+"PO-Revision-Date: Tue Jul 11 2017 14:01:15 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -493,3 +493,6 @@ msgstr "go-to-the-gist-source-code-of-your-story"
 
 msgid "Features.TakeAway.go-to-the-gist-based-webpage-of-your-story"
 msgstr "go-to-the-gist-based-webpage-of-your-story"
+
+msgid "Features.Editor.manual-input-bibtex-prompt"
+msgstr "manual-input-bibtex-prompt"

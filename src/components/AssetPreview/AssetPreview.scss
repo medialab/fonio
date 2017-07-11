@@ -10,7 +10,10 @@
   position: relative;
   min-height: 20rem;
   iframe{
-    width: 100%
+    width: 100%;
+    border: none;
+    height: 100%;
+    position: absolute;
   }
   img{
     max-width: 100%;
