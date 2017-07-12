@@ -166,6 +166,8 @@ export const submitResourceData = (type, data) => ({
               }, 2000);
             resolve(csl);
           });
+        case 'cslJSON':
+          return resolve(data);
         default:
           reject('unkown input type');
       }

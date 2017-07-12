@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/medialab/fonio#readme",
   "dependencies": {
-    "citation-js": "^0.3.0-5",
+    "citation-js": "^0.3.0-9",
     "draft-convert": "^1.4.5",
     "draft-js": "^0.10.0",
     "draft-js-dnd-plugin": "^2.0.0-beta1",

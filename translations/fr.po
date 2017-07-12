@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-7-11\n"
-"PO-Revision-Date: Tue Jul 11 2017 14:01:15 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-7-12\n"
+"PO-Revision-Date: Wed Jul 12 2017 16:19:13 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -496,3 +496,36 @@ msgstr "go-to-the-gist-based-webpage-of-your-story"
 
 msgid "Features.Editor.manual-input-bibtex-prompt"
 msgstr "manual-input-bibtex-prompt"
+
+msgid "Components.BibEditorGui.select-type"
+msgstr "select-type"
+
+msgid "Components.BibEditorGui.add-item"
+msgstr "add-item"
+
+msgid "Components.BibEditorGui.add-a-property"
+msgstr "add-a-property"
+
+msgid "Components.BibRefsEditor.bibtex-input-title"
+msgstr "bibtex-input-title"
+
+msgid "Components.BibRefsEditor.manual-input-bibtex-prompt"
+msgstr "manual-input-bibtex-prompt"
+
+msgid "Components.BibRefsEditor.bibtex-gui-title"
+msgstr "bibtex-gui-title"
+
+msgid "Components.BibRefsEditor.input-is-valid"
+msgstr "input-is-valid"
+
+msgid "Components.BibRefsEditor.input-is-invalid"
+msgstr "input-is-invalid"
+
+msgid "Features.Editor.preview-title"
+msgstr "preview-title"
+
+msgid "Components.BibEditorGui.edit-reference"
+msgstr "edit-reference"
+
+msgid "Components.BibEditorGui.add-reference"
+msgstr "add-reference"

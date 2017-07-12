@@ -10,6 +10,7 @@ import HelpPin from '../../../components/HelpPin/HelpPin';
 import Toaster from '../../../components/Toaster/Toaster';
 import DropZone from '../../../components/DropZone/DropZone';
 import AssetPreview from '../../../components/AssetPreview/AssetPreview';
+import BibRefsEditor from '../../../components/BibRefsEditor/BibRefsEditor';
 
 import './ResourceConfigurationDialog.scss';
 
@@ -54,14 +55,23 @@ const ResourceDataInput = ({
         </DropZone>
       );
     case 'bib':
-      const onBibTeXSubmit = (files) => submitResourceData('bibTeXFile', files[0]);
+      const onBibTeXFileSubmit = (files) => submitResourceData('bibTeXFile', files[0]);
+
+      const onRefsChange = refs => {
+        submitResourceData('cslJSON', refs);
+      };
       return (
-        <DropZone
-          onDrop={onBibTeXSubmit}>
-          <div>
-            <p>{translate('drop-bibtex-here')}</p>
-          </div>
-        </DropZone>
+        <div>
+          <DropZone
+            onDrop={onBibTeXFileSubmit}>
+            <div>
+              <p>{translate('drop-bibtex-here')}</p>
+            </div>
+          </DropZone>
+          <BibRefsEditor
+            references={resourceCandidate.data}
+            onChange={onRefsChange} />
+        </div>
       );
     case 'embed':
       const onEmbedSubmit = (evt) => submitResourceData('htmlCode', evt.target.value);
@@ -222,6 +232,7 @@ const ResourceConfigurationDialog = ({
               {
                 resourceCandidate.data ?
                 (<div className="modal-column preview-container">
+                  <h4>{translate('preview-title')}</h4>
                   <AssetPreview
                     type={resourceCandidateType}
                     data={resourceCandidate.data} />

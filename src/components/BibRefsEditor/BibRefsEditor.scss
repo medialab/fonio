@@ -1,0 +1,75 @@
+/**
+ * style definitions for the BibRefsEditor component
+ *
+ * @module fonio/components/BibRefsEditor
+ */
+@import '../../parameters.scss';
+
+.fonio-BibRefsEditor
+{
+    @extend .flex-stretched-column;
+    .reference-editors-container
+    {
+        flex: 1;
+        @extend .flex-stretched-row;
+
+        .reference-editor{
+          margin-bottom: $gutter-large;
+        }
+    }
+
+    .fonio-BibEditorGui{
+      max-height: 30rem;
+      overflow: auto;
+    }
+
+    .property-group {
+      @extend .flex-stretched-row;
+      .property-title
+      {
+
+      }
+      .property-input{
+        @extend .flex-stretched-row;
+        margin-bottom: $gutter-medium;
+        .fonio-OptionSelect,
+        {
+          flex: 1;
+        }
+        .remove-property{
+          flex: 0;
+        }
+      }
+    }
+    .fonio-icon-image
+    {
+        width: $font-size-3;
+        height: $font-size-3;
+        margin-left: $gutter-medium;
+    }
+
+    .add-item{
+      @extend .important-item;
+      &:hover{
+        @extend .important-item-intent;
+      }
+    }
+
+    .sub-properties-group{
+      padding-left: $gutter-medium;
+      @extend .flex-stretched-column;
+      .subcategory-container{
+        margin-bottom: $gutter-medium;
+      }
+    }
+
+    input[type="text"] {
+      @extend .interactive-item;
+      &:hover{
+        @extend .interactive-item-intent;
+      }
+      &:focus{
+        @extend .interactive-item-active;
+      }
+    }
+}
