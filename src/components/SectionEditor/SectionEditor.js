@@ -419,7 +419,7 @@ class SectionEditor extends Component {
     /**
      * Callbacks
      */
-    // mock - not used
+    // mock - these callbacks are not used for now but available
     // const onAssetClick = () => console.log('on asset click');
     // const onAssetMouseOver = () => console.log('onAssetMouseOver');
     // const onAssetMouseOut = () => console.log('onAssetMouseOut');

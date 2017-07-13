@@ -107,5 +107,9 @@
 
     .bibtext-editor-container{
         margin-right: $gutter-medium;
+        textarea{
+            max-height: 30rem;
+            overflow: auto;
+        }
     }
 }

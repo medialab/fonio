@@ -57,12 +57,14 @@ const ResourcesManagerLayout = ({
       style={style}>
       {
         resourcesPrompted && (
-          resources.length > 0 ?
-            <h2>Click or drag a resource to embed in your story</h2> :
-            <div>
-              <h2>You must first add resources to your library to be able to embed them inside your story</h2>
-              <button onClick={unpromptAssetEmbed}>Got it</button>
-            </div>
+          <div className="asset-select-help">
+            {resources.length > 0 ?
+              <h2>Click or drag a resource to embed in your story</h2> :
+              <div>
+                <h2>You must first add resources to your library to be able to embed them inside your story</h2>
+                <button onClick={unpromptAssetEmbed}>Got it</button>
+              </div>}
+          </div>
         )
       }
       <div className="body">

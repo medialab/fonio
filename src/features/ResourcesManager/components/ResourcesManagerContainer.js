@@ -17,6 +17,7 @@ import * as duck from '../duck';
 import * as managerDuck from '../../StoriesManager/duck';
 import * as editorDuck from '../../StoryEditor/duck';
 import * as globalUiDuck from '../../GlobalUi/duck';
+import * as sectionsDuck from '../../SectionsManager/duck';
 
 import {
   updateSection as updateSectionAction,
@@ -41,6 +42,7 @@ import ResourcesManagerLayout from './ResourcesManagerLayout';
     ...managerDuck.selector(state.stories),
     ...editorDuck.selector(state.storyEditor),
     ...globalUiDuck.selector(state.globalUi),
+    ...sectionsDuck.selector(state.sectionsManager),
     lang: state.i18nState.lang,
   }),
   dispatch => ({
@@ -67,9 +69,8 @@ class ResourcesManagerContainer extends Component {
     return true;
   }
 
-  embedAsset = resourceId => {
+  summonAsset = (contentId, resourceId) => {
     const {
-      assetRequestState,
       activeStoryId,
       activeStory,
       activeSectionId,
@@ -77,14 +78,11 @@ class ResourcesManagerContainer extends Component {
       actions,
     } = this.props;
 
-    const contentId = assetRequestState.editorId;
-
     const {
       createContextualizer,
       createContextualization,
       updateDraftEditorState,
       updateSection,
-      unpromptAssetEmbed,
     } = actions;
 
     const activeSection = activeStory.sections[activeSectionId];
@@ -111,13 +109,10 @@ class ResourcesManagerContainer extends Component {
       contextualizerId,
       sectionId: activeSectionId
     };
-
     createContextualization(activeStoryId, contextualizationId, contextualization);
-    // console.log('contextualization', contextualization, activeSectionId);
 
     const editorStateId = contentId === 'main' ? activeSectionId : contentId;
     const editorState = editorStates[editorStateId];
-    // console.log('editor state', editorState, editorStateId, editorStates);
     // update related editor state
     const newEditorState = insertionType === 'block' ?
       insertBlockContextualization(editorState, contextualization, contextualizer, resource) :
@@ -145,6 +140,23 @@ class ResourcesManagerContainer extends Component {
       };
     }
     updateSection(activeStoryId, activeSectionId, newSection);
+  }
+
+  embedAsset = resourceId => {
+    const {
+      activeSectionId,
+      editorFocus,
+      actions,
+    } = this.props;
+
+    const {
+      unpromptAssetEmbed,
+    } = actions;
+    let contentId = editorFocus; // assetRequestState.editorId;
+    // console.log('content id before', contentId, this.props);
+    contentId = (contentId === activeSectionId || !contentId) ? 'main' : editorFocus;
+    // console.log('asset request state', assetRequestState, contentId);
+    this.summonAsset(contentId, resourceId);
     unpromptAssetEmbed();
   }
 

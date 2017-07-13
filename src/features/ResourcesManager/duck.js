@@ -353,7 +353,7 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
       }, state.resourceCandidate.metadata);
       return {
         ...state,
-        resourceDataLoadingState: 'success',
+        resourceDataLoadingState: undefined,
         resourceCandidate: {
           ...state.resourceCandidate,
           metadata,
