@@ -47,9 +47,9 @@ class InlineCitation extends Component {
     const {
       children,
       asset,
-      onChange,
-      onBlur,
-      onFocus,
+      onAssetChange,
+      onAssetBlur,
+      onAssetFocus,
     } = this.props;
     const context = this.context;
 
@@ -76,7 +76,7 @@ class InlineCitation extends Component {
     };
 
     const onInputClick = e => {
-      onFocus(e);
+      onAssetFocus(e);
     };
 
     const onMoreOptionsClick = e => {
@@ -90,9 +90,9 @@ class InlineCitation extends Component {
         ...contextualizer,
         locator
       };
-      onChange('contextualizer', contextualizerId, newContextualizer);
+      onAssetChange('contextualizer', contextualizerId, newContextualizer);
       this.toggleMoreOptions();
-      onBlur(e);
+      onAssetBlur(e);
     };
 
     const onPrefixBlur = e => {
@@ -101,9 +101,9 @@ class InlineCitation extends Component {
         ...contextualizer,
         prefix
       };
-      onChange('contextualizer', contextualizerId, newContextualizer);
+      onAssetChange('contextualizer', contextualizerId, newContextualizer);
       this.toggleMoreOptions();
-      onBlur(e);
+      onAssetBlur(e);
     };
     const onSuffixBlur = e => {
       const suffix = this.state.suffix;
@@ -111,9 +111,9 @@ class InlineCitation extends Component {
         ...contextualizer,
         suffix
       };
-      onChange('contextualizer', contextualizerId, newContextualizer);
+      onAssetChange('contextualizer', contextualizerId, newContextualizer);
       this.toggleMoreOptions();
-      onBlur(e);
+      onAssetBlur(e);
     };
     const translate = translateNameSpacer(context.t, 'Components.InlineCitation');
     const representation = asset && context.citations && context.citations[asset.id];
@@ -136,14 +136,14 @@ class InlineCitation extends Component {
             value={this.state.prefix}
             onChange={onPrefixChange}
             onClick={onInputClick}
-            onFocus={onFocus}
+            onFocus={onAssetFocus}
             onBlur={onPrefixBlur} />
           locator:
           <input
             placeholder={translate('locator-placeholder')}
             value={this.state.locator}
             onChange={onLocatorChange}
-            onFocus={onFocus}
+            onFocus={onAssetFocus}
             onClick={onInputClick}
             onBlur={onLocatorBlur} />
 
@@ -153,7 +153,7 @@ class InlineCitation extends Component {
             value={this.state.suffix}
             onChange={onSuffixChange}
             onClick={onInputClick}
-            onFocus={onFocus}
+            onFocus={onAssetFocus}
             onBlur={onSuffixBlur} />
         </span>}
         {children}

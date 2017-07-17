@@ -13,7 +13,7 @@ import rootReducer from './rootReducer';
 import promiseMiddleware from './promiseMiddleware';
 import {persistentStore} from 'redux-pouchdb';
 
-const PouchDB = require('pouchdb');
+const PouchDB = require('pouchdb').default;
 const db = new PouchDB('fonio');
 
 /**

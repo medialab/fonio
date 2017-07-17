@@ -146,7 +146,7 @@ const editorstates = (state = {}, action) => {
         ...newState,
         [editorId]: action.editorsStates[editorId]
       }),
-      {} /* state */); // reset editors data to manage memory (this is a bit messy, it should be explicited for instance with two different actions MERGE_EDITORS/REPLACE_EITORS)
+      {} /* state */); // reset editors data to manage memory (this is a bit messy, it should be explicited for instance with two different actions MERGE_EDITORS/REPLACE_EDITORS)
     default:
       return state;
   }

@@ -67,8 +67,13 @@ class SectionEditor extends Component {
 
   constructor(props) {
     super(props);
-    this.updateContent = debounce(this.updateContent, 1000);
-    this.debouncedCleanStuffFromEditorInspection = debounce(this.cleanStuffFromEditorInspection, 3000);
+    this.state = {
+      hydrated: false
+    };
+    // this.updateContent = this.updateContent.bind(this);
+    this.updateContent = debounce(this.updateContent, 500);
+    this.debouncedCleanStuffFromEditorInspection = debounce(this.cleanStuffFromEditorInspection, 500);
+    // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
 
   componentDidMount() {
@@ -90,23 +95,31 @@ class SectionEditor extends Component {
     }
   }
 
-  cleanStuffFromEditorInspection = (sectionId) => {
-    this.updateContextualizationsFromEditor(sectionId);
-    this.updateNotesFromEditor(sectionId);
+  // componentWillUpdate() {
+  //   console.time('editor update time');
+  // }
+
+  componentDidUpdate = (prevProps) => {
+    if (this.props.editorStates[this.props.activeSection.id] !== prevProps.editorStates[this.props.activeSection.id]) {
+      this.debouncedCleanStuffFromEditorInspection(this.props.activeSection.id);
+    }
+    // console.timeEnd('editor update time');
   }
 
-  updateContextualizationsFromEditor = sectionId => {
-    // debounce-related satefy
-    if (this.props.activeSection.id !== sectionId) {
-      return;
-    }
+  cleanStuffFromEditorInspection = () => {
+    this.updateContextualizationsFromEditor(this.props);
+    this.updateNotesFromEditor(this.props);
+  }
+
+  updateContextualizationsFromEditor = props => {
     const {
       activeSection,
       editorStates,
       deleteContextualization,
+      // sectionId,
       activeStoryId,
       story
-    } = this.props;
+    } = props;
     const activeSectionId = activeSection.id;
     const notesEditorStates = Object.keys(activeSection.notes).reduce((result, noteId) => {
       return {
@@ -137,14 +150,14 @@ class SectionEditor extends Component {
     });
   }
 
-  updateNotesFromEditor = () => {
+  updateNotesFromEditor = (props) => {
     const {
       editorStates,
       sectionId,
       activeStoryId,
       activeSection,
       updateSection,
-    } = this.props;
+    } = props;
     const newNotes = updateNotesFromEditor(editorStates[sectionId], activeSection.notes);
     if (newNotes !== activeSection.notes) {
       updateSection(activeStoryId, sectionId, {
@@ -204,7 +217,8 @@ class SectionEditor extends Component {
       [nd]: {
         ...activeSection.notes[nd],
         editorState: EditorState.createWithContent(
-            convertFromRaw(activeSection.notes[nd].editorState)
+            convertFromRaw(activeSection.notes[nd].editorState),
+            this.editor.mainEditor.createDecorator()
           )
       }
     }), {});
@@ -213,7 +227,7 @@ class SectionEditor extends Component {
       ...activeNotes,
       [id]: {
         id,
-        editorState: EditorState.createEmpty()
+        editorState: this.editor.generateEmptyEditor()
       }
     };
     notes = updateNotesFromEditor(mainEditorState, notes);
@@ -224,7 +238,7 @@ class SectionEditor extends Component {
         ...fNotes,
         [nd]: {
           ...notes[nd],
-          editorState: notes[nd].editorState ? convertToRaw(notes[nd].editorState.getCurrentContent()) : EditorState.createEmpty()
+          editorState: notes[nd].editorState ? convertToRaw(notes[nd].editorState.getCurrentContent()) : this.editor.generateEmptyEditor()
         }
       }), {})
     };
@@ -239,7 +253,6 @@ class SectionEditor extends Component {
     // update editors
     this.props.updateDraftEditorsStates(newEditors);
     // update focus
-    this.props.setEditorFocus(id);
     // focus on new note
     setTimeout(() => {
       this.props.setEditorFocus(id);
@@ -309,28 +322,44 @@ class SectionEditor extends Component {
     const {
       setEditorFocus,
       requestAsset,
-      editorStates
+      editorStates,
+      // editorFocus,
     } = this.props;
 
     const editorId = contentId === 'main' ? this.props.sectionId : contentId;
     const selection = inputSelection || editorStates[editorId].getSelection();
-    // undo focus
-    setEditorFocus(editorId, undefined);
+
+    // setTimeout(() => {
+    //   setEditorFocus(contentId);
+    //   this.editor.focus(contentId);
+    // }, 500);
+    // console.log('onAssetRequest: focusing on ', contentId);
+    setEditorFocus(contentId);
+    this.editor.focus(contentId);
     // register assetRequestState
     requestAsset(editorId, selection);
   }
 
   hydrateEditorStates = (activeSection) => {
     const editors = Object.keys(activeSection.notes || {})
+        // notes' editor states hydratation
         .reduce((eds, noteId) => ({
           ...eds,
           [noteId]: activeSection.notes[noteId].editorState && activeSection.notes[noteId].editorState.entityMap ?
-          EditorState.createWithContent(convertFromRaw(activeSection.notes[noteId].editorState))
-          : EditorState.createEmpty()
-        }), {
+          EditorState.createWithContent(
+            convertFromRaw(activeSection.notes[noteId].editorState),
+            this.editor.mainEditor.createDecorator()
+          )
+          : this.editor.generateEmptyEditor()
+        }),
+        // main editor state hydratation
+        {
           [activeSection.id]: activeSection.contents && activeSection.contents.entityMap ?
-            EditorState.createWithContent(convertFromRaw(activeSection.contents))
-            : EditorState.createEmpty()
+            EditorState.createWithContent(
+              convertFromRaw(activeSection.contents),
+              this.editor.mainEditor.createDecorator()
+            )
+            : this.editor.generateEmptyEditor()
         });
     this.props.updateDraftEditorsStates(editors);
   }
@@ -358,7 +387,6 @@ class SectionEditor extends Component {
       };
     }
     this.props.updateSection(storyId, sectionId, newSection);
-    this.debouncedCleanStuffFromEditorInspection(this.props.activeSection.id);
   }
 
   render() {
@@ -402,7 +430,7 @@ class SectionEditor extends Component {
     } = activeSection;
 
     const translate = translateNameSpacer(this.context.t, 'Components.Footer');
-    const mainEditorState = editorStates[sectionId] || EditorState.createEmpty();
+    const mainEditorState = editorStates[sectionId]; // || this.editor.generateEmptyEditor();
     // replacing notes with dynamic non-serializable editor states
     const notes = inputNotes ? Object.keys(inputNotes).reduce((no, id) => ({
       ...no,
@@ -431,19 +459,23 @@ class SectionEditor extends Component {
     // real callbacks
     const onAssetChoice = (option, contentId) => {
       const {id} = option.metadata;
-      // console.log('summoning asset', id, option.metadata);
-      summonAsset(contentId, id);
+      let targetedEditorId = contentId;
+      if (!targetedEditorId) {
+        targetedEditorId = this.props.editorFocus;
+      }
+      summonAsset(targetedEditorId, id);
       cancelAssetRequest();
       setTimeout(() => {
-        setEditorFocus(contentId);
-        this.editor.focus(contentId);
+        setEditorFocus(targetedEditorId);
+        this.editor.focus(targetedEditorId);
       });
     };
+
     const onEditorChange = (editorId, editor) => {
       const editorStateId = editorId === 'main' ? sectionId : editorId;
       // update active immutable editor state
       updateDraftEditorState(editorStateId, editor);
-      // (debouncily) update serialized content
+      // ("debouncily") update serialized content
       updateContent(editorId, editor, activeSection, activeStoryId, sectionId);
     };
 
@@ -487,16 +519,23 @@ class SectionEditor extends Component {
 
     const onBlur = (event, contentId = 'main') => {
       event.stopPropagation();
-      if (focusedEditorId === contentId) {
-        setEditorFocus(undefined);
-      }
+      // if focus has not be retaken by another editor
+      // blur the whole editor
+      // console.log('on editor blur');
+
+      setTimeout(() => {
+        if (focusedEditorId === contentId && !assetRequestPosition) {
+          // console.log('onBlur: set editor focus to undefined');
+          setEditorFocus(undefined);
+        }
+      });
     };
 
     const onScroll = () => {
       if (focusedEditorId === 'main') {
         this.editor.mainEditor.updateSelection();
       }
- else if (focusedEditorId && this.editor.notes[focusedEditorId]) {
+      else if (focusedEditorId && this.editor.notes[focusedEditorId]) {
         this.editor.notes[focusedEditorId].editor.updateSelection();
       }
     };
@@ -619,17 +658,29 @@ class SectionEditor extends Component {
       }
     }*/
 
+    const onSectionTitleClick = () => {
+      // because of editor's focus management,
+      // focus has to be forced
+      setTimeout(() => this.sectionTitle.focus());
+    };
+
     /*
      * References binding
      */
     const bindRef = editor => {
       this.editor = editor;
     };
+    const bindSectionTitle = sectionTitle => {
+      this.sectionTitle = sectionTitle;
+    };
+
     return (
       <div className="fonio-SectionEditor">
         <h1 className="editable-title" onClick={onTitleInputClick}>
           <input
             type="text"
+            ref={bindSectionTitle}
+            onClick={onSectionTitleClick}
             value={activeSection.metadata.title || ''}
             onChange={onActiveSectionTitleChange}
             placeholder={translate('section-title')} />
