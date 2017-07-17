@@ -23,6 +23,7 @@ class ResourceSearchWidget extends Component {
   componentDidMount() {
     if (this.input) {
       setTimeout(() => {
+        this.props.onAssetChoiceFocus();
         this.input.focus();
       }, 300);
     }
