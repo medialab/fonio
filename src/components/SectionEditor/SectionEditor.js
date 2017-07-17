@@ -95,15 +95,16 @@ class SectionEditor extends Component {
     }
   }
 
-  componentWillUpdate() {
-    console.time('editor update time');
-  }
+  // componentWillUpdate() {
+  // // benchmarking component performance
+  //   console.time('editor update time');
+  // }
 
   componentDidUpdate = (prevProps) => {
     if (this.props.editorStates[this.props.activeSection.id] !== prevProps.editorStates[this.props.activeSection.id]) {
       this.debouncedCleanStuffFromEditorInspection(this.props.activeSection.id);
     }
-    console.timeEnd('editor update time');
+    // console.timeEnd('editor update time');
   }
 
   cleanStuffFromEditorInspection = () => {
@@ -462,6 +463,7 @@ class SectionEditor extends Component {
       if (!targetedEditorId) {
         targetedEditorId = this.props.editorFocus;
       }
+      setEditorFocus(targetedEditorId);
       summonAsset(targetedEditorId, id);
       cancelAssetRequest();
       setTimeout(() => {
