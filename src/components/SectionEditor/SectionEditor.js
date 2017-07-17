@@ -71,8 +71,8 @@ class SectionEditor extends Component {
       hydrated: false
     };
     // this.updateContent = this.updateContent.bind(this);
-    this.updateContent = debounce(this.updateContent, 500);
-    this.debouncedCleanStuffFromEditorInspection = debounce(this.cleanStuffFromEditorInspection, 1000);
+    this.updateContent = debounce(this.updateContent, 2000);
+    this.debouncedCleanStuffFromEditorInspection = debounce(this.cleanStuffFromEditorInspection, 500);
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
 
@@ -95,15 +95,15 @@ class SectionEditor extends Component {
     }
   }
 
-  // componentWillUpdate() {
-  //   console.time('editor update time');
-  // }
+  componentWillUpdate() {
+    console.time('editor update time');
+  }
 
   componentDidUpdate = (prevProps) => {
     if (this.props.editorStates[this.props.activeSection.id] !== prevProps.editorStates[this.props.activeSection.id]) {
       this.debouncedCleanStuffFromEditorInspection(this.props.activeSection.id);
     }
-    // console.timeEnd('editor update time');
+    console.timeEnd('editor update time');
   }
 
   cleanStuffFromEditorInspection = () => {
@@ -160,7 +160,7 @@ class SectionEditor extends Component {
     } = props;
     const newNotes = updateNotesFromEditor(editorStates[sectionId], activeSection.notes);
     const newSection = activeSection;
-    newSection.notes = newNotes
+    newSection.notes = newNotes;
     if (newNotes !== activeSection.notes) {
       updateSection(activeStoryId, sectionId, newSection);
     }
