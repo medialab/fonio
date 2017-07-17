@@ -544,12 +544,8 @@ class SectionEditor extends Component {
     };
 
     const onAssetRequestCancel = () => {
-      if (focusedEditorId === 'main') {
-        this.editor.mainEditor.updateSelection();
-      }
-      else if (focusedEditorId && this.editor.notes[focusedEditorId]) {
-        this.editor.notes[focusedEditorId].editor.updateSelection();
-      }
+      setEditorFocus(focusedEditorId);
+      setTimeout(() => this.editor.focus(focusedEditorId));
       cancelAssetRequest();
     };
 
