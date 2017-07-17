@@ -40,6 +40,7 @@ const ResourcesManagerLayout = ({
     startNewResourceConfiguration,
     submitResourceData,
     unpromptAssetEmbed,
+    setEditorFocus,
   },
   // custom functions
   embedAsset,
@@ -82,9 +83,13 @@ const ResourcesManagerLayout = ({
             const onEmbedResource = () => {
               embedAsset(resource.id);
             };
+            const onMouseDown = () => {
+              setEditorFocus(undefined);
+            }
             return (
               <ResourceCard
                 key={index}
+                onMouseDown={onMouseDown}
                 onDelete={onDelete}
                 onConfigure={onEdit}
                 selectMode={resourcesPrompted}

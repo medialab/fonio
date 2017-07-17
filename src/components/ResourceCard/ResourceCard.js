@@ -103,6 +103,8 @@ class ResourceCard extends Component {
       connectDragSource,
       connectDragPreview,
       connectDropTarget,
+
+      onMouseDown,
       // isDragging,
     } = props;
     const translate = translateNameSpacer(context.t, 'Components.ResourceCard');
@@ -116,11 +118,17 @@ class ResourceCard extends Component {
       onConfigure();
     };
 
+    const onMDown = () => {
+      if (typeof onMouseDown === 'function') {
+        onMouseDown();
+      }
+    }
+
     const onGlobalClick = () => {
       if (selectMode) {
         onSelect(metadata);
       }
-   else {
+      else {
         onConfigure();
       }
     };
@@ -136,6 +144,7 @@ class ResourceCard extends Component {
       <li
         draggable
         onDragStart={startDrag}
+        onMouseDown={onMDown}
         className={'fonio-ResourceCard' + (selectMode ? ' select-mode' : '')}
         onClick={onGlobalClick}>
         <div
