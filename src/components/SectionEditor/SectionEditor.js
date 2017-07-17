@@ -72,7 +72,7 @@ class SectionEditor extends Component {
     };
     // this.updateContent = this.updateContent.bind(this);
     this.updateContent = debounce(this.updateContent, 500);
-    this.debouncedCleanStuffFromEditorInspection = debounce(this.cleanStuffFromEditorInspection, 500);
+    this.debouncedCleanStuffFromEditorInspection = debounce(this.cleanStuffFromEditorInspection, 1000);
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
 
@@ -159,11 +159,10 @@ class SectionEditor extends Component {
       updateSection,
     } = props;
     const newNotes = updateNotesFromEditor(editorStates[sectionId], activeSection.notes);
+    const newSection = activeSection;
+    newSection.notes = newNotes
     if (newNotes !== activeSection.notes) {
-      updateSection(activeStoryId, sectionId, {
-        ...activeSection,
-        notes: newNotes
-      });
+      updateSection(activeStoryId, sectionId, newSection);
     }
   }
 
