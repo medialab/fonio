@@ -59,6 +59,10 @@
                 @extend .animated;
                 padding: $gutter-medium;
                 font-family: $editable-font-stack;
+
+                .public-DraftStyleDefault-block{
+                    margin-bottom: $gutter-medium;
+                }
             }
             .scholar-draft-NoteContainer
             {
