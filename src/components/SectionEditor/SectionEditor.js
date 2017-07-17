@@ -254,10 +254,11 @@ class SectionEditor extends Component {
     this.props.updateDraftEditorsStates(newEditors);
     // update focus
     // focus on new note
+    this.props.setEditorFocus(undefined);
     setTimeout(() => {
       this.props.setEditorFocus(id);
       this.editor.focus(id);
-    }, 100);
+    });
   }
 
   addTextAtCurrentSelection = (text, contentId) => {
@@ -494,15 +495,27 @@ class SectionEditor extends Component {
       updateSection(activeStoryId, sectionId, newActiveSection);
     };
 
-    const onDrop = (contentId, payload, selection) => {
+    const onDrop = (contentId, payload/*, selection*/) => {
       if (payload && payload.indexOf('DRAFTJS_RESOURCE_ID:') > -1) {
-
         const id = payload.split('DRAFTJS_RESOURCE_ID:')[1];
-        const editorId = contentId === 'main' ? activeSection.id : contentId;
-        const editorState = editorStates[editorId];
-        // todo: handle drop selection bug there
-        updateDraftEditorState(editorId, EditorState.forceSelection(editorState, selection));
-        onAssetChoice({metadata: {id}}, contentId);
+        let targetedEditorId = contentId;
+        if (!targetedEditorId) {
+          targetedEditorId = this.props.editorFocus;
+        }
+        this.editor.focus(targetedEditorId);
+        setEditorFocus(targetedEditorId);
+        setTimeout(() => {
+          // setTimeout(() => {
+            // console.log('summon asset', targetedEditorId, id);
+            summonAsset(targetedEditorId, id);
+            // cancelAssetRequest();
+          // }, 500);
+        }, 100);
+        // const editorId = contentId === 'main' ? activeSection.id : contentId;
+        // const editorState = editorStates[editorId];
+        // // todo: handle drop selection bug there
+        // updateDraftEditorState(editorId, EditorState.forceSelection(editorState, selection));
+        // onAssetChoice({metadata: {id}}, contentId);
       }
     };
 
