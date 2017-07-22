@@ -7,6 +7,9 @@ import PropTypes from 'prop-types';
 
 import {debounce} from 'lodash';
 
+
+import {ReferencesManager} from 'react-citeproc';
+
 import {v4 as generateId} from 'uuid';
 
 import {
@@ -53,9 +56,6 @@ const blockAssetComponents = {
   'data-presentation': BlockContextualizationContainer,
 };
 
-import {ReferencesManager} from 'react-citeproc';
-
-
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './SectionEditor.scss';
@@ -70,8 +70,8 @@ class SectionEditor extends Component {
     this.state = {
       hydrated: false
     };
-    // this.updateContent = this.updateContent.bind(this);
-    this.updateContent = debounce(this.updateContent, 2000);
+    // this.updateSectionRawContent = this.updateSectionRawContent.bind(this);
+    this.updateSectionRawContent = debounce(this.updateSectionRawContent, 2000);
     this.debouncedCleanStuffFromEditorInspection = debounce(this.cleanStuffFromEditorInspection, 500);
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
@@ -330,11 +330,6 @@ class SectionEditor extends Component {
     const editorId = contentId === 'main' ? this.props.sectionId : contentId;
     const selection = inputSelection || editorStates[editorId].getSelection();
 
-    // setTimeout(() => {
-    //   setEditorFocus(contentId);
-    //   this.editor.focus(contentId);
-    // }, 500);
-    // console.log('onAssetRequest: focusing on ', contentId);
     setEditorFocus(contentId);
     this.editor.focus(contentId);
     // register assetRequestState
@@ -365,8 +360,14 @@ class SectionEditor extends Component {
     this.props.updateDraftEditorsStates(editors);
   }
 
-  updateContent = (editorStateId, editorState, section, storyId, sectionId) => {
-    const rawContent = convertToRaw(editorState.getCurrentContent());
+  updateSectionRawContent = (editorStateId, storyId, sectionId) => {
+    // const rawContent = convertToRaw(editorState.getCurrentContent());
+    const section = this.props.story.sections[sectionId];
+
+    const finalEditorStateId = editorStateId === 'main' ? sectionId : editorStateId;
+    const rawContent = convertToRaw(this.props.editorStates[finalEditorStateId].getCurrentContent());
+
+
     let newSection;
     // this.props.update(this.state.editorState);
     if (editorStateId === 'main') {
@@ -387,6 +388,8 @@ class SectionEditor extends Component {
         }
       };
     }
+
+    // console.log('update section in update content', storyId, sectionId, newSection.contents);
     this.props.updateSection(storyId, sectionId, newSection);
   }
 
@@ -394,7 +397,7 @@ class SectionEditor extends Component {
     const {
       addNote,
       deleteNote,
-      updateContent,
+      updateSectionRawContent,
       onAssetRequest,
       addTextAtCurrentSelection,
       onDataChange,
@@ -448,7 +451,7 @@ class SectionEditor extends Component {
     /**
      * Callbacks
      */
-    // mock - these callbacks are not used for now but available
+    // the following callbacks are not used for now but available
     // const onAssetClick = () => console.log('on asset click');
     // const onAssetMouseOver = () => console.log('onAssetMouseOver');
     // const onAssetMouseOut = () => console.log('onAssetMouseOut');
@@ -457,20 +460,19 @@ class SectionEditor extends Component {
     // const onNotePointerMouseOut = () => console.log('onNotePointerMouseOut');
     // const onNotePointerMouseClick = () => console.log('onNotePointerMouseClick');
 
-    // real callbacks
+    // used callbacks
     const onAssetChoice = (option, contentId) => {
       const {id} = option.metadata;
       let targetedEditorId = contentId;
       if (!targetedEditorId) {
         targetedEditorId = this.props.editorFocus;
       }
-      setEditorFocus(targetedEditorId);
-      summonAsset(targetedEditorId, id);
       cancelAssetRequest();
+      summonAsset(targetedEditorId, id);
       setTimeout(() => {
         setEditorFocus(targetedEditorId);
         this.editor.focus(targetedEditorId);
-      });
+      }, 100);
     };
 
     const onEditorChange = (editorId, editor) => {
@@ -478,7 +480,7 @@ class SectionEditor extends Component {
       // update active immutable editor state
       updateDraftEditorState(editorStateId, editor);
       // ("debouncily") update serialized content
-      updateContent(editorId, editor, activeSection, activeStoryId, sectionId);
+      updateSectionRawContent(editorId, activeStoryId, sectionId);
     };
 
     const onActiveSectionTitleChange = e => {
@@ -495,34 +497,24 @@ class SectionEditor extends Component {
       updateSection(activeStoryId, sectionId, newActiveSection);
     };
 
-    const onDrop = (contentId, payload/*, selection*/) => {
+    const onDrop = (contentId, payload, selection) => {
       if (payload && payload.indexOf('DRAFTJS_RESOURCE_ID:') > -1) {
         const id = payload.split('DRAFTJS_RESOURCE_ID:')[1];
         let targetedEditorId = contentId;
         if (!targetedEditorId) {
           targetedEditorId = this.props.editorFocus;
         }
-        this.editor.focus(targetedEditorId);
-        setEditorFocus(targetedEditorId);
-        setTimeout(() => {
-          // setTimeout(() => {
-            // console.log('summon asset', targetedEditorId, id);
-            summonAsset(targetedEditorId, id);
-            // cancelAssetRequest();
-          // }, 500);
-        }, 100);
-        // const editorId = contentId === 'main' ? activeSection.id : contentId;
-        // const editorState = editorStates[editorId];
-        // // todo: handle drop selection bug there
-        // updateDraftEditorState(editorId, EditorState.forceSelection(editorState, selection));
-        // onAssetChoice({metadata: {id}}, contentId);
+        const editorId = contentId === 'main' ? activeSection.id : contentId;
+        const editorState = editorStates[editorId];
+        updateDraftEditorState(editorId, EditorState.forceSelection(editorState, selection));
+        onAssetChoice({metadata: {id}}, contentId);
       }
     };
 
     const onDragOver = (contentId) => {
-      // const editorId = contentId === 'main' ? sectionId : contentId;
       if (focusedEditorId !== contentId) {
         setEditorFocus(contentId);
+        this.editor.focus(contentId);
       }
     };
     const onClick = (event, contentId = 'main') => {
@@ -535,11 +527,9 @@ class SectionEditor extends Component {
       event.stopPropagation();
       // if focus has not be retaken by another editor
       // blur the whole editor
-      // console.log('on editor blur');
 
       setTimeout(() => {
         if (focusedEditorId === contentId && !assetRequestPosition) {
-          // console.log('onBlur: set editor focus to undefined');
           setEditorFocus(undefined);
         }
       });
@@ -683,7 +673,6 @@ class SectionEditor extends Component {
     const bindSectionTitle = sectionTitle => {
       this.sectionTitle = sectionTitle;
     };
-
     return (
       <div className="fonio-SectionEditor">
         <h1 className="editable-title" onClick={onTitleInputClick}>

@@ -94,16 +94,7 @@ class EditorContainer extends Component {
     this.updateStoryContentDebounced = debounce(this.updateStoryContentDebounced, 1000);
   }
 
-  shouldComponentUpdate(nextProps) {
-    if (
-      this.props.activeStory &&
-      this.props.activeStory.content
-      && nextProps.activeStory
-      && nextProps.activeStory.content
-      && this.props.activeStory.content !== nextProps.activeStory.content
-    ) {
-      return false;
-    }
+  shouldComponentUpdate() {
     return true;
   }
 
@@ -210,7 +201,6 @@ class EditorContainer extends Component {
   }
 
   render() {
-
     return (
       <StoryEditorLayout
         {...this.props}

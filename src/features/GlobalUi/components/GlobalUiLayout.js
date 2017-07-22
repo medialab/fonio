@@ -76,7 +76,7 @@ const GlobalUiLayout = ({
     updateAsset,
     setAsideUiMode,
     // embedAsset,
-    updateSection,
+    // updateSection,
     setGlobalUiFocus,
     updateDraftGlobalUiState,
     updateDraftGlobalUisStates,

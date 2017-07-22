@@ -85,7 +85,7 @@ const ResourcesManagerLayout = ({
             };
             const onMouseDown = () => {
               setEditorFocus(undefined);
-            }
+            };
             return (
               <ResourceCard
                 key={index}

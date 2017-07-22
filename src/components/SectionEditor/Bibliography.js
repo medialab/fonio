@@ -9,7 +9,6 @@ const Bib = ({
   bibliography,
   t
 }) => {
-  // console.log('bibliography', bibliography);
   const translate = translateNameSpacer(t, 'Components.Bibliography');
   return (
     <section>
@@ -20,9 +19,12 @@ const Bib = ({
 };
 
 Bib.contextTypes = {
-  bibliography: PropTypes.object,
+  bibliography: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ]),
   lang: PropTypes.string,
-  t: PropTypes.func.required
+  t: PropTypes.func
 };
 
 export default Bib;

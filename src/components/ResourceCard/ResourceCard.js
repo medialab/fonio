@@ -1,7 +1,7 @@
 /* eslint react/no-find-dom-node: 0 */
 /**
  * This module provides a reusable big select element component
- * @module fonio/components/BigSelect
+ * @module fonio/components/ResourceCard
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
@@ -122,7 +122,7 @@ class ResourceCard extends Component {
       if (typeof onMouseDown === 'function') {
         onMouseDown();
       }
-    }
+    };
 
     const onGlobalClick = () => {
       if (selectMode) {

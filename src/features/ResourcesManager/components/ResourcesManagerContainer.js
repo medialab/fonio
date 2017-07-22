@@ -153,9 +153,7 @@ class ResourcesManagerContainer extends Component {
       unpromptAssetEmbed,
     } = actions;
     let contentId = editorFocus; // assetRequestState.editorId;
-    // console.log('content id before', contentId, this.props);
     contentId = (contentId === activeSectionId || !contentId) ? 'main' : editorFocus;
-    // console.log('asset request state', assetRequestState, contentId);
     this.summonAsset(contentId, resourceId);
     unpromptAssetEmbed();
   }
