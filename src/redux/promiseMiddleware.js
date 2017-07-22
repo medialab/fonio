@@ -17,18 +17,25 @@ export default () => ({dispatch, getState}) => (next) => (action) => {
 
   // If there is no promise in the action, ignore it
   if (!promise) {
+    // pass the action to the next middleware
     return next(action);
   }
+  // build constants that will be used to dispatch actions
   const REQUEST = type;
   const SUCCESS = REQUEST + '_SUCCESS';
-  const FAILURE = REQUEST + '_FAIL';
+  const FAIL = REQUEST + '_FAIL';
 
-  // Trigger the action (for loading indication for instance)
+  // Trigger the action once to dispatch
+  // the fact promise is starting resolving (for loading indication for instance)
   next({...rest, type: REQUEST});
+  // resolve promise
   return promise(dispatch, getState).then(
       (result) => {
+        // success -> dispatch action name + '_SUCCESS', promise result wrapped
+        // in a 'result' action's prop
         next({...rest, result, type: SUCCESS});
         return true;
       }
-    ).catch((error) => next({...rest, ...error, errorMessage: error, type: FAILURE}));
+    // error --> dispatch action name + '_FAIL'
+    ).catch((error) => next({...rest, ...error, errorMessage: error, type: FAIL}));
 };

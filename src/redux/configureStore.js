@@ -8,7 +8,6 @@ import {
   createStore,
   compose
 } from 'redux';
-import thunk from 'redux-thunk';
 import rootReducer from './rootReducer';
 import promiseMiddleware from './promiseMiddleware';
 import {persistentStore} from 'redux-pouchdb';
@@ -24,7 +23,6 @@ const db = new PouchDB('fonio');
 export default function configureStore (initialState = {}) {
   // Compose final middleware with thunk and promises handling
   const middleware = applyMiddleware(
-    thunk,
     promiseMiddleware()
   );
 
