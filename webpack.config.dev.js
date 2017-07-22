@@ -1,7 +1,5 @@
 var webpack = require('webpack');
 
-var UglifyEsPlugin = require('uglify-es-webpack-plugin');
-
 module.exports = {
   module: {
     rules: [
@@ -46,9 +44,8 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('production')
+        NODE_ENV: JSON.stringify('development')
       }
-    }),
-    new UglifyEsPlugin()
+    })
   ]
 };
