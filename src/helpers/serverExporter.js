@@ -2,7 +2,7 @@
  * This module helps to export the serialized content of a presentation to a distant server
  * @module fonio/utils/serverExporter
  */
-import {patch} from 'superagent';
+import {post} from 'superagent';
 
 import {serverUrl} from '../../secrets';
 
@@ -21,7 +21,7 @@ export default function publishToServer (presentation, dispatch, statusActionNam
     });
     const serverHTMLUrl = serverUrl + '/stories/' + presentation.id;
     presentation.metadata.serverHTMLUrl = serverHTMLUrl + '?format=html';
-    patch(serverHTMLUrl)
+    post(serverHTMLUrl)
       .send(presentation)
       .end(err => {
           if (err) {
