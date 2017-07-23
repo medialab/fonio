@@ -147,6 +147,7 @@
   "Features.StorySettingsManager.citation-settings-title": "réglages relatifs aux citations",
   "Features.StorySettingsManager.choose-a-citation-style": "style de citation",
   "Features.StorySettingsManager.choose-a-citation-locale": "langue de citation",
+  "Features.StorySettingsManager.loading": "loading",
   "Features.StorySettingsManager.customize-css-title": "code css (pour utilisateurs avancés)",
   "Features.TakeAway.project-file": "fichier de travail",
   "Features.TakeAway.project-file-help": "revient à télécharger un fichier de travail, qui vous permettra de ré-importer votre récit plus tard ou sur un autre navigateur",

@@ -14,8 +14,10 @@ import './StorySettingsManagerLayout.scss';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import OptionSelect from '../../../components/OptionSelect/OptionSelect';
+import Toaster from '../../../components/Toaster/Toaster';
 
 const StorySettingsManagerLayout = ({
+  xhrStatus,
   activeStory,
   activeStoryId,
   citationStylesList = [],
@@ -150,6 +152,9 @@ const StorySettingsManagerLayout = ({
               onChange={onCitationLocaleChange}
               searchable
               activeOptionId={activeCitationLocaleId || 'en-US'} />
+            {xhrStatus &&
+              <Toaster status="processing" log={translate('loading')} />
+            }
           </section>
           <section className="settings-section">
             <h2>{translate('customize-css-title')}</h2>

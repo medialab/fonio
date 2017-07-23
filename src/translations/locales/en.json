@@ -147,6 +147,7 @@
   "Features.StorySettingsManager.citation-settings-title": "citation settings",
   "Features.StorySettingsManager.choose-a-citation-style": "choose a citation style",
   "Features.StorySettingsManager.choose-a-citation-locale": "choose a citation language",
+  "Features.StorySettingsManager.loading": "loading",
   "Features.StorySettingsManager.customize-css-title": "custom css (advanced)",
   "Features.TakeAway.project-file": "project file",
   "Features.TakeAway.project-file-help": "will download a project file, which allows you to re-import this story later or on another browser",

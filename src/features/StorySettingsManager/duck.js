@@ -117,7 +117,8 @@ export const setCitationLocale = (storyId, localeId) => ({
 const SETTINGS_MANAGER_UI_DEFAULT_STATE = {
   settingsVisible: false,
   citationStylesList: [],
-  citationLocalesList: []
+  citationLocalesList: [],
+  xhrStatus: undefined
 };
 function settingsManagerUi (state = SETTINGS_MANAGER_UI_DEFAULT_STATE, action) {
   switch (action.type) {
@@ -126,15 +127,35 @@ function settingsManagerUi (state = SETTINGS_MANAGER_UI_DEFAULT_STATE, action) {
         ...state,
         settingsVisible: action.visible,
       };
+    case FETCH_CITATION_STYLES_LIST:
+    case FETCH_CITATION_LOCALES_LIST:
+    case FETCH_CITATION_LOCALE:
+    case FETCH_CITATION_STYLE:
+      return {
+        ...state,
+        xhrStatus: 'loading'
+      };
     case FETCH_CITATION_STYLES_LIST + '_SUCCESS':
       return {
         ...state,
-        citationStylesList: action.result
+        citationStylesList: action.result,
+        xhrStatus: undefined
       };
     case FETCH_CITATION_LOCALES_LIST + '_SUCCESS':
       return {
         ...state,
-        citationLocalesList: action.result
+        citationLocalesList: action.result,
+        xhrStatus: undefined
+      };
+    case FETCH_CITATION_LOCALES_LIST + '_FAIL':
+    case FETCH_CITATION_STYLES_LIST + '_FAIL':
+    case FETCH_CITATION_LOCALE + '_FAIL':
+    case FETCH_CITATION_STYLE + '_FAIL':
+    case FETCH_CITATION_LOCALE + '_SUCCESS':
+    case FETCH_CITATION_STYLE + '_SUCCESS':
+      return {
+        ...state,
+        xhrStatus: undefined
       };
     default:
       return state;
@@ -154,6 +175,7 @@ export default combineReducers({
 const citationStylesList = state => state.settingsManagerUi.citationStylesList;
 const citationLocalesList = state => state.settingsManagerUi.citationLocalesList;
 const settingsVisible = state => state.settingsManagerUi.settingsVisible;
+const xhrStatus = state => state.settingsManagerUi.xhrStatus;
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
@@ -162,4 +184,5 @@ export const selector = createStructuredSelector({
   citationStylesList,
   citationLocalesList,
   settingsVisible,
+  xhrStatus,
 });
