@@ -30,9 +30,10 @@
   }
   .more-options-btn
   {
+    font-size: $font-size-1;
     border-radius: 50%;
     margin-left: $gutter-medium;
-    // margin-right: $gutter-medium;
+    margin-right: $gutter-medium;
     &:hover{
       @extend .important-item-intent;
     }

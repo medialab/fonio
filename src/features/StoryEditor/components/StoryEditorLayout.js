@@ -151,10 +151,10 @@ const EditorLayout = ({
           <h1>{translate('no-sections-selected')}</h1>
           <ul>
             {
-                activeStory.sectionsOrder.map(thatId => {
+                activeStory.sectionsOrder.map((thatId, index) => {
                   const setSection = () => setActiveSectionId(thatId);
                   return (
-                    <li key={id}>
+                    <li key={index}>
                       <button onClick={setSection}>
                         {activeStory.sections[thatId] && activeStory.sections[thatId].metadata.title || translate('untitled-section')}
                       </button>

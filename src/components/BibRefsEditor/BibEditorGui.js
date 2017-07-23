@@ -2,12 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cslDataModel from './assets/csl-data.json';
 
+import {v4 as generateId} from 'uuid';
+
 import OptionSelect from '../OptionSelect/OptionSelect';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 
 const modelProperties = cslDataModel.items.properties;
+
+const forbiddenProperties = ['id'];
 
 const PropertyInput = ({
   model,
@@ -56,12 +60,35 @@ const PropertyInput = ({
     case 'array':
       const itemsModel = model.items;
       const onAddItem = () => {
+        let defaultObject;
+        if (modelKey === 'author') {
+          defaultObject = {
+            family: '',
+            given: '',
+            id: generateId()
+          };
+        }
+ else {
+          defaultObject = {
+            id: generateId()
+          };
+        }
         onChange([
           ...reference[modelKey],
-          {}
+          defaultObject
         ]);
       };
-      const subModel = itemsModel.type[0].properties;
+      const onDeleteItem = (id) => {
+        const newItems = reference[modelKey].filter(item => item.id !== id);
+        onChange(newItems);
+      };
+      let subModel;
+      if (itemsModel.type) {
+        subModel = itemsModel.type[0].properties;
+      }
+ else {
+        subModel = {id: itemsModel.$ref};
+      }
       return (
         <div className="sub-properties-group">
           {
@@ -75,13 +102,21 @@ const PropertyInput = ({
                   newValues[itemIndex][key] = value;
                   onChange(newValues);
                 };
-                return (<div className="subcategory-container" key={modelKey}>
-                  <h5>{modelKey}</h5>
-                  <ReferenceEditor
-                    reference={item}
-                    model={subModel}
-                    onChange={onSubItemChange} />
-                </div>);
+                let title;
+                if (modelKey === 'author') {
+                  title = translate('edit-author');
+                }
+                return (
+                  <div
+                    className="subcategory-container"
+                    key={itemIndex}>
+                    <ReferenceEditor
+                      reference={item}
+                      onDelete={onDeleteItem}
+                      model={subModel}
+                      title={title}
+                      onChange={onSubItemChange} />
+                  </div>);
               })
           }
           <button className="add-item" onClick={onAddItem}>
@@ -102,7 +137,9 @@ PropertyInput.contextTypes = {
 const ReferenceEditor = ({
   reference,
   model,
-  onChange
+  onChange,
+  onDelete,
+  title
 }, context) => {
   const activeModel = model || modelProperties;
   const translate = translateNameSpacer(context.t, 'Components.BibEditorGui');
@@ -127,7 +164,7 @@ const ReferenceEditor = ({
         defaultValue = [];
         break;
       case undefined:
-      defaultValue = '';
+        defaultValue = '';
         break;
       default:
         // console.log('unhandled default property value', modelType);
@@ -135,12 +172,25 @@ const ReferenceEditor = ({
     }
     onChange(key, defaultValue);
   };
+  const onDeleteClick = e => {
+    e.stopPropagation();
+    if (typeof onDelete === 'function') {
+      onDelete(reference.id);
+    }
+  };
   return (
     <div className="reference-editor">
-      <h4>{translate('edit-reference')}</h4>
+      <h4 className="editor-title">
+        <span className="title">{title}</span>
+        <button onClick={onDeleteClick}>
+          <img
+            className="fonio-icon-image"
+            src={require('../../sharedAssets/close-black.svg')} />
+        </button></h4>
       {
         Object.keys(activeModel)
-        .filter(key => reference[key] !== undefined)
+        .filter(key => reference[key] !== undefined && forbiddenProperties.indexOf(key) === -1)
+        .sort()
         .map(key => {
           const thatModel = activeModel[key];
           const onPropertyChange = value => {
@@ -151,6 +201,7 @@ const ReferenceEditor = ({
           };
           return (
             <div className="property-group" key={key}>
+              <span className="property-label">{key} :</span>
               <div className="property-input">
                 <PropertyInput
                   modelKey={key}
@@ -188,6 +239,7 @@ ReferenceEditor.contextTypes = {
 const BibEditorGui = ({
   references = [],
   onChange,
+  onReferenceDelete,
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Components.BibEditorGui');
   const addEmptyReference = () => {
@@ -200,7 +252,12 @@ const BibEditorGui = ({
           const onReferenceChange = (key, value) => {
             onChange(reference.id, key, value);
           };
-          return <ReferenceEditor reference={reference} key={index} onChange={onReferenceChange} />;
+          return (<ReferenceEditor
+            reference={reference}
+            key={index}
+            onChange={onReferenceChange}
+            onDelete={onReferenceDelete}
+            title={translate('edit-reference')} />);
         })
       }
       <button className="add-item" onClick={addEmptyReference}>
