@@ -4,9 +4,11 @@
  * @module fonio/components/AssetPreview
  */
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Media, Player} from 'react-media-player';
 import QuinoaPresentationPlayer from 'quinoa-presentation-player';
 import BibliographicPreview from '../BibliographicPreview/BibliographicPreview';
+import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './AssetPreview.scss';
 
@@ -33,8 +35,18 @@ class EmbedContainer extends Component {
 
 const AssetPreview = ({
   type,
-  data
-}) => {
+  metadata = {},
+  data,
+  onEditRequest,
+  showPannel = false
+}, context) => {
+  const translate = translateNameSpacer(context.t, 'Components.AssetPreview');
+  const onClick = e => {
+    e.stopPropagation();
+    if (typeof onEditRequest === 'function') {
+      onEditRequest();
+    }
+  }
   const renderPreview = () => {
     switch (type) {
       case 'image':
@@ -69,8 +81,19 @@ const AssetPreview = ({
   };
   return (
     <div className="fonio-AssetPreview">
-      {renderPreview()}
+      <div className="preview-container">{renderPreview()}</div>
+      {showPannel && <div className="asset-metadata">
+        {metadata.title && <h5>{metadata.title}</h5>}
+        {metadata.description && <p>{metadata.description}</p>}
+        <div>
+          <button onClick={onClick}>{translate('edit')}</button>
+        </div>
+      </div>}
     </div>);
+};
+
+AssetPreview.contextTypes = {
+  t: PropTypes.func.isRequired
 };
 
 export default AssetPreview;

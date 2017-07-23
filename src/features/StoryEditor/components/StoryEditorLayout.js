@@ -85,6 +85,8 @@ const EditorLayout = ({
     deleteContextualization,
     deleteContextualizer,
     setActiveSectionId,
+
+    startExistingResourceConfiguration,
   },
   // custom functions
   openSettings,
@@ -139,6 +141,8 @@ const EditorLayout = ({
           cancelAssetRequest={unpromptAssetEmbed}
           assetRequestState={assetRequestState}
           assetRequestPosition={assetRequestState.selection}
+
+          startExistingResourceConfiguration={startExistingResourceConfiguration}
 
           setEditorFocus={setEditorFocus}
           story={activeStory} />

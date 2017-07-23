@@ -83,6 +83,10 @@ class SectionEditor extends Component {
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
 
+  getChildContext = () => ({
+    startExistingResourceConfiguration: this.props.startExistingResourceConfiguration
+  })
+
   componentDidMount() {
     const {
       sectionId,
@@ -1211,5 +1215,9 @@ class SectionEditor extends Component {
     );
   }
 }
+
+SectionEditor.childContextTypes = {
+  startExistingResourceConfiguration: PropTypes.func
+};
 
 export default SectionEditor;

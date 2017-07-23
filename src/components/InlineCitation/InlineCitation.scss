@@ -12,6 +12,11 @@
   margin : 0;
   border-radius: $gutter-medium;
   cursor: pointer;
+
+    -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  user-select: none;
   .more-options-container{
     padding: $gutter-medium;
 

@@ -15,6 +15,7 @@ class InlineCitation extends Component {
   static contextTypes = {
     t: PropTypes.func.isRequired,
     citations: PropTypes.object,
+    startExistingResourceConfiguration: PropTypes.func
   }
 
   constructor(props) {
@@ -54,10 +55,20 @@ class InlineCitation extends Component {
     const context = this.context;
 
     const {
+      startExistingResourceConfiguration
+    } = context;
+
+    const {
       contextualizer = {},
       contextualizerId,
+      resource,
     } = asset;
 
+    const onEditRequest = () => {
+      if (typeof startExistingResourceConfiguration === 'function') {
+        startExistingResourceConfiguration(resource.metadata.id, resource);
+      }
+    }
 
     const onLocatorChange = (e) => {
       this.setState({
@@ -127,6 +138,11 @@ class InlineCitation extends Component {
           className="more-options-btn"
           onClick={onMoreOptionsClick}>
           +
+        </button>
+        <button
+          className="more-options-btn"
+          onClick={onEditRequest}>
+          ✎
         </button>
         {this.state.optionsVisible &&
         <span className="more-options-container">

@@ -7,8 +7,33 @@
 
 .fonio-AssetPreview
 {
-  position: relative;
-  min-height: 20rem;
+   @extend .flex-stretched-row;
+  .preview-container{
+    position: relative;
+    min-height: 20rem;
+    position: relative;
+    flex: 5;
+    min-width: 80%;
+  }
+  .asset-metadata{
+    flex: 1;
+    max-width: 20%;
+    padding-left: $gutter-medium;
+    padding-right: $gutter-medium;
+    @extend .flex-stretched-column;
+    button{
+      width: 100%;
+      @extend .interactive-item;
+      &:hover{
+        @extend .interactive-item-intent;
+      }
+    }
+    p{
+      max-height: 15rem;
+      overflow: auto;
+      width: 100%;
+    }
+  }
   iframe{
     width: 100%;
     border: none;

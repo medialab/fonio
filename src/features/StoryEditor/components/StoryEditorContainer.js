@@ -19,6 +19,7 @@ import StoryEditorLayout from './StoryEditorLayout';
 import * as duck from '../duck';
 import * as managerDuck from '../../StoriesManager/duck';
 import * as globalUiDuck from '../../GlobalUi/duck';
+
 import {
   selector as sectionsSelector,
   updateSection as updateSectionAction,
@@ -35,6 +36,7 @@ import {
   updateAsset,
   embedAsset,
   updateResource,
+  startExistingResourceConfiguration,
 } from '../../ResourcesManager/duck';
 
 import {
@@ -72,6 +74,7 @@ import {
       createSection: createSectionAction,
       updateResource,
       setActiveSectionId,
+      startExistingResourceConfiguration,
     }, dispatch)
   })
 )
