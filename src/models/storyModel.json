@@ -112,10 +112,12 @@
                     "type": "object",
                     "keys": {
                         "notesPosition": {
-                            "type": "string"
+                            "type": "string",
+                            "default": "foot"
                         },
                         "allowDisqusComments": {
-                            "type": "string"
+                            "type": "string",
+                            "default": "no"
                         }
                     }
                 },
