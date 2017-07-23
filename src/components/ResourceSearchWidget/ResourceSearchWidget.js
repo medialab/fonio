@@ -5,6 +5,8 @@
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import config from '../../../config';
+const {timers} = config;
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
@@ -25,7 +27,7 @@ class ResourceSearchWidget extends Component {
       setTimeout(() => {
         this.props.onAssetChoiceFocus();
         this.input.focus();
-      }, 300);
+      }, timers.medium);
     }
   }
 

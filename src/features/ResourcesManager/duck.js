@@ -8,6 +8,9 @@ import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {persistentReducer} from 'redux-pouchdb';
 
+import config from '../../../config';
+const {timers} = config;
+
 import {
   fileIsAnImage,
   inferMetadata,
@@ -104,7 +107,7 @@ export const submitResourceData = (type, data) => ({
                 dispatch({
                   type: SUBMIT_RESOURCE_DATA + '_RESET'
                 });
-              }, 2000);
+              }, timers.veryLong);
               return fileF;
             })
             .then(fileI => {
@@ -116,7 +119,7 @@ export const submitResourceData = (type, data) => ({
                 dispatch({
                   type: SUBMIT_RESOURCE_DATA + '_RESET'
                 });
-              }, 2000);
+              }, timers.veryLong);
               resolve({base64, file});
             })
             .catch(e => {
@@ -125,7 +128,7 @@ export const submitResourceData = (type, data) => ({
                 dispatch({
                   type: SUBMIT_RESOURCE_DATA + '_RESET'
                 });
-              }, 2000);
+              }, timers.veryLong);
             });
         case 'videoUrl':
           return videoUrlIsValid(data)
@@ -135,7 +138,7 @@ export const submitResourceData = (type, data) => ({
               dispatch({
                 type: SUBMIT_RESOURCE_DATA + '_RESET'
                 });
-              }, 2000);
+              }, timers.veryLong);
               return resolve(info);
             })
             .catch(e => reject(e));
@@ -145,7 +148,7 @@ export const submitResourceData = (type, data) => ({
               dispatch({
                 type: SUBMIT_RESOURCE_DATA + '_RESET'
                 });
-              }, 2000);
+              }, timers.veryLong);
             try {
               const structuredData = JSON.parse(str);
               resolve(structuredData);
@@ -163,7 +166,7 @@ export const submitResourceData = (type, data) => ({
               dispatch({
                 type: SUBMIT_RESOURCE_DATA + '_RESET'
                 });
-              }, 2000);
+              }, timers.veryLong);
             resolve(csl);
           });
         case 'cslJSON':

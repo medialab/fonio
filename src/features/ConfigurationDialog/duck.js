@@ -9,6 +9,9 @@ import {createStructuredSelector} from 'reselect';
 import {persistentReducer} from 'redux-pouchdb';
 import {v4 as genId} from 'uuid';
 
+import config from '../../../config';
+const {timers} = config;
+
 import {
   fileIsAnImage,
   loadImage
@@ -55,7 +58,7 @@ export const submitCoverImage = (file) => ({
               dispatch({
                 type: SUBMIT_COVER_IMAGE + '_RESET'
               });
-            }, 2000);
+            }, timers.veryLong);
             return thatFile;
           })
           .then(thatFile => {
@@ -66,7 +69,7 @@ export const submitCoverImage = (file) => ({
               dispatch({
                 type: SUBMIT_COVER_IMAGE + '_RESET'
               });
-            }, 2000);
+            }, timers.veryLong);
             resolve(base64);
           })
           .catch(e => {
@@ -75,7 +78,7 @@ export const submitCoverImage = (file) => ({
               dispatch({
                 type: SUBMIT_COVER_IMAGE + '_RESET'
               });
-            }, 2000);
+            }, timers.veryLong);
           });
     });
   }

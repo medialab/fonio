@@ -1,4 +1,10 @@
 {
   "maxNumberOfLocalStories": 5,
-  "maxDataFileSizeInBytes": 2000000
+  "timers": {
+    "nano": 10,
+    "short": 100,
+    "medium": 300,
+    "veryLong": 2000,
+    "ultraLong": 5000
+  }
 }

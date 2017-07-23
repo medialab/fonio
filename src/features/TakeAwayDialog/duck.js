@@ -15,6 +15,10 @@ import {
   OPEN_TAKE_AWAY_MODAL,
   CLOSE_TAKE_AWAY_MODAL
 } from '../GlobalUi/duck';
+
+import config from '../../../config';
+const {timers} = config;
+
 /*
  * Action names
  */
@@ -41,7 +45,7 @@ export const setBundleHtmlStatus = (status, log) => dispatch => {
         status: undefined,
         log: undefined
       });
-    }, 5000);
+    }, timers.ultraLong);
   }
   dispatch({
     type: SET_BUNDLE_HTML_STATUS,
@@ -68,7 +72,7 @@ export const setExportToGistStatus = (status, log) => dispatch => {
         status: undefined,
         log: undefined
       });
-    }, 5000);
+    }, timers.ultraLong);
   }
   dispatch({
     type: EXPORT_TO_GIST_STATUS,
@@ -88,7 +92,7 @@ export const setExportToServerStatus = (status, log) => dispatch => {
         status: undefined,
         log: undefined
       });
-    }, 5000);
+    }, timers.ultraLong);
   }
   dispatch({
     type: EXPORT_TO_SERVER_STATUS,
@@ -119,7 +123,7 @@ export const exportToGist = (htmlContent, story, gistId) => ({
                     type: EXPORT_TO_GIST_STATUS,
                     takeAwayGistLog: undefined,
                     takeAwayGistLogStatus: undefined
-                  }), 5000);
+                  }), timers.ultraLong);
               })
               .catch((e) => {
                 reject(e);
@@ -129,7 +133,7 @@ export const exportToGist = (htmlContent, story, gistId) => ({
                     type: EXPORT_TO_GIST_STATUS,
                     takeAwayGistLog: undefined,
                     takeAwayGistLogStatus: undefined
-                  }), 5000);
+                  }), timers.ultraLong);
               });
     });
   }
@@ -151,7 +155,7 @@ export const exportToServer = (story) => ({
                     type: EXPORT_TO_SERVER_STATUS,
                     takeAwayGistLog: undefined,
                     takeAwayGistLogStatus: undefined
-                  }), 5000);
+                  }), timers.ultraLong);
               })
               .catch((e) => {
                 reject(e);
@@ -161,7 +165,7 @@ export const exportToServer = (story) => ({
                     type: EXPORT_TO_SERVER_STATUS,
                     takeAwayGistLog: undefined,
                     takeAwayGistLogStatus: undefined
-                  }), 5000);
+                  }), timers.ultraLong);
               });
     });
   }

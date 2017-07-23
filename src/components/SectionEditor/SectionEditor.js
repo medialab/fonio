@@ -28,6 +28,10 @@ import Editor, {
   utils,
   constants
 } from 'scholar-draft';
+
+import config from '../../../config';
+const {timers} = config;
+
 const {
   INLINE_ASSET,
   NOTE_POINTER,
@@ -964,7 +968,7 @@ class SectionEditor extends Component {
       setTimeout(() => {
         setEditorFocus(targetedEditorId);
         this.editor.focus(targetedEditorId);
-      }, 100);
+      }, timers.short);
     };
 
     const onEditorChange = (editorId, editor) => {

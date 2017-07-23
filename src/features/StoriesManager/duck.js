@@ -11,6 +11,8 @@ import {persistentReducer} from 'redux-pouchdb';
 import {v4 as uuid} from 'uuid';
 
 import {serverUrl} from '../../../secrets';
+import config from '../../../config';
+const {timers} = config;
 
 import {
   convertToRaw,
@@ -156,7 +158,7 @@ export const importSuccess = (data) => (dispatch) => {
     data
   });
   // resets import state after a while
-  setTimeout(() => dispatch(importReset()), 5000);
+  setTimeout(() => dispatch(importReset()), timers.veryLong);
 };
 /**
  * @param {string} error - the error type for the import failure
@@ -167,7 +169,7 @@ export const importFail = (error) => (dispatch) => {
     error
   });
   // resets import state after a while
-  setTimeout(() => dispatch(importReset()), 5000);
+  setTimeout(() => dispatch(importReset()), timers.veryLong);
 };
 /**
  * @param {string}  value - the new value to set for import from url candidate
