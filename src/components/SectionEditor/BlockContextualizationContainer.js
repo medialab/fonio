@@ -30,20 +30,19 @@ class BlockContainer extends Component {
       if (typeof startExistingResourceConfiguration === 'function') {
         startExistingResourceConfiguration(resource.metadata.id, resource);
       }
-    }
+    };
 
 
     return (<AssetPreview
       type={resource.metadata && resource.metadata.type}
-      data={resource.data} 
+      data={resource.data}
       metadata={resource.metadata}
       onEditRequest={onEditRequest}
-      showPannel={true}
-    />);
+      showPannel />);
   }
 }
 
 BlockContainer.contextTypes = {
   startExistingResourceConfiguration: PropTypes.func
-}
+};
 export default BlockContainer;

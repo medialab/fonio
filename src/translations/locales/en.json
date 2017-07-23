@@ -1,4 +1,5 @@
 {
+  "Components.AssetPreview.edit": "edit",
   "Components.AuthorsManager.new-author": "new author",
   "Components.AuthorsManager.add-author": "add author",
   "Components.BibEditorGui.select-type": "select-type",

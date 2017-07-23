@@ -68,7 +68,7 @@ class InlineCitation extends Component {
       if (typeof startExistingResourceConfiguration === 'function') {
         startExistingResourceConfiguration(resource.metadata.id, resource);
       }
-    }
+    };
 
     const onLocatorChange = (e) => {
       this.setState({

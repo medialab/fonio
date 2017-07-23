@@ -46,7 +46,7 @@ const AssetPreview = ({
     if (typeof onEditRequest === 'function') {
       onEditRequest();
     }
-  }
+  };
   const renderPreview = () => {
     switch (type) {
       case 'image':

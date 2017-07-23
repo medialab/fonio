@@ -189,19 +189,23 @@ const TakeAwayDialogLayout = ({
               <div className="sync-section">
                 <div className="column">
                   <p>
-                    <a target="blank" href={activeStory.metadata.gistUrl}>
-                      → {translate('go-to-the-gist-source-code-of-your-story')}
-                    </a>
                     <a target="blank" href={serverUrl + '/gist-story/' + activeStory.metadata.gistId}>
                       → {translate('go-to-the-gist-based-webpage-of-your-story')}
                     </a>
                   </p>
-                  <p>{translate('embed-inside-an-html-webpage')}</p>
+                  <iframe className="website-preview" src={activeStory.metadata.serverHTMLUrl} />
+
+                  <p>{translate('embed-inside-an-html-webpage')}: </p>
                   <pre>
                     <code>
                       {`<iframe allowfullscreen src="${serverUrl + '/gist-story/' + activeStory.metadata.gistId}" width="1000" height="500" frameborder=0></iframe>`}
                     </code>
                   </pre>
+                  <p>
+                    <a target="blank" href={activeStory.metadata.gistUrl}>
+                      → {translate('go-to-the-gist-source-code-of-your-story')}
+                    </a>
+                  </p>
                 </div>
                 <div className="column">
                   <div className="operations">
@@ -227,7 +231,7 @@ const TakeAwayDialogLayout = ({
           takeAwayType === 'server' &&
           activeStory && activeStory.metadata && activeStory.metadata.serverHTMLUrl ?
             <div className="sync-section-container">
-              <h2><img src={require('../assets/server.svg')} />Your story is online on the forccast server</h2>
+              <h2><img src={require('../assets/server.svg')} />{translate('story-online-on-forccast')}</h2>
               <div className="sync-section">
                 <div className="column">
                   <p>
@@ -235,7 +239,9 @@ const TakeAwayDialogLayout = ({
                     → {translate('go-to-the-online-webpage')}
                     </a>
                   </p>
-                  <p>{translate('embed-inside-an-html-webpage')}</p>
+                  <iframe className="website-preview" src={activeStory.metadata.serverHTMLUrl} />
+
+                  <p>{translate('embed-inside-an-html-webpage')}: </p>
                   <pre>
                     <code>
                       {`<iframe allowfullscreen src="${activeStory.metadata.serverHTMLUrl}" width="1000" height="500" frameborder=0></iframe>`}

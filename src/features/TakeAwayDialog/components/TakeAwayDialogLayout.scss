@@ -113,6 +113,13 @@
                     @extend .important-item-intent;
                 }
             }
+
+            .website-preview
+            {
+                border: none;
+                max-height: 20rem;
+                width: 100%;
+            }
         }
         .operations
         {
