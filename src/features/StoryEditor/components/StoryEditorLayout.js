@@ -72,6 +72,11 @@ const EditorLayout = ({
     // embedAsset,
     updateSection,
     setEditorFocus,
+
+    createContextualization,
+    createContextualizer,
+    createResource,
+
     updateDraftEditorState,
     updateDraftEditorsStates,
 
@@ -111,6 +116,7 @@ const EditorLayout = ({
         <SectionEditor
           activeSection={activeSection}
           sectionId={activeSection.id}
+          activeStory={activeStory}
           activeStoryId={activeStoryId}
           updateSection={updateSection}
           editorStates={editorStates}
@@ -119,6 +125,11 @@ const EditorLayout = ({
           editorFocus={editorFocus}
 
           summonAsset={summonAsset}
+
+          createContextualization={createContextualization}
+          createContextualizer={createContextualizer}
+          createResource={createResource}
+
           updateContextualizer={updateContextualizer}
           updateResource={updateResource}
           deleteContextualization={deleteContextualization}
