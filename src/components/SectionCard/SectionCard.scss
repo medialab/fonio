@@ -156,4 +156,11 @@
             @extend .dangerous-item-intent;
         }
     }
+
+    .level-up-btn{
+        font-size: $font-size-1;
+    }
+    .level-down-btn {
+        font-size: $font-size-1 * 1.2;
+    }
 }

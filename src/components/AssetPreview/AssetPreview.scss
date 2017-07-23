@@ -7,40 +7,61 @@
 
 .fonio-AssetPreview
 {
-   @extend .flex-stretched-row;
-  .preview-container{
-    position: relative;
-    min-height: 20rem;
-    position: relative;
-    flex: 5;
-    min-width: 80%;
-  }
-  .asset-metadata{
-    flex: 1;
-    max-width: 20%;
-    padding-left: $gutter-medium;
-    padding-right: $gutter-medium;
-    @extend .flex-stretched-column;
-    button{
-      width: 100%;
-      @extend .interactive-item;
-      &:hover{
-        @extend .interactive-item-intent;
-      }
+    @extend .flex-stretched-row;
+    padding-top: $gutter-medium;
+    padding-bottom: $gutter-medium;
+    .preview-container
+    {
+        position: relative;
+        position: relative;
+
+        min-width: 80%;
+        min-height: 20rem;
+
+        flex: 5;
     }
-    p{
-      max-height: 15rem;
-      overflow: auto;
-      width: 100%;
+    .asset-metadata
+    {
+        max-width: 20%;
+        padding-right: $gutter-medium;
+        padding-left: $gutter-medium;
+
+        cursor: pointer;
+
+        flex: 1;
+        @extend .flex-stretched-column;
+        &:hover
+        {
+            @extend .interactive-item-intent;
+        }
+        button
+        {
+            width: 100%;
+
+            &:hover
+            {
+                @extend .important-item-intent;
+            }
+        }
+        p
+        {
+            overflow: auto;
+
+            width: 100%;
+            max-height: 15rem;
+        }
     }
-  }
-  iframe{
-    width: 100%;
-    border: none;
-    height: 100%;
-    position: absolute;
-  }
-  img{
-    max-width: 100%;
-  }
+    iframe
+    {
+        position: absolute;
+
+        width: 100%;
+        height: 100%;
+
+        border: none;
+    }
+    img
+    {
+        max-width: 100%;
+    }
 }

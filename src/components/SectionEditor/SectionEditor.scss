@@ -17,6 +17,29 @@
     blockquote
     {
       background: $color-warm-grey;
+      padding: $gutter-medium;
+    }
+
+    blockquote
+    {
+        margin: 0;
+        padding: $gutter-large;
+        position: relative;
+
+        quotes: "« " " »" "‹ " " ›";
+
+        &:before {
+          content: open-quote;
+          position: absolute;
+          left: $gutter-small;
+          top: $gutter-small;
+        }
+        &:after {
+          content: close-quote;
+          position: absolute;
+          bottom: $gutter-small;
+          right: $gutter-small;
+        }
     }
 
     @extend .flex-stretched-column;

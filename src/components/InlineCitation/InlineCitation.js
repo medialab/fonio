@@ -146,7 +146,7 @@ class InlineCitation extends Component {
         </button>
         {this.state.optionsVisible &&
         <span className="more-options-container">
-          prefix:
+          {translate('prefix-label')}:
           <input
             placeholder={translate('prefix-placeholder')}
             value={this.state.prefix}
@@ -154,7 +154,7 @@ class InlineCitation extends Component {
             onClick={onInputClick}
             onFocus={onAssetFocus}
             onBlur={onPrefixBlur} />
-          locator:
+          {translate('locator-label')}:
           <input
             placeholder={translate('locator-placeholder')}
             value={this.state.locator}
@@ -163,7 +163,7 @@ class InlineCitation extends Component {
             onClick={onInputClick}
             onBlur={onLocatorBlur} />
 
-          Suffix:
+          {translate('suffix-label')}:
           <input
             placeholder={translate('suffix-placeholder')}
             value={this.state.suffix}

@@ -82,7 +82,7 @@ const AssetPreview = ({
   return (
     <div className="fonio-AssetPreview">
       <div className="preview-container">{renderPreview()}</div>
-      {showPannel && <div className="asset-metadata">
+      {showPannel && <div onClick={onClick} className="asset-metadata">
         {metadata.title && <h5>{metadata.title}</h5>}
         {metadata.description && <p>{metadata.description}</p>}
         <div>

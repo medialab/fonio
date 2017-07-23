@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2017-7-23\n"
-"PO-Revision-Date: Sun Jul 23 2017 13:00:39 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Sun Jul 23 2017 14:27:51 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -538,3 +538,21 @@ msgstr "edit"
 
 msgid "Features.TakeAway.story-online-on-forccast"
 msgstr "story-online-on-forccast"
+
+msgid "Components.InlineCitation.prefix-label"
+msgstr "prefix-label"
+
+msgid "Components.InlineCitation.locator-label"
+msgstr "locator-label"
+
+msgid "Components.InlineCitation.suffix-label"
+msgstr "suffix-label"
+
+msgid "Features.ResourcesManager.click-on-a-resource-to-embed"
+msgstr "click-on-a-resource-to-embed"
+
+msgid "Features.ResourcesManager.you-must-first-add-resources-to-embed"
+msgstr "you-must-first-add-resources-to-embed"
+
+msgid "Features.ResourcesManager.understood"
+msgstr "understood"

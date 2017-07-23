@@ -60,21 +60,18 @@ const ResourcesManagerLayout = ({
         resourcesPrompted && (
           <div className="asset-select-help">
             {resources.length > 0 ?
-              <h2>Click or drag a resource to embed in your story</h2> :
+              <h2>{translate('click-on-a-resource-to-embed')}</h2> :
               <div>
-                <h2>You must first add resources to your library to be able to embed them inside your story</h2>
-                <button onClick={unpromptAssetEmbed}>Got it</button>
+                <h2>{translate('you-must-first-add-resources-to-embed')}</h2>
+                <button onClick={unpromptAssetEmbed}>{translate('understood')}</button>
               </div>}
           </div>
         )
       }
       <div className="body">
-        {
-        !resourcesPrompted &&
-          <li id="new-resource" onClick={startNewResourceConfiguration}>
-            + {translate('new-resource')}
-          </li>
-        }
+        <li id="new-resource" onClick={startNewResourceConfiguration}>
+          + {translate('new-resource')}
+        </li>
         <ul className="resources-list">
           {
           resources.map((resource, index) => {
