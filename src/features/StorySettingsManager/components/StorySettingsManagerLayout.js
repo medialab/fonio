@@ -43,8 +43,8 @@ const StorySettingsManagerLayout = ({
   const activeCitationLocaleId = activeStory && activeStory.settings && activeStory.settings.citationLocale && activeStory.settings.citationLocale.id;
 
   const onDisqusChange = val => {
-    const value = val === 'yes' ? true : false;
-    setStorySettingOption(activeStoryId, 'allowDisqusComments', value);
+    // const value = val === 'yes' ? true : false;
+    setStorySettingOption(activeStoryId, 'allowDisqusComments', val);
   };
   const onNotePositionChange = value => {
     setStorySettingOption(activeStoryId, 'notesPosition', value);
@@ -111,7 +111,7 @@ const StorySettingsManagerLayout = ({
                   }
                 ]}
                 onChange={onDisqusChange}
-                activeOptionId={activeStory && activeStory.settings.options && activeStory.settings.options.allowDisqusComments === false ? 'no' : 'no'} />
+                activeOptionId={activeStory.settings.options.allowDisqusComments || 'no'} />
             }
             {
               // notes position
