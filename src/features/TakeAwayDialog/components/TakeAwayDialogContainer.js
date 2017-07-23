@@ -25,8 +25,8 @@ import {
 import downloadFile from '../../../helpers/fileDownloader';
 import {
   bundleProjectAsHtml,
-  // bundleProjectAsJSON,
-  cleanStoryForExport,
+  bundleProjectAsJSON,
+  // cleanStoryForExport,
   convertStoryToMarkdown,
 } from '../../../helpers/projectBundler';
 
@@ -127,15 +127,15 @@ class TakeAwayDialogContainer extends Component {
   }
 
   takeAway(takeAwayType) {
-    const JSONbundle = cleanStoryForExport(this.props.activeStory); // bundleProjectAsJSON(this.props.activeStory);
     const title = this.props.activeStory.metadata.title;
     switch (takeAwayType.id) {
       case 'project':
-        downloadFile(JSON.stringify(JSONbundle, null, 2), 'json', title);
+        const JSONbundle = bundleProjectAsJSON(this.props.activeStory); // bundleProjectAsJSON(this.props.activeStory);
+        downloadFile(JSONbundle, 'json', title);
         break;
       case 'markdown':
-        const markdownRep = convertStoryToMarkdown(JSONbundle);
-        downloadFile(markdownRep, 'markdown', title);
+        const markdownRep = convertStoryToMarkdown(this.props.activeStory);
+        downloadFile(markdownRep, 'md', title);
         break;
       case 'html':
         this.props.actions.setTakeAwayType('html');
@@ -155,7 +155,7 @@ class TakeAwayDialogContainer extends Component {
         this.props.actions.setBundleHtmlStatus('processing', 'Asking the server to bundle a custom html file');
         bundleProjectAsHtml(this.props.activeStory, (err, html) => {
           if (err === null) {
-            this.props.actions.exportToGist(html, JSONbundle, this.props.activeStory.metadata.gistId);
+            this.props.actions.exportToGist(html, this.props.activeStory, this.props.activeStory.metadata.gistId);
             this.props.actions.setBundleHtmlStatus('success', 'Bundling is a success !');
           }
           else {
@@ -164,7 +164,7 @@ class TakeAwayDialogContainer extends Component {
         });
         break;
       case 'server':
-        this.props.actions.exportToServer(JSONbundle);
+        this.props.actions.exportToServer(this.props.activeStory);
         break;
       default:
         break;

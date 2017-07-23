@@ -48,5 +48,5 @@ export function bundleProjectAsHtml (story, callback) {
  * @return {string} result - the resulting serialized story
  */
 export function bundleProjectAsJSON (story) {
-  return JSON.stringify(cleanStoryForExport(story), null, 2);
+  return JSON.stringify(cleanStoryForExport(story));
 }
