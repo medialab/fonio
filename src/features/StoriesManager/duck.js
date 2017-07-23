@@ -290,7 +290,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       const original = action.story;
       const newId = uuid();
       const newStory = {
-        ...original,
+        ...JSON.parse(JSON.stringify(original)),
         id: newId,
         metadata: {
           ...original.metadata,
