@@ -22,6 +22,16 @@ const ResourceDataInput = ({
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.Editor');
   switch (type) {
+    case 'table':
+      const onCsvSubmit = (files) => submitResourceData('csvFile', files[0]);
+      return (
+        <DropZone
+          onDrop={onCsvSubmit}>
+          <div>
+            <p>{translate('drop-a-csv-file-here')}</p>
+          </div>
+        </DropZone>
+      );
     case 'video':
       const onVideoUrlSubmit = (e) => submitResourceData('videoUrl', e.target.value);
       return (
@@ -96,7 +106,7 @@ const ResourceDataInput = ({
             type="text"
             name="url"
             placeholder={translate('name-of-the-glossary-entry')}
-            value={resourceCandidate.data.name} />
+            value={resourceCandidate.data && resourceCandidate.data.name || ''} />
           <OptionSelect
             activeOptionId={resourceCandidate && resourceCandidate.data && resourceCandidate.data.glossaryType}
             options={[
@@ -169,6 +179,22 @@ const ResourceConfigurationDialog = ({
 
   const resourcesTypes = [
     {
+      id: 'table',
+      icon: require('../assets/table.svg'),
+      label: (<span>{translate('resource-type-table')} <HelpPin>
+        {translate('resource-type-table-help')}
+      </HelpPin></span>),
+      possible: true
+    },
+    {
+      id: 'data-presentation',
+      icon: require('../assets/data-presentation.svg'),
+      label: (<span>{translate('resource-type-data-presentation')} <HelpPin>
+        {translate('resource-type-data-presentation-help')}
+      </HelpPin></span>),
+      possible: true
+    },
+    {
       id: 'image',
       icon: require('../assets/image.svg'),
       label: (<span>{translate('resource-type-image')} <HelpPin>
@@ -181,13 +207,6 @@ const ResourceConfigurationDialog = ({
       icon: require('../assets/video.svg'),
       label: (<span>{translate('resource-type-video')} <HelpPin>
         {translate('resource-type-video-help')}
-      </HelpPin></span>),
-      possible: true
-    }, {
-      id: 'data-presentation',
-      icon: require('../assets/data-presentation.svg'),
-      label: (<span>{translate('resource-type-data-presentation')} <HelpPin>
-        {translate('resource-type-data-presentation-help')}
       </HelpPin></span>),
       possible: true
     },

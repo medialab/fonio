@@ -42,6 +42,7 @@
   "homepage": "https://github.com/medialab/fonio#readme",
   "dependencies": {
     "citation-js": "~0.3.0-9",
+    "d3-dsv": "^1.0.5",
     "draft-convert": "^1.4.5",
     "draft-js": "^0.10.0",
     "draft-js-export-markdown": "^0.2.2",
@@ -63,6 +64,7 @@
     "react-modal": "^1.4.0",
     "react-redux": "^5.0.4",
     "react-select": "^1.0.0-rc.5",
+    "react-table": "^6.5.1",
     "react-textarea-autosize": "^5.0.7",
     "redux": "^3.6.0",
     "redux-i18n": "^1.1.4",

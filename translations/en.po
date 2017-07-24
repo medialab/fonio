@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2017-7-24\n"
-"PO-Revision-Date: Mon Jul 24 2017 08:50:07 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jul 24 2017 14:18:47 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -10,6 +10,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: en\n"
 "X-Generator: None\n"
+
+msgid "Components.AssetPreview.table-previous"
+msgstr "previous"
+
+msgid "Components.AssetPreview.table-next"
+msgstr "next"
+
+msgid "Components.AssetPreview.table-loading"
+msgstr "loading"
+
+msgid "Components.AssetPreview.table-no-rows-found"
+msgstr "no rows found"
+
+msgid "Components.AssetPreview.table-page"
+msgstr "page"
+
+msgid "Components.AssetPreview.table-of"
+msgstr "of"
+
+msgid "Components.AssetPreview.table-row"
+msgstr "rows"
 
 msgid "Components.AssetPreview.edit"
 msgstr "edit"
@@ -200,8 +221,26 @@ msgstr "start to edit this story"
 msgid "Features.ConfigurationDialog.cancel"
 msgstr "cancel"
 
+msgid "Features.ConfigurationDialog.stop-spatialization"
+msgstr "stop-spatialization"
+
+msgid "Features.ConfigurationDialog.run-spatialization"
+msgstr "run-spatialization"
+
+msgid "Features.ConfigurationDialog.run-spatialization-help"
+msgstr "run-spatialization-help"
+
+msgid "Features.ConfigurationDialog.save-nodes-positions"
+msgstr "save-nodes-positions"
+
+msgid "Features.ConfigurationDialog.save-nodes-positions-help"
+msgstr "save-nodes-positions-help"
+
 msgid "Features.GlobalUi.edit-story"
 msgstr "edit story"
+
+msgid "Features.Editor.drop-a-csv-file-here"
+msgstr "drop a csv file here"
 
 msgid "Features.Editor.url-of-the-video"
 msgstr "url of the video"
@@ -242,6 +281,18 @@ msgstr "resource successfully loaded!"
 msgid "Features.Editor.loading-resource-data-fail"
 msgstr "resource couldn't be loaded"
 
+msgid "Features.Editor.resource-type-table"
+msgstr "table"
+
+msgid "Features.Editor.resource-type-table-help"
+msgstr "import a tabular dataset file in the library"
+
+msgid "Features.Editor.resource-type-data-presentation"
+msgstr "data presentation"
+
+msgid "Features.Editor.resource-type-data-presentation-help"
+msgstr "add a data presentation made with bulgur, another tool of the quinoa ecosystem"
+
 msgid "Features.Editor.resource-type-image"
 msgstr "image"
 
@@ -253,12 +304,6 @@ msgstr "video"
 
 msgid "Features.Editor.resource-type-video-help"
 msgstr "add a video stored on youtube or vimeo"
-
-msgid "Features.Editor.resource-type-data-presentation"
-msgstr "data presentation"
-
-msgid "Features.Editor.resource-type-data-presentation-help"
-msgstr "add a data presentation made with bulgur, another tool of the quinoa ecosystem"
 
 msgid "Features.Editor.resource-type-embed"
 msgstr "embed"
@@ -565,18 +610,3 @@ msgstr "go to the online webpage"
 
 msgid "Features.TakeAway.close"
 msgstr "close"
-
-msgid "Features.ConfigurationDialog.stop-spatialization"
-msgstr "stop-spatialization"
-
-msgid "Features.ConfigurationDialog.run-spatialization"
-msgstr "run-spatialization"
-
-msgid "Features.ConfigurationDialog.run-spatialization-help"
-msgstr "run-spatialization-help"
-
-msgid "Features.ConfigurationDialog.save-nodes-positions"
-msgstr "save-nodes-positions"
-
-msgid "Features.ConfigurationDialog.save-nodes-positions-help"
-msgstr "save-nodes-positions-help"

@@ -7,6 +7,7 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {persistentReducer} from 'redux-pouchdb';
+import {csvParse} from 'd3-dsv';
 
 import config from '../../../config';
 const {timers} = config;
@@ -99,6 +100,21 @@ export const submitResourceData = (type, data, existingData) => ({
   promise: (dispatch) => {
     return new Promise((resolve, reject) => {
       switch (type) {
+        case 'csvFile':
+          return getFileAsText(data, (err, str) => {
+            setTimeout(() => {
+              dispatch({
+                type: SUBMIT_RESOURCE_DATA + '_RESET'
+                });
+              }, timers.veryLong);
+            try {
+              const structuredData = csvParse(str);
+              resolve(structuredData);
+            }
+            catch (e) {
+              reject(e);
+            }
+          });
         case 'imageFile':
           let file;
           return fileIsAnImage(data)

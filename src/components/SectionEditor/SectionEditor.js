@@ -67,6 +67,7 @@ const blockAssetComponents = {
   'image': BlockContextualizationContainer,
   'embed': BlockContextualizationContainer,
   'data-presentation': BlockContextualizationContainer,
+  'table': BlockContextualizationContainer,
 };
 
 import {translateNameSpacer} from '../../helpers/translateUtils';

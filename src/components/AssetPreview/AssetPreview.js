@@ -6,6 +6,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Media, Player} from 'react-media-player';
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
+
 import QuinoaPresentationPlayer from 'quinoa-presentation-player';
 import BibliographicPreview from '../BibliographicPreview/BibliographicPreview';
 import {translateNameSpacer} from '../../helpers/translateUtils';
@@ -49,6 +52,22 @@ const AssetPreview = ({
   };
   const renderPreview = () => {
     switch (type) {
+      case 'table':
+        const columns = Object.keys(data[0]).map(key => ({
+          Header: key,
+          accessor: key
+        }))
+        return <ReactTable 
+                  data={data} 
+                  columns={columns} 
+                  previousText={translate('table-previous')}
+                  nextText={translate('table-next')}
+                  loadingText={translate('table-loading')}
+                  noDataText={translate('table-no-rows-found')} 
+                  pageText={translate('table-page')}
+                  ofText={translate('table-of')}
+                  rowsText={translate('table-row')}
+                />;
       case 'image':
         return <img src={data.base64} />;
       case 'video':
