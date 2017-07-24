@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2017-7-24\n"
-"PO-Revision-Date: Mon Jul 24 2017 08:04:11 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jul 24 2017 08:50:07 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,11 +11,47 @@ msgstr ""
 "Language: fr\n"
 "X-Generator: None\n"
 
+msgid "Components.AssetPreview.edit"
+msgstr "éditer"
+
 msgid "Components.AuthorsManager.new-author"
 msgstr "nouvel auteur"
 
 msgid "Components.AuthorsManager.add-author"
 msgstr "ajouter un auteur"
+
+msgid "Components.BibEditorGui.select-type"
+msgstr "sélectionner le type"
+
+msgid "Components.BibEditorGui.edit-author"
+msgstr "éditer l'auteur"
+
+msgid "Components.BibEditorGui.add-item"
+msgstr "ajouter un item"
+
+msgid "Components.BibEditorGui.add-a-property"
+msgstr "ajouter une propriété"
+
+msgid "Components.BibEditorGui.edit-reference"
+msgstr "éditer la référence"
+
+msgid "Components.BibEditorGui.add-reference"
+msgstr "ajouter une référence"
+
+msgid "Components.BibRefsEditor.bibtex-input-title"
+msgstr "Référence(s) au format bibTeX"
+
+msgid "Components.BibRefsEditor.manual-input-bibtex-prompt"
+msgstr "écrire ou coller des références au format bibTeX ici"
+
+msgid "Components.BibRefsEditor.input-is-valid"
+msgstr "la référence est bien formattée"
+
+msgid "Components.BibRefsEditor.input-is-invalid"
+msgstr "la référence est mal formattée"
+
+msgid "Components.BibRefsEditor.bibtex-gui-title"
+msgstr "gérer les références"
 
 msgid "Components.Footer.by"
 msgstr "par"
@@ -29,11 +65,23 @@ msgstr "éditer"
 msgid "Components.Footer.take-away"
 msgstr "emporter"
 
+msgid "Components.GlossaryMention.alias-placeholder"
+msgstr "alias"
+
+msgid "Components.InlineCitation.prefix-label"
+msgstr "préfixe"
+
 msgid "Components.InlineCitation.prefix-placeholder"
 msgstr "préfixe"
 
+msgid "Components.InlineCitation.locator-label"
+msgstr "localisation"
+
 msgid "Components.InlineCitation.locator-placeholder"
 msgstr "localisation (par ex. numéro de page)"
+
+msgid "Components.InlineCitation.suffix-label"
+msgstr "suffixe"
 
 msgid "Components.InlineCitation.suffix-placeholder"
 msgstr "suffixe"
@@ -61,6 +109,9 @@ msgstr "source"
 
 msgid "Components.ResourceSearchWidget.search-a-resource"
 msgstr "trouver une ressource"
+
+msgid "Components.ResourceSearchWidget.untitled-asset"
+msgstr "untitled-asset"
 
 msgid "Components.SectionCard.untitled-section"
 msgstr "section sans titre"
@@ -164,6 +215,24 @@ msgstr "drop-bibtex-here"
 msgid "Features.Editor.paste-embed-code"
 msgstr "coller votre code html ici"
 
+msgid "Features.Editor.name-of-the-glossary-entry"
+msgstr "nom de l'entrée"
+
+msgid "Features.Editor.person"
+msgstr "personne"
+
+msgid "Features.Editor.place"
+msgstr "lieu"
+
+msgid "Features.Editor.notion"
+msgstr "notion"
+
+msgid "Features.Editor.other-glossary"
+msgstr "autre"
+
+msgid "Features.Editor.glossary-type"
+msgstr "type d'entrée"
+
 msgid "Features.Editor.loading-resource-data"
 msgstr "données de la ressource en chargement"
 
@@ -203,6 +272,12 @@ msgstr "références bibliographiques"
 msgid "Features.Editor.resource-type-bib-help"
 msgstr "ajouter à la bibliothèque de votre récit des références bibliographiques collectées avec un logiciel comme zotero ou mendeley"
 
+msgid "Features.Editor.resource-type-glossary"
+msgstr "entrée de glossaire"
+
+msgid "Features.Editor.resource-type-glossary-help"
+msgstr "les entrées de glossaires permettent de marquer certains mots du texte"
+
 msgid "Features.Editor.edit-resource"
 msgstr "éditer la ressource"
 
@@ -214,6 +289,9 @@ msgstr "données de la ressource"
 
 msgid "Features.Editor.resource-data-help"
 msgstr "modifier les données associées à cette ressource"
+
+msgid "Features.Editor.preview-title"
+msgstr "Aperçu"
 
 msgid "Features.Editor.resource-metadata"
 msgstr "métadonnées de la ressource"
@@ -235,6 +313,15 @@ msgstr "mettre à jour la ressource"
 
 msgid "Features.Editor.close"
 msgstr "fermer"
+
+msgid "Features.ResourcesManager.click-on-a-resource-to-embed"
+msgstr "cliquer sur une ressource à intégrer"
+
+msgid "Features.ResourcesManager.you-must-first-add-resources-to-embed"
+msgstr "Vous devez ajouter des ressources à votre bibliothèque pour pouvoir les intégrer."
+
+msgid "Features.ResourcesManager.understood"
+msgstr "Compris"
 
 msgid "Features.ResourcesManager.new-resource"
 msgstr "nouvelle ressource"
@@ -407,6 +494,9 @@ msgstr "style de citation"
 msgid "Features.StorySettingsManager.choose-a-citation-locale"
 msgstr "langue de citation"
 
+msgid "Features.StorySettingsManager.loading"
+msgstr "loading"
+
 msgid "Features.StorySettingsManager.customize-css-title"
 msgstr "code css (pour utilisateurs avancés)"
 
@@ -417,7 +507,7 @@ msgid "Features.TakeAway.project-file-help"
 msgstr "revient à télécharger un fichier de travail, qui vous permettra de ré-importer votre récit plus tard ou sur un autre navigateur"
 
 msgid "Features.TakeAway.markdown-file"
-msgstr "markdown-file"
+msgstr "fichier markdown"
 
 msgid "Features.TakeAway.markdown-file-help"
 msgstr "markdown est un langage de balisage de plus en plus utilisé, qui vous permettra d'éditer le contenu de votre récit avec d'autres logiciels"
@@ -446,14 +536,14 @@ msgstr "emporter votre récit"
 msgid "Features.TakeAway.your-story-is-online-on-gist"
 msgstr "votre récit est en ligne sur gist"
 
-msgid "Features.TakeAway.go-to-the-gist-source-code-of-your-presentation"
-msgstr "accéder au code source de votre récit stocké sur gist"
-
-msgid "Features.TakeAway.go-to-the-gist-based-webpage-of-your-presentation"
-msgstr "accéder à la page de votre récit stocké sur gist"
+msgid "Features.TakeAway.go-to-the-gist-based-webpage-of-your-story"
+msgstr "Aller sur la page web de votre récit"
 
 msgid "Features.TakeAway.embed-inside-an-html-webpage"
 msgstr "embarquer le récit dans une page html"
+
+msgid "Features.TakeAway.go-to-the-gist-source-code-of-your-story"
+msgstr "Aller au code source de votre récit sur gist"
 
 msgid "Features.TakeAway.update-local-version-to-the-repository"
 msgstr "mettre à jour le dépôt avec la version locale"
@@ -466,6 +556,9 @@ msgstr "mettre à jour la version locale avec celle du dépôt"
 
 msgid "Features.TakeAway.your-current-version-will-be-overriden-with-the-distant-version"
 msgstr "la version stockée sur votre navigateur sera remplacée par la version en ligne sur le dépôt"
+
+msgid "Features.TakeAway.story-online-on-forccast"
+msgstr "story-online-on-forccast"
 
 msgid "Features.TakeAway.go-to-the-online-webpage"
 msgstr "aller sur la page en ligne"
@@ -487,105 +580,3 @@ msgstr "save-nodes-positions"
 
 msgid "Features.ConfigurationDialog.save-nodes-positions-help"
 msgstr "save-nodes-positions-help"
-
-msgid "Features.TakeAway.go-to-the-gist-source-code-of-your-story"
-msgstr "go-to-the-gist-source-code-of-your-story"
-
-msgid "Features.TakeAway.go-to-the-gist-based-webpage-of-your-story"
-msgstr "go-to-the-gist-based-webpage-of-your-story"
-
-msgid "Features.Editor.manual-input-bibtex-prompt"
-msgstr "manual-input-bibtex-prompt"
-
-msgid "Components.BibEditorGui.select-type"
-msgstr "select-type"
-
-msgid "Components.BibEditorGui.add-item"
-msgstr "add-item"
-
-msgid "Components.BibEditorGui.add-a-property"
-msgstr "add-a-property"
-
-msgid "Components.BibRefsEditor.bibtex-input-title"
-msgstr "bibtex-input-title"
-
-msgid "Components.BibRefsEditor.manual-input-bibtex-prompt"
-msgstr "manual-input-bibtex-prompt"
-
-msgid "Components.BibRefsEditor.bibtex-gui-title"
-msgstr "bibtex-gui-title"
-
-msgid "Components.BibRefsEditor.input-is-valid"
-msgstr "input-is-valid"
-
-msgid "Components.BibRefsEditor.input-is-invalid"
-msgstr "input-is-invalid"
-
-msgid "Features.Editor.preview-title"
-msgstr "preview-title"
-
-msgid "Components.BibEditorGui.edit-reference"
-msgstr "edit-reference"
-
-msgid "Components.BibEditorGui.add-reference"
-msgstr "add-reference"
-
-msgid "Features.StorySettingsManager.loading"
-msgstr "loading"
-
-msgid "Components.AssetPreview.edit"
-msgstr "edit"
-
-msgid "Features.TakeAway.story-online-on-forccast"
-msgstr "story-online-on-forccast"
-
-msgid "Components.InlineCitation.prefix-label"
-msgstr "prefix-label"
-
-msgid "Components.InlineCitation.locator-label"
-msgstr "locator-label"
-
-msgid "Components.InlineCitation.suffix-label"
-msgstr "suffix-label"
-
-msgid "Features.ResourcesManager.click-on-a-resource-to-embed"
-msgstr "click-on-a-resource-to-embed"
-
-msgid "Features.ResourcesManager.you-must-first-add-resources-to-embed"
-msgstr "you-must-first-add-resources-to-embed"
-
-msgid "Features.ResourcesManager.understood"
-msgstr "understood"
-
-msgid "Components.BibEditorGui.edit-author"
-msgstr "edit-author"
-
-msgid "Components.GlossaryMention.alias-placeholder"
-msgstr "alias-placeholder"
-
-msgid "Components.ResourceSearchWidget.untitled-asset"
-msgstr "untitled-asset"
-
-msgid "Features.Editor.name-of-the-glossary-entry"
-msgstr "name-of-the-glossary-entry"
-
-msgid "Features.Editor.person"
-msgstr "person"
-
-msgid "Features.Editor.place"
-msgstr "place"
-
-msgid "Features.Editor.notion"
-msgstr "notion"
-
-msgid "Features.Editor.other-glossary"
-msgstr "other-glossary"
-
-msgid "Features.Editor.glossary-type"
-msgstr "glossary-type"
-
-msgid "Features.Editor.resource-type-glossary"
-msgstr "resource-type-glossary"
-
-msgid "Features.Editor.resource-type-glossary-help"
-msgstr "resource-type-glossary-help"
