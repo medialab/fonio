@@ -7,7 +7,7 @@ Users personal data is stored on the `indexedDb` of the user's browser, neverthe
 
 Fonio is part of the ``quinoa`` project family, a suite of digital storytelling tools tailored for the [FORCCAST](http://controverses.org/) pedagogical program and [médialab sciences po](http://www.medialab.sciences-po.fr/) scientific activities.
 
-It is supposed to be used along with the `[bulgur](https://github.com/medialab/bulgur)` project, which allows to make "data presentations" to be embed in data stories.
+It is supposed to be used along with the [bulgur](https://github.com/medialab/bulgur) project, which allows to make "data presentations" to be embed in data stories.
 
 # Features
 
