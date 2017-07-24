@@ -1,0 +1,30 @@
+/**
+ * style definitions for the GlossaryMention component
+ *
+ * @module fonio/components/GlossaryMention
+ */
+@import '../../parameters.scss';
+
+.fonio-GlossaryMention
+{
+  @extend .important-item;
+  padding: $gutter-small 0 $gutter-small 0;
+  margin : 0;
+  border-radius: $gutter-medium;
+  cursor: pointer;
+
+  input{
+    padding: 0;
+    margin-left: $gutter-medium;
+    &:hover,
+    &:focus{
+      @extend .important-item-intent;
+    }
+  }
+
+  button{
+    font-size: $font-size-1;
+    margin-right: $gutter-medium;
+  }
+
+}

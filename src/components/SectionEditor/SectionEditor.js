@@ -53,11 +53,13 @@ import BlockContextualizationContainer from './BlockContextualizationContainer';
 
 import ResourceSearchWidget from '../ResourceSearchWidget/ResourceSearchWidget';
 import InlineCitation from '../InlineCitation/InlineCitation';
+import GlossaryMention from '../GlossaryMention/GlossaryMention';
 
 import Bibliography from './Bibliography';
 
 const inlineAssetComponents = {
   bib: InlineCitation,
+  glossary: GlossaryMention
 };
 
 const blockAssetComponents = {

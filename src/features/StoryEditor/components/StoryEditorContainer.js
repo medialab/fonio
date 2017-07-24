@@ -160,7 +160,7 @@ class EditorContainer extends Component {
 
     // choose if inline or block
     // todo: choose that from resource model
-    const insertionType = resource.metadata.type === 'bib' ? 'inline' : 'block';
+    const insertionType = resource.metadata.type === 'bib' || resource.metadata.type === 'glossary' ? 'inline' : 'block';
 
     // create contextualization
     const contextualizationId = genId();

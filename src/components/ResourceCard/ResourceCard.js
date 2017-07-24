@@ -94,6 +94,7 @@ class ResourceCard extends Component {
       context
     } = this;
     const {
+      data,
       metadata,
       onDelete,
       onConfigure,
@@ -140,6 +141,17 @@ class ResourceCard extends Component {
        e.dataTransfer.dropEffect = 'move';
        e.dataTransfer.setData('text', 'DRAFTJS_RESOURCE_ID:' + metadata.id);
      };
+
+    let resourceName;
+    if (metadata.type === 'bib') {
+      resourceName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
+    }
+ else if (metadata.type === 'glossary') {
+      resourceName = data.name && data.name.length ? data.name : translate('untitled-asset');
+    }
+ else {
+      resourceName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
+    }
     return connectDragPreview(connectDragSource(connectDropTarget(
       <li
         draggable
@@ -151,7 +163,7 @@ class ResourceCard extends Component {
           className="card-header">
           <img src={require('../../sharedAssets/' + metadata.type + '-black.svg')} />
           <h5>
-            <span className="title">{metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset')}</span>
+            <span className="title">{resourceName}</span>
           </h5>
         </div>
         {/*<div

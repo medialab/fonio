@@ -94,7 +94,7 @@ export const setResourceCandidateMetadataValue = (key, value) => ({
   value
 });
 
-export const submitResourceData = (type, data) => ({
+export const submitResourceData = (type, data, existingData) => ({
   type: SUBMIT_RESOURCE_DATA,
   promise: (dispatch) => {
     return new Promise((resolve, reject) => {
@@ -171,6 +171,10 @@ export const submitResourceData = (type, data) => ({
           });
         case 'cslJSON':
           return resolve(data);
+        case 'glossaryName':
+          return resolve({...existingData, name: data});
+        case 'glossaryType':
+          return resolve({...existingData, glossaryType: data});
         default:
           reject('unkown input type');
       }

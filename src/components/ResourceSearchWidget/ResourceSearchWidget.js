@@ -121,10 +121,24 @@ class ResourceSearchWidget extends Component {
             .filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
             .map((option, index) => {
               const onC = () => onOptionClick(option);
+              let optionName;
+              const {
+                data,
+                metadata
+              } = option;
+              if (metadata.type === 'bib') {
+                optionName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
+              }
+ else if (metadata.type === 'glossary') {
+                optionName = data.name && data.name.length ? data.name : translate('untitled-asset');
+              }
+ else {
+                optionName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
+              }
               return (<li
                 className={'choice-option' + (index === this.state.selectedItemIndex ? ' active' : '')}
                 key={index}
-                onClick={onC}>{option.metadata.title}</li>
+                onClick={onC}>{optionName}</li>
               );
             })
           }

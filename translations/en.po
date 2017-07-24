@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-7-23\n"
-"PO-Revision-Date: Sun Jul 23 2017 15:54:40 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2017-7-24\n"
+"PO-Revision-Date: Mon Jul 24 2017 08:04:11 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -559,3 +559,33 @@ msgstr "understood"
 
 msgid "Components.BibEditorGui.edit-author"
 msgstr "edit-author"
+
+msgid "Components.GlossaryMention.alias-placeholder"
+msgstr "alias-placeholder"
+
+msgid "Components.ResourceSearchWidget.untitled-asset"
+msgstr "untitled-asset"
+
+msgid "Features.Editor.name-of-the-glossary-entry"
+msgstr "name-of-the-glossary-entry"
+
+msgid "Features.Editor.person"
+msgstr "person"
+
+msgid "Features.Editor.place"
+msgstr "place"
+
+msgid "Features.Editor.notion"
+msgstr "notion"
+
+msgid "Features.Editor.other-glossary"
+msgstr "other-glossary"
+
+msgid "Features.Editor.glossary-type"
+msgstr "glossary-type"
+
+msgid "Features.Editor.resource-type-glossary"
+msgstr "resource-type-glossary"
+
+msgid "Features.Editor.resource-type-glossary-help"
+msgstr "resource-type-glossary-help"

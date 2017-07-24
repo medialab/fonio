@@ -11,6 +11,7 @@ import Toaster from '../../../components/Toaster/Toaster';
 import DropZone from '../../../components/DropZone/DropZone';
 import AssetPreview from '../../../components/AssetPreview/AssetPreview';
 import BibRefsEditor from '../../../components/BibRefsEditor/BibRefsEditor';
+import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 
 import './ResourceConfigurationDialog.scss';
 
@@ -83,6 +84,42 @@ const ResourceDataInput = ({
           placeholder={translate('paste-embed-code')}
           style={{flex: 1, width: '100%'}}
           value={resourceCandidate.data || ''} />
+      );
+    case 'glossary':
+      const onNameChange = e => submitResourceData('glossaryName', e.target.value, resourceCandidate.data);
+      const onTypeChange = value => submitResourceData('glossaryType', value, resourceCandidate.data);
+      return (
+        <div className="input-group">
+          <label htmlFor="title">{translate('name-of-the-glossary-entry')}</label>
+          <input
+            onChange={onNameChange}
+            type="text"
+            name="url"
+            placeholder={translate('name-of-the-glossary-entry')}
+            value={resourceCandidate.data.name} />
+          <OptionSelect
+            activeOptionId={resourceCandidate && resourceCandidate.data && resourceCandidate.data.glossaryType}
+            options={[
+              {
+                value: 'person',
+                label: translate('person')
+              },
+              {
+                value: 'place',
+                label: translate('place')
+              },
+              {
+                value: 'notion',
+                label: translate('notion')
+              },
+              {
+                value: 'other',
+                label: translate('other-glossary')
+              },
+            ]}
+            title={translate('glossary-type')}
+            onChange={onTypeChange} />
+        </div>
       );
     default:
       return null;
@@ -169,6 +206,14 @@ const ResourceConfigurationDialog = ({
         {translate('resource-type-bib-help')}
       </HelpPin></span>),
       possible: true
+    },
+    {
+      id: 'glossary',
+      icon: require('../assets/glossary.svg'),
+      label: (<span>{translate('resource-type-glossary')} <HelpPin position="left">
+        {translate('resource-type-glossary-help')}
+      </HelpPin></span>),
+      possible: true
     }
 
   ];
@@ -230,7 +275,7 @@ const ResourceConfigurationDialog = ({
                 <LoadingStateToaster loadingState={resourceDataLoadingState} />
               </div>
               {
-                resourceCandidate.data ?
+                resourceCandidate.data && resourceCandidate.metadata.type !== 'glossary' ?
                 (<div className="modal-column preview-container">
                   <h4>{translate('preview-title')}</h4>
                   <AssetPreview
@@ -242,7 +287,7 @@ const ResourceConfigurationDialog = ({
             </div>
           </section>
           : null}
-        {resourceCandidateType ?
+        {resourceCandidateType && (resourceCandidateType !== 'glossary' && resourceCandidateType !== 'bib') ?
           <section className="modal-row">
             <h2>{translate('resource-metadata')}
               <HelpPin>
