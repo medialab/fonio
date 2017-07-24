@@ -193,7 +193,7 @@ const TakeAwayDialogLayout = ({
                       → {translate('go-to-the-gist-based-webpage-of-your-story')}
                     </a>
                   </p>
-                  <iframe className="website-preview" src={activeStory.metadata.serverHTMLUrl} />
+                  <iframe className="website-preview" src={serverUrl + '/gist-story/' + activeStory.metadata.gistId} />
 
                   <p>{translate('embed-inside-an-html-webpage')}: </p>
                   <pre>
