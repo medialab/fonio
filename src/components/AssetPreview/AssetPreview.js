@@ -56,18 +56,17 @@ const AssetPreview = ({
         const columns = Object.keys(data[0]).map(key => ({
           Header: key,
           accessor: key
-        }))
-        return <ReactTable 
-                  data={data} 
-                  columns={columns} 
-                  previousText={translate('table-previous')}
-                  nextText={translate('table-next')}
-                  loadingText={translate('table-loading')}
-                  noDataText={translate('table-no-rows-found')} 
-                  pageText={translate('table-page')}
-                  ofText={translate('table-of')}
-                  rowsText={translate('table-row')}
-                />;
+        }));
+        return (<ReactTable
+          data={data}
+          columns={columns}
+          previousText={translate('table-previous')}
+          nextText={translate('table-next')}
+          loadingText={translate('table-loading')}
+          noDataText={translate('table-no-rows-found')}
+          pageText={translate('table-page')}
+          ofText={translate('table-of')}
+          rowsText={translate('table-row')} />);
       case 'image':
         return <img src={data.base64} />;
       case 'video':
