@@ -13,6 +13,24 @@ const modelProperties = cslDataModel.items.properties;
 
 const forbiddenProperties = ['id'];
 
+const findModelFromRef = (model, ref) => {
+  let outputModel;
+  Object.keys(model).some(id => {
+    const subModel = model[id];
+    if (subModel.id === ref) {
+      const type = subModel.type;
+      outputModel = Array.isArray(type) ? type[0].properties : type.properties;
+      return true;
+    }
+ else if (subModel.items && subModel.items.id === ref) {
+      const type = subModel.items.type;
+      outputModel = Array.isArray(type) ? type[0].properties : type.properties;
+      return true;
+    }
+  });
+  return outputModel;
+};
+
 const PropertyInput = ({
   model,
   modelKey,
@@ -48,11 +66,12 @@ const PropertyInput = ({
   switch (modelType) {
     case 'string':
     case 'number':
+    case 'string-number-boolean':
     case 'string-number':
-    case undefined:
+    case 'name-variable':
       return (
         <input
-          value={reference[modelKey]}
+          value={reference[modelKey] || ''}
           type="text"
           placeholder={modelKey}
           onChange={onInputChange} />
@@ -68,7 +87,7 @@ const PropertyInput = ({
             id: generateId()
           };
         }
- else {
+        else {
           defaultObject = {
             id: generateId()
           };
@@ -86,8 +105,8 @@ const PropertyInput = ({
       if (itemsModel.type) {
         subModel = itemsModel.type[0].properties;
       }
- else {
-        subModel = {id: itemsModel.$ref};
+      else {
+        subModel = findModelFromRef(modelProperties, itemsModel.$ref); // {type: itemsModel.$ref};
       }
       return (
         <div className="sub-properties-group">
@@ -125,7 +144,46 @@ const PropertyInput = ({
         </div>
       );
     default:
-      // console.log('unhandled model type', modelType);
+      if (model.$ref) {
+        subModel = findModelFromRef(modelProperties, model.$ref);
+        return (
+          <div
+            className="properties-group">
+            {
+              Object.keys(subModel)
+              // not going into second-level arrays because it becomes too complicated
+              // for everyone + useless
+              .filter(subModelKey => subModel[subModelKey].type !== 'array')
+              .map((subModelKey, index) => {
+                const nanoModel = subModel[subModelKey];
+                const onSubChange = (value) => {
+                  let newValues;
+                  if (typeof reference[modelKey] === 'object') {
+                    newValues = {...reference[modelKey]};
+                    newValues[subModelKey] = value;
+                  }
+ else {
+                    newValues = {
+                      [subModelKey]: value
+                    };
+                  }
+                  onChange(newValues);
+                };
+                return (
+                  <div className="property-group" key={index}>
+                    <i className="property-label">{subModelKey}</i>
+                    <PropertyInput
+                      model={nanoModel}
+                      modelKey={subModelKey}
+                      reference={reference[modelKey]}
+                      onChange={onSubChange} />
+                  </div>
+                );
+              })
+            }
+          </div>
+        );
+      }
       return (<span>Unhandled</span>);
   }
 };
@@ -201,7 +259,7 @@ const ReferenceEditor = ({
           };
           return (
             <div className="property-group" key={key}>
-              <span className="property-label">{key} :</span>
+              <i className="property-label">{key}</i>
               <div className="property-input">
                 <PropertyInput
                   modelKey={key}

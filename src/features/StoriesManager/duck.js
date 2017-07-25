@@ -395,7 +395,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       // we will delete associated contextualizers as well as associated contextualizations
       // (forseeing long edition sessions in which user create and delete a large number of contextualizations
       // if not doing so we would end up with a bunch of unused contextualizers in documents' data after a while)
-      
+
       // we will store contextualizers id to delete here
       const contextualizersToDeleteIds = [];
 
