@@ -391,23 +391,31 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case DELETE_RESOURCE:
       newState = {...state};
       delete newState.stories[action.storyId].resources[action.id];
-      // remove contextualizations using the deleted resource
-      newState.stories[action.storyId].contextualizations = Object.keys(newState.stories[action.storyId].contextualizations)
-        .filter(contId => {
-          return newState.stories[action.storyId].contextualizations[contId].resourceId !== action.id;
-        })
-        .reduce((final, thatId) => {
-          const contextualization = newState.stories[action.storyId].contextualizations[thatId];
-          // delete related contextualizer
-          // (this is dirty, a proper way to do that would be
-          // to store in an array all the contextualizers to be deleted)
-          // (this should be undone if contextualizers can be linked to several contextualizations)
-          delete newState.stories[action.storyId].contextualizers[contextualization.contextualizerId];
-          return {
-            ...final,
-            [thatId]: contextualization
-          };
-        }, {});
+      // for now as the app does not allow to reuse the same contextualizer for several resources
+      // we will delete associated contextualizers as well as associated contextualizations
+      // (forseeing long edition sessions in which user create and delete a large number of contextualizations
+      // if not doing so we would end up with a bunch of unused contextualizers in documents' data after a while)
+      
+      // we will store contextualizers id to delete here
+      const contextualizersToDeleteIds = [];
+
+      // we will store contextualizations id to delete here
+      const contextualizationsToDeleteIds = [];
+      // spot all objects to delete
+      Object.keys(newState.stories[action.storyId].contextualizations)
+        .forEach(contextualizationId => {
+          if (newState.stories[action.storyId].contextualizations[contextualizationId].resourceId === action.id) {
+            contextualizationsToDeleteIds.push(contextualizationId);
+            contextualizersToDeleteIds.push(newState.stories[action.storyId].contextualizations[contextualizationId].contextualizerId);
+          }
+        });
+      // proceed to deletions
+      contextualizersToDeleteIds.forEach(contextualizerId => {
+        delete newState.stories[action.storyId].contextualizers[contextualizerId];
+      });
+      contextualizationsToDeleteIds.forEach(contextualizationId => {
+        delete newState.stories[action.storyId].contextualizations[contextualizationId];
+      });
       return newState;
     /**
      * CONTEXTUALIZATION RELATED
