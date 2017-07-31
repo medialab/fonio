@@ -1,3 +1,7 @@
+/**
+ * This module provides unit tests to ensure the story validator works properly
+ * @module bulgur/utils/storyValidator
+ */
 const validStories = [
     require('../../mocks/test-qui-va-bien.json')
 ];

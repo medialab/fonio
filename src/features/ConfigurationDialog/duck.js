@@ -39,21 +39,34 @@ const SET_STORY_CANDIDATE_METADATA = '§Fonio/ConfigurationDialog/SET_STORY_CAND
 /*
  * Action creators
  */
+
 /**
+ * Sets a new metadata prop in the story candidate data
  * @param {string} field - the name of the metadata field to modify
  * @param {string} value - the value to set to the field to modify
+ * @return {object} action - the redux action to dispatch
  */
 export const setCandidateStoryMetadata = (field, value) => ({
   type: SET_STORY_CANDIDATE_METADATA,
   field,
   value
 });
+
+/**
+ * Submits an image to use for the story cover
+ * (as base64 data)
+ * @param {File} file - the file to propose for the story cover
+ * @return {object} action - the redux action to dispatch
+ */
 export const submitCoverImage = (file) => ({
   type: SUBMIT_COVER_IMAGE,
   promise: (dispatch) => {
     return new Promise((resolve, reject) => {
+      // first verify the extension corresponds to an image file
       return fileIsAnImage(file)
         .then(thatFile => {
+           // possible state model will be removed
+           // either the loading succeeds or fail
             setTimeout(() => {
               dispatch({
                 type: SUBMIT_COVER_IMAGE + '_RESET'
@@ -61,9 +74,11 @@ export const submitCoverImage = (file) => ({
             }, timers.veryLong);
             return thatFile;
           })
+          // then loads the image
           .then(thatFile => {
             return loadImage(thatFile);
           })
+          // then resolve with the base64 data
           .then(base64 => {
             setTimeout(() => {
               dispatch({
@@ -72,6 +87,7 @@ export const submitCoverImage = (file) => ({
             }, timers.veryLong);
             resolve(base64);
           })
+          // error handler
           .catch(e => {
             reject(e);
             setTimeout(() => {
@@ -83,29 +99,35 @@ export const submitCoverImage = (file) => ({
     });
   }
 });
+
 /**
- *
+ * Resets story candidate state to default settings
+ * @return {object} action - the redux action to dispatch
  */
 export const resetStoryCandidateSettings = () => ({
   type: RESET_STORY_CANDIDATE_SETTINGS
 });
 
 const DEFAULT_STORY_CANDIDATE_DATA = {
+
   /**
-   * Restory of the to-update/to-create story data
+   * Representation of the to-update/to-create story data
    * @type {object}
    */
   storyCandidate: {
     metadata: {}
   }
 };
+
 /**
  * This redux reducer handles the modification of the data state of a story configuration dialog
  * @param {object} state - the state given to the reducer
  * @param {object} action - the action to use to produce new state
+ * @return {object} newState - the resulting state
  */
 function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
   switch (action.type) {
+    // cases the candidate state has to be reset
     case RESET_APP:
     case CLOSE_STORY_CANDIDATE_MODAL:
     case APPLY_STORY_CANDIDATE_CONFIGURATION:
@@ -133,6 +155,7 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
           id: action.id
         }
       };
+    // save in candidate data some metadata
     case SET_STORY_CANDIDATE_METADATA:
       const value = action.value;// action.field === 'authors' ? action.value.split(',') : action.value;
       return {
@@ -145,6 +168,7 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
           }
         }
       };
+    // store new cover image base64 representation
     case SUBMIT_COVER_IMAGE + '_SUCCESS':
       return {
         ...state,
@@ -156,6 +180,7 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
           }
         }
       };
+    // case reseting the state
     case RESET_STORY_CANDIDATE_SETTINGS:
       return DEFAULT_STORY_CANDIDATE_DATA;
     default:
@@ -164,24 +189,30 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
 }
 
 const STORY_CANDIDATE_UI_DEFAULT_STATE = {
+
    /**
-    * Restory of the status of file fetching status
+    * Representation of the status of file fetching status
     * @type {string}
     */
    fetchUserFileStatus: undefined,
    coverImageLoadingState: undefined
 };
+
 /**
  * This redux reducer handles the modification of the ui state of a story configuration dialog
  * @param {object} state - the state given to the reducer
  * @param {object} action - the action to use to produce new state
+ * @return {object} newState - the resulting state
  */
 function storyCandidateUi (state = STORY_CANDIDATE_UI_DEFAULT_STATE, action) {
   switch (action.type) {
+    // case resetting the base state
     case RESET_APP:
     case CLOSE_STORY_CANDIDATE_MODAL:
     case APPLY_STORY_CANDIDATE_CONFIGURATION:
       return STORY_CANDIDATE_UI_DEFAULT_STATE;
+    // handling representation of the cover image
+    // submission process in the ui state
     case SUBMIT_COVER_IMAGE:
       return {
         ...state,
@@ -206,6 +237,7 @@ function storyCandidateUi (state = STORY_CANDIDATE_UI_DEFAULT_STATE, action) {
       return state;
   }
 }
+
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
@@ -220,6 +252,7 @@ export default persistentReducer(combineReducers({
 const storyCandidate = state => state.storyCandidateData &&
   state.storyCandidateData.storyCandidate;
 const coverImageLoadingState = state => state.storyCandidateUi && state.storyCandidateUi.coverImageLoadingState;
+
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}

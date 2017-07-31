@@ -29,8 +29,10 @@
     .card-body,
     .card-footer
     {
-        overflow:hidden;
+        overflow: hidden;
+
         max-height: 0;
+
         @extend .animated;
     }
 
@@ -38,11 +40,13 @@
     {
         @extend .primary-item-intent;
     }
-    &.active{
+    &.active
+    {
         @extend .important-item-active;
     }
     &:hover,
-    &.active{
+    &.active
+    {
         .card-body,
         .card-footer
         {
@@ -56,7 +60,6 @@
     .card-body
     {
         display: flex;
-
         flex-flow: row nowrap;
     }
 
@@ -77,24 +80,22 @@
         .info-column
         {
             overflow-y: hidden;
+            flex: 3;
 
             max-height: 10rem;
             margin-top: 0;
             padding-right: $gutter-medium;
-
-            flex: 3;
             h5
             {
                 font-size: $font-size-3;
 
                 display: flex;
+                flex-flow: row nowrap;
 
                 margin: 0;
                 margin-bottom: $gutter-medium;
 
                 cursor: pointer;
-
-                flex-flow: row nowrap;
                 .icons-container
                 {
                     margin-right: $gutter-medium;
@@ -115,7 +116,6 @@
         .buttons-column
         {
             display: flex;
-
             flex: 2;
             flex-flow: column nowrap;
             .edit-btn
@@ -135,7 +135,6 @@
         .button-row
         {
             display: flex;
-
             flex-flow: row nowrap;
             justify-content: stretch;
         }
@@ -150,17 +149,21 @@
         background: $primary-color;
     }
 
-    .delete-confirm-btn{
+    .delete-confirm-btn
+    {
         @extend .dangerous-item;
-        &:hover{
+        &:hover
+        {
             @extend .dangerous-item-intent;
         }
     }
 
-    .level-up-btn{
+    .level-up-btn
+    {
         font-size: $font-size-1;
     }
-    .level-down-btn {
+    .level-down-btn
+    {
         font-size: $font-size-1 * 1.2;
     }
 }

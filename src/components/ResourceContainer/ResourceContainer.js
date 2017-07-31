@@ -12,6 +12,12 @@ import AssetPreview from '../AssetPreview/AssetPreview';
 
 import './ResourceContainer.scss';
 
+
+/**
+ * Renders the ResourceContainer component as a pure function
+ * @param {object} props - used props (see prop types below)
+ * @return {ReactElement} component - the resulting component
+ */
 const ResourceContainer = ({
   block,
   blockProps
@@ -19,8 +25,6 @@ const ResourceContainer = ({
 
   const {
     assets,
-    // updateResource,
-    // storyId,
     toggleReadonly,
     currentContent
   } = blockProps;
@@ -44,20 +48,6 @@ const ResourceContainer = ({
     data
   } = asset;
 
-  // const updateMetadataField = (key, value) => {
-  //   const newResource = {
-  //     ...asset,
-  //     metadata: {
-  //       ...asset.metadata,
-  //       [key]: value
-  //     }
-  //   };
-  //   updateResource(storyId, assetId, newResource);
-  // };
-
-  // const onTitleChange = e => updateMetadataField('title', e.target.value);
-  // const onDescriptionChange = e => updateMetadataField('description', e.target.value);
-  // const onSourceChange = e => updateMetadataField('source', e.target.value);
   const onElementFocus = () => {
     toggleReadonly(true);
   };
@@ -87,7 +77,9 @@ const ResourceContainer = ({
         {metadata.source && metadata.source.length > 0 && <p>
           <i>{metadata.source}</i>
         </p>}
-        {/*<input
+        {// uncomment if you want to enable inline
+        // resource metadata edition
+        /*<input
           onFocus={onElementFocus}
           onBlur={onElementBlur}
           value={metadata.title}
@@ -115,8 +107,48 @@ const ResourceContainer = ({
   );
 };
 
-ResourceContainer.contextTypes = {
-    t: PropTypes.func.isRequired
+/**
+ * Component's properties types
+ */
+ResourceContainer.propTypes = {
+
+  /**
+   * Draft-js BlockContents Immutable object
+   */
+  block: PropTypes.object,
+
+  /**
+   * Props passed to the block element
+   */
+  blockProps: PropTypes.shape({
+
+    /**
+     * Map of available assets
+     */
+    assets: PropTypes.object,
+
+    /**
+     * Current draft-js content state
+     */
+    currentContent: PropTypes.object,
+
+    /**
+     * Callbacks when block asks to switch to readOnly mode
+     */
+    toggleReadonly: PropTypes.func,
+  }),
 };
+
+
+/**
+ * Component's context used properties
+ */
+// ResourceContainer.contextTypes = {
+//
+     /**
+//      * Un-namespaced translate function
+//      */
+//     t: PropTypes.func.isRequired
+// };
 
 export default ResourceContainer;

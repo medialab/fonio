@@ -35,15 +35,21 @@ const StorySettingsManagerLayout = ({
 }, context) => {
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.StorySettingsManager');
-  const activeCss = (activeStory && activeStory.settings && activeStory.settings.css) || '';
 
+  // safely retrieving active settings data
+  const activeCss = (activeStory && activeStory.settings && activeStory.settings.css) || '';
   const activeTemplate = (activeStory && activeStory.settings && activeStory.settings.template) || 'garlic';
   const activeTemplateData = templates.find(template => template.id === activeTemplate);
   const activeCitationStyleId = activeStory && activeStory.settings && activeStory.settings.citationStyle && activeStory.settings.citationStyle.id;
   const activeCitationLocaleId = activeStory && activeStory.settings && activeStory.settings.citationLocale && activeStory.settings.citationLocale.id;
 
+
+  /**
+   * Callbacks
+   */
   const onDisqusChange = val => {
-    // const value = val === 'yes' ? true : false;
+    // val can be 'yes' or 'no'
+    // todo: switch to a boolean ?
     setStorySettingOption(activeStoryId, 'allowDisqusComments', val);
   };
   const onNotePositionChange = value => {
@@ -67,7 +73,7 @@ const StorySettingsManagerLayout = ({
     if (settingsVisible) {
       setSettingsVisibility(false);
     }
- else setSettingsVisibility(true);
+    else setSettingsVisibility(true);
   };
 
   return (
@@ -163,7 +169,7 @@ const StorySettingsManagerLayout = ({
                 minRows={10}
                 maxRows={12}
                 defaultValue="Write custom css code here"
-                value={activeCss}
+                value={activeCss || ''}
                 onChange={onCssChange} />
               {!activeCss.length &&
               <pre className="css-example">
@@ -187,7 +193,15 @@ const StorySettingsManagerLayout = ({
   );
 };
 
+
+/**
+ * Context data used by the component
+ */
 StorySettingsManagerLayout.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired,
 };
 

@@ -11,54 +11,72 @@
     position: relative;
 
     display: flex;
+    flex: 10;
     flex-direction: row;
+    flex-wrap: nowrap;
+
+    max-width: 100%;
 
     @extend .flex-stretched-row;
-    flex-wrap: nowrap;
-    flex: 10;
-    .fonio-aside-view
+    .fonio-AsideViewLayout
     {
-        min-width: 16.6%;
-
         flex: 1;
+
+        min-width: 16.6%;
     }
     .fonio-SectionEditor
     {
         flex: 5;
+
+        min-width: 84.4%;
+
         @extend .flex-stretched-column;
     }
 
     .no-sections-selected-container
     {
-        @extend .flex-stretched-column;
-        padding: $gutter-large;
         flex: 5;
+
+        padding: $gutter-large;
+
+        @extend .flex-stretched-column;
         button
         {
-            @extend .interactive-item;
             padding: $gutter-large;
-            &:hover{
+
+            @extend .interactive-item;
+            &:hover
+            {
                 @extend .interactive-item-intent;
             }
         }
 
-        ul{
+        ul
+        {
             padding: 0;
+
             @extend .flex-stretched-column;
-            li{
-                list-style-type: none;
+            li
+            {
                 padding: 0;
+
+                list-style-type: none;
+
                 @extend .flex-stretched-column;
             }
         }
         .create-new-section-container
         {
-            @extend .flex-stretched-column;
             margin-top: $gutter-large;
-            button{
-                @extend .important-item;
+
+            @extend .flex-stretched-column;
+            button
+            {
                 cursor: pointer;
-                &:hover{
+
+                @extend .important-item;
+                &:hover
+                {
                     @extend .important-item-intent;
                 }
             }

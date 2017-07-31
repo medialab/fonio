@@ -91,17 +91,15 @@ $legend-width: 20rem;
 .flex-stretched-column
 {
     display: flex;
-
-    flex-flow: column nowrap;
     align-items: stretch;
+    flex-flow: column nowrap;
 }
 
 .flex-stretched-row
 {
     display: flex;
-
-    flex-flow: row nowrap;
     align-items: stretch;
+    flex-flow: row nowrap;
 }
 
 .normal-item

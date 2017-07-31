@@ -24,22 +24,25 @@ import {
   getSelectedBlocksList
 } from 'draftjs-utils';
 
+import config from '../../../config';
+const {timers} = config;// time constants for the setTimeouts latency consistency
+
+
+/**
+ * Scholar-draft is a custom component wrapping draft-js editors
+ * for the purpose of this app.
+ * See https://github.com/peritext/scholar-draft
+ */
 import Editor, {
   utils,
   constants
 } from 'scholar-draft';
-
-import config from '../../../config';
-const {timers} = config;
 
 const {
   INLINE_ASSET,
   NOTE_POINTER,
   SCHOLAR_DRAFT_CLIPBOARD_CODE
 } = constants;
-
-import style from 'raw-loader!./assets/apa.csl';
-import locale from 'raw-loader!./assets/english-locale.xml';
 
 const {
   deleteNoteFromEditor,
@@ -49,6 +52,9 @@ const {
   insertFragment,
 } = utils;
 
+import style from 'raw-loader!./assets/apa.csl';
+import locale from 'raw-loader!./assets/english-locale.xml';
+
 import BlockContextualizationContainer from './BlockContextualizationContainer';
 
 import ResourceSearchWidget from '../ResourceSearchWidget/ResourceSearchWidget';
@@ -57,11 +63,23 @@ import GlossaryMention from '../GlossaryMention/GlossaryMention';
 
 import Bibliography from './Bibliography';
 
+
+/**
+ * We have to provide scholar-draft the components
+ * we want to use to display the assets in the editor.
+ * For inline assets we have a component for each asset type
+ */
 const inlineAssetComponents = {
   bib: InlineCitation,
   glossary: GlossaryMention
 };
 
+
+/**
+ * For block assets for now a wrapping component is used
+ * that chooses the proper contextualization component
+ * one level lower
+ */
 const blockAssetComponents = {
   'video': BlockContextualizationContainer,
   'image': BlockContextualizationContainer,
@@ -74,11 +92,29 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './SectionEditor.scss';
 
+
+/**
+ * SectionEditor class for building react component instances
+ */
 class SectionEditor extends Component {
+
+
+  /**
+   * Component's context used properties
+   */
   static contextTypes = {
+
+    /**
+     * Un-namespaced translate function
+     */
     t: PropTypes.func.isRequired,
   }
 
+
+  /**
+   * constructor
+   * @param {object} props - properties given to instance at instanciation
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -90,10 +126,18 @@ class SectionEditor extends Component {
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
 
+
+  /**
+   * Provides children new context data each time props or state has changed
+   */
   getChildContext = () => ({
-    startExistingResourceConfiguration: this.props.startExistingResourceConfiguration
+    startExistingResourceConfiguration: this.props.startExistingResourceConfiguration,
   })
 
+
+  /**
+   * Executes code just after component mounted
+   */
   componentDidMount() {
     const {
       sectionId,
@@ -107,6 +151,11 @@ class SectionEditor extends Component {
     document.addEventListener('paste', this.onPaste);
   }
 
+
+  /**
+   * Executes code when component receives new properties
+   * @param {object} nextProps - the future properties of the component
+   */
   componentWillReceiveProps(nextProps) {
     if (this.props.sectionId !== nextProps.sectionId) {
       const {
@@ -121,6 +170,10 @@ class SectionEditor extends Component {
   //   console.time('editor update time');
   // }
 
+
+  /**
+   * Executes code after component re-rendered
+   */
   componentDidUpdate = (prevProps) => {
     if (this.props.editorStates[this.props.activeSection.id] !== prevProps.editorStates[this.props.activeSection.id]) {
       this.debouncedCleanStuffFromEditorInspection(this.props.activeSection.id);
@@ -128,11 +181,18 @@ class SectionEditor extends Component {
     // console.timeEnd('editor update time');
   }
 
+
+  /**
+   * Executes code before component unmounts
+   */
   componentWillUnmount = () => {
+    // remove all document-level event listeners
+    // handled by the component
     document.removeEventListener('copy', this.onCopy);
     document.removeEventListener('cut', this.onCopy);
     document.removeEventListener('paste', this.onPaste);
   }
+
 
   /**
    * Prepares data within component's state for later pasting
@@ -171,7 +231,7 @@ class SectionEditor extends Component {
       editorState = editorStates[activeSection.id];
     // case 2: data is copied from a note
     }
- else {
+    else {
       editorState = editorStates[editorFocus];
       clipboard = this.editor.notes[editorFocus].editor.editor.getClipboard();
     }
@@ -264,6 +324,7 @@ class SectionEditor extends Component {
     e.preventDefault();
   }
 
+
   /**
    * Handles pasting command in the editor
    * @param {event} e - the copy event
@@ -294,7 +355,7 @@ class SectionEditor extends Component {
     } = this.state;
 
     // this hack allows to check if data comes from outside of the editor
-    // case 1 : comes outside
+    // case 1 : comes from outside
     if (!clipboard || e.clipboardData.getData('text/plain') !== SCHOLAR_DRAFT_CLIPBOARD_CODE) {
       // clear components "internal clipboard" and let the event happen
       // normally (it is in this case draft-js which will handle the paste process)
@@ -405,7 +466,7 @@ class SectionEditor extends Component {
             };
           }, {});
         }
- else {
+        else {
           newNotes = notes;
         }
 
@@ -600,6 +661,7 @@ class SectionEditor extends Component {
     updateSection(activeStoryId, activeSectionId, newSection);
   }
 
+
   /**
    * Monitors operations that look into the editor state
    * to see if contextualizations and notes have to be updated/delete
@@ -611,6 +673,12 @@ class SectionEditor extends Component {
     this.updateNotesFromEditor(this.props);
   }
 
+
+  /**
+   * Deletes contextualizations that are not any more linked
+   * to an entity in the editor.
+   * @param {object} props - properties to use
+   */
   updateContextualizationsFromEditor = props => {
     const {
       activeSection,
@@ -621,12 +689,14 @@ class SectionEditor extends Component {
       story
     } = props;
     const activeSectionId = activeSection.id;
+    // regroup all eligible editorStates
     const notesEditorStates = Object.keys(activeSection.notes).reduce((result, noteId) => {
       return {
         ...result,
         [noteId]: editorStates[noteId]
       };
     }, {});
+    // regroup all eligible contextualizations
     const sectionContextualizations = Object.keys(story.contextualizations)
       .filter(id => {
         return story.contextualizations[id].sectionId === activeSectionId;
@@ -636,20 +706,29 @@ class SectionEditor extends Component {
         [id]: story.contextualizations[id],
       }), {});
 
-    // in main
+    // look for used contextualizations in main
     let used = getUsedAssets(editorStates[activeSectionId], sectionContextualizations);
-    // in notes
+    // look for used contextualizations in notes
     Object.keys(notesEditorStates)
     .forEach(noteId => {
       const noteEditor = notesEditorStates[noteId];
       used = used.concat(getUsedAssets(noteEditor, sectionContextualizations));
     });
+    // compare list of contextualizations with list of used contextualizations
+    // to track all unused contextualizations
     const unusedAssets = Object.keys(sectionContextualizations).filter(id => used.indexOf(id) === -1);
+    // delete contextualizations
     unusedAssets.forEach(id => {
       deleteContextualization(activeStoryId, id);
     });
   }
 
+  /**
+   * Deletes notes that are not any more linked
+   * to an entity in the editor
+   * and update notes numbers if their order has changed.
+   * @param {object} props - properties to use
+   */
   updateNotesFromEditor = (props) => {
     const {
       editorStates,
@@ -699,6 +778,9 @@ class SectionEditor extends Component {
   }
 
 
+  /**
+   * Adds an empty note to the editor state
+   */
   addNote = () => {
     const {
       editorStates,
@@ -760,6 +842,12 @@ class SectionEditor extends Component {
     });
   }
 
+
+  /**
+   * Add plain text in one of the editor states (main or note)
+   * @param {string} text - text to add
+   * @param {string} contentId - 'main' or noteId
+   */
   addTextAtCurrentSelection = (text, contentId) => {
     const {
       activeSection,
@@ -789,7 +877,7 @@ class SectionEditor extends Component {
         contents: convertToRaw(newEditorState.getCurrentContent())
       };
     }
- else {
+    else {
       newSection = {
         ...activeSection,
         notes: {
@@ -804,6 +892,14 @@ class SectionEditor extends Component {
     updateSection(activeStoryId, sectionId, newSection);
   }
 
+
+  /**
+   * Handle changes on contextualizers or resources
+   * from within the editor
+   * @param {string} dataType - the type of collection where the object to update is located
+   * @param {string} dataId - the id of the object
+   * @param {object} data - the new data to apply to the object
+   */
   onDataChange = (dataType, dataId, data) => {
     const {
       updateResource,
@@ -813,11 +909,17 @@ class SectionEditor extends Component {
     if (dataType === 'resource') {
       updateResource(activeStoryId, dataId, data);
     }
- else if (dataType === 'contextualizer') {
+    else if (dataType === 'contextualizer') {
       updateContextualizer(activeStoryId, dataId, data);
     }
   }
 
+
+  /**
+   * Callbacks when an asset is requested
+   * @param {string} contentId - the id of the target editor ('main' or noteId)
+   * @param {ImmutableRecord} inputSelection - the selection to request the asset at
+   */
   onAssetRequest = (contentId, inputSelection) => {
     const {
       setEditorFocus,
@@ -888,10 +990,14 @@ class SectionEditor extends Component {
       };
     }
 
-    // console.log('update section in update content', storyId, sectionId, newSection.contents);
     this.props.updateSection(storyId, sectionId, newSection);
   }
 
+
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
   render() {
     const {
       addNote,
@@ -900,6 +1006,7 @@ class SectionEditor extends Component {
       onAssetRequest,
       addTextAtCurrentSelection,
       onDataChange,
+      state,
       props
     } = this;
     const {
@@ -916,6 +1023,10 @@ class SectionEditor extends Component {
       cancelAssetRequest,
       summonAsset,
     } = props;
+
+    const {
+      clipboard
+    } = state;
 
     if (!story || !activeSection) {
       return null;
@@ -943,9 +1054,9 @@ class SectionEditor extends Component {
       }
     }), {}) : {};
 
-    // mock
-    let clipboard;
+    // let clipboard;
     const focusedEditorId = editorFocus;
+
 
     /**
      * Callbacks
@@ -1222,6 +1333,74 @@ class SectionEditor extends Component {
     );
   }
 }
+
+/**
+ * Component's properties types
+ */
+SectionEditor.propTypes = {
+
+  /**
+   * active story (needed to access resources and contextualizers
+   * which are at story's level)
+   */
+  story: PropTypes.object,
+
+  /**
+   * active story being edited
+   */
+  activeStoryId: PropTypes.string,
+
+  /**
+   * active section data
+   */
+  activeSection: PropTypes.object,
+
+  /**
+   * active section being edited
+   */
+  sectionId: PropTypes.string,
+
+  /**
+   * map of all available draft-js editor states
+   */
+  editorStates: PropTypes.object,
+
+  /**
+   * represents the position of current asset request
+   */
+  assetRequestPosition: PropTypes.object,
+
+  /**
+   * represents the current editor focused in the editor ('main' or noteId)
+   */
+  editorFocus: PropTypes.string,
+
+  /**
+   * callbacks when a whole section is asked to be updated
+   */
+  updateSection: PropTypes.func,
+
+  /**
+   * callbacks when focus on a specific editor among main
+   * and notes' editors is asked
+   */
+  setEditorFocus: PropTypes.func,
+
+  /**
+   * callbacks when a draft editor has to be updated
+   */
+  updateDraftEditorState: PropTypes.func,
+
+  /**
+   * callbacks when asset request state is cancelled
+   */
+  cancelAssetRequest: PropTypes.func,
+
+  /**
+   * callbacks when an asset insertion is asked
+   */
+  summonAsset: PropTypes.func,
+};
 
 SectionEditor.childContextTypes = {
   startExistingResourceConfiguration: PropTypes.func

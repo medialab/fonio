@@ -11,11 +11,10 @@
      * root component
      */
     display: flex;
-
-    padding: 0;
-
     flex-flow: row nowrap;
     justify-content: space-between;
+
+    padding: 0;
     /*
      * specific micro-components
      */
@@ -29,15 +28,15 @@
     .option
     {
         display: flex;
+        align-items: center;
+        flex: 1;
+        flex-flow: column nowrap;
 
         text-align: center;
 
         border: 1px solid $color-sec-stroke;
 
         @extend .animated;
-        flex: 1;
-        flex-flow: column nowrap;
-        align-items: center;
         @extend .normal-item;
         &.possible
         {

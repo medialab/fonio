@@ -17,6 +17,7 @@ import ResourcesManager from '../../ResourcesManager/components/ResourcesManager
 import SectionsManager from '../../SectionsManager/components/SectionsManagerContainer.js';
 import AsideToggler from '../../../components/AsideToggler/AsideToggler.js';
 
+
 /**
  * Renders the aside view of the editor
  * @return {ReactElement} markup
@@ -30,7 +31,9 @@ const AsideViewLayout = ({
   setAsideUiMode,
   hideNav,
 }, context) => {
+  // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.Editor');
+  // todo: should we put this elsewhere ?
   const asideOptions = [
     {
       id: 'resources',
@@ -81,7 +84,15 @@ const AsideViewLayout = ({
   </aside>);
 };
 
+
+/**
+ * Context data used by the component
+ */
 AsideViewLayout.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
 

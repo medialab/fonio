@@ -38,6 +38,7 @@ import {
 
 import TakeAwayDialogLayout from './TakeAwayDialogLayout';
 
+
 /**
  * Redux-decorated component class rendering the takeaway dialog feature to the app
  */
@@ -58,6 +59,10 @@ import TakeAwayDialogLayout from './TakeAwayDialogLayout';
 )
 class TakeAwayDialogContainer extends Component {
 
+  /**
+   * constructor
+   * @param {object} props - properties given to instance at instanciation
+   */
   constructor(props) {
     super(props);
     this.takeAway = debounce(this.takeAway.bind(this), 300);
@@ -65,12 +70,25 @@ class TakeAwayDialogContainer extends Component {
     this.updateActiveStoryFromGist = this.updateActiveStoryFromGist.bind(this);
   }
 
+
+  /**
+   * Defines whether the component should re-render
+   * @param {object} nextProps - the props to come
+   * @param {object} nextState - the state to come
+   * @return {boolean} shouldUpdate - whether to update or not
+   */
   shouldComponentUpdate() {
+    // todo: optimize the component when sabilized
     return true;
   }
 
+
+  /**
+   * Fetches active story data from the server
+   * and merge it with locally-stored story.
+   */
   updateActiveStoryFromServer() {
-    // todo : rewrite that as an action
+    // todo : rewrite that as a promise-based action
     this.props.actions.setExportToServerStatus('processing', 'updating from the distant server');
     const url = this.props.activeStory.metadata.serverJSONUrl;
     get(url)
@@ -83,11 +101,17 @@ class TakeAwayDialogContainer extends Component {
           this.props.actions.updateStory(project.id, project);
           this.props.actions.setExportToServerStatus('success', 'your story is now synchronized with the forccast server');
         }
- catch (e) {
+        catch (e) {
           this.props.actions.setExportToServerStatus('failure', 'The distant version is badly formatted');
         }
       });
   }
+
+
+  /**
+   * Fetches active story data from gist
+   * and merge it with locally-stored story.
+   */
   updateActiveStoryFromGist() {
     // todo : rewrite that as an action
     const gistId = this.props.activeStory.metadata.gistId;
@@ -126,6 +150,12 @@ class TakeAwayDialogContainer extends Component {
     });
   }
 
+
+  /**
+   * Wraps the different options for taking the story away,
+   * launching proper actions or directly using proper utils
+   * @param {string} takeAway - the take away method that is asked
+   */
   takeAway(takeAwayType) {
     const title = this.props.activeStory.metadata.title;
     switch (takeAwayType.id) {
@@ -171,6 +201,11 @@ class TakeAwayDialogContainer extends Component {
     }
   }
 
+
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
   render() {
     const serverAvailable = serverUrl !== undefined;
     const gistAvailable = githubTokenProviderUrl !== undefined && githubAPIClientId !== undefined;

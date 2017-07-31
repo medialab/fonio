@@ -10,14 +10,25 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './InlineCitation.scss';
 
+
+/**
+ * InlineCitation class for building react component instances
+ */
 class InlineCitation extends Component {
 
+  /**
+   * Component's context used properties
+   */
   static contextTypes = {
     t: PropTypes.func.isRequired,
     citations: PropTypes.object,
     startExistingResourceConfiguration: PropTypes.func
   }
 
+  /**
+   * constructor
+   * @param {object} props - properties given to instance at instanciation
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -28,6 +39,13 @@ class InlineCitation extends Component {
     };
   }
 
+
+  /**
+   * Defines whether the component should re-render
+   * @param {object} nextProps - the props to come
+   * @param {object} nextState - the state to come
+   * @return {boolean} shouldUpdate - whether to update or not
+   */
   shouldComponentUpdate(nextProps, nextState) {
     return (
       this.props.asset !== nextProps.asset
@@ -38,12 +56,21 @@ class InlineCitation extends Component {
     );
   }
 
+
+  /**
+   * Opens the contextualization's details definition ui
+   */
   toggleMoreOptions = () => {
     this.setState({
       optionsVisible: !this.state.optionsVisible
     });
   }
 
+
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
   render() {
     const {
       children,
@@ -178,4 +205,36 @@ class InlineCitation extends Component {
     );
   }
 }
+
+/**
+ * Component's properties types
+ */
+InlineCitation.propTypes = {
+
+  /**
+   * Children react elements of the component
+   */
+  children: PropTypes.array,
+
+  /**
+   * The asset to consume for displaying the inline citation
+   */
+  asset: PropTypes.object,
+
+  /**
+   * Callbacks when an asset is changed
+   */
+  onAssetChange: PropTypes.func,
+
+  /**
+   * Callbacks when an asset is blured
+   */
+  onAssetBlur: PropTypes.func,
+
+  /**
+   * Callbacks when an asset is focused
+   */
+  onAssetFocus: PropTypes.func,
+};
+
 export default InlineCitation;

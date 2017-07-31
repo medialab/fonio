@@ -1,3 +1,4 @@
+
 /**
  * This module exports a stateless component rendering the layout of the resources manager feature interface
  * @module fonio/features/ResourcesManager
@@ -12,6 +13,7 @@ import ResourceCard from '../../../components/ResourceCard/ResourceCard';
 
 import ResourceConfigurationDialog from './ResourceConfigurationDialog';
 import './ResourcesManagerLayout.scss';
+
 /**
  * Renders the resources manager layout
  * @param {object} props - the props to render
@@ -47,7 +49,12 @@ const ResourcesManagerLayout = ({
   // custom props
   style,
 }, context) => {
+  // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.ResourcesManager');
+
+  /**
+   * Callbacks
+   */
   const onModalClose = () => setResourcesModalState('closed');
   const onSearchInputChange = (e) => {
     setResourcesSearchQuery(e.target.value);
@@ -127,7 +134,15 @@ const ResourcesManagerLayout = ({
   );
 };
 
+
+/**
+ * Context data used by the component
+ */
 ResourcesManagerLayout.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
 

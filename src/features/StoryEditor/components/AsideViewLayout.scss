@@ -24,7 +24,6 @@
     .aside-header
     {
         display: flex;
-
         flex-flow: column nowrap;
         button
         {
@@ -55,16 +54,20 @@
         }
     }
 
-    .aside-option-container{
-        flex: 1;
+    .aside-option-container
+    {
         position: relative;
+
+        flex: 1;
         .fonio-ResourcesManagerLayout,
         .fonio-SectionsManagerLayout
         {
             position: absolute;
+            top: 0;
+
             width: 100%;
             height: 100%;
-            top: 0;
+
             @extend .animated;
         }
     }

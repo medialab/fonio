@@ -20,34 +20,35 @@
     font-family: $main-font-stack;
     font-size: $font-size-2;
 
-    @extend .flex-stretched-column;
-    @extend .normal-item;
-
     position: fixed;
-    left: 0;
     top: 0;
+    left: 0;
+
     width: 100%;
     height: 100%;
+
+    @extend .flex-stretched-column;
+    @extend .normal-item;
     /*
      * secondary layout components
      */
-     .story-editor-container{
-        @extend .flex-stretched-column;
+    .story-editor-container
+    {
         flex: 1;
-     }
+
+        @extend .flex-stretched-column;
+    }
     .fonio-main-row
     {
-                    position: relative;
+        position: relative;
 
         display: flex;
-        flex-direction: row;
-
-        flex-wrap: nowrap;
         flex: 10;
+        flex-direction: row;
+        flex-wrap: nowrap;
         .fonio-AsideViewLayout
         {
             // min-width: 16.6%;
-
             flex: 1;
         }
         .fonio-story-editor
@@ -59,7 +60,7 @@
     {
         z-index: 1;
     }
-  
+
     /*
      * Generic components styling
      */
@@ -129,14 +130,17 @@
 
     @extend .flex-stretched-column;
 
-    > div{
+     > div
+    {
         // flex: 1;
         @extend .flex-stretched-column;
-        .modal-content{
-            flex: 1;
+        .modal-content
+        {
             overflow: auto;
+            flex: 1;
         }
-        .modal-footer{
+        .modal-footer
+        {
             min-height: $gutter-large * 2;
         }
     }

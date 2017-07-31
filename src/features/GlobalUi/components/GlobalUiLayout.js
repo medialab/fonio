@@ -18,7 +18,6 @@ import StoriesManagerContainer from '../../StoriesManager/components/StoriesMana
 import ConfigurationDialog from '../../ConfigurationDialog/components/ConfigurationDialogContainer';
 import TakeAwayDialog from '../../TakeAwayDialog/components/TakeAwayDialogContainer';
 
-// import DraftGlobalUi from '../../../components/DraftGlobalUi/DraftGlobalUi';
 
 /**
  * Renders the main layout component of the editor
@@ -69,14 +68,11 @@ const GlobalUiLayout = ({
     closeTakeAwayModal,
     setUiMode,
     setLanguage,
-    // updateStoryContent,
     updateStoryMetadataField,
     promptAssetEmbed,
     unpromptAssetEmbed,
     updateAsset,
     setAsideUiMode,
-    // embedAsset,
-    // updateSection,
     setGlobalUiFocus,
     updateDraftGlobalUiState,
     updateDraftGlobalUisStates,
@@ -95,6 +91,11 @@ const GlobalUiLayout = ({
   onCreateNewSection,
   summonAsset,
 }, context) => {
+
+
+  /**
+   * Callbacks
+   */
 
   // callback for takeaway modal tweaking
   const closeModal = () => {
@@ -149,7 +150,15 @@ const GlobalUiLayout = ({
     </div>);
 };
 
+
+/**
+ * Context data used by the component
+ */
 GlobalUiLayout.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
 

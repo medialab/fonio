@@ -22,26 +22,26 @@
     h5
     {
         display: flex;
-
-        margin: 0;
-        padding: $gutter-medium;
-
         flex: 1;
         flex-flow: row nowrap;
         justify-content: space-between;
+
+        margin: 0;
+        padding: $gutter-medium;
     }
 
     .select-container
     {
         position: relative;
 
+        flex: 1;
+        justify-content: space-between;
+        justify-content: center;
+
         background: white;
 
         @extend .flex-stretched-row;
         @extend .normal-item;
-        flex: 1;
-        justify-content: space-between;
-        justify-content: center;
     }
     &.active
     {

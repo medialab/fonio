@@ -14,6 +14,7 @@ import AuthorsManager from '../../../components/AuthorsManager/AuthorsManager';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import './ConfigurationDialog.scss';
+
 /**
  * Renders the configuration dialog layout
  * @param {object} props - the props to render
@@ -33,7 +34,7 @@ const ConfigurationDialogLayout = ({
   storyCandidate,
   fetchUserFileStatus,
   dataSourceTab,
-  // todo : delete the following variable and do everything with visualizationTypesModels
+  // todo : delete the following variable and do everything with visualizationTypesModels ?
   activeVisualizationTypes = [],
   visualizationTypesModels,
   actions: {
@@ -56,7 +57,12 @@ const ConfigurationDialogLayout = ({
   validateFileExtension,
   editedColor
 }, context) => {
+  // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.ConfigurationDialog');
+
+  /**
+   * Callbacks
+   */
   const onApplyChange = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -66,10 +72,11 @@ const ConfigurationDialogLayout = ({
   const setStoryAuthors = authors => setCandidateStoryMetadata('authors', authors);
   const setStoryDescription = (e) => setCandidateStoryMetadata('description', e.target.value);
   const onCoverSubmit = (files) => submitCoverImage(files[0]);
+  const preventSubmit = e => e.preventDefault();
+
   // todo this is temporary and should be replaced by a test
   const storyBegan = storyCandidate.content;
 
-  const preventSubmit = e => e.preventDefault();
   return (
     <div className="fonio-ConfigurationDialogLayout">
       <h1 className="modal-header">
@@ -160,10 +167,19 @@ const ConfigurationDialogLayout = ({
         </button>
       </section>
     </div>
-);
+  );
 };
 
+
+/**
+ * Context data used by the component
+ */
 ConfigurationDialogLayout.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
+
 export default ConfigurationDialogLayout;

@@ -1,9 +1,20 @@
+/**
+ * This module provides utils related to the test and loading of assets' data
+ * @module fonio/utils/assetsUtils
+ */
+
 import {
   get
 } from 'superagent';
 
 import Cite from 'citation-js';
 
+/**
+ * Checks whether a file is an image that can be loaded in base64 later on
+ * todo: could be improved
+ * @param {File} file - the file to check
+ * @return {Promise} process - checking is wrapped in a promise for consistence matters
+ */
 export function fileIsAnImage(file) {
   return new Promise((resolve, reject) => {
     const validExtensions = ['gif', 'png', 'jpeg', 'jpg'];
@@ -11,12 +22,18 @@ export function fileIsAnImage(file) {
     if (validExtensions.indexOf(extension) > -1) {
       resolve(file);
     }
- else {
+    else {
       reject();
     }
   });
 }
 
+/**
+ * Checks whether a given url links toward a video service which is handled by the app
+ * todo: could be improved
+ * @param {string} url - the url to check
+ * @return {Promise} process - checking is wrapped in a promise for consistence matters
+ */
 export function videoUrlIsValid(url) {
   return new Promise((resolve, reject) => {
     const validUrlParts = ['youtube', 'vimeo'];
@@ -24,12 +41,18 @@ export function videoUrlIsValid(url) {
     if (hasMatch) {
       resolve(url);
     }
- else {
+    else {
       reject();
     }
   });
 }
 
+/**
+ * Loads an image file in base64
+ * todo: could be improved
+ * @param {File} file - the file to load
+ * @return {Promise} process - loading is wrapped in a promise for consistence matters
+ */
 export function loadImage(file) {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
@@ -47,13 +70,22 @@ export function loadImage(file) {
 
 const youtubeRegexp = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/gi;
 const vimeoRegexp = /^(https?\:\/\/)?(www\.)?(vimeo\.com)/gi;
+/**
+ * Retrieves the metadata associated with a given media resource from its source (youtube or vimeo only for now)
+ * @param {string} url - the url to start from to know where to retrieve the metadata
+ * @param {object} credentials - potential api keys to be used by the function
+ * @return {Promise} process - loading is wrapped in a promise for consistence matters
+ */
 export function retrieveMediaMetadata (url, credentials = {}) {
   return new Promise((resolve) => {
+    // case youtube
     if (url.match(youtubeRegexp)) {
+      // must provide a youtube simple api key
       if (credentials.youtubeAPIKey) {
         let videoId = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
         if (videoId !== null) {
            videoId = videoId[1];
+           // for a simple metadata retrieval we can use this route that includes the api key
             const endPoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${videoId}&key=${credentials.youtubeAPIKey}`;
             get(endPoint)
               .set('Accept', 'application/json')
@@ -75,20 +107,21 @@ export function retrieveMediaMetadata (url, credentials = {}) {
                   }
                 });
               });
+        }
+        else {
+          return resolve({url, metadata: {
+          videoUrl: url
+        }});
+        }
       }
- else {
+      else {
         return resolve({url, metadata: {
-        videoUrl: url
-      }});
+          videoUrl: url
+        }});
       }
     }
- else {
-        return resolve({url, metadata: {
-        videoUrl: url
-      }});
-      }
-    }
- else if (url.match(vimeoRegexp)) {
+    // case vimeo: go through the oembed endpoint of vimeo api
+    else if (url.match(vimeoRegexp)) {
       const endpoint = 'https://vimeo.com/api/oembed.json?url=' + url;
       get(endpoint)
         .set('Accept', 'application/json')
@@ -110,7 +143,8 @@ export function retrieveMediaMetadata (url, credentials = {}) {
           });
         });
     }
- else {
+    // default - do nothing
+    else {
       return resolve({url, metadata: {
         videoUrl: url
       }});
@@ -118,6 +152,17 @@ export function retrieveMediaMetadata (url, credentials = {}) {
   });
 }
 
+/**
+ * Converts bibtex data to csl-json in a secure way
+ * (if not splitting all the refs in separate objects,
+ * a single error blows the whole conversion process with citation-js.
+ * This is a problem as for instance zotero bibTeX output
+ * generates a lot of errors as it is not standard bibTeX).
+ * @todo: comply to zotero-flavoured & mendeley-flavoured bibtex formatting
+ * (see https://github.com/citation-style-language/schema/wiki/Data-Model-and-Mappings)
+ * @param {string} str - input bibTeX-formatted string
+ * @return {array} references - a list of csl-json formatted references
+ */
 export function parseBibTeXToCSLJSON (str) {
   // forcing references separation to parse a maximum of references, even with shitty formatting
   const refs = str.split('\n\n');
@@ -132,6 +177,12 @@ export function parseBibTeXToCSLJSON (str) {
   }, []);
 }
 
+/**
+ * Retrieves metadata from the data of a resource, when possible
+ * @param {object} data - the data of the resource
+ * @param {string} assetType - the type of asset that is parsed
+ * @return {object} metadata - information to merge with preexisting metadata
+ */
 export function inferMetadata(data, assetType) {
   switch (assetType) {
     case 'video':

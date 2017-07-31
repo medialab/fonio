@@ -1,6 +1,8 @@
 /* eslint react/no-set-state: 0 */
 /**
- * This module provides a reusable resource search widget component
+ * This module provides a reusable resource search widget component.
+ * It displays available resources and allow to search by text input
+ * and go up in down with keyboard arrows in the list of search-matching items.
  * @module fonio/components/ResourceSearchWidget
  */
 import React, {Component} from 'react';
@@ -12,16 +14,45 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './ResourceSearchWidget.scss';
 
+
+/**
+ * ResourceSearchWidget class for building react component instances
+ */
 class ResourceSearchWidget extends Component {
+
+
+  /**
+   * Component's context used properties
+   */
   static contextTypes = {
+
+    /**
+     * Un-namespaced translate function
+     */
     t: PropTypes.func.isRequired
   }
 
+
+  /**
+   * Initial state
+   */
   state = {
+
+    /**
+     * The current search input state
+     */
     searchTerm: '',
-    selectedItemIndex: 0
+
+    /**
+     * the currently selected item in the list of available items
+     */
+    selectedItemIndex: 0,
   }
 
+
+  /**
+   * Executes code just after the component mounted
+   */
   componentDidMount() {
     if (this.input) {
       setTimeout(() => {
@@ -31,6 +62,10 @@ class ResourceSearchWidget extends Component {
     }
   }
 
+
+  /**
+   * Callbacks when the search term is changed
+   */
   onTermChange = (e) => {
     const searchTerm = e.target.value;
     e.stopPropagation();
@@ -40,6 +75,10 @@ class ResourceSearchWidget extends Component {
     });
   }
 
+
+  /**
+   * Callbacks when a key is finished pressing
+   */
   onKeyUp = e => {
     // escape pressed
     if (e.which === 27 && typeof this.props.onAssetRequestCancel === 'function') {
@@ -64,6 +103,10 @@ class ResourceSearchWidget extends Component {
     }
   }
 
+
+  /**
+   * Callbacks when user hits enter while focused in the input.
+   */
   onSubmit = e => {
     e.stopPropagation();
     e.preventDefault();
@@ -79,6 +122,10 @@ class ResourceSearchWidget extends Component {
     }
   }
 
+
+  /**
+   * Callbacks when user clicks on the input (force focus)
+   */
   onInputClick = e => {
     e.stopPropagation();
     if (this.input) {
@@ -88,6 +135,11 @@ class ResourceSearchWidget extends Component {
     }
   }
 
+
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
   render () {
     const {
       onAssetChoice,
@@ -129,10 +181,10 @@ class ResourceSearchWidget extends Component {
               if (metadata.type === 'bib') {
                 optionName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
               }
- else if (metadata.type === 'glossary') {
+              else if (metadata.type === 'glossary') {
                 optionName = data.name && data.name.length ? data.name : translate('untitled-asset');
               }
- else {
+              else {
                 optionName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
               }
               return (<li
@@ -148,5 +200,20 @@ class ResourceSearchWidget extends Component {
   }
 }
 
+/**
+ * Component's properties types
+ */
+ResourceSearchWidget.propTypes = {
+
+  /**
+   * Overall available options to the component
+   */
+  options: PropTypes.array,
+
+  /**
+   * Callbacks when an asset is choosen
+   */
+  onAssetChoice: PropTypes.func,
+};
 
 export default ResourceSearchWidget;

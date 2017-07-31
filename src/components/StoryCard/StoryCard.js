@@ -1,6 +1,6 @@
 /**
  * This module provides a reusable story card component
- * @module fonio/components/PresentationCard
+ * @module fonio/components/StoryCard
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -9,7 +9,14 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './StoryCard.scss';
 
-const PresentationCard = ({
+
+/**
+ * Renders the StoryCard component as a pure function
+ * @param {object} props - used props (see prop types below)
+ * @param {object} context - used context data (see context types below)
+ * @return {ReactElement} component - the resulting component
+ */
+const StoryCard = ({
   story,
   promptedToDelete,
   // actions
@@ -64,8 +71,62 @@ const PresentationCard = ({
   );
 };
 
-PresentationCard.contextTypes = {
+/**
+ * Component's properties types
+ */
+StoryCard.propTypes = {
+
+  /**
+   * Card's story data
+   */
+  story: PropTypes.object,
+
+  /**
+   * callbacks when story is selected by user
+   */
+  setToActive: PropTypes.func,
+
+  /**
+   * callbacks when story configuration is asked by user
+   */
+  configure: PropTypes.func,
+
+  /**
+   * represents if story deletion prompt ("are you sure...") is open
+   */
+  promptedToDelete: PropTypes.func,
+
+  /**
+   * callbacks when story deletion is asked by user
+   */
+  onClickDelete: PropTypes.func,
+
+  /**
+   * callbacks when delete prompt is asked by user
+   */
+  onClickPrompt: PropTypes.func,
+
+  /**
+   * callbacks when delete prompt is dismissed by user
+   */
+  onClickUnprompt: PropTypes.func,
+
+  /**
+   * callbacks when a section is asked to be duplicated
+   */
+  onClickCopy: PropTypes.func,
+};
+
+
+/**
+ * Component's context used properties
+ */
+StoryCard.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
 
-export default PresentationCard;
+export default StoryCard;

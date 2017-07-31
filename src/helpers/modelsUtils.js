@@ -1,3 +1,8 @@
+/**
+ * Provides helpers to validate objects against models
+ * todo: replace that with a more robust and established type checking lib such as typology
+ * @return {Promise} resolver - promise wrapping the request
+ */
 import {v4 as genId} from 'uuid';
 
 import storyModel from '../models/storyModel.json';
@@ -7,6 +12,12 @@ const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[
 
 let validateEntity = {};
 
+/**
+ * Validates an object against its model
+ * @param {object} model - the model to test the object against
+ * @param {object} obj - the object to validate
+ * @return {boolean} valid - whether the object is valid
+ */
 const validateObject = (model, obj) => {
   if (typeof obj !== 'object') {
     return false;
@@ -47,6 +58,12 @@ const validateObject = (model, obj) => {
   return true;
 };
 
+/**
+ * Validates an array against its model
+ * @param {object} model - the model to test the array against
+ * @param {array} array - the array to validate
+ * @return {boolean} valid - whether the array is valid
+ */
 const validateArray = (model, array) => {
   if (!Array.isArray(array)) {
     return false;
@@ -60,6 +77,13 @@ const validateArray = (model, array) => {
   return true;
 };
 
+/**
+ * Validates an string against its model
+ * @param {object} model - the model to test the string against
+ * @param {string} string - the string to validate
+ * @param {RegExp} regex - possible additional regex to test the string against
+ * @return {boolean} valid - whether the object is valid
+ */
 const validateString = (model, entity, regex) => {
   if (typeof entity !== 'string') {
     return false;
@@ -73,6 +97,12 @@ const validateString = (model, entity, regex) => {
   return true;
 };
 
+/**
+ * Validates an entity against its model
+ * @param {object} model - the model to test the object against
+ * @param {object} entity - the object to validate
+ * @return {boolean} valid - whether the object is valid
+ */
 validateEntity = (model, entity) => {
   if (entity === undefined && !model.required) {
     return true;
@@ -83,14 +113,14 @@ validateEntity = (model, entity) => {
     if (typeof entity === 'string') {
       dataType = uuidRegex.test(entity) ? 'uuid' : 'string';
     }
- else if (typeof entity === 'number') {
+    else if (typeof entity === 'number') {
       dataType = 'number';
     }
- else if (typeof entity === 'object') {
+    else if (typeof entity === 'object') {
       if (Array.isArray(entity)) {
         dataType = 'array';
       }
- else {
+      else {
         dataType = 'object';
       }
     }
@@ -109,6 +139,11 @@ validateEntity = (model, entity) => {
   }
 };
 
+/**
+ * Generate a default instanciation of a given model object
+ * @param {object} model - the model to test the object against
+ * @return {object} defaultInstanciation - the default instanciation
+ */
 const createDefaultPortion = model => {
   return Object.keys(model).reduce((result, key) => {
     const prop = model[key];
@@ -142,10 +177,17 @@ const createDefaultPortion = model => {
   }, {});
 };
 
+/**
+ * Generates a default story
+ * @return {object} defaultStory - the default story
+ */
 export const createDefaultStory = () => {
   return createDefaultPortion(storyModel.keys);
 };
-
+/**
+ * Generates a default section
+ * @return {object} defaultSection - the default section
+ */
 export const createDefaultSection = () => {
   return createDefaultPortion(sectionModel.keys);
 };

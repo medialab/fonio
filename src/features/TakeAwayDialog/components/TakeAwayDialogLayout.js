@@ -11,6 +11,7 @@ import BigSelect from '../../../components/BigSelect/BigSelect';
 import Toaster from '../../../components/Toaster/Toaster';
 import HelpPin from '../../../components/HelpPin/HelpPin';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
+
 /**
  * Renders the options for takeaway mode choice
  * @param {object} props - the props to render
@@ -30,6 +31,7 @@ export const ChooseTakeAwayStep = ({
   serverHtmlUrl,
   gistId
 }, context) => {
+  // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.TakeAway');
   const optionSelect = (option) => {
     switch (option.id) {
@@ -114,6 +116,7 @@ export const ChooseTakeAwayStep = ({
 ChooseTakeAwayStep.contextTypes = {
   t: PropTypes.func.isRequired
 };
+
 
 /**
  * Renders the layout of the take away dialog
@@ -279,7 +282,15 @@ const TakeAwayDialogLayout = ({
     </div>);
 };
 
+
+/**
+ * Context data used by the component
+ */
 TakeAwayDialogLayout.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
 

@@ -9,8 +9,6 @@ import {connect} from 'react-redux';
 import {setLanguage} from 'redux-i18n';
 import {v4 as genId} from 'uuid';
 
-import {debounce} from 'lodash';
-
 import {
   convertToRaw
 } from 'draft-js';
@@ -50,6 +48,7 @@ import {
 } from '../../../helpers/modelsUtils';
 
 
+
 /**
  * Redux-decorated component class rendering the takeaway dialog feature to the app
  */
@@ -80,47 +79,73 @@ import {
 )
 class EditorContainer extends Component {
 
+
+  /**
+   * Context data used by the component
+   */
   static contextTypes = {
+
+    /**
+     * Un-namespaced translate function
+     */
     t: React.PropTypes.func.isRequired,
+
+    /**
+     * Redux store
+     */
     store: PropTypes.object.isRequired
   }
 
+  /**
+   * constructor
+   * @param {object} props - properties given to instance at instanciation
+   */
   constructor(props) {
     super(props);
     this.closeAndResetDialog = this.closeAndResetDialog.bind(this);
     this.returnToLanding = this.returnToLanding.bind(this);
     this.openSettings = this.openSettings.bind(this);
-    this.updateStoryContent = this.updateStoryContent.bind(this);
 
     this.createNewSection = this.createNewSection.bind(this);
-
-    this.updateStoryContentDebounced = debounce(this.updateStoryContentDebounced, 1000);
   }
 
+
+  /**
+   * Defines whether the component should re-render
+   * @param {object} nextProps - the props to come
+   * @param {object} nextState - the state to come
+   * @return {boolean} shouldUpdate - whether to update or not
+   */
   shouldComponentUpdate() {
+    // todo: optimize when the feature is stabilized
     return true;
   }
 
+
+  /**
+   * Closes the story configuration view
+   * and resets story candidate
+   */
   closeAndResetDialog() {
     this.props.actions.resetStoryCandidateSettings();
     this.props.actions.closeStoryCandidateModal();
   }
 
+
+  /**
+   * Unset active story and therefore fallback
+   * to dashboard view.
+   */
   returnToLanding() {
     this.props.actions.unsetActiveStory();
   }
 
+
+  /**
+   * Opens active story settings
+   */
   openSettings () {
     this.props.actions.startStoryCandidateConfiguration(this.props.activeStory);
-  }
-
-  updateStoryContentDebounced (id, content) {
-    this.props.actions.serializeStoryContent(id, content);
-  }
-
-  updateStoryContent (id, content) {
-    this.props.actions.updateStoryContent(id, content);
-    this.updateStoryContentDebounced(id, content);
   }
 
   createNewSection () {
@@ -130,7 +155,20 @@ class EditorContainer extends Component {
     this.props.actions.createSection(this.props.activeStoryId, id, section, true);
   }
 
+
+  /**
+   * Handle the process of creating a new asset in the active story.
+   * This implies three operations :
+   * - create a contextualizer (which defines a way of materializing the resource)
+   * - create contextualization (unique combination of a contextualizer, a section and a resource)
+   * - insert an entity linked to the contextualization in the proper draft-js content state (main or note of the section)
+   * @param {string} contentId - the id of editor to target ('main' or note id)
+   * @param {string} resourceId - id of the resource to summon
+   */
   summonAsset = (contentId, resourceId) => {
+    // todo: this is a duplicate with ResourcesManagerContainer.summonAsset
+    // so this should be refactored as a shared helper
+    // or some other solution should be found not to repeat it
     const {
       activeStoryId,
       activeStory,
@@ -149,7 +187,14 @@ class EditorContainer extends Component {
     const activeSection = activeStory.sections[activeSectionId];
     const resource = activeStory.resources[resourceId];
 
-    // create contextualizer
+    // 1. create contextualizer
+    // question: why isn't the contextualizer
+    // data directly embedded in the contextualization data ?
+    // answer: that way we can envisage for the future to
+    // give users a possibility to reuse the same contextualizer
+    // for different resources (e.g. comparating datasets)
+    // and we can handle multi-modality in a smarter way.
+
     // todo : consume model to do that
     const contextualizerId = genId();
     const contextualizer = {
@@ -159,10 +204,18 @@ class EditorContainer extends Component {
     createContextualizer(activeStoryId, contextualizerId, contextualizer);
 
     // choose if inline or block
+    // todo: for now we infer from the resource type whether contextualization
+    // must be in block or inline mode.
+    // but we could choose to let the user decide
+    // (e.g. 1: a 'bib' reference in block mode
+    // could be the full reference version of the reference)
+    // (e.g. 2: a 'quinoa presentation' reference in inline mode
+    // could be an academic-like short citation of this reference)
+
     // todo: choose that from resource model
     const insertionType = resource.metadata.type === 'bib' || resource.metadata.type === 'glossary' ? 'inline' : 'block';
 
-    // create contextualization
+    // 2. create contextualization
     const contextualizationId = genId();
     const contextualization = {
       id: contextualizationId,
@@ -172,6 +225,7 @@ class EditorContainer extends Component {
     };
     createContextualization(activeStoryId, contextualizationId, contextualization);
 
+    // 3. update the proper editor state
     const editorStateId = contentId === 'main' ? activeSectionId : contentId;
     const editorState = editorStates[editorStateId];
     // update related editor state
@@ -188,7 +242,7 @@ class EditorContainer extends Component {
         contents: convertToRaw(newEditorState.getCurrentContent())
       };
     }
- else {
+    else {
       newSection = {
         ...activeSection,
         notes: {
@@ -203,6 +257,11 @@ class EditorContainer extends Component {
     updateSection(activeStoryId, activeSectionId, newSection);
   }
 
+
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
   render() {
     return (
       <StoryEditorLayout
@@ -210,7 +269,6 @@ class EditorContainer extends Component {
         openSettings={this.openSettings}
         closeAndResetDialog={this.closeAndResetDialog}
         returnToLanding={this.returnToLanding}
-        updateStoryContent={this.updateStoryContent}
         onCreateNewSection={this.createNewSection}
         summonAsset={this.summonAsset} />
     );

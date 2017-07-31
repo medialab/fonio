@@ -10,13 +10,20 @@ import LangToggler from '../LangToggler/LangToggler';
 import './Footer.scss';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
+
+/**
+ * Renders the Footer component as a pure function
+ * @param {object} props - used props (see prop types below)
+ * @param {object} context - used context data (see context types below)
+ * @return {ReactElement} component - the resulting component
+ */
 const Footer = ({
+  uiMode,
+  lang,
+  setLanguage,
   openTakeAwayModal,
   togglePreview,
   returnToLanding,
-  uiMode,
-  lang,
-  setLanguage
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Components.Footer');
   return (
@@ -44,7 +51,48 @@ const Footer = ({
   );
 };
 
+
+/**
+ * Component's properties types
+ */
+Footer.propTypes = {
+
+  /**
+   * Describes if in "edit" or "preview" mode for the main view
+   */
+  uiMode: PropTypes.string,
+
+  /**
+   * Active language
+   */
+  lang: PropTypes.string,
+
+  /**
+   * Callbacks when language is changed
+   */
+  setLanguage: PropTypes.func,
+
+  /**
+   * Callback when take away is asked
+   */
+  openTakeAwayModal: PropTypes.func,
+
+  /**
+   * Callbacks when preview is asked
+   */
+  togglePreview: PropTypes.func,
+
+  /**
+   * Callbacks when home button is clicked
+   */
+  returnToLanding: PropTypes.func,
+};
+
 Footer.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
 

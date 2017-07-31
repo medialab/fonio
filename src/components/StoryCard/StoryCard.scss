@@ -28,7 +28,6 @@
     .card-body
     {
         display: flex;
-
         flex-flow: row nowrap;
     }
     .card-body
@@ -36,24 +35,22 @@
         .info-column
         {
             overflow-y: hidden;
+            flex: 3;
 
             max-height: 10rem;
             margin-top: 0;
             padding-right: $gutter-medium;
-
-            flex: 3;
             h5
             {
                 font-size: $font-size-3;
 
                 display: flex;
+                flex-flow: row nowrap;
 
                 margin: 0;
                 margin-bottom: $gutter-medium;
 
                 cursor: pointer;
-
-                flex-flow: row nowrap;
                 .icons-container
                 {
                     margin-right: $gutter-medium;
@@ -74,7 +71,6 @@
         .buttons-column
         {
             display: flex;
-
             flex: 1;
             flex-flow: column nowrap;
             .edit-btn
@@ -105,14 +101,14 @@
         .button-row
         {
             display: flex;
-
             flex-flow: row nowrap;
             justify-content: stretch;
             .delete-btn
             {
+                flex: 1;
+
                 padding: $gutter-small;
 
-                flex: 1;
                 @extend .dangerous-item;
                 &:hover
                 {

@@ -14,10 +14,6 @@ import {serverUrl} from '../../../secrets';
 import config from '../../../config';
 const {timers} = config;
 
-import {
-  convertToRaw,
-} from 'draft-js';
-
 /*
  * Action names
  */
@@ -30,7 +26,6 @@ import {
 
 import {
   UPDATE_STORY_METADATA_FIELD,
-  SERIALIZE_EDITOR_CONTENT,
   CREATE_CONTEXTUALIZER,
   UPDATE_CONTEXTUALIZER,
   DELETE_CONTEXTUALIZER,
@@ -83,10 +78,13 @@ const SET_IMPORT_FROM_URL_CANDIDATE = '§Fonio/StoriesManager/SET_IMPORT_FROM_UR
 /*
  * Action creators
  */
+
 /**
+ * Creates a new story, possibly setting it as active
  * @param {string} id - the uuid of the story to create
  * @param {object} story - the data of the story to create
  * @param {boolean} setActive - whether to set the story as active (edited) story in app
+ * @return {object} action - the redux action to dispatch
  */
 export const createStory = (id, story, setActive = true) => ({
   type: CREATE_STORY,
@@ -94,63 +92,88 @@ export const createStory = (id, story, setActive = true) => ({
   setActive,
   id
 });
+
 /**
+ * Duplicates an existing story to create a new one
  * @param {object} story - the data of the story to copy
+ * @return {object} action - the redux action to dispatch
  */
 export const copyStory = (story) => ({
   type: COPY_STORY,
   story
 });
+
 /**
+ * Prompts a story to be deleted ('are you sure ...')
  * @param {string} id - the uuid of the story to query for deletion
+ * @return {object} action - the redux action to dispatch
  */
 export const promptDeleteStory = (id) => ({
   type: PROMPT_DELETE_STORY,
   id
 });
+
 /**
- *
+ * Dismisses story deletion prompt
+ * @return {object} action - the redux action to dispatch
  */
 export const unpromptDeleteStory = () => ({
   type: UNPROMPT_DELETE_STORY
 });
+
 /**
+ * Deletes a story
  * @param {string} id - the uuid of the story to delete
+ * @return {object} action - the redux action to dispatch
  */
 export const deleteStory = (id) => ({
   type: DELETE_STORY,
   id
 });
+
 /**
+ * Updates the content of an existing story by replacing its data with new one
  * @param {string} id - the uuid of the story to update
  * @param {object} story - the data of the story to update
+ * @return {object} action - the redux action to dispatch
  */
 export const updateStory = (id, story) => ({
   type: UPDATE_STORY,
   id,
   story
 });
+
 /**
- *
+ * Reset the import process ui representation
+ * @return {object} action - the redux action to dispatch
  */
 export const importReset = () => ({
   type: IMPORT_RESET
 });
+
 /**
- *
+ * Dismiss the import process (e.g. in case of duplicate import)
+ * @return {object} action - the redux action to dispatch
  */
 export const abordImport = () => ({
   type: IMPORT_ABORD
 });
+
 /**
+ * Displays an override warning when user tries to import
+ * a story that has the same id as an existing one
  * @param {object} candidate - the data of the story waiting to be imported or not instead of existing one
+ * @return {object} action - the redux action to dispatch
  */
 export const promptOverrideImport = (candidate) => ({
   type: IMPORT_OVERRIDE_PROMPT,
   candidate
 });
+
 /**
+ * Notifies ui that story import was a success
  * @param {object} data - the data of the imported story
+ * @return {function} function to execute to handle the action
  */
 export const importSuccess = (data) => (dispatch) => {
   dispatch({
@@ -160,8 +183,11 @@ export const importSuccess = (data) => (dispatch) => {
   // resets import state after a while
   setTimeout(() => dispatch(importReset()), timers.veryLong);
 };
+
 /**
+ * Notifies ui that story import was a failure
  * @param {string} error - the error type for the import failure
+ * @return {function} functoin to execute to handle the action
  */
 export const importFail = (error) => (dispatch) => {
   dispatch({
@@ -171,8 +197,11 @@ export const importFail = (error) => (dispatch) => {
   // resets import state after a while
   setTimeout(() => dispatch(importReset()), timers.veryLong);
 };
+
 /**
+ * Notifies the UI that user tries to import a story from an url
  * @param {string}  value - the new value to set for import from url candidate
+ * @return {object} action - the redux action to dispatch
  */
  export const setImportFromUrlCandidate = (value) => ({
   type: SET_IMPORT_FROM_URL_CANDIDATE,
@@ -183,37 +212,32 @@ export const importFail = (error) => (dispatch) => {
  * Reducers
  */
 const STORIES_DEFAULT_STATE = {
+
   /**
-   * Restory of all the stories stored in application's state
+   * Representation of all the stories stored in application's state
    * @type {object}
    */
   stories: {},
+
   /**
-   * Restory of the id of the story being edited in editor
+   * Representation of the id of the story being edited in editor
    * @type {string}
    */
   activeStoryId: undefined
 };
+
 /**
  * This redux reducer handles the modification of the data state for the stories stored in the application's state
  * @param {object} state - the state given to the reducer
  * @param {object} action - the action to use to produce new state
+ * @return {object} newState - the new state
  */
 function stories(state = STORIES_DEFAULT_STATE, action) {
   let newState;
   let storyId;
   switch (action.type) {
-    case SERIALIZE_EDITOR_CONTENT:
-      const modified = {
-        ...state,
-        stories: {
-          [action.id]: {
-            ...state.stories[action.id],
-            content: convertToRaw(action.content.getCurrentContent())
-          },
-        }
-      };
-      return modified;
+    // a story is updated from the changes
+    // made to story candidate
     case APPLY_STORY_CANDIDATE_CONFIGURATION:
       if (state.activeStoryId) {
         // case update
@@ -240,16 +264,19 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           activeStoryId: action.story.id
         };
       }
+    // the story to edit is changed
     case SET_ACTIVE_STORY:
       return {
         ...state,
         activeStoryId: action.story.id
       };
+    // the story to edit is unset
     case UNSET_ACTIVE_STORY:
       return {
         ...state,
         activeStoryId: undefined
       };
+    // a story is created
     case CREATE_STORY:
       const id = action.id;
       let story = {
@@ -263,10 +290,13 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           [id]: story
         }
       };
+    // a story is deleted
     case DELETE_STORY:
       newState = Object.assign({}, state);
       delete newState.stories[action.id];
       return newState;
+    // a story's content is replaced
+    // todo: should we merge instead ?
     case UPDATE_STORY:
       return {
         ...state,
@@ -275,6 +305,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           [action.id]: action.story
         }
       };
+    // a story is imported successfully
     case IMPORT_SUCCESS:
       story = action.data;
       return {
@@ -286,10 +317,16 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           }
         }
       };
+    // a story is duplicated to create a new one
     case COPY_STORY:
       const original = action.story;
       const newId = uuid();
       const newStory = {
+        // breaking references with existing
+        // resources/contextualizations/contents/... objects
+        // to avoid side effects on their references
+        // during a section of use
+        // todo: better way to do that ?
         ...JSON.parse(JSON.stringify(original)),
         id: newId,
         metadata: {
@@ -307,6 +344,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     /*
      * SECTIONS-RELATED
      */
+    // a section is created
     case CREATE_SECTION:
       return {
         ...state,
@@ -327,6 +365,8 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           }
         }
       };
+    // a section is updated by merging its content
+    // todo: should we merge data instead of replacing ?
     case UPDATE_SECTION:
       return {
         ...state,
@@ -341,6 +381,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           }
         }
       };
+    // a section is deleted
     case DELETE_SECTION:
       newState = {...state};
       delete newState.stories[action.storyId].sections[action.sectionId];
@@ -353,7 +394,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         ];
       }
       return newState;
-
+    // sections summary order is changed
     case UPDATE_SECTIONS_ORDER:
       return {
         ...state,
@@ -368,6 +409,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     /*
      * RESOURCES-RELATED
      */
+    // CUD on resources
     case UPDATE_RESOURCE:
     case CREATE_RESOURCE:
       storyId = action.storyId;
@@ -417,9 +459,11 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         delete newState.stories[action.storyId].contextualizations[contextualizationId];
       });
       return newState;
+
     /**
      * CONTEXTUALIZATION RELATED
      */
+    // contextualizations CUD
     case UPDATE_CONTEXTUALIZATION:
     case CREATE_CONTEXTUALIZATION:
       storyId = action.storyId;
@@ -444,9 +488,11 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       newState = {...state};
       delete newState.stories[action.storyId].contextualizations[action.contextualizationId];
       return newState;
+
     /**
      * CONTEXTUALIZER RELATED
      */
+    // contextualizers CUD
     case UPDATE_CONTEXTUALIZER:
     case CREATE_CONTEXTUALIZER:
       storyId = action.storyId;
@@ -471,6 +517,10 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       newState = {...state};
       delete newState.stories[action.storyId].contextualizers[action.id];
       return newState;
+
+    /**
+     * METADATA AND SETTINGS RELATED
+     */
     case UPDATE_STORY_METADATA_FIELD:
       return {
           ...state,
@@ -485,6 +535,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
             }
           }
         };
+    // the custom css of a story is changed
     case SET_STORY_CSS :
       return {
         ...state,
@@ -499,6 +550,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
             }
           }
       };
+    // the template of a story is changed
     case SET_STORY_TEMPLATE :
       return {
         ...state,
@@ -513,6 +565,8 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
             }
           }
       };
+    // an settings' option is changed
+    // (options depend on the choosen template)
     case SET_STORY_SETTING_OPTION:
       return {
         ...state,
@@ -530,6 +584,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
             }
           }
       };
+    // fetching style to use for citations is loaded (citation style in xml/csl)
     case FETCH_CITATION_STYLE + '_SUCCESS':
       return {
         ...state,
@@ -544,6 +599,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
             }
           }
       };
+    // fetching locale to use for citations is loaded (citation locale in xml)
     case FETCH_CITATION_LOCALE + '_SUCCESS':
       return {
         ...state,
@@ -570,6 +626,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
             ...state.stories[state.activeStoryId],
             metadata: {
               ...state.stories[state.activeStoryId].metadata,
+              // todo: should we wrap that in an object to be cleaner ?
               gistUrl: action.result.gistUrl,
               gistId: action.result.gistId
             }
@@ -585,6 +642,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
             ...state.stories[state.activeStoryId],
             metadata: {
               ...state.stories[state.activeStoryId].metadata,
+              // todo: should we wrap that in an object to be cleaner ?
               serverJSONUrl: serverUrl + '/stories/' + state.stories[state.activeStoryId].id,
               serverHTMLUrl: serverUrl + '/stories/' + state.stories[state.activeStoryId].id + '?format=html'
             }
@@ -596,44 +654,57 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
   }
 }
 
+
+/**
+ * Default state for the ui of the stories manager view (home)
+ */
 const STORIES_UI_DEFAULT_STATE = {
+
   /**
-   * Restory of the id of the story being edited in editor
+   * Representation of the id of the story being edited in editor
    * @type {string}
    */
   activeStoryId: undefined,
+
   /**
-   * Restory of the id of the item being prompted to delete
+   * Representation of the id of the item being prompted to delete
    * @type {string}
    */
   promptedToDelete: undefined
 };
+
 /**
  * This redux reducer handles the modification of the ui state for stories management
  * @param {object} state - the state given to the reducer
  * @param {object} action - the action to use to produce new state
+ * @return {object} newState - the new state
  */
 function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
   switch (action.type) {
+    // a story is configured
     case START_CANDIDATE_STORY_CONFIGURATION:
       return {
         activeStoryId: action.id
       };
+    // a story is created
     case CREATE_STORY:
       return {
         ...state,
         activeStoryId: action.setActive ? action.id : state.activeStoryId
       };
+    // user asks to delete a story (should display in components 'are you sure ...'?)
     case PROMPT_DELETE_STORY:
       return {
         ...state,
         promptedToDelete: action.id
       };
+    // deletion is dismissed/aborted
     case UNPROMPT_DELETE_STORY:
       return {
         ...state,
         promptedToDelete: undefined
       };
+    // a story is deleted
     case DELETE_STORY:
       return {
         ...state,
@@ -646,53 +717,67 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
 }
 
 
+/**
+ * Default state of the representation of the story import process
+ */
 const STORY_IMPORT_DEFAULT_STATE = {
+
   /**
-   * Restory of a story waiting to be imported or not
+   * Representation of a story waiting to be imported or not
    * @type {object}
    */
   importCandidate: undefined,
+
   /**
-   * Restory of the import state
+   * Representation of the import state
    * @type {object}
    */
   importStatus: undefined,
+
   /**
-   * Restory of the import error occured after an import failed
+   * Representation of the import error occured after an import failed
    * @type {string}
    */
   importError: undefined,
+
   /**
-   * Restory of the content of import from url input
+   * Representation of the content of import from url input
    * @type {string}
    */
   importFromUrlCandidate: ''
 };
+
 /**
  * This redux reducer handles the modifications related to importing stories in application's state
  * @param {object} state - the state given to the reducer
  * @param {object} action - the action to use to produce new state
+ * @return {object} newState - the new state
  */
 function storyImport(state = STORY_IMPORT_DEFAULT_STATE, action) {
   switch (action.type) {
     case IMPORT_RESET:
       return STORY_IMPORT_DEFAULT_STATE;
+    // import fails
     case IMPORT_FAIL:
       return {
         ...state,
         importStatus: 'failure',
         importError: action.error
       };
+    // import succeeds
     case IMPORT_SUCCESS:
       return {
         ...STORIES_DEFAULT_STATE,
         importStatus: 'success'
       };
+    // an existing story is duplicated
+    // with the story the user tries toimport
     case IMPORT_OVERRIDE_PROMPT:
       return {
         ...state,
         importCandidate: action.candidate
       };
+    // user tries to import a story from an url
     case SET_IMPORT_FROM_URL_CANDIDATE:
       return {
         ...state,
@@ -703,23 +788,17 @@ function storyImport(state = STORY_IMPORT_DEFAULT_STATE, action) {
   }
 }
 
+
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
 export default combineReducers({
   stories: persistentReducer(stories, 'fonio-stories'),
   storiesUi: persistentReducer(storiesUi, 'fonio-stories-ui'),
+  // we choose not to persist the story import ui state
+  // as it is temporary in all cases
   storyImport,
 });
-
-// export default persistentReducer(
-//   combineReducers({
-//       stories,
-//       storiesUi,
-//       storyImport
-//   }),
-//   'fonio-stories'
-// );
 
 /*
  * Selectors
@@ -733,6 +812,7 @@ const importStatus = state => state.storyImport.importStatus;
 const importError = state => state.storyImport.importError;
 const importCandidate = state => state.storyImport.importCandidate;
 const importFromUrlCandidate = state => state.storyImport.importFromUrlCandidate;
+
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}

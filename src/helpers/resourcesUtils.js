@@ -1,3 +1,8 @@
+/**
+ * This module provides helpers to handle resource-related operations
+ * @module bulgur/utils/resourcesUtils
+ */
+
 import {
   get
 } from 'superagent';
@@ -5,6 +10,10 @@ import {
 import {serverUrl} from '../../secrets';
 
 
+/**
+ * Returns from server a list of all csl citation styles available in a light form
+ * @return {Promise} resolver - promise wrapping the request
+ */
 export const getCitationStylesListFromServer = () => {
   return new Promise((resolve, reject) => {
     const endPoint = serverUrl + '/citation-styles/';
@@ -13,14 +22,17 @@ export const getCitationStylesListFromServer = () => {
       if (error) {
         reject(error);
       }
- else {
+      else {
         resolve(res.body);
       }
     });
   });
 };
 
-
+/**
+ * Returns from server the data associated with a given csl style
+ * @return {Promise} resolver - promise wrapping the request
+ */
 export const getCitationStyleFromServer = (styleId) => {
   return new Promise((resolve, reject) => {
     const endPoint = serverUrl + '/citation-styles/' + styleId;
@@ -29,13 +41,17 @@ export const getCitationStyleFromServer = (styleId) => {
       if (error) {
         reject(error);
       }
- else {
+      else {
         resolve(res.body);
       }
     });
   });
 };
 
+/**
+ * Returns from server a list of all csl citation languages available in a light form
+ * @return {Promise} resolver - promise wrapping the request
+ */
 export const getCitationLocalesListFromServer = () => {
   return new Promise((resolve, reject) => {
     const endPoint = serverUrl + '/citation-locales/';
@@ -44,7 +60,7 @@ export const getCitationLocalesListFromServer = () => {
       if (error) {
         reject(error);
       }
- else {
+      else {
         resolve(res.body);
       }
     });
@@ -52,6 +68,10 @@ export const getCitationLocalesListFromServer = () => {
 };
 
 
+/**
+ * Returns from server a specific locale data
+ * @return {Promise} resolver - promise wrapping the request
+ */
 export const getCitationLocaleFromServer = (localeId) => {
   return new Promise((resolve, reject) => {
     const endPoint = serverUrl + '/citation-locales/' + localeId;
@@ -60,7 +80,7 @@ export const getCitationLocaleFromServer = (localeId) => {
       if (error) {
         reject(error);
       }
- else {
+      else {
         resolve(res.body);
       }
     });

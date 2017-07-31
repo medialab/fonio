@@ -1,7 +1,19 @@
+/**
+ * This module provides a aside toggler element component
+ * Sets the mode of an aside ui column
+ * @module fonio/components/AsideToggler
+ */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './AsideToggler.scss';
 
+
+/**
+ * Renders the AsideToggler component as a pure function
+ * @param {object} props - used props (see prop types below)
+ * @return {ReactElement} component - the resulting component
+ */
 const AsideToggler = ({
   options = [],
   setOption,
@@ -21,11 +33,11 @@ const AsideToggler = ({
       if (aIndex > 0) {
         setOption(options[aIndex - 1].id);
       }
- else {
+      else {
         setOption(options[aIndex.length - 1].id);
       }
     }
- else if (options.length) {
+    else if (options.length) {
       setOption(options[0].id);
     }
   };
@@ -34,11 +46,11 @@ const AsideToggler = ({
       if (aIndex < options.length - 1) {
         setOption(options[aIndex + 1].id);
       }
- else {
+      else {
         setOption(options[0].id);
       }
     }
- else if (options.length) {
+    else if (options.length) {
       setOption(options[0].id);
     }
   };
@@ -67,6 +79,32 @@ const AsideToggler = ({
       {aIndex < options.length - 1 && !hideNav && <li onClick={onNext} className="nav-btn">►</li>}
     </ul>
   );
+};
+
+/**
+ * Component's properties types
+ */
+AsideToggler.propTypes = {
+
+  /**
+   * Side column available options
+   */
+  options: PropTypes.array,
+
+  /**
+   * Id of the active option
+   */
+  activeOption: PropTypes.string,
+
+  /**
+   * Whether nav buttons are hidden
+   */
+  hideNav: PropTypes.bool,
+
+  /**
+   * Callbacks an option choice
+   */
+  setOption: PropTypes.func,
 };
 
 export default AsideToggler;

@@ -20,6 +20,7 @@ import {
 } from '../../../helpers/fileLoader';
 
 import validateStory from '../../../helpers/storyValidator';
+
 /**
  * Redux-decorated component class rendering the stories manager feature to the app
  */
@@ -41,12 +42,25 @@ import validateStory from '../../../helpers/storyValidator';
 )
 export default class StoriesManagerContainer extends Component {
 
+  /**
+   * Context data used by the component
+   */
   static contextTypes = {
+
+    /**
+     * Un-namespaced translate function
+     */
     t: React.PropTypes.func.isRequired,
+
+    /**
+     * Redux store
+     */
     store: PropTypes.object.isRequired
   }
+
   /**
    * constructor
+   * @param {object} props - properties given to instance at instanciation
    */
   constructor (props) {
     super(props);
@@ -55,15 +69,32 @@ export default class StoriesManagerContainer extends Component {
     this.attemptImport = this.attemptImport.bind(this);
   }
 
+
+  /**
+   * Defines whether the component should re-render
+   * @param {object} nextProps - the props to come
+   * @param {object} nextState - the state to come
+   * @return {boolean} shouldUpdate - whether to update or not
+   */
   shouldComponentUpdate() {
+    // todo: optimize when the feature is stabilized
     return true;
   }
 
+
+  /**
+   * Tries to import a new story presented as a string
+   * @param {string} str - a possibly valid story as a string
+   */
   attemptImport (str) {
+    // 1. parse the string as json
     try {
       const project = JSON.parse(str);
+      // 2. verify it is properly formatted
       const valid = validateStory(project);
       if (valid) {
+        // 3. seek if adding the story would
+        // override an existing story (which has the same id)
         const existant = this.props.storiesList.find(pres => pres.id === project.id);
         // has preexisting story, prompt for override
         if (existant !== undefined) {
@@ -83,7 +114,13 @@ export default class StoriesManagerContainer extends Component {
     }
   }
 
+
+  /**
+   * Tries to import a new story from a url
+   * @param {event} e - initial click event (wtf ?)
+   */
   importFromDistantJSON (e) {
+    // todo: should this be wrapped in a promise-based action ?
     e.preventDefault();
     const url = this.props.importFromUrlCandidate;
     // case : the user is trying to fetch a gist
@@ -134,6 +171,12 @@ export default class StoriesManagerContainer extends Component {
     });
   }
 
+
+  /**
+   * callbacks when story files are dropped
+   * to the import zone.
+   * @param {array<File>} files - the files being dropped
+   */
   onProjectImportPrompt (files) {
     if (!files || !files.length) {
       return;
@@ -149,6 +192,11 @@ export default class StoriesManagerContainer extends Component {
     });
   }
 
+
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
   render () {
     const overrideImportWithCandidate = () => this.props.actions.importSuccess(this.props.importCandidate);
     return (

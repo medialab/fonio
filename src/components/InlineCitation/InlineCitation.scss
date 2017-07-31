@@ -7,35 +7,43 @@
 
 .fonio-InlineCitation
 {
-  @extend .important-item;
-  padding: $gutter-small 0 $gutter-small 0;
-  margin : 0;
-  border-radius: $gutter-medium;
-  cursor: pointer;
+    margin: 0;
+    padding: $gutter-small 0 $gutter-small 0;
 
-    -webkit-user-select: none;  
-  -moz-user-select: none;    
-  -ms-user-select: none;      
-  user-select: none;
-  .more-options-container{
-    padding: $gutter-medium;
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 
-    input{
-      padding: 0;
-      &:hover,
-      &:focus{
-        @extend .important-item-intent;
-      }
+    border-radius: $gutter-medium;
+
+    @extend .important-item;
+    .more-options-container
+    {
+        padding: $gutter-medium;
+
+        input
+        {
+            padding: 0;
+            &:hover,
+            &:focus
+            {
+                @extend .important-item-intent;
+            }
+        }
     }
-  }
-  .more-options-btn
-  {
-    font-size: $font-size-1;
-    border-radius: 50%;
-    margin-left: $gutter-medium;
-    margin-right: $gutter-medium;
-    &:hover{
-      @extend .important-item-intent;
+    .more-options-btn
+    {
+        font-size: $font-size-1;
+
+        margin-right: $gutter-medium;
+        margin-left: $gutter-medium;
+
+        border-radius: 50%;
+        &:hover
+        {
+            @extend .important-item-intent;
+        }
     }
-  }
 }

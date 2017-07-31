@@ -11,21 +11,20 @@
 {
     display: flex;
     overflow-y: auto;
+    align-items: center;
+    flex-flow: row nowrap;
+    justify-content: center;
     /*
      * root component
      */
 
     @extend .absolute-stretched;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: center;
+    @extend .normal-item;
     @media #{$breakpoint-tablet}
     {
         overflow: auto;
-
         flex-flow: column nowrap;
     }
-    @extend .normal-item;
     /*
      * secondary layout components
      */
@@ -33,17 +32,17 @@
     {
         display: flex;
         overflow: visible;
+        flex: 1;
+        flex-flow: column nowrap;
 
         height: 100%;
         padding: $gutter-medium;
         padding-top: 3%;
-
-        flex: 1;
-        flex-flow: column nowrap;
         &:first-of-type
         {
-            padding-left: 10%;
             display: block;
+
+            padding-left: 10%;
         }
         &:last-of-type
         {
@@ -78,31 +77,39 @@
             }
         }
 
-        .brand-cartel{
-            @extend .flex-stretched-row;
+        .brand-cartel
+        {
             margin-bottom: $gutter-large;
-            img{
+
+            @extend .flex-stretched-row;
+            img
+            {
                 width: $gutter-large * 2;
                 height: $gutter-large * 2;
                 margin-right: $gutter-medium;
             }
-            .title{
+            .title
+            {
                 flex: 1;
 
                 h1
                 {
                     font-size: $font-size-5;
+
                     margin: 0;
                 }
 
-                .app-baseline{
+                .app-baseline
+                {
                     font-style: italic;
+
                     margin: 0;
                 }
             }
         }
 
-        .important-explanation{
+        .important-explanation
+        {
             font-size: $font-size-3;
         }
         h1,
@@ -147,17 +154,17 @@
         form
         {
             display: flex;
-
             flex-flow: row nowrap;
+
             @extend .interactive-item;
 
             input[type='text']
             {
+                flex: 1;
+
                 padding: $gutter-medium;
 
                 cursor: text;
-
-                flex: 1;
                 &:hover
                 {
                     @extend .interactive-item-intent;
@@ -180,11 +187,11 @@
 .override-modal-footer
 {
     display: flex;
-
     flex-flow: row nowrap;
     button:first-of-type
     {
         flex: 1;
+
         @extend .dangerous-item;
         &:hover
         {

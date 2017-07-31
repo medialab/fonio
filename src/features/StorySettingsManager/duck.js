@@ -16,6 +16,7 @@ import {
   getCitationLocaleFromServer,
 } from '../../helpers/resourcesUtils';
 
+
 /**
  * ACTION NAMES
  */
@@ -33,26 +34,59 @@ export const FETCH_CITATION_LOCALE = '§Fonio/StorySettingsManager/FETCH_CITATIO
 /*
  * Action creators
  */
+
+/**
+ * Sets the visibility of the settings pannel
+ * @param {boolean} visible - whether the pannel is visible
+ * @return {object} action - the redux action to dispatch
+ */
 export const setSettingsVisibility = (visible) => ({
   type: SET_SETTINGS_VISIBILITY,
   visible
 });
+
+/**
+ * Sets the settings' custom css of a story
+ * @param {string} id - id of the story to update
+ * @param {string} css - the new css to set
+ * @return {object} action - the redux action to dispatch
+ */
 export const setStoryCss = (id, css) => ({
   type: SET_STORY_CSS,
   id,
   css,
 });
+
+/**
+ * Sets an option in the settings (options are template-dependent)
+ * @param {string} id - id of the story to update
+ * @param {string} field - field key to update
+ * @param {string|number|boolean} value - value to set
+ * @return {object} action - the redux action to dispatch
+ */
 export const setStorySettingOption = (id, field, value) => ({
   type: SET_STORY_SETTING_OPTION,
   id,
   field,
   value,
 });
+
+/**
+ * Sets the settings's template of a story
+ * @param {string} id - id of the story to template
+ * @param {string} template - id of the template to set
+ * @return {object} action - the redux action to dispatch
+ */
 export const setStoryTemplate = (id, template) => ({
   type: SET_STORY_TEMPLATE,
   id,
   template,
 });
+
+/**
+ * Fetches the list of available citation styles from server
+ * @return {object} action - the redux action to dispatch
+ */
 export const getCitationStylesList = () => ({
   type: FETCH_CITATION_STYLES_LIST,
   promise: () => {
@@ -67,6 +101,13 @@ export const getCitationStylesList = () => ({
     });
   }
 });
+
+/**
+ * Fetches a citation style data to store in a story's settings
+ * @param {string} storyId - the id of the story to update
+ * @param {string} styleId - the id of the style to fetch from server
+ * @return {object} action - the redux action to dispatch
+ */
 export const setCitationStyle = (storyId, styleId) => ({
   type: FETCH_CITATION_STYLE,
   promise: () => {
@@ -82,6 +123,10 @@ export const setCitationStyle = (storyId, styleId) => ({
   }
 });
 
+/**
+ * Fetches the list of available citation locales
+ * @return {object} action - the redux action to dispatch
+ */
 export const getCitationLocalesList = () => ({
   type: FETCH_CITATION_LOCALES_LIST,
   promise: () => {
@@ -96,6 +141,13 @@ export const getCitationLocalesList = () => ({
     });
   }
 });
+
+/**
+ * Fetches a citation locale to store in a story's settings
+ * @param {string} storyId  - the story to update
+ * @param {string} localeId - the id of the locale to fetch
+ * @return {object} action - the redux action to dispatch
+ */
 export const setCitationLocale = (storyId, localeId) => ({
   type: FETCH_CITATION_LOCALE,
   promise: () => {
@@ -114,19 +166,51 @@ export const setCitationLocale = (storyId, localeId) => ({
 /*
  * Reducers
  */
+
+
+/**
+ * Default state of the settings manager ui
+ */
 const SETTINGS_MANAGER_UI_DEFAULT_STATE = {
+
+  /**
+   * Whether to display settings pannel
+   */
   settingsVisible: false,
+
+  /**
+   * Available citation styles
+   * @type {array<object>}
+   */
   citationStylesList: [],
+
+  /**
+   * Available citation languages
+   * @type {array<object>}
+   */
   citationLocalesList: [],
+
+  /**
+   * Status of current xhr request
+   */
   xhrStatus: undefined
 };
+
+/**
+ * Handles the state change of manager ui
+ * @param {object} state - the previous state
+ * @param {object} action - the dispatched action
+ * @return {object} state - the new state
+ */
 function settingsManagerUi (state = SETTINGS_MANAGER_UI_DEFAULT_STATE, action) {
   switch (action.type) {
+    // settings are shown or hidden
     case SET_SETTINGS_VISIBILITY:
       return {
         ...state,
         settingsVisible: action.visible,
       };
+    // handling xhr requests ui representation
     case FETCH_CITATION_STYLES_LIST:
     case FETCH_CITATION_LOCALES_LIST:
     case FETCH_CITATION_LOCALE:
@@ -162,6 +246,7 @@ function settingsManagerUi (state = SETTINGS_MANAGER_UI_DEFAULT_STATE, action) {
   }
 }
 
+
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
@@ -176,6 +261,7 @@ const citationStylesList = state => state.settingsManagerUi.citationStylesList;
 const citationLocalesList = state => state.settingsManagerUi.citationLocalesList;
 const settingsVisible = state => state.settingsManagerUi.settingsVisible;
 const xhrStatus = state => state.settingsManagerUi.xhrStatus;
+
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}

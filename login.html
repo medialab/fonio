@@ -1,4 +1,5 @@
 <script>
+// this page handle the code response in the oauth authentication process
 var code = window.location.toString().replace(/.+code=/, '');
 window.opener.postMessage(code, window.location);
 window.close();

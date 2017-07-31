@@ -7,28 +7,30 @@
 
 .fonio-AssetPreview
 {
-    @extend .flex-stretched-row;
     padding-top: $gutter-medium;
     padding-bottom: $gutter-medium;
+
+    @extend .flex-stretched-row;
     .preview-container
     {
         position: relative;
         position: relative;
 
+        flex: 5;
+
         min-width: 80%;
         min-height: 20rem;
-
-        flex: 5;
     }
     .asset-metadata
     {
+        flex: 1;
+
         max-width: 20%;
         padding-right: $gutter-medium;
         padding-left: $gutter-medium;
 
         cursor: pointer;
 
-        flex: 1;
         @extend .flex-stretched-column;
         &:hover
         {

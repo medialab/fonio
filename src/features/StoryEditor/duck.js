@@ -7,7 +7,6 @@
 
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
-import {persistentReducer} from 'redux-pouchdb';
 
 /*
  * actions related to story edition
@@ -15,7 +14,6 @@ import {persistentReducer} from 'redux-pouchdb';
 export const UPDATE_DRAFT_EDITOR_STATE = '$Fonio/StoryEditor/UPDATE_DRAFT_EDITOR_STATE';
 export const UPDATE_DRAFT_EDITORS_STATES = '$Fonio/StoryEditor/UPDATE_DRAFT_EDITORS_STATES';
 export const UPDATE_STORY_METADATA_FIELD = '$Fonio/StoryEditor/UPDATE_STORY_METADATA_FIELD';
-export const SERIALIZE_EDITOR_CONTENT = 'SERIALIZE_EDITOR_CONTENT';
 
 export const PROMPT_ASSET_EMBED = '$Fonio/StoryEditor/PROMPT_ASSET_EMBED';
 export const UNPROMPT_ASSET_EMBED = '$Fonio/StoryEditor/UNPROMPT_ASSET_EMBED';
@@ -38,78 +36,156 @@ import {
  * Action creators
  */
 
-export const serializeStoryContent = (id, content) => ({
-  type: SERIALIZE_EDITOR_CONTENT,
-  content,
-  id
-});
 
+/**
+ * Updates a specific editor state
+ * @param {id} id - id of the editor state to update (uuid of a section or of a note)
+ * @param {EditorState} editorState - the new editor state
+ * @return {object} action - the redux action to dispatch
+ */
 export const updateDraftEditorState = (id, editorState) => ({
   type: UPDATE_DRAFT_EDITOR_STATE,
   editorState,
   id
 });
+
+/**
+ * Updates all active editor states
+ * @param {object}  editorStates - map of the editor states (keys are uuids of sections or notes)
+ * @return {object} action - the redux action to dispatch
+ */
 export const updateDraftEditorsStates = (editorsStates) => ({
   type: UPDATE_DRAFT_EDITORS_STATES,
   editorsStates,
 });
+
+/**
+ * Updates a field in the metadata of a section
+ * @param {string} id  - id of the section to update
+ * @param {string} key - metadata key to update
+ * @param {string|number} value - value to update to
+ * @return {object} action - the redux action to dispatch
+ */
 export const updateStoryMetadataField = (id, key, value) => ({
   type: UPDATE_STORY_METADATA_FIELD,
   id,
   key,
   value
 });
+
+/**
+ * Prompts to embed an asset
+ * @param {string} editorId - id of the editor in which asset is prompted
+ * @param {SelectionState} selection - current selection of the editor
+ * @return {object} action - the redux action to dispatch
+ */
 export const promptAssetEmbed = (editorId, selection) => ({
   type: PROMPT_ASSET_EMBED,
   editorId,
   selection
 });
+
+/**
+ * Unprompts asset embed
+ * @return {object} action - the redux action to dispatch
+ */
 export const unpromptAssetEmbed = () => ({
   type: UNPROMPT_ASSET_EMBED
 });
 
+/**
+ * Sets which editor has the focus for edition
+ * @param {string} editorFocus  - id of the editor to focus to
+ * @return {object} action - the redux action to dispatch
+ */
 export const setEditorFocus = (editorFocus) => ({
   type: SET_EDITOR_FOCUS,
   editorFocus
 });
 
+/**
+ * Creates a contextualizer
+ * @param {string} storyId  - id of the story to update
+ * @param {string} contextualizerId  - id of the contextualizer to update
+ * @param {object} contextualizer  - new contextualizer data
+ * @return {object} action - the redux action to dispatch
+ */
 export const createContextualizer = (storyId, contextualizerId, contextualizer) => ({
   type: CREATE_CONTEXTUALIZER,
   storyId,
   contextualizerId,
   contextualizer
 });
+
+/**
+ * Updates a contextualizer
+ * @param {string} storyId  - id of the story to update
+ * @param {string} contextualizerId  - id of the contextualizer to update
+ * @param {object} contextualizer  - new contextualizer data
+ * @return {object} action - the redux action to dispatch
+ */
 export const updateContextualizer = (storyId, contextualizerId, contextualizer) => ({
   type: UPDATE_CONTEXTUALIZER,
   storyId,
   contextualizerId,
   contextualizer
 });
+
+/**
+ * Deletes a contextualizer
+ * @param {string} storyId  - id of the story to update
+ * @param {string} contextualizerId  - id of the contextualizer to update
+ * @return {object} action - the redux action to dispatch
+ */
 export const deleteContextualizer = (storyId, contextualizerId) => ({
   type: DELETE_CONTEXTUALIZER,
   storyId,
   contextualizerId
 });
 
+/**
+ * Creates a contextualization
+ * @param {string} storyId  - id of the story to update
+ * @param {string} contextualizationId  - id of the contextualization to update
+ * @param {object} contextualization  - new contextualization data
+ * @return {object} action - the redux action to dispatch
+ */
 export const createContextualization = (storyId, contextualizationId, contextualization) => ({
   type: CREATE_CONTEXTUALIZATION,
   storyId,
   contextualizationId,
   contextualization
 });
+
+/**
+ * Updates a contextualization
+ * @param {string} storyId  - id of the story to update
+ * @param {string} contextualizationId  - id of the contextualization to update
+ * @param {object} contextualization  - new contextualization data
+ * @return {object} action - the redux action to dispatch
+ */
 export const updateContextualization = (storyId, contextualizationId, contextualization) => ({
   type: UPDATE_CONTEXTUALIZATION,
   storyId,
   contextualizationId,
   contextualization
 });
+
+/**
+ * Deletes a contextualization
+ * @param {string} storyId  - id of the story to update
+ * @param {string} contextualizationId  - id of the contextualization to update
+ * @return {object} action - the redux action to dispatch
+ */
 export const deleteContextualization = (storyId, contextualizationId) => ({
   type: DELETE_CONTEXTUALIZATION,
   storyId,
   contextualizationId
 });
+
 /**
- *
+ * Resets the app to its default state
+ * @return {object} action - the redux action to dispatch
  */
 export const resetApp = () => ({
   type: RESET_APP
@@ -119,56 +195,81 @@ export const resetApp = () => ({
  * Reducers
  */
 
-const EDITOR_DEFAULT_STATE = {
-};
-/**
- * This redux reducer handles the modification of the active story edited by user and related ui states
- * @param {object} state - the state given to the reducer
- * @param {object} action - the action to use to produce new state
- */
-function editor(state = EDITOR_DEFAULT_STATE, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
 
+/**
+ * Editor states reducer
+ * It has no default state since this reducer is only composed
+ * of uuid keys that correspond to active
+ * draft-js editor states (uuids correspond to either section
+ * ids for main contents' editorStates or note ids for note contents editorStates)
+ */
 const editorstates = (state = {}, action) => {
   switch (action.type) {
+    // a draft editor is updated
     case UPDATE_DRAFT_EDITOR_STATE:
       return {
         ...state,
+        // editorState is an EditorState ImmutableRecord
         [action.id]: action.editorState
       };
     case UPDATE_DRAFT_EDITORS_STATES:
       return Object.keys(action.editorsStates)
       .reduce((newState, editorId) => ({
         ...newState,
+        // editorState is an EditorState ImmutableRecord
         [editorId]: action.editorsStates[editorId]
       }),
-      {} /* state */); // reset editors data to manage memory (this is a bit messy, it should be explicited for instance with two different actions MERGE_EDITORS/REPLACE_EDITORS)
+      // reset editors data to optimize memory management
+      // todo: this is a bit messy, it should be explicited for instance with two different actions 'MERGE_EDITORS'/'REPLACE_EDITORS'
+      {} /* state */);
     default:
       return state;
   }
 };
 
+
 /**
  * asset requests are separated as they contain not serializable data
  */
 const ASSET_REQUEST_DEFAULT_STATE = {
+
+  /**
+   * Id of the editor being prompted for asset (uuid of the section or uuid of the note)
+   */
   editorId: undefined,
+
+  /**
+   * selection state of the editor being prompted
+   * @type {SelectionState}
+   */
   selection: undefined,
+
+  /**
+   * Whether an asset is requested
+   */
   assetRequested: false
 };
+
+/**
+ * Handles the state change of asset request state
+ * @param {object} state - the previous state
+ * @param {object} action - the dispatched action
+ * @return {object} state - the new state
+ */
 const assetRequeststate = (state = ASSET_REQUEST_DEFAULT_STATE, action) => {
   switch (action.type) {
+    // an asset is prompted
     case PROMPT_ASSET_EMBED:
       return {
         ...state,
+        // in what editor is the asset prompted
         editorId: action.editorId,
+        // where is the asset prompted in the editor
         selection: action.selection,
+        // asset is prompted
         assetRequested: true,
       };
+    // assets prompt is dismissed
     case UNPROMPT_ASSET_EMBED:
       return {
         ...state,
@@ -181,15 +282,29 @@ const assetRequeststate = (state = ASSET_REQUEST_DEFAULT_STATE, action) => {
   }
 };
 
+
+/**
+ * Default state of the editor focus reducer
+ * It handles only focus-related matters
+ */
 const EDITOR_FOCUS_DEFAULT_STATE = {
+
 /**
    * Represents which editor is focused
    * @type {string}
    */
   editorFocus: undefined
 };
+
+/**
+ * Handles the state of dcurrent editors focus
+ * @param {object} state - the previous state
+ * @param {object} action - the dispatched action
+ * @return {object} state - the new state
+ */
 const editorFocusState = (state = EDITOR_FOCUS_DEFAULT_STATE, action) => {
   switch (action.type) {
+    // an editor is focused
     case SET_EDITOR_FOCUS:
       return {
         ...state,
@@ -201,13 +316,19 @@ const editorFocusState = (state = EDITOR_FOCUS_DEFAULT_STATE, action) => {
 };
 
 
+
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
 export default combineReducers({
-  editor: persistentReducer(editor, 'fonio-editor'),
+  // neither of these reducers are persisted
+  // because they are either temporary or containing
+  // non-serializable data
+  // temporary so not persisted
   assetRequeststate,
+  // containing immutable data so not persisted
   editorstates,
+  // temporary so not persisted
   editorFocusState
 });
 
@@ -222,6 +343,7 @@ const editorStates = state => state.editorstates;
 const assetRequestState = state => state.assetRequeststate;
 const assetRequested = state => state.assetRequested;
 const editorFocus = state => state.editorFocusState.editorFocus;
+
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}

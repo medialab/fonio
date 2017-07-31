@@ -36,7 +36,6 @@
     .card-body
     {
         display: flex;
-
         flex-flow: row nowrap;
     }
     .card-header
@@ -56,24 +55,22 @@
         .info-column
         {
             overflow-y: hidden;
+            flex: 3;
 
             max-height: 10rem;
             margin-top: 0;
             padding-right: $gutter-medium;
-
-            flex: 3;
             h5
             {
                 font-size: $font-size-3;
 
                 display: flex;
+                flex-flow: row nowrap;
 
                 margin: 0;
                 margin-bottom: $gutter-medium;
 
                 cursor: pointer;
-
-                flex-flow: row nowrap;
                 .icons-container
                 {
                     margin-right: $gutter-medium;
@@ -94,7 +91,6 @@
         .buttons-column
         {
             display: flex;
-
             flex: 2;
             flex-flow: column nowrap;
             .edit-btn
@@ -111,22 +107,25 @@
     }
     .card-footer
     {
+        overflow: hidden;
+
         max-height: 0;
+
         transition: all $time-short ease;
-        overflow:hidden;
 
         .button-row
         {
             display: flex;
-
             flex-flow: row nowrap;
             justify-content: stretch;
         }
     }
-    &:hover{
-         .card-footer{
+    &:hover
+    {
+        .card-footer
+        {
             max-height: 10rem;
-         }   
+        }
     }
 
     &.select-mode
@@ -134,7 +133,8 @@
         cursor: pointer;
 
         @extend .important-item;
-        &:hover{
+        &:hover
+        {
             @extend .important-item-intent;
         }
     }

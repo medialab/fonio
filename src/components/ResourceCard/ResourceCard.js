@@ -1,18 +1,26 @@
 /* eslint react/no-find-dom-node: 0 */
 /**
- * This module provides a reusable big select element component
+ * This module provides a reusable resource card component
  * @module fonio/components/ResourceCard
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {translateNameSpacer} from '../../helpers/translateUtils';
-
 import {DragSource, DropTarget} from 'react-dnd';
-
 import {findDOMNode} from 'react-dom';
+
+import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './ResourceCard.scss';
 
+
+/**
+ * react-dnd drag & drop handlers
+ */
+
+
+/**
+ * drag source handler
+ */
 const sectionSource = {
   beginDrag(props) {
     return {
@@ -22,7 +30,12 @@ const sectionSource = {
   }
 };
 
+
+/**
+ * drag target handler
+ */
 const sectionTarget = {
+
   /**
    * Drag on hover behavior
    * Initial design & implementation @yomguithereal
@@ -32,8 +45,9 @@ const sectionTarget = {
     const dragIndex = monitor.getItem().index,
           hoverIndex = props.sectionIndex;
     // If itself, we break
-    if (dragIndex === hoverIndex)
+    if (dragIndex === hoverIndex) {
       return;
+    }
 
     // Determine rectangle on screen
     const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
@@ -70,6 +84,10 @@ const sectionTarget = {
   }
 };
 
+
+/**
+ * dnd-related decorators for the ResourceCard component
+ */
 @DragSource('SECTION', sectionSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   connectDragPreview: connect.dragPreview(),
@@ -79,15 +97,37 @@ const sectionTarget = {
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver()
 }))
+
+/**
+ * ResourceCard class for building react component instances
+ */
 class ResourceCard extends Component {
 
+  /**
+   * Component's context used properties
+   */
   static contextTypes = {
+
+    /**
+     * Un-namespaced translate function
+     */
     t: PropTypes.func.isRequired
   }
 
+
+  /**
+   * constructor
+   * @param {object} props - properties given to instance at instanciation
+   */
   constructor(props) {
     super(props);
   }
+
+
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
   render() {
     const {
       props,
@@ -106,9 +146,14 @@ class ResourceCard extends Component {
       connectDropTarget,
 
       onMouseDown,
-      // isDragging,
     } = props;
+    // namespacing the translate function
     const translate = translateNameSpacer(context.t, 'Components.ResourceCard');
+
+
+    /**
+     * component's callbacks
+     */
     const onDeleteClick = e => {
       e.stopPropagation();
       onDelete();
@@ -126,9 +171,11 @@ class ResourceCard extends Component {
     };
 
     const onGlobalClick = () => {
+      // in select mode clicking on the element means choosing it
       if (selectMode) {
         onSelect(metadata);
       }
+      // else open resource configuration view
       else {
         onConfigure();
       }
@@ -143,13 +190,19 @@ class ResourceCard extends Component {
      };
 
     let resourceName;
+    // todo: clean the following hack
+    // for now we use the data instead of metadata
+    // for citations and glossary mentions because it is more
+    // meaningfull.
+    // These types of resources should be given a proper title in their
+    // metadata field in other parts of the code (resource creation/update)
     if (metadata.type === 'bib') {
       resourceName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
     }
- else if (metadata.type === 'glossary') {
+    else if (metadata.type === 'glossary') {
       resourceName = data.name && data.name.length ? data.name : translate('untitled-asset');
     }
- else {
+    else {
       resourceName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
     }
     return connectDragPreview(connectDragSource(connectDropTarget(
@@ -166,15 +219,18 @@ class ResourceCard extends Component {
             <span className="title">{resourceName}</span>
           </h5>
         </div>
-        {/*<div
-          className="card-body">
-          <div className="info-column">
-            <p className="description">
-              {metadata.description && metadata.description.length ? metadata.description : translate('no-description')}
-            </p>
-          </div>
-          <div className="buttons-column" />
-        </div>*/}
+        {
+          // for now we choose to not display resource description in the cards
+          /*<div
+            className="card-body">
+            <div className="info-column">
+              <p className="description">
+                {metadata.description && metadata.description.length ? metadata.description : translate('no-description')}
+              </p>
+            </div>
+            <div className="buttons-column" />
+          </div>*/
+        }
         <div className="card-footer">
           <button className="settings-btn" onClick={onConfigureClick}>
             <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
@@ -189,5 +245,61 @@ class ResourceCard extends Component {
     )));
   }
 }
+
+/**
+ * Component's properties types
+ */
+ResourceCard.propTypes = {
+
+  /**
+   * data of the card
+   */
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+
+  /**
+   * metadata of the card
+   */
+  metadata: PropTypes.object,
+
+  /**
+   * Callbacks when the card is asked to be deleted
+   */
+  onDelete: PropTypes.func,
+
+  /**
+   * Callbacks when the card is asking to be configured
+   */
+  onConfigure: PropTypes.func,
+
+  /**
+   * Whether the card is in select mode
+   */
+  selectMode: PropTypes.bool,
+
+  /**
+   * Callbacks when the card is selected
+   */
+  onSelect: PropTypes.func,
+
+  /**
+   * Map of actions to execute when the card is started dragged
+   */
+  connectDragSource: PropTypes.object,
+
+  /**
+   * Map of actions to execute when the card has to be previewed
+   */
+  connectDragPreview: PropTypes.object,
+
+  /**
+   * Map of actions to execute when the card is dropped
+   */
+  connectDropTarget: PropTypes.object,
+
+  /**
+   * Callbacks when the card is pressed
+   */
+  onMouseDown: PropTypes.func,
+};
 
 export default ResourceCard;

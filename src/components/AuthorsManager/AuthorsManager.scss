@@ -7,43 +7,53 @@
 
 .fonio-AuthorsManager
 {
-  margin: 0;
-  padding: 0;
-  li{
-    @extend .flex-stretched-row;
-    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li
+    {
+        margin-bottom: $gutter-small;
 
-    .main-part{
-      flex: 10;
-    }
-    margin-bottom: $gutter-small;
-  }
+        list-style-type: none;
 
-  .remove-btn
-  {
-    padding-top: $gutter-medium;
-    @extend .dangerous-item;
-    &:hover{
-      @extend .dangerous-item-intent;
-    }
-  }
+        @extend .flex-stretched-row;
 
-  .icon-container
-  {
-    flex: 1;
-    cursor: pointer;
-    img{
-      height: $font-size-3;
+        .main-part
+        {
+            flex: 10;
+        }
     }
-  }
 
-  .add-author
-  {
-    margin-top: $gutter-large;
-    padding: $gutter-medium;
-    @extend .interactive-item;
-    &:hover{
-      @extend .interactive-item-intent;
+    .remove-btn
+    {
+        padding-top: $gutter-medium;
+
+        @extend .dangerous-item;
+        &:hover
+        {
+            @extend .dangerous-item-intent;
+        }
     }
-  }
+
+    .icon-container
+    {
+        flex: 1;
+
+        cursor: pointer;
+        img
+        {
+            height: $font-size-3;
+        }
+    }
+
+    .add-author
+    {
+        margin-top: $gutter-large;
+        padding: $gutter-medium;
+
+        @extend .interactive-item;
+        &:hover
+        {
+            @extend .interactive-item-intent;
+        }
+    }
 }

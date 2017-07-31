@@ -14,6 +14,7 @@ import SectionEditor from '../../../components/SectionEditor/SectionEditor';
 
 import AsideViewLayout from './AsideViewLayout';
 
+
 /**
  * Renders the main layout component of the editor
  * @param {object} props - the props to render
@@ -91,7 +92,7 @@ const EditorLayout = ({
   // custom functions
   openSettings,
   closeAndResetDialog,
-  updateStoryContent,
+  // updateStoryContent,
   embedAsset,
   onCreateNewSection,
   summonAsset,
@@ -174,7 +175,15 @@ const EditorLayout = ({
   );
 };
 
+
+/**
+ * Context data used by the component
+ */
 EditorLayout.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
 

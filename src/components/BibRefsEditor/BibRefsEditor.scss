@@ -11,52 +11,69 @@
     .reference-editors-container
     {
         flex: 1;
+
         @extend .flex-stretched-row;
 
-        .reference-editor{
-          margin-bottom: $gutter-large;
-          .editor-title{
-            @extend .flex-stretched-row;
-            .title{
-              flex: 1;
-            }
-            .button{
-              @extend .interactive-item;
-              border-radius : 50%;
-              &:hover{
-                @extend .interactive-item-intent;
-              }
-            }
-          }
-        }
-    }
-
-    .fonio-BibEditorGui{
-      max-height: 30rem;
-      overflow: auto;
-    }
-
-    .property-group {
-      @extend .flex-stretched-row;
-      .property-label
-      {
-        flex: 1;
-        line-height: $gutter-medium*3;
-        text-align: right;
-        padding-right: $gutter-medium;
-      }
-      .property-input{
-        flex: 3;
-        @extend .flex-stretched-row;
-        margin-bottom: $gutter-medium;
-        .fonio-OptionSelect,
+        .reference-editor
         {
-          flex: 1;
+            margin-bottom: $gutter-large;
+            .editor-title
+            {
+                @extend .flex-stretched-row;
+                .title
+                {
+                    flex: 1;
+                }
+                .button
+                {
+                    border-radius: 50%;
+
+                    @extend .interactive-item;
+                    &:hover
+                    {
+                        @extend .interactive-item-intent;
+                    }
+                }
+            }
         }
-        .remove-property{
-          flex: 0;
+    }
+
+    .fonio-BibEditorGui
+    {
+        overflow: auto;
+
+        max-height: 30rem;
+    }
+
+    .property-group
+    {
+        @extend .flex-stretched-row;
+        .property-label
+        {
+            line-height: $gutter-medium*3;
+
+            flex: 1;
+
+            padding-right: $gutter-medium;
+
+            text-align: right;
         }
-      }
+        .property-input
+        {
+            flex: 3;
+
+            margin-bottom: $gutter-medium;
+
+            @extend .flex-stretched-row;
+            .fonio-OptionSelect
+            {
+                flex: 1;
+            }
+            .remove-property
+            {
+                flex: 0;
+            }
+        }
     }
     .fonio-icon-image
     {
@@ -65,29 +82,38 @@
         margin-left: $gutter-medium;
     }
 
-    .add-item{
-      @extend .important-item;
-      width: 100%;
-      &:hover{
-        @extend .important-item-intent;
-      }
+    .add-item
+    {
+        width: 100%;
+
+        @extend .important-item;
+        &:hover
+        {
+            @extend .important-item-intent;
+        }
     }
 
-    .sub-properties-group{
-      padding-left: $gutter-medium;
-      @extend .flex-stretched-column;
-      .subcategory-container{
-        margin-bottom: $gutter-medium;
-      }
+    .sub-properties-group
+    {
+        padding-left: $gutter-medium;
+
+        @extend .flex-stretched-column;
+        .subcategory-container
+        {
+            margin-bottom: $gutter-medium;
+        }
     }
 
-    input[type="text"] {
-      @extend .interactive-item;
-      &:hover{
-        @extend .interactive-item-intent;
-      }
-      &:focus{
-        @extend .interactive-item-active;
-      }
+    input[type='text']
+    {
+        @extend .interactive-item;
+        &:hover
+        {
+            @extend .interactive-item-intent;
+        }
+        &:focus
+        {
+            @extend .interactive-item-active;
+        }
     }
 }

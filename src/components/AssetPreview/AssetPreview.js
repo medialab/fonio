@@ -15,16 +15,37 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './AssetPreview.scss';
 
+
+/**
+ * EmbedContainer class for building react component instances
+ * that wrap an embed/iframe element
+ * (it is just aimed at preventing intempestuous reloading of embed code)
+ */
 class EmbedContainer extends Component {
 
+  /**
+   * constructor
+   * @param {object} props - properties given to instance at instanciation
+   */
   constructor(props) {
     super(props);
   }
 
+
+  /**
+   * Defines whether the component should re-render
+   * @param {object} nextProps - the props to come
+   * @return {boolean} shouldUpdate - whether to update or not
+   */
   shouldComponentUpdate(nextProps) {
     return this.props.html !== nextProps.html;
   }
 
+
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
   render() {
     const {
       html
@@ -36,6 +57,25 @@ class EmbedContainer extends Component {
   }
 }
 
+
+/**
+ * Component's properties types
+ */
+EmbedContainer.propTypes = {
+
+  /**
+   * Raw html code to embed
+   */
+  html: PropTypes.string,
+};
+
+
+/**
+ * Renders the AssetPreview component as a pure function
+ * @param {object} props - used props (see prop types below)
+ * @param {object} context - used context data (see context types below)
+ * @return {ReactElement} component - the resulting component
+ */
 const AssetPreview = ({
   type,
   metadata = {},
@@ -50,6 +90,12 @@ const AssetPreview = ({
       onEditRequest();
     }
   };
+
+
+  /**
+   * Builds the appropriate preview against asset type
+   * @return {ReactElement} component - appropriate component
+   */
   const renderPreview = () => {
     switch (type) {
       case 'table':
@@ -110,8 +156,48 @@ const AssetPreview = ({
     </div>);
 };
 
+
+/**
+ * Component's properties types
+ */
+AssetPreview.propTypes = {
+
+  /**
+   * Type of the asset
+   */
+  type: PropTypes.string,
+
+  /**
+   * Metadata of the asset
+   */
+  metadata: PropTypes.object,
+
+  /**
+   * Data of the asset
+   */
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+
+  /**
+   * Whether to show the pannel displaying asset metadata
+   */
+  showPannel: PropTypes.bool,
+
+  /**
+   * Callbacks when asset is asked for edition from component
+   */
+  onEditRequest: PropTypes.func,
+};
+
+
+/**
+ * Component's context used properties
+ */
 AssetPreview.contextTypes = {
-  t: PropTypes.func.isRequired
+
+  /**
+   * translation function
+   */
+  t: PropTypes.func.isRequired,
 };
 
 export default AssetPreview;

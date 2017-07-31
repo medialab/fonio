@@ -1,3 +1,8 @@
+/**
+ * This module exports a stateless dialog component for editing a section
+ * @module fonio/features/SectionsManager
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -8,6 +13,12 @@ import AuthorsManager from '../../../components/AuthorsManager/AuthorsManager';
 
 import './SectionConfigurationDialog.scss';
 
+/**
+ * Renders a section configuration dialog as a pure function
+ * @param {object} props - the props provided to the component
+ * @param {object} context - used context data
+ * @return {ReactElement} component - the component
+ */
 const SectionConfigurationDialog = ({
   sectionCandidate,
   sectionCandidateId,
@@ -16,9 +27,12 @@ const SectionConfigurationDialog = ({
   createSection,
   updateSection
 }, context) => {
-
+  // namespacing the translating function with the feature name
   const translate = translateNameSpacer(context.t, 'Features.Editor');
 
+  /**
+   * Callbacks
+   */
   const onApplyChange = () => {
     if (sectionCandidateId) {
       updateSection(sectionCandidateId, sectionCandidate);
@@ -77,7 +91,15 @@ const SectionConfigurationDialog = ({
   );
 };
 
+
+/**
+ * Context data used by the component
+ */
 SectionConfigurationDialog.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
 

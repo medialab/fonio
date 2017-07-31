@@ -7,24 +7,30 @@
 
 .fonio-GlossaryMention
 {
-  @extend .important-item;
-  padding: $gutter-small 0 $gutter-small 0;
-  margin : 0;
-  border-radius: $gutter-medium;
-  cursor: pointer;
+    margin: 0;
+    padding: $gutter-small 0 $gutter-small 0;
 
-  input{
-    padding: 0;
-    margin-left: $gutter-medium;
-    &:hover,
-    &:focus{
-      @extend .important-item-intent;
+    cursor: pointer;
+
+    border-radius: $gutter-medium;
+
+    @extend .important-item;
+
+    input
+    {
+        margin-left: $gutter-medium;
+        padding: 0;
+        &:hover,
+        &:focus
+        {
+            @extend .important-item-intent;
+        }
     }
-  }
 
-  button{
-    font-size: $font-size-1;
-    margin-right: $gutter-medium;
-  }
+    button
+    {
+        font-size: $font-size-1;
 
+        margin-right: $gutter-medium;
+    }
 }

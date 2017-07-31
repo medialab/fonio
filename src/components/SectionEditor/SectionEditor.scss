@@ -8,41 +8,48 @@
 
 .fonio-SectionEditor
 {
-    q {
-      quotes: none;
-      background: $color-warm-grey;
+    @extend .flex-stretched-column;
+    q
+    {
+        quotes: none;
+
+        background: $color-warm-grey;
     }
 
     pre,
     blockquote
     {
-      background: $color-warm-grey;
-      padding: $gutter-medium;
+        padding: $gutter-medium;
+
+        background: $color-warm-grey;
     }
 
     blockquote
     {
-        margin: 0;
-        padding: $gutter-large;
         position: relative;
 
-        quotes: "« " " »" "‹ " " ›";
+        margin: 0;
+        padding: $gutter-large;
 
-        &:before {
-          content: open-quote;
-          position: absolute;
-          left: $gutter-small;
-          top: $gutter-small;
+        quotes: '« ' ' »' '‹ ' ' ›';
+
+        &:before
+        {
+            position: absolute;
+            top: $gutter-small;
+            left: $gutter-small;
+
+            content: open-quote;
         }
-        &:after {
-          content: close-quote;
-          position: absolute;
-          bottom: $gutter-small;
-          right: $gutter-small;
+        &:after
+        {
+            position: absolute;
+            right: $gutter-small;
+            bottom: $gutter-small;
+
+            content: close-quote;
         }
     }
-
-    @extend .flex-stretched-column;
     .editable-title,
     .editor-wrapper
     {
@@ -60,30 +67,33 @@
     .editor-wrapper
     {
         overflow: auto;
+        flex: 1;
 
         padding-bottom: 10rem;
-
-        flex: 1;
         .scholar-draft-SectionEditor
         {
             .scholar-draft-BasicEditor
             {
-              &.active,
-              &:hover{
-                .public-DraftEditor-content
+                &.active,
+                &:hover
                 {
-                    background: $color-very-light;
+                    .public-DraftEditor-content
+                    {
+                        background: $color-very-light;
+                    }
                 }
-              }
             }
             .public-DraftEditor-content,
             .public-DraftEditorPlaceholder-inner
             {
-                @extend .animated;
-                padding: $gutter-medium;
                 font-family: $editable-font-stack;
 
-                .public-DraftStyleDefault-block{
+                padding: $gutter-medium;
+
+                @extend .animated;
+
+                .public-DraftStyleDefault-block
+                {
                     margin-bottom: $gutter-medium;
                 }
             }
@@ -91,19 +101,25 @@
             {
                 margin-top: $gutter-large;
                 padding: $gutter-medium 0 $gutter-medium 0;
+
                 border-top: 1px solid $color-warm-grey;
-                &:not(:first-of-type){
-                  border-bottom: 1px solid $color-warm-grey;
+                &:not(:first-of-type)
+                {
+                    border-bottom: 1px solid $color-warm-grey;
                 }
                 .note-header
                 {
-                    @extend .flex-stretched-row;
-                border-bottom: 1px solid $color-very-light;
+                    border-bottom: 1px solid $color-very-light;
 
-                    button{
-                      width: $font-size-5;
-                      text-align: center;
-                      order: 2;
+                    @extend .flex-stretched-row;
+
+                    button
+                    {
+                        order: 2;
+
+                        width: $font-size-5;
+
+                        text-align: center;
                     }
                     h3
                     {
@@ -112,13 +128,15 @@
                     }
                 }
             }
-            .scholar-draft-BlockAssetContainer{
-                min-height: 10rem;                   
+            .scholar-draft-BlockAssetContainer
+            {
+                min-height: 10rem;
             }
         }
     }
 
-    .ReactTable{
+    .ReactTable
+    {
         max-width: 50rem;
     }
 }

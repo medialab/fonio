@@ -33,6 +33,7 @@ import {
 
 import ResourcesManagerLayout from './ResourcesManagerLayout';
 
+
 /**
  * Redux-decorated component class rendering the resources manager feature to the app
  */
@@ -56,8 +57,10 @@ import ResourcesManagerLayout from './ResourcesManagerLayout';
   })
 )
 class ResourcesManagerContainer extends Component {
+
   /**
    * constructor
+   * @param {object} props - properties given to instance at instanciation
    */
   constructor(props) {
     super(props);
@@ -65,11 +68,32 @@ class ResourcesManagerContainer extends Component {
     this.updateResource = this.updateResource.bind(this);
   }
 
+
+  /**
+   * Defines whether the component should re-render
+   * @param {object} nextProps - the props to come
+   * @param {object} nextState - the state to come
+   * @return {boolean} shouldUpdate - whether to update or not
+   */
   shouldComponentUpdate() {
+    // todo: optimize when the feature is stabilized
     return true;
   }
 
+
+  /**
+   * Handle the process of creating a new asset in the active story.
+   * This implies three operations :
+   * - create a contextualizer (which defines a way of materializing the resource)
+   * - create contextualization (unique combination of a contextualizer, a section and a resource)
+   * - insert an entity linked to the contextualization in the proper draft-js content state (main or note of the section)
+   * @param {string} contentId - the id of editor to target ('main' or note id)
+   * @param {string} resourceId - id of the resource to summon
+   */
   summonAsset = (contentId, resourceId) => {
+    // todo: this is a duplicate with StoryEditorContainer.summonAsset
+    // so this should be refactored as a shared helper
+    // or some other solution should be found not to repeat it
     const {
       activeStoryId,
       activeStory,
@@ -88,7 +112,14 @@ class ResourcesManagerContainer extends Component {
     const activeSection = activeStory.sections[activeSectionId];
     const resource = activeStory.resources[resourceId];
 
-    // create contextualizer
+    // 1. create contextualizer
+    // question: why isn't the contextualizer
+    // data directly embedded in the contextualization data ?
+    // answer: that way we can envisage for the future to
+    // give users a possibility to reuse the same contextualizer
+    // for different resources (e.g. comparating datasets)
+    // and we can handle multi-modality in a smarter way.
+
     // todo : consume model to do that
     const contextualizerId = genId();
     const contextualizer = {
@@ -98,10 +129,18 @@ class ResourcesManagerContainer extends Component {
     createContextualizer(activeStoryId, contextualizerId, contextualizer);
 
     // choose if inline or block
+    // todo: for now we infer from the resource type whether contextualization
+    // must be in block or inline mode.
+    // but we could choose to let the user decide
+    // (e.g. 1: a 'bib' reference in block mode
+    // could be the full reference version of the reference)
+    // (e.g. 2: a 'quinoa presentation' reference in inline mode
+    // could be an academic-like short citation of this reference)
+
     // todo: choose that from resource model
     const insertionType = resource.metadata.type === 'bib' ? 'inline' : 'block';
 
-    // create contextualization
+    // 2. create contextualization
     const contextualizationId = genId();
     const contextualization = {
       id: contextualizationId,
@@ -109,8 +148,10 @@ class ResourcesManagerContainer extends Component {
       contextualizerId,
       sectionId: activeSectionId
     };
+
     createContextualization(activeStoryId, contextualizationId, contextualization);
 
+    // 3. update the proper editor state
     const editorStateId = contentId === 'main' ? activeSectionId : contentId;
     const editorState = editorStates[editorStateId];
     // update related editor state
@@ -127,7 +168,7 @@ class ResourcesManagerContainer extends Component {
         contents: convertToRaw(newEditorState.getCurrentContent())
       };
     }
- else {
+    else {
       newSection = {
         ...activeSection,
         notes: {
@@ -142,6 +183,11 @@ class ResourcesManagerContainer extends Component {
     updateSection(activeStoryId, activeSectionId, newSection);
   }
 
+
+  /**
+   * Handles the process of embedding an asset in the current editor
+   * Basically this is just a more specific wrapper of this.summonAsset
+   */
   embedAsset = resourceId => {
     const {
       activeSectionId,
@@ -158,6 +204,12 @@ class ResourcesManagerContainer extends Component {
     unpromptAssetEmbed();
   }
 
+
+  /**
+   * Creates a default resource by attributing the given resource
+   * a unique id
+   * @param {object} resource - the resource to create
+   */
   createResource(resource) {
     const id = genId();
     const {
@@ -171,6 +223,13 @@ class ResourcesManagerContainer extends Component {
       }
     });
   }
+
+
+  /**
+   * Updates a given resource in the proper story
+   * @param {string} id - id of the resource
+   * @param {object} resource - the new resource to merge with the old
+   */
   updateResource(id, resource) {
     const {
       activeStoryId
@@ -179,11 +238,19 @@ class ResourcesManagerContainer extends Component {
   }
 
 
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
   render() {
     const resourcesSearchQuery = this.props.resourcesSearchQuery;
     let resources = this.props.activeStory.resources;
     if (resources) {
       const selectedResourcesIds = this.props.selectedResources;
+      // we want to display only
+      // the resources being filtered-in
+      // if the user has input some search query
+      // in the resources pannel
       resources = Object.keys(resources)
       .filter(resourceKey => {
         if (selectedResourcesIds && selectedResourcesIds.length) {
@@ -193,6 +260,8 @@ class ResourcesManagerContainer extends Component {
       })
       .map(id => ({...this.props.activeStory.resources[id], id}))
       .filter(resource => {
+        // for now we handle search by serializing the whole resource and searching the query into it
+        // todo: handle that with more finesse
         if (resourcesSearchQuery && resourcesSearchQuery.length) {
           return JSON.stringify(resource.metadata).toLowerCase().indexOf(resourcesSearchQuery.toLowerCase()) > -1;
         }

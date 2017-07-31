@@ -1,3 +1,8 @@
+/**
+ * This module exports a stateless dialog component for editing a resource
+ * @module fonio/features/ResourcesManager
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -15,11 +20,19 @@ import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 
 import './ResourceConfigurationDialog.scss';
 
+/**
+ * Renders the proper data input component regarding 
+ * the type of resource being edited, as a pure function.
+ * @param {object} props - properties provided to the component
+ * @param {object} context - used context data
+ * @return {ReactElement} component - the current component
+ */
 const ResourceDataInput = ({
   type,
   submitResourceData,
   resourceCandidate
 }, context) => {
+  // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.Editor');
   switch (type) {
     case 'table':
@@ -42,7 +55,7 @@ const ResourceDataInput = ({
             type="text"
             name="url"
             placeholder={translate('url-of-the-video')}
-            value={resourceCandidate.metadata.videoUrl} />
+            value={resourceCandidate.metadata.videoUrl || ''} />
         </div>
       );
     case 'image':
@@ -135,10 +148,24 @@ const ResourceDataInput = ({
       return null;
   }
 };
+
+/**
+ * Context data used by the component
+ */
 ResourceDataInput.contextTypes = {
+  /**
+   * Un-namespaced tranlsate function
+   */
   t: PropTypes.func.isRequired
 };
 
+/**
+ * Renders a toaster  displaying the state of resource data loading
+ * with the proper message.
+ * @param {object} props - properties provided to the component
+ * @param {object} context - context data used by the component
+ * @return {ReactElement} component - the component
+ */
 const LoadingStateToaster = ({
   loadingState
 }, context) => {
@@ -159,10 +186,23 @@ const LoadingStateToaster = ({
   }
   return <Toaster status={loadingState} log={log} />;
 };
+
+/**
+ * Context data used by the component
+ */
 LoadingStateToaster.contextTypes = {
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
 
+/**
+ * Renders a resource configuration dialog as a pure function
+ * @param {object} props - the properties provided to the component
+ * @param {object} context - used context data
+ * @return {ReactElement} component - the component
+ */
 const ResourceConfigurationDialog = ({
   resourceCandidate,
   resourceCandidateId,
@@ -175,8 +215,9 @@ const ResourceConfigurationDialog = ({
   createResource,
   updateResource
 }, context) => {
+  // namespacing the translate function with the feature name
   const translate = translateNameSpacer(context.t, 'Features.Editor');
-
+  // todo: this should be stored elsewhere
   const resourcesTypes = [
     {
       id: 'table',
@@ -256,7 +297,7 @@ const ResourceConfigurationDialog = ({
         });
 
       }
- else {
+      else {
         createResource(resourceCandidate);
       }
     }
@@ -374,7 +415,15 @@ const ResourceConfigurationDialog = ({
   );
 };
 
+
+/**
+ * Context data used by the component
+ */
 ResourceConfigurationDialog.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
 

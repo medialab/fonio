@@ -8,54 +8,70 @@
 
 .fonio-AsideToggler
 {
-  margin: 0;
-  padding: 0;
-  li{
-    list-style-type: none;
+    height: $font-size-4;
+    margin: 0;
     padding: 0;
-  }
 
-  height: $font-size-4;
+    @extend .flex-stretched-row;
+    li
+    {
+        padding: 0;
 
-  
-  @extend .flex-stretched-row;
-
-  .nav-btn
-  {
-    @extend .interactive-item;
-    background: inherit;
-    &:hover{
-      @extend .interactive-item-intent;
+        list-style-type: none;
     }
-    padding: $gutter-small;
-    width: $font-size-4;
-    text-align: center;
-    @extend .animated;
-  }
 
-  .options-wrapper{
-    flex: 1;
-    overflow: hidden;
-    position: relative;
-    .options-container{
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      display: inline-block;
-      text-align: center;
-      .option{
+    .nav-btn
+    {
+        width: $font-size-4;
+        padding: $gutter-small;
+
+        text-align: center;
+
+        background: inherit;
+
+        @extend .interactive-item;
         @extend .animated;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        h2{
-          font-size: $font-size-3;
-          font-weight: 800;
-          padding: 0;
-          margin: 0;
-          display: inline-block;
+        &:hover
+        {
+            @extend .interactive-item-intent;
         }
-      }
     }
-  }
+
+    .options-wrapper
+    {
+        position: relative;
+
+        overflow: hidden;
+        flex: 1;
+        .options-container
+        {
+            position: absolute;
+
+            display: inline-block;
+
+            width: 100%;
+            height: 100%;
+
+            text-align: center;
+            .option
+            {
+                position: absolute;
+                top: 0;
+
+                width: 100%;
+
+                @extend .animated;
+                h2
+                {
+                    font-size: $font-size-3;
+                    font-weight: 800;
+
+                    display: inline-block;
+
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        }
+    }
 }

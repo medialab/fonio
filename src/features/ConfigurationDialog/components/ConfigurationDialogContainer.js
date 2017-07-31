@@ -16,6 +16,7 @@ import {
 
 import ConfigurationDialogLayout from './ConfigurationDialogLayout';
 
+
 /**
  * Redux-decorated component class rendering the takeaway dialog feature to the app
  */
@@ -35,8 +36,10 @@ import ConfigurationDialogLayout from './ConfigurationDialogLayout';
   })
 )
 class ConfigurationDialogContainer extends Component {
+
   /**
    * constructor
+   * @param {object} props - properties given to instance at instanciation
    */
   constructor(props) {
     super(props);
@@ -44,32 +47,49 @@ class ConfigurationDialogContainer extends Component {
     this.closeAndSetupStoryCandidate = this.closeAndSetupStoryCandidate.bind(this);
   }
 
+
+  /**
+   * Defines whether the component should re-render
+   * @param {object} nextProps - the props to come
+   * @param {object} nextState - the state to come
+   * @return {boolean} shouldUpdate - whether to update or not
+   */
   shouldComponentUpdate() {
+    // todo: optimize when the feature is stabilized
     return true;
   }
 
+
+  /**
+   * Both closes story settings view
+   * and resets story candidate
+   */
   closeStoryCandidate() {
     this.props.actions.resetStoryCandidateSettings();
     this.props.actions.closeStoryCandidateModal();
   }
 
-  changeVisualizationType (type) {
-    this.props.actions.resetStoryCandidateSettings();
-    this.props.actions.setVisualizationType(type);
-  }
 
+  /**
+   * Creates a new story candidate
+   * and closes the modal.
+   */
   closeAndSetupStoryCandidate() {
     this.props.actions.setupStoryCandidate(this.props.dataMap, this.props.activeVisualizationType, this.props.activeData);
     this.props.actions.closeStoryCandidateModal();
   }
 
+
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
   render() {
     return (
       <ConfigurationDialogLayout
         {...this.props}
         closeStoryCandidate={this.closeStoryCandidate}
-        closeAndSetupStoryCandidate={this.closeAndSetupStoryCandidate}
-        changeVisualizationType={this.changeVisualizationType} />
+        closeAndSetupStoryCandidate={this.closeAndSetupStoryCandidate} />
     );
   }
 }

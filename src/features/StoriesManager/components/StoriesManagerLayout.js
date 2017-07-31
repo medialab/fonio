@@ -15,6 +15,7 @@ import Toaster from '../../../components/Toaster/Toaster';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
+
 /**
  * Renders the layout component of the feature
  * @param {object} props - the props to render
@@ -59,12 +60,18 @@ const StoriesManagerLayout = ({
     setLanguage
   }
 }, context) => {
+  // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.StoriesManager');
+  // check if max number of stories is reached
+  const allowNewStories = storiesList.length < maxNumberOfLocalStories;
+
+  /**
+   * Callbacks
+   */
   const onCreateStory = () => {
     startStoryCandidateConfiguration();
   };
   const onImportFromUrlChange = (e) => setImportFromUrlCandidate(e.target.value);
-  const allowNewStories = storiesList.length < maxNumberOfLocalStories;
   return (
     <section className="fonio-StoriesManagerLayout">
       <section className="landing-group">
@@ -234,7 +241,15 @@ const StoriesManagerLayout = ({
   );
 };
 
+
+/**
+ * Context data used by the component
+ */
 StoriesManagerLayout.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
 

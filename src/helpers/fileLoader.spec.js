@@ -1,3 +1,7 @@
+/**
+ * This module provides unit tests for the fileLoader module
+ * @module fonio/utils/fileLoader
+ */
 import {expect} from 'chai';
 
 import {

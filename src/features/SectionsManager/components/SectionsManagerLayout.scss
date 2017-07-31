@@ -7,7 +7,6 @@
 
 .fonio-SectionsManagerLayout
 {
-    
     @extend .flex-stretched-column;
 
     .header,
@@ -20,7 +19,6 @@
     .body
     {
         overflow-y: auto;
-
         flex: 1;
         .fonio-SectionCard
         {
@@ -36,6 +34,7 @@
         .search-query
         {
             flex: 1;
+
             @extend .interactive-item;
             &:hover
             {
@@ -50,13 +49,14 @@
 
     #new-section
     {
+        flex: 5;
+        flex: 1;
+
         padding: $gutter-medium;
 
         text-align: left;
 
-        flex: 5;
         @extend .flex-stretched-row;
-        flex: 1;
         @extend .important-item;
         &:hover
         {

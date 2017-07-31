@@ -20,6 +20,12 @@ export function cleanStoryForExport(story) {
   return story;
 }
 
+/**
+ * Consumes story data to produce a representation in markdown syntax
+ * @todo: for now this does not handle assets, it should be broadly improved to do that
+ * @param {object} story - the story to consume
+ * @return {string} markdown - the markdown representation of the story
+ */
 export function convertStoryToMarkdown(story) {
   const header = `${story.metadata.title}
 ====
@@ -32,7 +38,7 @@ ${story.metadata.authors.join(', ')}
   }).join('\n \n');
 }
 
-/*
+/**
  * Wraps a server call for rendering a story as all-in-one html story file
  * @param {object} story - the story to bundle
  * @param {function} callback
@@ -42,7 +48,8 @@ export function bundleProjectAsHtml (story, callback) {
     .send(cleanStoryForExport(story))
     .end((err, response) => callback(err, response && response.text));
 }
-/*
+
+/**
  * Cleans and serializes a story representation
  * @param {object} story - the story to bundle
  * @return {string} result - the resulting serialized story

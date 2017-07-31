@@ -12,6 +12,7 @@ import SectionCard from '../../../components/SectionCard/SectionCard';
 import SectionConfigurationDialog from './SectionConfigurationDialog';
 import './SectionsManagerLayout.scss';
 
+
 /**
  * Renders the sections manager layout
  * @param {object} props - the props to render
@@ -45,98 +46,112 @@ const SectionsManagerLayout = ({
   },
   style,
 }, context) => {
-    const translate = translateNameSpacer(context.t, 'Features.SectionsManager');
-    const onModalClose = () => setSectionsModalState('closed');
-    const onSearchInputChange = (e) => setSectionsSearchQuery(e.target.value);
-    return (
-      <div
-        className={'fonio-SectionsManagerLayout'}
-        style={style}>
-        <ul className="body">
-          {
-            sections.map((section, index) => {
-              const onDelete = () => deleteSection(activeStoryId, section.id);
-              const onEdit = () => startExistingSectionConfiguration(section.id, section);
-              const onSelect = () => setActiveSectionId(section.id);
-              const onUpdateMetadata = (metadata) => {
-                updateSection(
-                  section.id,
-                  {
-                    ...section,
-                    metadata
-                  }
-                );
-              };
-              const onMove = (from, to) => {
-                const order = sections.map(thatSection => thatSection.id);
-                const sectionId = sections[from].id;
-                order.splice(from, 1);
-                order.splice(to, 0, sectionId);
-                updateSectionsOrder(order);
-              };
-              const onCreateSubSection = () => {
-                createSubSection(section, index);
-              };
-              const onRequestDeletePrompt = () => {
-                requestDeletePrompt(section.id);
-              };
-              const onAbortDeletePrompt = () => {
-                abortDeletePrompt();
-              };
-              return (
-                <SectionCard
-                  key={index}
-                  onDelete={onDelete}
-                  onConfigure={onEdit}
-                  onSelect={onSelect}
+  // namespacing the translation keys with feature id
+  const translate = translateNameSpacer(context.t, 'Features.SectionsManager');
 
-                  onRequestDeletePrompt={onRequestDeletePrompt}
-                  onAbortDeletePrompt={onAbortDeletePrompt}
-                  promptedToDelete={sectionPromptedToDelete === section.id}
-
-                  createSubSection={onCreateSubSection}
-
-                  sectionKey={section.id}
-                  sectionIndex={index}
-                  onMove={onMove}
-
-                  active={section.id === activeSectionId}
-                  style={{cursor: 'move'}}
-                  onUpdateMetadata={onUpdateMetadata}
-                  {...section} />
+  /**
+   * Callbacks
+   */
+  const onModalClose = () => setSectionsModalState('closed');
+  const onSearchInputChange = (e) => setSectionsSearchQuery(e.target.value);
+  return (
+    <div
+      className={'fonio-SectionsManagerLayout'}
+      style={style}>
+      <ul className="body">
+        {
+          sections.map((section, index) => {
+            const onDelete = () => deleteSection(activeStoryId, section.id);
+            const onEdit = () => startExistingSectionConfiguration(section.id, section);
+            const onSelect = () => setActiveSectionId(section.id);
+            const onUpdateMetadata = (metadata) => {
+              updateSection(
+                section.id,
+                {
+                  ...section,
+                  metadata
+                }
               );
-            })
-          }
-          <li id="new-section" onClick={createSection}>
-            + {translate('new-section')}
-          </li>
-        </ul>
-        <div className="footer">
-          <input
-            className="search-query"
-            type="text"
-            placeholder={translate('search-in-sections')}
-            value={sectionsSearchQuery || ''}
-            onChange={onSearchInputChange} />
-        </div>
+            };
+            const onMove = (from, to) => {
+              const order = sections.map(thatSection => thatSection.id);
+              const sectionId = sections[from].id;
+              order.splice(from, 1);
+              order.splice(to, 0, sectionId);
+              updateSectionsOrder(order);
+            };
+            const onCreateSubSection = () => {
+              createSubSection(section, index);
+            };
+            const onRequestDeletePrompt = () => {
+              requestDeletePrompt(section.id);
+            };
+            const onAbortDeletePrompt = () => {
+              abortDeletePrompt();
+            };
+            return (
+              <SectionCard
+                key={index}
+                onDelete={onDelete}
+                onConfigure={onEdit}
+                onSelect={onSelect}
 
-        <Modal
-          isOpen={sectionsModalState !== 'closed'}
-          contentLabel={translate('edit-section')}
-          onRequestClose={onModalClose}>
-          <SectionConfigurationDialog
-            sectionCandidate={sectionCandidate}
-            sectionCandidateId={sectionCandidateId}
-            onClose={onModalClose}
-            setSectionCandidateMetadataValue={setSectionCandidateMetadataValue}
-            createSection={createSection}
-            updateSection={updateSection} />
-        </Modal>
+                onRequestDeletePrompt={onRequestDeletePrompt}
+                onAbortDeletePrompt={onAbortDeletePrompt}
+                promptedToDelete={sectionPromptedToDelete === section.id}
+
+                createSubSection={onCreateSubSection}
+
+                sectionKey={section.id}
+                sectionIndex={index}
+                onMove={onMove}
+
+                active={section.id === activeSectionId}
+                style={{cursor: 'move'}}
+                onUpdateMetadata={onUpdateMetadata}
+                {...section} />
+            );
+          })
+        }
+        <li id="new-section" onClick={createSection}>
+          + {translate('new-section')}
+        </li>
+      </ul>
+      <div className="footer">
+        <input
+          className="search-query"
+          type="text"
+          placeholder={translate('search-in-sections')}
+          value={sectionsSearchQuery || ''}
+          onChange={onSearchInputChange} />
       </div>
-    );
+
+      <Modal
+        isOpen={sectionsModalState !== 'closed'}
+        contentLabel={translate('edit-section')}
+        onRequestClose={onModalClose}>
+        <SectionConfigurationDialog
+          sectionCandidate={sectionCandidate}
+          sectionCandidateId={sectionCandidateId}
+          onClose={onModalClose}
+          setSectionCandidateMetadataValue={setSectionCandidateMetadataValue}
+          createSection={createSection}
+          updateSection={updateSection} />
+      </Modal>
+    </div>
+  );
 };
+
+
+/**
+ * Context data used by the component
+ */
 SectionsManagerLayout.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired
 };
+
 export default SectionsManagerLayout;
-// export default DragDropContext(HTML5Backend)(SectionsManagerLayout);

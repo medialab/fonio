@@ -1,7 +1,7 @@
 /**
- * style definitions for the Assets configuration dialog component
+ * style definitions for the ResourceConfigurationDialog component
  *
- * @module fonio/features/AssetsManager
+ * @module fonio/features/ResourceConfigurationDialog
  */
 @import '../../../parameters.scss';
 
@@ -14,17 +14,19 @@
 
         .modal-column
         {
-            padding-right: $gutter-medium;
-
             flex: 1;
+
+            padding-right: $gutter-medium;
         }
     }
     h4
     {
+        margin-top: 0;
         font-size: $font-size-3;
     }
     h5
     {
+        margin-top: 0;
         font-size: $font-size-2;
 
         margin-top: 0;
@@ -57,7 +59,6 @@
     .input-group
     {
         display: flex;
-
         flex-flow: column nowrap;
         &:not(:last-of-type)
         {
@@ -76,8 +77,9 @@
         {
             font-size: $font-size-3;
 
-            @extend .important-item;
             flex: 1;
+
+            @extend .important-item;
             &:hover
             {
                 @extend .important-item-intent;
@@ -90,9 +92,9 @@
         @extend .flex-stretched-row;
         .modal-column
         {
-            padding-right: $gutter-medium;
-
             flex: 1;
+
+            padding-right: $gutter-medium;
             img
             {
                 width: 100%;
@@ -101,16 +103,20 @@
             &.preview-container
             {
                 position: relative;
+
                 max-width: 50%;
             }
         }
     }
 
-    .bibtext-editor-container{
+    .bibtext-editor-container
+    {
         margin-right: $gutter-medium;
-        textarea{
-            max-height: 30rem;
+        textarea
+        {
             overflow: auto;
+
+            max-height: 30rem;
         }
     }
 }

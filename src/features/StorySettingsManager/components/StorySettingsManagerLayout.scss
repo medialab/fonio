@@ -9,15 +9,18 @@
 .fonio-StorySettingsManagerLayout
 {
     flex: 1;
+
     @extend .flex-stretched-row;
     .settings-pannel
     {
         z-index: 2;
+
+        flex: 1;
+
         padding: $gutter-medium;
 
         transition: all $time-short ease;
 
-        flex: 1;
         @extend .flex-stretched-column;
         &.hidden
         {
@@ -34,7 +37,6 @@
 
                 margin: 0;
                 padding: 0;
-
             }
             .settings-pannel-header,
             .settings-pannel-body
@@ -43,15 +45,15 @@
             }
             .settings-pannel-header
             {
-                flex: 5;
                 display: flex;
-                flex-flow: column nowrap;
                 align-items: center;
+                flex: 5;
+                flex-flow: column nowrap;
                 justify-content: center;
             }
             .settings-pannel-body
             {
-              flex: 0;
+                flex: 0;
             }
         }
         &.visible
@@ -64,31 +66,34 @@
             padding-right: $gutter-medium;
             padding-left: $gutter-medium;
         }
-        .settings-pannel-header{
-          cursor: pointer;
-          .fonio-icon-image{
-            width: $font-size-3;
-            height: $font-size-3;
-            margin-left: $gutter-medium;
-          }
-          h1{
-            @extend .flex-stretched-row;
-            span{
-              flex: 1;
+        .settings-pannel-header
+        {
+            cursor: pointer;
+            .fonio-icon-image
+            {
+                width: $font-size-3;
+                height: $font-size-3;
+                margin-left: $gutter-medium;
             }
-          }
+            h1
+            {
+                @extend .flex-stretched-row;
+                span
+                {
+                    flex: 1;
+                }
+            }
         }
         .settings-pannel-body
         {
             overflow-y: auto;
+            flex: 1;
 
             padding-bottom: $gutter-large * 2;
 
             transition: all $time-short ease;
 
             opacity: 1;
-
-            flex: 1;
         }
     }
     .preview-container
@@ -123,6 +128,7 @@
                 position: absolute;
                 top: -1em;
                 left: 0;
+
                 pointer-events: none;
             }
         }

@@ -8,11 +8,21 @@ import PropTypes from 'prop-types';
 import './AuthorsManager.scss';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
+
+/**
+ * AuthorsManager class for building react component instances
+ */
 class AuthorsManager extends Component {
 
+  /**
+   * constructor
+   * @param {object} props - properties given to instance at instanciation
+   */
   constructor(props) {
     super(props);
+    // will store input DOM element references in this
     this.inputs = {};
+    // handle programmatic focus on the last input of the list
     this.focusOnLastAuthor = () => {
       setTimeout(() => {
         const keys = Object.keys(this.inputs).sort();
@@ -29,6 +39,12 @@ class AuthorsManager extends Component {
       }, 10);
     };
   }
+
+
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
   render() {
     const {
       authors,
@@ -71,7 +87,7 @@ class AuthorsManager extends Component {
               if (e.keyCode === 8 && author.length === 0) {
                 onRemoveAuthor();
               }
- else if (e.keyCode === 13) {
+              else if (e.keyCode === 13) {
                 onAddAuthor(e);
               }
             };
@@ -112,7 +128,32 @@ class AuthorsManager extends Component {
   }
 }
 
+
+/**
+ * Component's properties types
+ */
+AuthorsManager.propTypes = {
+
+  /**
+   * Authors names to display
+   */
+  authors: PropTypes.arrayOf(PropTypes.string),
+
+  /**
+   * Callbacks when the list of authors change
+   */
+  onChange: PropTypes.func,
+};
+
+
+/**
+ * Component's context used properties
+ */
 AuthorsManager.contextTypes = {
+
+  /**
+   * Un-namespaced translation function
+   */
   t: PropTypes.func.isRequired
 };
 

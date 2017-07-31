@@ -1,4 +1,5 @@
 /* eslint react/no-find-dom-node: 0 */
+
 /**
  * This module provides a reusable section card element component
  * @module fonio/components/SectionCard
@@ -15,6 +16,14 @@ import {DragSource, DropTarget} from 'react-dnd';
 import './SectionCard.scss';
 
 
+/**
+ * react-dnd drag & drop handlers
+ */
+
+
+/**
+ * drag source handler
+ */
 const sectionSource = {
   beginDrag(props) {
     return {
@@ -24,7 +33,11 @@ const sectionSource = {
   }
 };
 
+/**
+ * drag target handler
+ */
 const sectionTarget = {
+
   /**
    * Drag on hover behavior
    * Initial design & implementation @yomguithereal
@@ -72,6 +85,10 @@ const sectionTarget = {
   }
 };
 
+
+/**
+ * dnd-related decorators for the SectionCard class
+ */
 @DragSource('SECTION', sectionSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   connectDragPreview: connect.dragPreview(),
@@ -81,16 +98,38 @@ const sectionTarget = {
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver()
 }))
+
+/**
+ * VisualizationManager class for building react component instances
+ */
 class SectionCard extends Component {
 
+
+  /**
+   * Component's context used properties
+   */
   static contextTypes = {
+
+    /**
+     * Un-namespaced translate function
+     */
     t: PropTypes.func.isRequired
   }
 
+
+  /**
+   * constructor
+   * @param {object} props - properties given to instance at instanciation
+   */
   constructor(props) {
     super(props);
   }
 
+
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
   render() {
     const {
       props,
@@ -102,15 +141,13 @@ class SectionCard extends Component {
       onUpdateMetadata,
       onSelect,
       createSubSection,
+      active,
 
       onRequestDeletePrompt,
       onAbortDeletePrompt,
       promptedToDelete,
       onDelete,
 
-      // selectMode,
-      active,
-      // id,
       connectDragSource,
       connectDragPreview,
       connectDropTarget,
@@ -226,5 +263,82 @@ class SectionCard extends Component {
     )));
   }
 }
+
+
+/**
+ * Component's properties types
+ */
+SectionCard.propTypes = {
+
+  /**
+   * metadata of the section
+   */
+  metadata: PropTypes.object,
+
+  /**
+   * whether the section is currently edited
+   */
+  active: PropTypes.bool,
+
+  /**
+   * whether the section is currently asking user whether to delete it
+   */
+  promptedToDelete: PropTypes.bool,
+
+  /**
+   * callbacks when section configuration is asked
+   */
+  onConfigure: PropTypes.func,
+
+  /**
+   * callbacks when section metadata update is asked
+   */
+  onUpdateMetadata: PropTypes.func,
+
+  /**
+   * callbacks when user clicks on "create sub section"
+   */
+  createSubSection: PropTypes.func,
+
+  /**
+   * callbacks when section is selected
+   */
+  onSelect: PropTypes.func,
+
+  /**
+   * callbacks when user asks for section deletion
+   */
+  onRequestDeletePrompt: PropTypes.func,
+
+  /**
+   * callbacks when user dismisses the section deletion prompt
+   */
+  onAbortDeletePrompt: PropTypes.func,
+
+  /**
+   * callbacks when section asks to be deleted
+   */
+  onDelete: PropTypes.func,
+
+  /**
+   * callbacks when card starts to be dragged
+   */
+  connectDragSource: PropTypes.func,
+
+  /**
+   * callbacks when card preview is required during the drag process
+   */
+  connectDragPreview: PropTypes.func,
+
+  /**
+   * callbacks when card is dropped
+   */
+  connectDropTarget: PropTypes.func,
+
+  /**
+   * Whether the card is dragged
+   */
+  isDragging: PropTypes.bool,
+};
 
 export default SectionCard;

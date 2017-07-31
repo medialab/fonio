@@ -7,7 +7,6 @@
 
 .fonio-ResourcesManagerLayout
 {
-    
     @extend .flex-stretched-column;
 
 
@@ -17,7 +16,8 @@
         background: $primary-color;
     }
 
-    .asset-select-help{
+    .asset-select-help
+    {
         padding: 0 $gutter-medium 0 $gutter-medium;
     }
 
@@ -33,9 +33,11 @@
         flex: 1;
 
         @extend .flex-stretched-column;
-        .resources-list{
+        .resources-list
+        {
             overflow-y: auto;
             flex: 5;
+
             padding-left: 0;
             .fonio-ResourceCard
             {
@@ -49,6 +51,7 @@
             padding: $gutter-medium;
 
             text-align: left;
+
             @extend .flex-stretched-row;
             @extend .important-item;
             &:hover
@@ -70,6 +73,7 @@
         .search-query
         {
             flex: 1;
+
             @extend .interactive-item;
             &:hover
             {

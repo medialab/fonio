@@ -7,6 +7,10 @@
 
 .fonio-Footer
 {
+    z-index: 10000;
+
+    justify-content: space-between;
+
     padding: 0;
 
     border-top: 1px solid $color-sec-stroke;
@@ -16,21 +20,19 @@
 
     @extend .flex-stretched-row;
     @extend .primary-item;
-    justify-content: space-between;
-
-    z-index: 10000;
 
     /*
      * secondary layout components
      */
     .left-group
     {
+        align-items: center;
+        justify-content: space-between;
+
         min-width: $gutter-large * 10;
         padding: $gutter-medium;
 
         @extend .flex-stretched-row;
-        align-items: center;
-        justify-content: space-between;
 
         .fonio-lang-toggler
         {
@@ -46,9 +48,10 @@
 
         button
         {
+            flex: 1;
+
             padding: $gutter-medium;
 
-            flex: 1;
             @extend .important-item;
 
             &:not(:first-of-type)

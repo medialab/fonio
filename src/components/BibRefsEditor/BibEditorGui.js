@@ -1,3 +1,12 @@
+/**
+ * This module provides a gui component to edit bibliographical references
+ * based on the csl data schema (see https://github.com/citation-style-language/schema)
+ * @todo: very experimental, not fully tested, and UI is quite bad
+ * The matter here is to rely as much as possible on csl data to generate automatically the proper input
+ * A problem remains also with the translations of the csl keys which are very obscure for some of them
+ * @module fonio/components/BibRefsEditor
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import cslDataModel from './assets/csl-data.json';
@@ -13,6 +22,16 @@ const modelProperties = cslDataModel.items.properties;
 
 const forbiddenProperties = ['id'];
 
+
+/**
+ * Finds the proper model from a schema ref.
+ * In order to avoid repetition some models in the csl schema
+ * contain a unique key '$ref' that point to another part of the schema.
+ * This function finds the related reference in the schema and returns it
+ * @param {object} model - the model to search into
+ * @param {string} ref - the ref to search
+ * @return {object} outputModel - the referenced model data
+ */
 const findModelFromRef = (model, ref) => {
   let outputModel;
   Object.keys(model).some(id => {
@@ -22,7 +41,7 @@ const findModelFromRef = (model, ref) => {
       outputModel = Array.isArray(type) ? type[0].properties : type.properties;
       return true;
     }
- else if (subModel.items && subModel.items.id === ref) {
+    else if (subModel.items && subModel.items.id === ref) {
       const type = subModel.items.type;
       outputModel = Array.isArray(type) ? type[0].properties : type.properties;
       return true;
@@ -31,19 +50,22 @@ const findModelFromRef = (model, ref) => {
   return outputModel;
 };
 
+
+/**
+ * Renders the PropertyInput component as a pure function
+ * It provides the proper unser input component for a given bibliographic data model
+ * @param {object} props - used props (see prop types below)
+ * @param {object} context - used context data (see context types below)
+ * @return {ReactElement} component - the resulting component
+ */
 const PropertyInput = ({
   model,
   modelKey,
   reference,
-  onChange
+  onChange,
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Components.BibEditorGui');
   if (model.enum) {
-    // activeOptionId,
-    //   options = [],
-    //   title,
-    //   searchable = false,
-    //   onChange
     const options = model.enum.map(value => ({
       value,
       label: value,
@@ -64,6 +86,7 @@ const PropertyInput = ({
   };
   const modelType = Array.isArray(model.type) && typeof model.type[0] !== 'object' ? model.type.join('-') : model.type;
   switch (modelType) {
+    // for most of the case we use a text input
     case 'string':
     case 'number':
     case 'string-number-boolean':
@@ -76,10 +99,14 @@ const PropertyInput = ({
           placeholder={modelKey}
           onChange={onInputChange} />
       );
+    // array models require to recursively
+    // call a ReferenceEditor component to handle the submodel
     case 'array':
       const itemsModel = model.items;
+      // callbacks when an item is added
       const onAddItem = () => {
         let defaultObject;
+        // todo: this is a bit dirty
         if (modelKey === 'author') {
           defaultObject = {
             family: '',
@@ -97,10 +124,12 @@ const PropertyInput = ({
           defaultObject
         ]);
       };
+      // callbacks when a sub item is deleted
       const onDeleteItem = (id) => {
         const newItems = reference[modelKey].filter(item => item.id !== id);
         onChange(newItems);
       };
+      // determining the sub model
       let subModel;
       if (itemsModel.type) {
         subModel = itemsModel.type[0].properties;
@@ -125,6 +154,7 @@ const PropertyInput = ({
                 if (modelKey === 'author') {
                   title = translate('edit-author');
                 }
+                // returning a wrapped reference editor
                 return (
                   <div
                     className="subcategory-container"
@@ -143,9 +173,15 @@ const PropertyInput = ({
           </button>
         </div>
       );
+    // unhandled case
     default:
+      // some parts of the schema are entirely handled by a $ref
+      // (see above)
       if (model.$ref) {
         subModel = findModelFromRef(modelProperties, model.$ref);
+        // in this case the submodel is itself an object
+        // (e.g. "issued" key)
+        // we have to handle its display specifically
         return (
           <div
             className="properties-group">
@@ -153,6 +189,7 @@ const PropertyInput = ({
               Object.keys(subModel)
               // not going into second-level arrays because it becomes too complicated
               // for everyone + useless
+              // so we filter these nasty sub-sub-properties
               .filter(subModelKey => subModel[subModelKey].type !== 'array')
               .map((subModelKey, index) => {
                 const nanoModel = subModel[subModelKey];
@@ -162,7 +199,7 @@ const PropertyInput = ({
                     newValues = {...reference[modelKey]};
                     newValues[subModelKey] = value;
                   }
- else {
+                  else {
                     newValues = {
                       [subModelKey]: value
                     };
@@ -188,16 +225,54 @@ const PropertyInput = ({
   }
 };
 
+PropertyInput.propTypes = {
+
+  /**
+   * the model to use for defining the proper user input
+   */
+  model: PropTypes.object,
+
+  /**
+   * key of the model to use (used in html for some cases)
+   */
+  modelKey: PropTypes.string,
+
+  /**
+   * the reference to render in the input
+   */
+  reference: PropTypes.object,
+
+  /**
+   * callbacks when input is changed
+   */
+  onChange: PropTypes.func,
+};
+
+
+/**
+ * Component's context used properties
+ */
 PropertyInput.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired,
 };
 
+
+/**
+ * Renders the ReferenceEditor component as a pure function
+ * @param {object} props - used props (see prop types below)
+ * @param {object} context - used context data (see context types below)
+ * @return {ReactElement} component - the resulting component
+ */
 const ReferenceEditor = ({
   reference,
   model,
+  title,
   onChange,
   onDelete,
-  title
 }, context) => {
   const activeModel = model || modelProperties;
   const translate = translateNameSpacer(context.t, 'Components.BibEditorGui');
@@ -207,6 +282,7 @@ const ReferenceEditor = ({
           label: key,
           value: key
         }));
+  // adds the proper base value for a property against its type
   const addEmptyProperty = key => {
     let defaultValue;
     const thatModel = activeModel[key];
@@ -290,10 +366,57 @@ const ReferenceEditor = ({
   );
 };
 
+
+/**
+ * Component's properties types
+ */
+ReferenceEditor.propTypes = {
+
+  /**
+   * Reference to render
+   */
+  reference: PropTypes.object,
+
+  /**
+   * Model to use for building proper inputs
+   */
+  model: PropTypes.object,
+
+  /**
+   * Title to display
+   */
+  title: PropTypes.string,
+
+  /**
+   * Callbacks when the reference is changed (args: key, value)
+   */
+  onChange: PropTypes.func,
+
+  /**
+   * Callbacks when the reference is delete
+   */
+  onDelete: PropTypes.func,
+};
+
+
+/**
+ * Component's context used properties
+ */
 ReferenceEditor.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired,
 };
 
+
+/**
+ * Renders the BibEditorGui component as a pure function
+ * @param {object} props - used props (see prop types below)
+ * @param {object} context - used context data (see context types below)
+ * @return {ReactElement} component - the resulting component
+ */
 const BibEditorGui = ({
   references = [],
   onChange,
@@ -325,7 +448,37 @@ const BibEditorGui = ({
   );
 };
 
+
+/**
+ * Component's properties types
+ */
+BibEditorGui.propTypes = {
+
+  /**
+   * references to render in the interfaces (csl-json formatted)
+   */
+  references: PropTypes.array,
+
+  /**
+   * Callbacks when one change (args: id, key, value to change)
+   */
+  onChange: PropTypes.func.isRequired,
+
+  /**
+   * callbacks when a reference is delete (arg: id of the reference to delete)
+   */
+  onReferenceDelete: PropTypes.func.isRequired,
+};
+
+
+/**
+ * Component's context used properties
+ */
 BibEditorGui.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired,
 };
 

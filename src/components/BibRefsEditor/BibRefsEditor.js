@@ -1,7 +1,7 @@
 /* eslint react/no-set-state:0 */
-/* eslint react/forbid-prop-types:0 */
 /**
  * This module provides a reusable bib refs element component
+ * It wraps both a plain textarea interface (displaying refs in bibTeX) and a gui interfaces to edit bibliographic references
  * @module fonio/components/BibRefsEditor
  */
 import React, {Component} from 'react';
@@ -19,28 +19,55 @@ import Toaster from '../Toaster/Toaster';
 
 import Cite from 'citation-js';
 
+
+/**
+ * BibRefsEditor class for building react component instances
+ */
 export default class BibRefsEditor extends Component {
+
+
+  /**
+   * constructor
+   * @param {object} props - properties given to instance at instanciation
+   */
   constructor(props) {
     super(props);
   }
 
+  /**
+   * default state
+   */
   state = {
     inputIsValid: true,
     refsAsInput: ''
   }
 
+
+  /**
+   * Executes code just after the component mounted
+   */
   componentDidMount() {
     if (this.props.references) {
       this.updateStateReferences(this.props.references);
     }
   }
 
+
+  /**
+   * Executes code when component receives new properties
+   * @param {object} nextProps - the future properties of the component
+   */
   componentWillReceiveProps(nextProps) {
     if (this.props.references !== nextProps.references) {
       this.updateStateReferences(nextProps.references);
     }
   }
 
+
+  /**
+   * Updates the references stored inside the component's state
+   * @param {object} references - the references to input as a map
+   */
   updateStateReferences = references => {
     const resAsBibTeXParser = new Cite(references);
     const resAsBibTeX = resAsBibTeXParser.get({type: 'string', style: 'bibtex'});
@@ -49,8 +76,12 @@ export default class BibRefsEditor extends Component {
     });
   }
 
-  render() {
 
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
+  render() {
     const translate = translateNameSpacer(this.context.t, 'Components.BibRefsEditor');
 
     const {
@@ -69,12 +100,20 @@ export default class BibRefsEditor extends Component {
       });
       let resAsJSON;
       let resIsValid;
+      // this operation is aimed at parsing all input references
+      // even if some as misformatted for citation-js and will throw errors
+      // the hack is aimed at separating each reference in a separate string.
+      // If not doing that the first error thrown stops the process for the next bib entries, even if valid
       const expressions = ('\n' + value).split(/\n\@/).filter(val => val.trim().length > 0).map(val => '@' + val);
+      // todo: I tried to catch parsing errors in order to display them
+      // (to tell the user which refs were misformatted)
+      // but did not succeed (does not catch because citation-js throws Syntax errors)
       try {
         let resAsJSONParser;
         resAsJSON = expressions.reduce((result, expression) => {
           resAsJSONParser = new Cite(expression, {type: 'string', style: 'bibtex'});
           const ref = resAsJSONParser.get({type: 'json', style: 'csl'});
+          // take only non-throwing results
           if (ref) {
             result = result.concat(ref);
           }
@@ -152,17 +191,31 @@ export default class BibRefsEditor extends Component {
   }
 }
 
+
+/**
+ * Component's properties types
+ */
 BibRefsEditor.propTypes = {
+
   /**
    * references list represented in csl-json
    */
   references: PropTypes.array,
+
   /**
    * triggers a callback with new bibtex references as csl-json
    */
   onChange: PropTypes.func.isRequired,
 };
 
+
+/**
+ * Component's context used properties
+ */
 BibRefsEditor.contextTypes = {
+
+  /**
+   * Un-namespaced translate function
+   */
   t: PropTypes.func.isRequired,
 };

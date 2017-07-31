@@ -1,7 +1,7 @@
 /**
  * style definitions for the Section configuration component
  *
- * @module fonio/features/SectionsManager
+ * @module fonio/features/SectionConfigurationDialog
  */
 @import '../../../parameters.scss';
 
@@ -14,9 +14,9 @@
 
         .modal-column
         {
-            padding-right: $gutter-medium;
-
             flex: 1;
+
+            padding-right: $gutter-medium;
         }
     }
     h4
@@ -57,7 +57,6 @@
     .input-group
     {
         display: flex;
-
         flex-flow: column nowrap;
         &:not(:last-of-type)
         {
@@ -76,8 +75,9 @@
         {
             font-size: $font-size-3;
 
-            @extend .important-item;
             flex: 1;
+
+            @extend .important-item;
             &:hover
             {
                 @extend .important-item-intent;
@@ -90,9 +90,9 @@
         @extend .flex-stretched-row;
         .modal-column
         {
-            padding-right: $gutter-medium;
-
             flex: 1;
+
+            padding-right: $gutter-medium;
             img
             {
                 width: 100%;
