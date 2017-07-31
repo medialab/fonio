@@ -15,7 +15,6 @@
 
         background: $color-warm-grey;
     }
-
     pre,
     blockquote
     {
@@ -23,7 +22,6 @@
 
         background: $color-warm-grey;
     }
-
     blockquote
     {
         position: relative;
@@ -32,7 +30,6 @@
         padding: $gutter-large;
 
         quotes: '« ' ' »' '‹ ' ' ›';
-
         &:before
         {
             position: absolute;
@@ -66,12 +63,23 @@
     }
     .editor-wrapper
     {
-        overflow: auto;
-        flex: 1;
+        position: relative;
 
-        padding-bottom: 10rem;
-        .scholar-draft-SectionEditor
+        overflow: auto;
+
+        padding-bottom: 10rem;// todo: parametrize that
+
+        flex: 1;
+        .scholar-draft-Editor
         {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 80%;
+            height: 100%;
+            padding-right: 10%;
+            padding-left: 10%;
             .scholar-draft-BasicEditor
             {
                 &.active,
@@ -91,7 +99,6 @@
                 padding: $gutter-medium;
 
                 @extend .animated;
-
                 .public-DraftStyleDefault-block
                 {
                     margin-bottom: $gutter-medium;
@@ -112,14 +119,15 @@
                     border-bottom: 1px solid $color-very-light;
 
                     @extend .flex-stretched-row;
-
                     button
                     {
-                        order: 2;
-
                         width: $font-size-5;
 
                         text-align: center;
+
+                    }
+                    button:first-of-type{
+                        order: 2;                        
                     }
                     h3
                     {
@@ -128,15 +136,36 @@
                     }
                 }
             }
+
+            .scholar-draft-NotePointer{
+                cursor: pointer;
+                display: inline-block;
+                vertical-align: unset;
+                font-size: $font-size-1;
+                line-height: $font-size-1*2.5;
+
+                display: inline-block;
+
+                width: $font-size-2 * 1.4;
+                height: $font-size-2 * 1.4;
+
+                cursor: pointer;
+                text-align: center;
+
+                border-radius: 50%;// todo: parametrize that
+
+                margin-left: $gutter-small;
+                @extend .important-item;
+
+            }
             .scholar-draft-BlockAssetContainer
             {
-                min-height: 10rem;
+                min-height: 10rem;// todo: parametrize that
             }
         }
     }
-
     .ReactTable
     {
-        max-width: 50rem;
+        max-width: 50rem;// todo: parametrize that
     }
 }

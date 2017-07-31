@@ -603,11 +603,13 @@ class SectionEditor extends Component {
     }
 
     let mainEditorState = editorStates[activeSectionId];
-
+    let notesOrder;
     // case pasting target is the main editor
     if (editorFocus === 'main') {
       mainEditorState = insertFragment(mainEditorState, newClipboard);
-      newNotes = updateNotesFromEditor(mainEditorState, newNotes);
+      const {newNotes: newNewNotes, notesOrder: newNotesOrder} = updateNotesFromEditor(mainEditorState, newNotes);
+      newNotes = newNewNotes;
+      notesOrder = newNotesOrder;
     }
     // case pasting target is a note editor
     else {
@@ -648,6 +650,7 @@ class SectionEditor extends Component {
     const newSection = {
       ...activeSection,
       contents: convertToRaw(mainEditorState.getCurrentContent()),
+      notesOrder,
       notes: Object.keys(newNotes).reduce((result, noteId) => {
         return {
           ...result,
@@ -737,9 +740,10 @@ class SectionEditor extends Component {
       activeSection,
       updateSection,
     } = props;
-    const newNotes = updateNotesFromEditor(editorStates[sectionId], activeSection.notes);
+    const {newNotes, notesOrder} = updateNotesFromEditor(editorStates[sectionId], activeSection.notes);
     const newSection = activeSection;
     newSection.notes = newNotes;
+    newSection.notesOrder = notesOrder;
     if (newNotes !== activeSection.notes) {
       updateSection(activeStoryId, sectionId, newSection);
     }
@@ -811,9 +815,11 @@ class SectionEditor extends Component {
         editorState: this.editor.generateEmptyEditor()
       }
     };
-    notes = updateNotesFromEditor(mainEditorState, notes);
+    const {newNotes, notesOrder} = updateNotesFromEditor(mainEditorState, notes);
+    notes = newNotes;
     const newSection = {
       ...activeSection,
+      notesOrder,
       contents: convertToRaw(mainEditorState.getCurrentContent()),
       notes: Object.keys(notes).reduce((fNotes, nd) => ({
         ...fNotes,
