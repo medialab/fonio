@@ -48,7 +48,6 @@ import {
 } from '../../../helpers/modelsUtils';
 
 
-
 /**
  * Redux-decorated component class rendering the takeaway dialog feature to the app
  */

@@ -21,7 +21,7 @@ import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 import './ResourceConfigurationDialog.scss';
 
 /**
- * Renders the proper data input component regarding 
+ * Renders the proper data input component regarding
  * the type of resource being edited, as a pure function.
  * @param {object} props - properties provided to the component
  * @param {object} context - used context data
@@ -220,18 +220,18 @@ const ResourceConfigurationDialog = ({
   // todo: this should be stored elsewhere
   const resourcesTypes = [
     {
-      id: 'table',
-      icon: require('../assets/table.svg'),
-      label: (<span>{translate('resource-type-table')} <HelpPin>
-        {translate('resource-type-table-help')}
-      </HelpPin></span>),
-      possible: true
-    },
-    {
       id: 'data-presentation',
       icon: require('../assets/data-presentation.svg'),
       label: (<span>{translate('resource-type-data-presentation')} <HelpPin>
         {translate('resource-type-data-presentation-help')}
+      </HelpPin></span>),
+      possible: true
+    },
+    {
+      id: 'table',
+      icon: require('../assets/table.svg'),
+      label: (<span>{translate('resource-type-table')} <HelpPin>
+        {translate('resource-type-table-help')}
       </HelpPin></span>),
       possible: true
     },
@@ -260,6 +260,14 @@ const ResourceConfigurationDialog = ({
       possible: true
     },
     {
+      id: 'glossary',
+      icon: require('../assets/glossary.svg'),
+      label: (<span>{translate('resource-type-glossary')} <HelpPin position="left">
+        {translate('resource-type-glossary-help')}
+      </HelpPin></span>),
+      possible: true
+    },
+    {
       id: 'bib',
       icon: require('../assets/bib.svg'),
       label: (<span>{translate('resource-type-bib')} <HelpPin position="left">
@@ -267,14 +275,6 @@ const ResourceConfigurationDialog = ({
       </HelpPin></span>),
       possible: true
     },
-    {
-      id: 'glossary',
-      icon: require('../assets/glossary.svg'),
-      label: (<span>{translate('resource-type-glossary')} <HelpPin position="left">
-        {translate('resource-type-glossary-help')}
-      </HelpPin></span>),
-      possible: true
-    }
 
   ];
   const onApplyChange = () => {

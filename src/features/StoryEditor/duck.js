@@ -316,7 +316,6 @@ const editorFocusState = (state = EDITOR_FOCUS_DEFAULT_STATE, action) => {
 };
 
 
-
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */

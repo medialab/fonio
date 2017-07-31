@@ -94,7 +94,7 @@ StoryCard.propTypes = {
   /**
    * represents if story deletion prompt ("are you sure...") is open
    */
-  promptedToDelete: PropTypes.func,
+  promptedToDelete: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 
   /**
    * callbacks when story deletion is asked by user
