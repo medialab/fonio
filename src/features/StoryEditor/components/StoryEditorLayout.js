@@ -38,39 +38,23 @@ import AsideViewLayout from './AsideViewLayout';
  * @return {ReactElement} markup
  */
 const EditorLayout = ({
-  lang,
-  // setup related
-  id,
-  className,
 
-  // global ui related
-  isStoryCandidateModalOpen,
-  globalUiMode,
-  asideUiMode,
-  isTakeAwayModalOpen,
   activeSectionId,
+  // global ui related
+  asideUiMode,
   // edited story state
   activeStoryId,
   activeStory,
   editorStates,
   editorFocus,
   assetRequestState,
-  assetRequested,
 
   // actions
   returnToLanding,
   actions: {
-    openTakeAwayModal,
-    closeTakeAwayModal,
-    setUiMode,
-    setLanguage,
-    // updateStoryContent,
-    updateStoryMetadataField,
     promptAssetEmbed,
     unpromptAssetEmbed,
-    updateAsset,
     setAsideUiMode,
-    // embedAsset,
     updateSection,
     setEditorFocus,
 
@@ -92,8 +76,6 @@ const EditorLayout = ({
   // custom functions
   openSettings,
   closeAndResetDialog,
-  // updateStoryContent,
-  embedAsset,
   onCreateNewSection,
   summonAsset,
 }, context) => {

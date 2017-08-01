@@ -31,7 +31,6 @@ const ResourcesManagerLayout = ({
   resourcesSearchQuery,
   createResource,
   updateResource,
-  insertionSelection,
   actions: {
     deleteResource,
     setResourceCandidateMetadataValue,

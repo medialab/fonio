@@ -189,6 +189,7 @@ function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
       return {
         ...state,
         activeStoryId: action.story.id,
+        uiMode: 'edition'
       };
     // case user unset the story to edit
     // (should fallback to the home view in components)

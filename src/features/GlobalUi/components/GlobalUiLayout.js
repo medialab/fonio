@@ -50,17 +50,10 @@ const GlobalUiLayout = ({
   // global ui related
   isStoryCandidateModalOpen,
   globalUiMode,
-  asideUiMode,
   isTakeAwayModalOpen,
-  activeSectionId,
   // edited story state
   activeStoryId,
   activeStory,
-  editorStates,
-  editorFocus,
-  assetRequestState,
-  assetRequested,
-
   // actions
   returnToLanding,
   actions: {
@@ -68,29 +61,11 @@ const GlobalUiLayout = ({
     closeTakeAwayModal,
     setUiMode,
     setLanguage,
-    updateStoryMetadataField,
-    promptAssetEmbed,
-    unpromptAssetEmbed,
-    updateAsset,
-    setAsideUiMode,
-    setGlobalUiFocus,
-    updateDraftGlobalUiState,
-    updateDraftGlobalUisStates,
 
-    updateContextualizer,
-    updateResource,
-    deleteContextualization,
-    deleteContextualizer,
-    setActiveSectionId,
     startStoryCandidateConfiguration,
   },
   // custom functions
-  openSettings,
   closeAndResetDialog,
-  updateStoryContent,
-  embedAsset,
-  onCreateNewSection,
-  summonAsset,
 }, context) => {
 
   /**

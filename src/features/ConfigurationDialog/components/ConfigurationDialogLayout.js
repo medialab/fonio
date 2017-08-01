@@ -32,30 +32,12 @@ import './ConfigurationDialog.scss';
  */
 const ConfigurationDialogLayout = ({
   storyCandidate,
-  fetchUserFileStatus,
-  dataSourceTab,
-  // todo : delete the following variable and do everything with visualizationTypesModels ?
-  activeVisualizationTypes = [],
-  visualizationTypesModels,
   actions: {
-    fetchExampleFile,
-    fetchUserFile,
     setCandidateStoryMetadata,
-    setCandidateStoryDatasetMetadata,
-    unsetStoryCandidateDataset,
-    setStoryCandidateVisualizationType,
-    setStoryCandidateDatamapItem,
-    toggleCandidateColorEdition,
-    setStoryCandidateColor,
     applyStoryCandidateConfiguration,
-    setStoryCandidateViewOption,
-    setDataSourceTab,
     submitCoverImage
   },
   closeStoryCandidate,
-  onFileDrop,
-  validateFileExtension,
-  editedColor
 }, context) => {
   // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.ConfigurationDialog');
