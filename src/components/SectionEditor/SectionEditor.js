@@ -52,8 +52,8 @@ const {
   insertFragment,
 } = utils;
 
-import style from 'raw-loader!./assets/apa.csl';
-import locale from 'raw-loader!./assets/english-locale.xml';
+import defaultStyle from 'raw-loader!./assets/apa.csl';
+import defaultLocale from 'raw-loader!./assets/english-locale.xml';
 
 import BlockContextualizationContainer from './BlockContextualizationContainer';
 
@@ -1282,6 +1282,20 @@ class SectionEditor extends Component {
     const bindSectionTitle = sectionTitle => {
       this.sectionTitle = sectionTitle;
     };
+
+    // define citation style and locales, falling back on defaults if needed
+    const style = (story &&
+                          story.settings &&
+                          story.settings.citationStyle &&
+                          story.settings.citationStyle.data
+                        )
+                          || defaultStyle;
+    const locale = (story &&
+                          story.settings &&
+                          story.settings.citationLocale &&
+                          story.settings.citationLocale.data
+                        )
+                          || defaultLocale;
     return (
       <div className="fonio-SectionEditor">
         <h1 className="editable-title" onClick={onTitleInputClick}>
@@ -1332,9 +1346,9 @@ class SectionEditor extends Component {
               blockAssetComponents={blockAssetComponents}
               AssetChoiceComponent={ResourceSearchWidget} />
 
-            {Object.keys(citationItems).length > 0 ? <Bibliography /> : null}
           </ReferencesManager>
         </div>
+        {Object.keys(citationItems).length > 0 ? <Bibliography /> : null}
       </div>
     );
   }

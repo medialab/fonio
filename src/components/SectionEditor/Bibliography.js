@@ -21,7 +21,7 @@ const Bib = (unusedProps, {
 }) => {
   const translate = translateNameSpacer(t, 'Components.Bibliography');
   return (
-    <section>
+    <section className="editor-bibliography">
       <h2>{translate('bibliography-title')}</h2>
       <div>{bibliography}</div>
     </section>

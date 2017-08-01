@@ -35,7 +35,7 @@ const Footer = ({
           lang={lang}
           onChange={setLanguage} />
       </div>
-      <div className="middle-group"/>
+      <div className="middle-group" />
       <div className="right-group">
         <button className="takeaway-btn" onClick={onClickMetadata} ><img className="fonio-icon-image" src={require('../../sharedAssets/settings-white.svg')} />{translate('story-settings')}</button>
         <button className="mode-btn" onClick={togglePreview}>{

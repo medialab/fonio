@@ -119,7 +119,7 @@ const GlobalUiLayout = ({
 
   const onClickMetadata = () => {
     startStoryCandidateConfiguration(activeStory);
-  }
+  };
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
   return (
@@ -139,8 +139,7 @@ const GlobalUiLayout = ({
             lang={lang}
             setLanguage={setLanguage}
             uiMode={globalUiMode}
-            onClickMetadata={onClickMetadata}
-          />
+            onClickMetadata={onClickMetadata} />
         </div>
       : <StoriesManagerContainer />}
       <Modal
