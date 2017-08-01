@@ -37,7 +37,6 @@ const Footer = ({
       </div>
       <div className="middle-group" />
       <div className="right-group">
-        <button className="takeaway-btn" onClick={onClickMetadata} ><img className="fonio-icon-image" src={require('../../sharedAssets/settings-white.svg')} />{translate('story-settings')}</button>
         <button className="mode-btn" onClick={togglePreview}>{
           uiMode === 'edition' ?
             <span>
@@ -48,6 +47,7 @@ const Footer = ({
               <img className="fonio-icon-image" src={require('../../sharedAssets/edit-white.svg')} />{translate('edit')}
             </span>
         }</button>
+        <button className="mode-btn" onClick={onClickMetadata} ><img className="fonio-icon-image" src={require('../../sharedAssets/settings-white.svg')} />{translate('story-settings')}</button>
         <button className="takeaway-btn" onClick={openTakeAwayModal}><img className="fonio-icon-image" src={require('../../sharedAssets/take-away-white.svg')} />{translate('take-away')}</button>
       </div>
     </footer>
