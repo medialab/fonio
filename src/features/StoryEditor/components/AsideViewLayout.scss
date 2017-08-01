@@ -24,6 +24,7 @@
     .aside-header
     {
         display: flex;
+
         flex-flow: column nowrap;
         button
         {
@@ -34,7 +35,6 @@
         .returnToLanding-btn
         {
             @extend .primary-item;
-
             .fonio-icon
             {
                 padding-right: $gutter-small;
@@ -46,6 +46,7 @@
         }
         .settings-btn
         {
+            margin-bottom: $gutter-medium;
             img
             {
                 position: relative;
@@ -53,7 +54,6 @@
             }
         }
     }
-
     .aside-option-container
     {
         position: relative;

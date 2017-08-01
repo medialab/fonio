@@ -146,7 +146,16 @@ export default class BibRefsEditor extends Component {
         return this.props.onChange([...refs, {
           type: '',
           title: '',
-          author: [],
+          // commented because it makes citation-js crash
+          // when creating a new reference in the interface
+          // there is an error in their lib at src/get/bibtex/label line 14 ("if (author)" should be "if (author && author[0])"
+          // @todo: make a PR to citation-js to be able to have authors in default new citation
+          // author: [{
+          //   family: '',
+          //   given: '',
+          //   literal: '',
+          //   id: generateId()
+          // }],
           id: generateId()
         }]);
       }

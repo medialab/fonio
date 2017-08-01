@@ -121,7 +121,8 @@ class SectionEditor extends Component {
       hydrated: false
     };
     // this.updateSectionRawContent = this.updateSectionRawContent.bind(this);
-    this.updateSectionRawContent = debounce(this.updateSectionRawContent, 2000);
+    this.updateSectionRawContent = this.updateSectionRawContent.bind(this);
+    this.updateSectionRawContentDebounced = debounce(this.updateSectionRawContent, 2000);
     this.debouncedCleanStuffFromEditorInspection = debounce(this.cleanStuffFromEditorInspection, 500);
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
@@ -161,6 +162,7 @@ class SectionEditor extends Component {
       const {
         activeSection
       } = nextProps;
+      this.updateSectionRawContent('main', this.props.activeStoryId, this.props.sectionId);
       this.hydrateEditorStates(activeSection);
     }
   }
@@ -376,13 +378,6 @@ class SectionEditor extends Component {
     let newNotes;
     let newClipboard = clipboard;// clipboard entities will have to be updated
 
-    // // defining the relevant editor state to work with
-    // if (editorFocus === 'main') {
-    //   editorState = editorStates[activeSectionId];
-    // }
-    // else {
-    //   editorState = editorStates[editorFocus];
-    // }
 
     // case: some non-textual data has been saved to the clipboard
     if (typeof copiedData === 'object') {
@@ -532,6 +527,7 @@ class SectionEditor extends Component {
           }, {});
 
           let newContentState;
+
           // iterating through all the entities and adding them to the new editor state
           Object.keys(copiedEntities).forEach(contentId => {
             if (contentId === 'main') {
@@ -602,6 +598,7 @@ class SectionEditor extends Component {
         }
     }
 
+
     let mainEditorState = editorStates[activeSectionId];
     let notesOrder;
     // case pasting target is the main editor
@@ -614,7 +611,16 @@ class SectionEditor extends Component {
     // case pasting target is a note editor
     else {
       newNotes = {
-        ...newNotes,
+        ...Object.keys(newNotes).reduce((convertedNotes, noteId) => {
+          const note = newNotes[noteId];
+          return {
+            ...convertedNotes,
+            [noteId]: {
+              ...note,
+              editorState: editorStates[noteId],
+            }
+          };
+        }, {}),
         [editorFocus]: {
           ...newNotes[editorFocus],
           editorState: insertFragment(
@@ -626,8 +632,8 @@ class SectionEditor extends Component {
           )
         }
       };
-
     }
+
     newNotes = Object.keys(newNotes).reduce((result, noteId) => {
       const note = newNotes[noteId];
       delete note.oldId;
@@ -644,6 +650,7 @@ class SectionEditor extends Component {
         [noteId]: newNotes[noteId].editorState
       };
     }, {[activeSectionId]: mainEditorState});
+
     updateDraftEditorsStates(newEditorStates);
 
     // ...then update the section with editorStates convert to serializable raw objects
@@ -968,11 +975,16 @@ class SectionEditor extends Component {
   }
 
   updateSectionRawContent = (editorStateId, storyId, sectionId) => {
-    // const rawContent = convertToRaw(editorState.getCurrentContent());
     const section = this.props.story.sections[sectionId];
 
     const finalEditorStateId = editorStateId === 'main' ? sectionId : editorStateId;
-    const rawContent = convertToRaw(this.props.editorStates[finalEditorStateId].getCurrentContent());
+    const finalEditorState = this.props.editorStates[finalEditorStateId];
+    // as the function is debounced it would be possible
+    // not to have access to the final editor state
+    if (!finalEditorState) {
+      return;
+    }
+    const rawContent = convertToRaw(finalEditorState.getCurrentContent());
 
 
     let newSection;
@@ -1008,7 +1020,7 @@ class SectionEditor extends Component {
     const {
       addNote,
       deleteNote,
-      updateSectionRawContent,
+      updateSectionRawContentDebounced,
       onAssetRequest,
       addTextAtCurrentSelection,
       onDataChange,
@@ -1096,7 +1108,7 @@ class SectionEditor extends Component {
       // update active immutable editor state
       updateDraftEditorState(editorStateId, editor);
       // ("debouncily") update serialized content
-      updateSectionRawContent(editorId, activeStoryId, sectionId);
+      updateSectionRawContentDebounced(editorId, activeStoryId, sectionId);
     };
 
     const onActiveSectionTitleChange = e => {

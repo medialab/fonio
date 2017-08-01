@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2017-8-1\n"
-"PO-Revision-Date: Tue Aug 01 2017 10:22:32 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Tue Aug 01 2017 12:02:31 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -82,6 +82,9 @@ msgstr "preview"
 
 msgid "Components.Footer.edit"
 msgstr "edit"
+
+msgid "Components.Footer.story-settings"
+msgstr "settings"
 
 msgid "Components.Footer.take-away"
 msgstr "take away"
@@ -221,21 +224,6 @@ msgstr "start to edit this story"
 msgid "Features.ConfigurationDialog.cancel"
 msgstr "cancel"
 
-msgid "Features.ConfigurationDialog.stop-spatialization"
-msgstr "stop-spatialization"
-
-msgid "Features.ConfigurationDialog.run-spatialization"
-msgstr "run-spatialization"
-
-msgid "Features.ConfigurationDialog.run-spatialization-help"
-msgstr "run-spatialization-help"
-
-msgid "Features.ConfigurationDialog.save-nodes-positions"
-msgstr "save-nodes-positions"
-
-msgid "Features.ConfigurationDialog.save-nodes-positions-help"
-msgstr "save-nodes-positions-help"
-
 msgid "Features.GlobalUi.edit-story"
 msgstr "edit story"
 
@@ -281,17 +269,17 @@ msgstr "resource successfully loaded!"
 msgid "Features.Editor.loading-resource-data-fail"
 msgstr "resource couldn't be loaded"
 
-msgid "Features.Editor.resource-type-table"
-msgstr "table"
-
-msgid "Features.Editor.resource-type-table-help"
-msgstr "import a tabular dataset file in the library"
-
 msgid "Features.Editor.resource-type-data-presentation"
 msgstr "data presentation"
 
 msgid "Features.Editor.resource-type-data-presentation-help"
 msgstr "add a data presentation made with bulgur, another tool of the quinoa ecosystem"
+
+msgid "Features.Editor.resource-type-table"
+msgstr "table"
+
+msgid "Features.Editor.resource-type-table-help"
+msgstr "import a tabular dataset file in the library"
 
 msgid "Features.Editor.resource-type-image"
 msgstr "image"
@@ -311,17 +299,17 @@ msgstr "embed"
 msgid "Features.Editor.resource-type-embed-help"
 msgstr "add to your library an html embed code snippet retrieved somewhere on the web"
 
-msgid "Features.Editor.resource-type-bib"
-msgstr "bibliographic references"
-
-msgid "Features.Editor.resource-type-bib-help"
-msgstr "add bibliographic references formatted with bibliographic software such as zotero or mendeley"
-
 msgid "Features.Editor.resource-type-glossary"
 msgstr "glossary entries"
 
 msgid "Features.Editor.resource-type-glossary-help"
 msgstr "gossary entries allow to signal remarkable words in the text"
+
+msgid "Features.Editor.resource-type-bib"
+msgstr "bibliographic references"
+
+msgid "Features.Editor.resource-type-bib-help"
+msgstr "add bibliographic references formatted with bibliographic software such as zotero or mendeley"
 
 msgid "Features.Editor.edit-resource"
 msgstr "edit resource"
@@ -501,7 +489,7 @@ msgid "Features.Editor.create-new-section"
 msgstr "create a new section"
 
 msgid "Features.StorySettingsManager.story-settings-title"
-msgstr "story settings"
+msgstr "visual settings"
 
 msgid "Features.StorySettingsManager.template-title"
 msgstr "layout template"
@@ -610,9 +598,3 @@ msgstr "go to the online webpage"
 
 msgid "Features.TakeAway.close"
 msgstr "close"
-
-msgid "Components.Footer.story-metadata"
-msgstr "story-metadata"
-
-msgid "Components.Footer.story-settings"
-msgstr "story-settings"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2017-8-1\n"
-"PO-Revision-Date: Tue Aug 01 2017 10:22:32 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Tue Aug 01 2017 12:02:31 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -82,6 +82,9 @@ msgstr "aperçu"
 
 msgid "Components.Footer.edit"
 msgstr "éditer"
+
+msgid "Components.Footer.story-settings"
+msgstr "story-settings"
 
 msgid "Components.Footer.take-away"
 msgstr "emporter"
@@ -221,21 +224,6 @@ msgstr "démarrer l'édition de cette histoire"
 msgid "Features.ConfigurationDialog.cancel"
 msgstr "annuler"
 
-msgid "Features.ConfigurationDialog.stop-spatialization"
-msgstr "stop-spatialization"
-
-msgid "Features.ConfigurationDialog.run-spatialization"
-msgstr "run-spatialization"
-
-msgid "Features.ConfigurationDialog.run-spatialization-help"
-msgstr "run-spatialization-help"
-
-msgid "Features.ConfigurationDialog.save-nodes-positions"
-msgstr "save-nodes-positions"
-
-msgid "Features.ConfigurationDialog.save-nodes-positions-help"
-msgstr "save-nodes-positions-help"
-
 msgid "Features.GlobalUi.edit-story"
 msgstr "éditer le récit"
 
@@ -281,17 +269,17 @@ msgstr "données de la ressource chargées avec succès !"
 msgid "Features.Editor.loading-resource-data-fail"
 msgstr "les données de la ressource n'ont pas pu être chargées !"
 
-msgid "Features.Editor.resource-type-table"
-msgstr "tableau"
-
-msgid "Features.Editor.resource-type-table-help"
-msgstr "importer un fichier de données tabulaire dans la bibliothèque"
-
 msgid "Features.Editor.resource-type-data-presentation"
 msgstr "présentation de données"
 
 msgid "Features.Editor.resource-type-data-presentation-help"
 msgstr "ajouter à la bibliothèque de votre récit une présentation de données faite avec bulgur, un autre outil de l'écosystème quinoa"
+
+msgid "Features.Editor.resource-type-table"
+msgstr "tableau"
+
+msgid "Features.Editor.resource-type-table-help"
+msgstr "importer un fichier de données tabulaire dans la bibliothèque"
 
 msgid "Features.Editor.resource-type-image"
 msgstr "image"
@@ -311,17 +299,17 @@ msgstr "code à embarquer"
 msgid "Features.Editor.resource-type-embed-help"
 msgstr "ajouter à la bibliothèque de votre récit un morceau de code récupéré sur un service externe"
 
-msgid "Features.Editor.resource-type-bib"
-msgstr "références bibliographiques"
-
-msgid "Features.Editor.resource-type-bib-help"
-msgstr "ajouter à la bibliothèque de votre récit des références bibliographiques collectées avec un logiciel comme zotero ou mendeley"
-
 msgid "Features.Editor.resource-type-glossary"
 msgstr "entrée de glossaire"
 
 msgid "Features.Editor.resource-type-glossary-help"
 msgstr "les entrées de glossaires permettent de marquer certains mots du texte"
+
+msgid "Features.Editor.resource-type-bib"
+msgstr "références bibliographiques"
+
+msgid "Features.Editor.resource-type-bib-help"
+msgstr "ajouter à la bibliothèque de votre récit des références bibliographiques collectées avec un logiciel comme zotero ou mendeley"
 
 msgid "Features.Editor.edit-resource"
 msgstr "éditer la ressource"
@@ -336,7 +324,7 @@ msgid "Features.Editor.resource-data-help"
 msgstr "modifier les données associées à cette ressource"
 
 msgid "Features.Editor.preview-title"
-msgstr "Aperçu"
+msgstr "Aperçu/paramètres"
 
 msgid "Features.Editor.resource-metadata"
 msgstr "métadonnées de la ressource"
@@ -477,7 +465,7 @@ msgid "Features.StoriesManager.cancel"
 msgstr "annuler"
 
 msgid "Features.Editor.resources-header"
-msgstr "resources"
+msgstr "ressources"
 
 msgid "Features.Editor.sections-header"
 msgstr "sections"
@@ -501,7 +489,7 @@ msgid "Features.Editor.create-new-section"
 msgstr "créer une nouvelle section"
 
 msgid "Features.StorySettingsManager.story-settings-title"
-msgstr "réglages"
+msgstr "réglages visuels"
 
 msgid "Features.StorySettingsManager.template-title"
 msgstr "gabarit de présentation"
@@ -610,9 +598,3 @@ msgstr "aller sur la page en ligne"
 
 msgid "Features.TakeAway.close"
 msgstr "fermer"
-
-msgid "Components.Footer.story-metadata"
-msgstr "story-metadata"
-
-msgid "Components.Footer.story-settings"
-msgstr "story-settings"

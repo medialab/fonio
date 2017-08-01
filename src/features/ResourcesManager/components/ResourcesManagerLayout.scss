@@ -33,6 +33,8 @@
         flex: 1;
 
         @extend .flex-stretched-column;
+
+        padding-top: $gutter-medium;
         .resources-list
         {
             overflow-y: auto;

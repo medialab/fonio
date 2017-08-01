@@ -11,67 +11,77 @@
     height: $font-size-4;
     margin: 0;
     padding: 0;
+    padding-right: $gutter-medium;
+    padding-left: $gutter-medium;
 
     @extend .flex-stretched-row;
-    li
+    .option
     {
-        padding: 0;
-
-        list-style-type: none;
-    }
-
-    .nav-btn
-    {
-        width: $font-size-4;
         padding: $gutter-small;
 
+        list-style-type: none;
+
+        cursor: pointer;
         text-align: center;
 
-        background: inherit;
-
-        @extend .interactive-item;
-        @extend .animated;
+        flex: 1;
+        @extend .important-item;
         &:hover
         {
-            @extend .interactive-item-intent;
+            @extend .important-item-intent;
         }
-    }
-
-    .options-wrapper
-    {
-        position: relative;
-
-        overflow: hidden;
-        flex: 1;
-        .options-container
+        &.active
         {
-            position: absolute;
-
-            display: inline-block;
-
-            width: 100%;
-            height: 100%;
-
-            text-align: center;
-            .option
+            @extend .important-item-active;
+            &:hover
             {
-                position: absolute;
-                top: 0;
-
-                width: 100%;
-
-                @extend .animated;
-                h2
-                {
-                    font-size: $font-size-3;
-                    font-weight: 800;
-
-                    display: inline-block;
-
-                    margin: 0;
-                    padding: 0;
-                }
+                cursor: default;
             }
         }
     }
+    // old css code
+    // this is deprecated but still there
+    // in case we want to A-B the two options for displaying aside options
+    // .nav-btn
+    // {
+    //     width: $font-size-4;
+    //     padding: $gutter-small;
+    //     text-align: center;
+    //     background: inherit;
+    //     @extend .interactive-item;
+    //     @extend .animated;
+    //     &:hover
+    //     {
+    //         @extend .interactive-item-intent;
+    //     }
+    // }
+    // .options-wrapper
+    // {
+    //     position: relative;
+    //     overflow: hidden;
+    //     flex: 1;
+    //     .options-container
+    //     {
+    //         position: absolute;
+    //         display: inline-block;
+    //         width: 100%;
+    //         height: 100%;
+    //         text-align: center;
+    //         .option
+    //         {
+    //             position: absolute;
+    //             top: 0;
+    //             width: 100%;
+    //             @extend .animated;
+    //             h2
+    //             {
+    //                 font-size: $font-size-3;
+    //                 font-weight: 800;
+    //                 display: inline-block;
+    //                 margin: 0;
+    //                 padding: 0;
+    //             }
+    //         }
+    //     }
+    // }
 }
