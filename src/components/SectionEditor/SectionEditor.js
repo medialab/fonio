@@ -1179,7 +1179,7 @@ class SectionEditor extends Component {
       cancelAssetRequest();
       setTimeout(() => {
         setEditorFocus(focusedEditorId);
-        this.editor.focus(focusedEditorId)
+        this.editor.focus(focusedEditorId);
       }, timers.short);
     };
 
