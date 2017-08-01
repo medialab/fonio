@@ -21,12 +21,12 @@ const AsideToggler = ({
   // hideNav,
 }) => {
   // let aIndex;
-  options.some((option, index) => {
-    if (option.id === activeOption) {
-      aIndex = index;
-      return true;
-    }
-  });
+  // options.some((option, index) => {
+  //   if (option.id === activeOption) {
+  //     aIndex = index;
+  //     return true;
+  //   }
+  // });
 
   // const onPrev = () => {
   //   if (activeOption) {
