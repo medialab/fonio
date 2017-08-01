@@ -1,6 +1,6 @@
 {
   "name": "fonio",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Quinoa story editor",
   "main": "dist/entry.js",
   "scripts": {
@@ -51,7 +51,7 @@
     "json2po": "^1.0.5",
     "pouchdb": "^6.3.4",
     "quinoa-presentation-player": "^0.2.3",
-    "quinoa-story-player": "^0.2.3",
+    "quinoa-story-player": "^0.2.4",
     "react": "^15.3.2",
     "react-dnd": "^2.4.0",
     "react-dnd-html5-backend": "^2.4.1",
