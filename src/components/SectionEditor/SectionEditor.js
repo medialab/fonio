@@ -1176,9 +1176,11 @@ class SectionEditor extends Component {
     };
 
     const onAssetRequestCancel = () => {
-      setEditorFocus(focusedEditorId);
-      setTimeout(() => this.editor.focus(focusedEditorId));
       cancelAssetRequest();
+      setTimeout(() => {
+        setEditorFocus(focusedEditorId);
+        this.editor.focus(focusedEditorId)
+      }, timers.short);
     };
 
     /*
