@@ -82,6 +82,7 @@ const GlobalUiLayout = ({
     deleteContextualization,
     deleteContextualizer,
     setActiveSectionId,
+    startStoryCandidateConfiguration,
   },
   // custom functions
   openSettings,
@@ -91,7 +92,6 @@ const GlobalUiLayout = ({
   onCreateNewSection,
   summonAsset,
 }, context) => {
-
 
   /**
    * Callbacks
@@ -116,6 +116,10 @@ const GlobalUiLayout = ({
       setUiMode('edition');
     }
   };
+
+  const onClickMetadata = () => {
+    startStoryCandidateConfiguration(activeStory);
+  }
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
   return (
@@ -134,7 +138,9 @@ const GlobalUiLayout = ({
             togglePreview={togglePreview}
             lang={lang}
             setLanguage={setLanguage}
-            uiMode={globalUiMode} />
+            uiMode={globalUiMode}
+            onClickMetadata={onClickMetadata}
+          />
         </div>
       : <StoriesManagerContainer />}
       <Modal

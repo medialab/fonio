@@ -9,6 +9,7 @@
 .fonio-SectionEditor
 {
     @extend .flex-stretched-column;
+
     q
     {
         quotes: none;
@@ -156,6 +157,9 @@
 
                 margin-left: $gutter-small;
                 @extend .important-item;
+                &:hover{
+                    @extend .important-item-intent;
+                }
 
             }
             .scholar-draft-BlockAssetContainer

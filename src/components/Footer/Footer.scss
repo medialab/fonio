@@ -40,11 +40,16 @@
         }
     }
 
+    .middle-group{
+        flex: 1;
+    }
+
     .right-group
     {
         width: $legend-width;
 
         @extend .flex-stretched-row;
+        flex: 1;
 
         button
         {

@@ -74,8 +74,8 @@
       "notesPosition": "",
       "allowDisqusComments": ""
     },
-    "citationStyle": "",
-    "citationLocale": "",
+    "citationStyle": {},
+    "citationLocale": {},
     "css": ""
   }
 }

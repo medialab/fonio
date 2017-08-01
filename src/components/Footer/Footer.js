@@ -24,6 +24,7 @@ const Footer = ({
   openTakeAwayModal,
   togglePreview,
   returnToLanding,
+  onClickMetadata,
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Components.Footer');
   return (
@@ -34,7 +35,9 @@ const Footer = ({
           lang={lang}
           onChange={setLanguage} />
       </div>
+      <div className="middle-group"/>
       <div className="right-group">
+        <button className="takeaway-btn" onClick={onClickMetadata} ><img className="fonio-icon-image" src={require('../../sharedAssets/settings-white.svg')} />{translate('story-settings')}</button>
         <button className="mode-btn" onClick={togglePreview}>{
           uiMode === 'edition' ?
             <span>
@@ -86,6 +89,11 @@ Footer.propTypes = {
    * Callbacks when home button is clicked
    */
   returnToLanding: PropTypes.func,
+
+  /**
+   * Callbacks when metadata button is clicked
+   */
+  onClickMetadata: PropTypes.func,
 };
 
 Footer.contextTypes = {
