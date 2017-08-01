@@ -1318,6 +1318,8 @@ class SectionEditor extends Component {
               notes={notes}
               assets={assets}
 
+              BibliographyComponent={Object.keys(citationItems).length > 0 ? () => <Bibliography /> : null}
+
               clipboard={clipboard}
 
               ref={bindRef}
@@ -1348,7 +1350,6 @@ class SectionEditor extends Component {
 
           </ReferencesManager>
         </div>
-        {Object.keys(citationItems).length > 0 ? <Bibliography /> : null}
       </div>
     );
   }

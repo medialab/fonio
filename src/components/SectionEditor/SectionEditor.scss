@@ -9,7 +9,6 @@
 .fonio-SectionEditor
 {
     @extend .flex-stretched-column;
-
     q
     {
         quotes: none;
@@ -77,10 +76,11 @@
             top: 0;
             left: 0;
 
-            width: 80%;
-            height: 100%;
             padding-right: 10%;
             padding-left: 10%;
+
+            width: 80%;
+            height: 100%;
             .scholar-draft-BasicEditor
             {
                 &.active,
@@ -125,10 +125,10 @@
                         width: $font-size-5;
 
                         text-align: center;
-
                     }
-                    button:first-of-type{
-                        order: 2;                        
+                    button:first-of-type
+                    {
+                        order: 2;
                     }
                     h3
                     {
@@ -137,36 +137,40 @@
                     }
                 }
             }
-
-            .scholar-draft-NotePointer{
-                cursor: pointer;
-                display: inline-block;
-                vertical-align: unset;
+            .scholar-draft-NotePointer
+            {
                 font-size: $font-size-1;
                 line-height: $font-size-1*2.5;
 
                 display: inline-block;
+                display: inline-block;
 
                 width: $font-size-2 * 1.4;
                 height: $font-size-2 * 1.4;
+                margin-left: $gutter-small;
 
                 cursor: pointer;
+                cursor: pointer;
                 text-align: center;
+                vertical-align: unset;
 
                 border-radius: 50%;// todo: parametrize that
 
-                margin-left: $gutter-small;
                 @extend .important-item;
-                &:hover{
+                &:hover
+                {
                     @extend .important-item-intent;
                 }
-
             }
             .scholar-draft-BlockAssetContainer
             {
                 min-height: 10rem;// todo: parametrize that
             }
         }
+    }
+    .editor-bibliography
+    {
+        margin-bottom: $gutter-large;
     }
     .ReactTable
     {
