@@ -10,6 +10,8 @@ import Textarea from 'react-textarea-autosize';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
+import downloadFile from '../../../helpers/fileDownloader';
+
 import BigSelect from '../../../components/BigSelect/BigSelect';
 import HelpPin from '../../../components/HelpPin/HelpPin';
 import Toaster from '../../../components/Toaster/Toaster';
@@ -70,13 +72,22 @@ const ResourceDataInput = ({
       );
     case 'data-presentation':
       const onPresentationSubmit = (files) => submitResourceData('dataPresentationFile', files[0]);
+      const downloadPresentation = () =>
+        downloadFile(
+          JSON.stringify(resourceCandidate.data),
+          'json',
+          resourceCandidate.data.metadata.title || 'data-presentation'
+        );
       return (
-        <DropZone
-          onDrop={onPresentationSubmit}>
-          <div>
-            <p>{translate('drop-a-file-here')}</p>
-          </div>
-        </DropZone>
+        <div className="data-presentation-input">
+          <DropZone
+            onDrop={onPresentationSubmit}>
+            <div>
+              <p>{translate('drop-a-file-here')}</p>
+            </div>
+          </DropZone>
+          {resourceCandidate.data && <button onClick={downloadPresentation}>{translate('download-current-presentation-data')}</button>}
+        </div>
       );
     case 'bib':
       const onBibTeXFileSubmit = (files) => submitResourceData('bibTeXFile', files[0]);
@@ -351,50 +362,62 @@ const ResourceConfigurationDialog = ({
             </div>
           </section>
           : null}
-        {resourceCandidateType && (resourceCandidateType !== 'glossary' && resourceCandidateType !== 'bib') ?
-          <section className="modal-row">
-            <h2>{translate('resource-metadata')}
-              <HelpPin>
-                {translate('resource-metadata-help')}
-              </HelpPin>
-            </h2>
-            <form className="modal-columns-container">
-              <div className="modal-column">
-                <div className="input-group">
-                  <label htmlFor="title">{translate('title-of-the-resource')}</label>
-                  <input
-                    onChange={setResourceTitle}
-                    type="text"
-                    name="title"
-                    placeholder={translate('title-of-the-resource')}
-                    value={resourceCandidate.metadata.title} />
+        { // @todo: make that cleaner by handling
+          // for which resources types can be edited
+          // and for which not in the resource types
+          // model file
+          resourceCandidateType &&
+          (
+            resourceCandidateType !== 'data-presentation' &&
+            resourceCandidateType !== 'glossary' &&
+            resourceCandidateType !== 'bib'
+          ) ?
+            <section className="modal-row">
+              <h2>{translate('resource-metadata')}
+                <HelpPin>
+                  {translate('resource-metadata-help')}
+                </HelpPin>
+              </h2>
+              <form className="modal-columns-container">
+                <div className="modal-column">
+                  <div className="input-group">
+                    <label htmlFor="title">{translate('title-of-the-resource')}</label>
+                    <input
+                      onChange={setResourceTitle}
+                      type="text"
+                      name="title"
+                      placeholder={translate('title-of-the-resource')}
+                      value={resourceCandidate.metadata.title} />
+                  </div>
+
+                  <div className="input-group">
+                    <label htmlFor="source">{translate('source-of-the-resource')}</label>
+                    <input
+                      onChange={setResourceSource}
+                      type="text"
+                      name="source"
+                      placeholder={translate('source-of-the-resource')}
+                      value={resourceCandidate.metadata.source} />
+                  </div>
                 </div>
 
-                <div className="input-group">
-                  <label htmlFor="source">{translate('source-of-the-resource')}</label>
-                  <input
-                    onChange={setResourceSource}
-                    type="text"
-                    name="source"
-                    placeholder={translate('source-of-the-resource')}
-                    value={resourceCandidate.metadata.source} />
+                <div className="modal-column">
+                  <div className="input-group" style={{flex: 1}}>
+                    <label htmlFor="description">{translate('description-of-the-resource')}</label>
+                    <Textarea
+                      onChange={setResourceDescription}
+                      type="text"
+                      name="description"
+                      placeholder={translate('description-of-the-resource')}
+                      style={{flex: 1}}
+                      value={resourceCandidate.metadata.description} />
+                  </div>
                 </div>
-              </div>
-
-              <div className="modal-column">
-                <div className="input-group" style={{flex: 1}}>
-                  <label htmlFor="description">{translate('description-of-the-resource')}</label>
-                  <Textarea
-                    onChange={setResourceDescription}
-                    type="text"
-                    name="description"
-                    placeholder={translate('description-of-the-resource')}
-                    style={{flex: 1}}
-                    value={resourceCandidate.metadata.description} />
-                </div>
-              </div>
-            </form>
-          </section> : null}
+              </form>
+            </section>
+          :
+          null
+        }
 
 
       </section>

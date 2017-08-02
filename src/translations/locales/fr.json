@@ -74,6 +74,7 @@
   "Features.Editor.drop-a-csv-file-here": "déposer un fichier csv ici",
   "Features.Editor.url-of-the-video": "url de la vidéo",
   "Features.Editor.drop-a-file-here": "déposer un fichier ici",
+  "Features.Editor.download-current-presentation-data": "télécharger la présentation actuelle",
   "Features.Editor.drop-bibtex-here": "drop-bibtex-here",
   "Features.Editor.paste-embed-code": "coller votre code html ici",
   "Features.Editor.name-of-the-glossary-entry": "nom de l'entrée",

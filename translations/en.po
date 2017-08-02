@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2017-8-2\n"
-"PO-Revision-Date: Wed Aug 02 2017 15:06:49 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Aug 02 2017 15:28:22 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -235,6 +235,9 @@ msgstr "url of the video"
 
 msgid "Features.Editor.drop-a-file-here"
 msgstr "drop a file here"
+
+msgid "Features.Editor.download-current-presentation-data"
+msgstr "download current presentation's data"
 
 msgid "Features.Editor.drop-bibtex-here"
 msgstr "drop a bibtex file here"

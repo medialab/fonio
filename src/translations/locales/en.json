@@ -74,6 +74,7 @@
   "Features.Editor.drop-a-csv-file-here": "drop a csv file here",
   "Features.Editor.url-of-the-video": "url of the video",
   "Features.Editor.drop-a-file-here": "drop a file here",
+  "Features.Editor.download-current-presentation-data": "download current presentation's data",
   "Features.Editor.drop-bibtex-here": "drop a bibtex file here",
   "Features.Editor.paste-embed-code": "paste your embed code here",
   "Features.Editor.name-of-the-glossary-entry": "name of the glossary entry",

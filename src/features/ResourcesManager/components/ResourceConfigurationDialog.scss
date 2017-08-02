@@ -123,4 +123,16 @@
     .fonio-DropZone{
         margin-bottom: $gutter-large;
     }
+
+    .data-presentation-input
+    {
+        @extend .flex-stretched-column;
+        button{
+            padding: $gutter-medium;
+            @extend .interactive-item;
+            &:hover{
+                @extend .interactive-item-intent;
+            }
+        }
+    }
 }
