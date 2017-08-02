@@ -113,35 +113,39 @@ const ResourceDataInput = ({
       const onTypeChange = value => submitResourceData('glossaryType', value, resourceCandidate.data);
       return (
         <div className="input-group">
-          <label htmlFor="title">{translate('name-of-the-glossary-entry')}</label>
-          <input
-            onChange={onNameChange}
-            type="text"
-            name="url"
-            placeholder={translate('name-of-the-glossary-entry')}
-            value={resourceCandidate.data && resourceCandidate.data.name || ''} />
-          <OptionSelect
-            activeOptionId={resourceCandidate && resourceCandidate.data && resourceCandidate.data.glossaryType}
-            options={[
-              {
-                value: 'person',
-                label: translate('person')
-              },
-              {
-                value: 'place',
-                label: translate('place')
-              },
-              {
-                value: 'notion',
-                label: translate('notion')
-              },
-              {
-                value: 'other',
-                label: translate('other-glossary')
-              },
-            ]}
-            title={translate('glossary-type')}
-            onChange={onTypeChange} />
+          <div className="input-group">
+            <label htmlFor="title">{translate('name-of-the-glossary-entry')}</label>
+            <input
+              onChange={onNameChange}
+              type="text"
+              name="url"
+              placeholder={translate('name-of-the-glossary-entry')}
+              value={resourceCandidate.data && resourceCandidate.data.name || ''} />
+          </div>
+          <div className="input-group">
+            <OptionSelect
+              activeOptionId={resourceCandidate && resourceCandidate.data && resourceCandidate.data.glossaryType}
+              options={[
+                {
+                  value: 'person',
+                  label: translate('person')
+                },
+                {
+                  value: 'place',
+                  label: translate('place')
+                },
+                {
+                  value: 'notion',
+                  label: translate('notion')
+                },
+                {
+                  value: 'other',
+                  label: translate('other-glossary')
+                },
+              ]}
+              title={translate('glossary-type')}
+              onChange={onTypeChange} />
+          </div>
         </div>
       );
     default:
