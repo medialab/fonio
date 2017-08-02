@@ -8,7 +8,7 @@
 
 .fonio-AsideToggler
 {
-    height: $font-size-4;
+    // height: $font-size-4;
     margin: 0;
     padding: 0;
     padding-right: $gutter-medium;
@@ -17,7 +17,7 @@
     @extend .flex-stretched-row;
     .option
     {
-        padding: $gutter-small;
+        padding: $gutter-medium;
 
         list-style-type: none;
 
