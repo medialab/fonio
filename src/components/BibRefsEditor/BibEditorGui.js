@@ -240,7 +240,10 @@ PropertyInput.propTypes = {
   /**
    * the reference to render in the input
    */
-  reference: PropTypes.object,
+  reference: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+  ]),
 
   /**
    * callbacks when input is changed

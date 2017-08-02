@@ -71,9 +71,12 @@ export default class BibRefsEditor extends Component {
   updateStateReferences = references => {
     const resAsBibTeXParser = new Cite(references);
     const resAsBibTeX = resAsBibTeXParser.get({type: 'string', style: 'bibtex'});
-    this.setState({
-      refsInput: resAsBibTeX
-    });
+    // preventing unnecessary updates of the textarea
+    if (resAsBibTeX !== this.state.refsInput) {
+      this.setState({
+        refsInput: resAsBibTeX
+      });
+    }
   }
 
 
