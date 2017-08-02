@@ -109,8 +109,8 @@ const PropertyInput = ({
         // todo: this is a bit dirty
         if (modelKey === 'author') {
           defaultObject = {
-            family: '',
-            given: '',
+            family: ' ',
+            given: ' ',
             id: generateId()
           };
         }

@@ -69,7 +69,18 @@ export default class BibRefsEditor extends Component {
    * @param {object} references - the references to input as a map
    */
   updateStateReferences = references => {
-    const resAsBibTeXParser = new Cite(references);
+    // removing author field if it is an empty array
+    // so that it does not make citation-js throw an error
+    // @todo: this is a hack because of a citation-js bug
+    // see comment in the function 'onReferenceChange' for details
+    const cleanReferences = references.map(reference => {
+      const ref = {...reference};
+      if (reference.author && reference.author.length === 0) {
+        delete ref.author;
+      }
+      return ref;
+    });
+    const resAsBibTeXParser = new Cite(cleanReferences);
     const resAsBibTeX = resAsBibTeXParser.get({type: 'string', style: 'bibtex'});
     // preventing unnecessary updates of the textarea
     if (resAsBibTeX !== this.state.refsInput) {
@@ -144,6 +155,8 @@ export default class BibRefsEditor extends Component {
     };
 
     const onReferenceChange = (referenceId, key, value) => {
+      // case creation of a new reference
+      // @todo: this should be more explicit
       if (referenceId === undefined) {
         const refs = references || [];
         return this.props.onChange([...refs, {
