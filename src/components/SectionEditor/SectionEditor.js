@@ -201,6 +201,10 @@ class SectionEditor extends Component {
    * @param {event} e - the copy event
    */
   onCopy = e => {
+    // ensuring user is editing the contents
+    if (!this.props.editorFocus) {
+      return;
+    }
     // we store entities data as a js object in order to reinject them in editor states later one
     const copiedEntities = {};
     const copiedNotes = [];
@@ -332,6 +336,10 @@ class SectionEditor extends Component {
    * @param {event} e - the copy event
    */
   onPaste = e => {
+    // ensuring this is happening while editing the content
+    if (!this.props.editorFocus) {
+      return;
+    }
 
     const {
       activeStoryId,
