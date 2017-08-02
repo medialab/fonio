@@ -27,6 +27,8 @@
     {
         padding-top: $gutter-medium;
 
+        text-align: center;
+
         @extend .dangerous-item;
         &:hover
         {
