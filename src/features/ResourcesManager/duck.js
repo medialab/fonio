@@ -49,6 +49,7 @@ const SELECT_RESOURCE = '§Fonio/ResourcesManager/SELECT_RESOURCE';
 const DESELECT_RESOURCE = '§Fonio/ResourcesManager/DESELECT_RESOURCE';
 const SET_SELECTED_RESOURCES = '§Fonio/ResourcesManager/SET_SELECTED_RESOURCES';
 const SET_RESOURCES_SEARCH_QUERY = '§Fonio/ResourcesManager/SET_RESOURCES_SEARCH_QUERY';
+const SET_RESOURCES_TYPE_QUERY = '§Fonio/ResourcesManager/SET_RESOURCES_TYPE_QUERY';
 const SET_RESOURCES_MODAL_STATE = '§Fonio/ResourcesManager/SET_RESOURCES_MODAL_STATE';
 /*
  * CANDIDATE-RELATED
@@ -117,6 +118,16 @@ export const setSelectedResources = (ids = []) => ({
  */
 export const setResourcesSearchQuery = (query) => ({
   type: SET_RESOURCES_SEARCH_QUERY,
+  query
+});
+
+/**
+ * Sets the current query in the resources pannel
+ * @param {string} query - the resource type to set
+ * @return {object} action - the redux action to dispatch
+ */
+export const setResourcesTypeQuery = (query) => ({
+  type: SET_RESOURCES_TYPE_QUERY,
   query
 });
 
@@ -371,6 +382,11 @@ const RESOURCES_UI_DEFAULT_STATE = {
   resourcesSearchQuery: '',
 
   /**
+   * representation of the type query in resources pannel
+   */
+  resourcesTypeQuery: '',
+
+  /**
    * whether a resource configuration is opened and
    * its state (possible values: ['closed', 'new', 'existing'])
    */
@@ -453,11 +469,17 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
         ...state,
         selectedResources: [...action.ids]
       };
-    // search query is changed
+    // resource search query is changed
     case SET_RESOURCES_SEARCH_QUERY:
       return {
         ...state,
         resourcesSearchQuery: action.query
+      };
+    // resource type query is changed
+    case SET_RESOURCES_TYPE_QUERY:
+      return {
+        ...state,
+        resourcesTypeQuery: action.query
       };
     // resources modal is opened or closed
     case SET_RESOURCES_MODAL_STATE:
@@ -580,6 +602,7 @@ export default persistentReducer(combineReducers({
  */
 const selectedResources = (state) => state.resourcesUi && state.resourcesUi.selectedResources;
 const resourcesSearchQuery = (state) => state.resourcesUi && state.resourcesUi.resourcesSearchQuery;
+const resourcesTypeQuery = (state) => state.resourcesUi && state.resourcesUi.resourcesTypeQuery;
 const resourcesModalState = (state) => state.resourcesUi && state.resourcesUi.resourcesModalState;
 const resourceCandidate = (state) => state.resourcesUi && state.resourcesUi.resourceCandidate;
 const resourceCandidateId = (state) => state.resourcesUi && state.resourcesUi.resourceCandidateId;
@@ -595,6 +618,7 @@ const insertionSelection = (state) => state.resourcesUi.insertionSelection;
 export const selector = createStructuredSelector({
   selectedResources,
   resourcesSearchQuery,
+  resourcesTypeQuery,
   resourcesModalState,
   resourceCandidate,
   resourceCandidateId,

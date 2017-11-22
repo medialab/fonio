@@ -117,6 +117,8 @@
   "Features.ResourcesManager.understood": "Compris",
   "Features.ResourcesManager.new-resource": "nouvelle ressource",
   "Features.ResourcesManager.search-in-resources": "trouver une ressource",
+  "Features.ResourcesManager.resource-type": "type de ressrouce",
+  "Features.ResourcesManager.all-types": "tous les types",
   "Features.ResourcesManager.edit-resource": "éditer la ressource",
   "Features.Editor.edit-section": "éditer la section",
   "Features.Editor.create-section": "créer une section",

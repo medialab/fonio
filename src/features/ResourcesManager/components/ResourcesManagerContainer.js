@@ -243,7 +243,7 @@ class ResourcesManagerContainer extends Component {
    * @return {ReactElement} component - the component
    */
   render() {
-    const resourcesSearchQuery = this.props.resourcesSearchQuery;
+    const {resourcesSearchQuery, resourcesTypeQuery} = this.props;
     let resources = this.props.activeStory.resources;
     if (resources) {
       const selectedResourcesIds = this.props.selectedResources;
@@ -259,6 +259,13 @@ class ResourcesManagerContainer extends Component {
         else return true;
       })
       .map(id => ({...this.props.activeStory.resources[id], id}))
+      .filter(resource => {
+        // filter by resource type
+        if (resourcesTypeQuery && resourcesTypeQuery.length) {
+          return resource.metadata.type === resourcesTypeQuery;
+        }
+        else return true;
+      })
       .filter(resource => {
         // for now we handle search by serializing the whole resource and searching the query into it
         // todo: handle that with more finesse

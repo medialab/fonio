@@ -65,6 +65,27 @@
                 @extend .important-item-active;
             }
         }
+        .fonio-OptionSelect {
+            margin-top: $gutter-medium
+        }
+        .search-container
+        {
+            padding-top: $gutter-small;
+            @extend .flex-stretched-row;
+            .search-query
+            {
+                flex: 1;
+                @extend .interactive-item;
+                &:hover
+                {
+                    @extend .interactive-item-intent;
+                }
+                &:focus
+                {
+                    @extend .interactive-item-active;
+                }
+            }
+        }
     }
     .footer
     {
@@ -72,19 +93,5 @@
         padding-bottom: $gutter-small;
 
         @extend .flex-stretched-row;
-        .search-query
-        {
-            flex: 1;
-
-            @extend .interactive-item;
-            &:hover
-            {
-                @extend .interactive-item-intent;
-            }
-            &:focus
-            {
-                @extend .interactive-item-active;
-            }
-        }
     }
 }

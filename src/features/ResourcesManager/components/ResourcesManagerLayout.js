@@ -10,6 +10,7 @@ import Modal from 'react-modal';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import ResourceCard from '../../../components/ResourceCard/ResourceCard';
+import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 
 import ResourceConfigurationDialog from './ResourceConfigurationDialog';
 import './ResourcesManagerLayout.scss';
@@ -29,6 +30,7 @@ const ResourcesManagerLayout = ({
   resourcesModalState = 'closed',
   resourcesPrompted,
   resourcesSearchQuery,
+  resourcesTypeQuery,
   createResource,
   updateResource,
   actions: {
@@ -37,6 +39,7 @@ const ResourcesManagerLayout = ({
     setResourceCandidateType,
     setResourcesModalState,
     setResourcesSearchQuery,
+    setResourcesTypeQuery,
     startExistingResourceConfiguration,
     startNewResourceConfiguration,
     submitResourceData,
@@ -50,13 +53,50 @@ const ResourcesManagerLayout = ({
 }, context) => {
   // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.ResourcesManager');
-
+  const translateResources = translateNameSpacer(context.t, 'Features.Editor');
+  const resourcesTypes = [
+    {
+      value: '',
+      label: translate('all-types')
+    },
+    {
+      value: 'data-presentation',
+      label: translateResources('resource-type-data-presentation')
+    },
+    {
+      value: 'table',
+      label: translateResources('resource-type-table')
+    },
+    {
+      value: 'image',
+      label: translateResources('resource-type-image')
+    },
+    {
+      value: 'video',
+      label: translateResources('resource-type-video')
+    },
+    {
+      value: 'embed',
+      label: translateResources('resource-type-embed')
+    },
+    {
+      value: 'glossary',
+      label: translateResources('resource-type-glossary')
+    },
+    {
+      value: 'bib',
+      label: translateResources('resource-type-bib')
+    },
+  ];
   /**
    * Callbacks
    */
   const onModalClose = () => setResourcesModalState('closed');
   const onSearchInputChange = (e) => {
     setResourcesSearchQuery(e.target.value);
+  };
+  const onSelectResourceType = (value) => {
+    setResourcesTypeQuery(value);
   };
   return (
     <div
@@ -77,6 +117,19 @@ const ResourcesManagerLayout = ({
       <div className="body">
         <li id="new-resource" onClick={startNewResourceConfiguration}>
           + {translate('new-resource')}
+        </li>
+        <OptionSelect
+          activeOptionId={resourcesTypeQuery}
+          options={resourcesTypes}
+          onChange={onSelectResourceType}
+          title={translate('resource-type')} />
+        <li className="search-container">
+          <input
+            className="search-query"
+            type="text"
+            placeholder={translate('search-in-resources')}
+            value={resourcesSearchQuery || ''}
+            onChange={onSearchInputChange} />
         </li>
         <ul className="resources-list">
           {
@@ -103,14 +156,6 @@ const ResourcesManagerLayout = ({
           })
         }
         </ul>
-      </div>
-      <div className="footer">
-        <input
-          className="search-query"
-          type="text"
-          placeholder={translate('search-in-resources')}
-          value={resourcesSearchQuery || ''}
-          onChange={onSearchInputChange} />
       </div>
 
       <Modal
