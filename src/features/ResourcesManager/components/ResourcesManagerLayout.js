@@ -133,7 +133,16 @@ const ResourcesManagerLayout = ({
         </li>
         <ul className="resources-list">
           {
-          resources.map((resource, index) => {
+          resources.sort((a, b) => {
+            if (a.metadata.title > b.metadata.title) {
+              return 1;
+            }
+            if (a.metadata.title < b.metadata.title) {
+              return -1;
+            }
+            return 0;
+          })
+          .map((resource, index) => {
             const onDelete = () => deleteResource(activeStoryId, resource.id);
             const onEdit = () => startExistingResourceConfiguration(resource.id, resource);
             const onEmbedResource = () => {
