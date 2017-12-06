@@ -806,7 +806,7 @@ export default combineReducers({
 const storiesList = state => Object.keys(state.stories.stories).map(key => state.stories.stories[key]);
 const activeStory = state => state.stories.stories[state.stories.activeStoryId];
 const activeStoryId = state => state.stories.activeStoryId;
-
+const allStories = state => state.stories.stories;
 const promptedToDeleteId = state => state.storiesUi.promptedToDelete;
 const importStatus = state => state.storyImport.importStatus;
 const importError = state => state.storyImport.importError;
@@ -820,7 +820,7 @@ const importFromUrlCandidate = state => state.storyImport.importFromUrlCandidate
 export const selector = createStructuredSelector({
   activeStory,
   activeStoryId,
-
+  allStories,
   importCandidate,
   importError,
   importStatus,

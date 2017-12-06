@@ -43,12 +43,13 @@ const EditorLayout = ({
   // global ui related
   asideUiMode,
   // edited story state
-  activeStoryId,
-  activeStory,
+  // activeStoryId,
+  // activeStory,
+  allStories,
   editorStates,
   editorFocus,
   assetRequestState,
-
+  match,
   // actions
   returnToLanding,
   actions: {
@@ -82,6 +83,8 @@ const EditorLayout = ({
 
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.Editor');
+  const activeStoryId = match.params.id;
+  const activeStory = allStories[activeStoryId];
   const activeSection = activeSectionId && activeStory && activeStory.sections[activeSectionId];
   return (
     <div className="fonio-StoryEditorLayout">

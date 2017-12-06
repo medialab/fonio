@@ -5,6 +5,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
 
 import './GlobalUiLayout.scss';
 
@@ -98,36 +102,42 @@ const GlobalUiLayout = ({
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
   return (
-    <div id={id} className={'fonio-GlobalUiLayout ' + className}>
-      {activeStoryId && activeStory ?
-        <div className="story-editor-container">
-          <section className="fonio-main-row">
-            {globalUiMode === 'edition' ?
-              <StoryEditorContainer /> :
-              <StorySettingsManagerContainer />
+    <Router>
+      <div id={id} className={'fonio-GlobalUiLayout ' + className}>
+        {/*activeStoryId && activeStory ?
+          <div className="story-editor-container">
+            <section className="fonio-main-row">
+              {globalUiMode === 'edition' ?
+                <StoryEditorContainer /> :
+                <StorySettingsManagerContainer />
+            }
+            </section>
+            <Footer
+              returnToLanding={returnToLanding}
+              openTakeAwayModal={openTakeAwayModal}
+              togglePreview={togglePreview}
+              lang={lang}
+              setLanguage={setLanguage}
+              uiMode={globalUiMode}
+              onClickMetadata={onClickMetadata} />
+          </div>
+        : <StoriesManagerContainer />*/}
+        <Modal
+          onRequestClose={closeModal}
+          contentLabel={translate('edit-story')}
+          isOpen={isStoryCandidateModalOpen || isTakeAwayModalOpen}>
+          {
+          isStoryCandidateModalOpen ?
+            <ConfigurationDialog /> :
+            <TakeAwayDialog />
           }
-          </section>
-          <Footer
-            returnToLanding={returnToLanding}
-            openTakeAwayModal={openTakeAwayModal}
-            togglePreview={togglePreview}
-            lang={lang}
-            setLanguage={setLanguage}
-            uiMode={globalUiMode}
-            onClickMetadata={onClickMetadata} />
-        </div>
-      : <StoriesManagerContainer />}
-      <Modal
-        onRequestClose={closeModal}
-        contentLabel={translate('edit-story')}
-        isOpen={isStoryCandidateModalOpen || isTakeAwayModalOpen}>
-        {
-        isStoryCandidateModalOpen ?
-          <ConfigurationDialog /> :
-          <TakeAwayDialog />
-        }
-      </Modal>
-    </div>);
+        </Modal>
+        <Route exact path="/" component={StoriesManagerContainer} />
+        <Route path="/:id/edit" component={StoryEditorContainer} />
+        <Route path="/:id" component={StorySettingsManagerContainer} />
+      </div>
+    </Router>
+    );
 };
 
 

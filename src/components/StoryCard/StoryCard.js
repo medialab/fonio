@@ -4,7 +4,9 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import {
+  Link,
+} from 'react-router-dom';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './StoryCard.scss';
@@ -41,10 +43,12 @@ const StoryCard = ({
           </p>
         </div>
         <div className="buttons-column">
-          <button className="edit-btn" onClick={setToActive}>
-            <img src={require('../../sharedAssets/edit-white.svg')} className="fonio-icon-image" />
-            {translate('edit')}
-          </button>
+          <Link to={`/${story.id}/edit`}>
+            <button className="edit-btn" onClick={setToActive}>
+              <img src={require('../../sharedAssets/edit-white.svg')} className="fonio-icon-image" />
+              {translate('edit')}
+            </button>
+          </Link>
           <button className="settings-btn" onClick={configure}>
             <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
             {translate('settings')}
