@@ -4,6 +4,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 import Textarea from 'react-textarea-autosize';
 
@@ -46,8 +47,9 @@ const ConfigurationDialogLayout = ({
    * Callbacks
    */
   const onApplyChange = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     e.stopPropagation();
+    // TODO: make sure the order apply story then route
     applyStoryCandidateConfiguration(storyCandidate);
   };
   const setStoryTitle = (e) => setCandidateStoryMetadata('title', e.target.value);
@@ -137,9 +139,11 @@ const ConfigurationDialogLayout = ({
         {
           storyCandidate
         ?
-          <button
-            className="valid-btn"
-            onClick={onApplyChange}>{storyBegan /* todo : change to test if story is began */ ? translate('apply-changes-and-continue-story-edition') : translate('start-to-edit-this-story')}</button>
+          <Link className="btn-wrapper" to={`/edit/${storyCandidate.id}`} onClick={onApplyChange}>
+            <button
+              className="valid-btn">{storyBegan /* todo : change to test if story is began */ ? translate('apply-changes-and-continue-story-edition') : translate('start-to-edit-this-story')}
+            </button>
+          </Link>
         : ''
       }
         <button

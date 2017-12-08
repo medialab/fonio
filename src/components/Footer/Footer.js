@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import {Link} from 'react-router-dom';
 import LangToggler from '../LangToggler/LangToggler';
 
 import './Footer.scss';
@@ -23,14 +23,15 @@ const Footer = ({
   setLanguage,
   openTakeAwayModal,
   togglePreview,
-  returnToLanding,
-  onClickMetadata,
+  startStoryCandidateConfiguration,
+  activeStory
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Components.Footer');
+  const onClickMetadata = () => startStoryCandidateConfiguration(activeStory);
   return (
     <footer className="fonio-Footer">
       <div className="left-group">
-        <span className="mini-brand"><button onClick={returnToLanding}>Fonio</button>| {translate('by')} <a href="http://www.medialab.sciences-po.fr/fr/" target="blank">médialab</a></span>
+        <span className="mini-brand"><Link to="/"><button>Fonio</button></Link>| {translate('by')} <a href="http://www.medialab.sciences-po.fr/fr/" target="blank">médialab</a></span>
         <LangToggler
           lang={lang}
           onChange={setLanguage} />
@@ -84,11 +85,6 @@ Footer.propTypes = {
    * Callbacks when preview is asked
    */
   togglePreview: PropTypes.func,
-
-  /**
-   * Callbacks when home button is clicked
-   */
-  returnToLanding: PropTypes.func,
 
   /**
    * Callbacks when metadata button is clicked

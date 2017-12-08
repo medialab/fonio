@@ -43,15 +43,12 @@ const EditorLayout = ({
   // global ui related
   asideUiMode,
   // edited story state
-  // activeStoryId,
-  // activeStory,
-  allStories,
+  activeStoryId,
+  activeStory,
   editorStates,
   editorFocus,
   assetRequestState,
-  match,
   // actions
-  returnToLanding,
   actions: {
     promptAssetEmbed,
     unpromptAssetEmbed,
@@ -83,8 +80,6 @@ const EditorLayout = ({
 
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.Editor');
-  const activeStoryId = match.params.id;
-  const activeStory = allStories[activeStoryId];
   const activeSection = activeSectionId && activeStory && activeStory.sections[activeSectionId];
   return (
     <div className="fonio-StoryEditorLayout">
@@ -98,8 +93,7 @@ const EditorLayout = ({
         asideUiMode={assetRequestState.assetRequested ? 'resources' : asideUiMode}
         hideNav={assetRequestState.assetRequested === true}
         setAsideUiMode={setAsideUiMode}
-        closeAndResetDialog={closeAndResetDialog}
-        returnToLanding={returnToLanding} />
+        closeAndResetDialog={closeAndResetDialog} />
       {activeSection ?
         <SectionEditor
           activeSection={activeSection}

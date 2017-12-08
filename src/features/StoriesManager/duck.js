@@ -18,10 +18,7 @@ const {timers} = config;
  * Action names
  */
 import {
-  START_CANDIDATE_STORY_CONFIGURATION,
-  APPLY_STORY_CANDIDATE_CONFIGURATION,
-  UNSET_ACTIVE_STORY,
-  SET_ACTIVE_STORY,
+  APPLY_STORY_CANDIDATE_CONFIGURATION
 } from '../GlobalUi/duck';
 
 import {
@@ -223,7 +220,7 @@ const STORIES_DEFAULT_STATE = {
    * Representation of the id of the story being edited in editor
    * @type {string}
    */
-  activeStoryId: undefined
+  // activeStoryId: undefined
 };
 
 /**
@@ -239,42 +236,12 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     // a story is updated from the changes
     // made to story candidate
     case APPLY_STORY_CANDIDATE_CONFIGURATION:
-      if (state.activeStoryId) {
-        // case update
-        return {
-          ...state,
-          stories: {
-            ...state.stories,
-            [action.story.id]: {
-              ...state.stories[action.story.id],
-              ...action.story
-            }
-          },
-          activeStoryId: action.story.id
-        };
-      }
-      else {
-        // case create
-        return {
-          ...state,
-          stories: {
-            ...state.stories,
-            [action.story.id]: action.story
-          },
-          activeStoryId: action.story.id
-        };
-      }
-    // the story to edit is changed
-    case SET_ACTIVE_STORY:
       return {
         ...state,
-        activeStoryId: action.story.id
-      };
-    // the story to edit is unset
-    case UNSET_ACTIVE_STORY:
-      return {
-        ...state,
-        activeStoryId: undefined
+        stories: {
+          ...state.stories,
+          [action.story.id]: action.story
+        }
       };
     // a story is created
     case CREATE_STORY:
@@ -622,10 +589,10 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         ...state,
         stories: {
           ...state.stories,
-          [state.activeStoryId]: {
-            ...state.stories[state.activeStoryId],
+          [action.result.storyId]: {
+            ...state.stories[action.result.storyId],
             metadata: {
-              ...state.stories[state.activeStoryId].metadata,
+              ...state.stories[action.result.storyId].metadata,
               // todo: should we wrap that in an object to be cleaner ?
               gistUrl: action.result.gistUrl,
               gistId: action.result.gistId
@@ -638,13 +605,13 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         ...state,
         stories: {
           ...state.stories,
-          [state.activeStoryId]: {
-            ...state.stories[state.activeStoryId],
+          [action.result.storyId]: {
+            ...state.stories[action.result.storyId],
             metadata: {
-              ...state.stories[state.activeStoryId].metadata,
+              ...state.stories[action.result.storyId].metadata,
               // todo: should we wrap that in an object to be cleaner ?
-              serverJSONUrl: serverUrl + '/stories/' + state.stories[state.activeStoryId].id,
-              serverHTMLUrl: serverUrl + '/stories/' + state.stories[state.activeStoryId].id + '?format=html'
+              serverJSONUrl: serverUrl + '/stories/' + action.result.storyId,
+              serverHTMLUrl: serverUrl + '/stories/' + action.result.storyId + '?format=html'
             }
           }
         }
@@ -659,13 +626,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
  * Default state for the ui of the stories manager view (home)
  */
 const STORIES_UI_DEFAULT_STATE = {
-
-  /**
-   * Representation of the id of the story being edited in editor
-   * @type {string}
-   */
-  activeStoryId: undefined,
-
   /**
    * Representation of the id of the item being prompted to delete
    * @type {string}
@@ -681,18 +641,6 @@ const STORIES_UI_DEFAULT_STATE = {
  */
 function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
   switch (action.type) {
-    // a story is configured
-    case START_CANDIDATE_STORY_CONFIGURATION:
-      return {
-        activeStoryId: action.id
-      };
-    // a story is created
-    case CREATE_STORY:
-      return {
-        ...state,
-        activeStoryId: action.setActive ? action.id : state.activeStoryId
-      };
-    // user asks to delete a story (should display in components 'are you sure ...'?)
     case PROMPT_DELETE_STORY:
       return {
         ...state,
@@ -709,7 +657,6 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
       return {
         ...state,
         promptedToDelete: undefined,
-        activeStoryId: state.activeStoryId === action.id ? undefined : state.activeStoryId
       };
     default:
       return state;
@@ -804,8 +751,6 @@ export default combineReducers({
  * Selectors
  */
 const storiesList = state => Object.keys(state.stories.stories).map(key => state.stories.stories[key]);
-const activeStory = state => state.stories.stories[state.stories.activeStoryId];
-const activeStoryId = state => state.stories.activeStoryId;
 const allStories = state => state.stories.stories;
 const promptedToDeleteId = state => state.storiesUi.promptedToDelete;
 const importStatus = state => state.storyImport.importStatus;
@@ -818,8 +763,6 @@ const importFromUrlCandidate = state => state.storyImport.importFromUrlCandidate
  * @type {object}
  */
 export const selector = createStructuredSelector({
-  activeStory,
-  activeStoryId,
   allStories,
   importCandidate,
   importError,

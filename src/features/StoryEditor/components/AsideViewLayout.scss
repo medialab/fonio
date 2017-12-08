@@ -35,6 +35,7 @@
         .returnToLanding-btn
         {
             @extend .primary-item;
+            width: 100%;
             .fonio-icon
             {
                 padding-right: $gutter-small;

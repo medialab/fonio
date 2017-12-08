@@ -87,7 +87,6 @@ class GlobalUiContainer extends Component {
   constructor(props) {
     super(props);
     this.closeAndResetDialog = this.closeAndResetDialog.bind(this);
-    this.returnToLanding = this.returnToLanding.bind(this);
     this.openSettings = this.openSettings.bind(this);
     this.createNewSection = this.createNewSection.bind(this);
   }
@@ -112,16 +111,6 @@ class GlobalUiContainer extends Component {
     this.props.actions.resetStoryCandidateSettings();
     this.props.actions.closeStoryCandidateModal();
   }
-
-
-  /**
-   * Unsets story edition to come back
-   * to the main view
-   */
-  returnToLanding() {
-    this.props.actions.unsetActiveStory();
-  }
-
 
   /**
    * Opens the configuration pannel of an existing story
@@ -153,7 +142,6 @@ class GlobalUiContainer extends Component {
         {...this.props}
         openSettings={this.openSettings}
         closeAndResetDialog={this.closeAndResetDialog}
-        returnToLanding={this.returnToLanding}
         updateStoryContent={this.updateStoryContent}
         onCreateNewSection={this.createNewSection} />
     );

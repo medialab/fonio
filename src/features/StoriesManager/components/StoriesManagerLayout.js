@@ -54,7 +54,7 @@ const StoriesManagerLayout = ({
     deleteStory,
     copyStory,
     startStoryCandidateConfiguration,
-    setActiveStory,
+    setUiMode,
     importReset,
     setImportFromUrlCandidate,
     setLanguage
@@ -64,7 +64,6 @@ const StoriesManagerLayout = ({
   const translate = translateNameSpacer(context.t, 'Features.StoriesManager');
   // check if max number of stories is reached
   const allowNewStories = storiesList.length < maxNumberOfLocalStories;
-
   /**
    * Callbacks
    */
@@ -141,7 +140,7 @@ const StoriesManagerLayout = ({
             const onClickUnprompt = () => unpromptDeleteStory(story.id);
             const onClickDelete = () => deleteStory(story.id);
             const onClickCopy = () => copyStory(story);
-            const setToActive = () => setActiveStory(story);
+            const setToActive = () => setUiMode();
             const configure = () => startStoryCandidateConfiguration(story);
             const promptedToDelete = promptedToDeleteId === story.id;
             return (

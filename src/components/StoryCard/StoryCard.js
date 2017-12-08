@@ -4,9 +4,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Link,
-} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './StoryCard.scss';
@@ -35,7 +33,7 @@ const StoryCard = ({
     <li className="fonio-StoryCard">
       <div className="card-body">
         <div className="info-column">
-          <h5 onClick={setToActive}>
+          <h5>
             <span className="title">{story.metadata && story.metadata.title && story.metadata.title.length ? story.metadata.title : translate('untitled_story')}</span>
           </h5>
           <p className="description">
@@ -43,8 +41,8 @@ const StoryCard = ({
           </p>
         </div>
         <div className="buttons-column">
-          <Link to={`/${story.id}/edit`}>
-            <button className="edit-btn" onClick={setToActive}>
+          <Link to={`/edit/${story.id}`} onClick={setToActive}>
+            <button className="edit-btn">
               <img src={require('../../sharedAssets/edit-white.svg')} className="fonio-icon-image" />
               {translate('edit')}
             </button>
