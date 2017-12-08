@@ -12,23 +12,26 @@ import {serverUrl} from '../../secrets';
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
-export default function publishToServer (presentation, dispatch, statusActionName) {
+export default function publishToServer (story, dispatch, statusActionName) {
   return new Promise((resolve, reject) => {
     dispatch({
       type: statusActionName,
       log: 'publishing to server',
       status: 'processing'
     });
-    const serverHTMLUrl = serverUrl + '/stories/' + presentation.id;
-    presentation.metadata.serverHTMLUrl = serverHTMLUrl + '?format=html';
+    const serverHTMLUrl = serverUrl + '/stories/' + story.id;
+    story.metadata.serverHTMLUrl = serverHTMLUrl + '?format=html';
     post(serverHTMLUrl)
-      .send(presentation)
+      .send(story)
       .end(err => {
           if (err) {
             return reject(err);
           }
           else {
-            return resolve({status: 'ok'});
+            return resolve({
+              storyId: story.id,
+              status: 'ok'
+            });
           }
         });
     });

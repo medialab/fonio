@@ -56,6 +56,7 @@ export default function publishGist(htmlContent = '', JSONbundle = {}, dispatch,
             // const ownerName = gistData.owner.login;
             const gistUrl = gistData.html_url;
             const results = {
+              storyId: JSONbundle.id,
               gistUrl,
               gistId: gistData.id,
               gist
@@ -103,6 +104,7 @@ export default function publishGist(htmlContent = '', JSONbundle = {}, dispatch,
               })
               .then(() => {
                 const results = {
+                  storyId: JSONbundle.id,
                   gistUrl,
                   gistId: gistData.id,
                   gist
