@@ -104,11 +104,6 @@
     .modal-footer
     {
         @extend .flex-stretched-row;
-        .btn-wrapper {
-            display: flex;
-            text-decoration: none;
-            flex: 1;
-        }
         .valid-btn
         {
             font-size: $font-size-3;

@@ -4,14 +4,13 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 
 import Textarea from 'react-textarea-autosize';
 
 import HelpPin from '../../../components/HelpPin/HelpPin';
 import DropZone from '../../../components/DropZone/DropZone';
 import AuthorsManager from '../../../components/AuthorsManager/AuthorsManager';
-// import Toaster from '../../../components/Toaster/Toaster';
+import Toaster from '../../../components/Toaster/Toaster';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import './ConfigurationDialog.scss';
@@ -33,24 +32,54 @@ import './ConfigurationDialog.scss';
  */
 const ConfigurationDialogLayout = ({
   storyCandidate,
+  password,
+  passwordIsValid,
+  setStoryPassword,
+  // globalUi related
+  hideCancelSettingButton,
+  //storiesManager related
+  saveStoryPasswordLog,
+  saveStoryPasswordLogStatus,
+  // router props
+  history,
   actions: {
     setCandidateStoryMetadata,
     applyStoryCandidateConfiguration,
-    submitCoverImage
+    submitCoverImage,
+    saveStoryPassword
   },
   closeStoryCandidate,
 }, context) => {
   // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.ConfigurationDialog');
-
   /**
    * Callbacks
    */
   const onApplyChange = (e) => {
     // e.preventDefault();
     e.stopPropagation();
-    // TODO: make sure the order apply story then route
-    applyStoryCandidateConfiguration(storyCandidate);
+    if (sessionStorage.getItem(storyCandidate.id)) {
+      applyStoryCandidateConfiguration(storyCandidate);
+      history.push({
+        pathname: `/${storyCandidate.id}/edit`
+      });
+    }
+    else if (passwordIsValid) {
+      const storyCredential = {
+        id: storyCandidate.id,
+        password
+      };
+      saveStoryPassword(storyCredential).then(() => {
+        applyStoryCandidateConfiguration(storyCandidate);
+        history.push({
+          pathname: `/${storyCandidate.id}/edit`
+        });
+      });
+      // TODO: server password register error
+    }
+  };
+  const onPasswordChange = (e) => {
+    setStoryPassword(e.target.value);
   };
   const setStoryTitle = (e) => setCandidateStoryMetadata('title', e.target.value);
   const setStoryAuthors = authors => setCandidateStoryMetadata('authors', authors);
@@ -86,7 +115,25 @@ const ConfigurationDialogLayout = ({
                   placeholder={translate('title-of-the-story')}
                   value={storyCandidate.metadata.title || ''} />
               </div>
-
+              { !sessionStorage.getItem(storyCandidate.id) ?
+                <div>
+                  <div className="input-group">
+                    <label htmlFor="password">password</label>
+                    <input
+                      onChange={onPasswordChange}
+                      type="password"
+                      name="password"
+                      placeholder="password"
+                      value={password || ''} />
+                  </div>
+                  <Toaster
+                    status={passwordIsValid ? '' : 'failure'}
+                    log={passwordIsValid ? '' : 'password is required, more than 6 digit'} />
+                  <Toaster
+                    status={saveStoryPasswordLogStatus}
+                    log={saveStoryPasswordLog} />
+                </div> : null
+              }
               <div className="input-group">
                 <label htmlFor="authors">{translate('authors-of-the-story')}</label>
                 <AuthorsManager
@@ -139,18 +186,19 @@ const ConfigurationDialogLayout = ({
         {
           storyCandidate
         ?
-          <Link className="btn-wrapper" to={`/edit/${storyCandidate.id}`} onClick={onApplyChange}>
-            <button
-              className="valid-btn">{storyBegan /* todo : change to test if story is began */ ? translate('apply-changes-and-continue-story-edition') : translate('start-to-edit-this-story')}
-            </button>
-          </Link>
+          <button
+            onClick={onApplyChange}
+            className="valid-btn">{storyBegan /* todo : change to test if story is began */ ? translate('apply-changes-and-continue-story-edition') : translate('start-to-edit-this-story')}
+          </button>
         : ''
       }
-        <button
-          className="cancel-btn"
-          onClick={closeStoryCandidate}>
-          {translate('cancel')}
-        </button>
+        {!hideCancelSettingButton ?
+          <button
+            className="cancel-btn"
+            onClick={closeStoryCandidate}>
+            {translate('cancel')}
+          </button> : null
+      }
       </section>
     </div>
   );

@@ -13,6 +13,8 @@ import {persistentReducer} from 'redux-pouchdb';
 /*
  * Action names
  */
+import {IMPORT_SUCCESS, COPY_STORY} from '../StoriesManager/duck';
+
 export const RESET_APP = 'RESET_APP';
 /*
  * actions related to global stories management in ui
@@ -30,7 +32,7 @@ export const OPEN_TAKE_AWAY_MODAL = '$Fonio/StoryEditor/OPEN_TAKE_AWAY_MODAL';
 export const CLOSE_TAKE_AWAY_MODAL = '$Fonio/StoryEditor/CLOSE_TAKE_AWAY_MODAL';
 export const SET_UI_MODE = '$Fonio/StoryEditor/SET_UI_MODE';
 export const SET_ASIDE_UI_MODE = '$Fonio/StoryEditor/SET_ASIDE_UI_MODE';
-
+export const OPEN_PASSWORD_MODAL = '$Fonio/StoryEditor/OPEN_PASSWORD_MODAL';
 
 /**
  * Starts a story configuration
@@ -123,6 +125,14 @@ export const setAsideUiMode = (mode = 'sections') => ({
   mode
 });
 
+/**
+ * Opens the set password view
+ * @return {object} action - the redux action to dispatch
+ */
+export const openPasswordModal = () => ({
+  type: OPEN_PASSWORD_MODAL
+});
+
 
 /**
  * Default/fallback state of the global ui state
@@ -136,10 +146,17 @@ const GLOBAL_UI_DEFAULT_STATE = {
     storyCandidateModalOpen: false,
 
     /**
+     * Represents whether hide cancel setting modal
+     * @type {boolean}
+     */
+    hideCancelSettingButton: false,
+
+    /**
      * Represents whether take away / export modal is open
      * @type {boolean}
      */
     takeAwayModalOpen: false,
+
 
     /**
      * Represents whether settings are visible for selected slide
@@ -183,7 +200,15 @@ function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
     case OPEN_STORY_CANDIDATE_MODAL:
       return {
         ...state,
-        storyCandidateModalOpen: true
+        storyCandidateModalOpen: true,
+        hideCancelSettingButton: false
+      };
+    case IMPORT_SUCCESS:
+    case COPY_STORY:
+      return {
+        ...state,
+        storyCandidateModalOpen: true,
+        hideCancelSettingButton: true
       };
     // case story configuration is closed
     case CLOSE_STORY_CANDIDATE_MODAL:
@@ -215,6 +240,12 @@ function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
         ...state,
         asideUiMode: action.mode
       };
+    // case take away view is opened
+    case OPEN_PASSWORD_MODAL:
+      return {
+        ...state,
+        passwordModalOpen: true
+      };
     default:
       return state;
   }
@@ -234,6 +265,8 @@ export default combineReducers({
  */
 const isStoryCandidateModalOpen = state => state.globalUi.storyCandidateModalOpen;
 const isTakeAwayModalOpen = state => state.globalUi.takeAwayModalOpen;
+const isPasswordModalOpen = state => state.globalUi.passwordModalOpen;
+const hideCancelSettingButton = state => state.globalUi.hideCancelSettingButton;
 const slideSettingsPannelState = state => state.globalUi.slideSettingsPannelState;
 const globalUiMode = state => state.globalUi.uiMode;
 const asideUiMode = state => state.globalUi.asideUiMode;
@@ -247,5 +280,7 @@ export const selector = createStructuredSelector({
   asideUiMode,
   isStoryCandidateModalOpen,
   isTakeAwayModalOpen,
+  isPasswordModalOpen,
+  hideCancelSettingButton,
   slideSettingsPannelState,
 });

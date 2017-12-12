@@ -50,6 +50,7 @@ import {
   dispatch => ({
     actions: bindActionCreators({
       ...duck,
+      ...managerDuck,
       resetStoryCandidateSettings,
       setupStoryCandidate,
       updateAsset,

@@ -10,6 +10,9 @@ import {createStructuredSelector} from 'reselect';
 import {persistentReducer} from 'redux-pouchdb';
 import {v4 as uuid} from 'uuid';
 
+import {registerToServer, loginToServer} from '../../helpers/serverAuth';
+import {deleteStoryServer} from '../../helpers/serverExporter';
+
 import {serverUrl} from '../../../secrets';
 import config from '../../../config';
 const {timers} = config;
@@ -60,7 +63,17 @@ import {
 const CREATE_STORY = '§Fonio/StoriesManager/CREATE_STORY';
 const DELETE_STORY = '§Fonio/StoriesManager/DELETE_STORY';
 const UPDATE_STORY = '§Fonio/StoriesManager/UPDATE_STORY';
-const COPY_STORY = '§Fonio/StoriesManager/COPY_STORY';
+export const COPY_STORY = '§Fonio/StoriesManager/COPY_STORY';
+
+
+const SAVE_STORY_PASSWORD = '§Fonio/StoriesManager/SAVE_STORY_PASSWORD';
+const SAVE_STORY_PASSWORD_STATUS = '§Fonio/StoriesManager/SAVE_STORY_PASSWORD_STATUS';
+
+const LOGIN_STORY = '§Fonio/StoriesManager/LOGIN_STORY';
+const LOGIN_STORY_STATUS = '§Fonio/StoriesManager/LOGIN_STORY_STATUS';
+const ENTER_STORY_PASSWORD = '§Fonio/StoriesManager/ENTER_STORY_PASSWORD';
+
+const DELETE_STORY_STATUS = '§Fonio/StoriesManager/DELETE_STORY_STATUS';
 
 const PROMPT_DELETE_STORY = '§Fonio/StoriesManager/PROMPT_DELETE_STORY';
 const UNPROMPT_DELETE_STORY = '§Fonio/StoriesManager/UNPROMPT_DELETE_STORY';
@@ -68,7 +81,7 @@ const UNPROMPT_DELETE_STORY = '§Fonio/StoriesManager/UNPROMPT_DELETE_STORY';
 const IMPORT_ABORD = '§Fonio/StoriesManager/IMPORT_ABORD';
 const IMPORT_OVERRIDE_PROMPT = '§Fonio/StoriesManager/IMPORT_OVERRIDE_PROMPT';
 const IMPORT_FAIL = '§Fonio/StoriesManager/IMPORT_FAIL';
-const IMPORT_SUCCESS = '§Fonio/StoriesManager/IMPORT_SUCCESS';
+export const IMPORT_SUCCESS = '§Fonio/StoriesManager/IMPORT_SUCCESS';
 const IMPORT_RESET = '§Fonio/StoriesManager/IMPORT_RESET';
 const SET_IMPORT_FROM_URL_CANDIDATE = '§Fonio/StoriesManager/SET_IMPORT_FROM_URL_CANDIDATE';
 
@@ -125,8 +138,44 @@ export const unpromptDeleteStory = () => ({
  */
 export const deleteStory = (id) => ({
   type: DELETE_STORY,
-  id
+  id,
+  promise: (dispatch) => {
+  return new Promise((resolve, reject) => {
+    return deleteStoryServer(id, dispatch, DELETE_STORY_STATUS)
+      .then((token) => {
+        sessionStorage.removeItem(id);
+        resolve(token);
+        // remove message after a while
+        // setTimeout(() =>
+        //   dispatch({
+        //     type: LOGIN_STORY_STATUS,
+        //     deleteStoryLog: undefined,
+        //     deleteStoryStatus: undefined
+        //   }), timers.medium);
+      })
+      .catch((e) => {
+        reject(e);
+        // remove message after a while
+        // setTimeout(() =>
+        //   dispatch({
+        //     type: LOGIN_STORY_STATUS,
+        //     deleteStoryLog: undefined,
+        //     deleteStoryLogStatus: undefined
+        //   }), timers.medium);
+      });
+   });
+  }
 });
+
+/**
+ * Deletes a story
+ * @param {string} id - the uuid of the story to delete
+ * @return {object} action - the redux action to dispatch
+ */
+// export const deleteStory = (id) => ({
+//   type: DELETE_STORY,
+//   id
+// });
 
 /**
  * Updates the content of an existing story by replacing its data with new one
@@ -139,6 +188,87 @@ export const updateStory = (id, story) => ({
   id,
   story
 });
+
+/**
+ * Sets password for story login
+ * @param {string} password
+ * @return {object} action - the redux action to dispatch
+ */
+export const enterPassword = (password) => ({
+  type: ENTER_STORY_PASSWORD,
+  password
+});
+
+/**
+ * Handles the "set story password to server" operation
+ * @param {object} story - the story credential to the distant server
+ * @return {object} action - the redux action to dispatch
+ */
+export const saveStoryPassword = (story) => ({
+  type: SAVE_STORY_PASSWORD,
+  promise: (dispatch) => {
+    return new Promise((resolve, reject) => {
+      return registerToServer(story, dispatch, SAVE_STORY_PASSWORD_STATUS)
+        .then((token) => {
+          sessionStorage.setItem(story.id, token);
+          resolve(token);
+          // // remove message after a while
+          setTimeout(() =>
+            dispatch({
+              type: SAVE_STORY_PASSWORD_STATUS,
+              savePasswordLog: undefined,
+              savePasswordLogStatus: undefined
+            }), timers.veryLong);
+        })
+        .catch((e) => {
+          reject(e);
+          // // remove message after a while
+          setTimeout(() =>
+            dispatch({
+              type: SAVE_STORY_PASSWORD_STATUS,
+              savePasswordLog: undefined,
+              savePasswordLogStatus: undefined
+            }), timers.veryLong);
+        });
+    });
+  }
+});
+
+/**
+ * Handles the "login story server if no token" operation
+ * @param {object} story - the story credential to the distant server
+ * @return {object} action - the redux action to dispatch
+ */
+export const loginStory = (story) => ({
+  type: LOGIN_STORY,
+  promise: (dispatch) => {
+    return new Promise((resolve, reject) => {
+      return loginToServer(story, dispatch, LOGIN_STORY_STATUS)
+        .then((token) => {
+          sessionStorage.setItem(story.id, token);
+          resolve(token);
+          // remove message after a while
+          setTimeout(() =>
+            dispatch({
+              type: LOGIN_STORY_STATUS,
+              loginStoryLog: undefined,
+              loginStoryStatus: undefined
+            }), timers.veryLong);
+        })
+        .catch((e) => {
+          reject(e);
+          // remove message after a while
+          setTimeout(() =>
+            dispatch({
+              type: LOGIN_STORY_STATUS,
+              loginStoryLog: undefined,
+              loginStoryLogStatus: undefined
+            }), timers.veryLong);
+        });
+    });
+  }
+});
+
 
 /**
  * Reset the import process ui representation
@@ -286,26 +416,26 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       };
     // a story is duplicated to create a new one
     case COPY_STORY:
-      const original = action.story;
-      const newId = uuid();
-      const newStory = {
-        // breaking references with existing
-        // resources/contextualizations/contents/... objects
-        // to avoid side effects on their references
-        // during a section of use
-        // todo: better way to do that ?
-        ...JSON.parse(JSON.stringify(original)),
-        id: newId,
-        metadata: {
-          ...original.metadata,
-          title: original.metadata.title + ' - copy'
-        }
-      };
+      // const original = action.story;
+      // const newId = uuid();
+      // const newStory = {
+      //   // breaking references with existing
+      //   // resources/contextualizations/contents/... objects
+      //   // to avoid side effects on their references
+      //   // during a section of use
+      //   // todo: better way to do that ?
+      //   ...JSON.parse(JSON.stringify(original)),
+      //   id: newId,
+      //   metadata: {
+      //     ...original.metadata,
+      //     title: original.metadata.title + ' - copy'
+      //   }
+      // };
       return {
         ...state,
         stories: {
           ...state.stories,
-          [newId]: newStory
+          [action.story.id]: action.story
         }
       };
     /*
@@ -630,7 +760,48 @@ const STORIES_UI_DEFAULT_STATE = {
    * Representation of the id of the item being prompted to delete
    * @type {string}
    */
-  promptedToDelete: undefined
+  promptedToDelete: undefined,
+
+  /**
+   * The status of set password to server (processing, success, error)
+   * @type {string}
+   */
+  saveStoryPasswordLogStatus: undefined,
+
+  /**
+   * The message of set password to server
+   * @type {string}
+   */
+  saveStoryPasswordLog: undefined,
+
+  /**
+   * password for login story
+   * @type {string}
+   */
+  password: undefined,
+
+  /**
+   * The status of login story with password on server (processing, success, error)
+   * @type {string}
+   */
+  loginStoryLogStatus: undefined,
+
+  /**
+   * The message of login story
+   * @type {string}
+   */
+  loginStoryLog: undefined,
+  /**
+   * The status of delete story with token on server (processing, success, error)
+   * @type {string}
+   */
+  deleteStoryLogStatus: undefined,
+
+  /**
+   * The message of delete story
+   * @type {string}
+   */
+  deleteStoryLog: undefined,
 };
 
 /**
@@ -641,6 +812,56 @@ const STORIES_UI_DEFAULT_STATE = {
  */
 function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
   switch (action.type) {
+    case ENTER_STORY_PASSWORD:
+      return {
+        ...state,
+        password: action.password
+      };
+    // save story password
+    case SAVE_STORY_PASSWORD_STATUS:
+      return {
+        ...state,
+        saveStoryPasswordLog: action.log,
+        saveStoryPasswordLogStatus: action.status
+      };
+    case SAVE_STORY_PASSWORD + '_SUCCESS':
+      return {
+        ...state,
+        isAuthenticated: true,
+        saveStoryPasswordLog: 'password saved',
+        saveStoryPasswordLogStatus: 'success'
+      };
+    case SAVE_STORY_PASSWORD + '_FAIL':
+      return {
+        ...state,
+        isAuthenticated: false,
+        saveStoryPasswordLog: 'password not saved',
+        saveStoryPasswordLogStatus: 'failure'
+      };
+    // login story if no token
+    case LOGIN_STORY_STATUS:
+      return {
+        ...state,
+        loginStoryLog: action.log,
+        loginStoryLogStatus: action.status
+      };
+    case LOGIN_STORY + '_SUCCESS':
+      return {
+        ...state,
+        isAuthenticated: true,
+        password: undefined,
+        storyPasswordModalOpen: false,
+        loginStoryLog: 'password correct',
+        loginStoryLogStatus: 'success'
+      };
+    case LOGIN_STORY + '_FAIL':
+      return {
+        ...state,
+        isAuthenticated: false,
+        loginStoryLog: 'password not correct',
+        loginStoryLogStatus: 'failure'
+      };
+    // a story is imported successfully
     case PROMPT_DELETE_STORY:
       return {
         ...state,
@@ -753,6 +974,13 @@ export default combineReducers({
 const storiesList = state => Object.keys(state.stories.stories).map(key => state.stories.stories[key]);
 const allStories = state => state.stories.stories;
 const promptedToDeleteId = state => state.storiesUi.promptedToDelete;
+const password = state => state.storiesUi.password;
+const saveStoryPasswordLog = state => state.storiesUi.saveStoryPasswordLog;
+const saveStoryPasswordLogStatus = state => state.storiesUi.saveStoryPasswordLogStatus;
+const loginStoryLog = state => state.storiesUi.loginStoryLog;
+const loginStoryLogStatus = state => state.storiesUi.loginStoryLogStatus;
+
+
 const importStatus = state => state.storyImport.importStatus;
 const importError = state => state.storyImport.importError;
 const importCandidate = state => state.storyImport.importCandidate;
@@ -768,6 +996,11 @@ export const selector = createStructuredSelector({
   importError,
   importStatus,
   importFromUrlCandidate,
+  password,
+  saveStoryPasswordLog,
+  saveStoryPasswordLogStatus,
+  loginStoryLog,
+  loginStoryLogStatus,
 
   storiesList,
   promptedToDeleteId,

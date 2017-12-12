@@ -6,13 +6,21 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 
 import * as duck from '../duck';
+
 import {
+  selector as globalUiSelector,
   closeStoryCandidateModal,
   applyStoryCandidateConfiguration,
   setActiveStoryId
 } from '../../GlobalUi/duck';
+
+import {
+  selector as storiesSelector,
+  saveStoryPassword,
+} from '../../StoriesManager/duck';
 
 import ConfigurationDialogLayout from './ConfigurationDialogLayout';
 
@@ -23,12 +31,15 @@ import ConfigurationDialogLayout from './ConfigurationDialogLayout';
 @connect(
   state => ({
     ...duck.selector(state.storyCandidate),
+    ...globalUiSelector(state.globalUi),
+    ...storiesSelector(state.stories),
     visualizationTypesModels: state.models.visualizationTypes,
     lang: state.i18nState.lang
   }),
   dispatch => ({
     actions: bindActionCreators({
       ...duck,
+      saveStoryPassword,
       applyStoryCandidateConfiguration,
       closeStoryCandidateModal,
       setActiveStoryId
@@ -43,8 +54,13 @@ class ConfigurationDialogContainer extends Component {
    */
   constructor(props) {
     super(props);
+    this.state = {
+      password: undefined,
+      passwordIsValid: false
+    };
     this.closeStoryCandidate = this.closeStoryCandidate.bind(this);
     this.closeAndSetupStoryCandidate = this.closeAndSetupStoryCandidate.bind(this);
+    this.setStoryPassword = this.setStoryPassword.bind(this);
   }
 
 
@@ -78,6 +94,15 @@ class ConfigurationDialogContainer extends Component {
     this.props.actions.setupStoryCandidate(this.props.dataMap, this.props.activeVisualizationType, this.props.activeData);
     this.props.actions.closeStoryCandidateModal();
   }
+  /**
+   * password validation
+   */
+  setStoryPassword (value) {
+    this.setState({
+      password: value,
+      passwordIsValid: value.length > 5
+    });
+  }
 
 
   /**
@@ -88,10 +113,13 @@ class ConfigurationDialogContainer extends Component {
     return (
       <ConfigurationDialogLayout
         {...this.props}
+        password={this.state.password}
+        passwordIsValid={this.state.passwordIsValid}
+        setStoryPassword={this.setStoryPassword}
         closeStoryCandidate={this.closeStoryCandidate}
         closeAndSetupStoryCandidate={this.closeAndSetupStoryCandidate} />
     );
   }
 }
 
-export default ConfigurationDialogContainer;
+export default withRouter(ConfigurationDialogContainer);

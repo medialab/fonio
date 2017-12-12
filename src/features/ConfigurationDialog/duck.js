@@ -31,6 +31,7 @@ import {
   APPLY_STORY_CANDIDATE_CONFIGURATION,
   CLOSE_STORY_CANDIDATE_MODAL
 } from '../GlobalUi/duck';
+import {IMPORT_SUCCESS, COPY_STORY} from '../StoriesManager/duck';
 
 const RESET_STORY_CANDIDATE_SETTINGS = '§Fonio/ConfigurationDialog/RESET_STORY_CANDIDATE_SETTINGS';
 const SUBMIT_COVER_IMAGE = '§Fonio/ConfigurationDialog/SUBMIT_COVER_IMAGE';
@@ -153,6 +154,23 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
         storyCandidate: {
           ...candidateBeginingState,
           id: action.id
+        }
+      };
+    case IMPORT_SUCCESS:
+      const story = action.data;
+      return {
+        ...state,
+        storyCandidate: {
+          ...story,
+          id: story.id
+        }
+      };
+    case COPY_STORY:
+      return {
+        ...state,
+        storyCandidate: {
+          ...action.story,
+          id: action.story.id
         }
       };
     // save in candidate data some metadata

@@ -7,7 +7,7 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import publishToGist from '../../helpers/gistExporter';
-import publishToServer from '../../helpers/serverExporter';
+import {publishToServer} from '../../helpers/serverExporter';
 import {persistentReducer} from 'redux-pouchdb';
 
 import {

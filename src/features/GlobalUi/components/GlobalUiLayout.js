@@ -17,6 +17,8 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 import Footer from '../../../components/Footer/Footer';
 import StoryEditorContainer from '../../StoryEditor/components/StoryEditorContainer';
 import StorySettingsManagerContainer from '../../StorySettingsManager/components/StorySettingsManagerContainer';
+import StoryPlayer from 'quinoa-story-player';
+import PasswordModal from '../../../components/PasswordModal/PasswordModal';
 
 import StoriesManagerContainer from '../../StoriesManager/components/StoriesManagerContainer';
 import ConfigurationDialog from '../../ConfigurationDialog/components/ConfigurationDialogContainer';
@@ -55,8 +57,14 @@ const GlobalUiLayout = ({
   isStoryCandidateModalOpen,
   globalUiMode,
   isTakeAwayModalOpen,
-  // edited story state, activeStoryId in url params
+  isPasswordModalOpen,
+  hideCancelSettingButton,
+  // stories related
   allStories,
+  // storiesUi related
+  password,
+  loginStoryLog,
+  loginStoryLogStatus,
 
   // actions,
   actions: {
@@ -66,6 +74,8 @@ const GlobalUiLayout = ({
     setLanguage,
 
     startStoryCandidateConfiguration,
+    loginStory,
+    enterPassword,
   },
   // custom functions
   closeAndResetDialog,
@@ -87,12 +97,11 @@ const GlobalUiLayout = ({
 
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
-
   return (
     <Router>
       <div id={id} className={'fonio-GlobalUiLayout ' + className}>
         <Modal
-          onRequestClose={closeAndResetDialog}
+          onRequestClose={hideCancelSettingButton ? null : closeAndResetDialog}
           contentLabel={translate('edit-story')}
           isOpen={isStoryCandidateModalOpen}>
           <ConfigurationDialog />
@@ -100,20 +109,22 @@ const GlobalUiLayout = ({
         <Switch>
           <Route exact path="/" component={StoriesManagerContainer} />
           <Route
-            path="/edit/:id"
+            path="/:id/:mode"
             render={({match}) => (
             allStories[match.params.id] ? (
               <div className="story-editor-container">
                 <section className="fonio-main-row">
-                  {/*<Route path={`/${match.params.id}/edit`} component={StoryEditorContainer} />*/}
-                  {globalUiMode === 'edition' ?
+                  {match.params.mode === 'read' ? (
+                    <StoryPlayer story={allStories[match.params.id]} />
+                  ) : (globalUiMode === 'edition' ?
                     <StoryEditorContainer
                       activeStoryId={match.params.id}
-                      activeStory={allStories[match.params.id]} /> :
+                      activeStory={allStories[match.params.id]} />
+                   :
                     <StorySettingsManagerContainer
                       activeStoryId={match.params.id}
                       activeStory={allStories[match.params.id]} />
-                  }
+                  )}
                 </section>
                 <Footer
                   openTakeAwayModal={openTakeAwayModal}
@@ -122,7 +133,8 @@ const GlobalUiLayout = ({
                   setLanguage={setLanguage}
                   uiMode={globalUiMode}
                   activeStory={allStories[match.params.id]}
-                  startStoryCandidateConfiguration={startStoryCandidateConfiguration} />
+                  startStoryCandidateConfiguration={startStoryCandidateConfiguration}
+                  mode={match.params.mode} />
                 <Modal
                   onRequestClose={closeTakeAwayModal}
                   contentLabel={translate('edit-story')}
@@ -135,6 +147,15 @@ const GlobalUiLayout = ({
             )
           )} />
         </Switch>
+        <Route path="/login" render={(props) => (
+          <PasswordModal
+            {...props}
+            password={password}
+            loginStory={loginStory}
+            enterPassword={enterPassword}
+            loginStoryLogStatus={loginStoryLogStatus}
+            loginStoryLog={loginStoryLog} />
+          )} />
       </div>
     </Router>
     );

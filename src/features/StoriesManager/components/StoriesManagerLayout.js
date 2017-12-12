@@ -5,6 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
+import {v4 as uuid} from 'uuid';
 
 import './StoriesManagerLayout.scss';
 
@@ -44,6 +45,7 @@ const StoriesManagerLayout = ({
   promptedToDeleteId,
   maxNumberOfLocalStories,
   importFromUrlCandidate,
+  history,
   // actions
   onDropInput,
   overrideImportWithCandidate,
@@ -55,6 +57,7 @@ const StoriesManagerLayout = ({
     copyStory,
     startStoryCandidateConfiguration,
     setUiMode,
+    openPasswordModal,
     importReset,
     setImportFromUrlCandidate,
     setLanguage
@@ -136,12 +139,70 @@ const StoriesManagerLayout = ({
             : null}
           <ul className="local-stories-list">
             {storiesList.map((story, index) => {
-            const onClickPrompt = () => promptDeleteStory(story.id);
+            const onClickPrompt = () => {
+              if (sessionStorage.getItem(story.id)) {
+                promptDeleteStory(story.id);
+              }
+              else {
+                openPasswordModal();
+                history.push({
+                  pathname: '/login',
+                  state: {
+                    storyId: story.id,
+                    to: '/'
+                  }
+                });
+              }
+            };
             const onClickUnprompt = () => unpromptDeleteStory(story.id);
             const onClickDelete = () => deleteStory(story.id);
-            const onClickCopy = () => copyStory(story);
-            const setToActive = () => setUiMode();
-            const configure = () => startStoryCandidateConfiguration(story);
+            const onClickCopy = () => {
+              const original = story;
+              const newId = uuid();
+              const newStory = {
+                // todo: better way to do that ?
+                ...JSON.parse(JSON.stringify(original)),
+                id: newId,
+                metadata: {
+                  ...original.metadata,
+                  title: original.metadata.title + ' - copy'
+                }
+              };
+              copyStory(newStory);
+            };
+            const setToActive = () => {
+              if (sessionStorage.getItem(story.id)) {
+                setUiMode();
+                history.push({
+                  pathname: `/${story.id}/edit`
+                });
+              }
+              else {
+                openPasswordModal();
+                history.push({
+                  pathname: '/login',
+                  state: {
+                    storyId: story.id,
+                    to: `/${story.id}/edit`
+                  }
+                });
+              }
+            };
+            const configure = () => {
+              if (sessionStorage.getItem(story.id)) {
+                startStoryCandidateConfiguration(story);
+              }
+              else {
+                openPasswordModal();
+                history.push({
+                  pathname: '/login',
+                  state: {
+                    storyId: story.id,
+                    to: '/'
+                  }
+                });
+              }
+            };
             const promptedToDelete = promptedToDeleteId === story.id;
             return (
               <StoryCard
