@@ -24,34 +24,43 @@ const Footer = ({
   openTakeAwayModal,
   togglePreview,
   startStoryCandidateConfiguration,
-  activeStory
+  activeStory,
+  mode
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Components.Footer');
   const onClickMetadata = () => startStoryCandidateConfiguration(activeStory);
   return (
-    <footer className="fonio-Footer">
-      <div className="left-group">
-        <span className="mini-brand"><Link to="/"><button>Fonio</button></Link>| {translate('by')} <a href="http://www.medialab.sciences-po.fr/fr/" target="blank">médialab</a></span>
-        <LangToggler
-          lang={lang}
-          onChange={setLanguage} />
-      </div>
-      <div className="middle-group" />
-      <div className="right-group">
-        <button className="mode-btn" onClick={togglePreview}>{
-          uiMode === 'edition' ?
-            <span>
-              <img className="fonio-icon-image" src={require('../../sharedAssets/preview-white.svg')} />{translate('preview')}
-            </span>
-          :
-            <span>
-              <img className="fonio-icon-image" src={require('../../sharedAssets/edit-white.svg')} />{translate('edit')}
-            </span>
-        }</button>
-        <button className="mode-btn" onClick={onClickMetadata} ><img className="fonio-icon-image" src={require('../../sharedAssets/settings-white.svg')} />{translate('story-settings')}</button>
-        <button className="takeaway-btn" onClick={openTakeAwayModal}><img className="fonio-icon-image" src={require('../../sharedAssets/take-away-white.svg')} />{translate('take-away')}</button>
-      </div>
-    </footer>
+    mode === 'edit' ? (
+      <footer className="fonio-Footer">
+        <div className="left-group">
+          <span className="mini-brand"><Link to="/"><button>Fonio</button></Link>| {translate('by')} <a href="http://www.medialab.sciences-po.fr/fr/" target="blank">médialab</a></span>
+          <LangToggler
+            lang={lang}
+            onChange={setLanguage} />
+        </div>
+        <div className="middle-group" />
+        <div className="right-group">
+          <button className="mode-btn" onClick={togglePreview}>{
+            uiMode === 'edition' ?
+              <span>
+                <img className="fonio-icon-image" src={require('../../sharedAssets/preview-white.svg')} />{translate('preview')}
+              </span>
+            :
+              <span>
+                <img className="fonio-icon-image" src={require('../../sharedAssets/edit-white.svg')} />{translate('edit')}
+              </span>
+          }</button>
+          <button className="mode-btn" onClick={onClickMetadata} ><img className="fonio-icon-image" src={require('../../sharedAssets/settings-white.svg')} />{translate('story-settings')}</button>
+          <button className="takeaway-btn" onClick={openTakeAwayModal}><img className="fonio-icon-image" src={require('../../sharedAssets/take-away-white.svg')} />{translate('take-away')}</button>
+        </div>
+      </footer>
+    ) : (
+      <footer className="fonio-Footer">
+        <div className="left-group">
+          <span className="mini-brand"><Link to="/"><button>Fonio</button></Link>| {translate('by')} <a href="http://www.medialab.sciences-po.fr/fr/" target="blank">médialab</a></span>
+        </div>
+      </footer>
+    )
   );
 };
 

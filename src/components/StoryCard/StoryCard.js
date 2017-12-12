@@ -41,12 +41,10 @@ const StoryCard = ({
           </p>
         </div>
         <div className="buttons-column">
-          <Link to={`/edit/${story.id}`} onClick={setToActive}>
-            <button className="edit-btn">
-              <img src={require('../../sharedAssets/edit-white.svg')} className="fonio-icon-image" />
-              {translate('edit')}
-            </button>
-          </Link>
+          <button className="edit-btn" onClick={setToActive}>
+            <img src={require('../../sharedAssets/edit-white.svg')} className="fonio-icon-image" />
+            {translate('edit')}
+          </button>
           <button className="settings-btn" onClick={configure}>
             <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
             {translate('settings')}
@@ -67,7 +65,16 @@ const StoryCard = ({
               </button>
               <button onClick={onClickUnprompt}>{translate('cancel')}</button>
             </div>
-          </div> : <button onClick={onClickCopy}>⎘ {translate('duplicate')}</button> }
+          </div> :
+          <div>
+            <Link to={`/${story.id}/read`}>
+              <button className="preview-btn">
+                <img src={require('../../sharedAssets/preview-black.svg')} className="fonio-icon-image" />
+                preview
+              </button>
+            </Link>
+            <button onClick={onClickCopy}>⎘ {translate('duplicate')}</button>
+          </div> }
       </div>
     </li>
   );
