@@ -22,6 +22,8 @@ import {
   saveStoryPassword,
 } from '../../StoriesManager/duck';
 
+import {exportToServer} from '../../TakeAwayDialog/duck';
+
 import ConfigurationDialogLayout from './ConfigurationDialogLayout';
 
 
@@ -42,7 +44,8 @@ import ConfigurationDialogLayout from './ConfigurationDialogLayout';
       saveStoryPassword,
       applyStoryCandidateConfiguration,
       closeStoryCandidateModal,
-      setActiveStoryId
+      setActiveStoryId,
+      exportToServer
     }, dispatch)
   })
 )

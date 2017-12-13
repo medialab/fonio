@@ -46,7 +46,8 @@ const ConfigurationDialogLayout = ({
     setCandidateStoryMetadata,
     applyStoryCandidateConfiguration,
     submitCoverImage,
-    saveStoryPassword
+    saveStoryPassword,
+    exportToServer
   },
   closeStoryCandidate,
 }, context) => {
@@ -59,9 +60,8 @@ const ConfigurationDialogLayout = ({
     // e.preventDefault();
     e.stopPropagation();
     if (sessionStorage.getItem(storyCandidate.id)) {
-      applyStoryCandidateConfiguration(storyCandidate);
-      history.push({
-        pathname: `/${storyCandidate.id}/edit`
+      exportToServer(storyCandidate).then(() => {
+        applyStoryCandidateConfiguration(storyCandidate);
       });
     }
     else if (passwordIsValid) {
@@ -70,9 +70,11 @@ const ConfigurationDialogLayout = ({
         password
       };
       saveStoryPassword(storyCredential).then(() => {
-        applyStoryCandidateConfiguration(storyCandidate);
-        history.push({
-          pathname: `/${storyCandidate.id}/edit`
+        exportToServer(storyCandidate).then(() => {
+          applyStoryCandidateConfiguration(storyCandidate);
+          history.push({
+            pathname: `/${storyCandidate.id}/edit`
+          });
         });
       });
       // TODO: server password register error

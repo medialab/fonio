@@ -11,7 +11,7 @@ import {persistentReducer} from 'redux-pouchdb';
 import {v4 as uuid} from 'uuid';
 
 import {registerToServer, loginToServer} from '../../helpers/serverAuth';
-import {deleteStoryServer} from '../../helpers/serverExporter';
+import {fetchStoriesServer, getStoryServer, deleteStoryServer} from '../../helpers/serverExporter';
 
 import {serverUrl} from '../../../secrets';
 import config from '../../../config';
@@ -21,7 +21,8 @@ const {timers} = config;
  * Action names
  */
 import {
-  APPLY_STORY_CANDIDATE_CONFIGURATION
+  APPLY_STORY_CANDIDATE_CONFIGURATION,
+  UNSET_ACTIVE_STORY
 } from '../GlobalUi/duck';
 
 import {
@@ -60,6 +61,12 @@ import {
   FETCH_CITATION_LOCALE,
 } from '../StorySettingsManager/duck';
 
+const FETCH_ALL_STORIES = '§Fonio/StoriesManager/FETCH_ALL_STORIES';
+const FETCH_ALL_STORIES_STATUS = '§Fonio/StoriesManager/FETCH_ALL_STORIES';
+
+const FETCH_STORY = '§Fonio/StoriesManager/FETCH_STORY';
+const FETCH_STORY_STATUS = '§Fonio/StoriesManager/FETCH_STORY_STATUS';
+
 const CREATE_STORY = '§Fonio/StoriesManager/CREATE_STORY';
 const DELETE_STORY = '§Fonio/StoriesManager/DELETE_STORY';
 const UPDATE_STORY = '§Fonio/StoriesManager/UPDATE_STORY';
@@ -88,6 +95,70 @@ const SET_IMPORT_FROM_URL_CANDIDATE = '§Fonio/StoriesManager/SET_IMPORT_FROM_UR
 /*
  * Action creators
  */
+
+/**
+ * fetch story list from server
+ */
+export const fetchAllStories = () => ({
+  type: FETCH_ALL_STORIES,
+  promise: (dispatch) => {
+  return new Promise((resolve, reject) => {
+    return fetchStoriesServer(dispatch, FETCH_ALL_STORIES_STATUS)
+      .then((response) => {
+        resolve(response);
+        // remove message after a while
+        // setTimeout(() =>
+        //   dispatch({
+        //     type: LOGIN_STORY_STATUS,
+        //     deleteStoryLog: undefined,
+        //     deleteStoryStatus: undefined
+        //   }), timers.medium);
+      })
+      .catch((e) => {
+        reject(e);
+        // remove message after a while
+        // setTimeout(() =>
+        //   dispatch({
+        //     type: LOGIN_STORY_STATUS,
+        //     deleteStoryLog: undefined,
+        //     deleteStoryLogStatus: undefined
+        //   }), timers.medium);
+      });
+   });
+  }
+});
+
+/**
+ * fetch story list from server
+ */
+export const fetchStory = (id) => ({
+  type: FETCH_STORY,
+  promise: (dispatch) => {
+  return new Promise((resolve, reject) => {
+    return getStoryServer(id, dispatch, FETCH_STORY_STATUS)
+      .then((response) => {
+        resolve(response);
+        // remove message after a while
+        // setTimeout(() =>
+        //   dispatch({
+        //     type: LOGIN_STORY_STATUS,
+        //     deleteStoryLog: undefined,
+        //     deleteStoryStatus: undefined
+        //   }), timers.medium);
+      })
+      .catch((e) => {
+        reject(e);
+        // remove message after a while
+        // setTimeout(() =>
+        //   dispatch({
+        //     type: LOGIN_STORY_STATUS,
+        //     deleteStoryLog: undefined,
+        //     deleteStoryLogStatus: undefined
+        //   }), timers.medium);
+      });
+   });
+  }
+});
 
 /**
  * Creates a new story, possibly setting it as active
@@ -346,11 +417,12 @@ const STORIES_DEFAULT_STATE = {
    */
   stories: {},
 
+  storiesRemoted: {},
   /**
    * Representation of the id of the story being edited in editor
    * @type {string}
    */
-  // activeStoryId: undefined
+  activeStory: undefined
 };
 
 /**
@@ -363,17 +435,32 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
   let newState;
   let storyId;
   switch (action.type) {
-    // a story is updated from the changes
-    // made to story candidate
-    case APPLY_STORY_CANDIDATE_CONFIGURATION:
+    case FETCH_ALL_STORIES + '_SUCCESS':
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [action.story.id]: action.story
-        }
+        storiesRemoted: action.result
       };
+    case FETCH_STORY + '_SUCCESS':
+      return {
+        ...state,
+        activeStory: action.result
+      };
+    // a story is updated from the changes
+    // made to story candidate
+    // case APPLY_STORY_CANDIDATE_CONFIGURATION:
+    //   return {
+    //     ...state,
+    //     stories: {
+    //       ...state.stories,
+    //       [action.story.id]: action.story
+    //     }
+    //   };
     // a story is created
+    case UNSET_ACTIVE_STORY:
+      return {
+        ...state,
+        activeStory: undefined
+      };
     case CREATE_STORY:
       const id = action.id;
       let story = {
@@ -382,10 +469,11 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       };
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [id]: story
-        }
+        // stories: {
+        //   ...state.stories,
+        //   [id]: story
+        // },
+        activeStory: action.story
       };
     // a story is deleted
     case DELETE_STORY:
@@ -397,47 +485,48 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case UPDATE_STORY:
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [action.id]: action.story
-        }
+        // stories: {
+        //   ...state.stories,
+        //   [action.id]: action.story
+        // },
+        activeStory: action.story
       };
     // a story is imported successfully
-    case IMPORT_SUCCESS:
-      story = action.data;
-      return {
-        ...state,
-        stories: {
-          ...state.stories,
-          [story.id]: {
-            ...story
-          }
-        }
-      };
+    // case IMPORT_SUCCESS:
+    //   story = action.data;
+    //   return {
+    //     ...state,
+    //     stories: {
+    //       ...state.stories,
+    //       [story.id]: {
+    //         ...story
+    //       }
+    //     }
+    //   };
     // a story is duplicated to create a new one
-    case COPY_STORY:
-      // const original = action.story;
-      // const newId = uuid();
-      // const newStory = {
-      //   // breaking references with existing
-      //   // resources/contextualizations/contents/... objects
-      //   // to avoid side effects on their references
-      //   // during a section of use
-      //   // todo: better way to do that ?
-      //   ...JSON.parse(JSON.stringify(original)),
-      //   id: newId,
-      //   metadata: {
-      //     ...original.metadata,
-      //     title: original.metadata.title + ' - copy'
-      //   }
-      // };
-      return {
-        ...state,
-        stories: {
-          ...state.stories,
-          [action.story.id]: action.story
-        }
-      };
+    // case COPY_STORY:
+    //   // const original = action.story;
+    //   // const newId = uuid();
+    //   // const newStory = {
+    //   //   // breaking references with existing
+    //   //   // resources/contextualizations/contents/... objects
+    //   //   // to avoid side effects on their references
+    //   //   // during a section of use
+    //   //   // todo: better way to do that ?
+    //   //   ...JSON.parse(JSON.stringify(original)),
+    //   //   id: newId,
+    //   //   metadata: {
+    //   //     ...original.metadata,
+    //   //     title: original.metadata.title + ' - copy'
+    //   //   }
+    //   // };
+    //   return {
+    //     ...state,
+    //     stories: {
+    //       ...state.stories,
+    //       [action.story.id]: action.story
+    //     }
+    //   };
     /*
      * SECTIONS-RELATED
      */
@@ -445,21 +534,34 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case CREATE_SECTION:
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [action.storyId]: {
-            ...state.stories[action.storyId],
-            sections: {
-              ...state.stories[action.storyId].sections,
-              [action.sectionId]: action.section
-            },
-            sectionsOrder: action.appendToSectionsOrder ?
-              [
-                ...state.stories[action.storyId].sectionsOrder,
-                action.sectionId
-              ]
-              : state.stories[action.storyId].sectionsOrder
-          }
+        // stories: {
+        //   ...state.stories,
+        //   [action.storyId]: {
+        //     ...state.stories[action.storyId],
+        //     sections: {
+        //       ...state.stories[action.storyId].sections,
+        //       [action.sectionId]: action.section
+        //     },
+        //     sectionsOrder: action.appendToSectionsOrder ?
+        //       [
+        //         ...state.stories[action.storyId].sectionsOrder,
+        //         action.sectionId
+        //       ]
+        //       : state.stories[action.storyId].sectionsOrder
+        //   }
+        // },
+        activeStory: {
+          ...state.activeStory,
+          sections: {
+            ...state.activeStory.sections,
+            [action.sectionId]: action.section
+          },
+          sectionsOrder: action.appendToSectionsOrder ?
+            [
+              ...state.activeStory.sectionsOrder,
+              action.sectionId
+            ]
+            : state.stories[action.storyId].sectionsOrder
         }
       };
     // a section is updated by merging its content
@@ -467,27 +569,42 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case UPDATE_SECTION:
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [action.storyId]: {
-            ...state.stories[action.storyId],
-            sections: {
-              ...state.stories[action.storyId].sections,
-              [action.sectionId]: action.section
-            }
+        // stories: {
+        //   ...state.stories,
+        //   [action.storyId]: {
+        //     ...state.stories[action.storyId],
+        //     sections: {
+        //       ...state.stories[action.storyId].sections,
+        //       [action.sectionId]: action.section
+        //     }
+        //   }
+        // },
+        activeStory: {
+          ...state.activeStory,
+          sections: {
+            ...state.activeStory.sections,
+            [action.sectionId]: action.section
           }
         }
       };
     // a section is deleted
     case DELETE_SECTION:
       newState = {...state};
-      delete newState.stories[action.storyId].sections[action.sectionId];
-      // remove from sections order if applicable
-      if (newState.stories[action.storyId].sectionsOrder.indexOf(action.sectionId) > -1) {
-        const index = newState.stories[action.storyId].sectionsOrder.indexOf(action.sectionId);
-        newState.stories[action.storyId].sectionsOrder = [
-          ...newState.stories[action.storyId].sectionsOrder.slice(0, index),
-          ...newState.stories[action.storyId].sectionsOrder.slice(index + 1)
+      // delete newState.stories[action.storyId].sections[action.sectionId];
+      // // remove from sections order if applicable
+      // if (newState.stories[action.storyId].sectionsOrder.indexOf(action.sectionId) > -1) {
+      //   const index = newState.stories[action.storyId].sectionsOrder.indexOf(action.sectionId);
+      //   newState.stories[action.storyId].sectionsOrder = [
+      //     ...newState.stories[action.storyId].sectionsOrder.slice(0, index),
+      //     ...newState.stories[action.storyId].sectionsOrder.slice(index + 1)
+      //   ];
+      // }
+      delete newState.activeStory.sections[action.sectionId];
+      if (newState.activeStory.sectionOrder.indexOf(action.sectionId) > -1) {
+        const index = newState.activeStory.sectionsOrder.indexOf(action.sectionId);
+        newState.activeStory.sectionsOrder = [
+          ...newState.activeStory.sectionOrder.slice(0, index),
+          ...newState.activeStory.sectionsOrder.slice(index + 1)
         ];
       }
       return newState;
@@ -495,12 +612,16 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case UPDATE_SECTIONS_ORDER:
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [action.storyId]: {
-            ...state.stories[action.storyId],
-            sectionsOrder: [...action.sectionsOrder]
-          }
+        // stories: {
+        //   ...state.stories,
+        //   [action.storyId]: {
+        //     ...state.stories[action.storyId],
+        //     sectionsOrder: [...action.sectionsOrder]
+        //   }
+        // },
+        activeStory: {
+          ...state.activeStory,
+          sectionsOrder: [...action.sectionsOrder]
         }
       };
     /*
@@ -516,20 +637,28 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       } = action;
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [storyId]: {
-            ...state.stories[storyId],
-            resources: {
-              ...state.stories[storyId].resources,
-              [resourceId]: resource
-            }
+        // stories: {
+        //   ...state.stories,
+        //   [storyId]: {
+        //     ...state.stories[storyId],
+        //     resources: {
+        //       ...state.stories[storyId].resources,
+        //       [resourceId]: resource
+        //     }
+        //   }
+        // },
+        activeStory: {
+          ...state.activeStory,
+          resources: {
+            ...state.activeStory.resources,
+            [resourceId]: resource
           }
         }
       };
     case DELETE_RESOURCE:
       newState = {...state};
-      delete newState.stories[action.storyId].resources[action.id];
+      // delete newState.stories[action.storyId].resources[action.id];
+      delete newState.activeStory.resources[action.id];
       // for now as the app does not allow to reuse the same contextualizer for several resources
       // we will delete associated contextualizers as well as associated contextualizations
       // (forseeing long edition sessions in which user create and delete a large number of contextualizations
@@ -541,20 +670,34 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       // we will store contextualizations id to delete here
       const contextualizationsToDeleteIds = [];
       // spot all objects to delete
-      Object.keys(newState.stories[action.storyId].contextualizations)
+      // Object.keys(newState.stories[action.storyId].contextualizations)
+      //   .forEach(contextualizationId => {
+      //     if (newState.stories[action.storyId].contextualizations[contextualizationId].resourceId === action.id) {
+      //       contextualizationsToDeleteIds.push(contextualizationId);
+      //       contextualizersToDeleteIds.push(newState.stories[action.storyId].contextualizations[contextualizationId].contextualizerId);
+      //     }
+      //   });
+      Object.keys(newState.activeStory.contextualizations)
         .forEach(contextualizationId => {
-          if (newState.stories[action.storyId].contextualizations[contextualizationId].resourceId === action.id) {
+          if (newState.activeStory.contextualizations[contextualizationId].resourceId === action.id) {
             contextualizationsToDeleteIds.push(contextualizationId);
-            contextualizersToDeleteIds.push(newState.stories[action.storyId].contextualizations[contextualizationId].contextualizerId);
+            contextualizersToDeleteIds.push(newState.activeStory.contextualizations[contextualizationId].contextualizerId);
           }
         });
       // proceed to deletions
+      // contextualizersToDeleteIds.forEach(contextualizerId => {
+      //   delete newState.stories[action.storyId].contextualizers[contextualizerId];
+      // });
+      // contextualizationsToDeleteIds.forEach(contextualizationId => {
+      //   delete newState.stories[action.storyId].contextualizations[contextualizationId];
+      // });
       contextualizersToDeleteIds.forEach(contextualizerId => {
-        delete newState.stories[action.storyId].contextualizers[contextualizerId];
+        delete newState.activeStory.contextualizers[contextualizerId];
       });
       contextualizationsToDeleteIds.forEach(contextualizationId => {
-        delete newState.stories[action.storyId].contextualizations[contextualizationId];
+        delete newState.activeStory.contextualizations[contextualizationId];
       });
+
       return newState;
 
     /**
@@ -570,20 +713,28 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       } = action;
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [storyId]: {
-            ...state.stories[storyId],
-            contextualizations: {
-              ...state.stories[storyId].contextualizations,
-              [contextualizationId]: contextualization
-            }
+        // stories: {
+        //   ...state.stories,
+        //   [storyId]: {
+        //     ...state.stories[storyId],
+        //     contextualizations: {
+        //       ...state.stories[storyId].contextualizations,
+        //       [contextualizationId]: contextualization
+        //     }
+        //   }
+        // },
+        activeStory: {
+          ...state.activeStory,
+          contextualizations: {
+            ...state.activeStory.contextualizations,
+            [contextualizationId]: contextualization
           }
         }
       };
     case DELETE_CONTEXTUALIZATION:
       newState = {...state};
-      delete newState.stories[action.storyId].contextualizations[action.contextualizationId];
+      // delete newState.stories[action.storyId].contextualizations[action.contextualizationId];
+      delete newState.activeStory.contextualizations[action.contextualizationId];
       return newState;
 
     /**
@@ -599,20 +750,28 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       } = action;
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [storyId]: {
-            ...state.stories[storyId],
-            contextualizers: {
-              ...state.stories[storyId].contextualizers,
-              [contextualizerId]: contextualizer
-            }
+        // stories: {
+        //   ...state.stories,
+        //   [storyId]: {
+        //     ...state.stories[storyId],
+        //     contextualizers: {
+        //       ...state.stories[storyId].contextualizers,
+        //       [contextualizerId]: contextualizer
+        //     }
+        //   }
+        // },
+        activeStory: {
+          ...state.activeStory,
+          contextualizers: {
+            ...state.activeStory.contextualizers,
+            [contextualizerId]: contextualizer
           }
         }
       };
     case DELETE_CONTEXTUALIZER:
       newState = {...state};
-      delete newState.stories[action.storyId].contextualizers[action.id];
+      // delete newState.stories[action.storyId].contextualizers[action.id];
+      delete newState.activeStory.contextualizers[action.id];
       return newState;
 
     /**
@@ -621,14 +780,21 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case UPDATE_STORY_METADATA_FIELD:
       return {
           ...state,
-          stories: {
-            ...state.stories,
-            [action.id]: {
-              ...state.stories[action.id],
-              metadata: {
-                ...state.stories[action.id].metadata,
-                [action.key]: action.value
-              }
+          // stories: {
+          //   ...state.stories,
+          //   [action.id]: {
+          //     ...state.stories[action.id],
+          //     metadata: {
+          //       ...state.stories[action.id].metadata,
+          //       [action.key]: action.value
+          //     }
+          //   }
+          // },
+          activeStory: {
+            ...state.activeStory,
+            metadata: {
+              ...state.activeStory.metadata,
+              [action.key]: action.value
             }
           }
         };
@@ -636,80 +802,119 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case SET_STORY_CSS :
       return {
         ...state,
-          stories: {
-            ...state.stories,
-            [action.id]: {
-              ...state.stories[action.id],
-              settings: {
-                ...state.stories[action.id].settings,
-                css: action.css
-              }
-            }
+        // stories: {
+        //   ...state.stories,
+        //   [action.id]: {
+        //     ...state.stories[action.id],
+        //     settings: {
+        //       ...state.stories[action.id].settings,
+        //       css: action.css
+        //     }
+        //   }
+        // },
+        activeStory: {
+          ...state.activeStory,
+          settings: {
+            ...state.activeStory.settings,
+            css: action.css
           }
+        }
+
       };
     // the template of a story is changed
     case SET_STORY_TEMPLATE :
       return {
         ...state,
-          stories: {
-            ...state.stories,
-            [action.id]: {
-              ...state.stories[action.id],
-              settings: {
-                ...state.stories[action.id].settings,
-                template: action.template
-              }
-            }
+        // stories: {
+        //   ...state.stories,
+        //   [action.id]: {
+        //     ...state.stories[action.id],
+        //     settings: {
+        //       ...state.stories[action.id].settings,
+        //       template: action.template
+        //     }
+        //   }
+        // },
+        activeStory: {
+          ...state.activeStory,
+          settings: {
+            ...state.activeStory.seetings,
+            template: action.template
           }
+        }
       };
     // an settings' option is changed
     // (options depend on the choosen template)
     case SET_STORY_SETTING_OPTION:
       return {
         ...state,
-          stories: {
-            ...state.stories,
-            [action.id]: {
-              ...state.stories[action.id],
-              settings: {
-                ...state.stories[action.id].settings,
-                options: {
-                  ...state.stories[action.id].settings.options,
-                  [action.field]: action.value,
-                }
-              }
+          // stories: {
+          //   ...state.stories,
+          //   [action.id]: {
+          //     ...state.stories[action.id],
+          //     settings: {
+          //       ...state.stories[action.id].settings,
+          //       options: {
+          //         ...state.stories[action.id].settings.options,
+          //         [action.field]: action.value,
+          //       }
+          //     }
+          //   }
+          // },
+        activeStory: {
+          ...state.activeStory,
+          settings: {
+            ...state.activeStory.settings,
+            options: {
+              ...state.activeStory.settings.options,
+              [action.field]: action.value,
             }
           }
+        }
       };
     // fetching style to use for citations is loaded (citation style in xml/csl)
     case FETCH_CITATION_STYLE + '_SUCCESS':
       return {
         ...state,
-          stories: {
-            ...state.stories,
-            [action.result.storyId]: {
-              ...state.stories[action.result.storyId],
-              settings: {
-                ...state.stories[action.result.storyId].settings,
-                citationStyle: action.result.citationStyle,
-              }
-            }
+          // stories: {
+          //   ...state.stories,
+          //   [action.result.storyId]: {
+          //     ...state.stories[action.result.storyId],
+          //     settings: {
+          //       ...state.stories[action.result.storyId].settings,
+          //       citationStyle: action.result.citationStyle,
+          //     }
+          //   }
+          // },
+        activeStory: {
+          ...state.activeStory,
+          settings: {
+            ...state.activeStory.settings,
+            citationStyle: action.result.citationStyle,
           }
+        }
       };
     // fetching locale to use for citations is loaded (citation locale in xml)
     case FETCH_CITATION_LOCALE + '_SUCCESS':
       return {
         ...state,
-          stories: {
-            ...state.stories,
-            [action.result.storyId]: {
-              ...state.stories[action.result.storyId],
-              settings: {
-                ...state.stories[action.result.storyId].settings,
-                citationLocale: action.result.citationLocale,
-              }
-            }
+          // stories: {
+          //   ...state.stories,
+          //   [action.result.storyId]: {
+          //     ...state.stories[action.result.storyId],
+          //     settings: {
+          //       ...state.stories[action.result.storyId].settings,
+          //       citationLocale: action.result.citationLocale,
+          //     }
+          //   }
+          // },
+        activeStory: {
+          ...state.activeStory,
+          settings: {
+            ...state.activeStory.settings,
+            citationLocale: action.result.citationLocale,
           }
+        }
       };
     /*
      * EXPORT-RELATED
@@ -717,32 +922,50 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case EXPORT_TO_GIST + '_SUCCESS':
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [action.result.storyId]: {
-            ...state.stories[action.result.storyId],
-            metadata: {
-              ...state.stories[action.result.storyId].metadata,
-              // todo: should we wrap that in an object to be cleaner ?
-              gistUrl: action.result.gistUrl,
-              gistId: action.result.gistId
-            }
+        // stories: {
+        //   ...state.stories,
+        //   [action.result.storyId]: {
+        //     ...state.stories[action.result.storyId],
+        //     metadata: {
+        //       ...state.stories[action.result.storyId].metadata,
+        //       // todo: should we wrap that in an object to be cleaner ?
+        //       gistUrl: action.result.gistUrl,
+        //       gistId: action.result.gistId
+        //     }
+        //   }
+        // },
+        activeStory: {
+          ...state.activeStory,
+          metadata: {
+            ...state.activeStory.metadata,
+            // todo: should we wrap that in an object to be cleaner ?
+            gistUrl: action.result.gistUrl,
+            gistId: action.result.gistId
           }
         }
       };
     case EXPORT_TO_SERVER + '_SUCCESS':
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [action.result.storyId]: {
-            ...state.stories[action.result.storyId],
-            metadata: {
-              ...state.stories[action.result.storyId].metadata,
-              // todo: should we wrap that in an object to be cleaner ?
-              serverJSONUrl: serverUrl + '/stories/' + action.result.storyId,
-              serverHTMLUrl: serverUrl + '/stories/' + action.result.storyId + '?format=html'
-            }
+        // stories: {
+        //   ...state.stories,
+        //   [action.result.storyId]: {
+        //     ...state.stories[action.result.storyId],
+        //     metadata: {
+        //       ...state.stories[action.result.storyId].metadata,
+        //       // todo: should we wrap that in an object to be cleaner ?
+        //       serverJSONUrl: serverUrl + '/stories/' + action.result.storyId,
+        //       serverHTMLUrl: serverUrl + '/stories/' + action.result.storyId + '?format=html'
+        //     }
+        //   }
+        // },
+        activeStory: {
+          ...state.activeStory,
+          metadata: {
+            ...state.activeStory.metadata,
+            // todo: should we wrap that in an object to be cleaner ?
+            serverJSONUrl: serverUrl + '/stories/' + state.activeStory.id,
+            serverHTMLUrl: serverUrl + '/stories/' + state.activeStory.id + '?format=html'
           }
         }
       };
@@ -961,7 +1184,8 @@ function storyImport(state = STORY_IMPORT_DEFAULT_STATE, action) {
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
 export default combineReducers({
-  stories: persistentReducer(stories, 'fonio-stories'),
+  // stories: persistentReducer(stories, 'fonio-stories'),
+  stories,
   storiesUi: persistentReducer(storiesUi, 'fonio-stories-ui'),
   // we choose not to persist the story import ui state
   // as it is temporary in all cases
@@ -971,8 +1195,8 @@ export default combineReducers({
 /*
  * Selectors
  */
-const storiesList = state => Object.keys(state.stories.stories).map(key => state.stories.stories[key]);
-const allStories = state => state.stories.stories;
+const storiesList = state => Object.keys(state.stories.storiesRemoted).map(key => state.stories.storiesRemoted[key]);
+const activeStory = state => state.stories.activeStory;
 const promptedToDeleteId = state => state.storiesUi.promptedToDelete;
 const password = state => state.storiesUi.password;
 const saveStoryPasswordLog = state => state.storiesUi.saveStoryPasswordLog;
@@ -991,7 +1215,7 @@ const importFromUrlCandidate = state => state.storyImport.importFromUrlCandidate
  * @type {object}
  */
 export const selector = createStructuredSelector({
-  allStories,
+  activeStory,
   importCandidate,
   importError,
   importStatus,

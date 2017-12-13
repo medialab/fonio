@@ -171,8 +171,8 @@ export const exportToServer = (story) => ({
                 setTimeout(() =>
                   dispatch({
                     type: EXPORT_TO_SERVER_STATUS,
-                    takeAwayGistLog: undefined,
-                    takeAwayGistLogStatus: undefined
+                    takeAwayServerLog: undefined,
+                    takeAwayServerLogStatus: undefined
                   }), timers.ultraLong);
               })
               .catch((e) => {
@@ -181,8 +181,8 @@ export const exportToServer = (story) => ({
                 setTimeout(() =>
                   dispatch({
                     type: EXPORT_TO_SERVER_STATUS,
-                    takeAwayGistLog: undefined,
-                    takeAwayGistLogStatus: undefined
+                    takeAwayServerLog: undefined,
+                    takeAwayServerLogStatus: undefined
                   }), timers.ultraLong);
               });
     });

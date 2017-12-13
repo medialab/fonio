@@ -69,7 +69,10 @@ export default class StoriesManagerContainer extends Component {
     this.attemptImport = this.attemptImport.bind(this);
   }
 
-
+  componentWillMount() {
+    this.props.actions.fetchAllStories();
+    this.props.actions.unsetActiveStory();
+  }
   /**
    * Defines whether the component should re-render
    * @param {object} nextProps - the props to come
