@@ -30,12 +30,8 @@ export default () => ({dispatch, getState}) => (next) => (action) => {
   next({...rest, type: REQUEST});
   // resolve promise
   return promise(dispatch, getState).then(
-      (result) => {
-        // success -> dispatch action name + '_SUCCESS', promise result wrapped
-        // in a 'result' action's prop
-        next({...rest, result, type: SUCCESS});
-        return true;
-      }
-    // error --> dispatch action name + '_FAIL'
-    ).catch((error) => next({...rest, ...error, errorMessage: error, type: FAIL}));
+      (result) => next({...rest, result, type: SUCCESS}),
+      (error) => next({...rest, error, type: FAIL})
+      );
+
 };

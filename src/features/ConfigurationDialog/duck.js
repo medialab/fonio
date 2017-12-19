@@ -168,10 +168,7 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
     case COPY_STORY:
       return {
         ...state,
-        storyCandidate: {
-          ...action.story,
-          id: action.story.id
-        }
+        storyCandidate: action.story
       };
     // save in candidate data some metadata
     case SET_STORY_CANDIDATE_METADATA:

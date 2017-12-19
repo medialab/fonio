@@ -45,7 +45,6 @@ export function getStoryServer (id, dispatch, statusActionName) {
       status: 'processing'
     });
     const serverHTMLUrl = serverUrl + '/stories/' + id;
-    // story.metadata.serverHTMLUrl = serverHTMLUrl + '?format=html';
     get(serverHTMLUrl)
       .end((err, response) => {
           if (err) {
@@ -64,7 +63,7 @@ export function getStoryServer (id, dispatch, statusActionName) {
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
-export function publishToServer (story, dispatch, statusActionName) {
+export function publishToServer (story, token, dispatch, statusActionName) {
   return new Promise((resolve, reject) => {
     dispatch({
       type: statusActionName,
@@ -73,10 +72,8 @@ export function publishToServer (story, dispatch, statusActionName) {
     });
     const serverHTMLUrl = serverUrl + '/stories/' + story.id;
     story.metadata.serverHTMLUrl = serverHTMLUrl + '?format=html';
-    const token = sessionStorage.getItem(story.id);
-    if (!token || token === '')
-      // TODO error
-      return;
+    story.metadata.serverJSONUrl = serverHTMLUrl;
+
     post(serverHTMLUrl)
       .set('Accept', 'application/json')
       .set('x-access-token', token)
@@ -86,10 +83,7 @@ export function publishToServer (story, dispatch, statusActionName) {
             return reject(err);
           }
           else {
-            return resolve({
-              storyId: story.id,
-              status: 'ok'
-            });
+            return resolve(story);
           }
         });
     });

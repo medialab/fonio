@@ -19,6 +19,8 @@ import {
 
 import {
   selector as storiesSelector,
+  fetchStory,
+  exportStory,
   updateStory,
 } from '../../StoriesManager/duck';
 
@@ -53,6 +55,8 @@ import TakeAwayDialogLayout from './TakeAwayDialogLayout';
     actions: bindActionCreators({
       ...duck,
       closeTakeAwayModal,
+      fetchStory,
+      exportStory,
       updateStory
     }, dispatch)
   })
@@ -89,22 +93,29 @@ class TakeAwayDialogContainer extends Component {
    */
   updateActiveStoryFromServer() {
     // todo : rewrite that as a promise-based action
-    this.props.actions.setExportToServerStatus('processing', 'updating from the distant server');
-    const url = this.props.activeStory.metadata.serverJSONUrl;
-    get(url)
-      .end((err, res) => {
-        if (err) {
-          return this.props.actions.setExportToServerStatus('failure', 'connection with distant server has failed');
-        }
-        try {
-          const project = JSON.parse(res.text);
-          this.props.actions.updateStory(project.id, project);
-          this.props.actions.setExportToServerStatus('success', 'your story is now synchronized with the forccast server');
-        }
-        catch (e) {
-          this.props.actions.setExportToServerStatus('failure', 'The distant version is badly formatted');
-        }
-      });
+    this.props.actions.fetchStory(this.props.activeStory.id)
+    .then((res) => {
+      if (res.result) {
+        const story = res.result;
+        this.props.actions.updateStory(this.props.activeStory.id, story);
+      }
+    });
+    // this.props.actions.setExportToServerStatus('processing', 'updating from the distant server');
+    // const url = this.props.activeStory.metadata.serverJSONUrl;
+    // get(url)
+    //   .end((err, res) => {
+    //     if (err) {
+    //       return this.props.actions.setExportToServerStatus('failure', 'connection with distant server has failed');
+    //     }
+    //     try {
+    //       const project = JSON.parse(res.text);
+    //       this.props.actions.updateStory(project.id, project);
+    //       this.props.actions.setExportToServerStatus('success', 'your story is now synchronized with the forccast server');
+    //     }
+    //     catch (e) {
+    //       this.props.actions.setExportToServerStatus('failure', 'The distant version is badly formatted');
+    //     }
+    //   });
   }
 
 
@@ -158,6 +169,7 @@ class TakeAwayDialogContainer extends Component {
    */
   takeAway(takeAwayType) {
     const title = this.props.activeStory.metadata.title;
+    const token = sessionStorage.getItem(this.props.activeStory.id);
     switch (takeAwayType.id) {
       case 'project':
         const JSONbundle = bundleProjectAsJSON(this.props.activeStory); // bundleProjectAsJSON(this.props.activeStory);
@@ -194,7 +206,18 @@ class TakeAwayDialogContainer extends Component {
         });
         break;
       case 'server':
-        this.props.actions.exportToServer(this.props.activeStory);
+        this.props.actions.exportStory(this.props.activeStory, token)
+        .then((res) => {
+          if (res.error) {
+            this.props.history.push({
+              pathname: '/login',
+              state: {
+                storyId: this.props.activeStory.id,
+                to: `/story/${this.props.activeStory.id}/edit`
+              }
+            });
+          }
+        });
         break;
       default:
         break;

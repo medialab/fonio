@@ -6,7 +6,7 @@ import {Redirect} from 'react-router-dom';
 import './PasswordModal.scss';
 import Toaster from '../Toaster/Toaster';
 
-import {translateNameSpacer} from '../../helpers/translateUtils';
+// import {translateNameSpacer} from '../../helpers/translateUtils';
 
 /**
  * Renders the StoryCard component as a pure function
@@ -22,9 +22,11 @@ const PasswordModal = ({
   loginStoryLogStatus,
   enterPassword,
   loginStory,
-}, context) => {
+},
+// context
+) => {
 
-  const translate = translateNameSpacer(context.t, 'Components.AssetPreview');
+  // const translate = translateNameSpacer(context.t, 'Components.AssetPreview');
 
   const onPasswordChange = (e) => enterPassword(e.target.value);
   const loginToStory = () => {
@@ -37,7 +39,9 @@ const PasswordModal = ({
 
   const goBack = (e) => {
     e.stopPropagation();
-    history.goBack();
+    history.push({
+      pathname: '/'
+    });
   };
 
   if (loginStoryLogStatus === 'success') {
@@ -47,7 +51,7 @@ const PasswordModal = ({
   }
   return (
     <Modal
-      isOpen={true}
+      isOpen
       onRequestClose={goBack}>
       <h1 className="modal-header">
         Enter your password
@@ -70,7 +74,8 @@ const PasswordModal = ({
           <button className="valid-btn" onClick={loginToStory}>
             login
           </button>
-          <button onClick={goBack}
+          <button
+            onClick={goBack}
             className="cancel-btn">
             cancel
           </button>

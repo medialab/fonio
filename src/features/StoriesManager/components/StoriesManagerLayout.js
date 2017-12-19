@@ -5,7 +5,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
-import {v4 as uuid} from 'uuid';
 
 import './StoriesManagerLayout.scss';
 
@@ -57,7 +56,6 @@ const StoriesManagerLayout = ({
     copyStory,
     startStoryCandidateConfiguration,
     setUiMode,
-    openPasswordModal,
     importReset,
     setImportFromUrlCandidate,
     setLanguage
@@ -144,7 +142,6 @@ const StoriesManagerLayout = ({
                 promptDeleteStory(story.id);
               }
               else {
-                openPasswordModal();
                 history.push({
                   pathname: '/login',
                   state: {
@@ -156,44 +153,18 @@ const StoriesManagerLayout = ({
             };
             const onClickUnprompt = () => unpromptDeleteStory(story.id);
             const onClickDelete = () => deleteStory(story.id);
-            const onClickCopy = () => {
-              const original = story;
-              const newId = uuid();
-              const newStory = {
-                // todo: better way to do that ?
-                ...JSON.parse(JSON.stringify(original)),
-                id: newId,
-                metadata: {
-                  ...original.metadata,
-                  title: original.metadata.title + ' - copy'
-                }
-              };
-              copyStory(newStory);
-            };
+            const onClickCopy = () => copyStory(story.id);
             const setToActive = () => {
-              if (sessionStorage.getItem(story.id)) {
-                setUiMode();
-                history.push({
-                  pathname: `/${story.id}/edit`
-                });
-              }
-              else {
-                openPasswordModal();
-                history.push({
-                  pathname: '/login',
-                  state: {
-                    storyId: story.id,
-                    to: `/${story.id}/edit`
-                  }
-                });
-              }
+              setUiMode();
+              history.push({
+                pathname: `/story/${story.id}/edit`
+              });
             };
             const configure = () => {
               if (sessionStorage.getItem(story.id)) {
                 startStoryCandidateConfiguration(story);
               }
               else {
-                openPasswordModal();
                 history.push({
                   pathname: '/login',
                   state: {

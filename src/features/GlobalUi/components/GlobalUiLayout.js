@@ -1,3 +1,7 @@
+
+/* eslint react/jsx-no-bind:0 */
+/* eslint no-nested-ternary:0 */
+
 /**
  * This module exports a stateless component rendering the layout of the editor feature interface
  * @module fonio/features/GlobalUi
@@ -7,7 +11,9 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import {
   BrowserRouter as Router,
-  Route, Switch, Redirect
+  Route,
+  Switch,
+  Redirect
 } from 'react-router-dom';
 
 import './GlobalUiLayout.scss';
@@ -39,12 +45,15 @@ class StoryContainer extends Component {
   constructor(props) {
     super(props);
   }
-
-  componentWillMount() {
-    const activeStoryId = this.props.match.params.id;
+  componentDidMount() {
+    const {match} = this.props;
+    const activeStoryId = match.params.id;
     this.props.fetchStory(activeStoryId);
   }
 
+  shouldComponentUpdate() {
+    return true;
+  }
   /**
    * Renders the component
    * @return {ReactElement} component - the component
@@ -52,6 +61,7 @@ class StoryContainer extends Component {
   render() {
     const {
       match,
+      history,
       globalUiMode,
       openTakeAwayModal,
       togglePreview,
@@ -61,21 +71,28 @@ class StoryContainer extends Component {
       startStoryCandidateConfiguration,
       isTakeAwayModalOpen,
       closeTakeAwayModal,
+      fetchStoryLog,
     } = this.props;
+    const activeStoryId = match.params.id;
+
     return (
       activeStory ?
         <div className="story-editor-container">
           <section className="fonio-main-row">
-            {match.params.mode === 'read' ? (
-              <StoryPlayer story={activeStory} />
-            ) : (globalUiMode === 'edition' ?
-              <StoryEditorContainer
-                activeStoryId={match.params.id}
-                activeStory={activeStory} />
-             :
-              <StorySettingsManagerContainer
-                activeStoryId={match.params.id}
-                activeStory={activeStory} />
+            {match.params.mode ?
+              (globalUiMode === 'edition' ?
+                (sessionStorage.getItem(activeStoryId) ?
+                  <StoryEditorContainer activeStoryId={match.params.id} /> :
+                  <Redirect to={{
+                    pathname: '/login',
+                    state: {
+                      storyId: activeStoryId,
+                      to: `/story/${activeStoryId}/edit`
+                    }
+                  }} />
+                ) : <StorySettingsManagerContainer activeStoryId={match.params.id} />
+              ) : (
+                <StoryPlayer story={activeStory} />
             )}
           </section>
           <Footer
@@ -90,9 +107,11 @@ class StoryContainer extends Component {
           <Modal
             onRequestClose={closeTakeAwayModal}
             isOpen={isTakeAwayModalOpen}>
-            <TakeAwayDialog activeStory={activeStory} />
+            <TakeAwayDialog history={history} />
           </Modal>
-        </div> : null
+        </div> :
+        // TODO: loading/error page
+        <div>{fetchStoryLog}</div>
     );
   }
 }
@@ -136,15 +155,14 @@ const GlobalUiLayout = ({
   isStoryCandidateModalOpen,
   globalUiMode,
   isTakeAwayModalOpen,
-  isPasswordModalOpen,
-  hideCancelSettingButton,
   // stories related
   activeStory,
   // storiesUi related
   password,
   loginStoryLog,
   loginStoryLogStatus,
-
+  fetchStoryLog,
+  fetchStoryLogStatus,
   // actions,
   actions: {
     openTakeAwayModal,
@@ -181,36 +199,40 @@ const GlobalUiLayout = ({
     <Router>
       <div id={id} className={'fonio-GlobalUiLayout ' + className}>
         <Modal
-          onRequestClose={hideCancelSettingButton ? null : closeAndResetDialog}
+          onRequestClose={closeAndResetDialog}
           contentLabel={translate('edit-story')}
           isOpen={isStoryCandidateModalOpen}>
           <ConfigurationDialog />
         </Modal>
         <Switch>
           <Route exact path="/" component={StoriesManagerContainer} />
-          <Route path="/:id/:mode" render={(props) => (
-            <StoryContainer
-              {...props}
-              globalUiMode={globalUiMode}
-              openTakeAwayModal={openTakeAwayModal}
-              togglePreview={togglePreview}
-              lang={lang}
-              setLanguage={setLanguage}
-              fetchStory={fetchStory}
-              activeStory={activeStory}
-              startStoryCandidateConfiguration={startStoryCandidateConfiguration}
-              isTakeAwayModalOpen={isTakeAwayModalOpen}
-              closeTakeAwayModal={closeTakeAwayModal} />
+          <Route
+            path="/story/:id/:mode?" render={(props) => (
+              <StoryContainer
+                {...props}
+                globalUiMode={globalUiMode}
+                openTakeAwayModal={openTakeAwayModal}
+                togglePreview={togglePreview}
+                lang={lang}
+                setLanguage={setLanguage}
+                fetchStory={fetchStory}
+                fetchStoryLog={fetchStoryLog}
+                fetchStoryLogStatus={fetchStoryLogStatus}
+                activeStory={activeStory}
+                startStoryCandidateConfiguration={startStoryCandidateConfiguration}
+                isTakeAwayModalOpen={isTakeAwayModalOpen}
+                closeTakeAwayModal={closeTakeAwayModal} />
             )} />
         </Switch>
-        <Route path="/login" render={(props) => (
-          <PasswordModal
-            {...props}
-            password={password}
-            loginStory={loginStory}
-            enterPassword={enterPassword}
-            loginStoryLogStatus={loginStoryLogStatus}
-            loginStoryLog={loginStoryLog} />
+        <Route
+          path="/login" render={(props) => (
+            <PasswordModal
+              {...props}
+              password={password}
+              loginStory={loginStory}
+              enterPassword={enterPassword}
+              loginStoryLogStatus={loginStoryLogStatus}
+              loginStoryLog={loginStoryLog} />
           )} />
       </div>
     </Router>

@@ -207,8 +207,7 @@ function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
     case COPY_STORY:
       return {
         ...state,
-        storyCandidateModalOpen: true,
-        hideCancelSettingButton: true
+        storyCandidateModalOpen: true
       };
     // case story configuration is closed
     case CLOSE_STORY_CANDIDATE_MODAL:
@@ -265,8 +264,6 @@ export default combineReducers({
  */
 const isStoryCandidateModalOpen = state => state.globalUi.storyCandidateModalOpen;
 const isTakeAwayModalOpen = state => state.globalUi.takeAwayModalOpen;
-const isPasswordModalOpen = state => state.globalUi.passwordModalOpen;
-const hideCancelSettingButton = state => state.globalUi.hideCancelSettingButton;
 const slideSettingsPannelState = state => state.globalUi.slideSettingsPannelState;
 const globalUiMode = state => state.globalUi.uiMode;
 const asideUiMode = state => state.globalUi.asideUiMode;
@@ -280,7 +277,5 @@ export const selector = createStructuredSelector({
   asideUiMode,
   isStoryCandidateModalOpen,
   isTakeAwayModalOpen,
-  isPasswordModalOpen,
-  hideCancelSettingButton,
   slideSettingsPannelState,
 });

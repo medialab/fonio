@@ -1,3 +1,4 @@
+/* eslint react/no-set-state: 0 */
 /**
  * This module exports a stateful component connected to the redux logic of the app,
  * dedicated to rendering the configuration dialog feature interface
@@ -20,9 +21,9 @@ import {
 import {
   selector as storiesSelector,
   saveStoryPassword,
+  exportStory,
+  createStory
 } from '../../StoriesManager/duck';
-
-import {exportToServer} from '../../TakeAwayDialog/duck';
 
 import ConfigurationDialogLayout from './ConfigurationDialogLayout';
 
@@ -42,10 +43,11 @@ import ConfigurationDialogLayout from './ConfigurationDialogLayout';
     actions: bindActionCreators({
       ...duck,
       saveStoryPassword,
+      exportStory,
+      createStory,
       applyStoryCandidateConfiguration,
       closeStoryCandidateModal,
-      setActiveStoryId,
-      exportToServer
+      setActiveStoryId
     }, dispatch)
   })
 )

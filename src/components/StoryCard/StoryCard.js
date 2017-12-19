@@ -67,7 +67,7 @@ const StoryCard = ({
             </div>
           </div> :
           <div>
-            <Link to={`/${story.id}/read`}>
+            <Link to={`/story/${story.id}`}>
               <button className="preview-btn">
                 <img src={require('../../sharedAssets/preview-black.svg')} className="fonio-icon-image" />
                 preview

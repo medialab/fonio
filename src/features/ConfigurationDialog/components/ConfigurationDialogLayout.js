@@ -35,8 +35,6 @@ const ConfigurationDialogLayout = ({
   password,
   passwordIsValid,
   setStoryPassword,
-  // globalUi related
-  hideCancelSettingButton,
   //storiesManager related
   saveStoryPasswordLog,
   saveStoryPasswordLogStatus,
@@ -47,7 +45,8 @@ const ConfigurationDialogLayout = ({
     applyStoryCandidateConfiguration,
     submitCoverImage,
     saveStoryPassword,
-    exportToServer
+    exportStory,
+    // createStory
   },
   closeStoryCandidate,
 }, context) => {
@@ -60,24 +59,42 @@ const ConfigurationDialogLayout = ({
     // e.preventDefault();
     e.stopPropagation();
     if (sessionStorage.getItem(storyCandidate.id)) {
-      exportToServer(storyCandidate).then(() => {
-        applyStoryCandidateConfiguration(storyCandidate);
+      const token = sessionStorage.getItem(storyCandidate.id);
+      exportStory(storyCandidate, token).then((response) => {
+        if (response.result) {
+          applyStoryCandidateConfiguration(storyCandidate);
+          history.push({
+            pathname: `/story/${storyCandidate.id}/edit`
+          });
+        }
+        if (response.error) {
+          history.push({
+            pathname: '/login',
+            state: {
+              storyId: storyCandidate.id,
+              to: `/story/${storyCandidate.id}/edit`
+            }
+          });
+        }
       });
     }
     else if (passwordIsValid) {
-      const storyCredential = {
-        id: storyCandidate.id,
-        password
-      };
-      saveStoryPassword(storyCredential).then(() => {
-        exportToServer(storyCandidate).then(() => {
-          applyStoryCandidateConfiguration(storyCandidate);
-          history.push({
-            pathname: `/${storyCandidate.id}/edit`
+      // createStory(storyCandidate, password);
+      saveStoryPassword(storyCandidate, password)
+      .then((resPassword) => {
+        if (resPassword.result) {
+          const token = resPassword.result;
+          exportStory(storyCandidate, token)
+          .then((resExport) => {
+            if (resExport.result) {
+              applyStoryCandidateConfiguration(storyCandidate);
+              history.push({
+                pathname: `/story/${storyCandidate.id}/edit`
+              });
+            }
           });
-        });
+        }
       });
-      // TODO: server password register error
     }
   };
   const onPasswordChange = (e) => {
@@ -194,13 +211,11 @@ const ConfigurationDialogLayout = ({
           </button>
         : ''
       }
-        {!hideCancelSettingButton ?
-          <button
-            className="cancel-btn"
-            onClick={closeStoryCandidate}>
-            {translate('cancel')}
-          </button> : null
-      }
+        <button
+          className="cancel-btn"
+          onClick={closeStoryCandidate}>
+          {translate('cancel')}
+        </button>
       </section>
     </div>
   );
