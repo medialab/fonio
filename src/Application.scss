@@ -116,44 +116,44 @@ html
         }
     }
 
-    // .input-group
-    // {
-    //     display: flex;
-    //     flex-flow: column nowrap;
-    //     &:not(:last-of-type)
-    //     {
-    //         margin-bottom: $gutter-medium;
-    //     }
-    //     label
-    //     {
-    //         margin-bottom: $gutter-small;
-    //     }
-    // }
-    // input[type='text'],
-    // input[type='password'],
-    // textarea
-    // {
-    //     font-family: $editable-font-stack;
-    //     font-size: $font-size-2;
+    .input-group
+    {
+        display: flex;
+        flex-flow: column nowrap;
+        &:not(:last-of-type)
+        {
+            margin-bottom: $gutter-medium;
+        }
+        label
+        {
+            margin-bottom: $gutter-small;
+        }
+    }
+    input[type='text'],
+    input[type='password'],
+    textarea
+    {
+        font-family: $editable-font-stack;
+        font-size: $font-size-2;
 
-    //     padding: $gutter-medium;
+        padding: $gutter-medium;
 
-    //     resize: none;
-    //     cursor: text;
+        resize: none;
+        cursor: text;
 
-    //     border: none;
-    //     outline: none;
+        border: none;
+        outline: none;
 
-    //     @extend .animated;
-    //     @extend .interactive-item;
-    //     &:hover
-    //     {
-    //         @extend .interactive-item-intent;
-    //     }
-    //     &:focus
-    //     {
-    //         @extend .interactive-item-active;
-    //     }
-    // }
+        @extend .animated;
+        @extend .interactive-item;
+        &:hover
+        {
+            @extend .interactive-item-intent;
+        }
+        &:focus
+        {
+            @extend .interactive-item-active;
+        }
+    }
 
 }
