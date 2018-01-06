@@ -8,6 +8,7 @@ import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {persistentReducer} from 'redux-pouchdb';
 import {v4 as genId} from 'uuid';
+import slug from 'slug';
 
 import config from '../../../config';
 const {timers} = config;
@@ -36,6 +37,7 @@ import {IMPORT_SUCCESS, COPY_STORY} from '../StoriesManager/duck';
 const RESET_STORY_CANDIDATE_SETTINGS = '§Fonio/ConfigurationDialog/RESET_STORY_CANDIDATE_SETTINGS';
 const SUBMIT_COVER_IMAGE = '§Fonio/ConfigurationDialog/SUBMIT_COVER_IMAGE';
 
+const SET_STORY_CANDIDATE_SLUG = '§Fonio/ConfigurationDialog/SET_STORY_CANDIDATE_SLUG';
 const SET_STORY_CANDIDATE_METADATA = '§Fonio/ConfigurationDialog/SET_STORY_CANDIDATE_METADATA';
 /*
  * Action creators
@@ -51,6 +53,17 @@ export const setCandidateStoryMetadata = (field, value) => ({
   type: SET_STORY_CANDIDATE_METADATA,
   field,
   value
+});
+
+/**
+ * Sets a new metadata prop in the story candidate data
+ * @param {string} field - the name of the metadata field to modify
+ * @param {string} value - the value to set to the field to modify
+ * @return {object} action - the redux action to dispatch
+ */
+export const setCandidateStorySlug = (title) => ({
+  type: SET_STORY_CANDIDATE_SLUG,
+  title
 });
 
 /**
@@ -165,10 +178,18 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
           id: story.id
         }
       };
-    case COPY_STORY:
+    case COPY_STORY + '_SUCCESS':
       return {
         ...state,
-        storyCandidate: action.story
+        storyCandidate: action.result
+      };
+    case SET_STORY_CANDIDATE_SLUG:
+      return {
+        ...state,
+        storyCandidate: {
+          ...state.storyCandidate,
+          slug: slug(action.title, {lower: true})
+        }
       };
     // save in candidate data some metadata
     case SET_STORY_CANDIDATE_METADATA:
@@ -228,7 +249,7 @@ function storyCandidateUi (state = STORY_CANDIDATE_UI_DEFAULT_STATE, action) {
       return STORY_CANDIDATE_UI_DEFAULT_STATE;
     // handling representation of the cover image
     // submission process in the ui state
-    case SUBMIT_COVER_IMAGE:
+    case SUBMIT_COVER_IMAGE + '_PENDING':
       return {
         ...state,
         coverImageLoadingState: 'processing'

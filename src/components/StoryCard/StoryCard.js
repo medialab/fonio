@@ -21,7 +21,7 @@ const StoryCard = ({
   promptedToDelete,
   // actions
   setToActive,
-  configure,
+  // configure,
   onClickDelete,
   onClickPrompt,
   onClickUnprompt,
@@ -45,10 +45,10 @@ const StoryCard = ({
             <img src={require('../../sharedAssets/edit-white.svg')} className="fonio-icon-image" />
             {translate('edit')}
           </button>
-          <button className="settings-btn" onClick={configure}>
+          {/*<button className="settings-btn" onClick={configure}>
             <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
             {translate('settings')}
-          </button>
+          </button>*/}
           <button className={'delete-btn ' + (promptedToDelete ? 'inactive' : '')} onClick={onClickPrompt}>
             <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
             {translate('delete')}

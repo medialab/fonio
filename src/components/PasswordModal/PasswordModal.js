@@ -44,6 +44,12 @@ const PasswordModal = ({
     });
   };
 
+  if (!location.state || !location.state.storyId) {
+    return (
+      <Redirect to="/" />
+    );
+  }
+
   if (loginStoryLogStatus === 'success') {
     return (
       <Redirect to={location.state.to} />

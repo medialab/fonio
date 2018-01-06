@@ -542,7 +542,7 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
         }
       };
     // new data is submitted for the resource candidate
-    case SUBMIT_RESOURCE_DATA:
+    case SUBMIT_RESOURCE_DATA + '_PENDING':
       return {
         ...state,
         resourceDataLoadingState: 'processing'
@@ -561,7 +561,7 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
       }, state.resourceCandidate.metadata);
       return {
         ...state,
-        resourceDataLoadingState: undefined,
+        resourceDataLoadingState: 'success',
         resourceCandidate: {
           ...state.resourceCandidate,
           metadata,

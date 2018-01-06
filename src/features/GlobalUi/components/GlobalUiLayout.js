@@ -13,8 +13,10 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
+  Link,
   Redirect
 } from 'react-router-dom';
+import LoadingBar from 'react-redux-loading-bar';
 
 import './GlobalUiLayout.scss';
 
@@ -72,6 +74,7 @@ class StoryContainer extends Component {
       isTakeAwayModalOpen,
       closeTakeAwayModal,
       fetchStoryLog,
+      fetchStoryLogStatus
     } = this.props;
     const activeStoryId = match.params.id;
 
@@ -111,7 +114,13 @@ class StoryContainer extends Component {
           </Modal>
         </div> :
         // TODO: loading/error page
-        <div>{fetchStoryLog}</div>
+        <h2>
+          {fetchStoryLog}
+          {fetchStoryLogStatus === 'failure' &&
+          <span>
+            , go back to <Link to="/">Home page</Link>
+          </span>}
+        </h2>
     );
   }
 }
@@ -198,6 +207,7 @@ const GlobalUiLayout = ({
   return (
     <Router>
       <div id={id} className={'fonio-GlobalUiLayout ' + className}>
+        <LoadingBar style={{backgroundColor: '#3fb0ac', zIndex: 10}} />
         <Modal
           onRequestClose={closeAndResetDialog}
           contentLabel={translate('edit-story')}
@@ -223,17 +233,23 @@ const GlobalUiLayout = ({
                 isTakeAwayModalOpen={isTakeAwayModalOpen}
                 closeTakeAwayModal={closeTakeAwayModal} />
             )} />
-        </Switch>
-        <Route
-          path="/login" render={(props) => (
-            <PasswordModal
-              {...props}
-              password={password}
-              loginStory={loginStory}
-              enterPassword={enterPassword}
-              loginStoryLogStatus={loginStoryLogStatus}
-              loginStoryLog={loginStoryLog} />
+          <Route
+            path="/login" render={(props) => (
+              <PasswordModal
+                {...props}
+                password={password}
+                loginStory={loginStory}
+                enterPassword={enterPassword}
+                loginStoryLogStatus={loginStoryLogStatus}
+                loginStoryLog={loginStoryLog} />
           )} />
+          <Route render={(props) => (
+            // TODO: loading/error page
+            <h2>
+              No match for {props.location.pathname}, go back to <Link to="/">Home page</Link>
+            </h2>
+          )} />
+        </Switch>
       </div>
     </Router>
     );

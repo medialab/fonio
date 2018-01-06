@@ -35,18 +35,16 @@ const ConfigurationDialogLayout = ({
   password,
   passwordIsValid,
   setStoryPassword,
-  //storiesManager related
-  saveStoryPasswordLog,
-  saveStoryPasswordLogStatus,
+  coverImageLoadingState,
   // router props
   history,
   actions: {
     setCandidateStoryMetadata,
+    // setCandidateStorySlug,
     applyStoryCandidateConfiguration,
     submitCoverImage,
-    saveStoryPassword,
     exportStory,
-    // createStory
+    createStory
   },
   closeStoryCandidate,
 }, context) => {
@@ -56,42 +54,39 @@ const ConfigurationDialogLayout = ({
    * Callbacks
    */
   const onApplyChange = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     e.stopPropagation();
+    // setCandidateStorySlug(storyCandidate.metadata.title);
     if (sessionStorage.getItem(storyCandidate.id)) {
       const token = sessionStorage.getItem(storyCandidate.id);
-      exportStory(storyCandidate, token).then((response) => {
-        if (response.result) {
+      exportStory(storyCandidate, token).then((res) => {
+        if (res.result) {
           applyStoryCandidateConfiguration(storyCandidate);
           history.push({
             pathname: `/story/${storyCandidate.id}/edit`
           });
         }
-        if (response.error) {
-          history.push({
-            pathname: '/login',
-            state: {
-              storyId: storyCandidate.id,
-              to: `/story/${storyCandidate.id}/edit`
-            }
-          });
+        if (res.error) {
+          const error = JSON.parse(res.error.response.text);
+          if (!error.auth) {
+            history.push({
+              pathname: '/login',
+              state: {
+                storyId: storyCandidate.id,
+                to: `/story/${storyCandidate.id}/edit`
+              }
+            });
+          }
         }
       });
     }
     else if (passwordIsValid) {
-      // createStory(storyCandidate, password);
-      saveStoryPassword(storyCandidate, password)
-      .then((resPassword) => {
-        if (resPassword.result) {
-          const token = resPassword.result;
-          exportStory(storyCandidate, token)
-          .then((resExport) => {
-            if (resExport.result) {
-              applyStoryCandidateConfiguration(storyCandidate);
-              history.push({
-                pathname: `/story/${storyCandidate.id}/edit`
-              });
-            }
+      createStory(storyCandidate, password)
+      .then((response) => {
+        if (response.result) {
+          applyStoryCandidateConfiguration(storyCandidate);
+          history.push({
+            pathname: `/story/${storyCandidate.id}/edit`
           });
         }
       });
@@ -147,10 +142,7 @@ const ConfigurationDialogLayout = ({
                   </div>
                   <Toaster
                     status={passwordIsValid ? '' : 'failure'}
-                    log={passwordIsValid ? '' : 'password is required, more than 6 digit'} />
-                  <Toaster
-                    status={saveStoryPasswordLogStatus}
-                    log={saveStoryPasswordLog} />
+                    log={passwordIsValid ? '' : 'password is required, at least 6 characters'} />
                 </div> : null
               }
               <div className="input-group">
@@ -182,6 +174,7 @@ const ConfigurationDialogLayout = ({
             </HelpPin>
           </h2>
           <div className="modal-columns-container">
+            <Toaster status={coverImageLoadingState} log="loading" />
             <div className="modal-column">
               <DropZone
                 onDrop={onCoverSubmit}>

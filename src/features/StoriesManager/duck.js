@@ -10,8 +10,8 @@ import {createStructuredSelector} from 'reselect';
 // import {persistentReducer} from 'redux-pouchdb';
 import {v4 as uuid} from 'uuid';
 
-import {registerToServer, loginToServer} from '../../helpers/serverAuth';
-import {fetchStoriesServer, publishToServer, getStoryServer, deleteStoryServer} from '../../helpers/serverExporter';
+import {createCredentialServer, loginToServer, resetPasswordServer, deleteCredentialServer} from '../../helpers/serverAuth';
+import {fetchStoriesServer, createStoryServer, publishToServer, getStoryServer, deleteStoryServer} from '../../helpers/serverExporter';
 
 import config from '../../../config';
 const {timers} = config;
@@ -59,27 +59,16 @@ import {
 } from '../StorySettingsManager/duck';
 
 const FETCH_ALL_STORIES = '§Fonio/StoriesManager/FETCH_ALL_STORIES';
-const FETCH_ALL_STORIES_STATUS = '§Fonio/StoriesManager/FETCH_ALL_STORIES_STATUS';
-
 const FETCH_STORY = '§Fonio/StoriesManager/FETCH_STORY';
-const FETCH_STORY_STATUS = '§Fonio/StoriesManager/FETCH_STORY_STATUS';
-
-export const EXPORT_STORY = '§Fonio/StoriesManager/EXPORT_STORY';
-const EXPORT_STORY_STATUS = '§Fonio/StoriesManager/EXPORT_STORY_STATUS';
-
+const EXPORT_STORY = '§Fonio/StoriesManager/EXPORT_STORY';
 const CREATE_STORY = '§Fonio/StoriesManager/CREATE_STORY';
 const DELETE_STORY = '§Fonio/StoriesManager/DELETE_STORY';
-const UPDATE_STORY = '§Fonio/StoriesManager/UPDATE_STORY';
 export const COPY_STORY = '§Fonio/StoriesManager/COPY_STORY';
-
-const SAVE_STORY_PASSWORD = '§Fonio/StoriesManager/SAVE_STORY_PASSWORD';
-const SAVE_STORY_PASSWORD_STATUS = '§Fonio/StoriesManager/SAVE_STORY_PASSWORD_STATUS';
-
 const LOGIN_STORY = '§Fonio/StoriesManager/LOGIN_STORY';
-const LOGIN_STORY_STATUS = '§Fonio/StoriesManager/LOGIN_STORY_STATUS';
-const ENTER_STORY_PASSWORD = '§Fonio/StoriesManager/ENTER_STORY_PASSWORD';
+const UPDATE_STORY = '§Fonio/StoriesManager/UPDATE_STORY';
 
-const DELETE_STORY_STATUS = '§Fonio/StoriesManager/DELETE_STORY_STATUS';
+const ENTER_STORY_PASSWORD = '§Fonio/StoriesManager/ENTER_STORY_PASSWORD';
+const SAVE_STORY_PASSWORD = '§Fonio/StoriesManager/SAVE_STORY_PASSWORD';
 
 const PROMPT_DELETE_STORY = '§Fonio/StoriesManager/PROMPT_DELETE_STORY';
 const UNPROMPT_DELETE_STORY = '§Fonio/StoriesManager/UNPROMPT_DELETE_STORY';
@@ -100,15 +89,11 @@ const SET_IMPORT_FROM_URL_CANDIDATE = '§Fonio/StoriesManager/SET_IMPORT_FROM_UR
  */
 export const fetchAllStories = () => ({
   type: FETCH_ALL_STORIES,
-  promise: (dispatch) => {
+  promise: () => {
   return new Promise((resolve, reject) => {
-    return fetchStoriesServer(dispatch, FETCH_ALL_STORIES_STATUS)
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((e) => {
-        reject(e);
-      });
+    return fetchStoriesServer()
+      .then((response) => resolve(response))
+      .catch((e) => reject(e));
    });
   }
 });
@@ -120,26 +105,17 @@ export const fetchStory = (id) => ({
   type: FETCH_STORY,
   promise: (dispatch) => {
   return new Promise((resolve, reject) => {
-    return getStoryServer(id, dispatch, FETCH_STORY_STATUS)
+    return getStoryServer(id)
       .then((response) => {
         resolve(response);
         // remove message after a while
-        // setTimeout(() =>
-        //   dispatch({
-        //     type: FETCH_STORY_STATUS,
-        //     fetchStoryLog: undefined,
-        //     fetchStoryStatus: undefined
-        //   }), timers.ultraLong);
+        setTimeout(() => dispatch({type: FETCH_STORY + '_RESET'}), timers.veryLong);
+
       })
       .catch((e) => {
         reject(e);
         // remove message after a while
-        // setTimeout(() =>
-        //   dispatch({
-        //     type: FETCH_STORY_STATUS,
-        //     fetchStoryLog: undefined,
-        //     fetchStoryLogStatus: undefined
-        //   }), timers.ultraLong);
+        setTimeout(() => dispatch({type: FETCH_STORY + '_RESET'}), timers.veryLong);
       });
    });
   }
@@ -154,26 +130,16 @@ export const exportStory = (story, token) => ({
   type: EXPORT_STORY,
   promise: (dispatch) => {
     return new Promise((resolve, reject) => {
-      return publishToServer(story, token, dispatch, EXPORT_STORY_STATUS)
+      return publishToServer(story, token)
         .then((d) => {
           resolve(d);
           // remove message after a while
-          setTimeout(() =>
-            dispatch({
-              type: EXPORT_STORY_STATUS,
-              exportStoryLog: undefined,
-              exportStoryStatus: undefined
-            }), timers.ultraLong);
+          setTimeout(() => dispatch({type: EXPORT_STORY + '_RESET'}), timers.veryLong);
         })
         .catch((e) => {
           reject(e);
           // remove message after a while
-          setTimeout(() =>
-            dispatch({
-              type: EXPORT_STORY_STATUS,
-              exportStoryLog: undefined,
-              exportStoryLogStatus: undefined
-            }), timers.ultraLong);
+          setTimeout(() => dispatch({type: EXPORT_STORY + '_RESET'}), timers.veryLong);
         });
     });
   }
@@ -184,36 +150,16 @@ export const exportStory = (story, token) => ({
  * @param {object} story - the story credential to the distant server
  * @return {object} action - the redux action to dispatch
  */
-export const saveStoryPassword = (story, password) => ({
+export const saveStoryPassword = (storyCredential) => ({
   type: SAVE_STORY_PASSWORD,
-  promise: (dispatch) => {
+  promise: () => {
     return new Promise((resolve, reject) => {
-      const storyCredential = {
-        id: story.id,
-        password
-      };
-      return registerToServer(storyCredential, dispatch, SAVE_STORY_PASSWORD_STATUS)
+      return resetPasswordServer(storyCredential)
         .then((token) => {
-          sessionStorage.setItem(story.id, token);
+          sessionStorage.setItem(storyCredential.id, token);
           resolve(token);
-          // // remove message after a while
-          // setTimeout(() =>
-          //   dispatch({
-          //     type: SAVE_STORY_PASSWORD_STATUS,
-          //     savePasswordLog: undefined,
-          //     savePasswordLogStatus: undefined
-          //   }), timers.veryLong);
         })
-        .catch((e) => {
-          reject(e);
-          // // remove message after a while
-          // setTimeout(() =>
-          //   dispatch({
-          //     type: SAVE_STORY_PASSWORD_STATUS,
-          //     savePasswordLog: undefined,
-          //     savePasswordLogStatus: undefined
-          //   }), timers.veryLong);
-        });
+        .catch((e) => reject(e));
     });
   }
 });
@@ -224,22 +170,22 @@ export const saveStoryPassword = (story, password) => ({
  * @param {object} story - the data of the story to create
  * @return {object} action - the redux action to dispatch
  */
+
 export const createStory = (story, password) => ({
   type: CREATE_STORY,
-  promise: (dispatch) => {
+  promise: () => {
+    const storyCredential = {
+      id: story.id,
+      password
+    };
     return new Promise((resolve, reject) => {
-      dispatch(saveStoryPassword(story, password))
-        .then(
-          (res) => {
-            const token = res.result;
-            dispatch(exportStory(story, token))
-            .then(
-              (response) => resolve(response.result),
-              (error) => reject(error.error)
-            );
-          },
-          (err) => reject(err.error)
-        );
+      return createStoryServer(story)
+        .then(() => createCredentialServer(storyCredential))
+        .then(token => {
+          sessionStorage.setItem(story.id, token);
+          resolve(story);
+        })
+        .catch(e => reject(e));
     });
   }
 });
@@ -249,16 +195,12 @@ export const createStory = (story, password) => ({
  * @param {object} story - the data of the story to copy
  * @return {object} action - the redux action to dispatch
  */
-// export const copyStory = (story) => ({
-//   type: COPY_STORY,
-//   story
-// });
 
 export const copyStory = (id) => ({
-  type: FETCH_STORY,
-  promise: (dispatch) => {
+  type: COPY_STORY,
+  promise: () => {
   return new Promise((resolve, reject) => {
-    return getStoryServer(id, dispatch, FETCH_STORY_STATUS)
+    return getStoryServer(id)
       .then((response) => {
         const newId = uuid();
         const newStory = {
@@ -274,15 +216,9 @@ export const copyStory = (id) => ({
             title: response.metadata.title + ' - copy'
           }
         };
-        resolve(response);
-        dispatch({
-          type: COPY_STORY,
-          story: newStory
-        });
+        resolve(newStory);
       })
-      .catch((e) => {
-        reject(e);
-      });
+      .catch((e) => reject(e));
    });
   }
 });
@@ -310,46 +246,20 @@ export const unpromptDeleteStory = () => ({
  * @param {string} id - the uuid of the story to delete
  * @return {object} action - the redux action to dispatch
  */
-export const deleteStory = (id) => ({
+export const deleteStory = (id, token) => ({
   type: DELETE_STORY,
-  id,
-  promise: (dispatch) => {
-  return new Promise((resolve, reject) => {
-    return deleteStoryServer(id, dispatch, DELETE_STORY_STATUS)
-      .then((response) => {
-        sessionStorage.removeItem(id);
-        resolve(response);
-        // remove message after a while
-        // setTimeout(() =>
-        //   dispatch({
-        //     type: LOGIN_STORY_STATUS,
-        //     deleteStoryLog: undefined,
-        //     deleteStoryStatus: undefined
-        //   }), timers.medium);
-      })
-      .catch((e) => {
-        reject(e);
-        // remove message after a while
-        // setTimeout(() =>
-        //   dispatch({
-        //     type: LOGIN_STORY_STATUS,
-        //     deleteStoryLog: undefined,
-        //     deleteStoryLogStatus: undefined
-        //   }), timers.medium);
-      });
-   });
+  promise: () => {
+    return new Promise((resolve, reject) => {
+      return deleteStoryServer(id, token)
+        .then(() => deleteCredentialServer(id, token))
+        .then(() => {
+          sessionStorage.removeItem(id);
+          resolve(id);
+        })
+        .catch(e => reject(e));
+    });
   }
 });
-
-/**
- * Deletes a story
- * @param {string} id - the uuid of the story to delete
- * @return {object} action - the redux action to dispatch
- */
-// export const deleteStory = (id) => ({
-//   type: DELETE_STORY,
-//   id
-// });
 
 /**
  * Updates the content of an existing story by replacing its data with new one
@@ -357,10 +267,26 @@ export const deleteStory = (id) => ({
  * @param {object} story - the data of the story to update
  * @return {object} action - the redux action to dispatch
  */
-export const updateStory = (id, story) => ({
+// export const updateStory = (id, story) => ({
+//   type: UPDATE_STORY,
+//   id,
+//   story
+// });
+export const updateStory = (id) => ({
   type: UPDATE_STORY,
-  id,
-  story
+  promise: (dispatch) => {
+  return new Promise((resolve, reject) => {
+    return getStoryServer(id)
+      .then((response) => {
+        resolve(response);
+        setTimeout(() => dispatch({type: UPDATE_STORY + '_RESET'}), timers.veryLong);
+      })
+      .catch((e) => {
+        reject(e);
+        setTimeout(() => dispatch({type: UPDATE_STORY + '_RESET'}), timers.veryLong);
+      });
+   });
+  }
 });
 
 /**
@@ -378,31 +304,21 @@ export const enterPassword = (password) => ({
  * @param {object} story - the story credential to the distant server
  * @return {object} action - the redux action to dispatch
  */
-export const loginStory = (story) => ({
+export const loginStory = (storyCredential) => ({
   type: LOGIN_STORY,
   promise: (dispatch) => {
     return new Promise((resolve, reject) => {
-      return loginToServer(story, dispatch, LOGIN_STORY_STATUS)
+      return loginToServer(storyCredential)
         .then((token) => {
-          sessionStorage.setItem(story.id, token);
+          sessionStorage.setItem(storyCredential.id, token);
           resolve(token);
           // remove message after a while
-          setTimeout(() =>
-            dispatch({
-              type: LOGIN_STORY_STATUS,
-              loginStoryLog: undefined,
-              loginStoryStatus: undefined
-            }), timers.veryLong);
+          setTimeout(() => dispatch({type: LOGIN_STORY + '_RESET'}), timers.veryLong);
         })
         .catch((e) => {
           reject(e);
           // remove message after a while
-          setTimeout(() =>
-            dispatch({
-              type: LOGIN_STORY_STATUS,
-              loginStoryLog: undefined,
-              loginStoryLogStatus: undefined
-            }), timers.veryLong);
+          setTimeout(() => dispatch({type: LOGIN_STORY + '_RESET'}), timers.veryLong);
         });
     });
   }
@@ -520,7 +436,8 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         stories: {
           ...state.stories,
           [action.result.id]: action.result
-        }
+        },
+        activeStory: action.result
       };
     // a story is created
     case UNSET_ACTIVE_STORY:
@@ -528,35 +445,25 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         ...state,
         activeStory: undefined
       };
-    case CREATE_STORY:
-      const id = action.id;
-      const story = {
-        ...action.story,
-        id
-      };
+    case CREATE_STORY + '_SUCCESS':
       return {
         ...state,
-        // stories: {
-        //   ...state.stories,
-        //   [id]: story
-        // },
-        activeStory: story
+        stories: {
+          ...state.stories,
+          [action.result.id]: action.result
+        }
       };
     // a story is deleted
     case DELETE_STORY + '_SUCCESS':
       newState = Object.assign({}, state);
-      delete newState.stories[action.id];
+      delete newState.stories[action.result];
       return newState;
     // a story's content is replaced
     // todo: should we merge instead ?
-    case UPDATE_STORY:
+    case UPDATE_STORY + '_SUCCESS':
       return {
         ...state,
-        // stories: {
-        //   ...state.stories,
-        //   [action.id]: action.story
-        // },
-        activeStory: action.story
+        activeStory: action.result
       };
 
     /*
@@ -566,22 +473,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case CREATE_SECTION:
       return {
         ...state,
-        // stories: {
-        //   ...state.stories,
-        //   [action.storyId]: {
-        //     ...state.stories[action.storyId],
-        //     sections: {
-        //       ...state.stories[action.storyId].sections,
-        //       [action.sectionId]: action.section
-        //     },
-        //     sectionsOrder: action.appendToSectionsOrder ?
-        //       [
-        //         ...state.stories[action.storyId].sectionsOrder,
-        //         action.sectionId
-        //       ]
-        //       : state.stories[action.storyId].sectionsOrder
-        //   }
-        // },
         activeStory: {
           ...state.activeStory,
           sections: {
@@ -593,7 +484,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
               ...state.activeStory.sectionsOrder,
               action.sectionId
             ]
-            : state.stories[action.storyId].sectionsOrder
+            : state.activeStory.sectionsOrder
         }
       };
     // a section is updated by merging its content
@@ -601,16 +492,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case UPDATE_SECTION:
       return {
         ...state,
-        // stories: {
-        //   ...state.stories,
-        //   [action.storyId]: {
-        //     ...state.stories[action.storyId],
-        //     sections: {
-        //       ...state.stories[action.storyId].sections,
-        //       [action.sectionId]: action.section
-        //     }
-        //   }
-        // },
         activeStory: {
           ...state.activeStory,
           sections: {
@@ -622,20 +503,11 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     // a section is deleted
     case DELETE_SECTION:
       newState = {...state};
-      // delete newState.stories[action.storyId].sections[action.sectionId];
-      // // remove from sections order if applicable
-      // if (newState.stories[action.storyId].sectionsOrder.indexOf(action.sectionId) > -1) {
-      //   const index = newState.stories[action.storyId].sectionsOrder.indexOf(action.sectionId);
-      //   newState.stories[action.storyId].sectionsOrder = [
-      //     ...newState.stories[action.storyId].sectionsOrder.slice(0, index),
-      //     ...newState.stories[action.storyId].sectionsOrder.slice(index + 1)
-      //   ];
-      // }
       delete newState.activeStory.sections[action.sectionId];
-      if (newState.activeStory.sectionOrder.indexOf(action.sectionId) > -1) {
+      if (newState.activeStory.sectionsOrder.indexOf(action.sectionId) > -1) {
         const index = newState.activeStory.sectionsOrder.indexOf(action.sectionId);
         newState.activeStory.sectionsOrder = [
-          ...newState.activeStory.sectionOrder.slice(0, index),
+          ...newState.activeStory.sectionsOrder.slice(0, index),
           ...newState.activeStory.sectionsOrder.slice(index + 1)
         ];
       }
@@ -644,13 +516,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case UPDATE_SECTIONS_ORDER:
       return {
         ...state,
-        // stories: {
-        //   ...state.stories,
-        //   [action.storyId]: {
-        //     ...state.stories[action.storyId],
-        //     sectionsOrder: [...action.sectionsOrder]
-        //   }
-        // },
         activeStory: {
           ...state.activeStory,
           sectionsOrder: [...action.sectionsOrder]
@@ -669,16 +534,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       } = action;
       return {
         ...state,
-        // stories: {
-        //   ...state.stories,
-        //   [storyId]: {
-        //     ...state.stories[storyId],
-        //     resources: {
-        //       ...state.stories[storyId].resources,
-        //       [resourceId]: resource
-        //     }
-        //   }
-        // },
         activeStory: {
           ...state.activeStory,
           resources: {
@@ -702,13 +557,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       // we will store contextualizations id to delete here
       const contextualizationsToDeleteIds = [];
       // spot all objects to delete
-      // Object.keys(newState.stories[action.storyId].contextualizations)
-      //   .forEach(contextualizationId => {
-      //     if (newState.stories[action.storyId].contextualizations[contextualizationId].resourceId === action.id) {
-      //       contextualizationsToDeleteIds.push(contextualizationId);
-      //       contextualizersToDeleteIds.push(newState.stories[action.storyId].contextualizations[contextualizationId].contextualizerId);
-      //     }
-      //   });
       Object.keys(newState.activeStory.contextualizations)
         .forEach(contextualizationId => {
           if (newState.activeStory.contextualizations[contextualizationId].resourceId === action.id) {
@@ -717,12 +565,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           }
         });
       // proceed to deletions
-      // contextualizersToDeleteIds.forEach(contextualizerId => {
-      //   delete newState.stories[action.storyId].contextualizers[contextualizerId];
-      // });
-      // contextualizationsToDeleteIds.forEach(contextualizationId => {
-      //   delete newState.stories[action.storyId].contextualizations[contextualizationId];
-      // });
       contextualizersToDeleteIds.forEach(contextualizerId => {
         delete newState.activeStory.contextualizers[contextualizerId];
       });
@@ -738,23 +580,12 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     // contextualizations CUD
     case UPDATE_CONTEXTUALIZATION:
     case CREATE_CONTEXTUALIZATION:
-      // storyId = action.storyId;
       const {
         contextualizationId,
         contextualization
       } = action;
       return {
         ...state,
-        // stories: {
-        //   ...state.stories,
-        //   [storyId]: {
-        //     ...state.stories[storyId],
-        //     contextualizations: {
-        //       ...state.stories[storyId].contextualizations,
-        //       [contextualizationId]: contextualization
-        //     }
-        //   }
-        // },
         activeStory: {
           ...state.activeStory,
           contextualizations: {
@@ -765,7 +596,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       };
     case DELETE_CONTEXTUALIZATION:
       newState = {...state};
-      // delete newState.stories[action.storyId].contextualizations[action.contextualizationId];
       delete newState.activeStory.contextualizations[action.contextualizationId];
       return newState;
 
@@ -782,16 +612,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       } = action;
       return {
         ...state,
-        // stories: {
-        //   ...state.stories,
-        //   [storyId]: {
-        //     ...state.stories[storyId],
-        //     contextualizers: {
-        //       ...state.stories[storyId].contextualizers,
-        //       [contextualizerId]: contextualizer
-        //     }
-        //   }
-        // },
         activeStory: {
           ...state.activeStory,
           contextualizers: {
@@ -802,7 +622,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       };
     case DELETE_CONTEXTUALIZER:
       newState = {...state};
-      // delete newState.stories[action.storyId].contextualizers[action.id];
       delete newState.activeStory.contextualizers[action.id];
       return newState;
 
@@ -812,16 +631,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case UPDATE_STORY_METADATA_FIELD:
       return {
           ...state,
-          // stories: {
-          //   ...state.stories,
-          //   [action.id]: {
-          //     ...state.stories[action.id],
-          //     metadata: {
-          //       ...state.stories[action.id].metadata,
-          //       [action.key]: action.value
-          //     }
-          //   }
-          // },
           activeStory: {
             ...state.activeStory,
             metadata: {
@@ -834,16 +643,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case SET_STORY_CSS :
       return {
         ...state,
-        // stories: {
-        //   ...state.stories,
-        //   [action.id]: {
-        //     ...state.stories[action.id],
-        //     settings: {
-        //       ...state.stories[action.id].settings,
-        //       css: action.css
-        //     }
-        //   }
-        // },
         activeStory: {
           ...state.activeStory,
           settings: {
@@ -857,20 +656,10 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case SET_STORY_TEMPLATE :
       return {
         ...state,
-        // stories: {
-        //   ...state.stories,
-        //   [action.id]: {
-        //     ...state.stories[action.id],
-        //     settings: {
-        //       ...state.stories[action.id].settings,
-        //       template: action.template
-        //     }
-        //   }
-        // },
         activeStory: {
           ...state.activeStory,
           settings: {
-            ...state.activeStory.seetings,
+            ...state.activeStory.settings,
             template: action.template
           }
         }
@@ -880,19 +669,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case SET_STORY_SETTING_OPTION:
       return {
         ...state,
-          // stories: {
-          //   ...state.stories,
-          //   [action.id]: {
-          //     ...state.stories[action.id],
-          //     settings: {
-          //       ...state.stories[action.id].settings,
-          //       options: {
-          //         ...state.stories[action.id].settings.options,
-          //         [action.field]: action.value,
-          //       }
-          //     }
-          //   }
-          // },
         activeStory: {
           ...state.activeStory,
           settings: {
@@ -908,16 +684,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case FETCH_CITATION_STYLE + '_SUCCESS':
       return {
         ...state,
-          // stories: {
-          //   ...state.stories,
-          //   [action.result.storyId]: {
-          //     ...state.stories[action.result.storyId],
-          //     settings: {
-          //       ...state.stories[action.result.storyId].settings,
-          //       citationStyle: action.result.citationStyle,
-          //     }
-          //   }
-          // },
         activeStory: {
           ...state.activeStory,
           settings: {
@@ -930,16 +696,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case FETCH_CITATION_LOCALE + '_SUCCESS':
       return {
         ...state,
-          // stories: {
-          //   ...state.stories,
-          //   [action.result.storyId]: {
-          //     ...state.stories[action.result.storyId],
-          //     settings: {
-          //       ...state.stories[action.result.storyId].settings,
-          //       citationLocale: action.result.citationLocale,
-          //     }
-          //   }
-          // },
         activeStory: {
           ...state.activeStory,
           settings: {
@@ -954,18 +710,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case EXPORT_TO_GIST + '_SUCCESS':
       return {
         ...state,
-        // stories: {
-        //   ...state.stories,
-        //   [action.result.storyId]: {
-        //     ...state.stories[action.result.storyId],
-        //     metadata: {
-        //       ...state.stories[action.result.storyId].metadata,
-        //       // todo: should we wrap that in an object to be cleaner ?
-        //       gistUrl: action.result.gistUrl,
-        //       gistId: action.result.gistId
-        //     }
-        //   }
-        // },
         activeStory: {
           ...state.activeStory,
           metadata: {
@@ -991,18 +735,6 @@ const STORIES_UI_DEFAULT_STATE = {
    * @type {string}
    */
   promptedToDelete: undefined,
-
-  /**
-   * The status of set password to server (processing, success, error)
-   * @type {string}
-   */
-  saveStoryPasswordLogStatus: undefined,
-
-  /**
-   * The message of set password to server
-   * @type {string}
-   */
-  saveStoryPasswordLog: undefined,
 
   /**
    * password for login story
@@ -1036,6 +768,18 @@ const STORIES_UI_DEFAULT_STATE = {
   exportStoryLog: undefined,
 
   /**
+   * The status of update story from server (processing, success, error)
+   * @type {string}
+   */
+  updateStoryLogStatus: undefined,
+
+  /**
+   * The message of update story
+   * @type {string}
+   */
+  updateStoryLog: undefined,
+
+  /**
    * The status of login story with password on server (processing, success, error)
    * @type {string}
    */
@@ -1046,17 +790,6 @@ const STORIES_UI_DEFAULT_STATE = {
    * @type {string}
    */
   loginStoryLog: undefined,
-  /**
-   * The status of delete story with token on server (processing, success, error)
-   * @type {string}
-   */
-  deleteStoryLogStatus: undefined,
-
-  /**
-   * The message of delete story
-   * @type {string}
-   */
-  deleteStoryLog: undefined,
 };
 
 /**
@@ -1072,32 +805,11 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
         ...state,
         password: action.password
       };
-    // save story password
-    case SAVE_STORY_PASSWORD_STATUS:
+    case FETCH_STORY + '_PENDING':
       return {
         ...state,
-        saveStoryPasswordLog: action.log,
-        saveStoryPasswordLogStatus: action.status
-      };
-    case SAVE_STORY_PASSWORD + '_SUCCESS':
-      return {
-        ...state,
-        isAuthenticated: true,
-        saveStoryPasswordLog: 'password saved',
-        saveStoryPasswordLogStatus: 'success'
-      };
-    case SAVE_STORY_PASSWORD + '_FAIL':
-      return {
-        ...state,
-        isAuthenticated: false,
-        saveStoryPasswordLog: 'password not saved',
-        saveStoryPasswordLogStatus: 'failure'
-      };
-    case FETCH_STORY_STATUS:
-      return {
-        ...state,
-        fetchStoryLog: action.log,
-        fetchStoryLogStatus: action.status
+        fetchStoryLog: 'loading story',
+        fetchStoryLogStatus: 'processing'
       };
     case FETCH_STORY + '_SUCCESS':
       return {
@@ -1111,16 +823,16 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
         fetchStoryLog: 'story is not found',
         fetchStoryLogStatus: 'failure'
       };
-    case EXPORT_STORY_STATUS:
+    case EXPORT_STORY + '_PENDING':
       return {
         ...state,
-        exportStoryLog: action.log,
-        exportStoryLogStatus: action.status
+        exportStoryLog: 'saving story',
+        exportStoryLogStatus: 'processing'
       };
     case EXPORT_STORY + '_SUCCESS':
       return {
         ...state,
-        exportStoryLog: 'story is save on server',
+        exportStoryLog: 'story is saved on server',
         exportStoryLogStatus: 'success'
       };
     case EXPORT_STORY + '_FAIL':
@@ -1129,18 +841,47 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
         exportStoryLog: 'story could not export to server',
         exportStoryLogStatus: 'failure'
       };
-    // a story is imported successfully
-    // login story if no token
-    case LOGIN_STORY_STATUS:
+    case EXPORT_STORY + '_RESET':
       return {
         ...state,
-        loginStoryLog: action.log,
-        loginStoryLogStatus: action.status
+        exportStoryLog: undefined,
+        exportStoryLogStatus: undefined
+      };
+    case UPDATE_STORY + '_PENDING':
+      return {
+        ...state,
+        updateStoryLog: 'updating from the distant server',
+        updateStoryLogStatus: 'processing'
+      };
+    case UPDATE_STORY + '_SUCCESS':
+      return {
+        ...state,
+        updateStoryLog: 'story is up to date',
+        updateStoryLogStatus: 'success'
+      };
+    case UPDATE_STORY + '_FAIL':
+      return {
+        ...state,
+        updateStoryLog: 'connection with distant server has failed',
+        updateStoryLogStatus: 'failure'
+      };
+    case UPDATE_STORY + '_RESET':
+      return {
+        ...state,
+        updateStoryLog: undefined,
+        updateStoryLogStatus: undefined
+      };
+    // a story is imported successfully
+    // login story if no token
+    case LOGIN_STORY + '_PENDING':
+      return {
+        ...state,
+        loginStoryLog: 'login to story',
+        loginStoryLogStatus: 'processing'
       };
     case LOGIN_STORY + '_SUCCESS':
       return {
         ...state,
-        isAuthenticated: true,
         password: undefined,
         storyPasswordModalOpen: false,
         loginStoryLog: 'password correct',
@@ -1149,9 +890,15 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
     case LOGIN_STORY + '_FAIL':
       return {
         ...state,
-        isAuthenticated: false,
-        loginStoryLog: 'password not correct',
+        password: undefined,
+        loginStoryLog: 'password incorrect',
         loginStoryLogStatus: 'failure'
+      };
+    case LOGIN_STORY + '_RESET':
+      return {
+        ...state,
+        loginStoryLog: undefined,
+        loginStoryLogStatus: undefined
       };
     // a story is imported successfully
     case PROMPT_DELETE_STORY:
@@ -1269,14 +1016,14 @@ const storiesList = state => Object.keys(state.stories.stories).map(key => state
 const activeStory = state => state.stories.activeStory;
 const promptedToDeleteId = state => state.storiesUi.promptedToDelete;
 const password = state => state.storiesUi.password;
-const saveStoryPasswordLog = state => state.storiesUi.saveStoryPasswordLog;
-const saveStoryPasswordLogStatus = state => state.storiesUi.saveStoryPasswordLogStatus;
 const loginStoryLog = state => state.storiesUi.loginStoryLog;
 const loginStoryLogStatus = state => state.storiesUi.loginStoryLogStatus;
 const fetchStoryLog = state => state.storiesUi.fetchStoryLog;
 const fetchStoryLogStatus = state => state.storiesUi.fetchStoryLogStatus;
 const exportStoryLog = state => state.storiesUi.exportStoryLog;
 const exportStoryLogStatus = state => state.storiesUi.exportStoryLogStatus;
+const updateStoryLog = state => state.storiesUi.updateStoryLog;
+const updateStoryLogStatus = state => state.storiesUi.updateStoryLogStatus;
 const importStatus = state => state.storyImport.importStatus;
 const importError = state => state.storyImport.importError;
 const importCandidate = state => state.storyImport.importCandidate;
@@ -1293,12 +1040,12 @@ export const selector = createStructuredSelector({
   importStatus,
   importFromUrlCandidate,
   password,
-  saveStoryPasswordLog,
-  saveStoryPasswordLogStatus,
   fetchStoryLog,
   fetchStoryLogStatus,
   exportStoryLog,
   exportStoryLogStatus,
+  updateStoryLog,
+  updateStoryLogStatus,
   loginStoryLog,
   loginStoryLogStatus,
 

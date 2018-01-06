@@ -14,14 +14,14 @@ import {
   selector as editorSelector,
 } from '../../StoryEditor/duck';
 import {
+  selector as globalUiSelector,
   closeTakeAwayModal,
 } from '../../GlobalUi/duck';
 
 import {
   selector as storiesSelector,
-  fetchStory,
-  exportStory,
   updateStory,
+  exportStory,
 } from '../../StoriesManager/duck';
 
 import downloadFile from '../../../helpers/fileDownloader';
@@ -47,6 +47,7 @@ import TakeAwayDialogLayout from './TakeAwayDialogLayout';
 @connect(
   state => ({
     ...duck.selector(state.takeAway),
+    ...globalUiSelector(state.globalUi),
     ...editorSelector(state.storyEditor),
     ...storiesSelector(state.stories),
     lang: state.i18nState.lang
@@ -55,7 +56,6 @@ import TakeAwayDialogLayout from './TakeAwayDialogLayout';
     actions: bindActionCreators({
       ...duck,
       closeTakeAwayModal,
-      fetchStory,
       exportStory,
       updateStory
     }, dispatch)
@@ -93,13 +93,7 @@ class TakeAwayDialogContainer extends Component {
    */
   updateActiveStoryFromServer() {
     // todo : rewrite that as a promise-based action
-    this.props.actions.fetchStory(this.props.activeStory.id)
-    .then((res) => {
-      if (res.result) {
-        const story = res.result;
-        this.props.actions.updateStory(this.props.activeStory.id, story);
-      }
-    });
+    this.props.actions.updateStory(this.props.activeStory.id);
     // this.props.actions.setExportToServerStatus('processing', 'updating from the distant server');
     // const url = this.props.activeStory.metadata.serverJSONUrl;
     // get(url)
@@ -209,13 +203,16 @@ class TakeAwayDialogContainer extends Component {
         this.props.actions.exportStory(this.props.activeStory, token)
         .then((res) => {
           if (res.error) {
-            this.props.history.push({
-              pathname: '/login',
-              state: {
-                storyId: this.props.activeStory.id,
-                to: `/story/${this.props.activeStory.id}/edit`
-              }
-            });
+            const error = JSON.parse(res.error.response.text);
+            if (!error.auth) {
+              this.props.history.push({
+                pathname: '/login',
+                state: {
+                  storyId: this.props.activeStory.id,
+                  to: `/story/${this.props.activeStory.id}/edit`
+                }
+              });
+            }
           }
         });
         break;

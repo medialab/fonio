@@ -2,7 +2,7 @@
  * This module helps to export the serialized content of a presentation to a distant server
  * @module fonio/utils/serverExporter
  */
-import {get, post, del} from 'superagent';
+import {get, put, post, del} from 'superagent';
 
 import {serverUrl} from '../../secrets';
 
@@ -12,13 +12,8 @@ import {serverUrl} from '../../secrets';
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
-export function fetchStoriesServer (dispatch, statusActionName) {
+export function fetchStoriesServer () {
   return new Promise((resolve, reject) => {
-    dispatch({
-      type: statusActionName,
-      log: 'get all stories from server',
-      status: 'processing'
-    });
     const serverHTMLUrl = serverUrl + '/stories/';
     get(serverHTMLUrl)
       .end((err, response) => {
@@ -37,13 +32,8 @@ export function fetchStoriesServer (dispatch, statusActionName) {
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
-export function getStoryServer (id, dispatch, statusActionName) {
+export function getStoryServer (id) {
   return new Promise((resolve, reject) => {
-    dispatch({
-      type: statusActionName,
-      log: 'get story from server',
-      status: 'processing'
-    });
     const serverHTMLUrl = serverUrl + '/stories/' + id;
     get(serverHTMLUrl)
       .end((err, response) => {
@@ -56,25 +46,41 @@ export function getStoryServer (id, dispatch, statusActionName) {
         });
     });
 }
-
 /**
  * @param {object} story - the story to publish to server
  * @param {function} dispatch - the dispatch function to use to connect the process to redux logic
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
-export function publishToServer (story, token, dispatch, statusActionName) {
+export function createStoryServer (story) {
   return new Promise((resolve, reject) => {
-    dispatch({
-      type: statusActionName,
-      log: 'publishing to server',
-      status: 'processing'
+    const serverHTMLUrl = serverUrl + '/stories';
+    post(serverHTMLUrl)
+      .set('Accept', 'application/json')
+      .send(story)
+      .end(err => {
+          if (err) {
+            return reject(err);
+          }
+          else {
+            resolve(story);
+          }
+        });
     });
+}
+/**
+ * @param {object} story - the story to publish to server
+ * @param {function} dispatch - the dispatch function to use to connect the process to redux logic
+ * @param {string} statusActionName - the name base of the actions to dispatch
+ * @return {promise} actionPromise - a promise handling the attempt to publish to server
+ */
+export function publishToServer (story, token) {
+  return new Promise((resolve, reject) => {
     const serverHTMLUrl = serverUrl + '/stories/' + story.id;
     story.metadata.serverHTMLUrl = serverHTMLUrl + '?format=html';
     story.metadata.serverJSONUrl = serverHTMLUrl;
 
-    post(serverHTMLUrl)
+    put(serverHTMLUrl)
       .set('Accept', 'application/json')
       .set('x-access-token', token)
       .send(story)
@@ -95,27 +101,18 @@ export function publishToServer (story, token, dispatch, statusActionName) {
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
-export function deleteStoryServer (id, dispatch, statusActionName) {
+export function deleteStoryServer (id, token) {
   return new Promise((resolve, reject) => {
-    dispatch({
-      type: statusActionName,
-      log: 'delete story on server',
-      status: 'processing'
-    });
     const serverHTMLUrl = serverUrl + '/stories/' + id;
-    const token = sessionStorage.getItem(id);
-    if (!token || token === '')
-      // TODO error
-      return;
     del(serverHTMLUrl)
       .set('Accept', 'application/json')
       .set('x-access-token', token)
-      .end(err => {
+      .end((err, res) => {
           if (err) {
             return reject(err);
           }
           else {
-            return resolve({status: 'ok'});
+            return resolve(res);
           }
         });
   });

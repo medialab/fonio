@@ -137,9 +137,25 @@ const StoriesManagerLayout = ({
             : null}
           <ul className="local-stories-list">
             {storiesList.map((story, index) => {
-            const onClickPrompt = () => {
+            const onClickPrompt = () => promptDeleteStory(story.id);
+            const onClickUnprompt = () => unpromptDeleteStory(story.id);
+            const onClickDelete = () => {
               if (sessionStorage.getItem(story.id)) {
-                promptDeleteStory(story.id);
+                const token = sessionStorage.getItem(story.id);
+                deleteStory(story.id, token).then((res) => {
+                  if (res.error) {
+                    const error = JSON.parse(res.error.response.text);
+                    if (!error.auth) {
+                      history.push({
+                        pathname: '/login',
+                        state: {
+                          storyId: story.id,
+                          to: '/'
+                        }
+                      });
+                    }
+                  }
+                });
               }
               else {
                 history.push({
@@ -151,8 +167,6 @@ const StoriesManagerLayout = ({
                 });
               }
             };
-            const onClickUnprompt = () => unpromptDeleteStory(story.id);
-            const onClickDelete = () => deleteStory(story.id);
             const onClickCopy = () => copyStory(story.id);
             const setToActive = () => {
               setUiMode();

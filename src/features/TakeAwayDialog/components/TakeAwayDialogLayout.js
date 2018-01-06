@@ -139,14 +139,15 @@ ChooseTakeAwayStep.contextTypes = {
  * @return {ReactElement} markup
  */
 const TakeAwayDialogLayout = ({
+  //stories selectors
   activeStory,
   takeAwayType,
   takeAwayGistLog,
   takeAwayGistLogStatus,
   exportStoryLog,
   exportStoryLogStatus,
-  fetchStoryLog,
-  fetchStoryLogStatus,
+  updateStoryLog,
+  updateStoryLogStatus,
   bundleToHtmlLog,
   bundleToHtmlLogStatus,
   serverAvailable,
@@ -180,11 +181,11 @@ const TakeAwayDialogLayout = ({
             serverHtmlUrl={activeStory && activeStory.metadata && activeStory.metadata.serverHTMLUrl}
             gistId={activeStory && activeStory.metadata && activeStory.metadata.gistId} />
         </section>
-        <section className={'modal-row ' + (bundleToHtmlLogStatus || takeAwayGistLogStatus || exportStoryLogStatus || fetchStoryLogStatus ? '' : 'empty')}>
+        <section className={'modal-row ' + (bundleToHtmlLogStatus || takeAwayGistLogStatus || exportStoryLogStatus || updateStoryLogStatus ? '' : 'empty')}>
           <Toaster status={bundleToHtmlLogStatus} log={bundleToHtmlLog} />
           <Toaster status={takeAwayGistLogStatus} log={takeAwayGistLog} />
           <Toaster status={exportStoryLogStatus} log={exportStoryLog} />
-          <Toaster status={fetchStoryLogStatus} log={fetchStoryLog} />
+          <Toaster status={updateStoryLogStatus} log={updateStoryLog} />
         </section>
         <section className="modal-row">
           {

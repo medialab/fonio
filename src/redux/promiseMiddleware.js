@@ -21,17 +21,17 @@ export default () => ({dispatch, getState}) => (next) => (action) => {
     return next(action);
   }
   // build constants that will be used to dispatch actions
-  const REQUEST = type;
-  const SUCCESS = REQUEST + '_SUCCESS';
-  const FAIL = REQUEST + '_FAIL';
+  const REQUEST = type + '_PENDING';
+  const SUCCESS = type + '_SUCCESS';
+  const FAIL = type + '_FAIL';
 
   // Trigger the action once to dispatch
   // the fact promise is starting resolving (for loading indication for instance)
   next({...rest, type: REQUEST});
   // resolve promise
   return promise(dispatch, getState).then(
-      (result) => next({...rest, result, type: SUCCESS}),
-      (error) => next({...rest, error, type: FAIL})
-      );
+    (result) => next({...rest, result, type: SUCCESS}),
+    (error) => next({...rest, error, type: FAIL})
+  );
 
 };

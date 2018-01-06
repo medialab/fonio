@@ -2,9 +2,55 @@
  * This module helps to export the serialized content of a presentation to a distant server
  * @module fonio/helpers/serverAuth
  */
-import {post, get} from 'superagent';
+import {put, post, del} from 'superagent';
 
 import {serverUrl} from '../../secrets';
+
+/**
+ * @param {object} storyCredential - the story id password to register to server
+ * @param {string} statusActionName - the name base of the actions to dispatch
+ * @return {promise} actionPromise - a promise handling the attempt to register to server
+ */
+export function createCredentialServer (storyCredential) {
+  return new Promise((resolve, reject) => {
+    const serverHTMLUrl = serverUrl + '/auth/credential';
+    post(serverHTMLUrl)
+      .set('Accept', 'application/json')
+      .send(storyCredential)
+      .end((err, response) => {
+          if (err) {
+            return reject(err);
+          }
+          else {
+            const jsonResp = JSON.parse(response.text);
+            const accessToken = jsonResp.token;
+            resolve(accessToken);
+          }
+        });
+    });
+}
+
+/**
+ * @param {object} id - story id to deleete
+ * @param {object} token - access token
+ * @return {promise} actionPromise - a promise handling the attempt to register to server
+ */
+export function deleteCredentialServer (id, token) {
+  return new Promise((resolve, reject) => {
+    const serverHTMLUrl = serverUrl + '/auth/credential/' + id;
+    del(serverHTMLUrl)
+      .set('Accept', 'application/json')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        if (err) {
+          return reject(err);
+        }
+        else {
+          return resolve(res);
+        }
+      });
+  });
+}
 
 /**
  * @param {object} story - the story to register to server
@@ -12,17 +58,12 @@ import {serverUrl} from '../../secrets';
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to register to server
  */
-export function registerToServer (storyCredential, dispatch, statusActionName) {
+export function resetPasswordServer (storyCredential, token) {
   return new Promise((resolve, reject) => {
-    dispatch({
-      type: statusActionName,
-      log: 'register to server',
-      status: 'processing'
-    });
-
-    const serverHTMLUrl = serverUrl + '/auth/register';
-    post(serverHTMLUrl)
+    const serverHTMLUrl = serverUrl + '/auth/credential/' + storyCredential.id;
+    put(serverHTMLUrl)
       .set('Accept', 'application/json')
+      .set('x-access-token', token)
       .send(storyCredential)
       .end((err, response) => {
           if (err) {
@@ -43,17 +84,12 @@ export function registerToServer (storyCredential, dispatch, statusActionName) {
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to register to server
  */
-export function loginToServer (story, dispatch, statusActionName) {
+export function loginToServer (storyCredential) {
   return new Promise((resolve, reject) => {
-    dispatch({
-      type: statusActionName,
-      log: 'login to server',
-      status: 'processing'
-    });
     const serverHTMLUrl = serverUrl + '/auth/login';
     post(serverHTMLUrl)
       .set('Accept', 'application/json')
-      .send(story)
+      .send(storyCredential)
       .end((err, response) => {
           if (err) {
             return reject(err);
@@ -62,34 +98,6 @@ export function loginToServer (story, dispatch, statusActionName) {
             const jsonResp = JSON.parse(response.text);
             const accessToken = jsonResp.token;
             resolve(accessToken);
-          }
-        });
-    });
-}
-
-/**
- * @param {string} token - reauth the token to verify at server
- * @param {function} dispatch - the dispatch function to use to connect the process to redux logic
- * @param {string} statusActionName - the name base of the actions to dispatch
- * @return {promise} actionPromise - a promise handling the attempt to register to server
- */
-export function tokenVerify(token, dispatch, statusActionName) {
-    return new Promise((resolve, reject) => {
-    dispatch({
-      type: statusActionName,
-      log: 'verify token from server',
-      status: 'processing'
-    });
-    const serverHTMLUrl = serverUrl + '/auth/me';
-    get(serverHTMLUrl)
-      .set('Accept', 'application/json')
-      .set('x-access-token', token)
-      .end((err, response) => {
-          if (err) {
-            return reject(err);
-          }
-          else {
-            resolve(JSON.parse(response.text));
           }
         });
     });

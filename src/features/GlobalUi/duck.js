@@ -13,7 +13,10 @@ import {persistentReducer} from 'redux-pouchdb';
 /*
  * Action names
  */
-import {IMPORT_SUCCESS, COPY_STORY} from '../StoriesManager/duck';
+import {
+  IMPORT_SUCCESS,
+  COPY_STORY
+} from '../StoriesManager/duck';
 
 export const RESET_APP = 'RESET_APP';
 /*
@@ -204,7 +207,7 @@ function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
         hideCancelSettingButton: false
       };
     case IMPORT_SUCCESS:
-    case COPY_STORY:
+    case COPY_STORY + '_SUCCESS':
       return {
         ...state,
         storyCandidateModalOpen: true
