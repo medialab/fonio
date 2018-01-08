@@ -62,6 +62,7 @@
     "react-media-player": "^0.6.1",
     "react-modal": "^2.2.2",
     "react-redux": "^5.0.4",
+    "react-redux-loading-bar": "^3.1.1",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-select": "^1.0.0-rc.5",
@@ -72,6 +73,7 @@
     "redux-pouchdb": "^0.1.1",
     "reselect": "^3.0.0",
     "scholar-draft": "git+https://github.com/peritext/scholar-draft.git",
+    "slug": "^0.9.1",
     "superagent": "^3.2.1",
     "uuid": "^3.0.1"
   },

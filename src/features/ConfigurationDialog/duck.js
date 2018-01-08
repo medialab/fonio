@@ -23,6 +23,8 @@ import {
   createDefaultSection
 } from '../../helpers/modelsUtils';
 
+import validateForm from '../../helpers/formValidator';
+
 /*
  * Action names
  */
@@ -34,9 +36,12 @@ import {
 } from '../GlobalUi/duck';
 import {IMPORT_SUCCESS, COPY_STORY} from '../StoriesManager/duck';
 
+const VALIDATE_STORY_CANDIDATE_SETTINGS = '§Fonio/ConfigurationDialog/VALIDATE_STORY_CANDIDATE_SETTINGS';
 const RESET_STORY_CANDIDATE_SETTINGS = '§Fonio/ConfigurationDialog/RESET_STORY_CANDIDATE_SETTINGS';
+const SUBMIT_STORY_CANDIDATE_SETTINGS = '§Fonio/ConfigurationDialog/SUBMIT_STORY_CANDIDATE_SETTINGS';
 const SUBMIT_COVER_IMAGE = '§Fonio/ConfigurationDialog/SUBMIT_COVER_IMAGE';
 
+const SET_STORY_CANDIDATE_PASSWORD = '§Fonio/ConfigurationDialog/SET_STORY_CANDIDATE_PASSWORD';
 const SET_STORY_CANDIDATE_SLUG = '§Fonio/ConfigurationDialog/SET_STORY_CANDIDATE_SLUG';
 const SET_STORY_CANDIDATE_METADATA = '§Fonio/ConfigurationDialog/SET_STORY_CANDIDATE_METADATA';
 /*
@@ -53,6 +58,17 @@ export const setCandidateStoryMetadata = (field, value) => ({
   type: SET_STORY_CANDIDATE_METADATA,
   field,
   value
+});
+
+/**
+ * Sets a new metadata prop in the story candidate data
+ * @param {string} field - the name of the metadata field to modify
+ * @param {string} value - the value to set to the field to modify
+ * @return {object} action - the redux action to dispatch
+ */
+export const setCandidateStoryPassword = (password) => ({
+  type: SET_STORY_CANDIDATE_PASSWORD,
+  password
 });
 
 /**
@@ -114,6 +130,23 @@ export const submitCoverImage = (file) => ({
   }
 });
 
+/**
+ * Resets story candidate state to default settings
+ * @return {object} action - the redux action to dispatch
+ */
+export const validateStoryCandidateSettings = (field, value) => ({
+  type: VALIDATE_STORY_CANDIDATE_SETTINGS,
+  field,
+  value
+});
+
+/**
+ * Resets story candidate state to default settings
+ * @return {object} action - the redux action to dispatch
+ */
+export const submitStoryCandidateSettings = () => ({
+  type: SUBMIT_STORY_CANDIDATE_SETTINGS
+});
 /**
  * Resets story candidate state to default settings
  * @return {object} action - the redux action to dispatch
@@ -226,12 +259,36 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
 
 const STORY_CANDIDATE_UI_DEFAULT_STATE = {
 
-   /**
-    * Representation of the status of file fetching status
-    * @type {string}
-    */
-   fetchUserFileStatus: undefined,
-   coverImageLoadingState: undefined
+  /**
+  * Representation of the status of file fetching status
+  * @type {string}
+  */
+  fetchUserFileStatus: undefined,
+  /**
+  * Representation of story password field
+  * @type {string}
+  */
+  storyCandidatePassword: '',
+  /**
+  * Representation of story title, password, author validation
+  * @type {object}
+  */
+  formErrors: {
+    title: undefined,
+    password: undefined,
+    authors: undefined
+  },
+  /**
+  * Representation of show form errors
+  * @type {boolean}
+  */
+  showErrors: false,
+  /**
+  * Representation of the status of file upload image
+  * @type {string}
+  */
+  coverImageLoadingState: undefined,
+
 };
 
 /**
@@ -242,6 +299,25 @@ const STORY_CANDIDATE_UI_DEFAULT_STATE = {
  */
 function storyCandidateUi (state = STORY_CANDIDATE_UI_DEFAULT_STATE, action) {
   switch (action.type) {
+    case VALIDATE_STORY_CANDIDATE_SETTINGS:
+      const newErrors = validateForm(action.field, action.value);
+      return {
+        ...state,
+        formErrors: {
+          ...state.formErrors,
+          ...newErrors
+        }
+      };
+    case SUBMIT_STORY_CANDIDATE_SETTINGS:
+      return {
+        ...state,
+        showErrors: true
+      };
+    case SET_STORY_CANDIDATE_PASSWORD:
+      return {
+        ...state,
+        storyCandidatePassword: action.password
+      };
     // case resetting the base state
     case RESET_APP:
     case CLOSE_STORY_CANDIDATE_MODAL:
@@ -288,6 +364,9 @@ export default persistentReducer(combineReducers({
 const storyCandidate = state => state.storyCandidateData &&
   state.storyCandidateData.storyCandidate;
 const coverImageLoadingState = state => state.storyCandidateUi && state.storyCandidateUi.coverImageLoadingState;
+const storyCandidatePassword = state => state.storyCandidateUi && state.storyCandidateUi.storyCandidatePassword;
+const showErrors = state => state.storyCandidateUi && state.storyCandidateUi.showErrors;
+const formErrors = state => state.storyCandidateUi && state.storyCandidateUi.formErrors;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -295,6 +374,9 @@ const coverImageLoadingState = state => state.storyCandidateUi && state.storyCan
  */
 export const selector = createStructuredSelector({
   storyCandidate,
-  coverImageLoadingState
+  coverImageLoadingState,
+  storyCandidatePassword,
+  showErrors,
+  formErrors
 });
 

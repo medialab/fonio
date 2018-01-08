@@ -57,15 +57,16 @@ class ConfigurationDialogContainer extends Component {
    */
   constructor(props) {
     super(props);
-    this.state = {
-      password: undefined,
-      passwordIsValid: false
-    };
     this.closeStoryCandidate = this.closeStoryCandidate.bind(this);
     this.closeAndSetupStoryCandidate = this.closeAndSetupStoryCandidate.bind(this);
-    this.setStoryPassword = this.setStoryPassword.bind(this);
   }
-
+  componentDidMount() {
+    const {storyCandidatePassword, storyCandidate} = this.props;
+    const {validateStoryCandidateSettings} = this.props.actions;
+    validateStoryCandidateSettings('title', storyCandidate.metadata.title);
+    validateStoryCandidateSettings('password', storyCandidatePassword);
+    validateStoryCandidateSettings('authors', storyCandidate.metadata.authors);
+  }
 
   /**
    * Defines whether the component should re-render
@@ -97,16 +98,6 @@ class ConfigurationDialogContainer extends Component {
     this.props.actions.setupStoryCandidate(this.props.dataMap, this.props.activeVisualizationType, this.props.activeData);
     this.props.actions.closeStoryCandidateModal();
   }
-  /**
-   * password validation
-   */
-  setStoryPassword (value) {
-    this.setState({
-      password: value,
-      passwordIsValid: value.length > 5
-    });
-  }
-
 
   /**
    * Renders the component
@@ -116,9 +107,6 @@ class ConfigurationDialogContainer extends Component {
     return (
       <ConfigurationDialogLayout
         {...this.props}
-        password={this.state.password}
-        passwordIsValid={this.state.passwordIsValid}
-        setStoryPassword={this.setStoryPassword}
         closeStoryCandidate={this.closeStoryCandidate}
         closeAndSetupStoryCandidate={this.closeAndSetupStoryCandidate} />
     );

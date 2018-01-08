@@ -9,7 +9,7 @@ import {combineReducers} from 'redux';
 import {i18nState} from 'redux-i18n';
 
 import {persistentReducer} from 'redux-pouchdb';
-
+import {loadingBarReducer} from 'react-redux-loading-bar';
 
 import storyEditor from './../features/StoryEditor/duck';
 import storySettingsManager from './../features/StorySettingsManager/duck';
@@ -26,6 +26,7 @@ const models = (state = modelsModels) => state;
 
 export default combineReducers({
   i18nState: persistentReducer(i18nState, 'i18n'),
+  loadingBar: loadingBarReducer,
   storySettingsManager,
   resourcesManager,
   sectionsManager,

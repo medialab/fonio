@@ -32,14 +32,17 @@ import './ConfigurationDialog.scss';
  */
 const ConfigurationDialogLayout = ({
   storyCandidate,
-  password,
-  passwordIsValid,
-  setStoryPassword,
+  storyCandidatePassword,
   coverImageLoadingState,
+  formErrors,
+  showErrors,
   // router props
   history,
   actions: {
     setCandidateStoryMetadata,
+    setCandidateStoryPassword,
+    validateStoryCandidateSettings,
+    submitStoryCandidateSettings,
     // setCandidateStorySlug,
     applyStoryCandidateConfiguration,
     submitCoverImage,
@@ -57,7 +60,10 @@ const ConfigurationDialogLayout = ({
     e.preventDefault();
     e.stopPropagation();
     // setCandidateStorySlug(storyCandidate.metadata.title);
+    submitStoryCandidateSettings();
     if (sessionStorage.getItem(storyCandidate.id)) {
+      if (formErrors.authors || formErrors.title)
+        return;
       const token = sessionStorage.getItem(storyCandidate.id);
       exportStory(storyCandidate, token).then((res) => {
         if (res.result) {
@@ -80,8 +86,10 @@ const ConfigurationDialogLayout = ({
         }
       });
     }
-    else if (passwordIsValid) {
-      createStory(storyCandidate, password)
+    else {
+      if (formErrors.password || formErrors.authors || formErrors.title)
+        return;
+      createStory(storyCandidate, storyCandidatePassword)
       .then((response) => {
         if (response.result) {
           applyStoryCandidateConfiguration(storyCandidate);
@@ -93,10 +101,17 @@ const ConfigurationDialogLayout = ({
     }
   };
   const onPasswordChange = (e) => {
-    setStoryPassword(e.target.value);
+    setCandidateStoryPassword(e.target.value);
+    validateStoryCandidateSettings('password', e.target.value);
   };
-  const setStoryTitle = (e) => setCandidateStoryMetadata('title', e.target.value);
-  const setStoryAuthors = authors => setCandidateStoryMetadata('authors', authors);
+  const setStoryTitle = (e) => {
+    setCandidateStoryMetadata('title', e.target.value);
+    validateStoryCandidateSettings('title', e.target.value);
+  };
+  const setStoryAuthors = authors => {
+    setCandidateStoryMetadata('authors', authors);
+    validateStoryCandidateSettings('authors', authors);
+  };
   const setStoryDescription = (e) => setCandidateStoryMetadata('description', e.target.value);
   const onCoverSubmit = (files) => submitCoverImage(files[0]);
   const preventSubmit = e => e.preventDefault();
@@ -121,39 +136,40 @@ const ConfigurationDialogLayout = ({
             className="modal-columns-container">
             <div className="modal-column">
               <div className="input-group">
-                <label htmlFor="title">{translate('title-of-the-story')}</label>
+                <label htmlFor="title">{translate('title-of-the-story')}*</label>
                 <input
                   onChange={setStoryTitle}
                   type="text"
                   name="title"
                   placeholder={translate('title-of-the-story')}
                   value={storyCandidate.metadata.title || ''} />
+                {showErrors &&
+                  <Toaster status={formErrors.title && 'failure'} log={formErrors.title} />
+                }
               </div>
-              { !sessionStorage.getItem(storyCandidate.id) ?
-                <div>
-                  <div className="input-group">
-                    <label htmlFor="password">password</label>
-                    <input
-                      onChange={onPasswordChange}
-                      type="password"
-                      name="password"
-                      placeholder="password"
-                      value={password || ''} />
-                  </div>
-                  <Toaster
-                    status={passwordIsValid ? '' : 'failure'}
-                    log={passwordIsValid ? '' : 'password is required, at least 6 characters'} />
-                </div> : null
+              {!sessionStorage.getItem(storyCandidate.id) &&
+                <div className="input-group">
+                  <label htmlFor="password">password*</label>
+                  <input
+                    onChange={onPasswordChange}
+                    type="password"
+                    name="password"
+                    placeholder="password"
+                    value={storyCandidatePassword || ''} />
+                  {showErrors &&
+                    <Toaster status={formErrors.password && 'failure'} log={formErrors.password} />
+                  }
+                </div>
               }
               <div className="input-group">
-                <label htmlFor="authors">{translate('authors-of-the-story')}</label>
+                <label htmlFor="authors">{translate('authors-of-the-story')}*</label>
                 <AuthorsManager
                   authors={storyCandidate.metadata.authors}
                   onChange={setStoryAuthors} />
+                {showErrors &&
+                  <Toaster status={formErrors.authors && 'failure'} log={formErrors.authors} />
+                }
               </div>
-            </div>
-
-            <div className="modal-column">
               <div className="input-group" style={{flex: 1}}>
                 <label htmlFor="description">{translate('description-of-the-story')}</label>
                 <Textarea
