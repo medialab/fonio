@@ -20,7 +20,7 @@
     {
         overflow-y: auto;
         flex: 1;
-        .fonio-SectionCard
+        .fonio-SectionCard, .fonio-OptionSelect
         {
             margin-bottom: $gutter-medium;
         }
