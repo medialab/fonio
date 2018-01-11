@@ -740,7 +740,7 @@ const STORIES_UI_DEFAULT_STATE = {
    * password for login story
    * @type {string}
    */
-  password: undefined,
+  password: '',
 
   /**
    * The status of fetch story on server (processing, success, error)

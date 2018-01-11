@@ -50,7 +50,9 @@ class StoryContainer extends Component {
   componentDidMount() {
     const {match} = this.props;
     const activeStoryId = match.params.id;
-    this.props.fetchStory(activeStoryId);
+    this.props.fetchStory(activeStoryId).then(res => {
+      if (res.result) this.props.setActiveStory(res.result);
+    });
   }
 
   shouldComponentUpdate() {
@@ -178,6 +180,7 @@ const GlobalUiLayout = ({
     closeTakeAwayModal,
     setUiMode,
     setLanguage,
+    setActiveStory,
 
     startStoryCandidateConfiguration,
     fetchStory,
@@ -225,6 +228,7 @@ const GlobalUiLayout = ({
                 togglePreview={togglePreview}
                 lang={lang}
                 setLanguage={setLanguage}
+                setActiveStory={setActiveStory}
                 fetchStory={fetchStory}
                 fetchStoryLog={fetchStoryLog}
                 fetchStoryLogStatus={fetchStoryLogStatus}
