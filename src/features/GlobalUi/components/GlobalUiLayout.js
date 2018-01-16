@@ -50,8 +50,12 @@ class StoryContainer extends Component {
   componentDidMount() {
     const {match} = this.props;
     const activeStoryId = match.params.id;
+    // TODO: optimize initialize story
     this.props.fetchStory(activeStoryId).then(res => {
-      if (res.result) this.props.setActiveStory(res.result);
+      if (res.result) {
+        this.props.setActiveStory(res.result);
+        this.props.fetchResources(activeStoryId);
+      }
     });
   }
 
@@ -186,6 +190,7 @@ const GlobalUiLayout = ({
     fetchStory,
     loginStory,
     enterPassword,
+    fetchResources
   },
   // custom functions
   closeAndResetDialog,
@@ -233,6 +238,7 @@ const GlobalUiLayout = ({
                 fetchStoryLog={fetchStoryLog}
                 fetchStoryLogStatus={fetchStoryLogStatus}
                 activeStory={activeStory}
+                fetchResources={fetchResources}
                 startStoryCandidateConfiguration={startStoryCandidateConfiguration}
                 isTakeAwayModalOpen={isTakeAwayModalOpen}
                 closeTakeAwayModal={closeTakeAwayModal} />

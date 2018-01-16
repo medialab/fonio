@@ -36,7 +36,10 @@ import {
 import {
   CREATE_RESOURCE,
   DELETE_RESOURCE,
-  UPDATE_RESOURCE
+  UPDATE_RESOURCE,
+  FETCH_RESOURCES,
+  UPLOAD_RESOURCE_REMOTE,
+  DELETE_RESOURCE_REMOTE,
 } from '../ResourcesManager/duck';
 
 import {
@@ -130,7 +133,24 @@ export const exportStory = (story, token) => ({
   type: EXPORT_STORY,
   promise: (dispatch) => {
     return new Promise((resolve, reject) => {
-      return publishToServer(story, token)
+      const newResources = {};
+      if (story.resources) {
+        Object.keys(story.resources)
+        .map(key => story.resources[key].metadata)
+        .forEach(metadata => {
+          if (metadata.type === 'image' || metadata.type === 'data-presentation' || metadata.type === 'table') {
+            newResources[metadata.id] = {metadata};
+          }
+        });
+      }
+      const newStory = {
+        ...story,
+        resources: {
+          ...story.resources,
+          ...newResources
+        }
+      };
+      return publishToServer(newStory, token)
         .then((d) => {
           resolve(d);
           // remove message after a while
@@ -428,17 +448,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         ...state,
         activeStory: action.result
       };
-    // a story is updated from the changes
-    // made to story candidate
-    case EXPORT_STORY + '_SUCCESS':
-      return {
-        ...state,
-        stories: {
-          ...state.stories,
-          [action.result.id]: action.result
-        },
-        activeStory: action.result
-      };
     // a story is created
     case UNSET_ACTIVE_STORY:
       return {
@@ -524,9 +533,21 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     /*
      * RESOURCES-RELATED
      */
+    case FETCH_RESOURCES + '_SUCCESS':
+      return {
+        ...state,
+        activeStory: {
+          ...state.activeStory,
+          resources: {
+            ...state.activeStory.resources,
+            ...action.result
+          }
+        }
+      };
     // CUD on resources
     case UPDATE_RESOURCE:
     case CREATE_RESOURCE:
+    case UPLOAD_RESOURCE_REMOTE + '_SUCCESS':
       // storyId = action.storyId;
       const {
         id: resourceId,
@@ -542,6 +563,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           }
         }
       };
+    case DELETE_RESOURCE_REMOTE + '_SUCCESS':
     case DELETE_RESOURCE:
       newState = {...state};
       // delete newState.stories[action.storyId].resources[action.id];

@@ -66,6 +66,7 @@ class ResourcesManagerContainer extends Component {
     super(props);
     this.createResource = this.createResource.bind(this);
     this.updateResource = this.updateResource.bind(this);
+    this.deleteResource = this.deleteResource.bind(this);
   }
 
 
@@ -215,13 +216,21 @@ class ResourcesManagerContainer extends Component {
     const {
       activeStoryId
     } = this.props;
-    this.props.actions.createResource(activeStoryId, id, {
+    const newResource = {
       ...resource,
+      id,
       metadata: {
         ...resource.metadata,
         id
       }
-    });
+    };
+    const {type} = resource.metadata;
+    if (type === 'image' || type === 'data-presentation' || type === 'table') {
+      const token = sessionStorage.getItem(activeStoryId);
+      this.props.actions.uploadResourceRemote(activeStoryId, id, newResource, token);
+    }
+    else
+      this.props.actions.createResource(activeStoryId, id, newResource);
   }
 
 
@@ -234,9 +243,32 @@ class ResourcesManagerContainer extends Component {
     const {
       activeStoryId
     } = this.props;
-    this.props.actions.updateResource(activeStoryId, id, resource);
+    const {type} = resource.metadata;
+    if (type === 'image' || type === 'data-presentation' || type === 'table') {
+      const token = sessionStorage.getItem(activeStoryId);
+      this.props.actions.uploadResourceRemote(activeStoryId, id, resource, token);
+    }
+    else
+      this.props.actions.updateResource(activeStoryId, id, resource);
   }
 
+  /**
+   * delete a resource of the story
+   * @param {string} id - id of the resource
+   * @param {object} resource - the new resource to merge with the old
+   */
+  deleteResource(resource) {
+    const {
+      activeStoryId
+    } = this.props;
+    const {type} = resource.metadata;
+    if (type === 'image' || type === 'data-presentation' || type === 'table') {
+      const token = sessionStorage.getItem(activeStoryId);
+      this.props.actions.deleteResourceRemote(activeStoryId, resource.id, token);
+    }
+    else
+      this.props.actions.deleteResource(activeStoryId, resource.id);
+  }
 
   /**
    * Renders the component
@@ -281,6 +313,7 @@ class ResourcesManagerContainer extends Component {
         resources={resources}
         createResource={this.createResource}
         updateResource={this.updateResource}
+        deleteResource={this.deleteResource}
         embedAsset={this.embedAsset} />
     );
   }

@@ -21,7 +21,6 @@ import './ResourcesManagerLayout.scss';
  * @return {ReactElement} markup
  */
 const ResourcesManagerLayout = ({
-  activeStoryId,
   resourceCandidate,
   resourceCandidateId,
   resourceCandidateType,
@@ -33,8 +32,8 @@ const ResourcesManagerLayout = ({
   resourcesTypeQuery,
   createResource,
   updateResource,
+  deleteResource,
   actions: {
-    deleteResource,
     setResourceCandidateMetadataValue,
     setResourceCandidateType,
     setResourcesModalState,
@@ -143,7 +142,7 @@ const ResourcesManagerLayout = ({
             return 0;
           })
           .map((resource, index) => {
-            const onDelete = () => deleteResource(activeStoryId, resource.id);
+            const onDelete = () => deleteResource(resource);
             const onEdit = () => startExistingResourceConfiguration(resource.id, resource);
             const onEmbedResource = () => {
               embedAsset(resource.id);

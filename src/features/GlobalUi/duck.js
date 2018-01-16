@@ -149,12 +149,6 @@ const GLOBAL_UI_DEFAULT_STATE = {
     storyCandidateModalOpen: false,
 
     /**
-     * Represents whether hide cancel setting modal
-     * @type {boolean}
-     */
-    hideCancelSettingButton: false,
-
-    /**
      * Represents whether take away / export modal is open
      * @type {boolean}
      */
@@ -190,6 +184,7 @@ function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
   switch (action.type) {
     // cases ui is reset
     case RESET_APP:
+    case UNSET_ACTIVE_STORY:
       return GLOBAL_UI_DEFAULT_STATE;
     // case configuration is closed and new story is set
     case APPLY_STORY_CANDIDATE_CONFIGURATION:
@@ -203,8 +198,7 @@ function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
     case OPEN_STORY_CANDIDATE_MODAL:
       return {
         ...state,
-        storyCandidateModalOpen: true,
-        hideCancelSettingButton: false
+        storyCandidateModalOpen: true
       };
     case IMPORT_SUCCESS:
     case COPY_STORY + '_SUCCESS':

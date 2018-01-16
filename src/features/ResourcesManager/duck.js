@@ -25,6 +25,8 @@ import {
   getFileAsText
 } from '../../helpers/fileLoader';
 
+import {fetchResourcesServer, uploadResourceServer, deleteResourceServer} from '../../helpers/serverExporter';
+
 import {
   youtubeAPIKey
 } from '../../../secrets';
@@ -65,6 +67,10 @@ const SUBMIT_RESOURCE_DATA = '§Fonio/ResourcesManager/SUBMIT_RESOURCE_DATA';
 export const CREATE_RESOURCE = '§Fonio/ResourcesManager/CREATE_RESOURCE';
 export const DELETE_RESOURCE = '§Fonio/ResourcesManager/DELETE_RESOURCE';
 export const UPDATE_RESOURCE = '§Fonio/ResourcesManager/UPDATE_RESOURCE';
+
+export const FETCH_RESOURCES = '§Fonio/ResourcesManager/FETCH_RESOURCES';
+export const UPLOAD_RESOURCE_REMOTE = '§Fonio/ResourcesManager/UPLOAD_RESOURCE_REMOTE';
+export const DELETE_RESOURCE_REMOTE = '§Fonio/ResourcesManager/DELETE_RESOURCE_REMOTE';
 
 
 /**
@@ -323,6 +329,60 @@ export const createResource = (storyId, id, resource) => ({
 });
 
 /**
+ * Fetch all resources for story
+ * @param {string} storyId - the id of the story to create the resource in
+ * @return {object} action - the redux action to dispatch
+ */
+export const fetchResources = (storyId) => ({
+  type: FETCH_RESOURCES,
+  promise: () => {
+    return new Promise((resolve, reject) => {
+      return fetchResourcesServer(storyId)
+        .then((response) => resolve(response))
+        .catch((e) => reject(e));
+    });
+  }
+});
+
+/**
+ * upload resource to server
+ * @param {string} storyId - the id of the story to create the resource in
+ * @param {string} id - the id of the resource
+ * @param {object} resource - the data of the resource to create
+ * @return {object} action - the redux action to dispatch
+ */
+export const uploadResourceRemote = (storyId, id, resource, token) => ({
+  type: UPLOAD_RESOURCE_REMOTE,
+  id,
+  resource,
+  promise: () => {
+    return new Promise((resolve, reject) => {
+      return uploadResourceServer(storyId, id, resource, token)
+        .then((res) => resolve(res))
+        .catch((e) => reject(e));
+    });
+  }
+});
+
+/**
+ * Deletes a resource in a given story
+ * @param {string} storyId - the id of the story in which the resource to delete is
+ * @param {string} id - id of the resource to delete
+ * @return {object} action - the redux action to dispatch
+ */
+export const deleteResourceRemote = (storyId, id, token) => ({
+  type: DELETE_RESOURCE_REMOTE,
+  id,
+  promise: () => {
+    return new Promise((resolve, reject) => {
+      return deleteResourceServer(storyId, id, token)
+        .then((res) => resolve(res))
+        .catch((e) => reject(e));
+    });
+  }
+});
+
+/**
  * Deletes a resource in a given story
  * @param {string} storyId - the id of the story in which the resource to delete is
  * @param {string} id - id of the resource to delete
@@ -408,6 +468,11 @@ const RESOURCES_UI_DEFAULT_STATE = {
    * status of the resource's data state
    */
   resourceDataLoadingState: undefined,
+
+  /**
+   * status of the resource's data upload state
+   */
+  resourceDataUploadLog: undefined,
 
   /**
    * Whether resources are prompted for a selection (e.g. embedding a resource in an editor)
@@ -528,6 +593,23 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
         ...state,
         resourcesModalState: 'closed',
         resourceCandidateId: undefined
+      };
+    case UPLOAD_RESOURCE_REMOTE + '_SUCCESS':
+      return {
+        ...state,
+        resourcesModalState: 'closed',
+        resourceDataUploadLog: 'resource is uploaded',
+        resourceCandidateId: undefined
+      };
+    case UPLOAD_RESOURCE_REMOTE + '_PENDING':
+      return {
+        ...state,
+        resourceDataUploadLog: 'uploading resource ...'
+      };
+    case UPLOAD_RESOURCE_REMOTE + '_FAIL':
+      return {
+        ...state,
+        resourceDataUploadLog: 'could not upload resource to server'
       };
     // a metadata property of the resource candidate is changed
     case SET_RESOURCE_CANDIDATE_METADATA_VALUE:

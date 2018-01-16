@@ -29,6 +29,7 @@ import {
   updateAsset,
   embedAsset,
   updateResource,
+  fetchResources,
 } from '../../ResourcesManager/duck';
 
 import {
@@ -59,6 +60,7 @@ import {
       updateSection: updateSectionAction,
       createSection: createSectionAction,
       updateResource,
+      fetchResources,
       setActiveSectionId,
     }, dispatch)
   })
