@@ -21,12 +21,13 @@ import {
 import {
   selector as storiesSelector,
   updateStory,
-  exportStory,
+  saveStory,
+  fetchStoryBundle,
 } from '../../StoriesManager/duck';
 
 import downloadFile from '../../../helpers/fileDownloader';
 import {
-  bundleProjectAsHtml,
+  // bundleProjectAsHtml,
   bundleProjectAsJSON,
   // cleanStoryForExport,
   convertStoryToMarkdown,
@@ -56,8 +57,9 @@ import TakeAwayDialogLayout from './TakeAwayDialogLayout';
     actions: bindActionCreators({
       ...duck,
       closeTakeAwayModal,
-      exportStory,
-      updateStory
+      saveStory,
+      updateStory,
+      fetchStoryBundle
     }, dispatch)
   })
 )
@@ -137,6 +139,7 @@ class TakeAwayDialogContainer extends Component {
             }
             try {
               const project = JSON.parse(rawRes.text);
+              // TODO: updataStory not work here
               this.props.actions.updateStory(project.id, project);
               this.props.actions.setExportToGistStatus('success', 'your story is now synchronized with the gist repository');
             }
@@ -163,44 +166,67 @@ class TakeAwayDialogContainer extends Component {
    */
   takeAway(takeAwayType) {
     const title = this.props.activeStory.metadata.title;
-    const token = sessionStorage.getItem(this.props.activeStory.id);
     switch (takeAwayType.id) {
       case 'project':
-        const JSONbundle = bundleProjectAsJSON(this.props.activeStory); // bundleProjectAsJSON(this.props.activeStory);
-        downloadFile(JSONbundle, 'json', title);
+        this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'json')
+        .then(res => {
+          if (res.result) {
+            const JSONbundle = bundleProjectAsJSON(res.result); // bundleProjectAsJSON(this.props.activeStory);
+            downloadFile(JSONbundle, 'json', title);
+          }
+        });
         break;
       case 'markdown':
-        const markdownRep = convertStoryToMarkdown(this.props.activeStory);
-        downloadFile(markdownRep, 'md', title);
+        this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'json')
+        .then(res => {
+          if (res.result) {
+            const markdownRep = convertStoryToMarkdown(res.result);
+            downloadFile(markdownRep, 'md', title);
+          }
+        });
         break;
       case 'html':
-        this.props.actions.setTakeAwayType('html');
-        this.props.actions.setBundleHtmlStatus('processing', 'Asking the server to bundle a custom html file');
-        bundleProjectAsHtml(this.props.activeStory, (err, html) => {
-          this.props.actions.setTakeAwayType(undefined);
-          if (err === null) {
-            downloadFile(html, 'html', title);
-            this.props.actions.setBundleHtmlStatus('success', 'Bundling is a success !');
-          }
-          else {
-            this.props.actions.setBundleHtmlStatus('failure', 'Bundling failed, somehow ...');
+        this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'html')
+        .then(res => {
+          if (res.result) {
+            downloadFile(res.result, 'html', title);
           }
         });
+        // this.props.actions.setTakeAwayType('html');
+        // this.props.actions.setBundleHtmlStatus('processing', 'Asking the server to bundle a custom html file');
+        // bundleProjectAsHtml(this.props.activeStory, (err, html) => {
+        //   this.props.actions.setTakeAwayType(undefined);
+        //   if (err === null) {
+        //     downloadFile(html, 'html', title);
+        //     this.props.actions.setBundleHtmlStatus('success', 'Bundling is a success !');
+        //   }
+        //   else {
+        //     this.props.actions.setBundleHtmlStatus('failure', 'Bundling failed, somehow ...');
+        //   }
+        // });
         break;
       case 'github':
-        this.props.actions.setBundleHtmlStatus('processing', 'Asking the server to bundle a custom html file');
-        bundleProjectAsHtml(this.props.activeStory, (err, html) => {
-          if (err === null) {
-            this.props.actions.exportToGist(html, this.props.activeStory, this.props.activeStory.metadata.gistId);
-            this.props.actions.setBundleHtmlStatus('success', 'Bundling is a success !');
-          }
-          else {
-            this.props.actions.setBundleHtmlStatus('failure', 'Bundling failed, somehow ...');
-          }
+        Promise.all([
+          this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'html'),
+          this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'json')
+        ])
+        .then((res) => {
+          if (res[0].result && res[1].result)
+            this.props.actions.exportToGist(res[0].result, res[1].result, this.props.activeStory.metadata.gistId);
         });
+        // this.props.actions.setBundleHtmlStatus('processing', 'Asking the server to bundle a custom html file');
+        // bundleProjectAsHtml(this.props.activeStory, (err, html) => {
+        //   if (err === null) {
+        //     this.props.actions.exportToGist(html, this.props.activeStory, this.props.activeStory.metadata.gistId);
+        //     this.props.actions.setBundleHtmlStatus('success', 'Bundling is a success !');
+        //   }
+        //   else {
+        //     this.props.actions.setBundleHtmlStatus('failure', 'Bundling failed, somehow ...');
+        //   }
+        // });
         break;
       case 'server':
-        this.props.actions.exportStory(this.props.activeStory, token)
+        this.props.actions.exportToServer(this.props.activeStory)
         .then((res) => {
           if (res.error) {
             const error = JSON.parse(res.error.response.text);

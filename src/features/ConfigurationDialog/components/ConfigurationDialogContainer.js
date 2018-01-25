@@ -20,7 +20,7 @@ import {
 
 import {
   selector as storiesSelector,
-  exportStory,
+  saveStory,
   createStory
 } from '../../StoriesManager/duck';
 
@@ -41,7 +41,7 @@ import ConfigurationDialogLayout from './ConfigurationDialogLayout';
   dispatch => ({
     actions: bindActionCreators({
       ...duck,
-      exportStory,
+      saveStory,
       createStory,
       applyStoryCandidateConfiguration,
       closeStoryCandidateModal,

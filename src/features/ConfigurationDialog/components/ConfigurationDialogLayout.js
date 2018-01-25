@@ -46,7 +46,7 @@ const ConfigurationDialogLayout = ({
     // setCandidateStorySlug,
     applyStoryCandidateConfiguration,
     submitCoverImage,
-    exportStory,
+    saveStory,
     createStory
   },
   closeStoryCandidate,
@@ -65,7 +65,7 @@ const ConfigurationDialogLayout = ({
       if (formErrors.authors || formErrors.title)
         return;
       const token = sessionStorage.getItem(storyCandidate.id);
-      exportStory(storyCandidate, token).then((res) => {
+      saveStory(storyCandidate, token).then((res) => {
         if (res.result) {
           applyStoryCandidateConfiguration(storyCandidate);
           history.push({
