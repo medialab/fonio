@@ -7,7 +7,7 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import publishToGist from '../../helpers/gistExporter';
-import {publishToServer} from '../../helpers/serverExporter';
+import {publishStoryBundleServer, getStoryBundleServer} from '../../helpers/serverExporter';
 import {persistentReducer} from 'redux-pouchdb';
 
 import {
@@ -24,9 +24,9 @@ const {timers} = config;
  */
 const SET_TAKE_AWAY_TYPE = '§Fonio/TakeAwayDialog/SET_TAKE_AWAY_TYPE';
 const EXPORT_TO_GIST_STATUS = '§Fonio/TakeAwayDialog/EXPORT_TO_GIST_STATUS';
-const EXPORT_TO_SERVER_STATUS = '§Fonio/TakeAwayDialog/EXPORT_TO_SERVER_STATUS';
 const SET_BUNDLE_HTML_STATUS = '§Fonio/TakeAwayDialog/SET_BUNDLE_HTML_STATUS';
-export const EXPORT_TO_SERVER = '§Fonio/TakeAwayDialog/EXPORT_TO_SERVER';
+const FETCH_STORY_BUNDLE = '§Fonio/TakeAwayDialog/FETCH_STORY_BUNDLE';
+const EXPORT_STORY_BUNDLE = '§Fonio/TakeAwayDialog/EXPORT_STORY_BUNDLE';
 export const TAKE_AWAY = '§Fonio/TakeAwayDialog/TAKE_AWAY';
 export const EXPORT_TO_GIST = '§Fonio/TakeAwayDialog/EXPORT_TO_GIST';
 /*
@@ -96,22 +96,22 @@ export const setExportToGistStatus = (status, log) => dispatch => {
  * @param {string} log - the log message of the server export process to display
  * @return {object} action - the redux action to dispatch
  */
-export const setExportToServerStatus = (status, log) => dispatch => {
-  if (status === 'failure' || status === 'success') {
-    setTimeout(() => {
-      dispatch({
-        type: EXPORT_TO_SERVER_STATUS,
-        status: undefined,
-        log: undefined
-      });
-    }, timers.ultraLong);
-  }
-  dispatch({
-    type: EXPORT_TO_SERVER_STATUS,
-    status,
-    log
-  });
-};
+// export const setExportToServerStatus = (status, log) => dispatch => {
+//   if (status === 'failure' || status === 'success') {
+//     setTimeout(() => {
+//       dispatch({
+//         type: EXPORT_TO_SERVER_STATUS,
+//         status: undefined,
+//         log: undefined
+//       });
+//     }, timers.ultraLong);
+//   }
+//   dispatch({
+//     type: EXPORT_TO_SERVER_STATUS,
+//     status,
+//     log
+//   });
+// };
 
 /**
  * Handles and monitors the ui state of the "export to gist" operation
@@ -154,36 +154,38 @@ export const exportToGist = (htmlContent, story, gistId) => ({
   }
 });
 
-
 /**
- * Handles the "export to server" operation
+ * fetch story (with resource data) from server
+ */
+export const fetchStoryBundle = (id, format) => ({
+  type: FETCH_STORY_BUNDLE,
+  promise: () => {
+  return new Promise((resolve, reject) => {
+    return getStoryBundleServer(id, format)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+   });
+  }
+});
+/**
+ * Handles the "export story bundle on server" operation
  * @param {object} story - the story to export to the distant server
  * @return {object} action - the redux action to dispatch
  */
-export const exportToServer = (story) => ({
-  type: EXPORT_TO_SERVER,
-  promise: (dispatch) => {
+export const exportStoryBundle = (id) => ({
+  type: EXPORT_STORY_BUNDLE,
+  promise: () => {
     return new Promise((resolve, reject) => {
-      return publishToServer(story, dispatch, EXPORT_TO_SERVER_STATUS)
+      return publishStoryBundleServer(id)
               .then((d) => {
                 resolve(d);
-                // remove message after a while
-                setTimeout(() =>
-                  dispatch({
-                    type: EXPORT_TO_SERVER_STATUS,
-                    takeAwayServerLog: undefined,
-                    takeAwayServerLogStatus: undefined
-                  }), timers.ultraLong);
               })
               .catch((e) => {
                 reject(e);
-                // remove message after a while
-                setTimeout(() =>
-                  dispatch({
-                    type: EXPORT_TO_SERVER_STATUS,
-                    takeAwayServerLog: undefined,
-                    takeAwayServerLogStatus: undefined
-                  }), timers.ultraLong);
               });
     });
   }
@@ -284,24 +286,24 @@ function takeAwayUi(state = DEFAULT_TAKE_AWAY_UI_SETTINGS, action) {
       };
 
     // export to server status is changed
-    case EXPORT_TO_SERVER_STATUS:
-      return {
-        ...state,
-        takeAwayServerLog: action.log,
-        takeAwayServerLogStatus: action.status
-      };
-    case EXPORT_TO_SERVER + '_SUCCESS':
-      return {
-        ...state,
-        takeAwayServerLog: 'your story is now synchronized with the forccast server',
-        takeAwayServerLogStatus: 'success'
-      };
-    case EXPORT_TO_SERVER + '_FAIL':
-      return {
-        ...state,
-        takeAwayServerLog: 'your story could not be uploaded on server',
-        takeAwayServerLogStatus: 'failure'
-      };
+    // case EXPORT_TO_SERVER_STATUS:
+    //   return {
+    //     ...state,
+    //     takeAwayServerLog: action.log,
+    //     takeAwayServerLogStatus: action.status
+    //   };
+    // case EXPORT_TO_SERVER + '_SUCCESS':
+    //   return {
+    //     ...state,
+    //     takeAwayServerLog: 'your story is now synchronized with the forccast server',
+    //     takeAwayServerLogStatus: 'success'
+    //   };
+    // case EXPORT_TO_SERVER + '_FAIL':
+    //   return {
+    //     ...state,
+    //     takeAwayServerLog: 'your story could not be uploaded on server',
+    //     takeAwayServerLogStatus: 'failure'
+    //   };
     // bundle to html status is changed
     case SET_BUNDLE_HTML_STATUS:
       return {

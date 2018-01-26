@@ -122,22 +122,19 @@ export function saveStoryServer (story, token) {
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
-export function publishToServer (story, token) {
+export function publishStoryBundleServer (id) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/stories/' + story.id + '?format=bundle';
+    const serverHTMLUrl = serverUrl + '/stories/' + id + '?format=bundle';
     // story.metadata.serverHTMLUrl = serverHTMLUrl + '?format=html';
-    // story.metadata.serverJSONUrl = serverHTMLUrl;
+    // story.metadata.serverJSONUrl = serverHTMLUrl + '?format=json';
 
-    put(serverHTMLUrl)
-      .set('Accept', 'application/json')
-      .set('x-access-token', token)
-      .send(story)
-      .end(err => {
+    get(serverHTMLUrl)
+      .end((err, res) => {
           if (err) {
             return reject(err);
           }
           else {
-            return resolve(story);
+            return resolve(res);
           }
         });
     });

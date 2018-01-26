@@ -226,21 +226,7 @@ class TakeAwayDialogContainer extends Component {
         // });
         break;
       case 'server':
-        this.props.actions.exportToServer(this.props.activeStory)
-        .then((res) => {
-          if (res.error) {
-            const error = JSON.parse(res.error.response.text);
-            if (!error.auth) {
-              this.props.history.push({
-                pathname: '/login',
-                state: {
-                  storyId: this.props.activeStory.id,
-                  to: `/story/${this.props.activeStory.id}/edit`
-                }
-              });
-            }
-          }
-        });
+        this.props.actions.exportStoryBundle(this.props.activeStory.id);
         break;
       default:
         break;
