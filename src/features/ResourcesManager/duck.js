@@ -335,6 +335,7 @@ export const createResource = (storyId, id, resource) => ({
  */
 export const fetchResources = (storyId) => ({
   type: FETCH_RESOURCES,
+  storyId,
   promise: () => {
     return new Promise((resolve, reject) => {
       return fetchResourcesServer(storyId)
@@ -353,6 +354,7 @@ export const fetchResources = (storyId) => ({
  */
 export const uploadResourceRemote = (storyId, id, resource, token) => ({
   type: UPLOAD_RESOURCE_REMOTE,
+  storyId,
   id,
   resource,
   promise: () => {
@@ -370,12 +372,12 @@ export const uploadResourceRemote = (storyId, id, resource, token) => ({
  * @param {string} id - id of the resource to delete
  * @return {object} action - the redux action to dispatch
  */
-export const deleteResourceRemote = (storyId, id, token) => ({
+export const deleteResourceRemote = (storyId, resource, token) => ({
   type: DELETE_RESOURCE_REMOTE,
-  id,
+  id: resource.metadata.id,
   promise: () => {
     return new Promise((resolve, reject) => {
-      return deleteResourceServer(storyId, id, token)
+      return deleteResourceServer(storyId, resource, token)
         .then((res) => resolve(res))
         .catch((e) => reject(e));
     });
@@ -421,7 +423,8 @@ const emptyResourceMetadata = {
   type: undefined,
   title: '',
   description: '',
-  source: ''
+  source: '',
+  mime: ''
 };
 
 

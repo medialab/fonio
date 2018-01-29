@@ -16,6 +16,8 @@ import {fetchStoriesServer, createStoryServer, saveStoryServer, getStoryServer, 
 import config from '../../../config';
 const {timers} = config;
 
+import {serverUrl} from '../../../secrets';
+
 /*
  * Action names
  */
@@ -50,7 +52,7 @@ import {
 } from '../SectionsManager/duck';
 
 import {
-  EXPORT_TO_GIST
+  EXPORT_TO_GIST,
 } from '../TakeAwayDialog/duck';
 
 import {
@@ -63,7 +65,6 @@ import {
 
 const FETCH_ALL_STORIES = '§Fonio/StoriesManager/FETCH_ALL_STORIES';
 const FETCH_STORY = '§Fonio/StoriesManager/FETCH_STORY';
-const FETCH_STORY_BUNDLE = '§Fonio/StoriesManager/FETCH_STORY_BUNDLE';
 const SAVE_STORY = '§Fonio/StoriesManager/SAVE_STORY';
 const CREATE_STORY = '§Fonio/StoriesManager/CREATE_STORY';
 const DELETE_STORY = '§Fonio/StoriesManager/DELETE_STORY';
@@ -126,25 +127,6 @@ export const fetchStory = (id) => ({
 });
 
 /**
- * fetch story (with resource data) from server
- */
-export const fetchStoryBundle = (id, format) => ({
-  type: FETCH_STORY_BUNDLE,
-  promise: () => {
-  return new Promise((resolve, reject) => {
-    return getStoryBundleServer(id, format)
-      .then((response) => {
-        resolve(response);
-
-      })
-      .catch((e) => {
-        reject(e);
-      });
-   });
-  }
-});
-
-/**
  * Handles the "export to server" operation
  * @param {object} story - the story to export to the distant server
  * @return {object} action - the redux action to dispatch
@@ -156,17 +138,10 @@ export const saveStory = (story, token) => ({
       const newResources = {};
       if (story.resources) {
         Object.keys(story.resources)
-        .map(key => story.resources[key])
-        .forEach(resource => {
-          if (resource.metadata.type === 'data-presentation' || resource.metadata.type === 'table')
-            newResources[resource.metadata.id] = {metadata: resource.metadata};
-          if (resource.metadata.type === 'image')
-            newResources[resource.metadata.id] = {
-              ...resource,
-              data: {
-                url: resource.data.url
-              }
-            };
+        .map(key => story.resources[key].metadata)
+        .forEach(metadata => {
+          if (metadata.type === 'data-presentation' || metadata.type === 'table' || metadata.type === 'image')
+            newResources[metadata.id] = {metadata};
         });
       }
       const newStory = {
@@ -224,8 +199,31 @@ export const createStory = (story, password) => ({
       id: story.id,
       password
     };
+    const newResources = {};
+    Object.keys(story.resources)
+    .map(key => story.resources[key])
+    .forEach(resource => {
+      // add mimetype in resource.metadata
+      if (resource.metadata.type === 'image') {
+        const mime = resource.data.base64.substring('data:'.length, resource.data.base64.indexOf(';base64'));
+        newResources[resource.metadata.id] = {
+          ...resource,
+          metadata: {
+            ...resource.metadata,
+            mime
+          }
+        };
+      }
+    });
+    const newStory = {
+      ...story,
+      resources: {
+        ...story.resources,
+        ...newResources
+      }
+    };
     return new Promise((resolve, reject) => {
-      return createStoryServer(story)
+      return createStoryServer(newStory)
         .then(() => createCredentialServer(storyCredential))
         .then(token => {
           sessionStorage.setItem(story.id, token);
@@ -246,7 +244,7 @@ export const copyStory = (id) => ({
   type: COPY_STORY,
   promise: () => {
   return new Promise((resolve, reject) => {
-    return getStoryServer(id)
+    return getStoryBundleServer(id, 'json')
       .then((response) => {
         const newId = uuid();
         const newStory = {
@@ -462,6 +460,7 @@ const STORIES_DEFAULT_STATE = {
  */
 function stories(state = STORIES_DEFAULT_STATE, action) {
   let newState;
+  let resources;
   // let storyId;
   switch (action.type) {
     case FETCH_ALL_STORIES + '_SUCCESS':
@@ -560,13 +559,36 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
      * RESOURCES-RELATED
      */
     case FETCH_RESOURCES + '_SUCCESS':
+      newState = {...state};
+      resources = newState.activeStory.resources;
+      Object.keys(resources)
+        .map(key => resources[key])
+        .forEach(resource => {
+          if (action.result[resource.metadata.id]) {
+            resources[resource.metadata.id] = {
+              ...resource,
+              data: action.result[resource.metadata.id]
+            };
+          }
+          // generate data.url to link to image addr on server
+          if (resource.metadata.type === 'image') {
+            const ext = resource.metadata.mime.split('/')[1];
+            resources[resource.metadata.id] = {
+              ...resource,
+              data: {
+                ...resource.data,
+                url: serverUrl + '/static/' + state.activeStory.id + '/resources/' + resource.metadata.id + '.' + ext
+              }
+            };
+          }
+        });
       return {
         ...state,
         activeStory: {
           ...state.activeStory,
           resources: {
             ...state.activeStory.resources,
-            ...action.result
+            ...resources
           }
         }
       };
@@ -577,15 +599,26 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case UPLOAD_RESOURCE_REMOTE + '_SUCCESS':
       const {
         id: resourceId,
+        storyId,
         resource
       } = action;
+      let newResource = {...resource};
+      if (resource.metadata.type === 'image') {
+        const ext = resource.metadata.mime.split('/')[1];
+        newResource = {
+          ...resource,
+          data: {
+            url: serverUrl + '/static/' + storyId + '/resources/' + resourceId + '.' + ext
+          }
+        };
+      }
       return {
         ...state,
         activeStory: {
           ...state.activeStory,
           resources: {
             ...state.activeStory.resources,
-            [resourceId]: resource
+            [resourceId]: newResource
           }
         }
       };

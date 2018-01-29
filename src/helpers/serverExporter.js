@@ -80,12 +80,12 @@ export function createStoryServer (story) {
     post(serverHTMLUrl)
       .set('Accept', 'application/json')
       .send(story)
-      .end(err => {
+      .end((err, response) => {
           if (err) {
             return reject(err);
           }
           else {
-            resolve(story);
+            resolve(JSON.parse(response.text));
           }
         });
     });
@@ -218,10 +218,11 @@ export function uploadResourceServer (storyId, id, resource, token) {
 export function deleteResourceServer (storyId, resource, token) {
   return new Promise((resolve, reject) => {
     let filename = '';
-    if (resource.metadata.type === 'image')
-      filename = resource.id + '.' + resource.metadata.mime.split('/')[1];
-    else
-      filename = resource.id + '.json';
+    if (resource.metadata.type === 'image') {
+      const ext = resource.metadata.mime.split('/')[1];
+      filename = resource.metadata.id + '.' + ext;
+    }
+    else filename = resource.metadata.id + '.json';
     const serverHTMLUrl = serverUrl + '/resources/' + storyId + '/' + filename;
     del(serverHTMLUrl)
       .set('x-access-token', token)
@@ -230,7 +231,7 @@ export function deleteResourceServer (storyId, resource, token) {
             return reject(err);
           }
           else {
-            return resolve(resource.id);
+            return resolve(resource.metadata.id);
           }
         });
     });

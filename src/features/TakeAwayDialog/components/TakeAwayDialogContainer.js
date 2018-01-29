@@ -22,7 +22,6 @@ import {
   selector as storiesSelector,
   updateStory,
   saveStory,
-  fetchStoryBundle,
 } from '../../StoriesManager/duck';
 
 import downloadFile from '../../../helpers/fileDownloader';
@@ -59,7 +58,6 @@ import TakeAwayDialogLayout from './TakeAwayDialogLayout';
       closeTakeAwayModal,
       saveStory,
       updateStory,
-      fetchStoryBundle
     }, dispatch)
   })
 )

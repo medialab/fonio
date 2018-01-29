@@ -114,7 +114,7 @@ const AssetPreview = ({
           ofText={translate('table-of')}
           rowsText={translate('table-row')} />);
       case 'image':
-        return <img src={data.base64} />;
+        return <img src={data.base64 || data.url} />;
       case 'video':
         return (
           <Media>

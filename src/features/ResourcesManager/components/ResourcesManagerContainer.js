@@ -264,7 +264,7 @@ class ResourcesManagerContainer extends Component {
     const {type} = resource.metadata;
     if (type === 'image' || type === 'data-presentation' || type === 'table') {
       const token = sessionStorage.getItem(activeStoryId);
-      this.props.actions.deleteResourceRemote(activeStoryId, resource.id, token);
+      this.props.actions.deleteResourceRemote(activeStoryId, resource, token);
     }
     else
       this.props.actions.deleteResource(activeStoryId, resource.id);
