@@ -142,14 +142,8 @@ const TakeAwayDialogLayout = ({
   //stories selectors
   activeStory,
   takeAwayType,
-  takeAwayGistLog,
-  takeAwayGistLogStatus,
-  saveStoryLog,
-  saveStoryLogStatus,
-  updateStoryLog,
-  updateStoryLogStatus,
-  bundleToHtmlLog,
-  bundleToHtmlLogStatus,
+  takeAwayLog,
+  takeAwayLogStatus,
   serverAvailable,
   serverUrl,
   gistAvailable,
@@ -181,11 +175,8 @@ const TakeAwayDialogLayout = ({
             serverHtmlUrl={activeStory && activeStory.metadata && activeStory.metadata.serverHTMLUrl}
             gistId={activeStory && activeStory.metadata && activeStory.metadata.gistId} />
         </section>
-        <section className={'modal-row ' + (bundleToHtmlLogStatus || takeAwayGistLogStatus || saveStoryLogStatus || updateStoryLogStatus ? '' : 'empty')}>
-          <Toaster status={bundleToHtmlLogStatus} log={bundleToHtmlLog} />
-          <Toaster status={takeAwayGistLogStatus} log={takeAwayGistLog} />
-          <Toaster status={saveStoryLogStatus} log={saveStoryLog} />
-          <Toaster status={updateStoryLogStatus} log={updateStoryLog} />
+        <section className={'modal-row ' + (takeAwayLogStatus ? '' : 'empty')}>
+          <Toaster status={takeAwayLogStatus} log={takeAwayLog} />
         </section>
         <section className="modal-row">
           {

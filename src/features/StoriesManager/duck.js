@@ -311,27 +311,27 @@ export const deleteStory = (id, token) => ({
  * @param {object} story - the data of the story to update
  * @return {object} action - the redux action to dispatch
  */
-// export const updateStory = (id, story) => ({
-//   type: UPDATE_STORY,
-//   id,
-//   story
-// });
-export const updateStory = (id) => ({
+export const updateStory = (id, story) => ({
   type: UPDATE_STORY,
-  promise: (dispatch) => {
-  return new Promise((resolve, reject) => {
-    return getStoryServer(id)
-      .then((response) => {
-        resolve(response);
-        setTimeout(() => dispatch({type: UPDATE_STORY + '_RESET'}), timers.veryLong);
-      })
-      .catch((e) => {
-        reject(e);
-        setTimeout(() => dispatch({type: UPDATE_STORY + '_RESET'}), timers.veryLong);
-      });
-   });
-  }
+  id,
+  story
 });
+// export const updateStory = (id) => ({
+//   type: UPDATE_STORY,
+//   promise: (dispatch) => {
+//   return new Promise((resolve, reject) => {
+//     return getStoryServer(id)
+//       .then((response) => {
+//         resolve(response);
+//         setTimeout(() => dispatch({type: UPDATE_STORY + '_RESET'}), timers.veryLong);
+//       })
+//       .catch((e) => {
+//         reject(e);
+//         setTimeout(() => dispatch({type: UPDATE_STORY + '_RESET'}), timers.veryLong);
+//       });
+//    });
+//   }
+// });
 
 /**
  * Sets password for story login
@@ -848,18 +848,6 @@ const STORIES_UI_DEFAULT_STATE = {
   saveStoryLog: undefined,
 
   /**
-   * The status of update story from server (processing, success, error)
-   * @type {string}
-   */
-  updateStoryLogStatus: undefined,
-
-  /**
-   * The message of update story
-   * @type {string}
-   */
-  updateStoryLog: undefined,
-
-  /**
    * The status of login story with password on server (processing, success, error)
    * @type {string}
    */
@@ -926,24 +914,6 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
         ...state,
         saveStoryLog: undefined,
         saveStoryLogStatus: undefined
-      };
-    case UPDATE_STORY + '_PENDING':
-      return {
-        ...state,
-        updateStoryLog: 'updating from the distant server',
-        updateStoryLogStatus: 'processing'
-      };
-    case UPDATE_STORY + '_SUCCESS':
-      return {
-        ...state,
-        updateStoryLog: 'story is up to date',
-        updateStoryLogStatus: 'success'
-      };
-    case UPDATE_STORY + '_FAIL':
-      return {
-        ...state,
-        updateStoryLog: 'connection with distant server has failed',
-        updateStoryLogStatus: 'failure'
       };
     case UPDATE_STORY + '_RESET':
       return {
@@ -1102,8 +1072,6 @@ const fetchStoryLog = state => state.storiesUi.fetchStoryLog;
 const fetchStoryLogStatus = state => state.storiesUi.fetchStoryLogStatus;
 const saveStoryLog = state => state.storiesUi.saveStoryLog;
 const saveStoryLogStatus = state => state.storiesUi.saveStoryLogStatus;
-const updateStoryLog = state => state.storiesUi.updateStoryLog;
-const updateStoryLogStatus = state => state.storiesUi.updateStoryLogStatus;
 const importStatus = state => state.storyImport.importStatus;
 const importError = state => state.storyImport.importError;
 const importCandidate = state => state.storyImport.importCandidate;
@@ -1124,8 +1092,6 @@ export const selector = createStructuredSelector({
   fetchStoryLogStatus,
   saveStoryLog,
   saveStoryLogStatus,
-  updateStoryLog,
-  updateStoryLogStatus,
   loginStoryLog,
   loginStoryLogStatus,
 

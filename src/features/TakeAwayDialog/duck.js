@@ -16,46 +16,17 @@ import {
   CLOSE_TAKE_AWAY_MODAL
 } from '../GlobalUi/duck';
 
-import config from '../../../config';
-const {timers} = config;
-
 /*
  * Action names
  */
 const SET_TAKE_AWAY_TYPE = '§Fonio/TakeAwayDialog/SET_TAKE_AWAY_TYPE';
-const EXPORT_TO_GIST_STATUS = '§Fonio/TakeAwayDialog/EXPORT_TO_GIST_STATUS';
-const SET_BUNDLE_HTML_STATUS = '§Fonio/TakeAwayDialog/SET_BUNDLE_HTML_STATUS';
+const TAKE_AWAY_STATUS = '§Fonio/TakeAwayDialog/TAKE_AWAY_STATUS';
 const FETCH_STORY_BUNDLE = '§Fonio/TakeAwayDialog/FETCH_STORY_BUNDLE';
 const EXPORT_STORY_BUNDLE = '§Fonio/TakeAwayDialog/EXPORT_STORY_BUNDLE';
-export const TAKE_AWAY = '§Fonio/TakeAwayDialog/TAKE_AWAY';
 export const EXPORT_TO_GIST = '§Fonio/TakeAwayDialog/EXPORT_TO_GIST';
 /*
  * Action creators
  */
-
-/**
- * Monitors the state of the "bundle to html" operation
- * @param {string} status - the status of the html bundling process to display
- * @param {string} log - the log message of the html bundling process to display
- * @return {object} action - the redux action to dispatch
- */
-export const setBundleHtmlStatus = (status, log) => dispatch => {
-  // remove message after a while if it is an "end-of-operation" status
-  if (status === 'failure' || status === 'success') {
-    setTimeout(() => {
-      dispatch({
-        type: SET_BUNDLE_HTML_STATUS,
-        status: undefined,
-        log: undefined
-      });
-    }, timers.ultraLong);
-  }
-  dispatch({
-    type: SET_BUNDLE_HTML_STATUS,
-    status,
-    log
-  });
-};
 
 /**
  * Sets the active take away type in the ui
@@ -68,50 +39,18 @@ export const setTakeAwayType = (takeAwayType) => ({
 });
 
 /**
- * Monitors the ui representation of the "export to gist" operation
- * @param {string} status - the status of the gist export process to display
- * @param {string} log - the log message of the gist export process to display
+ * Monitors the ui representation of the "take away" operation
+ * @param {string} status - the status of the take away process to display
+ * @param {string} log - the log message of the take away process to display
  * @return {object} action - the redux action to dispatch
  */
-export const setExportToGistStatus = (status, log) => dispatch => {
-  if (status === 'failure' || status === 'success') {
-    setTimeout(() => {
-      dispatch({
-        type: EXPORT_TO_GIST_STATUS,
-        status: undefined,
-        log: undefined
-      });
-    }, timers.ultraLong);
-  }
+export const setTakeAwayStatus = (status, log) => dispatch => {
   dispatch({
-    type: EXPORT_TO_GIST_STATUS,
+    type: TAKE_AWAY_STATUS,
     status,
     log
   });
 };
-
-/**
- * Monitors the ui representation of the "export to server" operation
- * @param {string} status - the status of the server export process to display
- * @param {string} log - the log message of the server export process to display
- * @return {object} action - the redux action to dispatch
- */
-// export const setExportToServerStatus = (status, log) => dispatch => {
-//   if (status === 'failure' || status === 'success') {
-//     setTimeout(() => {
-//       dispatch({
-//         type: EXPORT_TO_SERVER_STATUS,
-//         status: undefined,
-//         log: undefined
-//       });
-//     }, timers.ultraLong);
-//   }
-//   dispatch({
-//     type: EXPORT_TO_SERVER_STATUS,
-//     status,
-//     log
-//   });
-// };
 
 /**
  * Handles and monitors the ui state of the "export to gist" operation
@@ -123,32 +62,13 @@ export const setExportToGistStatus = (status, log) => dispatch => {
 export const exportToGist = (htmlContent, story, gistId) => ({
   type: EXPORT_TO_GIST,
   promise: (dispatch) => {
-    dispatch({
-      type: EXPORT_TO_GIST_STATUS,
-      takeAwayGistLog: 'connecting to github',
-      takeAwayGistLogStatus: 'processing'
-    });
     return new Promise((resolve, reject) => {
-      return publishToGist(htmlContent, story, dispatch, EXPORT_TO_GIST_STATUS, gistId)
+      return publishToGist(htmlContent, story, dispatch, TAKE_AWAY_STATUS, gistId)
               .then((d) => {
                 resolve(d);
-                // remove message after a while
-                setTimeout(() =>
-                  dispatch({
-                    type: EXPORT_TO_GIST_STATUS,
-                    takeAwayGistLog: undefined,
-                    takeAwayGistLogStatus: undefined
-                  }), timers.ultraLong);
               })
               .catch((e) => {
                 reject(e);
-                // remove message after a while
-                setTimeout(() =>
-                  dispatch({
-                    type: EXPORT_TO_GIST_STATUS,
-                    takeAwayGistLog: undefined,
-                    takeAwayGistLogStatus: undefined
-                  }), timers.ultraLong);
               });
     });
   }
@@ -208,40 +128,16 @@ const DEFAULT_TAKE_AWAY_UI_SETTINGS = {
     takeAwayType: undefined,
 
     /**
-     * The global status of gist export (processing, success, error)
+     * The global status of take away (processing, success, error)
      * @type {string}
      */
-    takeAwayGistLogStatus: undefined,
+    takeAwayLogStatus: undefined,
 
     /**
-     * The precise status of gist export
+     * The precise status of takeaway
      * @type {string}
      */
-    takeAwayGistLog: undefined,
-
-    /**
-     * The global status of server export (processing, success, error)
-     * @type {string}
-     */
-    takeAwayServerLogStatus: undefined,
-
-    /**
-     * The precise status of server export
-     * @type {string}
-     */
-    takeAwayServerLog: undefined,
-
-    /**
-     * The global status of html bundling
-     * @type {string}
-     */
-    bundleToHtmlLogStatus: undefined,
-
-    /**
-     * The precise status of html bundling
-     * @type {string}
-     */
-    bundleToHtmlLog: undefined,
+    takeAwayLog: undefined,
 };
 
 /**
@@ -265,51 +161,51 @@ function takeAwayUi(state = DEFAULT_TAKE_AWAY_UI_SETTINGS, action) {
         takeAwayType: action.takeAwayType
       };
 
-    // export to gist status is changed
-    case EXPORT_TO_GIST_STATUS:
+    case TAKE_AWAY_STATUS:
       return {
         ...state,
-        takeAwayGistLog: action.log,
-        takeAwayGistLogStatus: action.status
+        takeAwayLog: action.log,
+        takeAwayLogStatus: action.status
+      };
+    // export to gist status is changed
+    case EXPORT_TO_GIST + '_PENDING':
+      return {
+        ...state,
+        takeAwayLog: 'connecting to github',
+        takeAwayLogStatus: 'processing'
       };
     case EXPORT_TO_GIST + '_SUCCESS':
       return {
         ...state,
-        takeAwayGistLog: 'your story is synchronized with gist',
-        takeAwayGistLogStatus: 'success'
+        takeAwayLog: 'your story is synchronized with gist',
+        takeAwayLogStatus: 'success'
       };
     case EXPORT_TO_GIST + '_FAIL':
       return {
         ...state,
-        takeAwayGistLog: 'your story could not be uploaded on gist',
-        takeAwayGistLogStatus: 'failure'
+        takeAwayLog: 'your story could not be uploaded on gist',
+        takeAwayLogStatus: 'failure'
       };
-
-    // export to server status is changed
-    // case EXPORT_TO_SERVER_STATUS:
-    //   return {
-    //     ...state,
-    //     takeAwayServerLog: action.log,
-    //     takeAwayServerLogStatus: action.status
-    //   };
-    // case EXPORT_TO_SERVER + '_SUCCESS':
-    //   return {
-    //     ...state,
-    //     takeAwayServerLog: 'your story is now synchronized with the forccast server',
-    //     takeAwayServerLogStatus: 'success'
-    //   };
-    // case EXPORT_TO_SERVER + '_FAIL':
-    //   return {
-    //     ...state,
-    //     takeAwayServerLog: 'your story could not be uploaded on server',
-    //     takeAwayServerLogStatus: 'failure'
-    //   };
-    // bundle to html status is changed
-    case SET_BUNDLE_HTML_STATUS:
+    case FETCH_STORY_BUNDLE + '_PENDING':
+    case EXPORT_STORY_BUNDLE + '_PENDING':
       return {
         ...state,
-        bundleToHtmlLog: action.log,
-        bundleToHtmlLogStatus: action.status
+        takeAwayLog: 'bundling the story...',
+        takeAwayLogStatus: 'processing'
+      };
+    case FETCH_STORY_BUNDLE + '_SUCCESS':
+    case EXPORT_STORY_BUNDLE + '_SUCCESS':
+      return {
+        ...state,
+        takeAwayLog: 'story is bundled',
+        takeAwayLogStatus: 'success'
+      };
+    case FETCH_STORY_BUNDLE + '_FAIL':
+    case EXPORT_STORY_BUNDLE + '_FAIL':
+      return {
+        ...state,
+        takeAwayLog: 'story could not be bundled',
+        takeAwayLogStatus: 'failure'
       };
     default:
       return state;
@@ -327,30 +223,18 @@ export default persistentReducer(combineReducers({
  */
 const takeAwayType = state => state.takeAwayUi &&
   state.takeAwayUi.takeAwayType;
-const takeAwayGistLog = state => state.takeAwayUi &&
-  state.takeAwayUi.takeAwayGistLog;
-const takeAwayGistLogStatus = state => state.takeAwayUi &&
-  state.takeAwayUi.takeAwayGistLogStatus;
-const takeAwayServerLog = state => state.takeAwayUi &&
-  state.takeAwayUi.takeAwayServerLog;
-const takeAwayServerLogStatus = state => state.takeAwayUi &&
-  state.takeAwayUi.takeAwayServerLogStatus;
-const bundleToHtmlLog = state => state.takeAwayUi &&
-  state.takeAwayUi.bundleToHtmlLog;
-const bundleToHtmlLogStatus = state => state.takeAwayUi &&
-  state.takeAwayUi.bundleToHtmlLogStatus;
+const takeAwayLog = state => state.takeAwayUi &&
+  state.takeAwayUi.takeAwayLog;
+const takeAwayLogStatus = state => state.takeAwayUi &&
+  state.takeAwayUi.takeAwayLogStatus;
 
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
  */
 export const selector = createStructuredSelector({
-  takeAwayGistLog,
-  takeAwayGistLogStatus,
-  takeAwayServerLog,
-  takeAwayServerLogStatus,
-  takeAwayType,
-  bundleToHtmlLog,
-  bundleToHtmlLogStatus
+  takeAwayLog,
+  takeAwayLogStatus,
+  takeAwayType
 });
 

@@ -76,7 +76,8 @@ export function getStoryBundleServer(id, format) {
  */
 export function createStoryServer (story) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/stories';
+    const serverHTMLUrl = serverUrl + '/stories/';
+    story.metadata.serverHTMLUrl = serverHTMLUrl + story.id + '?format=html';
     post(serverHTMLUrl)
       .set('Accept', 'application/json')
       .send(story)
@@ -125,8 +126,6 @@ export function saveStoryServer (story, token) {
 export function publishStoryBundleServer (id) {
   return new Promise((resolve, reject) => {
     const serverHTMLUrl = serverUrl + '/stories/' + id + '?format=bundle';
-    // story.metadata.serverHTMLUrl = serverHTMLUrl + '?format=html';
-    // story.metadata.serverJSONUrl = serverHTMLUrl + '?format=json';
 
     get(serverHTMLUrl)
       .end((err, res) => {
