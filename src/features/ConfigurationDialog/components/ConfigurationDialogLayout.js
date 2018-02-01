@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import Textarea from 'react-textarea-autosize';
 
 import HelpPin from '../../../components/HelpPin/HelpPin';
-import DropZone from '../../../components/DropZone/DropZone';
+// import DropZone from '../../../components/DropZone/DropZone';
 import AuthorsManager from '../../../components/AuthorsManager/AuthorsManager';
 import Toaster from '../../../components/Toaster/Toaster';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
@@ -33,7 +33,7 @@ import './ConfigurationDialog.scss';
 const ConfigurationDialogLayout = ({
   storyCandidate,
   storyCandidatePassword,
-  coverImageLoadingState,
+  // coverImageLoadingState,
   formErrors,
   showErrors,
   // router props
@@ -45,7 +45,7 @@ const ConfigurationDialogLayout = ({
     submitStoryCandidateSettings,
     // setCandidateStorySlug,
     applyStoryCandidateConfiguration,
-    submitCoverImage,
+    // submitCoverImage,
     saveStory,
     createStory
   },
@@ -113,7 +113,7 @@ const ConfigurationDialogLayout = ({
     validateStoryCandidateSettings('authors', authors);
   };
   const setStoryDescription = (e) => setCandidateStoryMetadata('description', e.target.value);
-  const onCoverSubmit = (files) => submitCoverImage(files[0]);
+  // const onCoverSubmit = (files) => submitCoverImage(files[0]);
   const preventSubmit = e => e.preventDefault();
 
   // todo this is temporary and should be replaced by a test
@@ -183,7 +183,7 @@ const ConfigurationDialogLayout = ({
             </div>
           </form>
         </section>
-        <section className="modal-row">
+        {/*<section className="modal-row">
           <h2>{translate('story-cover')}
             <HelpPin>
               {translate('story-cover-help')}
@@ -208,7 +208,7 @@ const ConfigurationDialogLayout = ({
               : null
             }
           </div>
-        </section>
+        </section>*/}
       </section>
       <section className="modal-footer">
         {

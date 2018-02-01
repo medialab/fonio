@@ -33,6 +33,7 @@ const ResourcesManagerLayout = ({
   createResource,
   updateResource,
   deleteResource,
+  setCoverImage,
   actions: {
     setResourceCandidateMetadataValue,
     setResourceCandidateType,
@@ -144,6 +145,7 @@ const ResourcesManagerLayout = ({
           .map((resource, index) => {
             const onDelete = () => deleteResource(resource);
             const onEdit = () => startExistingResourceConfiguration(resource.id, resource);
+            const onSetCoverImage = () => setCoverImage(resource.id);
             const onEmbedResource = () => {
               embedAsset(resource.id);
             };
@@ -156,6 +158,7 @@ const ResourcesManagerLayout = ({
                 onMouseDown={onMouseDown}
                 onDelete={onDelete}
                 onConfigure={onEdit}
+                onSetCoverImage={onSetCoverImage}
                 selectMode={resourcesPrompted}
                 onSelect={onEmbedResource}
                 style={{cursor: 'move'}}

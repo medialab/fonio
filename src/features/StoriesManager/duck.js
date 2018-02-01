@@ -140,7 +140,7 @@ export const saveStory = (story, token) => ({
         Object.keys(story.resources)
         .map(key => story.resources[key].metadata)
         .forEach(metadata => {
-          if (metadata.type === 'data-presentation' || metadata.type === 'table' || metadata.type === 'image')
+          if (metadata.type === 'data-presentation' || metadata.type === 'table')
             newResources[metadata.id] = {metadata};
         });
       }
@@ -460,7 +460,6 @@ const STORIES_DEFAULT_STATE = {
  */
 function stories(state = STORIES_DEFAULT_STATE, action) {
   let newState;
-  let resources;
   // let storyId;
   switch (action.type) {
     case FETCH_ALL_STORIES + '_SUCCESS':
@@ -560,20 +559,20 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
      */
     case FETCH_RESOURCES + '_SUCCESS':
       newState = {...state};
-      resources = newState.activeStory.resources;
-      Object.keys(resources)
-        .map(key => resources[key])
+      const newResources = {};
+      Object.keys(state.activeStory.resources)
+        .map(key => state.activeStory.resources[key])
         .forEach(resource => {
           if (action.result[resource.metadata.id]) {
-            resources[resource.metadata.id] = {
+            newResources[resource.metadata.id] = {
               ...resource,
               data: action.result[resource.metadata.id]
             };
           }
           // generate data.url to link to image addr on server
-          if (resource.metadata.type === 'image') {
+          if (resource.metadata.type === 'image' && !resource.data) {
             const ext = resource.metadata.mime.split('/')[1];
-            resources[resource.metadata.id] = {
+            newResources[resource.metadata.id] = {
               ...resource,
               data: {
                 ...resource.data,
@@ -588,7 +587,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           ...state.activeStory,
           resources: {
             ...state.activeStory.resources,
-            ...resources
+            ...newResources
           }
         }
       };

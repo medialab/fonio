@@ -51,7 +51,7 @@
     "json2po": "^1.0.5",
     "pouchdb": "^6.3.4",
     "quinoa-presentation-player": "^0.2.3",
-    "quinoa-story-player": "^0.2.5",
+    "quinoa-story-player": "git+https://github.com/medialab/quinoa-story-player.git",
     "react": "^15.3.2",
     "react-dnd": "^2.4.0",
     "react-dnd-html5-backend": "^2.4.1",

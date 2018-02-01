@@ -81,7 +81,6 @@ class ResourcesManagerContainer extends Component {
     return true;
   }
 
-
   /**
    * Handle the process of creating a new asset in the active story.
    * This implies three operations :
@@ -205,7 +204,17 @@ class ResourcesManagerContainer extends Component {
     unpromptAssetEmbed();
   }
 
+  setCoverImage = (resourceId) => {
+    const {
+      activeStoryId,
+      actions,
+    } = this.props;
 
+    const {
+      updateStoryMetadataField
+    } = actions;
+    updateStoryMetadataField(activeStoryId, 'coverImage', {resourceId});
+  }
   /**
    * Creates a default resource by attributing the given resource
    * a unique id
@@ -225,7 +234,7 @@ class ResourcesManagerContainer extends Component {
       }
     };
     const {type} = resource.metadata;
-    if (type === 'image' || type === 'data-presentation' || type === 'table') {
+    if ((type === 'image' && resource.data.base64) || type === 'data-presentation' || type === 'table') {
       const token = sessionStorage.getItem(activeStoryId);
       this.props.actions.uploadResourceRemote(activeStoryId, id, newResource, token);
     }
@@ -244,7 +253,7 @@ class ResourcesManagerContainer extends Component {
       activeStoryId
     } = this.props;
     const {type} = resource.metadata;
-    if (type === 'image' || type === 'data-presentation' || type === 'table') {
+    if ((type === 'image' && resource.data.base64) || type === 'data-presentation' || type === 'table') {
       const token = sessionStorage.getItem(activeStoryId);
       this.props.actions.uploadResourceRemote(activeStoryId, id, resource, token);
     }
@@ -314,7 +323,8 @@ class ResourcesManagerContainer extends Component {
         createResource={this.createResource}
         updateResource={this.updateResource}
         deleteResource={this.deleteResource}
-        embedAsset={this.embedAsset} />
+        embedAsset={this.embedAsset}
+        setCoverImage={this.setCoverImage} />
     );
   }
 }
