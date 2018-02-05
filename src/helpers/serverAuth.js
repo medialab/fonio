@@ -13,8 +13,8 @@ import {serverUrl} from '../../secrets';
  */
 export function createCredentialServer (id, password) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/auth/credential';
-    post(serverHTMLUrl)
+    const serverRequestUrl = serverUrl + '/auth/credential';
+    post(serverRequestUrl)
       .set('Accept', 'application/json')
       .send({id, password})
       .end((err, response) => {
@@ -37,8 +37,8 @@ export function createCredentialServer (id, password) {
  */
 export function deleteCredentialServer (id, token) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/auth/credential/' + id;
-    del(serverHTMLUrl)
+    const serverRequestUrl = serverUrl + '/auth/credential/' + id;
+    del(serverRequestUrl)
       .set('Accept', 'application/json')
       .set('x-access-token', token)
       .end((err, res) => {
@@ -60,8 +60,8 @@ export function deleteCredentialServer (id, token) {
  */
 export function resetPasswordServer (id, password, token) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/auth/credential/' + id;
-    put(serverHTMLUrl)
+    const serverRequestUrl = serverUrl + '/auth/credential/' + id;
+    put(serverRequestUrl)
       .set('Accept', 'application/json')
       .set('x-access-token', token)
       .send({id, password})
@@ -86,8 +86,8 @@ export function resetPasswordServer (id, password, token) {
  */
 export function loginToServer (id, password) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/auth/login';
-    post(serverHTMLUrl)
+    const serverRequestUrl = serverUrl + '/auth/login';
+    post(serverRequestUrl)
       .set('Accept', 'application/json')
       .send({id, password})
       .end((err, response) => {

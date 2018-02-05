@@ -14,8 +14,8 @@ import {serverUrl} from '../../secrets';
  */
 export function fetchStoriesServer () {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/stories/';
-    get(serverHTMLUrl)
+    const serverRequestUrl = serverUrl + '/stories/';
+    get(serverRequestUrl)
       .end((err, response) => {
           if (err) {
             return reject(err);
@@ -33,8 +33,8 @@ export function fetchStoriesServer () {
  */
 export function getStoryServer (id) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/stories/' + id;
-    get(serverHTMLUrl)
+    const serverRequestUrl = serverUrl + '/stories/' + id;
+    get(serverRequestUrl)
       .end((err, response) => {
           if (err) {
             return reject(err);
@@ -53,8 +53,8 @@ export function getStoryServer (id) {
  */
 export function getStoryBundleServer(id, format) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/stories/' + id + '?format=' + format;
-    get(serverHTMLUrl)
+    const serverRequestUrl = serverUrl + '/stories/' + id + '?format=' + format;
+    get(serverRequestUrl)
       .end((err, response) => {
         if (err) {
           return reject(err);
@@ -76,8 +76,8 @@ export function getStoryBundleServer(id, format) {
  */
 export function createStoryServer (story, password) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/stories/';
-    post(serverHTMLUrl)
+    const serverRequestUrl = serverUrl + '/stories/';
+    post(serverRequestUrl)
       .set('Accept', 'application/json')
       .send({
         story,
@@ -102,9 +102,9 @@ export function createStoryServer (story, password) {
  */
 export function saveStoryServer (story, token) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/stories/' + story.id;
+    const serverRequestUrl = serverUrl + '/stories/' + story.id;
 
-    put(serverHTMLUrl)
+    put(serverRequestUrl)
       .set('Accept', 'application/json')
       .set('x-access-token', token)
       .send(story)
@@ -127,9 +127,9 @@ export function saveStoryServer (story, token) {
  */
 export function publishStoryBundleServer (id) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/stories/' + id + '?format=bundle';
+    const serverRequestUrl = serverUrl + '/stories/' + id + '?format=bundle';
 
-    get(serverHTMLUrl)
+    get(serverRequestUrl)
       .end((err, res) => {
           if (err) {
             return reject(err);
@@ -149,8 +149,8 @@ export function publishStoryBundleServer (id) {
  */
 export function deleteStoryServer (id, token) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/stories/' + id;
-    del(serverHTMLUrl)
+    const serverRequestUrl = serverUrl + '/stories/' + id;
+    del(serverRequestUrl)
       .set('Accept', 'application/json')
       .set('x-access-token', token)
       .end((err, res) => {
@@ -172,8 +172,8 @@ export function deleteStoryServer (id, token) {
  */
 export function fetchResourcesServer (storyId) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/resources/' + storyId;
-    get(serverHTMLUrl)
+    const serverRequestUrl = serverUrl + '/resources/' + storyId;
+    get(serverRequestUrl)
       .end((err, response) => {
           if (err) {
             return reject(err);
@@ -194,8 +194,8 @@ export function fetchResourcesServer (storyId) {
  */
 export function uploadResourceServer (storyId, id, resource, token) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/resources/' + storyId + '/' + id;
-    put(serverHTMLUrl)
+    const serverRequestUrl = serverUrl + '/resources/' + storyId + '/' + id;
+    put(serverRequestUrl)
       .set('x-access-token', token)
       .set('Accept', 'application/json')
       .send(resource)
@@ -224,8 +224,8 @@ export function deleteResourceServer (storyId, resource, token) {
       filename = resource.metadata.id + '.' + ext;
     }
     else filename = resource.metadata.id + '.json';
-    const serverHTMLUrl = serverUrl + '/resources/' + storyId + '/' + filename;
-    del(serverHTMLUrl)
+    const serverRequestUrl = serverUrl + '/resources/' + storyId + '/' + filename;
+    del(serverRequestUrl)
       .set('x-access-token', token)
       .end((err) => {
           if (err) {
