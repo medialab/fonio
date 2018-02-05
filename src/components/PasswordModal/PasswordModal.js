@@ -29,13 +29,7 @@ const PasswordModal = ({
   // const translate = translateNameSpacer(context.t, 'Components.AssetPreview');
 
   const onPasswordChange = (e) => enterPassword(e.target.value);
-  const loginToStory = () => {
-    const story = {
-      id: location.state.storyId,
-      password
-    };
-    loginStory(story);
-  };
+  const loginToStory = () => loginStory(location.state.storyId, password);
 
   const goBack = (e) => {
     e.stopPropagation();

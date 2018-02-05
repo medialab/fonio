@@ -74,13 +74,15 @@ export function getStoryBundleServer(id, format) {
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
-export function createStoryServer (story) {
+export function createStoryServer (story, password) {
   return new Promise((resolve, reject) => {
     const serverHTMLUrl = serverUrl + '/stories/';
-    story.metadata.serverHTMLUrl = serverHTMLUrl + story.id + '?format=html';
     post(serverHTMLUrl)
       .set('Accept', 'application/json')
-      .send(story)
+      .send({
+        story,
+        password
+      })
       .end((err, response) => {
           if (err) {
             return reject(err);

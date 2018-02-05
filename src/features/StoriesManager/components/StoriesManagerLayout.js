@@ -140,8 +140,8 @@ const StoriesManagerLayout = ({
             const onClickPrompt = () => promptDeleteStory(story.id);
             const onClickUnprompt = () => unpromptDeleteStory(story.id);
             const onClickDelete = () => {
-              if (sessionStorage.getItem(story.id)) {
-                const token = sessionStorage.getItem(story.id);
+              if (localStorage.getItem(story.id)) {
+                const token = localStorage.getItem(story.id);
                 deleteStory(story.id, token).then((res) => {
                   if (res.error) {
                     const error = JSON.parse(res.error.response.text);
@@ -175,7 +175,7 @@ const StoriesManagerLayout = ({
               });
             };
             const configure = () => {
-              if (sessionStorage.getItem(story.id)) {
+              if (localStorage.getItem(story.id)) {
                 startStoryCandidateConfiguration(story);
               }
               else {

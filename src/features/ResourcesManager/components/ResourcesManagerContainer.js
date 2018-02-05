@@ -235,7 +235,7 @@ class ResourcesManagerContainer extends Component {
     };
     const {type} = resource.metadata;
     if ((type === 'image' && resource.data.base64) || type === 'data-presentation' || type === 'table') {
-      const token = sessionStorage.getItem(activeStoryId);
+      const token = localStorage.getItem(activeStoryId);
       this.props.actions.uploadResourceRemote(activeStoryId, id, newResource, token);
     }
     else
@@ -254,7 +254,7 @@ class ResourcesManagerContainer extends Component {
     } = this.props;
     const {type} = resource.metadata;
     if ((type === 'image' && resource.data.base64) || type === 'data-presentation' || type === 'table') {
-      const token = sessionStorage.getItem(activeStoryId);
+      const token = localStorage.getItem(activeStoryId);
       this.props.actions.uploadResourceRemote(activeStoryId, id, resource, token);
     }
     else
@@ -272,7 +272,7 @@ class ResourcesManagerContainer extends Component {
     } = this.props;
     const {type} = resource.metadata;
     if (type === 'image' || type === 'data-presentation' || type === 'table') {
-      const token = sessionStorage.getItem(activeStoryId);
+      const token = localStorage.getItem(activeStoryId);
       this.props.actions.deleteResourceRemote(activeStoryId, resource, token);
     }
     else

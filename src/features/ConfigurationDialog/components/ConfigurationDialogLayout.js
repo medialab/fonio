@@ -61,10 +61,10 @@ const ConfigurationDialogLayout = ({
     e.stopPropagation();
     // setCandidateStorySlug(storyCandidate.metadata.title);
     submitStoryCandidateSettings();
-    if (sessionStorage.getItem(storyCandidate.id)) {
+    if (localStorage.getItem(storyCandidate.id)) {
       if (formErrors.authors || formErrors.title)
         return;
-      const token = sessionStorage.getItem(storyCandidate.id);
+      const token = localStorage.getItem(storyCandidate.id);
       saveStory(storyCandidate, token).then((res) => {
         if (res.result) {
           applyStoryCandidateConfiguration(storyCandidate);
@@ -92,9 +92,10 @@ const ConfigurationDialogLayout = ({
       createStory(storyCandidate, storyCandidatePassword)
       .then((response) => {
         if (response.result) {
-          applyStoryCandidateConfiguration(storyCandidate);
+          const {story} = response.result;
+          applyStoryCandidateConfiguration(story);
           history.push({
-            pathname: `/story/${storyCandidate.id}/edit`
+            pathname: `/story/${story.id}/edit`
           });
         }
       });
@@ -147,7 +148,7 @@ const ConfigurationDialogLayout = ({
                   <Toaster status={formErrors.title && 'failure'} log={formErrors.title} />
                 }
               </div>
-              {!sessionStorage.getItem(storyCandidate.id) &&
+              {!localStorage.getItem(storyCandidate.id) &&
                 <div className="input-group">
                   <label htmlFor="password">password*</label>
                   <input

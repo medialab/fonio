@@ -11,12 +11,12 @@ import {serverUrl} from '../../secrets';
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to register to server
  */
-export function createCredentialServer (storyCredential) {
+export function createCredentialServer (id, password) {
   return new Promise((resolve, reject) => {
     const serverHTMLUrl = serverUrl + '/auth/credential';
     post(serverHTMLUrl)
       .set('Accept', 'application/json')
-      .send(storyCredential)
+      .send({id, password})
       .end((err, response) => {
           if (err) {
             return reject(err);
@@ -58,13 +58,13 @@ export function deleteCredentialServer (id, token) {
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to register to server
  */
-export function resetPasswordServer (storyCredential, token) {
+export function resetPasswordServer (id, password, token) {
   return new Promise((resolve, reject) => {
-    const serverHTMLUrl = serverUrl + '/auth/credential/' + storyCredential.id;
+    const serverHTMLUrl = serverUrl + '/auth/credential/' + id;
     put(serverHTMLUrl)
       .set('Accept', 'application/json')
       .set('x-access-token', token)
-      .send(storyCredential)
+      .send({id, password})
       .end((err, response) => {
           if (err) {
             return reject(err);
@@ -84,12 +84,12 @@ export function resetPasswordServer (storyCredential, token) {
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to register to server
  */
-export function loginToServer (storyCredential) {
+export function loginToServer (id, password) {
   return new Promise((resolve, reject) => {
     const serverHTMLUrl = serverUrl + '/auth/login';
     post(serverHTMLUrl)
       .set('Accept', 'application/json')
-      .send(storyCredential)
+      .send({id, password})
       .end((err, response) => {
           if (err) {
             return reject(err);

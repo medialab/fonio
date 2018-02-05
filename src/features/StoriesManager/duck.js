@@ -10,7 +10,7 @@ import {createStructuredSelector} from 'reselect';
 // import {persistentReducer} from 'redux-pouchdb';
 import {v4 as uuid} from 'uuid';
 
-import {createCredentialServer, loginToServer, resetPasswordServer, deleteCredentialServer} from '../../helpers/serverAuth';
+import {loginToServer, resetPasswordServer} from '../../helpers/serverAuth';
 import {fetchStoriesServer, createStoryServer, saveStoryServer, getStoryServer, getStoryBundleServer, deleteStoryServer} from '../../helpers/serverExporter';
 
 import config from '../../../config';
@@ -53,6 +53,7 @@ import {
 
 import {
   EXPORT_TO_GIST,
+  EXPORT_STORY_BUNDLE
 } from '../TakeAwayDialog/duck';
 
 import {
@@ -73,7 +74,7 @@ const LOGIN_STORY = '§Fonio/StoriesManager/LOGIN_STORY';
 const UPDATE_STORY = '§Fonio/StoriesManager/UPDATE_STORY';
 
 const ENTER_STORY_PASSWORD = '§Fonio/StoriesManager/ENTER_STORY_PASSWORD';
-const SAVE_STORY_PASSWORD = '§Fonio/StoriesManager/SAVE_STORY_PASSWORD';
+const RESET_STORY_PASSWORD = '§Fonio/StoriesManager/RESET_STORY_PASSWORD';
 
 const PROMPT_DELETE_STORY = '§Fonio/StoriesManager/PROMPT_DELETE_STORY';
 const UNPROMPT_DELETE_STORY = '§Fonio/StoriesManager/UNPROMPT_DELETE_STORY';
@@ -171,15 +172,13 @@ export const saveStory = (story, token) => ({
  * @param {object} story - the story credential to the distant server
  * @return {object} action - the redux action to dispatch
  */
-export const saveStoryPassword = (storyCredential) => ({
-  type: SAVE_STORY_PASSWORD,
+export const resetStoryPassword = (id, password) => ({
+  type: RESET_STORY_PASSWORD,
+  id,
   promise: () => {
     return new Promise((resolve, reject) => {
-      return resetPasswordServer(storyCredential)
-        .then((token) => {
-          sessionStorage.setItem(storyCredential.id, token);
-          resolve(token);
-        })
+      return resetPasswordServer(id, password)
+        .then((token) => resolve(token))
         .catch((e) => reject(e));
     });
   }
@@ -194,11 +193,8 @@ export const saveStoryPassword = (storyCredential) => ({
 
 export const createStory = (story, password) => ({
   type: CREATE_STORY,
+  story,
   promise: () => {
-    const storyCredential = {
-      id: story.id,
-      password
-    };
     const newResources = {};
     Object.keys(story.resources)
     .map(key => story.resources[key])
@@ -223,12 +219,8 @@ export const createStory = (story, password) => ({
       }
     };
     return new Promise((resolve, reject) => {
-      return createStoryServer(newStory)
-        .then(() => createCredentialServer(storyCredential))
-        .then(token => {
-          sessionStorage.setItem(story.id, token);
-          resolve(story);
-        })
+      return createStoryServer(newStory, password)
+        .then(result => resolve(result))
         .catch(e => reject(e));
     });
   }
@@ -292,14 +284,11 @@ export const unpromptDeleteStory = () => ({
  */
 export const deleteStory = (id, token) => ({
   type: DELETE_STORY,
+  id,
   promise: () => {
     return new Promise((resolve, reject) => {
       return deleteStoryServer(id, token)
-        .then(() => deleteCredentialServer(id, token))
-        .then(() => {
-          sessionStorage.removeItem(id);
-          resolve(id);
-        })
+        .then(() => resolve(id))
         .catch(e => reject(e));
     });
   }
@@ -348,22 +337,14 @@ export const enterPassword = (password) => ({
  * @param {object} story - the story credential to the distant server
  * @return {object} action - the redux action to dispatch
  */
-export const loginStory = (storyCredential) => ({
+export const loginStory = (id, password) => ({
   type: LOGIN_STORY,
-  promise: (dispatch) => {
+  id,
+  promise: () => {
     return new Promise((resolve, reject) => {
-      return loginToServer(storyCredential)
-        .then((token) => {
-          sessionStorage.setItem(storyCredential.id, token);
-          resolve(token);
-          // remove message after a while
-          setTimeout(() => dispatch({type: LOGIN_STORY + '_RESET'}), timers.veryLong);
-        })
-        .catch((e) => {
-          reject(e);
-          // remove message after a while
-          setTimeout(() => dispatch({type: LOGIN_STORY + '_RESET'}), timers.veryLong);
-        });
+      return loginToServer(id, password)
+        .then((token) => resolve(token))
+        .catch((e) => reject(e));
     });
   }
 });
@@ -460,7 +441,6 @@ const STORIES_DEFAULT_STATE = {
  */
 function stories(state = STORIES_DEFAULT_STATE, action) {
   let newState;
-  // let storyId;
   switch (action.type) {
     case FETCH_ALL_STORIES + '_SUCCESS':
       return {
@@ -479,25 +459,33 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         activeStory: undefined
       };
     case CREATE_STORY + '_SUCCESS':
+      const {story, token} = action.result;
+      localStorage.setItem(story.id, token);
       return {
         ...state,
         stories: {
           ...state.stories,
-          [action.result.id]: action.result
+          [story.id]: story
         }
       };
     // a story is deleted
     case DELETE_STORY + '_SUCCESS':
+      localStorage.removeItem(action.id);
       newState = Object.assign({}, state);
-      delete newState.stories[action.result];
+      delete newState.stories[action.id];
       return newState;
     // a story's content is replaced
     // todo: should we merge instead ?
-    case UPDATE_STORY + '_SUCCESS':
+    case UPDATE_STORY:
       return {
         ...state,
-        activeStory: action.result
+        activeStory: action.story
       };
+    // case UPDATE_STORY + '_SUCCESS':
+    //   return {
+    //     ...state,
+    //     activeStory: action.result
+    //   };
 
     /*
      * SECTIONS-RELATED
@@ -787,6 +775,17 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     /*
      * EXPORT-RELATED
      */
+    case EXPORT_STORY_BUNDLE + '_SUCCESS':
+      return {
+        ...state,
+        activeStory: {
+          ...state.activeStory,
+          metadata: {
+            ...state.activeStory.metadata,
+            serverHTMLUrl: serverUrl + '/static/' + state.activeStory.id
+          }
+        }
+      };
     case EXPORT_TO_GIST + '_SUCCESS':
       return {
         ...state,
@@ -868,6 +867,8 @@ const STORIES_UI_DEFAULT_STATE = {
  */
 function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
   switch (action.type) {
+    case UNSET_ACTIVE_STORY:
+      return STORIES_UI_DEFAULT_STATE;
     case ENTER_STORY_PASSWORD:
       return {
         ...state,
@@ -930,6 +931,7 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
         loginStoryLogStatus: 'processing'
       };
     case LOGIN_STORY + '_SUCCESS':
+      localStorage.setItem(action.id, action.result);
       return {
         ...state,
         password: undefined,
@@ -938,6 +940,7 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
         loginStoryLogStatus: 'success'
       };
     case LOGIN_STORY + '_FAIL':
+      localStorage.setItem(action.id, undefined);
       return {
         ...state,
         password: undefined,
