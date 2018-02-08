@@ -35,7 +35,7 @@ export const OPEN_TAKE_AWAY_MODAL = '$Fonio/StoryEditor/OPEN_TAKE_AWAY_MODAL';
 export const CLOSE_TAKE_AWAY_MODAL = '$Fonio/StoryEditor/CLOSE_TAKE_AWAY_MODAL';
 export const SET_UI_MODE = '$Fonio/StoryEditor/SET_UI_MODE';
 export const SET_ASIDE_UI_MODE = '$Fonio/StoryEditor/SET_ASIDE_UI_MODE';
-export const OPEN_PASSWORD_MODAL = '$Fonio/StoryEditor/OPEN_PASSWORD_MODAL';
+
 
 /**
  * Starts a story configuration
@@ -127,15 +127,6 @@ export const setAsideUiMode = (mode = 'sections') => ({
   type: SET_ASIDE_UI_MODE,
   mode
 });
-
-/**
- * Opens the set password view
- * @return {object} action - the redux action to dispatch
- */
-export const openPasswordModal = () => ({
-  type: OPEN_PASSWORD_MODAL
-});
-
 
 /**
  * Default/fallback state of the global ui state
@@ -236,12 +227,6 @@ function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
         ...state,
         asideUiMode: action.mode
       };
-    // case take away view is opened
-    case OPEN_PASSWORD_MODAL:
-      return {
-        ...state,
-        passwordModalOpen: true
-      };
     default:
       return state;
   }
@@ -261,7 +246,6 @@ export default combineReducers({
  */
 const isStoryCandidateModalOpen = state => state.globalUi.storyCandidateModalOpen;
 const isTakeAwayModalOpen = state => state.globalUi.takeAwayModalOpen;
-const slideSettingsPannelState = state => state.globalUi.slideSettingsPannelState;
 const globalUiMode = state => state.globalUi.uiMode;
 const asideUiMode = state => state.globalUi.asideUiMode;
 
@@ -274,5 +258,4 @@ export const selector = createStructuredSelector({
   asideUiMode,
   isStoryCandidateModalOpen,
   isTakeAwayModalOpen,
-  slideSettingsPannelState,
 });
