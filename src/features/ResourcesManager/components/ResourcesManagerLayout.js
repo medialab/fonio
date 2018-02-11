@@ -25,6 +25,7 @@ const ResourcesManagerLayout = ({
   resourceCandidateId,
   resourceCandidateType,
   resourceDataLoadingState,
+  resourceUploadingState,
   resources,
   resourcesModalState = 'closed',
   resourcesPrompted,
@@ -182,6 +183,7 @@ const ResourcesManagerLayout = ({
           setResourceCandidateMetadataValue={setResourceCandidateMetadataValue}
           submitResourceData={submitResourceData}
           resourceDataLoadingState={resourceDataLoadingState}
+          resourceUploadingState={resourceUploadingState}
           createResource={createResource}
           updateResource={updateResource} />
       </Modal>

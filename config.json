@@ -4,6 +4,7 @@
     "nano": 10,
     "short": 100,
     "medium": 300,
+    "long": 1000,
     "veryLong": 2000,
     "ultraLong": 5000
   }

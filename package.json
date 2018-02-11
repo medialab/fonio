@@ -73,7 +73,6 @@
     "redux-pouchdb": "^0.1.1",
     "reselect": "^3.0.0",
     "scholar-draft": "git+https://github.com/peritext/scholar-draft.git",
-    "slug": "^0.9.1",
     "superagent": "^3.2.1",
     "uuid": "^3.0.1"
   },
