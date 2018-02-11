@@ -7,6 +7,7 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {setLanguage} from 'redux-i18n';
+import {withRouter} from 'react-router';
 
 import GlobalUiLayout from './GlobalUiLayout';
 import * as duck from '../duck';
@@ -59,6 +60,7 @@ class GlobalUiContainer extends Component {
   constructor(props) {
     super(props);
     this.closeAndResetDialog = this.closeAndResetDialog.bind(this);
+    this.closeLoginDialog = this.closeLoginDialog.bind(this);
   }
 
 
@@ -82,6 +84,16 @@ class GlobalUiContainer extends Component {
     this.props.actions.closeStoryCandidateModal();
   }
 
+  /**
+   * Closes story login modal and redirect route
+   */
+  closeLoginDialog() {
+    this.props.actions.closePasswordModal();
+    this.props.history.push({
+      pathname: '/'
+    });
+  }
+
 
   /**
    * Renders the component
@@ -91,9 +103,10 @@ class GlobalUiContainer extends Component {
     return (
       <GlobalUiLayout
         {...this.props}
-        closeAndResetDialog={this.closeAndResetDialog} />
+        closeAndResetDialog={this.closeAndResetDialog}
+        closeLoginDialog={this.closeLoginDialog} />
     );
   }
 }
 
-export default GlobalUiContainer;
+export default withRouter(GlobalUiContainer);

@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'react-modal';
-import {Redirect} from 'react-router-dom';
 
-import './PasswordModal.scss';
-import Toaster from '../Toaster/Toaster';
+import Toaster from '../../../components/Toaster/Toaster';
 
 // import {translateNameSpacer} from '../../helpers/translateUtils';
 
@@ -14,45 +11,23 @@ import Toaster from '../Toaster/Toaster';
  * @param {object} context - used context data (see context types below)
  * @return {ReactElement} component - the resulting component
  */
-const PasswordModal = ({
-  history,
-  location,
+const LoginDialog = ({
+  storyId,
   password,
-  loginStoryLog,
-  loginStoryLogStatus,
   enterPassword,
   loginStory,
+  loginStoryLog,
+  loginStoryLogStatus,
+  closeLoginDialog
 },
 // context
 ) => {
 
-  // const translate = translateNameSpacer(context.t, 'Components.AssetPreview');
-
   const onPasswordChange = (e) => enterPassword(e.target.value);
-  const loginToStory = () => loginStory(location.state.storyId, password);
+  const onLoginStory = () => loginStory(storyId, password);
 
-  const goBack = (e) => {
-    e.stopPropagation();
-    history.push({
-      pathname: '/'
-    });
-  };
-
-  if (!location.state || !location.state.storyId) {
-    return (
-      <Redirect to="/" />
-    );
-  }
-
-  if (loginStoryLogStatus === 'success') {
-    return (
-      <Redirect to={location.state.to} />
-    );
-  }
   return (
-    <Modal
-      isOpen
-      onRequestClose={goBack}>
+    <div className="fonio-LoginDialog">
       <h1 className="modal-header">
         Enter your password
       </h1>
@@ -71,22 +46,22 @@ const PasswordModal = ({
           <Toaster status={loginStoryLogStatus} log={loginStoryLog} />
         </div>
         <div className="modal-footer override-modal-footer">
-          <button className="valid-btn" onClick={loginToStory}>
+          <button className="valid-btn" onClick={onLoginStory}>
             login
           </button>
           <button
-            onClick={goBack}
+            onClick={closeLoginDialog}
             className="cancel-btn">
             cancel
           </button>
         </div>
       </div>
-    </Modal>
+    </div>
   );
 };
 
-PasswordModal.contextTypes = {
+LoginDialog.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default PasswordModal;
+export default LoginDialog;
