@@ -23,12 +23,11 @@ const Footer = ({
   setLanguage,
   openTakeAwayModal,
   togglePreview,
-  startStoryCandidateConfiguration,
-  activeStory,
+  onClickMetadata,
+  onClickSave,
   mode
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Components.Footer');
-  const onClickMetadata = () => startStoryCandidateConfiguration(activeStory);
   return (
     mode === 'edit' ? (
       <footer className="fonio-Footer">
@@ -51,6 +50,7 @@ const Footer = ({
               </span>
           }</button>
           <button className="mode-btn" onClick={onClickMetadata} ><img className="fonio-icon-image" src={require('../../sharedAssets/settings-white.svg')} />{translate('story-settings')}</button>
+          <button className="save-btn" onClick={onClickSave}>↑ save story</button>
           <button className="takeaway-btn" onClick={openTakeAwayModal}><img className="fonio-icon-image" src={require('../../sharedAssets/take-away-white.svg')} />{translate('take-away')}</button>
         </div>
       </footer>

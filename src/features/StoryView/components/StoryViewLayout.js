@@ -12,13 +12,15 @@ import {Link} from 'react-router-dom';
 import Footer from '../../../components/Footer/Footer';
 import StoryPlayer from 'quinoa-story-player';
 
+
 import TakeAwayDialog from '../../TakeAwayDialog/components/TakeAwayDialogContainer';
 import StoryEditorContainer from '../../StoryEditor/components/StoryEditorContainer';
 import StorySettingsManagerContainer from '../../StorySettingsManager/components/StorySettingsManagerContainer';
 
+import './StoryViewLayout.scss';
+
 const StoryViewLayout = ({
   match,
-  history,
   globalUiMode,
   activeStory,
   lang,
@@ -32,6 +34,7 @@ const StoryViewLayout = ({
     closeTakeAwayModal
   }
 }) => {
+
   /**
    * Callbacks
    */
@@ -55,7 +58,7 @@ const StoryViewLayout = ({
 
   return (
     activeStory ?
-      <div className="story-editor-container">
+      <div className="fonio-StoryViewLayout">
         <section className="fonio-main-row">
           {match.params.mode ?
             (globalUiMode === 'edition' ?
@@ -76,7 +79,7 @@ const StoryViewLayout = ({
         <Modal
           onRequestClose={closeTakeAwayModal}
           isOpen={isTakeAwayModalOpen}>
-          <TakeAwayDialog history={history} />
+          <TakeAwayDialog />
         </Modal>
       </div> :
       // TODO: loading/error page

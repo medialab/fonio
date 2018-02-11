@@ -8,7 +8,6 @@ import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {persistentReducer} from 'redux-pouchdb';
 import {v4 as genId} from 'uuid';
-import slug from 'slug';
 
 import config from '../../../config';
 const {timers} = config;
@@ -42,7 +41,6 @@ const SUBMIT_STORY_CANDIDATE_SETTINGS = '§Fonio/ConfigurationDialog/SUBMIT_STOR
 const SUBMIT_COVER_IMAGE = '§Fonio/ConfigurationDialog/SUBMIT_COVER_IMAGE';
 
 const SET_STORY_CANDIDATE_PASSWORD = '§Fonio/ConfigurationDialog/SET_STORY_CANDIDATE_PASSWORD';
-const SET_STORY_CANDIDATE_SLUG = '§Fonio/ConfigurationDialog/SET_STORY_CANDIDATE_SLUG';
 const SET_STORY_CANDIDATE_METADATA = '§Fonio/ConfigurationDialog/SET_STORY_CANDIDATE_METADATA';
 /*
  * Action creators
@@ -69,17 +67,6 @@ export const setCandidateStoryMetadata = (field, value) => ({
 export const setCandidateStoryPassword = (password) => ({
   type: SET_STORY_CANDIDATE_PASSWORD,
   password
-});
-
-/**
- * Sets a new metadata prop in the story candidate data
- * @param {string} field - the name of the metadata field to modify
- * @param {string} value - the value to set to the field to modify
- * @return {object} action - the redux action to dispatch
- */
-export const setCandidateStorySlug = (title) => ({
-  type: SET_STORY_CANDIDATE_SLUG,
-  title
 });
 
 /**
@@ -215,14 +202,6 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
       return {
         ...state,
         storyCandidate: action.result
-      };
-    case SET_STORY_CANDIDATE_SLUG:
-      return {
-        ...state,
-        storyCandidate: {
-          ...state.storyCandidate,
-          slug: slug(action.title, {lower: true})
-        }
       };
     // save in candidate data some metadata
     case SET_STORY_CANDIDATE_METADATA:

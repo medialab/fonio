@@ -4,7 +4,6 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './StoryCard.scss';
@@ -20,8 +19,8 @@ const StoryCard = ({
   story,
   promptedToDelete,
   // actions
-  setToActive,
-  // configure,
+  onClickEdit,
+  onClickRead,
   onClickDelete,
   onClickPrompt,
   onClickUnprompt,
@@ -41,14 +40,14 @@ const StoryCard = ({
           </p>
         </div>
         <div className="buttons-column">
-          <button className="edit-btn" onClick={setToActive}>
+          <button className="edit-btn" onClick={onClickEdit}>
             <img src={require('../../sharedAssets/edit-white.svg')} className="fonio-icon-image" />
             {translate('edit')}
           </button>
-          {/*<button className="settings-btn" onClick={configure}>
-            <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
-            {translate('settings')}
-          </button>*/}
+          <button className="preview-btn" onClick={onClickRead}>
+            <img src={require('../../sharedAssets/preview-black.svg')} className="fonio-icon-image" />
+            read
+          </button>
           <button className={'delete-btn ' + (promptedToDelete ? 'inactive' : '')} onClick={onClickPrompt}>
             <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
             {translate('delete')}
@@ -67,12 +66,6 @@ const StoryCard = ({
             </div>
           </div> :
           <div>
-            <Link to={`/story/${story.id}`}>
-              <button className="preview-btn">
-                <img src={require('../../sharedAssets/preview-black.svg')} className="fonio-icon-image" />
-                preview
-              </button>
-            </Link>
             <button onClick={onClickCopy}>⎘ {translate('duplicate')}</button>
           </div> }
       </div>

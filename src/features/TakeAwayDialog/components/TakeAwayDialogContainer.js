@@ -95,10 +95,10 @@ class TakeAwayDialogContainer extends Component {
    */
   updateActiveStoryFromServer() {
     // todo : rewrite that as a promise-based action
-    this.props.actions.setTakeAwayStatus('processing', 'updating from the distant server');
-    this.props.actions.fetchStory(this.props.activeStory.id)
+    this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'json')
     .then(res => {
       if (res.result) {
+        this.props.actions.updateStory(this.props.activeStory.id, res.result);
         this.props.actions.setTakeAwayStatus('success', 'your story is now synchronized with the forccast server');
       }
       else this.props.actions.setTakeAwayStatus('failure', 'could not update story form forccast server');

@@ -55,7 +55,6 @@ const StoriesManagerLayout = ({
     deleteStory,
     copyStory,
     startStoryCandidateConfiguration,
-    setUiMode,
     importReset,
     setImportFromUrlCandidate,
     setLanguage
@@ -140,53 +139,19 @@ const StoriesManagerLayout = ({
             const onClickPrompt = () => promptDeleteStory(story.id);
             const onClickUnprompt = () => unpromptDeleteStory(story.id);
             const onClickDelete = () => {
-              if (localStorage.getItem(story.id)) {
-                const token = localStorage.getItem(story.id);
-                deleteStory(story.id, token).then((res) => {
-                  if (res.error) {
-                    const error = JSON.parse(res.error.response.text);
-                    if (!error.auth) {
-                      history.push({
-                        pathname: '/login',
-                        state: {
-                          storyId: story.id,
-                          to: '/'
-                        }
-                      });
-                    }
-                  }
-                });
-              }
-              else {
-                history.push({
-                  pathname: '/login',
-                  state: {
-                    storyId: story.id,
-                    to: '/'
-                  }
-                });
-              }
+              const token = localStorage.getItem(story.id);
+              deleteStory(story.id, token);
             };
             const onClickCopy = () => copyStory(story.id);
-            const setToActive = () => {
-              setUiMode();
+            const onClickEdit = () => {
               history.push({
                 pathname: `/story/${story.id}/edit`
               });
             };
-            const configure = () => {
-              if (localStorage.getItem(story.id)) {
-                startStoryCandidateConfiguration(story);
-              }
-              else {
-                history.push({
-                  pathname: '/login',
-                  state: {
-                    storyId: story.id,
-                    to: '/'
-                  }
-                });
-              }
+            const onClickRead = () => {
+              history.push({
+                pathname: `/story/${story.id}`
+              });
             };
             const promptedToDelete = promptedToDeleteId === story.id;
             return (
@@ -194,8 +159,8 @@ const StoriesManagerLayout = ({
                 key={index}
                 story={story}
                 promptedToDelete={promptedToDelete}
-                setToActive={setToActive}
-                configure={configure}
+                onClickEdit={onClickEdit}
+                onClickRead={onClickRead}
                 onClickDelete={onClickDelete}
                 onClickPrompt={onClickPrompt}
                 onClickUnprompt={onClickUnprompt}

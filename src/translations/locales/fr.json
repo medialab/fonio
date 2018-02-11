@@ -52,7 +52,6 @@
   "Components.StoryCard.untitled_story": "Récit sans titre",
   "Components.StoryCard.no_description": "pas de description",
   "Components.StoryCard.edit": "éditer",
-  "Components.StoryCard.settings": "paramètres",
   "Components.StoryCard.delete": "supprimer",
   "Components.StoryCard.sure_delete": "Êtes-vous sûr de vouloir supprimer ce récit ?",
   "Components.StoryCard.delete_confirm": "supprimer ce récit de manière permanente",

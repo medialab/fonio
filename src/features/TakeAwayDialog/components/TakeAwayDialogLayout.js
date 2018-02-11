@@ -123,12 +123,8 @@ ChooseTakeAwayStep.contextTypes = {
  * @param {object} props - the props to render
  * @param {object} props.activeStory - the story to take away
  * @param {string} props.takeAwayType - the active takeaway type
- * @param {string} props.takeAwayGistLog
- * @param {string} props.takeAwayGistLogStatus
- * @param {string} props.takeAwayServerLog
- * @param {string} props.takeAwayServerLogStatus
- * @param {string} props.bundleToHtmlLog
- * @param {string} props.bundleToHtmlLogStatus
+ * @param {string} props.takeAwayLog
+ * @param {string} props.takeAwayLogStatus
  * @param {boolean} props.serverAvailable - whether app is connected to a distant server
  * @param {string} props.serverUrl - the url base of the distant server
  * @param {boolean} props.gistAvailable - whether app is connected to gist

@@ -31,8 +31,11 @@ import './ConfigurationDialog.scss';
  * @return {ReactElement} markup
  */
 const ConfigurationDialogLayout = ({
+  activeStoryId,
   storyCandidate,
   storyCandidatePassword,
+  createStoryLog,
+  createStoryLogStatus,
   // coverImageLoadingState,
   formErrors,
   showErrors,
@@ -43,10 +46,8 @@ const ConfigurationDialogLayout = ({
     setCandidateStoryPassword,
     validateStoryCandidateSettings,
     submitStoryCandidateSettings,
-    // setCandidateStorySlug,
     applyStoryCandidateConfiguration,
     // submitCoverImage,
-    saveStory,
     createStory
   },
   closeStoryCandidate,
@@ -59,40 +60,19 @@ const ConfigurationDialogLayout = ({
   const onApplyChange = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // setCandidateStorySlug(storyCandidate.metadata.title);
     submitStoryCandidateSettings();
-    if (localStorage.getItem(storyCandidate.id)) {
+    if (activeStoryId) {
       if (formErrors.authors || formErrors.title)
         return;
-      const token = localStorage.getItem(storyCandidate.id);
-      saveStory(storyCandidate, token).then((res) => {
-        if (res.result) {
-          applyStoryCandidateConfiguration(storyCandidate);
-          history.push({
-            pathname: `/story/${storyCandidate.id}/edit`
-          });
-        }
-        if (res.error) {
-          const error = JSON.parse(res.error.response.text);
-          if (!error.auth) {
-            history.push({
-              pathname: '/login',
-              state: {
-                storyId: storyCandidate.id,
-                to: `/story/${storyCandidate.id}/edit`
-              }
-            });
-          }
-        }
-      });
+      applyStoryCandidateConfiguration(storyCandidate);
     }
     else {
       if (formErrors.password || formErrors.authors || formErrors.title)
         return;
       createStory(storyCandidate, storyCandidatePassword)
-      .then((response) => {
-        if (response.result) {
-          const {story} = response.result;
+      .then((res) => {
+        if (res.result) {
+          const {story} = res.result;
           applyStoryCandidateConfiguration(story);
           history.push({
             pathname: `/story/${story.id}/edit`
@@ -182,6 +162,7 @@ const ConfigurationDialogLayout = ({
                   value={storyCandidate.metadata.description || ''} />
               </div>
             </div>
+            <Toaster status={createStoryLogStatus} log={createStoryLog} />
           </form>
         </section>
         {/*<section className="modal-row">

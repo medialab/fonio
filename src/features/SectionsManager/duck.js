@@ -15,7 +15,6 @@ import {persistentReducer} from 'redux-pouchdb';
 import {
   RESET_APP,
   SET_ACTIVE_STORY,
-  APPLY_STORY_CANDIDATE_CONFIGURATION,
 } from '../GlobalUi/duck';
 
 /*
@@ -348,12 +347,6 @@ function sectionsUi (state = SECTIONS_UI_DEFAULT_STATE, action) {
     case SET_ACTIVE_STORY:
       return {
         ...SECTIONS_UI_DEFAULT_STATE,
-        activeSectionId: action.story.sectionsOrder[0],
-      };
-    // section configuration is closed and changes are saved
-    case APPLY_STORY_CANDIDATE_CONFIGURATION:
-      return {
-        ...state,
         activeSectionId: action.story.sectionsOrder[0],
       };
     // metadata is changed in section configuration

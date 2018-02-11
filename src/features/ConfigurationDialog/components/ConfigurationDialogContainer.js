@@ -15,7 +15,6 @@ import {
   selector as globalUiSelector,
   closeStoryCandidateModal,
   applyStoryCandidateConfiguration,
-  setActiveStoryId
 } from '../../GlobalUi/duck';
 
 import {
@@ -45,7 +44,6 @@ import ConfigurationDialogLayout from './ConfigurationDialogLayout';
       createStory,
       applyStoryCandidateConfiguration,
       closeStoryCandidateModal,
-      setActiveStoryId
     }, dispatch)
   })
 )

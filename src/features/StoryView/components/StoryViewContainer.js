@@ -55,14 +55,14 @@ export default class StoryViewContainer extends Component {
   componentWillMount() {
     const {match, actions} = this.props;
     const {fetchStory, fetchResources, setActiveStory, openPasswordModal} = actions;
-    const activeStoryId = match.params.id;
     // TODO: optimize initialize story
-    fetchStory(activeStoryId).then(res => {
+    fetchStory(match.params.id).then(res => {
       if (res.result) {
+        const activeStoryId = res.result.id;
         setActiveStory(res.result);
         fetchResources(activeStoryId);
-        if (match.params.mode === 'edit' && !localStorage.getItem(match.params.id)) {
-          openPasswordModal(match.params.id);
+        if (match.params.mode === 'edit' && !localStorage.getItem(activeStoryId)) {
+          openPasswordModal(activeStoryId);
         }
       }
     });

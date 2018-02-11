@@ -22,7 +22,9 @@ import {serverUrl} from '../../../secrets';
  * Action names
  */
 import {
-  UNSET_ACTIVE_STORY
+  UNSET_ACTIVE_STORY,
+  APPLY_STORY_CANDIDATE_CONFIGURATION,
+  CLOSE_STORY_CANDIDATE_MODAL,
 } from '../GlobalUi/duck';
 
 import {
@@ -73,6 +75,9 @@ export const COPY_STORY = '§Fonio/StoriesManager/COPY_STORY';
 const LOGIN_STORY = '§Fonio/StoriesManager/LOGIN_STORY';
 const UPDATE_STORY = '§Fonio/StoriesManager/UPDATE_STORY';
 
+const OPEN_PASSWORD_MODAL = '$Fonio/StoriesManager/OPEN_PASSWORD_MODAL';
+export const CLOSE_PASSWORD_MODAL = '$Fonio/StoriesManager/CLOSE_PASSWORD_MODAL';
+
 const ENTER_STORY_PASSWORD = '§Fonio/StoriesManager/ENTER_STORY_PASSWORD';
 const RESET_STORY_PASSWORD = '§Fonio/StoriesManager/RESET_STORY_PASSWORD';
 
@@ -109,32 +114,27 @@ export const fetchAllStories = () => ({
  */
 export const fetchStory = (id) => ({
   type: FETCH_STORY,
-  promise: (dispatch) => {
+  id,
+  promise: () => {
   return new Promise((resolve, reject) => {
     return getStoryServer(id)
-      .then((response) => {
-        resolve(response);
-        // remove message after a while
-        setTimeout(() => dispatch({type: FETCH_STORY + '_RESET'}), timers.veryLong);
-
-      })
-      .catch((e) => {
-        reject(e);
-        // remove message after a while
-        setTimeout(() => dispatch({type: FETCH_STORY + '_RESET'}), timers.veryLong);
-      });
+      .then((response) => resolve(response))
+      .catch((e) => reject(e));
    });
   }
 });
 
 /**
- * Handles the "export to server" operation
+ * TODO: implement auto save story on server
+ * save story on server
  * @param {object} story - the story to export to the distant server
+ * @param {string} token
  * @return {object} action - the redux action to dispatch
  */
 export const saveStory = (story, token) => ({
   type: SAVE_STORY,
-  promise: (dispatch) => {
+  id: story.id,
+  promise: () => {
     return new Promise((resolve, reject) => {
       const newResources = {};
       if (story.resources) {
@@ -153,23 +153,16 @@ export const saveStory = (story, token) => ({
         }
       };
       return saveStoryServer(newStory, token)
-        .then((d) => {
-          resolve(d);
-          // remove message after a while
-          setTimeout(() => dispatch({type: SAVE_STORY + '_RESET'}), timers.veryLong);
-        })
-        .catch((e) => {
-          reject(e);
-          // remove message after a while
-          setTimeout(() => dispatch({type: SAVE_STORY + '_RESET'}), timers.veryLong);
-        });
+        .then((d) => resolve(d))
+        .catch((e) => reject(e));
     });
   }
 });
 
 /**
- * Handles the "set story password to server" operation
- * @param {object} story - the story credential to the distant server
+ * Handles the "reset story password to server" operation
+ * @param  id - the story id
+ * @param {string} password - story password
  * @return {object} action - the redux action to dispatch
  */
 export const resetStoryPassword = (id, password) => ({
@@ -185,9 +178,9 @@ export const resetStoryPassword = (id, password) => ({
 });
 
 /**
- * Creates a new story, possibly setting it as active
- * @param {string} id - the uuid of the story to create
+ * Creates a new story on server
  * @param {object} story - the data of the story to create
+ * @param {string} password - story password
  * @return {object} action - the redux action to dispatch
  */
 
@@ -278,8 +271,9 @@ export const unpromptDeleteStory = () => ({
 });
 
 /**
- * Deletes a story
+ * Delete a story on server
  * @param {string} id - the uuid of the story to delete
+ * @param {string} token
  * @return {object} action - the redux action to dispatch
  */
 export const deleteStory = (id, token) => ({
@@ -300,30 +294,36 @@ export const deleteStory = (id, token) => ({
  * @param {object} story - the data of the story to update
  * @return {object} action - the redux action to dispatch
  */
+
+/**
+ * TODO: implement auto update story from server
+ */
 export const updateStory = (id, story) => ({
   type: UPDATE_STORY,
   id,
   story
 });
-// export const updateStory = (id) => ({
-//   type: UPDATE_STORY,
-//   promise: (dispatch) => {
-//   return new Promise((resolve, reject) => {
-//     return getStoryServer(id)
-//       .then((response) => {
-//         resolve(response);
-//         setTimeout(() => dispatch({type: UPDATE_STORY + '_RESET'}), timers.veryLong);
-//       })
-//       .catch((e) => {
-//         reject(e);
-//         setTimeout(() => dispatch({type: UPDATE_STORY + '_RESET'}), timers.veryLong);
-//       });
-//    });
-//   }
-// });
+
 
 /**
- * Sets password for story login
+ * Opens the password modal view
+ * @return {object} action - the redux action to dispatch
+ */
+export const openPasswordModal = (id) => ({
+  type: OPEN_PASSWORD_MODAL,
+  id
+});
+
+/**
+ * close the password modal view
+ * @return {object} action - the redux action to dispatch
+ */
+export const closePasswordModal = () => ({
+  type: CLOSE_PASSWORD_MODAL
+});
+
+/**
+ * enter password
  * @param {string} password
  * @return {object} action - the redux action to dispatch
  */
@@ -333,7 +333,7 @@ export const enterPassword = (password) => ({
 });
 
 /**
- * Handles the "login story server if no token" operation
+ * login story when token is not valid
  * @param {object} story - the story credential to the distant server
  * @return {object} action - the redux action to dispatch
  */
@@ -442,6 +442,11 @@ const STORIES_DEFAULT_STATE = {
 function stories(state = STORIES_DEFAULT_STATE, action) {
   let newState;
   switch (action.type) {
+    case UNSET_ACTIVE_STORY:
+      return {
+        ...state,
+        activeStory: undefined
+      };
     case FETCH_ALL_STORIES + '_SUCCESS':
       return {
         ...state,
@@ -452,15 +457,8 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         ...state,
         activeStory: action.result
       };
-    // a story is created
-    case UNSET_ACTIVE_STORY:
-      return {
-        ...state,
-        activeStory: undefined
-      };
     case CREATE_STORY + '_SUCCESS':
-      const {story, token} = action.result;
-      localStorage.setItem(story.id, token);
+      const {story} = action.result;
       return {
         ...state,
         stories: {
@@ -468,9 +466,16 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           [story.id]: story
         }
       };
+    case APPLY_STORY_CANDIDATE_CONFIGURATION:
+      return {
+        ...state,
+        activeStory: {
+          ...state.activeStory,
+          ...action.story
+        }
+      };
     // a story is deleted
     case DELETE_STORY + '_SUCCESS':
-      localStorage.removeItem(action.id);
       newState = Object.assign({}, state);
       delete newState.stories[action.id];
       return newState;
@@ -481,11 +486,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         ...state,
         activeStory: action.story
       };
-    // case UPDATE_STORY + '_SUCCESS':
-    //   return {
-    //     ...state,
-    //     activeStory: action.result
-    //   };
 
     /*
      * SECTIONS-RELATED
@@ -804,6 +804,94 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
   }
 }
 
+/**
+ * Default state for the auth of the story
+ */
+const STORY_AUTH_DEFAULT_STATE = {
+  /**
+   * Represents whether password modal is open
+   * @type {boolean}
+   */
+  passwordModalOpen: false,
+
+  /**
+   * password for login story
+   * @type {string}
+   */
+  password: '',
+
+  /**
+   * unauth story id
+   * @type {string}
+   */
+  notAuthStoryId: undefined
+};
+
+/**
+ * This redux reducer handles the modification of the auth state for story management
+ * @param {object} state - the state given to the reducer
+ * @param {object} action - the action to use to produce new state
+ * @return {object} newState - the new state
+ */
+function storyAuth(state = STORY_AUTH_DEFAULT_STATE, action) {
+  switch (action.type) {
+    case ENTER_STORY_PASSWORD:
+      return {
+        ...state,
+        password: action.password
+      };
+    case OPEN_PASSWORD_MODAL:
+      return {
+        ...state,
+        notAuthStoryId: action.id,
+        passwordModalOpen: true
+      };
+    case CLOSE_PASSWORD_MODAL:
+      return {
+        ...state,
+        password: undefined,
+        notAuthStoryId: undefined,
+        passwordModalOpen: false
+      };
+    case CREATE_STORY + '_SUCCESS':
+      const {story, token} = action.result;
+      localStorage.setItem(story.id, token);
+      return state;
+    case LOGIN_STORY + '_SUCCESS':
+      localStorage.setItem(action.id, action.result);
+      return {
+        ...state,
+        password: undefined,
+        notAuthStoryId: undefined,
+        passwordModalOpen: false
+      };
+    case DELETE_STORY + '_SUCCESS':
+      localStorage.removeItem(action.id);
+      return state;
+    case SAVE_STORY + '_FAIL':
+    case DELETE_STORY + '_FAIL':
+    case LOGIN_STORY + '_FAIL':
+    case UPLOAD_RESOURCE_REMOTE + '_FAIL':
+    case DELETE_RESOURCE_REMOTE + '_FAIL':
+      if (action.error.response && action.error.response.text) {
+        const error = JSON.parse(action.error.response.text);
+        if (error.auth === false) {
+          const storyId = (action.type === UPLOAD_RESOURCE_REMOTE + '_FAIL' || action.type === DELETE_RESOURCE_REMOTE + '_FAIL') ? action.storyId : action.id;
+          localStorage.removeItem(storyId);
+          return {
+            ...state,
+            notAuthStoryId: storyId,
+            passwordModalOpen: true
+          };
+        }
+        else return state;
+      }
+      else
+        return state;
+    default:
+      return state;
+  }
+}
 
 /**
  * Default state for the ui of the stories manager view (home)
@@ -816,47 +904,40 @@ const STORIES_UI_DEFAULT_STATE = {
   promptedToDelete: undefined,
 
   /**
-   * password for login story
+   * story server api message
    * @type {string}
    */
-  password: '',
+  storyToasterLog: undefined,
 
   /**
-   * The status of fetch story on server (processing, success, error)
+   * story server api status
    * @type {string}
    */
-  fetchStoryLogStatus: undefined,
+  storyToasterLogStatus: undefined,
 
   /**
-   * The message of fetch story
+   * login story api message
    * @type {string}
    */
-  fetchStoryLog: undefined,
-
-
-  /**
-   * The status of export story to server (processing, success, error)
-   * @type {string}
-   */
-  saveStoryLogStatus: undefined,
+  loginStoryLog: undefined,
 
   /**
-   * The message of export story
-   * @type {string}
-   */
-  saveStoryLog: undefined,
-
-  /**
-   * The status of login story with password on server (processing, success, error)
+   * login story api status
    * @type {string}
    */
   loginStoryLogStatus: undefined,
 
   /**
-   * The message of login story
+   * create story api message
    * @type {string}
    */
-  loginStoryLog: undefined,
+  createStoryLog: undefined,
+
+  /**
+   * create story api status
+   * @type {string}
+   */
+  createStoryLogStatus: undefined,
 };
 
 /**
@@ -866,94 +947,8 @@ const STORIES_UI_DEFAULT_STATE = {
  * @return {object} newState - the new state
  */
 function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
+  let actionString;
   switch (action.type) {
-    case UNSET_ACTIVE_STORY:
-      return STORIES_UI_DEFAULT_STATE;
-    case ENTER_STORY_PASSWORD:
-      return {
-        ...state,
-        password: action.password
-      };
-    case FETCH_STORY + '_PENDING':
-      return {
-        ...state,
-        fetchStoryLog: 'loading story',
-        fetchStoryLogStatus: 'processing'
-      };
-    case FETCH_STORY + '_SUCCESS':
-      return {
-        ...state,
-        fetchStoryLog: 'story is fetched',
-        fetchStoryLogStatus: 'success'
-      };
-    case FETCH_STORY + '_FAIL':
-      return {
-        ...state,
-        fetchStoryLog: 'story is not found',
-        fetchStoryLogStatus: 'failure'
-      };
-    case SAVE_STORY + '_PENDING':
-      return {
-        ...state,
-        saveStoryLog: 'saving story',
-        saveStoryLogStatus: 'processing'
-      };
-    case SAVE_STORY + '_SUCCESS':
-      return {
-        ...state,
-        saveStoryLog: 'story is saved on server',
-        saveStoryLogStatus: 'success'
-      };
-    case SAVE_STORY + '_FAIL':
-      return {
-        ...state,
-        saveStoryLog: 'story could not export to server',
-        saveStoryLogStatus: 'failure'
-      };
-    case SAVE_STORY + '_RESET':
-      return {
-        ...state,
-        saveStoryLog: undefined,
-        saveStoryLogStatus: undefined
-      };
-    case UPDATE_STORY + '_RESET':
-      return {
-        ...state,
-        updateStoryLog: undefined,
-        updateStoryLogStatus: undefined
-      };
-    // a story is imported successfully
-    // login story if no token
-    case LOGIN_STORY + '_PENDING':
-      return {
-        ...state,
-        loginStoryLog: 'login to story',
-        loginStoryLogStatus: 'processing'
-      };
-    case LOGIN_STORY + '_SUCCESS':
-      localStorage.setItem(action.id, action.result);
-      return {
-        ...state,
-        password: undefined,
-        storyPasswordModalOpen: false,
-        loginStoryLog: 'password correct',
-        loginStoryLogStatus: 'success'
-      };
-    case LOGIN_STORY + '_FAIL':
-      localStorage.setItem(action.id, undefined);
-      return {
-        ...state,
-        password: undefined,
-        loginStoryLog: 'password incorrect',
-        loginStoryLogStatus: 'failure'
-      };
-    case LOGIN_STORY + '_RESET':
-      return {
-        ...state,
-        loginStoryLog: undefined,
-        loginStoryLogStatus: undefined
-      };
-    // a story is imported successfully
     case PROMPT_DELETE_STORY:
       return {
         ...state,
@@ -965,11 +960,93 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
         ...state,
         promptedToDelete: undefined
       };
-    // a story is deleted
-    case DELETE_STORY:
+    // story api actions
+    case SAVE_STORY + '_PENDING':
+      actionString = action.type.split('/')[2].toLowerCase().split('_').join('-');
       return {
         ...state,
-        promptedToDelete: undefined,
+        storyToasterLog: actionString + '-log',
+        storyToasterLogStatus: 'processing'
+      };
+    case SAVE_STORY + '_SUCCESS':
+      actionString = action.type.split('/')[2].toLowerCase().split('_').join('-');
+      return {
+        ...state,
+        storyToasterLog: actionString + '-log',
+        storyToasterLogStatus: 'success'
+      };
+    case FETCH_ALL_STORIES + '_RESET':
+    case FETCH_STORY + '_RESET':
+    case SAVE_STORY + '_RESET':
+    case DELETE_STORY + '_RESET':
+    case FETCH_RESOURCES + '_RESET':
+    case DELETE_RESOURCE_REMOTE + '_RESET':
+      return {
+        ...state,
+        storyToasterLog: undefined,
+        storyToasterLogStatus: undefined
+      };
+    case FETCH_ALL_STORIES + '_FAIL':
+    case FETCH_STORY + '_FAIL':
+    case SAVE_STORY + '_FAIL':
+    case DELETE_STORY + '_FAIL':
+    case FETCH_RESOURCES + '_FAIL':
+    case DELETE_RESOURCE_REMOTE + '_FAIL':
+      actionString = action.type.split('/')[2].toLowerCase().split('_').join('-');
+      return {
+        ...state,
+        storyToasterLog: actionString + '-log',
+        storyToasterLogStatus: 'failure'
+      };
+    case LOGIN_STORY + '_PENDING':
+      return {
+        ...state,
+        loginStoryLog: 'login-story-pending-log',
+        loginStoryLogStatus: 'processing'
+      };
+    case LOGIN_STORY + '_SUCCESS':
+      return {
+        ...state,
+        loginStoryLog: 'login-story-success-log',
+        loginStoryLogStatus: 'success'
+      };
+    case LOGIN_STORY + '_FAIL':
+      return {
+        ...state,
+        loginStoryLog: 'login-story-fail-log',
+        loginStoryLogStatus: 'failure'
+      };
+    case LOGIN_STORY + '_RESET':
+    case CLOSE_PASSWORD_MODAL:
+      return {
+        ...state,
+        loginStoryLog: undefined,
+        loginStoryLogStatus: undefined
+      };
+    case CREATE_STORY + '_PENDING':
+      return {
+        ...state,
+        createStoryLog: 'create-story-pending-log',
+        createStoryLogStatus: 'processing'
+      };
+    case CREATE_STORY + '_SUCCESS':
+      return {
+        ...state,
+        createStoryLog: 'create-story-success-log',
+        createStoryLogStatus: 'success'
+      };
+    case CREATE_STORY + '_FAIL':
+      return {
+        ...state,
+        createStoryLog: 'create-story-fail-log',
+        createStoryLogStatus: 'failure'
+      };
+    case CREATE_STORY + '_RESET':
+    case CLOSE_STORY_CANDIDATE_MODAL:
+      return {
+        ...state,
+        createStoryLog: undefined,
+        createStoryLogStatus: undefined
       };
     default:
       return state;
@@ -1050,15 +1127,12 @@ function storyImport(state = STORY_IMPORT_DEFAULT_STATE, action) {
 
 
 /**
- * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
+ * The module exports a reducer (not persist to pouchdb)
  */
 export default combineReducers({
-  // stories: persistentReducer(stories, 'fonio-stories'),
   stories,
   storiesUi,
-  // storiesUi: persistentReducer(storiesUi, 'fonio-stories-ui'),
-  // we choose not to persist the story import ui state
-  // as it is temporary in all cases
+  storyAuth,
   storyImport,
 });
 
@@ -1067,18 +1141,24 @@ export default combineReducers({
  */
 const storiesList = state => Object.keys(state.stories.stories).map(key => state.stories.stories[key]);
 const activeStory = state => state.stories.activeStory;
+const activeStoryId = state => state.stories.activeStory && state.stories.activeStory.id;
 const promptedToDeleteId = state => state.storiesUi.promptedToDelete;
-const password = state => state.storiesUi.password;
-const loginStoryLog = state => state.storiesUi.loginStoryLog;
-const loginStoryLogStatus = state => state.storiesUi.loginStoryLogStatus;
-const fetchStoryLog = state => state.storiesUi.fetchStoryLog;
-const fetchStoryLogStatus = state => state.storiesUi.fetchStoryLogStatus;
-const saveStoryLog = state => state.storiesUi.saveStoryLog;
-const saveStoryLogStatus = state => state.storiesUi.saveStoryLogStatus;
 const importStatus = state => state.storyImport.importStatus;
 const importError = state => state.storyImport.importError;
 const importCandidate = state => state.storyImport.importCandidate;
 const importFromUrlCandidate = state => state.storyImport.importFromUrlCandidate;
+
+const password = state => state.storyAuth.password;
+const isPasswordModalOpen = state => state.storyAuth.passwordModalOpen;
+const notAuthStoryId = state => state.storyAuth.notAuthStoryId;
+
+const storyToasterLog = state => state.storiesUi.storyToasterLog;
+const storyToasterLogStatus = state => state.storiesUi.storyToasterLogStatus;
+const loginStoryLog = state => state.storiesUi.loginStoryLog;
+const loginStoryLogStatus = state => state.storiesUi.loginStoryLogStatus;
+const createStoryLog = state => state.storiesUi.createStoryLog;
+const createStoryLogStatus = state => state.storiesUi.createStoryLogStatus;
+
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -1086,19 +1166,21 @@ const importFromUrlCandidate = state => state.storyImport.importFromUrlCandidate
  */
 export const selector = createStructuredSelector({
   activeStory,
+  activeStoryId,
   importCandidate,
   importError,
   importStatus,
   importFromUrlCandidate,
-  password,
-  fetchStoryLog,
-  fetchStoryLogStatus,
-  saveStoryLog,
-  saveStoryLogStatus,
-  loginStoryLog,
-  loginStoryLogStatus,
-
   storiesList,
   promptedToDeleteId,
+  password,
+  isPasswordModalOpen,
+  notAuthStoryId,
+  storyToasterLog,
+  storyToasterLogStatus,
+  loginStoryLog,
+  loginStoryLogStatus,
+  createStoryLog,
+  createStoryLogStatus,
 });
 
