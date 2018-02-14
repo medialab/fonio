@@ -1,4 +1,5 @@
 {
+  "maxSectionLevel": 6,
   "timers": {
     "nano": 10,
     "short": 100,

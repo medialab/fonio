@@ -113,11 +113,12 @@ class SectionsManagerContainer extends Component {
    */
   createSubSection(section, index) {
     const {
-      activeStoryId
+      activeStoryId,
+      selectedSectionLevel
     } = this.props;
 
     let newLevel = section.metadata.level + 1;
-    newLevel = newLevel > 5 ? 5 : newLevel;
+    newLevel = newLevel > selectedSectionLevel ? selectedSectionLevel : newLevel;
     // create section
     const id = uuid();
     const defaultSection = createDefaultSection();

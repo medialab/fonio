@@ -137,6 +137,7 @@ class SectionCard extends Component {
     } = this;
     const {
       metadata,
+      selectedSectionLevel,
       onConfigure,
       onUpdateMetadata,
       onSelect,
@@ -195,7 +196,7 @@ class SectionCard extends Component {
     const onLevelUp = e => {
       e.stopPropagation();
       let level = metadata.level || 0;
-      level = level < 5 ? level + 1 : level;
+      level = level < parseInt(selectedSectionLevel, 10) ? level + 1 : level;
       onUpdateMetadata({
         ...metadata,
         level
@@ -230,16 +231,20 @@ class SectionCard extends Component {
           <button className="level-down-btn" onClick={onLevelDown}>
             ◄
           </button>
-          <button className="level-up-btn" onClick={onLevelUp}>
-            ►
-          </button>
-          <button className={'subsection-btn '} onClick={onCreateSubSection}>
-            <img
-              src={require('../../sharedAssets/close-black.svg')}
-              className="fonio-icon-image"
-              style={{transform: 'rotate(45deg)'}} />
-            {translate('sub-section')}
-          </button>
+          {metadata.level < selectedSectionLevel &&
+            <button className="level-up-btn" onClick={onLevelUp}>
+              ►
+            </button>
+          }
+          {metadata.level < selectedSectionLevel &&
+            <button className={'subsection-btn '} onClick={onCreateSubSection}>
+              <img
+                src={require('../../sharedAssets/close-black.svg')}
+                className="fonio-icon-image"
+                style={{transform: 'rotate(45deg)'}} />
+              {translate('sub-section')}
+            </button>
+          }
           <button className="settings-btn" onClick={onConfigureClick}>
             <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
             {translate('settings')}
