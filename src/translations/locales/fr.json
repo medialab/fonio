@@ -135,7 +135,6 @@
   "Features.StoriesManager.about-forccast": "Fonio est développé dans le cadre du projet FORCCAST, un ensemble d'expérimentations pédagogiques en cartographie des controverses, une approche novatrice des problématiques socio-techniques via la simulation et l'étude des discours sur le web.",
   "Features.StoriesManager.about-medialab": "Fonio est développé par le médialab, un centre de recherche qui vise à connecter les sciences sociales avec de nouvelles méthodes et outils numériques.",
   "Features.StoriesManager.start-a-new-story": "commencer un nouveau récit",
-  "Features.StoriesManager.maximum-stories-reached": "vous avez atteint le nombre maximum de récits pouvant être stockés sur le navigateur, faites de la place si vous voulez en démarrer un nouveau !",
   "Features.StoriesManager.or-continue-locally-stored-story": "... ou continuer un récit stocké dans le navigateur",
   "Features.StoriesManager.import-project-from-computer": "... ou importer un projet depuis votre ordinateur",
   "Features.StoriesManager.drop-a-json-file-here": "déposer un fichier .json dans cette zone",

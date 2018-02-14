@@ -135,7 +135,6 @@
   "Features.StoriesManager.about-forccast": "Fonio is made in the frame of the FORCCAST project, a series of pedagogical experiments about the cartography of controversies, a new approach to socio-technical issues through simulation and web analysis.",
   "Features.StoriesManager.about-medialab": "Fonio was built at médialab, a research center aiming at connecting social sciences to new digital tools and methods.",
   "Features.StoriesManager.start-a-new-story": "start a new story",
-  "Features.StoriesManager.maximum-stories-reached": "you have reached the maximum number of stories that can be stored on your browser, make some space if you want to create a new one !",
   "Features.StoriesManager.or-continue-locally-stored-story": "... or continue with a browser-stored story",
   "Features.StoriesManager.import-project-from-computer": "... or import a project from your computer",
   "Features.StoriesManager.drop-a-json-file-here": "drop a .json file here",
