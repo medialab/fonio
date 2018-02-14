@@ -4,6 +4,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 
 import {DragDropContext} from 'react-dnd';
@@ -24,7 +25,6 @@ import AsideToggler from '../../../components/AsideToggler/AsideToggler.js';
  */
 const AsideViewLayout = ({
   activeStory,
-  returnToLanding,
   openSettings,
   activeStoryId,
   asideUiMode,
@@ -46,7 +46,9 @@ const AsideViewLayout = ({
   ];
   return (<aside className="fonio-AsideViewLayout">
     <div className="aside-header">
-      <button className="returnToLanding-btn" onClick={returnToLanding} type="button"><span className="fonio-icon">☰</span> {translate('back-to-home')}</button>
+      <Link to="/">
+        <button className="returnToLanding-btn" type="button"><span className="fonio-icon">☰</span> {translate('back-to-home')}</button>
+      </Link>
       <button
         className="settings-btn"
         onClick={openSettings}

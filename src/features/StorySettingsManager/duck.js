@@ -211,13 +211,13 @@ function settingsManagerUi (state = SETTINGS_MANAGER_UI_DEFAULT_STATE, action) {
         settingsVisible: action.visible,
       };
     // handling xhr requests ui representation
-    case FETCH_CITATION_STYLES_LIST:
-    case FETCH_CITATION_LOCALES_LIST:
-    case FETCH_CITATION_LOCALE:
-    case FETCH_CITATION_STYLE:
+    case FETCH_CITATION_STYLES_LIST + '_PENDING':
+    case FETCH_CITATION_LOCALES_LIST + '_PENDING':
+    case FETCH_CITATION_LOCALE + '_PENDING':
+    case FETCH_CITATION_STYLE + '_PENDING':
       return {
         ...state,
-        xhrStatus: 'loading'
+        xhrStatus: 'processing'
       };
     case FETCH_CITATION_STYLES_LIST + '_SUCCESS':
       return {

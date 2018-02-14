@@ -182,19 +182,20 @@ ResourceDataInput.contextTypes = {
  * @return {ReactElement} component - the component
  */
 const LoadingStateToaster = ({
-  loadingState
+  loadingState,
+  type
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.Editor');
   let log;
   switch (loadingState) {
     case 'processing':
-      log = translate('loading-resource-data');
+      log = type === 'loading' ? translate('loading-resource-data') : 'uploading resource';
       break;
     case 'success':
-      log = translate('loading-resource-data-success');
+      log = type === 'loading' ? translate('loading-resource-data-success') : 'resource uploaded';
       break;
     case 'fail':
-      log = translate('loading-resource-data-fail');
+      log = type === 'loading' ? translate('loading-resource-data-fail') : 'resource cannot uploaded';
       break;
     default:
       break;
@@ -224,6 +225,7 @@ const ResourceConfigurationDialog = ({
   resourceCandidateType,
   setResourceCandidateType,
   resourceDataLoadingState,
+  resourceUploadingState,
   setResourceCandidateMetadataValue,
   submitResourceData,
   onClose,
@@ -347,7 +349,8 @@ const ResourceConfigurationDialog = ({
                   type={resourceCandidateType}
                   resourceCandidate={resourceCandidate}
                   submitResourceData={submitResourceData} />
-                <LoadingStateToaster loadingState={resourceDataLoadingState} />
+                <LoadingStateToaster loadingState={resourceDataLoadingState} type={'loading'} />
+                <LoadingStateToaster loadingState={resourceUploadingState} type={'uploading'} />
               </div>
               {
                 resourceCandidate.data && resourceCandidate.metadata.type !== 'glossary' ?
@@ -413,6 +416,7 @@ const ResourceConfigurationDialog = ({
                       value={resourceCandidate.metadata.description} />
                   </div>
                 </div>
+
               </form>
             </section>
           :

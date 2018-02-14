@@ -1,10 +1,10 @@
 {
-  "maxNumberOfLocalStories": 5,
   "maxSectionLevel": 6,
   "timers": {
     "nano": 10,
     "short": 100,
     "medium": 300,
+    "long": 1000,
     "veryLong": 2000,
     "ultraLong": 5000
   }

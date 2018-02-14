@@ -23,7 +23,75 @@ html
 
     width: 100%;
     height: 100%;
+
+    font-family: $main-font-stack;
+    font-size: $font-size-2;
+
+
+    @extend .flex-stretched-column;
+    @extend .normal-item;
+    /*
+     * Generic components styling
+     */
+    input,
+    textarea,
+    button
+    {
+        @extend .animated;
+    }
+    a,
+    a:hover,
+    a:visited,
+    a:active
+    {
+        color: inherit;
+    }
+    input,
+    textarea
+    {
+        font-family: $editable-font-stack;
+    }
+    button,
+    input,
+    textarea
+    {
+        // font-size: 1rem;
+        border: none;
+        outline: none;
+        background: inherit;
+    }
+    button:hover,
+    input:hover,
+    textarea:hover,
+    input:focus,
+    textarea:focus
+    {
+        cursor: pointer;
+
+        background: $background-intent;
+    }
+    button
+    {
+        text-align: left;
+    }
+    input
+    {
+        padding: $gutter-medium;
+    }
+
+    .fonio-icon-image
+    {
+        position: relative;
+        top: $gutter-small;
+
+        display: inline;
+
+        width: $font-size-2-5;
+        height: $font-size-2-5;
+        padding-right: $gutter-small;
+    }
 }
+
 
 /*
  * Responsive layout adjustments
@@ -115,4 +183,45 @@ html
             padding: 0;
         }
     }
+
+    .input-group
+    {
+        display: flex;
+        flex-flow: column nowrap;
+        &:not(:last-of-type)
+        {
+            margin-bottom: $gutter-medium;
+        }
+        label
+        {
+            margin-bottom: $gutter-small;
+        }
+    }
+    input[type='text'],
+    input[type='password'],
+    textarea
+    {
+        font-family: $editable-font-stack;
+        font-size: $font-size-2;
+
+        padding: $gutter-medium;
+
+        resize: none;
+        cursor: text;
+
+        border: none;
+        outline: none;
+
+        @extend .animated;
+        @extend .interactive-item;
+        &:hover
+        {
+            @extend .interactive-item-intent;
+        }
+        &:focus
+        {
+            @extend .interactive-item-active;
+        }
+    }
+
 }

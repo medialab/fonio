@@ -199,7 +199,10 @@ export function inferMetadata(data, assetType) {
         title.pop();
         title = title.join('.');
       }
-      return {title};
+      return {
+        title,
+        mime: data && data.file && data.file.type
+      };
     case 'embed':
     default:
       return {};

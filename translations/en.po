@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2017-11-22\n"
-"PO-Revision-Date: Wed Nov 22 2017 17:00:31 GMT+0100 (CET)\n"
+"POT-Creation-Date: 2018-2-11\n"
+"PO-Revision-Date: Sun Feb 11 2018 23:41:14 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -607,3 +607,6 @@ msgstr "all types"
 
 msgid "Features.ResourcesManager.resource-type"
 msgstr "resource type"
+
+msgid "Components.StoryCard.read"
+msgstr "read"

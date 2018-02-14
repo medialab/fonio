@@ -6,6 +6,8 @@
  * (ACTION_NAME when started, then ACTION_NAME_SUCCESS or ACTION_NAME_FAIL depending on promise outcome)
  */
 
+import config from '../../config';
+const {timers} = config;
 
 export default () => ({dispatch, getState}) => (next) => (action) => {
   // If the action is a function, execute it
@@ -21,21 +23,23 @@ export default () => ({dispatch, getState}) => (next) => (action) => {
     return next(action);
   }
   // build constants that will be used to dispatch actions
-  const REQUEST = type;
-  const SUCCESS = REQUEST + '_SUCCESS';
-  const FAIL = REQUEST + '_FAIL';
+  const REQUEST = type + '_PENDING';
+  const SUCCESS = type + '_SUCCESS';
+  const FAIL = type + '_FAIL';
+  const RESET = type + '_RESET';
 
   // Trigger the action once to dispatch
   // the fact promise is starting resolving (for loading indication for instance)
   next({...rest, type: REQUEST});
   // resolve promise
   return promise(dispatch, getState).then(
-      (result) => {
-        // success -> dispatch action name + '_SUCCESS', promise result wrapped
-        // in a 'result' action's prop
-        next({...rest, result, type: SUCCESS});
-        return true;
-      }
-    // error --> dispatch action name + '_FAIL'
-    ).catch((error) => next({...rest, ...error, errorMessage: error, type: FAIL}));
+    (result) => {
+      setTimeout(() =>
+        next({...rest, type: RESET})
+      , timers.long);
+      return next({...rest, result, type: SUCCESS});
+    },
+    (error) => next({...rest, error, type: FAIL})
+  );
+
 };

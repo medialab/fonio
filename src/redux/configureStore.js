@@ -11,6 +11,7 @@ import {
 import rootReducer from './rootReducer';
 import promiseMiddleware from './promiseMiddleware';
 import {persistentStore} from 'redux-pouchdb';
+import {loadingBarMiddleware} from 'react-redux-loading-bar';
 
 const PouchDB = require('pouchdb').default;
 const db = new PouchDB('fonio');
@@ -23,7 +24,10 @@ const db = new PouchDB('fonio');
 export default function configureStore (initialState = {}) {
   // Compose final middleware with thunk and promises handling
   const middleware = applyMiddleware(
-    promiseMiddleware()
+    promiseMiddleware(),
+    loadingBarMiddleware({
+      promiseTypeSuffixes: ['PENDING', 'SUCCESS', 'FAIL'],
+    })
   );
 
   // Create final store and subscribe router in debug env ie. for devtools

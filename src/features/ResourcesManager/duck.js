@@ -9,9 +9,6 @@ import {createStructuredSelector} from 'reselect';
 import {persistentReducer} from 'redux-pouchdb';
 import {csvParse} from 'd3-dsv';
 
-import config from '../../../config';
-const {timers} = config;
-
 import {
   fileIsAnImage,
   inferMetadata,
@@ -24,6 +21,8 @@ import {
 import {
   getFileAsText
 } from '../../helpers/fileLoader';
+
+import {fetchResourcesServer, uploadResourceServer, deleteResourceServer} from '../../helpers/serverExporter';
 
 import {
   youtubeAPIKey
@@ -65,6 +64,10 @@ const SUBMIT_RESOURCE_DATA = '§Fonio/ResourcesManager/SUBMIT_RESOURCE_DATA';
 export const CREATE_RESOURCE = '§Fonio/ResourcesManager/CREATE_RESOURCE';
 export const DELETE_RESOURCE = '§Fonio/ResourcesManager/DELETE_RESOURCE';
 export const UPDATE_RESOURCE = '§Fonio/ResourcesManager/UPDATE_RESOURCE';
+
+export const FETCH_RESOURCES = '§Fonio/ResourcesManager/FETCH_RESOURCES';
+export const UPLOAD_RESOURCE_REMOTE = '§Fonio/ResourcesManager/UPLOAD_RESOURCE_REMOTE';
+export const DELETE_RESOURCE_REMOTE = '§Fonio/ResourcesManager/DELETE_RESOURCE_REMOTE';
 
 
 /**
@@ -153,18 +156,13 @@ export const setResourceCandidateMetadataValue = (key, value) => ({
  */
 export const submitResourceData = (type, data, existingData) => ({
   type: SUBMIT_RESOURCE_DATA,
-  promise: (dispatch) => {
+  promise: () => {
     return new Promise((resolve, reject) => {
       switch (type) {
         // case csv file --> get file as text and parse it as csv
         // to produce a js array representation
         case 'csvFile':
           return getFileAsText(data, (err, str) => {
-            setTimeout(() => {
-              dispatch({
-                type: SUBMIT_RESOURCE_DATA + '_RESET'
-                });
-              }, timers.veryLong);
             try {
               const structuredData = csvParse(str);
               resolve(structuredData);
@@ -178,11 +176,6 @@ export const submitResourceData = (type, data, existingData) => ({
           let file;
           return fileIsAnImage(data)
             .then(fileF => {
-              setTimeout(() => {
-                dispatch({
-                  type: SUBMIT_RESOURCE_DATA + '_RESET'
-                });
-              }, timers.veryLong);
               return fileF;
             })
             .then(fileI => {
@@ -190,20 +183,10 @@ export const submitResourceData = (type, data, existingData) => ({
               return loadImage(fileI);
             })
             .then((base64) => {
-              setTimeout(() => {
-                dispatch({
-                  type: SUBMIT_RESOURCE_DATA + '_RESET'
-                });
-              }, timers.veryLong);
               resolve({base64, file});
             })
             .catch(e => {
               reject(e);
-              setTimeout(() => {
-                dispatch({
-                  type: SUBMIT_RESOURCE_DATA + '_RESET'
-                });
-              }, timers.veryLong);
             });
         // case video url (youtube or vimeo) --> retrieve
         // metadata from service api and save embed url
@@ -211,11 +194,6 @@ export const submitResourceData = (type, data, existingData) => ({
           return videoUrlIsValid(data)
             .then(() => retrieveMediaMetadata(data, {youtubeAPIKey}))
             .then((info) => {
-              setTimeout(() => {
-              dispatch({
-                type: SUBMIT_RESOURCE_DATA + '_RESET'
-                });
-              }, timers.veryLong);
               return resolve(info);
             })
             .catch(e => reject(e));
@@ -223,11 +201,6 @@ export const submitResourceData = (type, data, existingData) => ({
         // --> get as text and convert to a json representation
         case 'dataPresentationFile':
           return getFileAsText(data, (err, str) => {
-            setTimeout(() => {
-              dispatch({
-                type: SUBMIT_RESOURCE_DATA + '_RESET'
-                });
-              }, timers.veryLong);
             try {
               const structuredData = JSON.parse(str);
               // todo: add a presentation validation hook here
@@ -244,11 +217,6 @@ export const submitResourceData = (type, data, existingData) => ({
         case 'bibTeXFile':
           return getFileAsText(data, (err, str) => {
             const csl = parseBibTeXToCSLJSON(str);
-            setTimeout(() => {
-              dispatch({
-                type: SUBMIT_RESOURCE_DATA + '_RESET'
-                });
-              }, timers.veryLong);
             resolve(csl);
           });
         // case csl-json --> use as is
@@ -323,6 +291,51 @@ export const createResource = (storyId, id, resource) => ({
 });
 
 /**
+ * Fetch all resources for story
+ * @param {string} storyId - the id of the story to create the resource in
+ * @return {object} action - the redux action to dispatch
+ */
+export const fetchResources = (storyId) => ({
+  type: FETCH_RESOURCES,
+  storyId,
+  promise: () => {
+    return fetchResourcesServer(storyId);
+  }
+});
+
+/**
+ * upload resource to server
+ * @param {string} storyId - the id of the story to create the resource in
+ * @param {string} id - the id of the resource
+ * @param {object} resource - the data of the resource to create
+ * @return {object} action - the redux action to dispatch
+ */
+export const uploadResourceRemote = (storyId, id, resource, token) => ({
+  type: UPLOAD_RESOURCE_REMOTE,
+  storyId,
+  id,
+  resource,
+  promise: () => {
+    return uploadResourceServer(storyId, id, resource, token);
+  }
+});
+
+/**
+ * Deletes a resource in a given story
+ * @param {string} storyId - the id of the story in which the resource to delete is
+ * @param {string} id - id of the resource to delete
+ * @return {object} action - the redux action to dispatch
+ */
+export const deleteResourceRemote = (storyId, resource, token) => ({
+  type: DELETE_RESOURCE_REMOTE,
+  id: resource.metadata.id,
+  storyId,
+  promise: () => {
+    return deleteResourceServer(storyId, resource, token);
+  }
+});
+
+/**
  * Deletes a resource in a given story
  * @param {string} storyId - the id of the story in which the resource to delete is
  * @param {string} id - id of the resource to delete
@@ -361,7 +374,8 @@ const emptyResourceMetadata = {
   type: undefined,
   title: '',
   description: '',
-  source: ''
+  source: '',
+  mime: ''
 };
 
 
@@ -408,6 +422,11 @@ const RESOURCES_UI_DEFAULT_STATE = {
    * status of the resource's data state
    */
   resourceDataLoadingState: undefined,
+
+  /**
+   * status of the resource's data state
+   */
+  resourceUploadingState: undefined,
 
   /**
    * Whether resources are prompted for a selection (e.g. embedding a resource in an editor)
@@ -485,7 +504,9 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
     case SET_RESOURCES_MODAL_STATE:
       return {
         ...state,
-        resourcesModalState: action.state
+        resourcesModalState: action.state,
+        resourceUploadingState: undefined,
+        resourceDataLoadingState: undefined
       };
     // a new resource is asked
     case START_NEW_RESOURCE_CONFIGURATION:
@@ -529,6 +550,23 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
         resourcesModalState: 'closed',
         resourceCandidateId: undefined
       };
+    case UPLOAD_RESOURCE_REMOTE + '_PENDING':
+      return {
+        ...state,
+        resourceUploadingState: 'pending',
+      };
+    case UPLOAD_RESOURCE_REMOTE + '_SUCCESS':
+      return {
+        ...state,
+        resourcesModalState: 'closed',
+        resourceUploadingState: 'success',
+        resourceCandidateId: undefined
+      };
+    case UPLOAD_RESOURCE_REMOTE + '_FAIL':
+      return {
+        ...state,
+        resourceUploadingState: 'fail'
+      };
     // a metadata property of the resource candidate is changed
     case SET_RESOURCE_CANDIDATE_METADATA_VALUE:
       return {
@@ -542,7 +580,7 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
         }
       };
     // new data is submitted for the resource candidate
-    case SUBMIT_RESOURCE_DATA:
+    case SUBMIT_RESOURCE_DATA + '_PENDING':
       return {
         ...state,
         resourceDataLoadingState: 'processing'
@@ -561,7 +599,7 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
       }, state.resourceCandidate.metadata);
       return {
         ...state,
-        resourceDataLoadingState: undefined,
+        resourceDataLoadingState: 'success',
         resourceCandidate: {
           ...state.resourceCandidate,
           metadata,
@@ -607,6 +645,7 @@ const resourcesModalState = (state) => state.resourcesUi && state.resourcesUi.re
 const resourceCandidate = (state) => state.resourcesUi && state.resourcesUi.resourceCandidate;
 const resourceCandidateId = (state) => state.resourcesUi && state.resourcesUi.resourceCandidateId;
 const resourceDataLoadingState = (state) => state.resourcesUi && state.resourcesUi.resourceDataLoadingState;
+const resourceUploadingState = (state) => state.resourcesUi && state.resourcesUi.resourceUploadingState;
 const resourceCandidateType = (state) => state.resourcesUi
                                       && state.resourcesUi.resourceCandidate
                                       && state.resourcesUi.resourceCandidate.metadata
@@ -624,6 +663,7 @@ export const selector = createStructuredSelector({
   resourceCandidateId,
   resourceCandidateType,
   resourceDataLoadingState,
+  resourceUploadingState,
   resourcesPrompted,
   insertionSelection
 });

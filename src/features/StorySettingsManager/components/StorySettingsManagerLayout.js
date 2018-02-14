@@ -159,7 +159,7 @@ const StorySettingsManagerLayout = ({
               searchable
               activeOptionId={activeCitationLocaleId || 'en-US'} />
             {xhrStatus &&
-              <Toaster status="processing" log={translate('loading')} />
+              <Toaster status={xhrStatus} log={translate('loading')} />
             }
           </section>
           <section className="settings-section">

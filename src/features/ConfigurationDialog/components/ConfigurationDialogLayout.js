@@ -8,9 +8,9 @@ import PropTypes from 'prop-types';
 import Textarea from 'react-textarea-autosize';
 
 import HelpPin from '../../../components/HelpPin/HelpPin';
-import DropZone from '../../../components/DropZone/DropZone';
+// import DropZone from '../../../components/DropZone/DropZone';
 import AuthorsManager from '../../../components/AuthorsManager/AuthorsManager';
-// import Toaster from '../../../components/Toaster/Toaster';
+import Toaster from '../../../components/Toaster/Toaster';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import './ConfigurationDialog.scss';
@@ -31,29 +31,70 @@ import './ConfigurationDialog.scss';
  * @return {ReactElement} markup
  */
 const ConfigurationDialogLayout = ({
+  activeStoryId,
   storyCandidate,
+  storyCandidatePassword,
+  createStoryLog,
+  createStoryLogStatus,
+  // coverImageLoadingState,
+  formErrors,
+  showErrors,
+  // router props
+  history,
   actions: {
     setCandidateStoryMetadata,
+    setCandidateStoryPassword,
+    validateStoryCandidateSettings,
+    submitStoryCandidateSettings,
     applyStoryCandidateConfiguration,
-    submitCoverImage
+    // submitCoverImage,
+    createStory
   },
   closeStoryCandidate,
 }, context) => {
   // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.ConfigurationDialog');
-
   /**
    * Callbacks
    */
   const onApplyChange = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    applyStoryCandidateConfiguration(storyCandidate);
+    submitStoryCandidateSettings();
+    if (activeStoryId) {
+      if (formErrors.authors || formErrors.title)
+        return;
+      applyStoryCandidateConfiguration(storyCandidate);
+    }
+    else {
+      if (formErrors.password || formErrors.authors || formErrors.title)
+        return;
+      createStory(storyCandidate, storyCandidatePassword)
+      .then((res) => {
+        if (res.result) {
+          const {story} = res.result;
+          applyStoryCandidateConfiguration(story);
+          history.push({
+            pathname: `/story/${story.id}/edit`
+          });
+        }
+      });
+    }
   };
-  const setStoryTitle = (e) => setCandidateStoryMetadata('title', e.target.value);
-  const setStoryAuthors = authors => setCandidateStoryMetadata('authors', authors);
+  const onPasswordChange = (e) => {
+    setCandidateStoryPassword(e.target.value);
+    validateStoryCandidateSettings('password', e.target.value);
+  };
+  const setStoryTitle = (e) => {
+    setCandidateStoryMetadata('title', e.target.value);
+    validateStoryCandidateSettings('title', e.target.value);
+  };
+  const setStoryAuthors = authors => {
+    setCandidateStoryMetadata('authors', authors);
+    validateStoryCandidateSettings('authors', authors);
+  };
   const setStoryDescription = (e) => setCandidateStoryMetadata('description', e.target.value);
-  const onCoverSubmit = (files) => submitCoverImage(files[0]);
+  // const onCoverSubmit = (files) => submitCoverImage(files[0]);
   const preventSubmit = e => e.preventDefault();
 
   // todo this is temporary and should be replaced by a test
@@ -76,24 +117,40 @@ const ConfigurationDialogLayout = ({
             className="modal-columns-container">
             <div className="modal-column">
               <div className="input-group">
-                <label htmlFor="title">{translate('title-of-the-story')}</label>
+                <label htmlFor="title">{translate('title-of-the-story')}*</label>
                 <input
                   onChange={setStoryTitle}
                   type="text"
                   name="title"
                   placeholder={translate('title-of-the-story')}
                   value={storyCandidate.metadata.title || ''} />
+                {showErrors &&
+                  <Toaster status={formErrors.title && 'failure'} log={formErrors.title} />
+                }
               </div>
-
+              {!storyBegan &&
+                <div className="input-group">
+                  <label htmlFor="password">password*</label>
+                  <input
+                    onChange={onPasswordChange}
+                    type="password"
+                    name="password"
+                    placeholder="password"
+                    value={storyCandidatePassword || ''} />
+                  {showErrors &&
+                    <Toaster status={formErrors.password && 'failure'} log={formErrors.password} />
+                  }
+                </div>
+              }
               <div className="input-group">
-                <label htmlFor="authors">{translate('authors-of-the-story')}</label>
+                <label htmlFor="authors">{translate('authors-of-the-story')}*</label>
                 <AuthorsManager
                   authors={storyCandidate.metadata.authors}
                   onChange={setStoryAuthors} />
+                {showErrors &&
+                  <Toaster status={formErrors.authors && 'failure'} log={formErrors.authors} />
+                }
               </div>
-            </div>
-
-            <div className="modal-column">
               <div className="input-group" style={{flex: 1}}>
                 <label htmlFor="description">{translate('description-of-the-story')}</label>
                 <Textarea
@@ -105,15 +162,17 @@ const ConfigurationDialogLayout = ({
                   value={storyCandidate.metadata.description || ''} />
               </div>
             </div>
+            <Toaster status={createStoryLogStatus} log={createStoryLog} />
           </form>
         </section>
-        <section className="modal-row">
+        {/*<section className="modal-row">
           <h2>{translate('story-cover')}
             <HelpPin>
               {translate('story-cover-help')}
             </HelpPin>
           </h2>
           <div className="modal-columns-container">
+            <Toaster status={coverImageLoadingState} log="loading" />
             <div className="modal-column">
               <DropZone
                 onDrop={onCoverSubmit}>
@@ -131,15 +190,16 @@ const ConfigurationDialogLayout = ({
               : null
             }
           </div>
-        </section>
+        </section>*/}
       </section>
       <section className="modal-footer">
         {
           storyCandidate
         ?
           <button
-            className="valid-btn"
-            onClick={onApplyChange}>{storyBegan /* todo : change to test if story is began */ ? translate('apply-changes-and-continue-story-edition') : translate('start-to-edit-this-story')}</button>
+            onClick={onApplyChange}
+            className="valid-btn">{storyBegan /* todo : change to test if story is began */ ? translate('apply-changes-and-continue-story-edition') : translate('start-to-edit-this-story')}
+          </button>
         : ''
       }
         <button

@@ -29,37 +29,6 @@
 
     @extend .flex-stretched-column;
     @extend .normal-item;
-    /*
-     * secondary layout components
-     */
-    .story-editor-container
-    {
-        flex: 1;
-
-        @extend .flex-stretched-column;
-    }
-    .fonio-main-row
-    {
-        position: relative;
-
-        display: flex;
-        flex: 10;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        .fonio-AsideViewLayout
-        {
-            // min-width: 16.6%;
-            flex: 1;
-        }
-        .fonio-story-editor
-        {
-            flex: 5;
-        }
-    }
-    .fonio-Footer
-    {
-        z-index: 1;
-    }
 
     /*
      * Generic components styling

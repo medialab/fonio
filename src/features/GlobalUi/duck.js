@@ -13,6 +13,11 @@ import {persistentReducer} from 'redux-pouchdb';
 /*
  * Action names
  */
+import {
+  IMPORT_SUCCESS,
+  COPY_STORY
+} from '../StoriesManager/duck';
+
 export const RESET_APP = 'RESET_APP';
 /*
  * actions related to global stories management in ui
@@ -123,7 +128,6 @@ export const setAsideUiMode = (mode = 'sections') => ({
   mode
 });
 
-
 /**
  * Default/fallback state of the global ui state
  */
@@ -141,11 +145,6 @@ const GLOBAL_UI_DEFAULT_STATE = {
      */
     takeAwayModalOpen: false,
 
-    /**
-     * Represents  the uuid of the story being edited
-     * @type {string}
-     */
-    activeStoryId: undefined,
 
     /**
      * Represents whether settings are visible for selected slide
@@ -176,31 +175,24 @@ function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
   switch (action.type) {
     // cases ui is reset
     case RESET_APP:
+    case UNSET_ACTIVE_STORY:
       return GLOBAL_UI_DEFAULT_STATE;
     // case configuration is closed and new story is set
     case APPLY_STORY_CANDIDATE_CONFIGURATION:
       return {
         ...state,
         storyCandidateModalOpen: false,
-        activeStoryId: action.story.id,
-      };
-    // case user select a story to edit
-    case SET_ACTIVE_STORY:
-      return {
-        ...state,
-        activeStoryId: action.story.id,
         uiMode: 'edition'
-      };
-    // case user unset the story to edit
-    // (should fallback to the home view in components)
-    case UNSET_ACTIVE_STORY:
-      return {
-        ...state,
-        activeStoryId: undefined,
       };
     // case story configuration is opened
     case START_STORY_CANDIDATE_CONFIGURATION:
     case OPEN_STORY_CANDIDATE_MODAL:
+      return {
+        ...state,
+        storyCandidateModalOpen: true
+      };
+    case IMPORT_SUCCESS:
+    case COPY_STORY + '_SUCCESS':
       return {
         ...state,
         storyCandidateModalOpen: true
@@ -252,10 +244,8 @@ export default combineReducers({
 /**
  * Selectors related to global ui
  */
-const activeStoryId = state => state.globalUi.activeStoryId;
 const isStoryCandidateModalOpen = state => state.globalUi.storyCandidateModalOpen;
 const isTakeAwayModalOpen = state => state.globalUi.takeAwayModalOpen;
-const slideSettingsPannelState = state => state.globalUi.slideSettingsPannelState;
 const globalUiMode = state => state.globalUi.uiMode;
 const asideUiMode = state => state.globalUi.asideUiMode;
 
@@ -264,10 +254,8 @@ const asideUiMode = state => state.globalUi.asideUiMode;
  * @type {object}
  */
 export const selector = createStructuredSelector({
-  activeStoryId,
   globalUiMode,
   asideUiMode,
   isStoryCandidateModalOpen,
   isTakeAwayModalOpen,
-  slideSettingsPannelState,
 });

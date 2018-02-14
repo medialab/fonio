@@ -48,9 +48,7 @@ const EditorLayout = ({
   editorStates,
   editorFocus,
   assetRequestState,
-
   // actions
-  returnToLanding,
   actions: {
     promptAssetEmbed,
     unpromptAssetEmbed,
@@ -95,8 +93,7 @@ const EditorLayout = ({
         asideUiMode={assetRequestState.assetRequested ? 'resources' : asideUiMode}
         hideNav={assetRequestState.assetRequested === true}
         setAsideUiMode={setAsideUiMode}
-        closeAndResetDialog={closeAndResetDialog}
-        returnToLanding={returnToLanding} />
+        closeAndResetDialog={closeAndResetDialog} />
       {activeSection ?
         <SectionEditor
           activeSection={activeSection}

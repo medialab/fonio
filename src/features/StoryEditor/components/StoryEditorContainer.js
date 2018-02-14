@@ -102,7 +102,6 @@ class EditorContainer extends Component {
   constructor(props) {
     super(props);
     this.closeAndResetDialog = this.closeAndResetDialog.bind(this);
-    this.returnToLanding = this.returnToLanding.bind(this);
     this.openSettings = this.openSettings.bind(this);
 
     this.createNewSection = this.createNewSection.bind(this);
@@ -129,16 +128,6 @@ class EditorContainer extends Component {
     this.props.actions.resetStoryCandidateSettings();
     this.props.actions.closeStoryCandidateModal();
   }
-
-
-  /**
-   * Unset active story and therefore fallback
-   * to dashboard view.
-   */
-  returnToLanding() {
-    this.props.actions.unsetActiveStory();
-  }
-
 
   /**
    * Opens active story settings
@@ -267,7 +256,6 @@ class EditorContainer extends Component {
         {...this.props}
         openSettings={this.openSettings}
         closeAndResetDialog={this.closeAndResetDialog}
-        returnToLanding={this.returnToLanding}
         onCreateNewSection={this.createNewSection}
         summonAsset={this.summonAsset} />
     );

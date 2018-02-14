@@ -30,12 +30,12 @@
 
     &.processing
     {
-        @extend .important-item;
+        @extend .important-item-inactive;
     }
 
     &.success
     {
-        @extend .important-item-inactive;
+        @extend .important-item;
     }
 
     &.error,

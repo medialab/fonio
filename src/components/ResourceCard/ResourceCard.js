@@ -138,6 +138,7 @@ class ResourceCard extends Component {
       metadata,
       onDelete,
       onConfigure,
+      onSetCoverImage,
       selectMode,
       onSelect,
 
@@ -162,6 +163,11 @@ class ResourceCard extends Component {
     const onConfigureClick = e => {
       e.stopPropagation();
       onConfigure();
+    };
+
+    const onSetCoverClick = e => {
+      e.stopPropagation();
+      onSetCoverImage();
     };
 
     const onMDown = () => {
@@ -240,6 +246,13 @@ class ResourceCard extends Component {
             <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
             {translate('delete')}
           </button>
+          {
+            metadata.type === 'image' &&
+            <button className="coverimage-btn" onClick={onSetCoverClick}>
+              <img src="" className="fonio-icon-image" />
+              set as cover
+            </button>
+          }
         </div>
       </li>
     )));

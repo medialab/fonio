@@ -7,21 +7,24 @@
 
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
-import {persistentReducer} from 'redux-pouchdb';
+// import {persistentReducer} from 'redux-pouchdb';
 import {v4 as uuid} from 'uuid';
 
-import {serverUrl} from '../../../secrets';
+import {loginToServer, resetPasswordServer} from '../../helpers/serverAuth';
+import {fetchStoriesServer, createStoryServer, saveStoryServer, getStoryServer, getStoryBundleServer, deleteStoryServer} from '../../helpers/serverExporter';
+
 import config from '../../../config';
 const {timers} = config;
+
+import {serverUrl} from '../../../secrets';
 
 /*
  * Action names
  */
 import {
-  START_CANDIDATE_STORY_CONFIGURATION,
-  APPLY_STORY_CANDIDATE_CONFIGURATION,
   UNSET_ACTIVE_STORY,
-  SET_ACTIVE_STORY,
+  APPLY_STORY_CANDIDATE_CONFIGURATION,
+  CLOSE_STORY_CANDIDATE_MODAL,
 } from '../GlobalUi/duck';
 
 import {
@@ -37,7 +40,10 @@ import {
 import {
   CREATE_RESOURCE,
   DELETE_RESOURCE,
-  UPDATE_RESOURCE
+  UPDATE_RESOURCE,
+  FETCH_RESOURCES,
+  UPLOAD_RESOURCE_REMOTE,
+  DELETE_RESOURCE_REMOTE,
 } from '../ResourcesManager/duck';
 
 import {
@@ -49,7 +55,7 @@ import {
 
 import {
   EXPORT_TO_GIST,
-  EXPORT_TO_SERVER
+  EXPORT_STORY_BUNDLE
 } from '../TakeAwayDialog/duck';
 
 import {
@@ -60,10 +66,20 @@ import {
   FETCH_CITATION_LOCALE,
 } from '../StorySettingsManager/duck';
 
+const FETCH_ALL_STORIES = '§Fonio/StoriesManager/FETCH_ALL_STORIES';
+const FETCH_STORY = '§Fonio/StoriesManager/FETCH_STORY';
+const SAVE_STORY = '§Fonio/StoriesManager/SAVE_STORY';
 const CREATE_STORY = '§Fonio/StoriesManager/CREATE_STORY';
 const DELETE_STORY = '§Fonio/StoriesManager/DELETE_STORY';
+export const COPY_STORY = '§Fonio/StoriesManager/COPY_STORY';
+const LOGIN_STORY = '§Fonio/StoriesManager/LOGIN_STORY';
 const UPDATE_STORY = '§Fonio/StoriesManager/UPDATE_STORY';
-const COPY_STORY = '§Fonio/StoriesManager/COPY_STORY';
+
+const OPEN_PASSWORD_MODAL = '$Fonio/StoriesManager/OPEN_PASSWORD_MODAL';
+export const CLOSE_PASSWORD_MODAL = '$Fonio/StoriesManager/CLOSE_PASSWORD_MODAL';
+
+const ENTER_STORY_PASSWORD = '§Fonio/StoriesManager/ENTER_STORY_PASSWORD';
+const RESET_STORY_PASSWORD = '§Fonio/StoriesManager/RESET_STORY_PASSWORD';
 
 const PROMPT_DELETE_STORY = '§Fonio/StoriesManager/PROMPT_DELETE_STORY';
 const UNPROMPT_DELETE_STORY = '§Fonio/StoriesManager/UNPROMPT_DELETE_STORY';
@@ -71,7 +87,7 @@ const UNPROMPT_DELETE_STORY = '§Fonio/StoriesManager/UNPROMPT_DELETE_STORY';
 const IMPORT_ABORD = '§Fonio/StoriesManager/IMPORT_ABORD';
 const IMPORT_OVERRIDE_PROMPT = '§Fonio/StoriesManager/IMPORT_OVERRIDE_PROMPT';
 const IMPORT_FAIL = '§Fonio/StoriesManager/IMPORT_FAIL';
-const IMPORT_SUCCESS = '§Fonio/StoriesManager/IMPORT_SUCCESS';
+export const IMPORT_SUCCESS = '§Fonio/StoriesManager/IMPORT_SUCCESS';
 const IMPORT_RESET = '§Fonio/StoriesManager/IMPORT_RESET';
 const SET_IMPORT_FROM_URL_CANDIDATE = '§Fonio/StoriesManager/SET_IMPORT_FROM_URL_CANDIDATE';
 
@@ -80,17 +96,107 @@ const SET_IMPORT_FROM_URL_CANDIDATE = '§Fonio/StoriesManager/SET_IMPORT_FROM_UR
  */
 
 /**
- * Creates a new story, possibly setting it as active
- * @param {string} id - the uuid of the story to create
- * @param {object} story - the data of the story to create
- * @param {boolean} setActive - whether to set the story as active (edited) story in app
+ * fetch story list from server
+ */
+export const fetchAllStories = () => ({
+  type: FETCH_ALL_STORIES,
+  promise: () => {
+    return fetchStoriesServer();
+  }
+});
+
+/**
+ * fetch story (without resource data) from server
+ */
+export const fetchStory = (id) => ({
+  type: FETCH_STORY,
+  id,
+  promise: () => {
+    return getStoryServer(id);
+  }
+});
+
+/**
+ * TODO: implement auto save story on server
+ * save story on server
+ * @param {object} story - the story to export to the distant server
+ * @param {string} token
  * @return {object} action - the redux action to dispatch
  */
-export const createStory = (id, story, setActive = true) => ({
+export const saveStory = (story, token) => ({
+  type: SAVE_STORY,
+  id: story.id,
+  promise: () => {
+    const newResources = {};
+    if (story.resources) {
+      Object.keys(story.resources)
+      .map(key => story.resources[key].metadata)
+      .forEach(metadata => {
+        if (metadata.type === 'data-presentation' || metadata.type === 'table')
+          newResources[metadata.id] = {metadata};
+      });
+    }
+    const newStory = {
+      ...story,
+      resources: {
+        ...story.resources,
+        ...newResources
+      }
+    };
+    return saveStoryServer(newStory, token);
+  }
+});
+
+/**
+ * Handles the "reset story password to server" operation
+ * @param  id - the story id
+ * @param {string} password - story password
+ * @return {object} action - the redux action to dispatch
+ */
+export const resetStoryPassword = (id, password) => ({
+  type: RESET_STORY_PASSWORD,
+  id,
+  promise: () => {
+    return resetPasswordServer(id, password);
+  }
+});
+
+/**
+ * Creates a new story on server
+ * @param {object} story - the data of the story to create
+ * @param {string} password - story password
+ * @return {object} action - the redux action to dispatch
+ */
+
+export const createStory = (story, password) => ({
   type: CREATE_STORY,
   story,
-  setActive,
-  id
+  promise: () => {
+    const newResources = {};
+    Object.keys(story.resources)
+    .map(key => story.resources[key])
+    .forEach(resource => {
+      // add mimetype in resource.metadata
+      if (resource.metadata.type === 'image') {
+        const mime = resource.data.base64.substring('data:'.length, resource.data.base64.indexOf(';base64'));
+        newResources[resource.metadata.id] = {
+          ...resource,
+          metadata: {
+            ...resource.metadata,
+            mime
+          }
+        };
+      }
+    });
+    const newStory = {
+      ...story,
+      resources: {
+        ...story.resources,
+        ...newResources
+      }
+    };
+    return createStoryServer(newStory, password);
+  }
 });
 
 /**
@@ -98,9 +204,32 @@ export const createStory = (id, story, setActive = true) => ({
  * @param {object} story - the data of the story to copy
  * @return {object} action - the redux action to dispatch
  */
-export const copyStory = (story) => ({
+
+export const copyStory = (id) => ({
   type: COPY_STORY,
-  story
+  promise: () => {
+  return new Promise((resolve, reject) => {
+    return getStoryBundleServer(id, 'json')
+      .then((response) => {
+        const newId = uuid();
+        const newStory = {
+        // breaking references with existing
+        // resources/contextualizations/contents/... objects
+        // to avoid side effects on their references
+        // during a section of use
+        // todo: better way to do that ?
+        ...response,
+          id: newId,
+          metadata: {
+            ...response.metadata,
+            title: response.metadata.title + ' - copy'
+          }
+        };
+        resolve(newStory);
+      })
+      .catch((e) => reject(e));
+   });
+  }
 });
 
 /**
@@ -122,13 +251,17 @@ export const unpromptDeleteStory = () => ({
 });
 
 /**
- * Deletes a story
+ * Delete a story on server
  * @param {string} id - the uuid of the story to delete
+ * @param {string} token
  * @return {object} action - the redux action to dispatch
  */
-export const deleteStory = (id) => ({
+export const deleteStory = (id, token) => ({
   type: DELETE_STORY,
-  id
+  id,
+  promise: () => {
+    return deleteStoryServer(id, token);
+  }
 });
 
 /**
@@ -137,11 +270,57 @@ export const deleteStory = (id) => ({
  * @param {object} story - the data of the story to update
  * @return {object} action - the redux action to dispatch
  */
+
+/**
+ * TODO: implement auto update story from server
+ */
 export const updateStory = (id, story) => ({
   type: UPDATE_STORY,
   id,
   story
 });
+
+
+/**
+ * Opens the password modal view
+ * @return {object} action - the redux action to dispatch
+ */
+export const openPasswordModal = (id) => ({
+  type: OPEN_PASSWORD_MODAL,
+  id
+});
+
+/**
+ * close the password modal view
+ * @return {object} action - the redux action to dispatch
+ */
+export const closePasswordModal = () => ({
+  type: CLOSE_PASSWORD_MODAL
+});
+
+/**
+ * enter password
+ * @param {string} password
+ * @return {object} action - the redux action to dispatch
+ */
+export const enterPassword = (password) => ({
+  type: ENTER_STORY_PASSWORD,
+  password
+});
+
+/**
+ * login story when token is not valid
+ * @param {object} story - the story credential to the distant server
+ * @return {object} action - the redux action to dispatch
+ */
+export const loginStory = (id, password) => ({
+  type: LOGIN_STORY,
+  id,
+  promise: () => {
+    return loginToServer(id, password);
+  }
+});
+
 
 /**
  * Reset the import process ui representation
@@ -220,10 +399,10 @@ const STORIES_DEFAULT_STATE = {
   stories: {},
 
   /**
-   * Representation of the id of the story being edited in editor
-   * @type {string}
+   * Representation of the the story being edited in editor
+   * @type {object}
    */
-  activeStoryId: undefined
+  activeStory: undefined
 };
 
 /**
@@ -234,64 +413,41 @@ const STORIES_DEFAULT_STATE = {
  */
 function stories(state = STORIES_DEFAULT_STATE, action) {
   let newState;
-  let storyId;
   switch (action.type) {
-    // a story is updated from the changes
-    // made to story candidate
-    case APPLY_STORY_CANDIDATE_CONFIGURATION:
-      if (state.activeStoryId) {
-        // case update
-        return {
-          ...state,
-          stories: {
-            ...state.stories,
-            [action.story.id]: {
-              ...state.stories[action.story.id],
-              ...action.story
-            }
-          },
-          activeStoryId: action.story.id
-        };
-      }
-      else {
-        // case create
-        return {
-          ...state,
-          stories: {
-            ...state.stories,
-            [action.story.id]: action.story
-          },
-          activeStoryId: action.story.id
-        };
-      }
-    // the story to edit is changed
-    case SET_ACTIVE_STORY:
-      return {
-        ...state,
-        activeStoryId: action.story.id
-      };
-    // the story to edit is unset
     case UNSET_ACTIVE_STORY:
       return {
         ...state,
-        activeStoryId: undefined
+        activeStory: undefined
       };
-    // a story is created
-    case CREATE_STORY:
-      const id = action.id;
-      let story = {
-        ...action.story,
-        id
+    case FETCH_ALL_STORIES + '_SUCCESS':
+      return {
+        ...state,
+        stories: action.result
       };
+    case FETCH_STORY + '_SUCCESS':
+      return {
+        ...state,
+        activeStory: action.result
+      };
+    case CREATE_STORY + '_SUCCESS':
+      const {story} = action.result;
       return {
         ...state,
         stories: {
           ...state.stories,
-          [id]: story
+          [story.id]: story
+        }
+      };
+    case APPLY_STORY_CANDIDATE_CONFIGURATION:
+      return {
+        ...state,
+        activeStory: {
+          ...state.activeStory,
+          ...action.story
         }
       };
     // a story is deleted
-    case DELETE_STORY:
+    case DELETE_STORY + '_SUCCESS':
       newState = Object.assign({}, state);
       delete newState.stories[action.id];
       return newState;
@@ -300,47 +456,9 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case UPDATE_STORY:
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [action.id]: action.story
-        }
+        activeStory: action.story
       };
-    // a story is imported successfully
-    case IMPORT_SUCCESS:
-      story = action.data;
-      return {
-        ...state,
-        stories: {
-          ...state.stories,
-          [story.id]: {
-            ...story
-          }
-        }
-      };
-    // a story is duplicated to create a new one
-    case COPY_STORY:
-      const original = action.story;
-      const newId = uuid();
-      const newStory = {
-        // breaking references with existing
-        // resources/contextualizations/contents/... objects
-        // to avoid side effects on their references
-        // during a section of use
-        // todo: better way to do that ?
-        ...JSON.parse(JSON.stringify(original)),
-        id: newId,
-        metadata: {
-          ...original.metadata,
-          title: original.metadata.title + ' - copy'
-        }
-      };
-      return {
-        ...state,
-        stories: {
-          ...state.stories,
-          [newId]: newStory
-        }
-      };
+
     /*
      * SECTIONS-RELATED
      */
@@ -348,21 +466,18 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case CREATE_SECTION:
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [action.storyId]: {
-            ...state.stories[action.storyId],
-            sections: {
-              ...state.stories[action.storyId].sections,
-              [action.sectionId]: action.section
-            },
-            sectionsOrder: action.appendToSectionsOrder ?
-              [
-                ...state.stories[action.storyId].sectionsOrder,
-                action.sectionId
-              ]
-              : state.stories[action.storyId].sectionsOrder
-          }
+        activeStory: {
+          ...state.activeStory,
+          sections: {
+            ...state.activeStory.sections,
+            [action.sectionId]: action.section
+          },
+          sectionsOrder: action.appendToSectionsOrder ?
+            [
+              ...state.activeStory.sectionsOrder,
+              action.sectionId
+            ]
+            : state.activeStory.sectionsOrder
         }
       };
     // a section is updated by merging its content
@@ -370,27 +485,23 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case UPDATE_SECTION:
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [action.storyId]: {
-            ...state.stories[action.storyId],
-            sections: {
-              ...state.stories[action.storyId].sections,
-              [action.sectionId]: action.section
-            }
+        activeStory: {
+          ...state.activeStory,
+          sections: {
+            ...state.activeStory.sections,
+            [action.sectionId]: action.section
           }
         }
       };
     // a section is deleted
     case DELETE_SECTION:
       newState = {...state};
-      delete newState.stories[action.storyId].sections[action.sectionId];
-      // remove from sections order if applicable
-      if (newState.stories[action.storyId].sectionsOrder.indexOf(action.sectionId) > -1) {
-        const index = newState.stories[action.storyId].sectionsOrder.indexOf(action.sectionId);
-        newState.stories[action.storyId].sectionsOrder = [
-          ...newState.stories[action.storyId].sectionsOrder.slice(0, index),
-          ...newState.stories[action.storyId].sectionsOrder.slice(index + 1)
+      delete newState.activeStory.sections[action.sectionId];
+      if (newState.activeStory.sectionsOrder.indexOf(action.sectionId) > -1) {
+        const index = newState.activeStory.sectionsOrder.indexOf(action.sectionId);
+        newState.activeStory.sectionsOrder = [
+          ...newState.activeStory.sectionsOrder.slice(0, index),
+          ...newState.activeStory.sectionsOrder.slice(index + 1)
         ];
       }
       return newState;
@@ -398,41 +509,83 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case UPDATE_SECTIONS_ORDER:
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [action.storyId]: {
-            ...state.stories[action.storyId],
-            sectionsOrder: [...action.sectionsOrder]
-          }
+        activeStory: {
+          ...state.activeStory,
+          sectionsOrder: [...action.sectionsOrder]
         }
       };
     /*
      * RESOURCES-RELATED
      */
-    // CUD on resources
-    case UPDATE_RESOURCE:
-    case CREATE_RESOURCE:
-      storyId = action.storyId;
-      const {
-        id: resourceId,
-        resource
-      } = action;
+    case FETCH_RESOURCES + '_SUCCESS':
+      newState = {...state};
+      const newResources = {};
+      Object.keys(state.activeStory.resources)
+        .map(key => state.activeStory.resources[key])
+        .forEach(resource => {
+          if (action.result[resource.metadata.id]) {
+            newResources[resource.metadata.id] = {
+              ...resource,
+              data: action.result[resource.metadata.id]
+            };
+          }
+          // generate data.url to link to image addr on server
+          if (resource.metadata.type === 'image' && !resource.data) {
+            const ext = resource.metadata.mime.split('/')[1];
+            newResources[resource.metadata.id] = {
+              ...resource,
+              data: {
+                ...resource.data,
+                url: serverUrl + '/static/' + state.activeStory.id + '/resources/' + resource.metadata.id + '.' + ext
+              }
+            };
+          }
+        });
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [storyId]: {
-            ...state.stories[storyId],
-            resources: {
-              ...state.stories[storyId].resources,
-              [resourceId]: resource
-            }
+        activeStory: {
+          ...state.activeStory,
+          resources: {
+            ...state.activeStory.resources,
+            ...newResources
           }
         }
       };
+
+    // CUD on resources
+    case UPDATE_RESOURCE:
+    case CREATE_RESOURCE:
+    case UPLOAD_RESOURCE_REMOTE + '_SUCCESS':
+      const {
+        id: resourceId,
+        storyId,
+        resource
+      } = action;
+      let newResource = {...resource};
+      if (resource.metadata.type === 'image') {
+        const ext = resource.metadata.mime.split('/')[1];
+        newResource = {
+          ...resource,
+          data: {
+            url: serverUrl + '/static/' + storyId + '/resources/' + resourceId + '.' + ext
+          }
+        };
+      }
+      return {
+        ...state,
+        activeStory: {
+          ...state.activeStory,
+          resources: {
+            ...state.activeStory.resources,
+            [resourceId]: newResource
+          }
+        }
+      };
+    case DELETE_RESOURCE_REMOTE + '_SUCCESS':
     case DELETE_RESOURCE:
       newState = {...state};
-      delete newState.stories[action.storyId].resources[action.id];
+      // delete newState.stories[action.storyId].resources[action.id];
+      delete newState.activeStory.resources[action.id];
       // for now as the app does not allow to reuse the same contextualizer for several resources
       // we will delete associated contextualizers as well as associated contextualizations
       // (forseeing long edition sessions in which user create and delete a large number of contextualizations
@@ -444,20 +597,21 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       // we will store contextualizations id to delete here
       const contextualizationsToDeleteIds = [];
       // spot all objects to delete
-      Object.keys(newState.stories[action.storyId].contextualizations)
+      Object.keys(newState.activeStory.contextualizations)
         .forEach(contextualizationId => {
-          if (newState.stories[action.storyId].contextualizations[contextualizationId].resourceId === action.id) {
+          if (newState.activeStory.contextualizations[contextualizationId].resourceId === action.id) {
             contextualizationsToDeleteIds.push(contextualizationId);
-            contextualizersToDeleteIds.push(newState.stories[action.storyId].contextualizations[contextualizationId].contextualizerId);
+            contextualizersToDeleteIds.push(newState.activeStory.contextualizations[contextualizationId].contextualizerId);
           }
         });
       // proceed to deletions
       contextualizersToDeleteIds.forEach(contextualizerId => {
-        delete newState.stories[action.storyId].contextualizers[contextualizerId];
+        delete newState.activeStory.contextualizers[contextualizerId];
       });
       contextualizationsToDeleteIds.forEach(contextualizationId => {
-        delete newState.stories[action.storyId].contextualizations[contextualizationId];
+        delete newState.activeStory.contextualizations[contextualizationId];
       });
+
       return newState;
 
     /**
@@ -466,27 +620,23 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     // contextualizations CUD
     case UPDATE_CONTEXTUALIZATION:
     case CREATE_CONTEXTUALIZATION:
-      storyId = action.storyId;
       const {
         contextualizationId,
         contextualization
       } = action;
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [storyId]: {
-            ...state.stories[storyId],
-            contextualizations: {
-              ...state.stories[storyId].contextualizations,
-              [contextualizationId]: contextualization
-            }
+        activeStory: {
+          ...state.activeStory,
+          contextualizations: {
+            ...state.activeStory.contextualizations,
+            [contextualizationId]: contextualization
           }
         }
       };
     case DELETE_CONTEXTUALIZATION:
       newState = {...state};
-      delete newState.stories[action.storyId].contextualizations[action.contextualizationId];
+      delete newState.activeStory.contextualizations[action.contextualizationId];
       return newState;
 
     /**
@@ -495,27 +645,24 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     // contextualizers CUD
     case UPDATE_CONTEXTUALIZER:
     case CREATE_CONTEXTUALIZER:
-      storyId = action.storyId;
+      // storyId = action.storyId;
       const {
         contextualizerId,
         contextualizer
       } = action;
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [storyId]: {
-            ...state.stories[storyId],
-            contextualizers: {
-              ...state.stories[storyId].contextualizers,
-              [contextualizerId]: contextualizer
-            }
+        activeStory: {
+          ...state.activeStory,
+          contextualizers: {
+            ...state.activeStory.contextualizers,
+            [contextualizerId]: contextualizer
           }
         }
       };
     case DELETE_CONTEXTUALIZER:
       newState = {...state};
-      delete newState.stories[action.storyId].contextualizers[action.id];
+      delete newState.activeStory.contextualizers[action.id];
       return newState;
 
     /**
@@ -524,14 +671,11 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case UPDATE_STORY_METADATA_FIELD:
       return {
           ...state,
-          stories: {
-            ...state.stories,
-            [action.id]: {
-              ...state.stories[action.id],
-              metadata: {
-                ...state.stories[action.id].metadata,
-                [action.key]: action.value
-              }
+          activeStory: {
+            ...state.activeStory,
+            metadata: {
+              ...state.activeStory.metadata,
+              [action.key]: action.value
             }
           }
         };
@@ -539,113 +683,91 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case SET_STORY_CSS :
       return {
         ...state,
-          stories: {
-            ...state.stories,
-            [action.id]: {
-              ...state.stories[action.id],
-              settings: {
-                ...state.stories[action.id].settings,
-                css: action.css
-              }
-            }
+        activeStory: {
+          ...state.activeStory,
+          settings: {
+            ...state.activeStory.settings,
+            css: action.css
           }
+        }
+
       };
     // the template of a story is changed
     case SET_STORY_TEMPLATE :
       return {
         ...state,
-          stories: {
-            ...state.stories,
-            [action.id]: {
-              ...state.stories[action.id],
-              settings: {
-                ...state.stories[action.id].settings,
-                template: action.template
-              }
-            }
+        activeStory: {
+          ...state.activeStory,
+          settings: {
+            ...state.activeStory.settings,
+            template: action.template
           }
+        }
       };
     // an settings' option is changed
     // (options depend on the choosen template)
     case SET_STORY_SETTING_OPTION:
       return {
         ...state,
-          stories: {
-            ...state.stories,
-            [action.id]: {
-              ...state.stories[action.id],
-              settings: {
-                ...state.stories[action.id].settings,
-                options: {
-                  ...state.stories[action.id].settings.options,
-                  [action.field]: action.value,
-                }
-              }
+        activeStory: {
+          ...state.activeStory,
+          settings: {
+            ...state.activeStory.settings,
+            options: {
+              ...state.activeStory.settings.options,
+              [action.field]: action.value,
             }
           }
+        }
       };
     // fetching style to use for citations is loaded (citation style in xml/csl)
     case FETCH_CITATION_STYLE + '_SUCCESS':
       return {
         ...state,
-          stories: {
-            ...state.stories,
-            [action.result.storyId]: {
-              ...state.stories[action.result.storyId],
-              settings: {
-                ...state.stories[action.result.storyId].settings,
-                citationStyle: action.result.citationStyle,
-              }
-            }
+        activeStory: {
+          ...state.activeStory,
+          settings: {
+            ...state.activeStory.settings,
+            citationStyle: action.result.citationStyle,
           }
+        }
       };
     // fetching locale to use for citations is loaded (citation locale in xml)
     case FETCH_CITATION_LOCALE + '_SUCCESS':
       return {
         ...state,
-          stories: {
-            ...state.stories,
-            [action.result.storyId]: {
-              ...state.stories[action.result.storyId],
-              settings: {
-                ...state.stories[action.result.storyId].settings,
-                citationLocale: action.result.citationLocale,
-              }
-            }
+        activeStory: {
+          ...state.activeStory,
+          settings: {
+            ...state.activeStory.settings,
+            citationLocale: action.result.citationLocale,
           }
+        }
       };
     /*
      * EXPORT-RELATED
      */
-    case EXPORT_TO_GIST + '_SUCCESS':
+    case EXPORT_STORY_BUNDLE + '_SUCCESS':
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [state.activeStoryId]: {
-            ...state.stories[state.activeStoryId],
-            metadata: {
-              ...state.stories[state.activeStoryId].metadata,
-              // todo: should we wrap that in an object to be cleaner ?
-              gistUrl: action.result.gistUrl,
-              gistId: action.result.gistId
-            }
+        activeStory: {
+          ...state.activeStory,
+          metadata: {
+            ...state.activeStory.metadata,
+            serverHTMLUrl: serverUrl + '/static/' + state.activeStory.id
           }
         }
       };
-    case EXPORT_TO_SERVER + '_SUCCESS':
+    case EXPORT_TO_GIST + '_SUCCESS':
       return {
         ...state,
-        stories: {
-          ...state.stories,
-          [state.activeStoryId]: {
-            ...state.stories[state.activeStoryId],
-            metadata: {
-              ...state.stories[state.activeStoryId].metadata,
-              // todo: should we wrap that in an object to be cleaner ?
-              serverJSONUrl: serverUrl + '/stories/' + state.stories[state.activeStoryId].id,
-              serverHTMLUrl: serverUrl + '/stories/' + state.stories[state.activeStoryId].id + '?format=html'
-            }
+        activeStory: {
+          ...state.activeStory,
+          metadata: {
+            ...state.activeStory.metadata,
+            // todo: should we wrap that in an object to be cleaner ?
+            gistUrl: action.result.gistUrl,
+            gistId: action.result.gistId
           }
         }
       };
@@ -654,23 +776,140 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
   }
 }
 
+/**
+ * Default state for the auth of the story
+ */
+const STORY_AUTH_DEFAULT_STATE = {
+  /**
+   * Represents whether password modal is open
+   * @type {boolean}
+   */
+  passwordModalOpen: false,
+
+  /**
+   * password for login story
+   * @type {string}
+   */
+  password: '',
+
+  /**
+   * unauth story id
+   * @type {string}
+   */
+  notAuthStoryId: undefined
+};
+
+/**
+ * This redux reducer handles the modification of the auth state for story management
+ * @param {object} state - the state given to the reducer
+ * @param {object} action - the action to use to produce new state
+ * @return {object} newState - the new state
+ */
+function storyAuth(state = STORY_AUTH_DEFAULT_STATE, action) {
+  switch (action.type) {
+    case ENTER_STORY_PASSWORD:
+      return {
+        ...state,
+        password: action.password
+      };
+    case OPEN_PASSWORD_MODAL:
+      return {
+        ...state,
+        notAuthStoryId: action.id,
+        passwordModalOpen: true
+      };
+    case CLOSE_PASSWORD_MODAL:
+      return {
+        ...state,
+        password: undefined,
+        notAuthStoryId: undefined,
+        passwordModalOpen: false
+      };
+    case CREATE_STORY + '_SUCCESS':
+      const {story, token} = action.result;
+      localStorage.setItem(story.id, token);
+      return state;
+    case LOGIN_STORY + '_SUCCESS':
+      localStorage.setItem(action.id, action.result);
+      return {
+        ...state,
+        password: undefined,
+        notAuthStoryId: undefined,
+        passwordModalOpen: false
+      };
+    case DELETE_STORY + '_SUCCESS':
+      localStorage.removeItem(action.id);
+      return state;
+    case SAVE_STORY + '_FAIL':
+    case DELETE_STORY + '_FAIL':
+    case LOGIN_STORY + '_FAIL':
+    case UPLOAD_RESOURCE_REMOTE + '_FAIL':
+    case DELETE_RESOURCE_REMOTE + '_FAIL':
+      if (action.error.response && action.error.response.text) {
+        const error = JSON.parse(action.error.response.text);
+        if (error.auth === false) {
+          const storyId = (action.type === UPLOAD_RESOURCE_REMOTE + '_FAIL' || action.type === DELETE_RESOURCE_REMOTE + '_FAIL') ? action.storyId : action.id;
+          localStorage.removeItem(storyId);
+          return {
+            ...state,
+            notAuthStoryId: storyId,
+            passwordModalOpen: true
+          };
+        }
+        else return state;
+      }
+      else
+        return state;
+    default:
+      return state;
+  }
+}
 
 /**
  * Default state for the ui of the stories manager view (home)
  */
 const STORIES_UI_DEFAULT_STATE = {
-
-  /**
-   * Representation of the id of the story being edited in editor
-   * @type {string}
-   */
-  activeStoryId: undefined,
-
   /**
    * Representation of the id of the item being prompted to delete
    * @type {string}
    */
-  promptedToDelete: undefined
+  promptedToDelete: undefined,
+
+  /**
+   * story server api message
+   * @type {string}
+   */
+  storyToasterLog: undefined,
+
+  /**
+   * story server api status
+   * @type {string}
+   */
+  storyToasterLogStatus: undefined,
+
+  /**
+   * login story api message
+   * @type {string}
+   */
+  loginStoryLog: undefined,
+
+  /**
+   * login story api status
+   * @type {string}
+   */
+  loginStoryLogStatus: undefined,
+
+  /**
+   * create story api message
+   * @type {string}
+   */
+  createStoryLog: undefined,
+
+  /**
+   * create story api status
+   * @type {string}
+   */
+  createStoryLogStatus: undefined,
 };
 
 /**
@@ -680,19 +919,8 @@ const STORIES_UI_DEFAULT_STATE = {
  * @return {object} newState - the new state
  */
 function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
+  let actionString;
   switch (action.type) {
-    // a story is configured
-    case START_CANDIDATE_STORY_CONFIGURATION:
-      return {
-        activeStoryId: action.id
-      };
-    // a story is created
-    case CREATE_STORY:
-      return {
-        ...state,
-        activeStoryId: action.setActive ? action.id : state.activeStoryId
-      };
-    // user asks to delete a story (should display in components 'are you sure ...'?)
     case PROMPT_DELETE_STORY:
       return {
         ...state,
@@ -704,12 +932,93 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
         ...state,
         promptedToDelete: undefined
       };
-    // a story is deleted
-    case DELETE_STORY:
+    // story api actions
+    case SAVE_STORY + '_PENDING':
+      actionString = action.type.split('/')[2].toLowerCase().split('_').join('-');
       return {
         ...state,
-        promptedToDelete: undefined,
-        activeStoryId: state.activeStoryId === action.id ? undefined : state.activeStoryId
+        storyToasterLog: actionString + '-log',
+        storyToasterLogStatus: 'processing'
+      };
+    case SAVE_STORY + '_SUCCESS':
+      actionString = action.type.split('/')[2].toLowerCase().split('_').join('-');
+      return {
+        ...state,
+        storyToasterLog: actionString + '-log',
+        storyToasterLogStatus: 'success'
+      };
+    case FETCH_ALL_STORIES + '_RESET':
+    case FETCH_STORY + '_RESET':
+    case SAVE_STORY + '_RESET':
+    case DELETE_STORY + '_RESET':
+    case FETCH_RESOURCES + '_RESET':
+    case DELETE_RESOURCE_REMOTE + '_RESET':
+      return {
+        ...state,
+        storyToasterLog: undefined,
+        storyToasterLogStatus: undefined
+      };
+    case FETCH_ALL_STORIES + '_FAIL':
+    case FETCH_STORY + '_FAIL':
+    case SAVE_STORY + '_FAIL':
+    case DELETE_STORY + '_FAIL':
+    case FETCH_RESOURCES + '_FAIL':
+    case DELETE_RESOURCE_REMOTE + '_FAIL':
+      actionString = action.type.split('/')[2].toLowerCase().split('_').join('-');
+      return {
+        ...state,
+        storyToasterLog: actionString + '-log',
+        storyToasterLogStatus: 'failure'
+      };
+    case LOGIN_STORY + '_PENDING':
+      return {
+        ...state,
+        loginStoryLog: 'login-story-pending-log',
+        loginStoryLogStatus: 'processing'
+      };
+    case LOGIN_STORY + '_SUCCESS':
+      return {
+        ...state,
+        loginStoryLog: 'login-story-success-log',
+        loginStoryLogStatus: 'success'
+      };
+    case LOGIN_STORY + '_FAIL':
+      return {
+        ...state,
+        loginStoryLog: 'login-story-fail-log',
+        loginStoryLogStatus: 'failure'
+      };
+    case LOGIN_STORY + '_RESET':
+    case CLOSE_PASSWORD_MODAL:
+      return {
+        ...state,
+        loginStoryLog: undefined,
+        loginStoryLogStatus: undefined
+      };
+    case CREATE_STORY + '_PENDING':
+      return {
+        ...state,
+        createStoryLog: 'create-story-pending-log',
+        createStoryLogStatus: 'processing'
+      };
+    case CREATE_STORY + '_SUCCESS':
+      return {
+        ...state,
+        createStoryLog: 'create-story-success-log',
+        createStoryLogStatus: 'success'
+      };
+    case CREATE_STORY + '_FAIL':
+      return {
+        ...state,
+        createStoryLog: 'create-story-fail-log',
+        createStoryLogStatus: 'failure'
+      };
+    case CREATE_STORY + '_RESET':
+    case CLOSE_STORY_CANDIDATE_MODAL:
+      return {
+        ...state,
+        createStoryLog: undefined,
+        createStoryLogStatus: undefined
       };
     default:
       return state;
@@ -790,13 +1099,12 @@ function storyImport(state = STORY_IMPORT_DEFAULT_STATE, action) {
 
 
 /**
- * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
+ * The module exports a reducer (not persist to pouchdb)
  */
 export default combineReducers({
-  stories: persistentReducer(stories, 'fonio-stories'),
-  storiesUi: persistentReducer(storiesUi, 'fonio-stories-ui'),
-  // we choose not to persist the story import ui state
-  // as it is temporary in all cases
+  stories,
+  storiesUi,
+  storyAuth,
   storyImport,
 });
 
@@ -804,14 +1112,25 @@ export default combineReducers({
  * Selectors
  */
 const storiesList = state => Object.keys(state.stories.stories).map(key => state.stories.stories[key]);
-const activeStory = state => state.stories.stories[state.stories.activeStoryId];
-const activeStoryId = state => state.stories.activeStoryId;
-
+const activeStory = state => state.stories.activeStory;
+const activeStoryId = state => state.stories.activeStory && state.stories.activeStory.id;
 const promptedToDeleteId = state => state.storiesUi.promptedToDelete;
 const importStatus = state => state.storyImport.importStatus;
 const importError = state => state.storyImport.importError;
 const importCandidate = state => state.storyImport.importCandidate;
 const importFromUrlCandidate = state => state.storyImport.importFromUrlCandidate;
+
+const password = state => state.storyAuth.password;
+const isPasswordModalOpen = state => state.storyAuth.passwordModalOpen;
+const notAuthStoryId = state => state.storyAuth.notAuthStoryId;
+
+const storyToasterLog = state => state.storiesUi.storyToasterLog;
+const storyToasterLogStatus = state => state.storiesUi.storyToasterLogStatus;
+const loginStoryLog = state => state.storiesUi.loginStoryLog;
+const loginStoryLogStatus = state => state.storiesUi.loginStoryLogStatus;
+const createStoryLog = state => state.storiesUi.createStoryLog;
+const createStoryLogStatus = state => state.storiesUi.createStoryLogStatus;
+
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -820,13 +1139,20 @@ const importFromUrlCandidate = state => state.storyImport.importFromUrlCandidate
 export const selector = createStructuredSelector({
   activeStory,
   activeStoryId,
-
   importCandidate,
   importError,
   importStatus,
   importFromUrlCandidate,
-
   storiesList,
   promptedToDeleteId,
+  password,
+  isPasswordModalOpen,
+  notAuthStoryId,
+  storyToasterLog,
+  storyToasterLogStatus,
+  loginStoryLog,
+  loginStoryLogStatus,
+  createStoryLog,
+  createStoryLogStatus,
 });
 

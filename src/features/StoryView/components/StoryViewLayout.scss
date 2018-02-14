@@ -1,0 +1,22 @@
+/**
+ * style definitions for the StoryView component
+ *
+ * @module fonio/features/StoryView
+ */
+
+@import '../../../parameters.scss';
+
+.fonio-StoryViewLayout
+{
+  flex: 1;
+  @extend .flex-stretched-column;
+  .fonio-main-row
+  {
+    position: relative;
+
+    display: flex;
+    flex: 10;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+}

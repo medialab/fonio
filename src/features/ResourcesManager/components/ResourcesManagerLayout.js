@@ -21,11 +21,11 @@ import './ResourcesManagerLayout.scss';
  * @return {ReactElement} markup
  */
 const ResourcesManagerLayout = ({
-  activeStoryId,
   resourceCandidate,
   resourceCandidateId,
   resourceCandidateType,
   resourceDataLoadingState,
+  resourceUploadingState,
   resources,
   resourcesModalState = 'closed',
   resourcesPrompted,
@@ -33,8 +33,9 @@ const ResourcesManagerLayout = ({
   resourcesTypeQuery,
   createResource,
   updateResource,
+  deleteResource,
+  setCoverImage,
   actions: {
-    deleteResource,
     setResourceCandidateMetadataValue,
     setResourceCandidateType,
     setResourcesModalState,
@@ -143,8 +144,9 @@ const ResourcesManagerLayout = ({
             return 0;
           })
           .map((resource, index) => {
-            const onDelete = () => deleteResource(activeStoryId, resource.id);
+            const onDelete = () => deleteResource(resource);
             const onEdit = () => startExistingResourceConfiguration(resource.id, resource);
+            const onSetCoverImage = () => setCoverImage(resource.id);
             const onEmbedResource = () => {
               embedAsset(resource.id);
             };
@@ -157,6 +159,7 @@ const ResourcesManagerLayout = ({
                 onMouseDown={onMouseDown}
                 onDelete={onDelete}
                 onConfigure={onEdit}
+                onSetCoverImage={onSetCoverImage}
                 selectMode={resourcesPrompted}
                 onSelect={onEmbedResource}
                 style={{cursor: 'move'}}
@@ -180,6 +183,7 @@ const ResourcesManagerLayout = ({
           setResourceCandidateMetadataValue={setResourceCandidateMetadataValue}
           submitResourceData={submitResourceData}
           resourceDataLoadingState={resourceDataLoadingState}
+          resourceUploadingState={resourceUploadingState}
           createResource={createResource}
           updateResource={updateResource} />
       </Modal>

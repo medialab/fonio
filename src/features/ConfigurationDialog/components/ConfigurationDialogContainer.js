@@ -1,3 +1,4 @@
+/* eslint react/no-set-state: 0 */
 /**
  * This module exports a stateful component connected to the redux logic of the app,
  * dedicated to rendering the configuration dialog feature interface
@@ -6,13 +7,21 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 
 import * as duck from '../duck';
+
 import {
+  selector as globalUiSelector,
   closeStoryCandidateModal,
   applyStoryCandidateConfiguration,
-  setActiveStoryId
 } from '../../GlobalUi/duck';
+
+import {
+  selector as storiesSelector,
+  saveStory,
+  createStory
+} from '../../StoriesManager/duck';
 
 import ConfigurationDialogLayout from './ConfigurationDialogLayout';
 
@@ -23,15 +32,18 @@ import ConfigurationDialogLayout from './ConfigurationDialogLayout';
 @connect(
   state => ({
     ...duck.selector(state.storyCandidate),
+    ...globalUiSelector(state.globalUi),
+    ...storiesSelector(state.stories),
     visualizationTypesModels: state.models.visualizationTypes,
     lang: state.i18nState.lang
   }),
   dispatch => ({
     actions: bindActionCreators({
       ...duck,
+      saveStory,
+      createStory,
       applyStoryCandidateConfiguration,
       closeStoryCandidateModal,
-      setActiveStoryId
     }, dispatch)
   })
 )
@@ -46,7 +58,13 @@ class ConfigurationDialogContainer extends Component {
     this.closeStoryCandidate = this.closeStoryCandidate.bind(this);
     this.closeAndSetupStoryCandidate = this.closeAndSetupStoryCandidate.bind(this);
   }
-
+  componentDidMount() {
+    const {storyCandidatePassword, storyCandidate} = this.props;
+    const {validateStoryCandidateSettings} = this.props.actions;
+    validateStoryCandidateSettings('title', storyCandidate.metadata.title);
+    validateStoryCandidateSettings('password', storyCandidatePassword);
+    validateStoryCandidateSettings('authors', storyCandidate.metadata.authors);
+  }
 
   /**
    * Defines whether the component should re-render
@@ -79,7 +97,6 @@ class ConfigurationDialogContainer extends Component {
     this.props.actions.closeStoryCandidateModal();
   }
 
-
   /**
    * Renders the component
    * @return {ReactElement} component - the component
@@ -94,4 +111,4 @@ class ConfigurationDialogContainer extends Component {
   }
 }
 
-export default ConfigurationDialogContainer;
+export default withRouter(ConfigurationDialogContainer);

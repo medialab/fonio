@@ -4,7 +4,6 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './StoryCard.scss';
@@ -20,8 +19,8 @@ const StoryCard = ({
   story,
   promptedToDelete,
   // actions
-  setToActive,
-  configure,
+  onClickEdit,
+  onClickRead,
   onClickDelete,
   onClickPrompt,
   onClickUnprompt,
@@ -33,7 +32,7 @@ const StoryCard = ({
     <li className="fonio-StoryCard">
       <div className="card-body">
         <div className="info-column">
-          <h5 onClick={setToActive}>
+          <h5>
             <span className="title">{story.metadata && story.metadata.title && story.metadata.title.length ? story.metadata.title : translate('untitled_story')}</span>
           </h5>
           <p className="description">
@@ -41,13 +40,13 @@ const StoryCard = ({
           </p>
         </div>
         <div className="buttons-column">
-          <button className="edit-btn" onClick={setToActive}>
+          <button className="edit-btn" onClick={onClickEdit}>
             <img src={require('../../sharedAssets/edit-white.svg')} className="fonio-icon-image" />
             {translate('edit')}
           </button>
-          <button className="settings-btn" onClick={configure}>
-            <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
-            {translate('settings')}
+          <button className="preview-btn" onClick={onClickRead}>
+            <img src={require('../../sharedAssets/preview-black.svg')} className="fonio-icon-image" />
+            read
           </button>
           <button className={'delete-btn ' + (promptedToDelete ? 'inactive' : '')} onClick={onClickPrompt}>
             <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
@@ -65,7 +64,10 @@ const StoryCard = ({
               </button>
               <button onClick={onClickUnprompt}>{translate('cancel')}</button>
             </div>
-          </div> : <button onClick={onClickCopy}>⎘ {translate('duplicate')}</button> }
+          </div> :
+          <div>
+            <button onClick={onClickCopy}>⎘ {translate('duplicate')}</button>
+          </div> }
       </div>
     </li>
   );

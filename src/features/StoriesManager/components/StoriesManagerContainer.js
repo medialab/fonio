@@ -13,7 +13,6 @@ import StoriesManagerLayout from './StoriesManagerLayout';
 import * as duck from '../duck';
 import * as editorDuck from '../../StoryEditor/duck';
 import * as globalUiDuck from '../../GlobalUi/duck';
-import {maxNumberOfLocalStories} from '../../../../config';
 
 import {
   getFileAsText
@@ -69,7 +68,10 @@ export default class StoriesManagerContainer extends Component {
     this.attemptImport = this.attemptImport.bind(this);
   }
 
-
+  componentWillMount() {
+    this.props.actions.fetchAllStories();
+    this.props.actions.unsetActiveStory();
+  }
   /**
    * Defines whether the component should re-render
    * @param {object} nextProps - the props to come
@@ -201,7 +203,6 @@ export default class StoriesManagerContainer extends Component {
     const overrideImportWithCandidate = () => this.props.actions.importSuccess(this.props.importCandidate);
     return (
       <StoriesManagerLayout
-        maxNumberOfLocalStories={maxNumberOfLocalStories}
         onDropInput={this.onProjectImportPrompt}
         overrideImportWithCandidate={overrideImportWithCandidate}
         importFromDistantJSON={this.importFromDistantJSON}

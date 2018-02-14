@@ -14,17 +14,20 @@ import {
   selector as editorSelector,
 } from '../../StoryEditor/duck';
 import {
+  selector as globalUiSelector,
   closeTakeAwayModal,
 } from '../../GlobalUi/duck';
 
 import {
   selector as storiesSelector,
+  fetchStory,
   updateStory,
+  saveStory,
 } from '../../StoriesManager/duck';
 
 import downloadFile from '../../../helpers/fileDownloader';
 import {
-  bundleProjectAsHtml,
+  // bundleProjectAsHtml,
   bundleProjectAsJSON,
   // cleanStoryForExport,
   convertStoryToMarkdown,
@@ -45,6 +48,7 @@ import TakeAwayDialogLayout from './TakeAwayDialogLayout';
 @connect(
   state => ({
     ...duck.selector(state.takeAway),
+    ...globalUiSelector(state.globalUi),
     ...editorSelector(state.storyEditor),
     ...storiesSelector(state.stories),
     lang: state.i18nState.lang
@@ -53,7 +57,9 @@ import TakeAwayDialogLayout from './TakeAwayDialogLayout';
     actions: bindActionCreators({
       ...duck,
       closeTakeAwayModal,
-      updateStory
+      saveStory,
+      updateStory,
+      fetchStory,
     }, dispatch)
   })
 )
@@ -89,22 +95,14 @@ class TakeAwayDialogContainer extends Component {
    */
   updateActiveStoryFromServer() {
     // todo : rewrite that as a promise-based action
-    this.props.actions.setExportToServerStatus('processing', 'updating from the distant server');
-    const url = this.props.activeStory.metadata.serverJSONUrl;
-    get(url)
-      .end((err, res) => {
-        if (err) {
-          return this.props.actions.setExportToServerStatus('failure', 'connection with distant server has failed');
-        }
-        try {
-          const project = JSON.parse(res.text);
-          this.props.actions.updateStory(project.id, project);
-          this.props.actions.setExportToServerStatus('success', 'your story is now synchronized with the forccast server');
-        }
-        catch (e) {
-          this.props.actions.setExportToServerStatus('failure', 'The distant version is badly formatted');
-        }
-      });
+    this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'json')
+    .then(res => {
+      if (res.result) {
+        this.props.actions.updateStory(this.props.activeStory.id, res.result);
+        this.props.actions.setTakeAwayStatus('success', 'your story is now synchronized with the forccast server');
+      }
+      else this.props.actions.setTakeAwayStatus('failure', 'could not update story form forccast server');
+    });
   }
 
 
@@ -119,7 +117,7 @@ class TakeAwayDialogContainer extends Component {
     return get(entryUrl)
     .end((err, res) => {
       if (err) {
-        return this.props.actions.setExportToGistStatus('failure', 'The gist could not be retrieved');
+        return this.props.actions.setTakeAwayStatus('failure', 'The gist could not be retrieved');
       }
       try {
         const info = JSON.parse(res.text);
@@ -128,15 +126,15 @@ class TakeAwayDialogContainer extends Component {
           return get(rawUrl)
           .end((rawErr, rawRes) => {
             if (rawErr) {
-              return this.props.actions.setExportToGistStatus('failure', 'The gist could not be retrieved');
+              return this.props.actions.setTakeAwayStatus('failure', 'The gist could not be retrieved');
             }
             try {
               const project = JSON.parse(rawRes.text);
               this.props.actions.updateStory(project.id, project);
-              this.props.actions.setExportToGistStatus('success', 'your story is now synchronized with the gist repository');
+              this.props.actions.setTakeAwayStatus('success', 'your story is now synchronized with the gist repository');
             }
             catch (parseError) {
-              this.props.actions.setExportToGistStatus('failure', 'The gist project file was badly formatted');
+              this.props.actions.setTakeAwayStatus('failure', 'The gist project file was badly formatted');
             }
           });
         }
@@ -160,41 +158,43 @@ class TakeAwayDialogContainer extends Component {
     const title = this.props.activeStory.metadata.title;
     switch (takeAwayType.id) {
       case 'project':
-        const JSONbundle = bundleProjectAsJSON(this.props.activeStory); // bundleProjectAsJSON(this.props.activeStory);
-        downloadFile(JSONbundle, 'json', title);
+        this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'json')
+        .then(res => {
+          if (res.result) {
+            const JSONbundle = bundleProjectAsJSON(res.result); // bundleProjectAsJSON(this.props.activeStory);
+            downloadFile(JSONbundle, 'json', title);
+          }
+        });
         break;
       case 'markdown':
-        const markdownRep = convertStoryToMarkdown(this.props.activeStory);
-        downloadFile(markdownRep, 'md', title);
+        this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'json')
+        .then(res => {
+          if (res.result) {
+            const markdownRep = convertStoryToMarkdown(res.result);
+            downloadFile(markdownRep, 'md', title);
+          }
+        });
         break;
       case 'html':
-        this.props.actions.setTakeAwayType('html');
-        this.props.actions.setBundleHtmlStatus('processing', 'Asking the server to bundle a custom html file');
-        bundleProjectAsHtml(this.props.activeStory, (err, html) => {
-          this.props.actions.setTakeAwayType(undefined);
-          if (err === null) {
-            downloadFile(html, 'html', title);
-            this.props.actions.setBundleHtmlStatus('success', 'Bundling is a success !');
-          }
-          else {
-            this.props.actions.setBundleHtmlStatus('failure', 'Bundling failed, somehow ...');
+        this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'html')
+        .then(res => {
+          if (res.result) {
+            downloadFile(res.result, 'html', title);
           }
         });
         break;
       case 'github':
-        this.props.actions.setBundleHtmlStatus('processing', 'Asking the server to bundle a custom html file');
-        bundleProjectAsHtml(this.props.activeStory, (err, html) => {
-          if (err === null) {
-            this.props.actions.exportToGist(html, this.props.activeStory, this.props.activeStory.metadata.gistId);
-            this.props.actions.setBundleHtmlStatus('success', 'Bundling is a success !');
-          }
-          else {
-            this.props.actions.setBundleHtmlStatus('failure', 'Bundling failed, somehow ...');
-          }
+        Promise.all([
+          this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'html'),
+          this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'json')
+        ])
+        .then((res) => {
+          if (res[0].result && res[1].result)
+            this.props.actions.exportToGist(res[0].result, res[1].result, this.props.activeStory.metadata.gistId);
         });
         break;
       case 'server':
-        this.props.actions.exportToServer(this.props.activeStory);
+        this.props.actions.exportStoryBundle(this.props.activeStory.id);
         break;
       default:
         break;
