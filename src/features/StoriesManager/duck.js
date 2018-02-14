@@ -101,11 +101,7 @@ const SET_IMPORT_FROM_URL_CANDIDATE = '§Fonio/StoriesManager/SET_IMPORT_FROM_UR
 export const fetchAllStories = () => ({
   type: FETCH_ALL_STORIES,
   promise: () => {
-  return new Promise((resolve, reject) => {
-    return fetchStoriesServer()
-      .then((response) => resolve(response))
-      .catch((e) => reject(e));
-   });
+    return fetchStoriesServer();
   }
 });
 
@@ -116,11 +112,7 @@ export const fetchStory = (id) => ({
   type: FETCH_STORY,
   id,
   promise: () => {
-  return new Promise((resolve, reject) => {
-    return getStoryServer(id)
-      .then((response) => resolve(response))
-      .catch((e) => reject(e));
-   });
+    return getStoryServer(id);
   }
 });
 
@@ -135,27 +127,23 @@ export const saveStory = (story, token) => ({
   type: SAVE_STORY,
   id: story.id,
   promise: () => {
-    return new Promise((resolve, reject) => {
-      const newResources = {};
-      if (story.resources) {
-        Object.keys(story.resources)
-        .map(key => story.resources[key].metadata)
-        .forEach(metadata => {
-          if (metadata.type === 'data-presentation' || metadata.type === 'table')
-            newResources[metadata.id] = {metadata};
-        });
+    const newResources = {};
+    if (story.resources) {
+      Object.keys(story.resources)
+      .map(key => story.resources[key].metadata)
+      .forEach(metadata => {
+        if (metadata.type === 'data-presentation' || metadata.type === 'table')
+          newResources[metadata.id] = {metadata};
+      });
+    }
+    const newStory = {
+      ...story,
+      resources: {
+        ...story.resources,
+        ...newResources
       }
-      const newStory = {
-        ...story,
-        resources: {
-          ...story.resources,
-          ...newResources
-        }
-      };
-      return saveStoryServer(newStory, token)
-        .then((d) => resolve(d))
-        .catch((e) => reject(e));
-    });
+    };
+    return saveStoryServer(newStory, token);
   }
 });
 
@@ -169,11 +157,7 @@ export const resetStoryPassword = (id, password) => ({
   type: RESET_STORY_PASSWORD,
   id,
   promise: () => {
-    return new Promise((resolve, reject) => {
-      return resetPasswordServer(id, password)
-        .then((token) => resolve(token))
-        .catch((e) => reject(e));
-    });
+    return resetPasswordServer(id, password);
   }
 });
 
@@ -211,11 +195,7 @@ export const createStory = (story, password) => ({
         ...newResources
       }
     };
-    return new Promise((resolve, reject) => {
-      return createStoryServer(newStory, password)
-        .then(result => resolve(result))
-        .catch(e => reject(e));
-    });
+    return createStoryServer(newStory, password);
   }
 });
 
@@ -280,11 +260,7 @@ export const deleteStory = (id, token) => ({
   type: DELETE_STORY,
   id,
   promise: () => {
-    return new Promise((resolve, reject) => {
-      return deleteStoryServer(id, token)
-        .then(() => resolve(id))
-        .catch(e => reject(e));
-    });
+    return deleteStoryServer(id, token);
   }
 });
 
@@ -341,11 +317,7 @@ export const loginStory = (id, password) => ({
   type: LOGIN_STORY,
   id,
   promise: () => {
-    return new Promise((resolve, reject) => {
-      return loginToServer(id, password)
-        .then((token) => resolve(token))
-        .catch((e) => reject(e));
-    });
+    return loginToServer(id, password);
   }
 });
 

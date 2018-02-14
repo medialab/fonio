@@ -25,7 +25,6 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
  * @param {string} props.importStatus
  * @param {string} props.importError
  * @param {string} props.promptedToDeleteId
- * @param {number} props.maxNumberOfLocalStories
  * @param {string} props.importFromUrlCandidate
  * @param {function} props.onDropInput
  * @param {function} props.overrideImportWithCandidate
@@ -42,7 +41,6 @@ const StoriesManagerLayout = ({
   importStatus,
   importError,
   promptedToDeleteId,
-  maxNumberOfLocalStories,
   importFromUrlCandidate,
   history,
   // actions
@@ -62,8 +60,7 @@ const StoriesManagerLayout = ({
 }, context) => {
   // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.StoriesManager');
-  // check if max number of stories is reached
-  const allowNewStories = storiesList.length < maxNumberOfLocalStories;
+
   /**
    * Callbacks
    */
@@ -117,16 +114,11 @@ const StoriesManagerLayout = ({
 
       <section className="landing-group">
 
-        {allowNewStories ?
-          <div className="row-section">
-            <button className="new-story" onClick={onCreateStory}>
-              {translate('start-a-new-story')}
-            </button>
-          </div> :
-          <p>
-            {translate('maximum-stories-reached')}
-          </p>
-          }
+        <div className="row-section">
+          <button className="new-story" onClick={onCreateStory}>
+            {translate('start-a-new-story')}
+          </button>
+        </div>
 
         <div className="row-section stories-group">
           {storiesList.length > 0 ?
@@ -170,34 +162,31 @@ const StoriesManagerLayout = ({
           }
           </ul>
         </div>
-        {allowNewStories ?
-          <div className="row-section">
-            <h3>
-              {translate('import-project-from-computer')}
+        <div className="row-section">
+          <h3>
+            {translate('import-project-from-computer')}
 
-            </h3>
-            <DropZone
-              accept="application/json"
-              onDrop={onDropInput}>
-              {translate('drop-a-json-file-here')}
-            </DropZone>
-          </div>
-        : null}
-        {allowNewStories ?
-          <div className="row-section import-from-url">
-            <h3>
-              {translate('fetch-an-existant-project-from-distant-server')}
-            </h3>
-            <form onSubmit={importFromDistantJSON}>
-              <input
-                value={importFromUrlCandidate || ''}
-                onChange={onImportFromUrlChange} type="text"
-                placeholder={translate('copy-paste-url-of-the-project')} />
-              <input
-                type="submit"
-                value={translate('import')} />
-            </form>
-          </div> : null}
+          </h3>
+          <DropZone
+            accept="application/json"
+            onDrop={onDropInput}>
+            {translate('drop-a-json-file-here')}
+          </DropZone>
+        </div>
+        <div className="row-section import-from-url">
+          <h3>
+            {translate('fetch-an-existant-project-from-distant-server')}
+          </h3>
+          <form onSubmit={importFromDistantJSON}>
+            <input
+              value={importFromUrlCandidate || ''}
+              onChange={onImportFromUrlChange} type="text"
+              placeholder={translate('copy-paste-url-of-the-project')} />
+            <input
+              type="submit"
+              value={translate('import')} />
+          </form>
+        </div>
         <div className="import-status-display">
           <Toaster
             status={importStatus} log={

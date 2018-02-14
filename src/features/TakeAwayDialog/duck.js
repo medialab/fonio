@@ -62,15 +62,7 @@ export const setTakeAwayStatus = (status, log) => dispatch => {
 export const exportToGist = (htmlContent, story, gistId) => ({
   type: EXPORT_TO_GIST,
   promise: (dispatch) => {
-    return new Promise((resolve, reject) => {
-      return publishToGist(htmlContent, story, dispatch, TAKE_AWAY_STATUS, gistId)
-              .then((d) => {
-                resolve(d);
-              })
-              .catch((e) => {
-                reject(e);
-              });
-    });
+    return publishToGist(htmlContent, story, dispatch, TAKE_AWAY_STATUS, gistId);
   }
 });
 
@@ -80,15 +72,7 @@ export const exportToGist = (htmlContent, story, gistId) => ({
 export const fetchStoryBundle = (id, format) => ({
   type: FETCH_STORY_BUNDLE,
   promise: () => {
-  return new Promise((resolve, reject) => {
-    return getStoryBundleServer(id, format)
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((e) => {
-        reject(e);
-      });
-   });
+    return getStoryBundleServer(id, format);
   }
 });
 /**
@@ -99,15 +83,7 @@ export const fetchStoryBundle = (id, format) => ({
 export const exportStoryBundle = (id) => ({
   type: EXPORT_STORY_BUNDLE,
   promise: () => {
-    return new Promise((resolve, reject) => {
-      return publishStoryBundleServer(id)
-              .then((d) => {
-                resolve(d);
-              })
-              .catch((e) => {
-                reject(e);
-              });
-    });
+    return publishStoryBundleServer(id);
   }
 });
 

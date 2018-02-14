@@ -299,11 +299,7 @@ export const fetchResources = (storyId) => ({
   type: FETCH_RESOURCES,
   storyId,
   promise: () => {
-    return new Promise((resolve, reject) => {
-      return fetchResourcesServer(storyId)
-        .then((response) => resolve(response))
-        .catch((e) => reject(e));
-    });
+    return fetchResourcesServer(storyId);
   }
 });
 
@@ -320,11 +316,7 @@ export const uploadResourceRemote = (storyId, id, resource, token) => ({
   id,
   resource,
   promise: () => {
-    return new Promise((resolve, reject) => {
-      return uploadResourceServer(storyId, id, resource, token)
-        .then((res) => resolve(res))
-        .catch((e) => reject(e));
-    });
+    return uploadResourceServer(storyId, id, resource, token);
   }
 });
 
@@ -339,11 +331,7 @@ export const deleteResourceRemote = (storyId, resource, token) => ({
   id: resource.metadata.id,
   storyId,
   promise: () => {
-    return new Promise((resolve, reject) => {
-      return deleteResourceServer(storyId, resource, token)
-        .then((res) => resolve(res))
-        .catch((e) => reject(e));
-    });
+    return deleteResourceServer(storyId, resource, token);
   }
 });
 

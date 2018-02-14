@@ -128,7 +128,7 @@ const ConfigurationDialogLayout = ({
                   <Toaster status={formErrors.title && 'failure'} log={formErrors.title} />
                 }
               </div>
-              {!localStorage.getItem(storyCandidate.id) &&
+              {!storyBegan &&
                 <div className="input-group">
                   <label htmlFor="password">password*</label>
                   <input

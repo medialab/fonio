@@ -1,5 +1,4 @@
 {
-  "maxNumberOfLocalStories": 100,
   "timers": {
     "nano": 10,
     "short": 100,

@@ -59,9 +59,10 @@ export default class StoryViewContainer extends Component {
     fetchStory(match.params.id).then(res => {
       if (res.result) {
         const activeStoryId = res.result.id;
+        const isLogedIn = localStorage.getItem(activeStoryId);
         setActiveStory(res.result);
         fetchResources(activeStoryId);
-        if (match.params.mode === 'edit' && !localStorage.getItem(activeStoryId)) {
+        if (match.params.mode === 'edit' && !isLogedIn) {
           openPasswordModal(activeStoryId);
         }
       }
