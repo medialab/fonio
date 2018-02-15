@@ -69,6 +69,8 @@
   "Features.ConfigurationDialog.apply-changes-and-continue-story-edition": "appliquer les changements et continuer l'édition du récit",
   "Features.ConfigurationDialog.start-to-edit-this-story": "démarrer l'édition de cette histoire",
   "Features.ConfigurationDialog.cancel": "annuler",
+  "Features.GlobalUi.save-story-pending-log": "sauvegarde ...",
+  "Features.GlobalUi.save-story-fail-log": "vos données n'ont pas pu être sauvegardées sur le serveur",
   "Features.GlobalUi.edit-story": "éditer le récit",
   "Features.Editor.drop-a-csv-file-here": "déposer un fichier csv ici",
   "Features.Editor.url-of-the-video": "url de la vidéo",

@@ -10,7 +10,6 @@ import StoryPlayer, {templates} from 'quinoa-story-player';
 import {Link} from 'react-router-dom';
 
 
-
 import './StorySettingsManagerLayout.scss';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';

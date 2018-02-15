@@ -51,10 +51,18 @@ const GlobalUiLayout = ({
 }, context) => {
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
+  let toasterMessage = translate('save-story-pending-log');
+  switch (storyToasterLog) {
+    case 'save-story-fail-log':
+      toasterMessage = translate('save-story-fail-log');
+      break;
+    default:
+      break;
+  }
   return (
     <div>
       <LoadingBar style={{backgroundColor: '#3fb0ac', zIndex: 10}} />
-      {storyToasterLogStatus === 'error' && <Toaster status={storyToasterLogStatus} log={storyToasterLog} />}
+      {storyToasterLogStatus === 'failure' && <Toaster status={storyToasterLogStatus} log={toasterMessage} />}
       <Modal
         onRequestClose={closeAndResetDialog}
         contentLabel={translate('edit-story')}
