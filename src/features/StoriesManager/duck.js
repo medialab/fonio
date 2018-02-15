@@ -485,16 +485,19 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     // a section is updated by merging its content
     // todo: should we merge data instead of replacing ?
     case UPDATE_SECTION:
-      return {
-        ...state,
-        activeStory: {
-          ...state.activeStory,
-          sections: {
-            ...state.activeStory.sections,
-            [action.sectionId]: action.section
+      if (state.activeStory) {
+        return {
+          ...state,
+          activeStory: {
+            ...state.activeStory,
+            sections: {
+              ...state.activeStory.sections,
+              [action.sectionId]: action.section
+            }
           }
-        }
-      };
+        };
+      }
+      return state;
     // a section is deleted
     case DELETE_SECTION:
       newState = {...state};

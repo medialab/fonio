@@ -54,7 +54,7 @@ const GlobalUiLayout = ({
   return (
     <div>
       <LoadingBar style={{backgroundColor: '#3fb0ac', zIndex: 10}} />
-      <Toaster status={storyToasterLogStatus} log={storyToasterLog} />
+      {storyToasterLogStatus === 'error' && <Toaster status={storyToasterLogStatus} log={storyToasterLog} />}
       <Modal
         onRequestClose={closeAndResetDialog}
         contentLabel={translate('edit-story')}
