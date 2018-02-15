@@ -6,7 +6,6 @@
  */
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
-import publishToGist from '../../helpers/gistExporter';
 import {publishStoryBundleServer, getStoryBundleServer} from '../../helpers/serverExporter';
 import {persistentReducer} from 'redux-pouchdb';
 
@@ -23,7 +22,6 @@ const SET_TAKE_AWAY_TYPE = '§Fonio/TakeAwayDialog/SET_TAKE_AWAY_TYPE';
 const TAKE_AWAY_STATUS = '§Fonio/TakeAwayDialog/TAKE_AWAY_STATUS';
 const FETCH_STORY_BUNDLE = '§Fonio/TakeAwayDialog/FETCH_STORY_BUNDLE';
 export const EXPORT_STORY_BUNDLE = '§Fonio/TakeAwayDialog/EXPORT_STORY_BUNDLE';
-export const EXPORT_TO_GIST = '§Fonio/TakeAwayDialog/EXPORT_TO_GIST';
 /*
  * Action creators
  */
@@ -51,20 +49,6 @@ export const setTakeAwayStatus = (status, log) => dispatch => {
     log
   });
 };
-
-/**
- * Handles and monitors the ui state of the "export to gist" operation
- * @param {object} htmlContent - the html content of the app to export to gist
- * @param {object} story - the story data to export to gist
- * @param {string} id - the id of the gist to which the story is stored (if it has already been exported once)
- * @return {object} action - the redux action to dispatch
- */
-export const exportToGist = (htmlContent, story, gistId) => ({
-  type: EXPORT_TO_GIST,
-  promise: (dispatch) => {
-    return publishToGist(htmlContent, story, dispatch, TAKE_AWAY_STATUS, gistId);
-  }
-});
 
 /**
  * fetch story (with resource data) from server
@@ -142,25 +126,6 @@ function takeAwayUi(state = DEFAULT_TAKE_AWAY_UI_SETTINGS, action) {
         ...state,
         takeAwayLog: action.log,
         takeAwayLogStatus: action.status
-      };
-    // export to gist status is changed
-    case EXPORT_TO_GIST + '_PENDING':
-      return {
-        ...state,
-        takeAwayLog: 'connecting to github',
-        takeAwayLogStatus: 'processing'
-      };
-    case EXPORT_TO_GIST + '_SUCCESS':
-      return {
-        ...state,
-        takeAwayLog: 'your story is synchronized with gist',
-        takeAwayLogStatus: 'success'
-      };
-    case EXPORT_TO_GIST + '_FAIL':
-      return {
-        ...state,
-        takeAwayLog: 'your story could not be uploaded on gist',
-        takeAwayLogStatus: 'failure'
       };
     case FETCH_STORY_BUNDLE + '_PENDING':
     case EXPORT_STORY_BUNDLE + '_PENDING':

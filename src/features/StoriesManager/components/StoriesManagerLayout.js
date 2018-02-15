@@ -28,7 +28,6 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
  * @param {string} props.importFromUrlCandidate
  * @param {function} props.onDropInput
  * @param {function} props.overrideImportWithCandidate
- * @param {function} props.importFromDistantJSON
  * @param {function} props.actions - actions passed by redux logic
  * @return {ReactElement} markup
  */
@@ -41,12 +40,10 @@ const StoriesManagerLayout = ({
   importStatus,
   importError,
   promptedToDeleteId,
-  importFromUrlCandidate,
   history,
   // actions
   onDropInput,
   overrideImportWithCandidate,
-  importFromDistantJSON,
   actions: {
     promptDeleteStory,
     unpromptDeleteStory,
@@ -54,7 +51,6 @@ const StoriesManagerLayout = ({
     copyStory,
     startStoryCandidateConfiguration,
     importReset,
-    setImportFromUrlCandidate,
     setLanguage
   }
 }, context) => {
@@ -67,7 +63,6 @@ const StoriesManagerLayout = ({
   const onCreateStory = () => {
     startStoryCandidateConfiguration();
   };
-  const onImportFromUrlChange = (e) => setImportFromUrlCandidate(e.target.value);
   return (
     <section className="fonio-StoriesManagerLayout">
       <section className="landing-group">
@@ -172,20 +167,6 @@ const StoriesManagerLayout = ({
             onDrop={onDropInput}>
             {translate('drop-a-json-file-here')}
           </DropZone>
-        </div>
-        <div className="row-section import-from-url">
-          <h3>
-            {translate('fetch-an-existant-project-from-distant-server')}
-          </h3>
-          <form onSubmit={importFromDistantJSON}>
-            <input
-              value={importFromUrlCandidate || ''}
-              onChange={onImportFromUrlChange} type="text"
-              placeholder={translate('copy-paste-url-of-the-project')} />
-            <input
-              type="submit"
-              value={translate('import')} />
-          </form>
         </div>
         <div className="import-status-display">
           <Toaster

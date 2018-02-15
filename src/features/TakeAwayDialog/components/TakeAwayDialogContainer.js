@@ -7,7 +7,6 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {debounce} from 'lodash';
-import {get} from 'superagent';
 
 import * as duck from '../duck';
 import {
@@ -34,8 +33,6 @@ import {
 } from '../../../helpers/projectBundler';
 
 import {
-  githubTokenProviderUrl,
-  githubAPIClientId,
   serverUrl
 } from '../../../../secrets';
 
@@ -72,8 +69,6 @@ class TakeAwayDialogContainer extends Component {
   constructor(props) {
     super(props);
     this.takeAway = debounce(this.takeAway.bind(this), 300);
-    this.updateActiveStoryFromServer = this.updateActiveStoryFromServer.bind(this);
-    this.updateActiveStoryFromGist = this.updateActiveStoryFromGist.bind(this);
   }
 
 
@@ -87,67 +82,6 @@ class TakeAwayDialogContainer extends Component {
     // todo: optimize the component when sabilized
     return true;
   }
-
-
-  /**
-   * Fetches active story data from the server
-   * and merge it with locally-stored story.
-   */
-  updateActiveStoryFromServer() {
-    // todo : rewrite that as a promise-based action
-    this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'json')
-    .then(res => {
-      if (res.result) {
-        this.props.actions.updateStory(this.props.activeStory.id, res.result);
-        this.props.actions.setTakeAwayStatus('success', 'your story is now synchronized with the forccast server');
-      }
-      else this.props.actions.setTakeAwayStatus('failure', 'could not update story form forccast server');
-    });
-  }
-
-
-  /**
-   * Fetches active story data from gist
-   * and merge it with locally-stored story.
-   */
-  updateActiveStoryFromGist() {
-    // todo : rewrite that as an action
-    const gistId = this.props.activeStory.metadata.gistId;
-    const entryUrl = 'https://api.github.com/gists/' + gistId;
-    return get(entryUrl)
-    .end((err, res) => {
-      if (err) {
-        return this.props.actions.setTakeAwayStatus('failure', 'The gist could not be retrieved');
-      }
-      try {
-        const info = JSON.parse(res.text);
-        if (info.files && info.files['project.json']) {
-          const rawUrl = info.files['project.json'].raw_url;
-          return get(rawUrl)
-          .end((rawErr, rawRes) => {
-            if (rawErr) {
-              return this.props.actions.setTakeAwayStatus('failure', 'The gist could not be retrieved');
-            }
-            try {
-              const project = JSON.parse(rawRes.text);
-              this.props.actions.updateStory(project.id, project);
-              this.props.actions.setTakeAwayStatus('success', 'your story is now synchronized with the gist repository');
-            }
-            catch (parseError) {
-              this.props.actions.setTakeAwayStatus('failure', 'The gist project file was badly formatted');
-            }
-          });
-        }
-        else {
-          return this.props.actions.importFail('invalidGist');
-        }
-      }
-      catch (parseError) {
-        return this.props.actions.importFail('invalidUrl');
-      }
-    });
-  }
-
 
   /**
    * Wraps the different options for taking the story away,
@@ -183,19 +117,6 @@ class TakeAwayDialogContainer extends Component {
           }
         });
         break;
-      case 'github':
-        Promise.all([
-          this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'html'),
-          this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'json')
-        ])
-        .then((res) => {
-          if (res[0].result && res[1].result)
-            this.props.actions.exportToGist(res[0].result, res[1].result, this.props.activeStory.metadata.gistId);
-        });
-        break;
-      case 'server':
-        this.props.actions.exportStoryBundle(this.props.activeStory.id);
-        break;
       default:
         break;
     }
@@ -208,15 +129,11 @@ class TakeAwayDialogContainer extends Component {
    */
   render() {
     const serverAvailable = serverUrl !== undefined;
-    const gistAvailable = githubTokenProviderUrl !== undefined && githubAPIClientId !== undefined;
     return (
       <TakeAwayDialogLayout
         {...this.props}
         serverAvailable={serverAvailable}
         serverUrl={serverUrl}
-        gistAvailable={gistAvailable}
-        updateActiveStoryFromServer={this.updateActiveStoryFromServer}
-        updateActiveStoryFromGist={this.updateActiveStoryFromGist}
         takeAway={this.takeAway} />
     );
   }

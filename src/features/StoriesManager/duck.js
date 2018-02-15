@@ -89,7 +89,6 @@ const IMPORT_OVERRIDE_PROMPT = '§Fonio/StoriesManager/IMPORT_OVERRIDE_PROMPT';
 const IMPORT_FAIL = '§Fonio/StoriesManager/IMPORT_FAIL';
 export const IMPORT_SUCCESS = '§Fonio/StoriesManager/IMPORT_SUCCESS';
 const IMPORT_RESET = '§Fonio/StoriesManager/IMPORT_RESET';
-const SET_IMPORT_FROM_URL_CANDIDATE = '§Fonio/StoriesManager/SET_IMPORT_FROM_URL_CANDIDATE';
 
 /*
  * Action creators
@@ -376,16 +375,6 @@ export const importFail = (error) => (dispatch) => {
   // resets import state after a while
   setTimeout(() => dispatch(importReset()), timers.veryLong);
 };
-
-/**
- * Notifies the UI that user tries to import a story from an url
- * @param {string}  value - the new value to set for import from url candidate
- * @return {object} action - the redux action to dispatch
- */
- export const setImportFromUrlCandidate = (value) => ({
-  type: SET_IMPORT_FROM_URL_CANDIDATE,
-  value
- });
 
 /*
  * Reducers
@@ -1085,12 +1074,6 @@ function storyImport(state = STORY_IMPORT_DEFAULT_STATE, action) {
       return {
         ...state,
         importCandidate: action.candidate
-      };
-    // user tries to import a story from an url
-    case SET_IMPORT_FROM_URL_CANDIDATE:
-      return {
-        ...state,
-        importFromUrlCandidate: action.value
       };
     default:
       return state;
