@@ -35,9 +35,6 @@
                 }
             }
         },
-        "contents": {
-            "$ref": "#/definitions/draft_raw_content"
-        },
 
         "sections": {
             "type": "object",
