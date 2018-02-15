@@ -41,6 +41,7 @@
   },
   "homepage": "https://github.com/medialab/fonio#readme",
   "dependencies": {
+    "ajv": "^6.1.1",
     "citation-js": "~0.3.0-9",
     "d3-dsv": "^1.0.5",
     "draft-convert": "^1.4.5",
@@ -48,6 +49,7 @@
     "draft-js-export-markdown": "^0.3.0",
     "file-saver": "^1.3.3",
     "github-api": "^3.0.0",
+    "json-schema-defaults": "^0.4.0",
     "json2po": "^1.0.5",
     "pouchdb": "^6.3.4",
     "quinoa-presentation-player": "^0.2.3",

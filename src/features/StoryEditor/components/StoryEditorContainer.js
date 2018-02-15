@@ -45,7 +45,7 @@ import {
 
 import {
   createDefaultSection
-} from '../../../helpers/modelsUtils';
+} from '../../../helpers/schemaUtils';
 
 
 /**

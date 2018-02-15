@@ -34,7 +34,6 @@ import ConfigurationDialogLayout from './ConfigurationDialogLayout';
     ...duck.selector(state.storyCandidate),
     ...globalUiSelector(state.globalUi),
     ...storiesSelector(state.stories),
-    visualizationTypesModels: state.models.visualizationTypes,
     lang: state.i18nState.lang
   }),
   dispatch => ({

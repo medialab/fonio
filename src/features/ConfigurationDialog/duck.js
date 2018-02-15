@@ -20,7 +20,7 @@ import {
 import {
   createDefaultStory,
   createDefaultSection
-} from '../../helpers/modelsUtils';
+} from '../../helpers/schemaUtils';
 
 import validateForm from '../../helpers/formValidator';
 

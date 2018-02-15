@@ -15,7 +15,7 @@ import {unpromptResourceEmbed} from '../../StoryEditor/duck';
 
 import {
   createDefaultSection
-} from '../../../helpers/modelsUtils';
+} from '../../../helpers/schemaUtils';
 
 import SectionsManagerLayout from './SectionsManagerLayout';
 

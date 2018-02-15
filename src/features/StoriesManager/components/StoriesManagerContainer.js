@@ -18,7 +18,7 @@ import {
   getFileAsText
 } from '../../../helpers/fileLoader';
 
-import validateStory from '../../../helpers/storyValidator';
+import {validateStory} from '../../../helpers/schemaUtils';
 
 /**
  * Redux-decorated component class rendering the stories manager feature to the app
@@ -93,8 +93,8 @@ export default class StoriesManagerContainer extends Component {
     try {
       const project = JSON.parse(str);
       // 2. verify it is properly formatted
-      const valid = validateStory(project);
-      if (valid) {
+      const validation = validateStory(project);
+      if (validation.valid) {
         // 3. seek if adding the story would
         // override an existing story (which has the same id)
         const existant = this.props.storiesList.find(pres => pres.id === project.id);
