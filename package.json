@@ -44,6 +44,7 @@
     "ajv": "^6.1.1",
     "citation-js": "~0.3.0-9",
     "d3-dsv": "^1.0.5",
+    "debounce-promise": "^3.1.0",
     "draft-convert": "^1.4.5",
     "draft-js": "^0.10.0",
     "draft-js-export-markdown": "^0.3.0",

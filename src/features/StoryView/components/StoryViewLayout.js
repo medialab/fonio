@@ -27,7 +27,6 @@ const StoryViewLayout = ({
   isTakeAwayModalOpen,
   actions: {
     setLanguage,
-    saveStory,
     setUiMode,
     startStoryCandidateConfiguration,
     openTakeAwayModal,
@@ -51,10 +50,6 @@ const StoryViewLayout = ({
   const onClickMetadata = () => {
     startStoryCandidateConfiguration(activeStory);
   };
-  const handleSaveStory = () => {
-    const token = localStorage.getItem(activeStory.id);
-    saveStory(activeStory, token);
-  };
 
   return (
     activeStory ?
@@ -74,7 +69,6 @@ const StoryViewLayout = ({
           setLanguage={setLanguage}
           uiMode={globalUiMode}
           onClickMetadata={onClickMetadata}
-          onClickSave={handleSaveStory}
           mode={match.params.mode} />
         <Modal
           onRequestClose={closeTakeAwayModal}

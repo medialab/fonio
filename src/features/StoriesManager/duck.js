@@ -10,13 +10,26 @@ import {createStructuredSelector} from 'reselect';
 // import {persistentReducer} from 'redux-pouchdb';
 import {v4 as uuid} from 'uuid';
 
+import debounce from 'debounce-promise';
+
+
 import {loginToServer, resetPasswordServer} from '../../helpers/serverAuth';
-import {fetchStoriesServer, createStoryServer, saveStoryServer, getStoryServer, getStoryBundleServer, deleteStoryServer} from '../../helpers/serverExporter';
+import {
+  fetchStoriesServer,
+  createStoryServer,
+  saveStoryServer,
+  getStoryServer,
+  getStoryBundleServer,
+  deleteStoryServer
+} from '../../helpers/serverExporter';
 
 import config from '../../../config';
-const {timers} = config;
+const {timers, savingDelayMs} = config;
 
 import {serverUrl} from '../../../secrets';
+
+
+const debouncedSaveStoryServer = debounce(saveStoryServer, savingDelayMs);
 
 /*
  * Action names
@@ -142,7 +155,7 @@ export const saveStory = (story, token) => ({
         ...newResources
       }
     };
-    return saveStoryServer(newStory, token);
+    return debouncedSaveStoryServer(newStory, token);
   }
 });
 
