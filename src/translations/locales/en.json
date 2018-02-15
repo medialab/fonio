@@ -156,6 +156,7 @@
   "Features.Editor.no-sections-selected": "No sections selected, please select a section",
   "Features.Editor.untitled-section": "untitled section",
   "Features.Editor.create-new-section": "create a new section",
+  "Features.StorySettingsManager.back-to-home": "back to home",
   "Features.StorySettingsManager.story-settings-title": "visual settings",
   "Features.StorySettingsManager.template-title": "layout template",
   "Features.StorySettingsManager.choose-a-template": "choose a template",

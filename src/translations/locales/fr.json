@@ -156,6 +156,7 @@
   "Features.Editor.no-sections-selected": "Veuillez sélectionner une section pour l'éditer",
   "Features.Editor.untitled-section": "section sans titre",
   "Features.Editor.create-new-section": "créer une nouvelle section",
+  "Features.StorySettingsManager.back-to-home": "revenir à l'accueil",
   "Features.StorySettingsManager.story-settings-title": "réglages visuels",
   "Features.StorySettingsManager.template-title": "gabarit de présentation",
   "Features.StorySettingsManager.choose-a-template": "choisir un gabarit",

@@ -17,7 +17,6 @@
 
         flex: 1;
 
-        padding: $gutter-medium;
 
         transition: all $time-short ease;
 
@@ -133,4 +132,19 @@
             }
         }
     }
+
+    .returnToLanding-btn
+        {
+            @extend .primary-item;
+            padding: $gutter-medium;
+            width: 100%;
+            .fonio-icon
+            {
+                padding-right: $gutter-small;
+            }
+            &:hover
+            {
+                @extend .primary-item-intent;
+            }
+        }
 }

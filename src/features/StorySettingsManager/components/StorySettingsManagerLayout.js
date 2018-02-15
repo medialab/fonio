@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 
 import TextArea from 'react-textarea-autosize';
 import StoryPlayer, {templates} from 'quinoa-story-player';
+import {Link} from 'react-router-dom';
+
 
 
 import './StorySettingsManagerLayout.scss';
@@ -79,6 +81,9 @@ const StorySettingsManagerLayout = ({
   return (
     <section className="fonio-StorySettingsManagerLayout">
       <aside className={'settings-pannel ' + (settingsVisible ? 'visible' : 'hidden')}>
+        <Link to="/">
+          <button className="returnToLanding-btn" type="button"><span className="fonio-icon">☰</span> {translate('back-to-home')}</button>
+        </Link>
         <div
           className="settings-pannel-header"
           onClick={toggleSettingsVisibility}>
