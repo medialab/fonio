@@ -7,7 +7,18 @@ import {
   get
 } from 'superagent';
 
+import {v4 as genId} from 'uuid';
+
 import Cite from 'citation-js';
+
+import {
+  convertToRaw
+} from 'draft-js';
+
+import {
+  insertInlineContextualization,
+  insertBlockContextualization
+} from './draftUtils';
 
 /**
  * Checks whether a file is an image that can be loaded in base64 later on
@@ -208,3 +219,103 @@ export function inferMetadata(data, assetType) {
       return {};
   }
 }
+
+
+/**
+   * Handle the process of creating a new asset in a story content.
+   * This implies three operations :
+   * - create a contextualizer (which defines a way of materializing the resource)
+   * - create contextualization (unique combination of a contextualizer, a section and a resource)
+   * - insert an entity linked to the contextualization in the proper draft-js content state (main or note of the section)
+   * @param {string} contentId - the id of editor to target ('main' or note id)
+   * @param {string} resourceId - id of the resource to summon
+   */
+  export const summonAsset = (contentId, resourceId, props) => {
+    const {
+      activeStoryId,
+      activeStory,
+      activeSectionId,
+      editorStates,
+      actions,
+    } = props;
+
+    const {
+      createContextualizer,
+      createContextualization,
+      updateDraftEditorState,
+      updateSection,
+    } = actions;
+
+    const activeSection = activeStory.sections[activeSectionId];
+    const resource = activeStory.resources[resourceId];
+
+    // 1. create contextualizer
+    // question: why isn't the contextualizer
+    // data directly embedded in the contextualization data ?
+    // answer: that way we can envisage for the future to
+    // give users a possibility to reuse the same contextualizer
+    // for different resources (e.g. comparating datasets)
+    // and we can handle multi-modality in a smarter way.
+
+    // todo : consume model to do that
+    const contextualizerId = genId();
+    const contextualizer = {
+      id: contextualizerId,
+      type: resource.metadata.type,
+    };
+    createContextualizer(activeStoryId, contextualizerId, contextualizer);
+
+    // choose if inline or block
+    // todo: for now we infer from the resource type whether contextualization
+    // must be in block or inline mode.
+    // but we could choose to let the user decide
+    // (e.g. 1: a 'bib' reference in block mode
+    // could be the full reference version of the reference)
+    // (e.g. 2: a 'quinoa presentation' reference in inline mode
+    // could be an academic-like short citation of this reference)
+
+    // todo: choose that from resource model
+    const insertionType = resource.metadata.type === 'bib' || resource.metadata.type === 'glossary' ? 'inline' : 'block';
+
+    // 2. create contextualization
+    const contextualizationId = genId();
+    const contextualization = {
+      id: contextualizationId,
+      resourceId,
+      contextualizerId,
+      sectionId: activeSectionId
+    };
+
+    createContextualization(activeStoryId, contextualizationId, contextualization);
+
+    // 3. update the proper editor state
+    const editorStateId = contentId === 'main' ? activeSectionId : contentId;
+    const editorState = editorStates[editorStateId];
+    // update related editor state
+    const newEditorState = insertionType === 'block' ?
+      insertBlockContextualization(editorState, contextualization, contextualizer, resource) :
+      insertInlineContextualization(editorState, contextualization, contextualizer, resource);
+    // update immutable editor state
+    updateDraftEditorState(editorStateId, newEditorState);
+    // update serialized editor state
+    let newSection;
+    if (contentId === 'main') {
+      newSection = {
+        ...activeSection,
+        contents: convertToRaw(newEditorState.getCurrentContent())
+      };
+    }
+    else {
+      newSection = {
+        ...activeSection,
+        notes: {
+          ...activeSection.notes,
+          [contentId]: {
+            ...activeSection.notes[contentId],
+            editorState: convertToRaw(newEditorState.getCurrentContent())
+          }
+        }
+      };
+    }
+    updateSection(activeStoryId, activeSectionId, newSection);
+  };
