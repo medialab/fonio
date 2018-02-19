@@ -3,7 +3,8 @@
  * dedicated to rendering the story settings manager interface
  * @module fonio/features/StorySettingsManager
  */
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -37,7 +38,7 @@ class StorySettingsManagerContainer extends Component {
     /**
      * Un-namespaced translate function
      */
-    t: React.PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
 
     /**
      * Redux store

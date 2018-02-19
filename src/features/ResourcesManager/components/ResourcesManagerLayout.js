@@ -15,6 +15,9 @@ import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 import ResourceConfigurationDialog from './ResourceConfigurationDialog';
 import './ResourcesManagerLayout.scss';
 
+Modal.setAppElement('#mount');
+
+
 /**
  * Renders the resources manager layout
  * @param {object} props - the props to render

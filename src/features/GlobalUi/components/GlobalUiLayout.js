@@ -18,6 +18,9 @@ import ConfigurationDialog from '../../ConfigurationDialog/components/Configurat
 import LoginDialog from './LoginDialog';
 import Toaster from '../../../components/Toaster/Toaster';
 
+Modal.setAppElement('#mount');
+
+
 /**
  * Renders the main layout component of the editor
  * @param {object} props - the props to render

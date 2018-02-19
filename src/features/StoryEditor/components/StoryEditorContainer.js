@@ -3,7 +3,8 @@
  * dedicated to rendering the editor feature interface
  * @module fonio/features/Editor
  */
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {setLanguage} from 'redux-i18n';
@@ -87,7 +88,7 @@ class EditorContainer extends Component {
     /**
      * Un-namespaced translate function
      */
-    t: React.PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
 
     /**
      * Redux store

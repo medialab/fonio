@@ -15,6 +15,8 @@ import Toaster from '../../../components/Toaster/Toaster';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
+Modal.setAppElement('#mount');
+
 
 /**
  * Renders the layout component of the feature
