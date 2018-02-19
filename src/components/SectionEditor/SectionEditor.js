@@ -165,6 +165,18 @@ class SectionEditor extends Component {
       this.updateSectionRawContent('main', this.props.activeStoryId, this.props.sectionId);
       this.hydrateEditorStates(activeSection);
     }
+
+    if (this.props.story && nextProps.story &&
+        (
+          this.props.story.resources !== nextProps.story.resources ||
+          this.props.story.contextualizers !== nextProps.story.contextualizers ||
+          this.props.story.contextualizations !== nextProps.story.contextualizations
+        )
+      ) {
+      this.setState({
+        assets: this.computeAssets(nextProps)
+      });
+    }
   }
 
   // componentWillUpdate() {
@@ -1019,6 +1031,33 @@ class SectionEditor extends Component {
     this.props.updateSection(storyId, sectionId, newSection);
   }
 
+  computeAssets = (props) => {
+    const {
+        story: {
+          contextualizers,
+          contextualizations,
+          resources
+      }
+    } = props;
+    const assets = Object.keys(contextualizations)
+    .reduce((ass, id) => {
+      const contextualization = contextualizations[id];
+      const contextualizer = contextualizers[contextualization.contextualizerId];
+      return {
+        ...ass,
+        [id]: {
+          ...contextualization,
+          resource: resources[contextualization.resourceId],
+          contextualizer,
+          type: contextualizer ? contextualizer.type : INLINE_ASSET
+        }
+      };
+    }, {});
+
+
+    return assets;
+  }
+
 
   /**
    * Renders the component
@@ -1051,7 +1090,8 @@ class SectionEditor extends Component {
     } = props;
 
     const {
-      clipboard
+      clipboard,
+      assets = {}
     } = state;
 
     if (!story || !activeSection) {
@@ -1063,7 +1103,6 @@ class SectionEditor extends Component {
       contextualizations,
       resources,
     } = story;
-
 
     const {
       notes: inputNotes
@@ -1191,23 +1230,6 @@ class SectionEditor extends Component {
       }, timers.short);
     };
 
-    /*
-     * Assets preparation
-     */
-    const assets = Object.keys(contextualizations)
-    .reduce((ass, id) => {
-      const contextualization = contextualizations[id];
-      const contextualizer = contextualizers[contextualization.contextualizerId];
-      return {
-        ...ass,
-        [id]: {
-          ...contextualization,
-          resource: resources[contextualization.resourceId],
-          contextualizer,
-          type: contextualizer ? contextualizer.type : INLINE_ASSET
-        }
-      };
-    }, {});
     /*
      * Citations preparation
      */
