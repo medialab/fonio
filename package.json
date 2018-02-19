@@ -1,6 +1,6 @@
 {
   "name": "fonio",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Quinoa story editor",
   "main": "dist/entry.js",
   "scripts": {
