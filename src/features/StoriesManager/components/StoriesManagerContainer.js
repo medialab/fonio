@@ -3,10 +3,10 @@
  * dedicated to rendering the stories manager feature interface
  * @module fonio/features/StoriesManager
  */
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {get} from 'superagent';
 import {setLanguage} from 'redux-i18n';
 
 import StoriesManagerLayout from './StoriesManagerLayout';
@@ -49,7 +49,7 @@ export default class StoriesManagerContainer extends Component {
     /**
      * Un-namespaced translate function
      */
-    t: React.PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
 
     /**
      * Redux store
@@ -64,7 +64,6 @@ export default class StoriesManagerContainer extends Component {
   constructor (props) {
     super(props);
     this.onProjectImportPrompt = this.onProjectImportPrompt.bind(this);
-    this.importFromDistantJSON = this.importFromDistantJSON.bind(this);
     this.attemptImport = this.attemptImport.bind(this);
   }
 
@@ -115,64 +114,6 @@ export default class StoriesManagerContainer extends Component {
       this.props.actions.importFail('badJSON');
     }
   }
-
-
-  /**
-   * Tries to import a new story from a url
-   * @param {event} e - initial click event (wtf ?)
-   */
-  importFromDistantJSON (e) {
-    // todo: should this be wrapped in a promise-based action ?
-    e.preventDefault();
-    const url = this.props.importFromUrlCandidate;
-    // case : the user is trying to fetch a gist
-    if (url.indexOf('https://gist.github.com') === 0) {
-      const matchId = url.match(/([^/]+)$/);
-      if (matchId && matchId[1]) {
-        const gistId = matchId[1];
-        const entryUrl = 'https://api.github.com/gists/' + gistId;
-        return get(entryUrl)
-        .end((err, res) => {
-          if (err) {
-            return this.props.actions.importFail('invalidUrl');
-          }
-          try {
-            const info = JSON.parse(res.text);
-            if (info.files && info.files['project.json']) {
-              const rawUrl = info.files['project.json'].raw_url;
-              return get(rawUrl)
-              .end((rawErr, rawRes) => {
-                if (rawErr) {
-                  return this.props.actions.importFail('fetchError');
-                }
-                this.attemptImport(rawRes.text);
-              });
-            }
-            else {
-              return this.props.actions.importFail('invalidGist');
-            }
-          }
-          catch (parseError) {
-            return this.props.actions.importFail('invalidUrl');
-          }
-        });
-      }
-      else {
-        return this.props.actions.importFail('invalidUrl');
-      }
-    }
-    // case plain url (supposedly to a json restory of a project)
-    get(url)
-    .end((err, res) => {
-      if (err) {
-        this.props.actions.importFail('invalidUrl');
-      }
-      else if (res.type === 'application/json') {
-        this.attemptImport(res.text);
-      }
-    });
-  }
-
 
   /**
    * callbacks when story files are dropped

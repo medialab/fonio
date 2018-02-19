@@ -3,7 +3,8 @@
  * dedicated to rendering the editor feature interface
  * @module fonio/features/Editor
  */
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {setLanguage} from 'redux-i18n';
@@ -87,7 +88,7 @@ class EditorContainer extends Component {
     /**
      * Un-namespaced translate function
      */
-    t: React.PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
 
     /**
      * Redux store
@@ -101,10 +102,6 @@ class EditorContainer extends Component {
    */
   constructor(props) {
     super(props);
-    this.closeAndResetDialog = this.closeAndResetDialog.bind(this);
-    this.openSettings = this.openSettings.bind(this);
-
-    this.createNewSection = this.createNewSection.bind(this);
   }
 
 
@@ -114,7 +111,7 @@ class EditorContainer extends Component {
    * @param {object} nextState - the state to come
    * @return {boolean} shouldUpdate - whether to update or not
    */
-  shouldComponentUpdate() {
+  shouldComponentUpdate = () => {
     // todo: optimize when the feature is stabilized
     return true;
   }
@@ -124,7 +121,7 @@ class EditorContainer extends Component {
    * Closes the story configuration view
    * and resets story candidate
    */
-  closeAndResetDialog() {
+  closeAndResetDialog = () => {
     this.props.actions.resetStoryCandidateSettings();
     this.props.actions.closeStoryCandidateModal();
   }
@@ -132,11 +129,11 @@ class EditorContainer extends Component {
   /**
    * Opens active story settings
    */
-  openSettings () {
+  openSettings = () => {
     this.props.actions.startStoryCandidateConfiguration(this.props.activeStory);
   }
 
-  createNewSection () {
+  createNewSection = () => {
     const id = genId();
     const section = createDefaultSection();
     section.id = id;
@@ -244,7 +241,6 @@ class EditorContainer extends Component {
     }
     updateSection(activeStoryId, activeSectionId, newSection);
   }
-
 
   /**
    * Renders the component

@@ -7,5 +7,6 @@
     "long": 1000,
     "veryLong": 2000,
     "ultraLong": 5000
-  }
+  },
+  "savingDelayMs": 2000
 }

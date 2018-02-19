@@ -10,13 +10,26 @@ import {createStructuredSelector} from 'reselect';
 // import {persistentReducer} from 'redux-pouchdb';
 import {v4 as uuid} from 'uuid';
 
+import debounce from 'debounce-promise';
+
+
 import {loginToServer, resetPasswordServer} from '../../helpers/serverAuth';
-import {fetchStoriesServer, createStoryServer, saveStoryServer, getStoryServer, getStoryBundleServer, deleteStoryServer} from '../../helpers/serverExporter';
+import {
+  fetchStoriesServer,
+  createStoryServer,
+  saveStoryServer,
+  getStoryServer,
+  getStoryBundleServer,
+  deleteStoryServer
+} from '../../helpers/serverExporter';
 
 import config from '../../../config';
-const {timers} = config;
+const {timers, savingDelayMs} = config;
 
 import {serverUrl} from '../../../secrets';
+
+
+const debouncedSaveStoryServer = debounce(saveStoryServer, savingDelayMs);
 
 /*
  * Action names
@@ -89,7 +102,6 @@ const IMPORT_OVERRIDE_PROMPT = '§Fonio/StoriesManager/IMPORT_OVERRIDE_PROMPT';
 const IMPORT_FAIL = '§Fonio/StoriesManager/IMPORT_FAIL';
 export const IMPORT_SUCCESS = '§Fonio/StoriesManager/IMPORT_SUCCESS';
 const IMPORT_RESET = '§Fonio/StoriesManager/IMPORT_RESET';
-const SET_IMPORT_FROM_URL_CANDIDATE = '§Fonio/StoriesManager/SET_IMPORT_FROM_URL_CANDIDATE';
 
 /*
  * Action creators
@@ -143,7 +155,7 @@ export const saveStory = (story, token) => ({
         ...newResources
       }
     };
-    return saveStoryServer(newStory, token);
+    return debouncedSaveStoryServer(newStory, token);
   }
 });
 
@@ -377,16 +389,6 @@ export const importFail = (error) => (dispatch) => {
   setTimeout(() => dispatch(importReset()), timers.veryLong);
 };
 
-/**
- * Notifies the UI that user tries to import a story from an url
- * @param {string}  value - the new value to set for import from url candidate
- * @return {object} action - the redux action to dispatch
- */
- export const setImportFromUrlCandidate = (value) => ({
-  type: SET_IMPORT_FROM_URL_CANDIDATE,
-  value
- });
-
 /*
  * Reducers
  */
@@ -483,16 +485,19 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     // a section is updated by merging its content
     // todo: should we merge data instead of replacing ?
     case UPDATE_SECTION:
-      return {
-        ...state,
-        activeStory: {
-          ...state.activeStory,
-          sections: {
-            ...state.activeStory.sections,
-            [action.sectionId]: action.section
+      if (state.activeStory) {
+        return {
+          ...state,
+          activeStory: {
+            ...state.activeStory,
+            sections: {
+              ...state.activeStory.sections,
+              [action.sectionId]: action.section
+            }
           }
-        }
-      };
+        };
+      }
+      return state;
     // a section is deleted
     case DELETE_SECTION:
       newState = {...state};
@@ -1085,12 +1090,6 @@ function storyImport(state = STORY_IMPORT_DEFAULT_STATE, action) {
       return {
         ...state,
         importCandidate: action.candidate
-      };
-    // user tries to import a story from an url
-    case SET_IMPORT_FROM_URL_CANDIDATE:
-      return {
-        ...state,
-        importFromUrlCandidate: action.value
       };
     default:
       return state;

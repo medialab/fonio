@@ -18,6 +18,9 @@ import ConfigurationDialog from '../../ConfigurationDialog/components/Configurat
 import LoginDialog from './LoginDialog';
 import Toaster from '../../../components/Toaster/Toaster';
 
+Modal.setAppElement('#mount');
+
+
 /**
  * Renders the main layout component of the editor
  * @param {object} props - the props to render
@@ -51,10 +54,18 @@ const GlobalUiLayout = ({
 }, context) => {
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
+  let toasterMessage = translate('save-story-pending-log');
+  switch (storyToasterLog) {
+    case 'save-story-fail-log':
+      toasterMessage = translate('save-story-fail-log');
+      break;
+    default:
+      break;
+  }
   return (
     <div>
       <LoadingBar style={{backgroundColor: '#3fb0ac', zIndex: 10}} />
-      <Toaster status={storyToasterLogStatus} log={storyToasterLog} />
+      {storyToasterLogStatus === 'failure' && <Toaster status={storyToasterLogStatus} log={toasterMessage} />}
       <Modal
         onRequestClose={closeAndResetDialog}
         contentLabel={translate('edit-story')}

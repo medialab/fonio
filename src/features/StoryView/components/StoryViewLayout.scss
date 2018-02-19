@@ -10,6 +10,7 @@
 {
   flex: 1;
   @extend .flex-stretched-column;
+  overflow: hidden;
   .fonio-main-row
   {
     position: relative;
@@ -18,5 +19,6 @@
     flex: 10;
     flex-direction: row;
     flex-wrap: nowrap;
+    overflow: hidden;
   }
 }

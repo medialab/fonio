@@ -101,7 +101,7 @@ export function createStoryServer (story, password) {
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function saveStoryServer (story, token) {
-  return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
     const serverRequestUrl = serverUrl + '/stories/' + story.id;
 
     put(serverRequestUrl)

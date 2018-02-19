@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-2-11\n"
-"PO-Revision-Date: Sun Feb 11 2018 23:41:14 GMT+0100 (CET)\n"
+"POT-Creation-Date: 2018-2-15\n"
+"PO-Revision-Date: Thu Feb 15 2018 16:39:50 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -610,3 +610,12 @@ msgstr "resource type"
 
 msgid "Components.StoryCard.read"
 msgstr "read"
+
+msgid "Features.StorySettingsManager.back-to-home"
+msgstr "back-to-home"
+
+msgid "Features.GlobalUi.save-story-pending-log"
+msgstr "save-story-pending-log"
+
+msgid "Features.GlobalUi.save-story-fail-log"
+msgstr "save-story-fail-log"

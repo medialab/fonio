@@ -19,7 +19,6 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
  * @param {function} setTakeAwayType - callback
  * @param {string} takeAwayType - the active takeawayType
  * @param {boolean} serverAvailable - whether app is implemented with a distant server connection
- * @param {boolean} gistAvailable - whether app is implemented with a gistAvailable connection
  * @return {ReactElement} markup
  */
 export const ChooseTakeAwayStep = ({
@@ -27,9 +26,7 @@ export const ChooseTakeAwayStep = ({
   setTakeAwayType,
   takeAwayType,
   serverAvailable,
-  gistAvailable,
   serverHtmlUrl,
-  gistId
 }, context) => {
   // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.TakeAway');
@@ -40,18 +37,13 @@ export const ChooseTakeAwayStep = ({
           takeAway(option);
         }
         return setTakeAwayType(option.id);
-
-      case 'github':
-        if (!gistId) {
-          takeAway(option);
-        }
-        return setTakeAwayType(option.id);
       default:
         return takeAway(option);
     }
   };
  // todo : put this data in a model file ? to decide
-  const options = [{
+  const options = [
+        {
           id: 'project',
           icon: require('../assets/project.svg'),
           label: <span>
@@ -81,27 +73,6 @@ export const ChooseTakeAwayStep = ({
             </HelpPin>
           </span>,
           possible: serverAvailable === true
-        },
-        {
-          id: 'github',
-          icon: require('../assets/github.svg'),
-          label: <span>
-            {translate('gist-powered-website')}
-            <HelpPin>
-              {translate('gist-powered-website-help')}
-            </HelpPin></span>,
-          possible: serverAvailable === true && gistAvailable === true
-        },
-        {
-          id: 'server',
-          icon: require('../assets/server.svg'),
-          label: <span>
-            {translate('forccast-website')}
-            <HelpPin position="left">
-              {translate('forccast-website-help')}
-            </HelpPin>
-          </span>,
-          possible: serverAvailable === true
         }
         ]
         .filter(option => option.possible === true);
@@ -127,9 +98,7 @@ ChooseTakeAwayStep.contextTypes = {
  * @param {string} props.takeAwayLogStatus
  * @param {boolean} props.serverAvailable - whether app is connected to a distant server
  * @param {string} props.serverUrl - the url base of the distant server
- * @param {boolean} props.gistAvailable - whether app is connected to gist
  * @param {function} props.takeAway - main callback function for container
- * @param {function} props.updateActiveStoryFromGist -
  * @param {function} props.updateActiveStoryFromServer -
  * @param {object} props.actions - actions passed by redux logic
  * @return {ReactElement} markup
@@ -141,20 +110,14 @@ const TakeAwayDialogLayout = ({
   takeAwayLog,
   takeAwayLogStatus,
   serverAvailable,
-  serverUrl,
-  gistAvailable,
   // actions
   takeAway,
-  updateActiveStoryFromGist,
-  updateActiveStoryFromServer,
   actions: {
     closeTakeAwayModal,
     setTakeAwayType
   },
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.TakeAway');
-  const updateActiveStoryToServer = () => takeAway({id: 'server'});
-  const updateActiveStoryToGist = () => takeAway({id: 'github'});
   return (
     <div className="fonio-TakeAwayDialogLayout">
       <h1 className="modal-header">
@@ -167,101 +130,10 @@ const TakeAwayDialogLayout = ({
             setTakeAwayType={setTakeAwayType}
             serverAvailable={serverAvailable}
             takeAwayType={takeAwayType}
-            gistAvailable={gistAvailable}
-            serverHtmlUrl={activeStory && activeStory.metadata && activeStory.metadata.serverHTMLUrl}
-            gistId={activeStory && activeStory.metadata && activeStory.metadata.gistId} />
+            serverHtmlUrl={activeStory && activeStory.metadata && activeStory.metadata.serverHTMLUrl} />
         </section>
         <section className={'modal-row ' + (takeAwayLogStatus ? '' : 'empty')}>
           <Toaster status={takeAwayLogStatus} log={takeAwayLog} />
-        </section>
-        <section className="modal-row">
-          {
-          takeAwayType === 'github' &&
-          activeStory && activeStory.metadata && activeStory.metadata.gistId ?
-            <div className="sync-section-container">
-              <h2><img src={require('../assets/github.svg')} />{translate('your-story-is-online-on-gist')}</h2>
-              <div className="sync-section">
-                <div className="column">
-                  <p>
-                    <a target="blank" href={serverUrl + '/gist-story/' + activeStory.metadata.gistId}>
-                      → {translate('go-to-the-gist-based-webpage-of-your-story')}
-                    </a>
-                  </p>
-                  <iframe className="website-preview" src={serverUrl + '/gist-story/' + activeStory.metadata.gistId} />
-
-                  <p>{translate('embed-inside-an-html-webpage')}: </p>
-                  <pre>
-                    <code>
-                      {`<iframe allowfullscreen src="${serverUrl + '/gist-story/' + activeStory.metadata.gistId}" width="1000" height="500" frameborder=0></iframe>`}
-                    </code>
-                  </pre>
-                  <p>
-                    <a target="blank" href={activeStory.metadata.gistUrl}>
-                      → {translate('go-to-the-gist-source-code-of-your-story')}
-                    </a>
-                  </p>
-                </div>
-                <div className="column">
-                  <div className="operations">
-                    <button className="update-to" onClick={updateActiveStoryToGist}>
-                      ↑ {translate('update-local-version-to-the-repository')}
-                      <HelpPin position="left">
-                        {translate('the-online-version-will-be-overriden-with-your-current-version')}
-                      </HelpPin>
-                    </button>
-                    <button className="update-from" onClick={updateActiveStoryFromGist}>
-                      ↓ {translate('update-local-version-from-the-repository')}
-                      <HelpPin position="left">
-                        {translate('your-current-version-will-be-overriden-with-the-distant-version')}
-                      </HelpPin>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            : null
-        }
-          {
-          takeAwayType === 'server' &&
-          activeStory && activeStory.metadata && activeStory.metadata.serverHTMLUrl ?
-            <div className="sync-section-container">
-              <h2><img src={require('../assets/server.svg')} />{translate('story-online-on-forccast')}</h2>
-              <div className="sync-section">
-                <div className="column">
-                  <p>
-                    <a target="blank" href={activeStory.metadata.serverHTMLUrl}>
-                    → {translate('go-to-the-online-webpage')}
-                    </a>
-                  </p>
-                  <iframe className="website-preview" src={activeStory.metadata.serverHTMLUrl} />
-
-                  <p>{translate('embed-inside-an-html-webpage')}: </p>
-                  <pre>
-                    <code>
-                      {`<iframe allowfullscreen src="${activeStory.metadata.serverHTMLUrl}" width="1000" height="500" frameborder=0></iframe>`}
-                    </code>
-                  </pre>
-                </div>
-                <div className="column">
-                  <div className="operations">
-                    <button className="update-to" onClick={updateActiveStoryToServer}>
-                      ↑ {translate('update-local-version-to-the-repository')}
-                      <HelpPin position="left">
-                        {translate('the-online-version-will-be-overriden-with-your-current-version')}
-                      </HelpPin>
-                    </button>
-                    <button className="update-from" onClick={updateActiveStoryFromServer}>
-                      ↓ {translate('update-local-version-from-the-repository')}
-                      <HelpPin position="left">
-                        {translate('your-current-version-will-be-overriden-with-the-distant-version')}
-                      </HelpPin>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            : ''
-        }
         </section>
       </section>
       <section className="modal-footer">

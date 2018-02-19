@@ -18,6 +18,9 @@ import './SectionsManagerLayout.scss';
 
 import config from '../../../../config';
 const {maxSectionLevel} = config;
+
+Modal.setAppElement('#mount');
+
 /**
  * Renders the sections manager layout
  * @param {object} props - the props to render

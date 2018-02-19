@@ -3,7 +3,8 @@
  * dedicated to rendering the interface container
  * @module fonio/features/GlobalUi
  */
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {setLanguage} from 'redux-i18n';
@@ -45,7 +46,7 @@ class GlobalUiContainer extends Component {
     /**
      * Un-namespaced translate function
      */
-    t: React.PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
 
     /**
      * Redux store

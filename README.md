@@ -3,8 +3,6 @@
 Fonio is a tool dedicated to the making of webpages telling stories with datasets, called *data stories*.
 Users import their data from their computer, then compose their data stories, then finally export it to static html or to a web publication.
 
-Users personal data is stored on the `indexedDb` of the user's browser, nevertheless it can also be synchronized with a [gist](https://gist.github.com/) code repository and/or with a distant backend server.
-
 Fonio is part of the ``quinoa`` project family, a suite of digital storytelling tools tailored for the [FORCCAST](http://controverses.org/) pedagogical program and [médialab sciences po](http://www.medialab.sciences-po.fr/) scientific activities.
 
 It is supposed to be used along with the [bulgur](https://github.com/medialab/bulgur) project, which allows to make "data presentations" to be embed in data stories.
@@ -38,12 +36,6 @@ Output your data to high-quality and very robust documents :
 
 * choose a stories template and personalize it with custom css code and various examples
 * save your document as a all-in-one html document that can be hosted on any server/service later on
-
-Keep your data on your browser or synchronize it with distant sources :
-
-* store data on browser's local storage
-* import and export data relative to a specific story from a forccast server repository
-* import and export data relative to a specific story from a gist repository
 
 # Requirements
 
