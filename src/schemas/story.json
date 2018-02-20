@@ -93,7 +93,7 @@
                                             "type": "number",
                                             "description": "order of the note"
                                         },
-                                        "editorState": {
+                                        "contents": {
                                             "description": "representation of the note content",
                                             "$ref": "#/definitions/draft_raw_content"
                                         }
