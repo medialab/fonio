@@ -1,4 +1,6 @@
 /* eslint react/no-danger : 0 */
+/* eslint react/no-set-state : 0 */
+
 /**
  * This module provides a asset preview element component
  * @module fonio/components/AssetPreview
@@ -12,6 +14,7 @@ import 'react-table/react-table.css';
 import QuinoaPresentationPlayer from 'quinoa-presentation-player';
 import BibliographicPreview from '../BibliographicPreview/BibliographicPreview';
 import {translateNameSpacer} from '../../helpers/translateUtils';
+import {loadResourceData} from '../../helpers/assetsUtils';
 
 import './AssetPreview.scss';
 
@@ -69,43 +72,78 @@ EmbedContainer.propTypes = {
   html: PropTypes.string,
 };
 
-
 /**
- * Renders the AssetPreview component as a pure function
+ * Renders the AssetPreview component as a react component instances
  * @param {object} props - used props (see prop types below)
  * @param {object} context - used context data (see context types below)
  * @return {ReactElement} component - the resulting component
  */
-const AssetPreview = ({
-  type,
-  metadata = {},
-  data,
-  onEditRequest,
-  showPannel = false
-}, context) => {
-  const translate = translateNameSpacer(context.t, 'Components.AssetPreview');
-  const onClick = e => {
-    e.stopPropagation();
-    if (typeof onEditRequest === 'function') {
-      onEditRequest();
+class AssetPreview extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: undefined,
+      loading: false,
+      columns: []
+    };
+    this.onClickEdit = this.onClickEdit.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateResource();
+  }
+
+  conponentWillReceiveProps(nextProps) {
+    if ((nextProps.data !== this.props.data) || nextProps.metadata.lastModifiedAt !== this.props.metadata.lastModifiedAt) {
+      this.updateResource();
     }
-  };
+  }
 
-
-  /**
-   * Builds the appropriate preview against asset type
-   * @return {ReactElement} component - appropriate component
-   */
-  const renderPreview = () => {
-    switch (type) {
-      case 'table':
-        const columns = Object.keys(data[0]).map(key => ({
+  updateResource() {
+    const {data, type} = this.props;
+    if (type === 'table' && data && data.url) {
+      this.setState({loading: true});
+      loadResourceData(data.url)
+      .then((result) => {
+        const columns = Object.keys(result[0]).map(key => ({
           Header: key,
           accessor: key
         }));
+        this.setState({
+          data: result,
+          loading: false,
+          columns
+        });
+      });
+    }
+
+    if (type === 'data-presentation' && data && data.url) {
+      loadResourceData(data.url)
+      .then((result) => {
+        this.setState({
+          data: result
+        });
+      });
+    }
+  }
+
+  renderPreview() {
+    const {type, data} = this.props;
+    const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
+    switch (type) {
+      case 'table':
+        let columns;
+        if (data.json) {
+          columns = Object.keys(data.json[0]).map(key => ({
+            Header: key,
+            accessor: key
+          }));
+        }
         return (<ReactTable
-          data={data}
-          columns={columns}
+          data={data.json || this.state.data}
+          columns={columns || this.state.columns}
+          loading={this.state.loading}
           previousText={translate('table-previous')}
           nextText={translate('table-next')}
           loadingText={translate('table-loading')}
@@ -114,7 +152,7 @@ const AssetPreview = ({
           ofText={translate('table-of')}
           rowsText={translate('table-row')} />);
       case 'image':
-        return <img src={data.base64 || data.url} />;
+        return <img key={new Date()} src={data.base64 || data.url} />;
       case 'video':
         return (
           <Media>
@@ -123,8 +161,8 @@ const AssetPreview = ({
         );
       case 'data-presentation':
         return (
-          <QuinoaPresentationPlayer
-            presentation={data} />
+          (data.json || this.state.data) && <QuinoaPresentationPlayer
+            presentation={data.json || this.state.data} />
         );
       case 'embed':
         return (
@@ -142,22 +180,34 @@ const AssetPreview = ({
       default:
         return null;
     }
-  };
-  return (
-    <div className="fonio-AssetPreview">
-      <div className="preview-container">
-        {data && renderPreview()}
-      </div>
-      {showPannel && <div onClick={onClick} className="asset-metadata">
-        {metadata.title && <h5>{metadata.title}</h5>}
-        {metadata.description && <p>{metadata.description}</p>}
-        <div>
-          <button onClick={onClick}>{translate('edit')}</button>
-        </div>
-      </div>}
-    </div>);
-};
+  }
 
+  onClickEdit (e) {
+    const {onEditRequest} = this.props;
+    e.stopPropagation();
+    if (typeof onEditRequest === 'function') {
+      this.props.onEditRequest();
+    }
+  }
+
+  render() {
+    const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
+    const {data, metadata, showPannel} = this.props;
+    return (
+      <div className="fonio-AssetPreview">
+        <div className="preview-container">
+          {data && this.renderPreview()}
+        </div>
+        {showPannel && <div onClick={this.onClickEdit} className="asset-metadata">
+          {metadata.title && <h5>{metadata.title}</h5>}
+          {metadata.description && <p>{metadata.description}</p>}
+          <div>
+            <button onClick={this.onClickEdit}>{translate('edit')}</button>
+          </div>
+        </div>}
+      </div>);
+  }
+}
 
 /**
  * Component's properties types

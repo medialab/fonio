@@ -358,7 +358,8 @@ const ResourceConfigurationDialog = ({
                   <h4>{translate('preview-title')}</h4>
                   <AssetPreview
                     type={resourceCandidateType}
-                    data={resourceCandidate.data} />
+                    data={resourceCandidate.data}
+                    metadata={resourceCandidate.metadata} />
                 </div>)
                 : null
               }

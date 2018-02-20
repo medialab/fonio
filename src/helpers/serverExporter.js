@@ -164,27 +164,6 @@ export function deleteStoryServer (id, token) {
   });
 }
 
-/**
- * @param {object} story
- * @param {function} dispatch - the dispatch function to use to connect the process to redux logic
- * @param {string} statusActionName - the name base of the actions to dispatch
- * @return {promise} actionPromise - a promise handling the attempt to publish to server
- */
-export function fetchResourcesServer (storyId) {
-  return new Promise((resolve, reject) => {
-    const serverRequestUrl = serverUrl + '/resources/' + storyId;
-    get(serverRequestUrl)
-      .end((err, response) => {
-          if (err) {
-            return reject(err);
-          }
-          else {
-            return resolve(JSON.parse(response.text));
-          }
-        });
-    });
-}
-
 
 /**
  * @param {object} resource upload to server

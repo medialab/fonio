@@ -54,7 +54,6 @@ import {
   CREATE_RESOURCE,
   DELETE_RESOURCE,
   UPDATE_RESOURCE,
-  FETCH_RESOURCES,
   UPLOAD_RESOURCE_REMOTE,
   DELETE_RESOURCE_REMOTE,
 } from '../ResourcesManager/duck';
@@ -415,6 +414,7 @@ const STORIES_DEFAULT_STATE = {
  */
 function stories(state = STORIES_DEFAULT_STATE, action) {
   let newState;
+  let story;
   switch (action.type) {
     case UNSET_ACTIVE_STORY:
       return {
@@ -427,12 +427,36 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         stories: action.result
       };
     case FETCH_STORY + '_SUCCESS':
+      story = action.result;
+      const newResources = {};
+      Object.keys(story.resources)
+        .map(key => story.resources[key])
+        .forEach(resource => {
+          const {type} = resource.metadata;
+          // generate data.url to link to image addr on server
+          if ((type === 'image' || type === 'table' || type === 'data-presentation') && !resource.data) {
+            const ext = type === 'image' ? resource.metadata.mime.split('/')[1] : 'json';
+            newResources[resource.metadata.id] = {
+              ...resource,
+              data: {
+                ...resource.data,
+                url: serverUrl + '/static/' + story.id + '/resources/' + resource.metadata.id + '.' + ext
+              }
+            };
+          }
+        });
       return {
         ...state,
-        activeStory: action.result
+        activeStory: {
+          ...story,
+          resources: {
+            ...story.resources,
+            ...newResources
+          }
+        }
       };
     case CREATE_STORY + '_SUCCESS':
-      const {story} = action.result;
+      story = action.result.story;
       return {
         ...state,
         stories: {
@@ -522,40 +546,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     /*
      * RESOURCES-RELATED
      */
-    case FETCH_RESOURCES + '_SUCCESS':
-      newState = {...state};
-      const newResources = {};
-      Object.keys(state.activeStory.resources)
-        .map(key => state.activeStory.resources[key])
-        .forEach(resource => {
-          if (action.result[resource.metadata.id]) {
-            newResources[resource.metadata.id] = {
-              ...resource,
-              data: action.result[resource.metadata.id]
-            };
-          }
-          // generate data.url to link to image addr on server
-          if (resource.metadata.type === 'image' && !resource.data) {
-            const ext = resource.metadata.mime.split('/')[1];
-            newResources[resource.metadata.id] = {
-              ...resource,
-              data: {
-                ...resource.data,
-                url: serverUrl + '/static/' + state.activeStory.id + '/resources/' + resource.metadata.id + '.' + ext
-              }
-            };
-          }
-        });
-      return {
-        ...state,
-        activeStory: {
-          ...state.activeStory,
-          resources: {
-            ...state.activeStory.resources,
-            ...newResources
-          }
-        }
-      };
 
     // CUD on resources
     case UPDATE_RESOURCE:
@@ -567,8 +557,10 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         resource
       } = action;
       let newResource = {...resource};
-      if (resource.metadata.type === 'image') {
-        const ext = resource.metadata.mime.split('/')[1];
+      const {type} = resource.metadata;
+      if (type === 'image' || type === 'table' || type === 'data-presentation') {
+        const ext = type === 'image' ? resource.metadata.mime.split('/')[1] : 'json';
+        console.log(resource.metadata)
         newResource = {
           ...resource,
           data: {
@@ -956,7 +948,6 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
     case FETCH_STORY + '_RESET':
     case SAVE_STORY + '_RESET':
     case DELETE_STORY + '_RESET':
-    case FETCH_RESOURCES + '_RESET':
     case DELETE_RESOURCE_REMOTE + '_RESET':
       return {
         ...state,
@@ -967,7 +958,6 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
     case FETCH_STORY + '_FAIL':
     case SAVE_STORY + '_FAIL':
     case DELETE_STORY + '_FAIL':
-    case FETCH_RESOURCES + '_FAIL':
     case DELETE_RESOURCE_REMOTE + '_FAIL':
       actionString = action.type.split('/')[2].toLowerCase().split('_').join('-');
       return {

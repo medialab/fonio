@@ -68,6 +68,21 @@ export function loadImage(file) {
   });
 }
 
+/**
+ * Loads a json data from static url
+ * todo: could be improved
+ * @param {url} static url
+ * @return {Promise} process - loading is wrapped in a promise for consistence matters
+ */
+export function loadResourceData(url) {
+  return new Promise((resolve) => {
+    get(url)
+    .then((res) => {
+      resolve(res.body);
+    });
+  });
+}
+
 const youtubeRegexp = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/gi;
 const vimeoRegexp = /^(https?\:\/\/)?(www\.)?(vimeo\.com)/gi;
 /**

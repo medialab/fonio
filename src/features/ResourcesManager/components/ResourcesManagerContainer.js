@@ -230,11 +230,12 @@ class ResourcesManagerContainer extends Component {
       id,
       metadata: {
         ...resource.metadata,
+        createdAt: new Date().getTime(),
         id
       }
     };
     const {type} = resource.metadata;
-    if ((type === 'image' && resource.data.base64) || type === 'data-presentation' || type === 'table') {
+    if ((type === 'image' && resource.data.base64) || (type === 'data-presentation' && resource.data.json) || (type === 'table' && resource.data.json)) {
       const token = localStorage.getItem(activeStoryId);
       this.props.actions.uploadResourceRemote(activeStoryId, id, newResource, token);
     }
@@ -252,13 +253,20 @@ class ResourcesManagerContainer extends Component {
     const {
       activeStoryId
     } = this.props;
+    const newResource = {
+      ...resource,
+      metadata: {
+        ...resource.metadata,
+        lastModifiedAt: new Date().getTime()
+      }
+    };
     const {type} = resource.metadata;
-    if ((type === 'image' && resource.data.base64) || type === 'data-presentation' || type === 'table') {
+    if ((type === 'image' && resource.data.base64) || (type === 'data-presentation' && resource.data.json) || (type === 'table' && resource.data.json)) {
       const token = localStorage.getItem(activeStoryId);
-      this.props.actions.uploadResourceRemote(activeStoryId, id, resource, token);
+      this.props.actions.uploadResourceRemote(activeStoryId, id, newResource, token);
     }
     else
-      this.props.actions.updateResource(activeStoryId, id, resource);
+      this.props.actions.updateResource(activeStoryId, id, newResource);
   }
 
   /**

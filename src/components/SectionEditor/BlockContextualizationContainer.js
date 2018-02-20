@@ -60,12 +60,14 @@ class BlockContainer extends Component {
     };
 
 
-    return (<AssetPreview
-      type={resource.metadata && resource.metadata.type}
-      data={resource.data}
-      metadata={resource.metadata}
-      onEditRequest={onEditRequest}
-      showPannel />);
+    return (resource.data ?
+      <AssetPreview
+        type={resource.metadata && resource.metadata.type}
+        data={resource.data}
+        metadata={resource.metadata}
+        onEditRequest={onEditRequest}
+        showPannel /> : null
+      );
   }
 }
 

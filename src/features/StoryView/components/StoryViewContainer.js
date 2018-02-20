@@ -6,7 +6,6 @@ import {setLanguage} from 'redux-i18n';
 
 import * as globalUiDuck from '../../GlobalUi/duck';
 import * as managerDuck from '../../StoriesManager/duck';
-import {fetchResources as fetchResourcesAction} from '../../ResourcesManager/duck';
 import StoryViewLayout from './StoryViewLayout';
 
 
@@ -23,7 +22,6 @@ import StoryViewLayout from './StoryViewLayout';
     actions: bindActionCreators({
       ...globalUiDuck,
       ...managerDuck,
-      fetchResources: fetchResourcesAction,
       setLanguage
     }, dispatch)
   })
@@ -55,14 +53,13 @@ export default class StoryViewContainer extends Component {
 
   componentWillMount() {
     const {match, actions} = this.props;
-    const {fetchStory, fetchResources, setActiveStory, openPasswordModal} = actions;
+    const {fetchStory, setActiveStory, openPasswordModal} = actions;
     // TODO: optimize initialize story
     fetchStory(match.params.id).then(res => {
       if (res.result) {
         const activeStoryId = res.result.id;
         const isLogedIn = localStorage.getItem(activeStoryId);
         setActiveStory(res.result);
-        fetchResources(activeStoryId);
         if (match.params.mode === 'edit' && !isLogedIn) {
           openPasswordModal(activeStoryId);
         }

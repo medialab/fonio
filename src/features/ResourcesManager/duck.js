@@ -22,7 +22,7 @@ import {
   getFileAsText
 } from '../../helpers/fileLoader';
 
-import {fetchResourcesServer, uploadResourceServer, deleteResourceServer} from '../../helpers/serverExporter';
+import {uploadResourceServer, deleteResourceServer} from '../../helpers/serverExporter';
 
 import {
   youtubeAPIKey
@@ -65,7 +65,6 @@ export const CREATE_RESOURCE = '§Fonio/ResourcesManager/CREATE_RESOURCE';
 export const DELETE_RESOURCE = '§Fonio/ResourcesManager/DELETE_RESOURCE';
 export const UPDATE_RESOURCE = '§Fonio/ResourcesManager/UPDATE_RESOURCE';
 
-export const FETCH_RESOURCES = '§Fonio/ResourcesManager/FETCH_RESOURCES';
 export const UPLOAD_RESOURCE_REMOTE = '§Fonio/ResourcesManager/UPLOAD_RESOURCE_REMOTE';
 export const DELETE_RESOURCE_REMOTE = '§Fonio/ResourcesManager/DELETE_RESOURCE_REMOTE';
 
@@ -165,7 +164,7 @@ export const submitResourceData = (type, data, existingData) => ({
           return getFileAsText(data, (err, str) => {
             try {
               const structuredData = csvParse(str);
-              resolve(structuredData);
+              resolve({json: structuredData});
             }
             catch (e) {
               reject(e);
@@ -204,7 +203,7 @@ export const submitResourceData = (type, data, existingData) => ({
             try {
               const structuredData = JSON.parse(str);
               // todo: add a presentation validation hook here
-              resolve(structuredData);
+              resolve({json: structuredData});
             }
             catch (e) {
               reject(e);
@@ -288,19 +287,6 @@ export const createResource = (storyId, id, resource) => ({
   storyId,
   id,
   resource
-});
-
-/**
- * Fetch all resources for story
- * @param {string} storyId - the id of the story to create the resource in
- * @return {object} action - the redux action to dispatch
- */
-export const fetchResources = (storyId) => ({
-  type: FETCH_RESOURCES,
-  storyId,
-  promise: () => {
-    return fetchResourcesServer(storyId);
-  }
 });
 
 /**
@@ -591,12 +577,10 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
       // this is useful for resources types such as bibliographic records
       // in which data contains probable metadata (e.g. 'title')
       const inferedMetadata = inferMetadata(action.result, state.resourceCandidate.metadata.type);
-      const metadata = Object.keys(inferedMetadata).reduce((result, key) => {
-        if (inferedMetadata[key] && (!result[key] || !result[key].length)) {
-          result[key] = inferedMetadata[key];
-        }
-        return result;
-      }, state.resourceCandidate.metadata);
+      const metadata = {
+        ...state.resourceCandidate.metadata,
+        ...inferedMetadata
+      };
       return {
         ...state,
         resourceDataLoadingState: 'success',
