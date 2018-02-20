@@ -176,4 +176,9 @@
     {
         max-width: 50rem;// todo: parametrize that
     }
+
+    .contextualization-loading-placeholder{
+        @extend .important-item;
+        padding: $gutter-small;
+    }
 }

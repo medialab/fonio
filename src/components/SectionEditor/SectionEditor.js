@@ -456,6 +456,30 @@ class SectionEditor extends Component {
     this.props.updateSection(storyId, sectionId, newSection);
   }
 
+  /**
+   * Util for Draft.js strategies building
+   */
+  findWithRegex = (regex, contentBlock, callback) => {
+    const text = contentBlock.getText();
+    let matchArr;
+    let start;
+    while ((matchArr = regex.exec(text)) !== null) {
+      start = matchArr.index;
+      callback(start, start + matchArr[0].length);
+    }
+  }
+
+  /**
+   * Draft.js strategy for finding draft js drop placeholders
+   * @param {ImmutableRecord} contentBlock - the content block in which entities are searched
+   * @param {function} callback - callback with arguments (startRange, endRange, props to pass)
+   * @param {ImmutableRecord} inputContentState - the content state to parse
+   */
+  findDraftDropPlaceholder = (contentBlock, callback) => {
+    const PLACE_HLODER_REGEX = /(DRAFTJS_RESOURCE_ID:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/gi;
+    this.findWithRegex(PLACE_HLODER_REGEX, contentBlock, callback);
+  }
+
 
   /**
    * Renders the component
@@ -583,7 +607,7 @@ class SectionEditor extends Component {
           anchorOffset: selection.getStartOffset() - payload.length,
           focusKey: selection.getEndKey(),
           focusOffset: selection.getEndOffset() - payload.length
-        })
+        });
         updateDraftEditorState(editorId, EditorState.forceSelection(editorState, rightSelectionState));
         onAssetChoice({metadata: {id}}, contentId);
       }
@@ -649,8 +673,8 @@ class SectionEditor extends Component {
           <input
             type="text"
             ref={sectionTitle => {
-this.sectionTitle = sectionTitle;
-}}
+            this.sectionTitle = sectionTitle;
+            }}
             onClick={onSectionTitleClick}
             value={activeSection.metadata.title || ''}
             onChange={onActiveSectionTitleChange}
@@ -672,8 +696,8 @@ this.sectionTitle = sectionTitle;
               clipboard={clipboard}
 
               ref={editor => {
-this.editor = editor;
-}}
+              this.editor = editor;
+              }}
 
               focusedEditorId={focusedEditorId}
 
@@ -697,7 +721,8 @@ this.editor = editor;
 
               inlineAssetComponents={inlineAssetComponents}
               blockAssetComponents={blockAssetComponents}
-              AssetChoiceComponent={ResourceSearchWidget} />
+              AssetChoiceComponent={ResourceSearchWidget}
+              inlineEntities={[{strategy: this.findDraftDropPlaceholder, component: () => <span className="contextualization-loading-placeholder">{translate('loading')}</span>}]} />
 
           </ReferencesManager>
         </div>

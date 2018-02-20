@@ -50,6 +50,7 @@
   "Components.SectionCard.confirm-delete": "delete section",
   "Components.Bibliography.bibliography-title": "References",
   "Components.Footer.section-title": "section title",
+  "Components.Footer.loading": "loading",
   "Components.StoryCard.untitled_story": "Untitled story",
   "Components.StoryCard.no_description": "no description",
   "Components.StoryCard.edit": "edit",
