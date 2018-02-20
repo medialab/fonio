@@ -560,7 +560,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       const {type} = resource.metadata;
       if (type === 'image' || type === 'table' || type === 'data-presentation') {
         const ext = type === 'image' ? resource.metadata.mime.split('/')[1] : 'json';
-        console.log(resource.metadata)
         newResource = {
           ...resource,
           data: {
