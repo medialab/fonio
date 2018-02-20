@@ -220,7 +220,6 @@ class SectionEditor extends Component {
   }
 
 
-
   /**
    * Handles user cmd+c like command (storing stashed contextualizations among other things)
    */
@@ -600,10 +599,9 @@ class SectionEditor extends Component {
         if (focusedEditorId === contentId && !assetRequestPosition) {
           setEditorFocus(undefined);
         }
-        // if(contentId !== 'main') {
-        //   console.log('update the note');
-        //   this.updateSectionRawContent(contentId, this.props.activeStoryId, this.props.sectionId);
-        // }
+        if(contentId !== 'main') {
+          this.updateSectionRawContent(contentId, this.props.activeStoryId, this.props.sectionId);
+        }
       });
     };
 
