@@ -312,7 +312,7 @@ class SectionEditor extends Component {
       ...activeNotes,
       [id]: {
         id,
-        editorState: this.editor.generateEmptyEditor()
+        contents: this.editor.generateEmptyEditor()
       }
     };
     const {newNotes, notesOrder} = updateNotesFromEditor(mainEditorState, notes);
@@ -398,9 +398,9 @@ class SectionEditor extends Component {
         // notes' editor states hydratation
         .reduce((eds, noteId) => ({
           ...eds,
-          [noteId]: activeSection.notes[noteId].editorState && activeSection.notes[noteId].editorState.entityMap ?
+          [noteId]: activeSection.notes[noteId].contents && activeSection.notes[noteId].contents.entityMap ?
           EditorState.createWithContent(
-            convertFromRaw(activeSection.notes[noteId].editorState),
+            convertFromRaw(activeSection.notes[noteId].contents),
             this.editor.mainEditor.createDecorator()
           )
           : this.editor.generateEmptyEditor()
@@ -428,7 +428,6 @@ class SectionEditor extends Component {
       return;
     }
     const rawContent = convertToRaw(finalEditorState.getCurrentContent());
-
 
     let newSection;
     // this.props.update(this.state.editorState);
@@ -509,7 +508,7 @@ class SectionEditor extends Component {
       ...no,
       [id]: {
         ...inputNotes[id],
-        editorState: editorStates[id]
+        contents: editorStates[id]
       }
     }), {}) : {};
 
@@ -601,6 +600,10 @@ class SectionEditor extends Component {
         if (focusedEditorId === contentId && !assetRequestPosition) {
           setEditorFocus(undefined);
         }
+        // if(contentId !== 'main') {
+        //   console.log('update the note');
+        //   this.updateSectionRawContent(contentId, this.props.activeStoryId, this.props.sectionId);
+        // }
       });
     };
 
@@ -663,8 +666,8 @@ this.sectionTitle = sectionTitle;
               clipboard={clipboard}
 
               ref={editor => {
-this.editor = editor;
-}}
+              this.editor = editor;
+              }}
 
               focusedEditorId={focusedEditorId}
 
