@@ -227,7 +227,7 @@ AssetPreview.propTypes = {
   /**
    * Data of the asset
    */
-  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.string]),
 
   /**
    * Whether to show the pannel displaying asset metadata

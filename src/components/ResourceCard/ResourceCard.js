@@ -267,7 +267,7 @@ ResourceCard.propTypes = {
   /**
    * data of the card
    */
-  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.string]),
 
   /**
    * metadata of the card
