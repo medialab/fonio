@@ -152,6 +152,8 @@ class SectionEditor extends Component {
     document.addEventListener('copy', this.onCopy);
     document.addEventListener('cut', this.onCopy);
     document.addEventListener('paste', this.onPaste);
+
+    this.updateStateFromProps(this.props);
   }
 
 
@@ -176,12 +178,7 @@ class SectionEditor extends Component {
           this.props.sectionId !== nextProps.sectionId
         )
       ) {
-      const assets = computeAssets(nextProps);
-      this.setState({/* eslint react/no-set-state : 0 */
-        assets,
-        assetChoiceProps: computeAssetChoiceProps(nextProps),
-        citations: buildCitations(assets, nextProps),
-      });
+      this.updateStateFromProps(nextProps);
     }
   }
 
@@ -212,6 +209,17 @@ class SectionEditor extends Component {
     document.removeEventListener('cut', this.onCopy);
     document.removeEventListener('paste', this.onPaste);
   }
+
+  updateStateFromProps = props => {
+    const assets = computeAssets(props);
+    this.setState({/* eslint react/no-set-state : 0 */
+      assets,
+      assetChoiceProps: computeAssetChoiceProps(props),
+      citations: buildCitations(assets, props),
+    });
+  }
+
+
 
   /**
    * Handles user cmd+c like command (storing stashed contextualizations among other things)

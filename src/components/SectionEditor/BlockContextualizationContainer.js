@@ -59,7 +59,6 @@ class BlockContainer extends Component {
       }
     };
 
-
     return (<AssetPreview
       type={resource.metadata && resource.metadata.type}
       data={resource.data}
