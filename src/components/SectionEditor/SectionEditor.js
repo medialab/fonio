@@ -301,7 +301,7 @@ class SectionEditor extends Component {
       ...fNotes,
       [nd]: {
         ...activeSection.notes[nd],
-        editorState: EditorState.createWithContent(
+        contents: EditorState.createWithContent(
             convertFromRaw(activeSection.notes[nd].editorState),
             this.editor.mainEditor.createDecorator()
           )
@@ -325,7 +325,7 @@ class SectionEditor extends Component {
         ...fNotes,
         [nd]: {
           ...notes[nd],
-          editorState: notes[nd].editorState ? convertToRaw(notes[nd].editorState.getCurrentContent()) : this.editor.generateEmptyEditor()
+          contents: notes[nd].editorState ? convertToRaw(notes[nd].editorState.getCurrentContent()) : this.editor.generateEmptyEditor()
         }
       }), {})
     };
@@ -445,7 +445,7 @@ class SectionEditor extends Component {
           ...section.notes,
           [editorStateId]: {
             ...section.notes[editorStateId],
-            editorState: rawContent
+            contents: rawContent
           }
         }
       };
