@@ -12,6 +12,7 @@ import {
   EditorState,
   convertToRaw,
   convertFromRaw,
+  SelectionState
 } from 'draft-js';
 
 import config from '../../../config';
@@ -576,7 +577,14 @@ class SectionEditor extends Component {
         }
         const editorId = contentId === 'main' ? activeSection.id : contentId;
         const editorState = editorStates[editorId];
-        updateDraftEditorState(editorId, EditorState.forceSelection(editorState, selection));
+        // updating selection to take into account the drop payload
+        const rightSelectionState = new SelectionState({
+          anchorKey: selection.getStartKey(),
+          anchorOffset: selection.getStartOffset() - payload.length,
+          focusKey: selection.getEndKey(),
+          focusOffset: selection.getEndOffset() - payload.length
+        })
+        updateDraftEditorState(editorId, EditorState.forceSelection(editorState, rightSelectionState));
         onAssetChoice({metadata: {id}}, contentId);
       }
     };
