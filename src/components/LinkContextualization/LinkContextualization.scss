@@ -1,0 +1,41 @@
+/**
+ * style definitions for the LinkContextualization component
+ *
+ * @module fonio/components/LinkContextualization
+ */
+@import '../../parameters.scss';
+
+.fonio-LinkContextualization
+{
+    margin: 0;
+    padding: $gutter-small 0 $gutter-small 0;
+
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+
+    border-radius: $gutter-medium;
+
+    @extend .important-item;
+
+    
+    input
+    {
+        margin-left: $gutter-medium;
+        padding: 0;
+        &:hover,
+        &:focus
+        {
+            @extend .important-item-intent;
+        }
+    }
+
+    button
+    {
+        font-size: $font-size-1;
+
+        margin-right: $gutter-medium;
+    }
+}

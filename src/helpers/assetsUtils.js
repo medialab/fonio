@@ -290,7 +290,7 @@ export function inferMetadata(data, assetType) {
     // could be an academic-like short citation of this reference)
 
     // todo: choose that from resource model
-    const insertionType = resource.metadata.type === 'bib' || resource.metadata.type === 'glossary' ? 'inline' : 'block';
+    const insertionType = ['bib', 'glossary', 'webpage'].indexOf(resource.metadata.type) > -1 ? 'inline' : 'block';
 
     // 2. create contextualization
     const contextualizationId = genId();

@@ -58,6 +58,7 @@ import BlockContextualizationContainer from './BlockContextualizationContainer';
 import ResourceSearchWidget from '../ResourceSearchWidget/ResourceSearchWidget';
 import InlineCitation from '../InlineCitation/InlineCitation';
 import GlossaryMention from '../GlossaryMention/GlossaryMention';
+import LinkContextualization from '../LinkContextualization/LinkContextualization';
 
 import Bibliography from './Bibliography';
 
@@ -69,7 +70,8 @@ import Bibliography from './Bibliography';
  */
 const inlineAssetComponents = {
   bib: InlineCitation,
-  glossary: GlossaryMention
+  glossary: GlossaryMention,
+  webpage: LinkContextualization
 };
 
 
@@ -218,7 +220,6 @@ class SectionEditor extends Component {
       citations: buildCitations(assets, props),
     });
   }
-
 
 
   /**

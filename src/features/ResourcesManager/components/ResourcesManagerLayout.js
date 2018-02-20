@@ -80,6 +80,10 @@ const ResourcesManagerLayout = ({
       label: translateResources('resource-type-video')
     },
     {
+      value: 'webpage',
+      label: translateResources('resource-type-webpage')
+    },
+    {
       value: 'embed',
       label: translateResources('resource-type-embed')
     },
