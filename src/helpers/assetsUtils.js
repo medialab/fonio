@@ -12,12 +12,15 @@ import {v4 as genId} from 'uuid';
 import Cite from 'citation-js';
 
 import {
-  convertToRaw
+  convertToRaw,
+  Modifier,
+  EditorState
 } from 'draft-js';
 
 import {
   insertInlineContextualization,
-  insertBlockContextualization
+  insertBlockContextualization,
+  getTextSelection
 } from './draftUtils';
 
 /**
@@ -264,6 +267,25 @@ export function inferMetadata(data, assetType) {
     const activeSection = activeStory.sections[activeSectionId];
     const resource = activeStory.resources[resourceId];
 
+    const editorStateId = contentId === 'main' ? activeSectionId : contentId;
+    const editorState = editorStates[editorStateId];
+
+    // choose if inline or block
+    // todo: for now we infer from the resource type whether contextualization
+    // must be in block or inline mode.
+    // but we could choose to let the user decide
+    // (e.g. 1: a 'bib' reference in block mode
+    // could be the full reference version of the reference)
+    // (e.g. 2: a 'quinoa presentation' reference in inline mode
+    // could be an academic-like short citation of this reference)
+
+    // todo: choose that from resource model
+    const insertionType = ['bib', 'glossary', 'webpage'].indexOf(resource.metadata.type) > -1 ? 'inline' : 'block';
+    const hasAlias = resource.metadata.type === 'glossary' || resource.metadata.type === 'webpage';
+
+    // get selected text
+    const selectedText = getTextSelection(editorState.getCurrentContent(), editorState.getSelection());
+
     // 1. create contextualizer
     // question: why isn't the contextualizer
     // data directly embedded in the contextualization data ?
@@ -277,20 +299,10 @@ export function inferMetadata(data, assetType) {
     const contextualizer = {
       id: contextualizerId,
       type: resource.metadata.type,
+      alias: hasAlias ? selectedText : undefined
     };
     createContextualizer(activeStoryId, contextualizerId, contextualizer);
 
-    // choose if inline or block
-    // todo: for now we infer from the resource type whether contextualization
-    // must be in block or inline mode.
-    // but we could choose to let the user decide
-    // (e.g. 1: a 'bib' reference in block mode
-    // could be the full reference version of the reference)
-    // (e.g. 2: a 'quinoa presentation' reference in inline mode
-    // could be an academic-like short citation of this reference)
-
-    // todo: choose that from resource model
-    const insertionType = ['bib', 'glossary', 'webpage'].indexOf(resource.metadata.type) > -1 ? 'inline' : 'block';
 
     // 2. create contextualization
     const contextualizationId = genId();
@@ -304,12 +316,24 @@ export function inferMetadata(data, assetType) {
     createContextualization(activeStoryId, contextualizationId, contextualization);
 
     // 3. update the proper editor state
-    const editorStateId = contentId === 'main' ? activeSectionId : contentId;
-    const editorState = editorStates[editorStateId];
+
+    let newEditorState = editorState;
+
+    // if alias remove text placeholder
+    if (hasAlias && selectedText.length) {
+      const newContentState = Modifier.replaceText(
+        newEditorState.getCurrentContent(),
+        editorState.getSelection(),
+        ''
+      );
+      newEditorState = EditorState.push(newEditorState, newContentState, 'replace-text');
+    }
     // update related editor state
-    const newEditorState = insertionType === 'block' ?
-      insertBlockContextualization(editorState, contextualization, contextualizer, resource) :
-      insertInlineContextualization(editorState, contextualization, contextualizer, resource);
+    newEditorState = insertionType === 'block' ?
+      insertBlockContextualization(newEditorState, contextualization, contextualizer, resource) :
+      insertInlineContextualization(newEditorState, contextualization, contextualizer, resource);
+
+
     // update immutable editor state
     updateDraftEditorState(editorStateId, newEditorState);
     // update serialized editor state
