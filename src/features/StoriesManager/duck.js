@@ -533,7 +533,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         const index = state.activeStory.sectionsOrder.indexOf(action.sectionId);
         sectionsOrder = [
           ...state.activeStory.sectionsOrder.slice(0, index),
-          ...state.activeStory.newStatesectionsOrder.slice(index + 1)
+          ...state.activeStory.sectionsOrder.slice(index + 1)
         ];
       }
       return {
