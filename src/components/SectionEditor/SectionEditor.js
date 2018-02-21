@@ -12,6 +12,7 @@ import {
   EditorState,
   convertToRaw,
   convertFromRaw,
+  SelectionState
 } from 'draft-js';
 
 import config from '../../../config';
@@ -58,6 +59,7 @@ import BlockContextualizationContainer from './BlockContextualizationContainer';
 import ResourceSearchWidget from '../ResourceSearchWidget/ResourceSearchWidget';
 import InlineCitation from '../InlineCitation/InlineCitation';
 import GlossaryMention from '../GlossaryMention/GlossaryMention';
+import LinkContextualization from '../LinkContextualization/LinkContextualization';
 
 import Bibliography from './Bibliography';
 
@@ -69,7 +71,8 @@ import Bibliography from './Bibliography';
  */
 const inlineAssetComponents = {
   bib: InlineCitation,
-  glossary: GlossaryMention
+  glossary: GlossaryMention,
+  webpage: LinkContextualization
 };
 
 
@@ -218,7 +221,6 @@ class SectionEditor extends Component {
       citations: buildCitations(assets, props),
     });
   }
-
 
 
   /**
@@ -454,6 +456,30 @@ class SectionEditor extends Component {
     this.props.updateSection(storyId, sectionId, newSection);
   }
 
+  /**
+   * Util for Draft.js strategies building
+   */
+  findWithRegex = (regex, contentBlock, callback) => {
+    const text = contentBlock.getText();
+    let matchArr;
+    let start;
+    while ((matchArr = regex.exec(text)) !== null) {
+      start = matchArr.index;
+      callback(start, start + matchArr[0].length);
+    }
+  }
+
+  /**
+   * Draft.js strategy for finding draft js drop placeholders
+   * @param {ImmutableRecord} contentBlock - the content block in which entities are searched
+   * @param {function} callback - callback with arguments (startRange, endRange, props to pass)
+   * @param {ImmutableRecord} inputContentState - the content state to parse
+   */
+  findDraftDropPlaceholder = (contentBlock, callback) => {
+    const PLACE_HLODER_REGEX = /(DRAFTJS_RESOURCE_ID:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/gi;
+    this.findWithRegex(PLACE_HLODER_REGEX, contentBlock, callback);
+  }
+
 
   /**
    * Renders the component
@@ -575,7 +601,14 @@ class SectionEditor extends Component {
         }
         const editorId = contentId === 'main' ? activeSection.id : contentId;
         const editorState = editorStates[editorId];
-        updateDraftEditorState(editorId, EditorState.forceSelection(editorState, selection));
+        // updating selection to take into account the drop payload
+        const rightSelectionState = new SelectionState({
+          anchorKey: selection.getStartKey(),
+          anchorOffset: selection.getStartOffset() - payload.length,
+          focusKey: selection.getEndKey(),
+          focusOffset: selection.getEndOffset() - payload.length
+        });
+        updateDraftEditorState(editorId, EditorState.forceSelection(editorState, rightSelectionState));
         onAssetChoice({metadata: {id}}, contentId);
       }
     };
@@ -640,8 +673,8 @@ class SectionEditor extends Component {
           <input
             type="text"
             ref={sectionTitle => {
-this.sectionTitle = sectionTitle;
-}}
+            this.sectionTitle = sectionTitle;
+            }}
             onClick={onSectionTitleClick}
             value={activeSection.metadata.title || ''}
             onChange={onActiveSectionTitleChange}
@@ -663,8 +696,8 @@ this.sectionTitle = sectionTitle;
               clipboard={clipboard}
 
               ref={editor => {
-this.editor = editor;
-}}
+              this.editor = editor;
+              }}
 
               focusedEditorId={focusedEditorId}
 
@@ -688,7 +721,8 @@ this.editor = editor;
 
               inlineAssetComponents={inlineAssetComponents}
               blockAssetComponents={blockAssetComponents}
-              AssetChoiceComponent={ResourceSearchWidget} />
+              AssetChoiceComponent={ResourceSearchWidget}
+              inlineEntities={[{strategy: this.findDraftDropPlaceholder, component: () => <span className="contextualization-loading-placeholder">{translate('loading')}</span>}]} />
 
           </ReferencesManager>
         </div>

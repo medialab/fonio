@@ -164,6 +164,8 @@ class AssetPreview extends Component {
           (data.json || this.state.data) && <QuinoaPresentationPlayer
             presentation={data.json || this.state.data} />
         );
+      case 'webpage':
+        return (<iframe src={data} />);
       case 'embed':
         return (
           <EmbedContainer html={data} />

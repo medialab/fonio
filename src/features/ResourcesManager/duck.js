@@ -209,7 +209,8 @@ export const submitResourceData = (type, data, existingData) => ({
               reject(e);
             }
           });
-        // case html/embed code --> use as is
+        // case html/embed code or webpage url --> use as is
+        case 'webpageUrl':
         case 'htmlCode':
           return resolve(data);
         // case bib text file --> load file and convert it to csl-json
