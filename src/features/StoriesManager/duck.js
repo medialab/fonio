@@ -415,6 +415,8 @@ const STORIES_DEFAULT_STATE = {
 function stories(state = STORIES_DEFAULT_STATE, action) {
   let newState;
   let story;
+  let contextualizations;
+  let contextualizers;
   switch (action.type) {
     case UNSET_ACTIVE_STORY:
       return {
@@ -524,16 +526,24 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       return state;
     // a section is deleted
     case DELETE_SECTION:
-      newState = {...state};
-      delete newState.activeStory.sections[action.sectionId];
-      if (newState.activeStory.sectionsOrder.indexOf(action.sectionId) > -1) {
-        const index = newState.activeStory.sectionsOrder.indexOf(action.sectionId);
-        newState.activeStory.sectionsOrder = [
-          ...newState.activeStory.sectionsOrder.slice(0, index),
-          ...newState.activeStory.sectionsOrder.slice(index + 1)
+      const sections = {...state.activeStory.sections};
+      let sectionsOrder = {...state.activeStory.sectionsOrder};
+      delete sections[action.sectionId];
+      if (state.activeStory.sectionsOrder.indexOf(action.sectionId) > -1) {
+        const index = state.activeStory.sectionsOrder.indexOf(action.sectionId);
+        sectionsOrder = [
+          ...state.activeStory.sectionsOrder.slice(0, index),
+          ...state.activeStory.newStatesectionsOrder.slice(index + 1)
         ];
       }
-      return newState;
+      return {
+        ...state,
+        activeStory: {
+          ...state.activeStory,
+          sections,
+          sectionsOrder
+        }
+      };
     // sections summary order is changed
     case UPDATE_SECTIONS_ORDER:
       return {
@@ -579,9 +589,10 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       };
     case DELETE_RESOURCE_REMOTE + '_SUCCESS':
     case DELETE_RESOURCE:
-      newState = {...state};
-      // delete newState.stories[action.storyId].resources[action.id];
-      delete newState.activeStory.resources[action.id];
+      const resources = {...state.activeStory.resources};
+      contextualizations = {...state.activeStory.contextualizations};
+      contextualizers = {...state.activeStory.contextualizers};
+      delete resources[action.id];
       // for now as the app does not allow to reuse the same contextualizer for several resources
       // we will delete associated contextualizers as well as associated contextualizations
       // (forseeing long edition sessions in which user create and delete a large number of contextualizations
@@ -593,22 +604,30 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
       // we will store contextualizations id to delete here
       const contextualizationsToDeleteIds = [];
       // spot all objects to delete
-      Object.keys(newState.activeStory.contextualizations)
+      Object.keys(contextualizations)
         .forEach(contextualizationId => {
-          if (newState.activeStory.contextualizations[contextualizationId].resourceId === action.id) {
+          if (contextualizations[contextualizationId].resourceId === action.id) {
             contextualizationsToDeleteIds.push(contextualizationId);
-            contextualizersToDeleteIds.push(newState.activeStory.contextualizations[contextualizationId].contextualizerId);
+            contextualizersToDeleteIds.push(contextualizations[contextualizationId].contextualizerId);
           }
         });
       // proceed to deletions
       contextualizersToDeleteIds.forEach(contextualizerId => {
-        delete newState.activeStory.contextualizers[contextualizerId];
+        delete contextualizers[contextualizerId];
       });
       contextualizationsToDeleteIds.forEach(contextualizationId => {
-        delete newState.activeStory.contextualizations[contextualizationId];
+        delete contextualizations[contextualizationId];
       });
 
-      return newState;
+      return {
+        ...state,
+        activeStory: {
+          ...state.activeStory,
+          resources,
+          contextualizers,
+          contextualizations
+        }
+      };
 
     /**
      * CONTEXTUALIZATION RELATED
@@ -631,9 +650,15 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         }
       };
     case DELETE_CONTEXTUALIZATION:
-      newState = {...state};
-      delete newState.activeStory.contextualizations[action.contextualizationId];
-      return newState;
+      contextualizations = {...state.activeStory.contextualizations};
+      delete contextualizations[action.contextualizationId];
+      return {
+        ...state,
+        activeStory: {
+          ...state.activeStory,
+          contextualizations
+        }
+      };
 
     /**
      * CONTEXTUALIZER RELATED
@@ -657,9 +682,15 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         }
       };
     case DELETE_CONTEXTUALIZER:
-      newState = {...state};
-      delete newState.activeStory.contextualizers[action.id];
-      return newState;
+      contextualizers = {...state.activeStory.contextualizers};
+      delete contextualizers[action.contextualizerId];
+      return {
+        ...state,
+        activeStory: {
+          ...state.activeStory,
+          contextualizers
+        }
+      };
 
     /**
      * METADATA AND SETTINGS RELATED
