@@ -277,7 +277,7 @@ class SectionEditor extends Component {
       // focus on main editor
       setEditorFocus(sectionId);
     });
-    this.editor.focus('main');
+    // this.editor.focus('main');
   }
 
 
@@ -301,7 +301,7 @@ class SectionEditor extends Component {
       [nd]: {
         ...activeSection.notes[nd],
         contents: EditorState.createWithContent(
-            convertFromRaw(activeSection.notes[nd].editorState),
+            convertFromRaw(activeSection.notes[nd].contents),
             this.editor.mainEditor.createDecorator()
           )
       }
@@ -324,13 +324,13 @@ class SectionEditor extends Component {
         ...fNotes,
         [nd]: {
           ...notes[nd],
-          contents: notes[nd].editorState ? convertToRaw(notes[nd].editorState.getCurrentContent()) : this.editor.generateEmptyEditor()
+          contents: notes[nd].contents ? convertToRaw(notes[nd].contents.getCurrentContent()) : this.editor.generateEmptyEditor()
         }
       }), {})
     };
     const newEditors = Object.keys(notes).reduce((fEditors, nd) => ({
       ...fEditors,
-      [nd]: notes[nd].editorState
+      [nd]: notes[nd].contents
     }), {
       [sectionId]: mainEditorState
     });
@@ -340,11 +340,11 @@ class SectionEditor extends Component {
     this.props.updateDraftEditorsStates(newEditors);
     // update focus
     // focus on new note
-    this.props.setEditorFocus(undefined);
-    setTimeout(() => {
-      this.props.setEditorFocus(id);
-      this.editor.focus(id);
-    });
+    // this.props.setEditorFocus(undefined);
+    // setTimeout(() => {
+    //   this.props.setEditorFocus(id);
+    //   this.editor.focus(id);
+    // });
   }
 
 
@@ -386,8 +386,9 @@ class SectionEditor extends Component {
     const editorId = contentId === 'main' ? this.props.sectionId : contentId;
     const selection = inputSelection || editorStates[editorId].getSelection();
 
-    setEditorFocus(contentId);
-    this.editor.focus(contentId);
+    setEditorFocus(undefined);
+    setTimeout(() => setEditorFocus(contentId));
+    // this.editor.focus(contentId);
     // register assetRequestState
     requestAsset(editorId, selection);
   }
@@ -536,9 +537,10 @@ class SectionEditor extends Component {
       }
       cancelAssetRequest();
       summonAsset(targetedEditorId, id);
+      setEditorFocus(undefined);
       setTimeout(() => {
         setEditorFocus(targetedEditorId);
-        this.editor.focus(targetedEditorId);
+        // this.editor.focus(targetedEditorId);
       }, timers.short);
     };
 
@@ -581,12 +583,13 @@ class SectionEditor extends Component {
     const onDragOver = (contentId) => {
       if (focusedEditorId !== contentId) {
         setEditorFocus(contentId);
-        this.editor.focus(contentId);
+        // this.editor.focus(contentId);
       }
     };
     const onClick = (event, contentId = 'main') => {
       if (focusedEditorId !== contentId) {
-        setEditorFocus(contentId);
+        setEditorFocus(undefined);
+        setTimeout(() => setEditorFocus(contentId));
       }
     };
 
@@ -599,7 +602,7 @@ class SectionEditor extends Component {
         if (focusedEditorId === contentId && !assetRequestPosition) {
           setEditorFocus(undefined);
         }
-        if(contentId !== 'main') {
+        if (contentId !== 'main') {
           this.updateSectionRawContent(contentId, this.props.activeStoryId, this.props.sectionId);
         }
       });
@@ -619,9 +622,10 @@ class SectionEditor extends Component {
 
     const onAssetRequestCancel = () => {
       cancelAssetRequest();
+      setEditorFocus(undefined);
       setTimeout(() => {
         setEditorFocus(focusedEditorId);
-        this.editor.focus(focusedEditorId);
+        // this.editor.focus(focusedEditorId);
       }, timers.short);
     };
 
@@ -641,8 +645,8 @@ class SectionEditor extends Component {
           <input
             type="text"
             ref={sectionTitle => {
-this.sectionTitle = sectionTitle;
-}}
+              this.sectionTitle = sectionTitle;
+              }}
             onClick={onSectionTitleClick}
             value={activeSection.metadata.title || ''}
             onChange={onActiveSectionTitleChange}
