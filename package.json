@@ -76,7 +76,7 @@
     "redux-i18n": "^1.1.4",
     "redux-pouchdb": "^0.1.1",
     "reselect": "^3.0.0",
-    "scholar-draft": "^0.2.11",
+    "scholar-draft": "^0.2.14",
     "superagent": "^3.2.1",
     "uuid": "^3.0.1"
   },
