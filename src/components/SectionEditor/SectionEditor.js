@@ -567,9 +567,9 @@ class SectionEditor extends Component {
       }
       cancelAssetRequest();
       summonAsset(targetedEditorId, id);
+      setEditorFocus(undefined);
       setTimeout(() => {
         setEditorFocus(targetedEditorId);
-        this.editor.focus(targetedEditorId);
       }, timers.short);
     };
 
@@ -619,7 +619,6 @@ class SectionEditor extends Component {
     const onDragOver = (contentId) => {
       if (focusedEditorId !== contentId) {
         setEditorFocus(contentId);
-        this.editor.focus(contentId);
       }
     };
     const onClick = (event, contentId = 'main') => {
@@ -654,9 +653,9 @@ class SectionEditor extends Component {
 
     const onAssetRequestCancel = () => {
       cancelAssetRequest();
+      setEditorFocus(undefined);
       setTimeout(() => {
         setEditorFocus(focusedEditorId);
-        this.editor.focus(focusedEditorId);
       }, timers.short);
     };
 
@@ -669,6 +668,13 @@ class SectionEditor extends Component {
 
     // define citation style and locales, falling back on defaults if needed
     const {style, locale} = getCitationModels(story);
+
+    // additional inline entities to display in the editor
+    const additionalInlineEntities = [{
+      strategy: this.findDraftDropPlaceholder, 
+      component: ({children}) => 
+                  <span className="contextualization-loading-placeholder">{translate('loading')}{children}</span>
+    }];
 
     return (
       <div className="fonio-SectionEditor">
@@ -725,7 +731,7 @@ class SectionEditor extends Component {
               inlineAssetComponents={inlineAssetComponents}
               blockAssetComponents={blockAssetComponents}
               AssetChoiceComponent={ResourceSearchWidget}
-              inlineEntities={[{strategy: this.findDraftDropPlaceholder, component: () => <span className="contextualization-loading-placeholder">{translate('loading')}</span>}]} />
+              inlineEntities={additionalInlineEntities} />
 
           </ReferencesManager>
         </div>
