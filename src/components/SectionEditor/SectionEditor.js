@@ -129,6 +129,9 @@ class SectionEditor extends Component {
     this.updateSectionRawContent = this.updateSectionRawContent.bind(this);
     this.updateSectionRawContentDebounced = debounce(this.updateSectionRawContent, 2000);
     this.debouncedCleanStuffFromEditorInspection = debounce(this.cleanStuffFromEditorInspection, 500);
+
+    this.handleCopy = handleCopy.bind(this);
+    this.handlePaste = handlePaste.bind(this);
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
 
@@ -228,7 +231,7 @@ class SectionEditor extends Component {
    */
   onCopy = e => {
     const {props, state, setState, editor} = this;
-    handleCopy(props, state, setState, editor, e);
+    this.handleCopy(props, state, setState, editor, e);
   }
 
   /**
@@ -236,7 +239,7 @@ class SectionEditor extends Component {
    */
   onPaste = e => {
     const {props, state, setState, editor} = this;
-    handlePaste(props, state, setState, editor, e);
+    this.handlePaste(props, state, setState, editor, e);
   }
 
 
