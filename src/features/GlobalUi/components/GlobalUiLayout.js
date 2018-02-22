@@ -16,6 +16,8 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import ConfigurationDialog from '../../ConfigurationDialog/components/ConfigurationDialogContainer';
 import LoginDialog from './LoginDialog';
+import ResetPasswordDialog from './ResetPasswordDialog';
+
 import Toaster from '../../../components/Toaster/Toaster';
 
 Modal.setAppElement('#mount');
@@ -37,20 +39,24 @@ Modal.setAppElement('#mount');
 const GlobalUiLayout = ({
   // global ui related
   isStoryCandidateModalOpen,
-  isPasswordModalOpen,
+  isLoginModalOpen,
+  isResetPasswordModalOpen,
+  resetPasswordStoryId,
   notAuthStoryId,
-  password,
   storyToasterLog,
   storyToasterLogStatus,
   loginStoryLog,
   loginStoryLogStatus,
+  resetStoryPasswordLog,
+  resetStoryPasswordLogStatus,
   actions: {
-    enterPassword,
     loginStory,
+    resetStoryPassword,
+    closeResetPasswordModal
   },
   // custom functions
   closeAndResetDialog,
-  closeLoginDialog,
+  closeLoginDialog
 }, context) => {
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
@@ -74,16 +80,24 @@ const GlobalUiLayout = ({
       </Modal>
       <Modal
         onRequestClose={closeLoginDialog}
-        isOpen={isPasswordModalOpen}
+        isOpen={isLoginModalOpen}
         style={{overlay: {zIndex: 10}}}>
         <LoginDialog
-          password={password}
           storyId={notAuthStoryId}
           loginStory={loginStory}
           loginStoryLog={loginStoryLog}
           loginStoryLogStatus={loginStoryLogStatus}
-          enterPassword={enterPassword}
           closeLoginDialog={closeLoginDialog} />
+      </Modal>
+      <Modal
+        onRequestClose={closeResetPasswordModal}
+        isOpen={isResetPasswordModalOpen} >
+        <ResetPasswordDialog
+          resetPassword={resetStoryPassword}
+          storyId={resetPasswordStoryId}
+          closeDialog={closeResetPasswordModal}
+          log={resetStoryPasswordLog}
+          status={resetStoryPasswordLogStatus} />
       </Modal>
     </div>
     );

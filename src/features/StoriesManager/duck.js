@@ -87,10 +87,10 @@ export const COPY_STORY = '§Fonio/StoriesManager/COPY_STORY';
 const LOGIN_STORY = '§Fonio/StoriesManager/LOGIN_STORY';
 const UPDATE_STORY = '§Fonio/StoriesManager/UPDATE_STORY';
 
-const OPEN_PASSWORD_MODAL = '$Fonio/StoriesManager/OPEN_PASSWORD_MODAL';
-export const CLOSE_PASSWORD_MODAL = '$Fonio/StoriesManager/CLOSE_PASSWORD_MODAL';
-
-const ENTER_STORY_PASSWORD = '§Fonio/StoriesManager/ENTER_STORY_PASSWORD';
+const OPEN_LOGIN_MODAL = '$Fonio/StoriesManager/OPEN_LOGIN_MODAL';
+const CLOSE_LOGIN_MODAL = '$Fonio/StoriesManager/CLOSE_LOGIN_MODAL';
+const OPEN_RESET_PASSWORD_MODAL = '$Fonio/StoriesManager/OPEN_RESET_PASSWORD_MODAL';
+const CLOSE_RESET_PASSWORD_MODAL = '$Fonio/StoriesManager/CLOSE_RESET_PASSWORD_MODAL';
 const RESET_STORY_PASSWORD = '§Fonio/StoriesManager/RESET_STORY_PASSWORD';
 
 const PROMPT_DELETE_STORY = '§Fonio/StoriesManager/PROMPT_DELETE_STORY';
@@ -164,11 +164,11 @@ export const saveStory = (story, token) => ({
  * @param {string} password - story password
  * @return {object} action - the redux action to dispatch
  */
-export const resetStoryPassword = (id, password) => ({
+export const resetStoryPassword = (id, oldPassword, newPassword) => ({
   type: RESET_STORY_PASSWORD,
   id,
   promise: () => {
-    return resetPasswordServer(id, password);
+    return resetPasswordServer(id, oldPassword, newPassword);
   }
 });
 
@@ -296,8 +296,8 @@ export const updateStory = (id, story) => ({
  * Opens the password modal view
  * @return {object} action - the redux action to dispatch
  */
-export const openPasswordModal = (id) => ({
-  type: OPEN_PASSWORD_MODAL,
+export const openLoginModal = (id) => ({
+  type: OPEN_LOGIN_MODAL,
   id
 });
 
@@ -305,18 +305,26 @@ export const openPasswordModal = (id) => ({
  * close the password modal view
  * @return {object} action - the redux action to dispatch
  */
-export const closePasswordModal = () => ({
-  type: CLOSE_PASSWORD_MODAL
+export const closeLoginModal = () => ({
+  type: CLOSE_LOGIN_MODAL
 });
 
 /**
- * enter password
- * @param {string} password
+ * Opens the password modal view
  * @return {object} action - the redux action to dispatch
  */
-export const enterPassword = (password) => ({
-  type: ENTER_STORY_PASSWORD,
-  password
+export const openResetPasswordModal = (id) => ({
+  type: OPEN_RESET_PASSWORD_MODAL,
+  id
+});
+
+
+/**
+ * close the password modal view
+ * @return {object} action - the redux action to dispatch
+ */
+export const closeResetPasswordModal = () => ({
+  type: CLOSE_RESET_PASSWORD_MODAL
 });
 
 /**
@@ -808,16 +816,22 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
  */
 const STORY_AUTH_DEFAULT_STATE = {
   /**
-   * Represents whether password modal is open
+   * Represents whether login modal is open
    * @type {boolean}
    */
-  passwordModalOpen: false,
+  loginModalOpen: false,
 
   /**
-   * password for login story
+   * Represents whether reset password modal is open
+   * @type {boolean}
+   */
+  resetPasswordModalOpen: false,
+
+  /**
+   * storyId that asked for reset password
    * @type {string}
    */
-  password: '',
+  resetPasswordStoryId: undefined,
 
   /**
    * unauth story id
@@ -834,23 +848,30 @@ const STORY_AUTH_DEFAULT_STATE = {
  */
 function storyAuth(state = STORY_AUTH_DEFAULT_STATE, action) {
   switch (action.type) {
-    case ENTER_STORY_PASSWORD:
-      return {
-        ...state,
-        password: action.password
-      };
-    case OPEN_PASSWORD_MODAL:
+    case OPEN_LOGIN_MODAL:
       return {
         ...state,
         notAuthStoryId: action.id,
-        passwordModalOpen: true
+        loginModalOpen: true
       };
-    case CLOSE_PASSWORD_MODAL:
+    case CLOSE_LOGIN_MODAL:
       return {
         ...state,
         password: undefined,
         notAuthStoryId: undefined,
-        passwordModalOpen: false
+        loginModalOpen: false
+      };
+    case OPEN_RESET_PASSWORD_MODAL:
+      return {
+        ...state,
+        resetPasswordStoryId: action.id,
+        resetPasswordModalOpen: true
+      };
+    case CLOSE_RESET_PASSWORD_MODAL:
+      return {
+        ...state,
+        resetPasswordStoryId: undefined,
+        resetPasswordModalOpen: false
       };
     case CREATE_STORY + '_SUCCESS':
       const {story, token} = action.result;
@@ -860,9 +881,15 @@ function storyAuth(state = STORY_AUTH_DEFAULT_STATE, action) {
       localStorage.setItem(action.id, action.result);
       return {
         ...state,
-        password: undefined,
         notAuthStoryId: undefined,
-        passwordModalOpen: false
+        loginModalOpen: false
+      };
+    case RESET_STORY_PASSWORD + '_SUCCESS':
+      localStorage.setItem(action.id, action.result);
+      return {
+        ...state,
+        resetPasswordStoryId: undefined,
+        resetPasswordModalOpen: false
       };
     case DELETE_STORY + '_SUCCESS':
       localStorage.removeItem(action.id);
@@ -880,7 +907,7 @@ function storyAuth(state = STORY_AUTH_DEFAULT_STATE, action) {
           return {
             ...state,
             notAuthStoryId: storyId,
-            passwordModalOpen: true
+            loginModalOpen: true
           };
         }
         else return state;
@@ -925,6 +952,18 @@ const STORIES_UI_DEFAULT_STATE = {
    * @type {string}
    */
   loginStoryLogStatus: undefined,
+
+  /**
+   * reset story password api message
+   * @type {string}
+   */
+  resetStoryPasswordLog: undefined,
+
+  /**
+   * reset story password api status
+   * @type {string}
+   */
+  resetStoryPasswordLogStatus: undefined,
 
   /**
    * create story api message
@@ -1014,11 +1053,36 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
         loginStoryLogStatus: 'failure'
       };
     case LOGIN_STORY + '_RESET':
-    case CLOSE_PASSWORD_MODAL:
+    case CLOSE_LOGIN_MODAL:
       return {
         ...state,
         loginStoryLog: undefined,
         loginStoryLogStatus: undefined
+      };
+    case RESET_STORY_PASSWORD + '_PENDING':
+      return {
+        ...state,
+        resetStoryPasswordLog: 'reset-password-pending-log',
+        resetStoryPasswordLogStatus: 'processing'
+      };
+    case RESET_STORY_PASSWORD + '_SUCCESS':
+      return {
+        ...state,
+        resetStoryPasswordLog: 'reset-password-success-log',
+        resetStoryPasswordLogStatus: 'success'
+      };
+    case RESET_STORY_PASSWORD + '_FAIL':
+      return {
+        ...state,
+        resetStoryPasswordLog: 'reset-password-fail-log',
+        resetStoryPasswordLogStatus: 'failure'
+      };
+    case RESET_STORY_PASSWORD + '_RESET':
+    case CLOSE_RESET_PASSWORD_MODAL:
+      return {
+        ...state,
+        resetStoryPasswordLog: undefined,
+        resetStoryPasswordLogStatus: undefined
       };
     case CREATE_STORY + '_PENDING':
       return {
@@ -1139,12 +1203,15 @@ const importError = state => state.storyImport.importError;
 const importCandidate = state => state.storyImport.importCandidate;
 const importFromUrlCandidate = state => state.storyImport.importFromUrlCandidate;
 
-const password = state => state.storyAuth.password;
-const isPasswordModalOpen = state => state.storyAuth.passwordModalOpen;
+const isLoginModalOpen = state => state.storyAuth.loginModalOpen;
+const isResetPasswordModalOpen = state => state.storyAuth.resetPasswordModalOpen;
+const resetPasswordStoryId = state => state.storyAuth.resetPasswordStoryId;
 const notAuthStoryId = state => state.storyAuth.notAuthStoryId;
 
 const storyToasterLog = state => state.storiesUi.storyToasterLog;
 const storyToasterLogStatus = state => state.storiesUi.storyToasterLogStatus;
+const resetStoryPasswordLog = state => state.storiesUi.resetStoryPasswordLog;
+const resetStoryPasswordLogStatus = state => state.storiesUi.resetStoryPasswordLogStatus;
 const loginStoryLog = state => state.storiesUi.loginStoryLog;
 const loginStoryLogStatus = state => state.storiesUi.loginStoryLogStatus;
 const createStoryLog = state => state.storiesUi.createStoryLog;
@@ -1164,11 +1231,14 @@ export const selector = createStructuredSelector({
   importFromUrlCandidate,
   storiesList,
   promptedToDeleteId,
-  password,
-  isPasswordModalOpen,
+  isLoginModalOpen,
+  isResetPasswordModalOpen,
+  resetPasswordStoryId,
   notAuthStoryId,
   storyToasterLog,
   storyToasterLogStatus,
+  resetStoryPasswordLog,
+  resetStoryPasswordLogStatus,
   loginStoryLog,
   loginStoryLogStatus,
   createStoryLog,

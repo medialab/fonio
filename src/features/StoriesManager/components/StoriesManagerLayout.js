@@ -51,6 +51,7 @@ const StoriesManagerLayout = ({
     unpromptDeleteStory,
     deleteStory,
     copyStory,
+    openResetPasswordModal,
     startStoryCandidateConfiguration,
     importReset,
     setLanguage
@@ -142,6 +143,7 @@ const StoriesManagerLayout = ({
                 pathname: `/story/${story.id}`
               });
             };
+            const onClickResetPassword = () => openResetPasswordModal(story.id);
             const promptedToDelete = promptedToDeleteId === story.id;
             return (
               <StoryCard
@@ -153,6 +155,7 @@ const StoriesManagerLayout = ({
                 onClickDelete={onClickDelete}
                 onClickPrompt={onClickPrompt}
                 onClickUnprompt={onClickUnprompt}
+                onClickResetPassword={onClickResetPassword}
                 onClickCopy={onClickCopy} />
             );
           })

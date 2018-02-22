@@ -19,7 +19,6 @@ import {
 
 import {
   selector as storiesSelector,
-  saveStory,
   createStory
 } from '../../StoriesManager/duck';
 
@@ -39,7 +38,6 @@ import ConfigurationDialogLayout from './ConfigurationDialogLayout';
   dispatch => ({
     actions: bindActionCreators({
       ...duck,
-      saveStory,
       createStory,
       applyStoryCandidateConfiguration,
       closeStoryCandidateModal,
@@ -55,14 +53,6 @@ class ConfigurationDialogContainer extends Component {
   constructor(props) {
     super(props);
     this.closeStoryCandidate = this.closeStoryCandidate.bind(this);
-    this.closeAndSetupStoryCandidate = this.closeAndSetupStoryCandidate.bind(this);
-  }
-  componentDidMount() {
-    const {storyCandidatePassword, storyCandidate} = this.props;
-    const {validateStoryCandidateSettings} = this.props.actions;
-    validateStoryCandidateSettings('title', storyCandidate.metadata.title);
-    validateStoryCandidateSettings('password', storyCandidatePassword);
-    validateStoryCandidateSettings('authors', storyCandidate.metadata.authors);
   }
 
   /**
@@ -88,15 +78,6 @@ class ConfigurationDialogContainer extends Component {
 
 
   /**
-   * Creates a new story candidate
-   * and closes the modal.
-   */
-  closeAndSetupStoryCandidate() {
-    this.props.actions.setupStoryCandidate(this.props.dataMap, this.props.activeVisualizationType, this.props.activeData);
-    this.props.actions.closeStoryCandidateModal();
-  }
-
-  /**
    * Renders the component
    * @return {ReactElement} component - the component
    */
@@ -104,8 +85,7 @@ class ConfigurationDialogContainer extends Component {
     return (
       <ConfigurationDialogLayout
         {...this.props}
-        closeStoryCandidate={this.closeStoryCandidate}
-        closeAndSetupStoryCandidate={this.closeAndSetupStoryCandidate} />
+        closeStoryCandidate={this.closeStoryCandidate} />
     );
   }
 }
