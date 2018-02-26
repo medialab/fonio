@@ -173,13 +173,15 @@ class SectionEditor extends Component {
       const {
         activeSection
       } = nextProps;
-      // delete unused stuff
-      updateContextualizationsFromEditor(this.props);
-      // update all raw contents
       const prevSection = this.props.activeSection;
-      const notesIds = Object.keys(prevSection.notes);
-      notesIds.forEach(noteId => this.updateSectionRawContent(noteId, this.props.activeStoryId, this.props.sectionId))
-      this.updateSectionRawContent('main', this.props.activeStoryId, this.props.sectionId);
+      if (prevSection) {
+        // delete unused stuff
+        updateContextualizationsFromEditor(this.props);
+        // update all raw contents
+        const notesIds = Object.keys(prevSection.notes);
+        notesIds.forEach(noteId => this.updateSectionRawContent(noteId, this.props.activeStoryId, this.props.sectionId));
+        this.updateSectionRawContent('main', this.props.activeStoryId, this.props.sectionId);
+      }
       // hydrate editors with new section
       this.hydrateEditorStates(activeSection);
     }
@@ -313,10 +315,10 @@ class SectionEditor extends Component {
       ...fNotes,
       [nd]: {
         ...activeSection.notes[nd],
-        contents: EditorState.createWithContent(
-            convertFromRaw(activeSection.notes[nd].contents),
-            this.editor.mainEditor.createDecorator()
-          )
+        // contents: EditorState.createWithContent(
+        //     convertFromRaw(activeSection.notes[nd].contents),
+        //     this.editor.mainEditor.createDecorator()
+        //   )
       }
     }), {});
     // add note
@@ -324,7 +326,8 @@ class SectionEditor extends Component {
       ...activeNotes,
       [id]: {
         id,
-        editorState: this.editor.generateEmptyEditor()
+        editorState: this.editor.generateEmptyEditor(),
+        contents: convertToRaw(this.editor.generateEmptyEditor().getCurrentContent())
       }
     };
     const {newNotes, notesOrder} = updateNotesFromEditor(mainEditorState, notes);
@@ -337,13 +340,16 @@ class SectionEditor extends Component {
         ...fNotes,
         [nd]: {
           ...notes[nd],
-          contents: notes[nd].contents ? convertToRaw(notes[nd].contents.getCurrentContent()) : this.editor.generateEmptyEditor()
+          contents: notes[nd].contents || convertToRaw(this.editor.generateEmptyEditor().getCurrentContent())
         }
       }), {})
     };
     const newEditors = Object.keys(notes).reduce((fEditors, nd) => ({
       ...fEditors,
-      [nd]: notes[nd].contents
+      [nd]: editorStates[nd] || EditorState.createWithContent(
+              convertFromRaw(notes[nd].contents),
+              this.editor.mainEditor.createDecorator()
+            )
     }), {
       [sectionId]: mainEditorState
     });
