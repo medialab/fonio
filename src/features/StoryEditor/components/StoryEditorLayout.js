@@ -114,6 +114,7 @@ const EditorLayout = ({
 
           updateContextualizer={updateContextualizer}
           updateResource={updateResource}
+
           deleteContextualization={deleteContextualization}
           deleteContextualizer={deleteContextualizer}
 
