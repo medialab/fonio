@@ -255,7 +255,7 @@ export const handleCopy = function(event) {
               ...result,
               [noteId]: {
                 ...notes[noteId],
-                editorState: EditorState.createWithContent(convertFromRaw(notes[noteId].editorState), editor.mainEditor.createDecorator()),
+                contents: EditorState.createWithContent(convertFromRaw(notes[noteId].contents), editor.mainEditor.createDecorator()),
               }
             };
           }, {});
@@ -269,7 +269,7 @@ export const handleCopy = function(event) {
               ...result,
               [id]: {
                 ...note,
-                editorState: noteEditorState,
+                contents: noteEditorState,
                 oldId: note.id,
                 id
               }
@@ -409,7 +409,7 @@ export const handleCopy = function(event) {
             // iterating through a note's editor's copied entities
             else {
               copiedEntities[contentId].forEach(entity => {
-                const editorState = newNotes[contentId].editorState;
+                const editorState = newNotes[contentId].contents;
 
                 newContentState = editorState.getCurrentContent();
                 newContentState = newContentState.createEntity(entity.entity.type, entity.entity.mutability, {...entity.entity.data});
@@ -427,7 +427,7 @@ export const handleCopy = function(event) {
                     }
                   });
                 });
-                newNotes[contentId].editorState = EditorState.push(
+                newNotes[contentId].contents = EditorState.push(
                   editor,
                   newContentState,
                   'create-entity'
@@ -468,15 +468,15 @@ export const handleCopy = function(event) {
             ...convertedNotes,
             [noteId]: {
               ...note,
-              editorState: editorStates[noteId],
+              contents: editorStates[noteId],
             }
           };
         }, {}),
         [editorFocus]: {
           ...newNotes[editorFocus],
-          editorState: insertFragment(
+          contents: insertFragment(
             EditorState.createWithContent(
-              convertFromRaw(newNotes[editorFocus].editorState),
+              convertFromRaw(newNotes[editorFocus].contents),
               editor.mainEditor.createDecorator()
             ),
             newClipboard
@@ -498,7 +498,7 @@ export const handleCopy = function(event) {
     const newEditorStates = Object.keys(newNotes).reduce((editors, noteId) => {
       return {
         ...editors,
-        [noteId]: newNotes[noteId].editorState
+        [noteId]: newNotes[noteId].contents
       };
     }, {[activeSectionId]: mainEditorState});
 
@@ -514,7 +514,7 @@ export const handleCopy = function(event) {
           ...result,
           [noteId]: {
             ...newNotes[noteId],
-            editorState: convertToRaw(newNotes[noteId].editorState.getCurrentContent())
+            contents: convertToRaw(newNotes[noteId].contents.getCurrentContent())
           }
         };
       }, {})

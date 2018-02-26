@@ -351,7 +351,7 @@ export function inferMetadata(data, assetType) {
           ...activeSection.notes,
           [contentId]: {
             ...activeSection.notes[contentId],
-            editorState: convertToRaw(newEditorState.getCurrentContent())
+            contents: convertToRaw(newEditorState.getCurrentContent())
           }
         }
       };

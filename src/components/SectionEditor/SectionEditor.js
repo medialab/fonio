@@ -292,7 +292,7 @@ class SectionEditor extends Component {
       // focus on main editor
       setEditorFocus(sectionId);
     });
-    this.editor.focus('main');
+    // this.editor.focus('main');
   }
 
 
@@ -314,11 +314,7 @@ class SectionEditor extends Component {
     const activeNotes = Object.keys(activeSection.notes).reduce((fNotes, nd) => ({
       ...fNotes,
       [nd]: {
-        ...activeSection.notes[nd],
-        // contents: EditorState.createWithContent(
-        //     convertFromRaw(activeSection.notes[nd].contents),
-        //     this.editor.mainEditor.createDecorator()
-        //   )
+        ...activeSection.notes[nd]
       }
     }), {});
     // add note
@@ -359,11 +355,11 @@ class SectionEditor extends Component {
     this.props.updateDraftEditorsStates(newEditors);
     // update focus
     // focus on new note
-    this.props.setEditorFocus(undefined);
-    setTimeout(() => {
-      this.props.setEditorFocus(id);
-      this.editor.focus(id);
-    });
+    // this.props.setEditorFocus(undefined);
+    // setTimeout(() => {
+    //   this.props.setEditorFocus(id);
+    //   this.editor.focus(id);
+    // });
   }
 
 
@@ -405,8 +401,9 @@ class SectionEditor extends Component {
     const editorId = contentId === 'main' ? this.props.sectionId : contentId;
     const selection = inputSelection || editorStates[editorId].getSelection();
 
-    setEditorFocus(contentId);
-    this.editor.focus(contentId);
+    setEditorFocus(undefined);
+    setTimeout(() => setEditorFocus(contentId));
+    // this.editor.focus(contentId);
     // register assetRequestState
     requestAsset(editorId, selection);
   }
@@ -446,7 +443,6 @@ class SectionEditor extends Component {
       return;
     }
     const rawContent = convertToRaw(finalEditorState.getCurrentContent());
-
 
     let newSection;
     // this.props.update(this.state.editorState);
@@ -551,7 +547,7 @@ class SectionEditor extends Component {
       ...no,
       [id]: {
         ...inputNotes[id],
-        editorState: editorStates[id]
+        contents: editorStates[id]
       }
     }), {}) : {};
 
@@ -636,7 +632,8 @@ class SectionEditor extends Component {
     };
     const onClick = (event, contentId = 'main') => {
       if (focusedEditorId !== contentId) {
-        setEditorFocus(contentId);
+        setEditorFocus(undefined);
+        setTimeout(() => setEditorFocus(contentId));
       }
     };
 
@@ -651,6 +648,9 @@ class SectionEditor extends Component {
       setTimeout(() => {
         if (focusedEditorId === contentId && !assetRequestPosition) {
           setEditorFocus(undefined);
+        }
+        if (contentId !== 'main') {
+          this.updateSectionRawContent(contentId, this.props.activeStoryId, this.props.sectionId);
         }
       });
     };
@@ -701,8 +701,8 @@ class SectionEditor extends Component {
           <input
             type="text"
             ref={sectionTitle => {
-            this.sectionTitle = sectionTitle;
-            }}
+              this.sectionTitle = sectionTitle;
+              }}
             onClick={onSectionTitleClick}
             value={activeSection.metadata.title || ''}
             onChange={onActiveSectionTitleChange}
