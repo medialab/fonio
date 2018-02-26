@@ -673,7 +673,10 @@ class SectionEditor extends Component {
     const additionalInlineEntities = [{
       strategy: this.findDraftDropPlaceholder,
       component: ({children}) =>
-        <span className="contextualization-loading-placeholder">{translate('loading')}{children}</span>
+        <span className="contextualization-loading-placeholder">
+          {translate('loading')}
+          <span style={{display: 'none'}}>{children}</span>
+        </span>
     }];
 
     return (
