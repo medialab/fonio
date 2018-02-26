@@ -68,11 +68,13 @@ const ConfigurationDialogLayout = ({
     formApi.setTouched('authors', true);
   };
   const onApplyChange = (values) => {
+    const newValues = {...values};
+    delete newValues.password;
     const newStoryCandidate = {
       ...storyCandidate,
       metadata: {
         ...storyCandidate.metadata,
-        ...values
+        ...newValues
       }
     };
     if (activeStoryId) {
@@ -93,7 +95,6 @@ const ConfigurationDialogLayout = ({
   };
   // todo this is temporary and should be replaced by a test
   const storyBegan = localStorage.getItem(activeStoryId);
-
   return (
     <div className="fonio-ConfigurationDialogLayout">
       <h1 className="modal-header">
