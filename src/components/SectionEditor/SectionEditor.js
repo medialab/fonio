@@ -132,6 +132,7 @@ class SectionEditor extends Component {
 
     this.handleCopy = handleCopy.bind(this);
     this.handlePaste = handlePaste.bind(this);
+
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
 
@@ -241,16 +242,14 @@ class SectionEditor extends Component {
    * Handles user cmd+c like command (storing stashed contextualizations among other things)
    */
   onCopy = e => {
-    const {props, state, setState, editor} = this;
-    this.handleCopy(props, state, setState, editor, e);
+    this.handleCopy(e);
   }
 
   /**
    * Handles user cmd+c like command (restoring stashed contextualizations among other things)
    */
   onPaste = e => {
-    const {props, state, setState, editor} = this;
-    this.handlePaste(props, state, setState, editor, e);
+    this.handlePaste(e);
   }
 
 
