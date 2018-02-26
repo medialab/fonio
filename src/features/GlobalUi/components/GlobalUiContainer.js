@@ -89,7 +89,7 @@ class GlobalUiContainer extends Component {
    * Closes story login modal and redirect route
    */
   closeLoginDialog() {
-    this.props.actions.closePasswordModal();
+    this.props.actions.closeLoginModal();
     this.props.history.push({
       pathname: '/'
     });

@@ -12,6 +12,7 @@ import {
   EditorState,
   convertToRaw,
   convertFromRaw,
+  SelectionState
 } from 'draft-js';
 
 import config from '../../../config';
@@ -58,6 +59,7 @@ import BlockContextualizationContainer from './BlockContextualizationContainer';
 import ResourceSearchWidget from '../ResourceSearchWidget/ResourceSearchWidget';
 import InlineCitation from '../InlineCitation/InlineCitation';
 import GlossaryMention from '../GlossaryMention/GlossaryMention';
+import LinkContextualization from '../LinkContextualization/LinkContextualization';
 
 import Bibliography from './Bibliography';
 
@@ -69,7 +71,8 @@ import Bibliography from './Bibliography';
  */
 const inlineAssetComponents = {
   bib: InlineCitation,
-  glossary: GlossaryMention
+  glossary: GlossaryMention,
+  webpage: LinkContextualization
 };
 
 
@@ -126,6 +129,10 @@ class SectionEditor extends Component {
     this.updateSectionRawContent = this.updateSectionRawContent.bind(this);
     this.updateSectionRawContentDebounced = debounce(this.updateSectionRawContent, 2000);
     this.debouncedCleanStuffFromEditorInspection = debounce(this.cleanStuffFromEditorInspection, 500);
+
+    this.handleCopy = handleCopy.bind(this);
+    this.handlePaste = handlePaste.bind(this);
+
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
 
@@ -135,6 +142,7 @@ class SectionEditor extends Component {
    */
   getChildContext = () => ({
     startExistingResourceConfiguration: this.props.startExistingResourceConfiguration,
+    deleteContextualization: this.props.deleteContextualization,
   })
 
 
@@ -162,11 +170,21 @@ class SectionEditor extends Component {
    * @param {object} nextProps - the future properties of the component
    */
   componentWillReceiveProps(nextProps) {
+    // changing section
     if (this.props.sectionId !== nextProps.sectionId) {
       const {
         activeSection
       } = nextProps;
-      this.updateSectionRawContent('main', this.props.activeStoryId, this.props.sectionId);
+      const prevSection = this.props.activeSection;
+      if (prevSection) {
+        // delete unused stuff
+        updateContextualizationsFromEditor(this.props);
+        // update all raw contents
+        const notesIds = Object.keys(prevSection.notes);
+        notesIds.forEach(noteId => this.updateSectionRawContent(noteId, this.props.activeStoryId, this.props.sectionId));
+        this.updateSectionRawContent('main', this.props.activeStoryId, this.props.sectionId);
+      }
+      // hydrate editors with new section
       this.hydrateEditorStates(activeSection);
     }
 
@@ -224,16 +242,14 @@ class SectionEditor extends Component {
    * Handles user cmd+c like command (storing stashed contextualizations among other things)
    */
   onCopy = e => {
-    const {props, state, setState, editor} = this;
-    handleCopy(props, state, setState, editor, e);
+    this.handleCopy(e);
   }
 
   /**
    * Handles user cmd+c like command (restoring stashed contextualizations among other things)
    */
   onPaste = e => {
-    const {props, state, setState, editor} = this;
-    handlePaste(props, state, setState, editor, e);
+    this.handlePaste(e);
   }
 
 
@@ -244,7 +260,6 @@ class SectionEditor extends Component {
    * always be wrapped in a debounce)
    */
   cleanStuffFromEditorInspection = () => {
-    updateContextualizationsFromEditor(this.props);
     updateNotesFromSectionEditor(this.props);
   }
 
@@ -299,11 +314,7 @@ class SectionEditor extends Component {
     const activeNotes = Object.keys(activeSection.notes).reduce((fNotes, nd) => ({
       ...fNotes,
       [nd]: {
-        ...activeSection.notes[nd],
-        contents: EditorState.createWithContent(
-            convertFromRaw(activeSection.notes[nd].contents),
-            this.editor.mainEditor.createDecorator()
-          )
+        ...activeSection.notes[nd]
       }
     }), {});
     // add note
@@ -311,7 +322,8 @@ class SectionEditor extends Component {
       ...activeNotes,
       [id]: {
         id,
-        contents: this.editor.generateEmptyEditor()
+        editorState: this.editor.generateEmptyEditor(),
+        contents: convertToRaw(this.editor.generateEmptyEditor().getCurrentContent())
       }
     };
     const {newNotes, notesOrder} = updateNotesFromEditor(mainEditorState, notes);
@@ -324,13 +336,16 @@ class SectionEditor extends Component {
         ...fNotes,
         [nd]: {
           ...notes[nd],
-          contents: notes[nd].contents ? convertToRaw(notes[nd].contents.getCurrentContent()) : this.editor.generateEmptyEditor()
+          contents: notes[nd].contents || convertToRaw(this.editor.generateEmptyEditor().getCurrentContent())
         }
       }), {})
     };
     const newEditors = Object.keys(notes).reduce((fEditors, nd) => ({
       ...fEditors,
-      [nd]: notes[nd].contents
+      [nd]: editorStates[nd] || EditorState.createWithContent(
+              convertFromRaw(notes[nd].contents),
+              this.editor.mainEditor.createDecorator()
+            )
     }), {
       [sectionId]: mainEditorState
     });
@@ -453,6 +468,30 @@ class SectionEditor extends Component {
     this.props.updateSection(storyId, sectionId, newSection);
   }
 
+  /**
+   * Util for Draft.js strategies building
+   */
+  findWithRegex = (regex, contentBlock, callback) => {
+    const text = contentBlock.getText();
+    let matchArr;
+    let start;
+    while ((matchArr = regex.exec(text)) !== null) {
+      start = matchArr.index;
+      callback(start, start + matchArr[0].length);
+    }
+  }
+
+  /**
+   * Draft.js strategy for finding draft js drop placeholders
+   * @param {ImmutableRecord} contentBlock - the content block in which entities are searched
+   * @param {function} callback - callback with arguments (startRange, endRange, props to pass)
+   * @param {ImmutableRecord} inputContentState - the content state to parse
+   */
+  findDraftDropPlaceholder = (contentBlock, callback) => {
+    const PLACE_HLODER_REGEX = /(DRAFTJS_RESOURCE_ID:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/gi;
+    this.findWithRegex(PLACE_HLODER_REGEX, contentBlock, callback);
+  }
+
 
   /**
    * Renders the component
@@ -540,7 +579,6 @@ class SectionEditor extends Component {
       setEditorFocus(undefined);
       setTimeout(() => {
         setEditorFocus(targetedEditorId);
-        // this.editor.focus(targetedEditorId);
       }, timers.short);
     };
 
@@ -575,7 +613,14 @@ class SectionEditor extends Component {
         }
         const editorId = contentId === 'main' ? activeSection.id : contentId;
         const editorState = editorStates[editorId];
-        updateDraftEditorState(editorId, EditorState.forceSelection(editorState, selection));
+        // updating selection to take into account the drop payload
+        const rightSelectionState = new SelectionState({
+          anchorKey: selection.getStartKey(),
+          anchorOffset: selection.getStartOffset() - payload.length,
+          focusKey: selection.getEndKey(),
+          focusOffset: selection.getEndOffset() - payload.length
+        });
+        updateDraftEditorState(editorId, EditorState.forceSelection(editorState, rightSelectionState));
         onAssetChoice({metadata: {id}}, contentId);
       }
     };
@@ -583,7 +628,6 @@ class SectionEditor extends Component {
     const onDragOver = (contentId) => {
       if (focusedEditorId !== contentId) {
         setEditorFocus(contentId);
-        // this.editor.focus(contentId);
       }
     };
     const onClick = (event, contentId = 'main') => {
@@ -594,6 +638,9 @@ class SectionEditor extends Component {
     };
 
     const onBlur = (event, contentId = 'main') => {
+      if (contentId !== 'main') {
+        this.updateSectionRawContent(contentId, story.id, activeSection.id);
+      }
       event.stopPropagation();
       // if focus has not be retaken by another editor
       // after a timeout, blur the whole editor
@@ -625,7 +672,6 @@ class SectionEditor extends Component {
       setEditorFocus(undefined);
       setTimeout(() => {
         setEditorFocus(focusedEditorId);
-        // this.editor.focus(focusedEditorId);
       }, timers.short);
     };
 
@@ -638,6 +684,16 @@ class SectionEditor extends Component {
 
     // define citation style and locales, falling back on defaults if needed
     const {style, locale} = getCitationModels(story);
+
+    // additional inline entities to display in the editor
+    const additionalInlineEntities = [{
+      strategy: this.findDraftDropPlaceholder,
+      component: ({children}) =>
+        (<span className="contextualization-loading-placeholder">
+          {translate('loading')}
+          <span style={{display: 'none'}}>{children}</span>
+        </span>)
+    }];
 
     return (
       <div className="fonio-SectionEditor">
@@ -693,7 +749,8 @@ class SectionEditor extends Component {
 
               inlineAssetComponents={inlineAssetComponents}
               blockAssetComponents={blockAssetComponents}
-              AssetChoiceComponent={ResourceSearchWidget} />
+              AssetChoiceComponent={ResourceSearchWidget}
+              inlineEntities={additionalInlineEntities} />
 
           </ReferencesManager>
         </div>
@@ -771,7 +828,8 @@ SectionEditor.propTypes = {
 };
 
 SectionEditor.childContextTypes = {
-  startExistingResourceConfiguration: PropTypes.func
+  startExistingResourceConfiguration: PropTypes.func,
+  deleteContextualization: PropTypes.func
 };
 
 export default SectionEditor;

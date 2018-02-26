@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Form, Text} from 'react-form';
 
 import Toaster from '../../../components/Toaster/Toaster';
 
@@ -13,8 +14,6 @@ import Toaster from '../../../components/Toaster/Toaster';
  */
 const LoginDialog = ({
   storyId,
-  password,
-  enterPassword,
   loginStory,
   loginStoryLog,
   loginStoryLogStatus,
@@ -22,40 +21,41 @@ const LoginDialog = ({
 },
 // context
 ) => {
-
-  const onPasswordChange = (e) => enterPassword(e.target.value);
-  const onLoginStory = () => loginStory(storyId, password);
-
+  const loginSubmit = values => {
+    loginStory(storyId, values.password);
+  };
   return (
     <div className="fonio-LoginDialog">
       <h1 className="modal-header">
         Enter your password
       </h1>
-      <div className="modal-content">
-        <div className="modal-row">
-          <div className="input-group">
-            <input
-              onChange={onPasswordChange}
-              type="password"
-              name="password"
-              placeholder="password"
-              value={password || ''} />
-          </div>
-        </div>
-        <div className="modal-row">
-          <Toaster status={loginStoryLogStatus} log={loginStoryLog} />
-        </div>
-        <div className="modal-footer override-modal-footer">
-          <button className="valid-btn" onClick={onLoginStory}>
-            login
-          </button>
-          <button
-            onClick={closeLoginDialog}
-            className="cancel-btn">
-            cancel
-          </button>
-        </div>
-      </div>
+      <Form onSubmit={loginSubmit}>
+        {formApi => (
+          <form onSubmit={formApi.submitForm} id="login-form" className="fonio-form">
+            <div className="modal-content">
+              <div className="modal-row">
+                <div className="input-group">
+                  <label htmlFor="password" className="label">password</label>
+                  <Text field="password" id="password" type="password" />
+                </div>
+              </div>
+              <div className="modal-row">
+                <Toaster status={loginStoryLogStatus} log={loginStoryLog} />
+              </div>
+            </div>
+            <div className="modal-footer override-modal-footer">
+              <button className="valid-btn" type="submit">
+                login
+              </button>
+              <button
+                onClick={closeLoginDialog}
+                className="cancel-btn">
+                cancel
+              </button>
+            </div>
+          </form>
+        )}
+      </Form>
     </div>
   );
 };

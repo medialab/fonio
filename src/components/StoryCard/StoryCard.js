@@ -25,6 +25,7 @@ const StoryCard = ({
   onClickPrompt,
   onClickUnprompt,
   onClickCopy,
+  onClickResetPassword,
 }, context) => {
 
   const translate = translateNameSpacer(context.t, 'Components.StoryCard');
@@ -67,6 +68,9 @@ const StoryCard = ({
           </div> :
           <div>
             <button onClick={onClickCopy}>⎘ {translate('duplicate')}</button>
+            <button onClick={onClickResetPassword}>
+              change password
+            </button>
           </div> }
       </div>
     </li>
@@ -117,6 +121,12 @@ StoryCard.propTypes = {
    * callbacks when a section is asked to be duplicated
    */
   onClickCopy: PropTypes.func,
+
+  /**
+   * callbacks when user want to reset password
+   */
+  onClickResetPassword: PropTypes.func,
+
 };
 
 

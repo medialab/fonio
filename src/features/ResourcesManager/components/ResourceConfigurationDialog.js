@@ -108,6 +108,17 @@ const ResourceDataInput = ({
             onChange={onRefsChange} />
         </div>
       );
+    case 'webpage':
+      const onWebpageSubmit = (evt) => submitResourceData('webpageUrl', evt.target.value);
+      return (
+        <input
+          onChange={onWebpageSubmit}
+          type="text"
+          name="webpage"
+          placeholder={translate('paste-webpage-url')}
+          style={{flex: 1, width: '100%'}}
+          value={resourceCandidate.data || ''} />
+      );
     case 'embed':
       const onEmbedSubmit = (evt) => submitResourceData('htmlCode', evt.target.value);
       return (
@@ -273,6 +284,14 @@ const ResourceConfigurationDialog = ({
       icon: require('../assets/embed.svg'),
       label: (<span>{translate('resource-type-embed')} <HelpPin position="left">
         {translate('resource-type-embed-help')}
+      </HelpPin></span>),
+      possible: true
+    },
+    {
+      id: 'webpage',
+      icon: require('../assets/webpage.svg'),
+      label: (<span>{translate('resource-type-webpage')} <HelpPin position="left">
+        {translate('resource-type-webpage-help')}
       </HelpPin></span>),
       possible: true
     },

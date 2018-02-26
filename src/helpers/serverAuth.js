@@ -58,13 +58,12 @@ export function deleteCredentialServer (id, token) {
  * @param {string} statusActionName - the name base of the actions to dispatch
  * @return {promise} actionPromise - a promise handling the attempt to register to server
  */
-export function resetPasswordServer (id, password, token) {
+export function resetPasswordServer (id, oldPassword, newPassword) {
   return new Promise((resolve, reject) => {
     const serverRequestUrl = serverUrl + '/auth/credential/' + id;
     put(serverRequestUrl)
       .set('Accept', 'application/json')
-      .set('x-access-token', token)
-      .send({id, password})
+      .send({id, oldPassword, newPassword})
       .end((err, response) => {
           if (err) {
             return reject(err);

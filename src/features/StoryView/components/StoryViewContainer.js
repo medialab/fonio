@@ -53,7 +53,7 @@ export default class StoryViewContainer extends Component {
 
   componentWillMount() {
     const {match, actions} = this.props;
-    const {fetchStory, setActiveStory, openPasswordModal} = actions;
+    const {fetchStory, setActiveStory, openLoginModal} = actions;
     // TODO: optimize initialize story
     fetchStory(match.params.id).then(res => {
       if (res.result) {
@@ -61,7 +61,7 @@ export default class StoryViewContainer extends Component {
         const isLogedIn = localStorage.getItem(activeStoryId);
         setActiveStory(res.result);
         if (match.params.mode === 'edit' && !isLogedIn) {
-          openPasswordModal(activeStoryId);
+          openLoginModal(activeStoryId);
         }
       }
     });

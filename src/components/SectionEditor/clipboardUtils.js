@@ -18,7 +18,9 @@ import {
 
 const {
   NOTE_POINTER,
-  SCHOLAR_DRAFT_CLIPBOARD_CODE
+  SCHOLAR_DRAFT_CLIPBOARD_CODE,
+  INLINE_ASSET,
+  BLOCK_ASSET,
 } = constants;
 
 const {
@@ -31,7 +33,12 @@ const {
  * Prepares data within component's state for later pasting
  * @param {event} e - the copy event
  */
-export const handleCopy = (props, state, setState, editor, event) => {
+export const handleCopy = function(event) {
+    const {
+      props,
+      editor
+    } = this;
+    const setState = this.setState.bind(this);
     // ensuring user is editing the contents
     if (!props.editorFocus) {
       return;
@@ -134,7 +141,7 @@ export const handleCopy = (props, state, setState, editor, event) => {
         // copying asset entities and related contextualization & contextualizer
         // todo: question - should we store as well the resources being copied ?
         // (in case the resource being copied is deleted by the time)
-        else {
+        else if (type === INLINE_ASSET || type === BLOCK_ASSET) {
           const assetId = entity.data.asset.id;
           const contextualization = contextualizations[assetId];
           copiedContextualizations.push({...contextualization});
@@ -166,7 +173,13 @@ export const handleCopy = (props, state, setState, editor, event) => {
    * Handles pasting command in the editor
    * @param {event} e - the copy event
    */
-  export const handlePaste = (props, state, setState, editor, event) => {
+  export const handlePaste = function(event) {
+    const {
+      props,
+      state,
+      editor
+    } = this;
+    const setState = this.setState.bind(this);
     // ensuring this is happening while editing the content
     if (!props.editorFocus) {
       return;
