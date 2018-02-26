@@ -307,7 +307,7 @@ class SectionEditor extends Component {
       [nd]: {
         ...activeSection.notes[nd],
         contents: EditorState.createWithContent(
-            convertFromRaw(activeSection.notes[nd].editorState),
+            convertFromRaw(activeSection.notes[nd].contents),
             this.editor.mainEditor.createDecorator()
           )
       }
@@ -330,13 +330,13 @@ class SectionEditor extends Component {
         ...fNotes,
         [nd]: {
           ...notes[nd],
-          contents: notes[nd].editorState ? convertToRaw(notes[nd].editorState.getCurrentContent()) : this.editor.generateEmptyEditor()
+          contents: notes[nd].contents ? convertToRaw(notes[nd].contents.getCurrentContent()) : this.editor.generateEmptyEditor()
         }
       }), {})
     };
     const newEditors = Object.keys(notes).reduce((fEditors, nd) => ({
       ...fEditors,
-      [nd]: notes[nd].editorState
+      [nd]: notes[nd].contents
     }), {
       [sectionId]: mainEditorState
     });
@@ -403,9 +403,9 @@ class SectionEditor extends Component {
         // notes' editor states hydratation
         .reduce((eds, noteId) => ({
           ...eds,
-          [noteId]: activeSection.notes[noteId].editorState && activeSection.notes[noteId].editorState.entityMap ?
+          [noteId]: activeSection.notes[noteId].contents && activeSection.notes[noteId].contents.entityMap ?
           EditorState.createWithContent(
-            convertFromRaw(activeSection.notes[noteId].editorState),
+            convertFromRaw(activeSection.notes[noteId].contents),
             this.editor.mainEditor.createDecorator()
           )
           : this.editor.generateEmptyEditor()
@@ -673,10 +673,10 @@ class SectionEditor extends Component {
     const additionalInlineEntities = [{
       strategy: this.findDraftDropPlaceholder,
       component: ({children}) =>
-        <span className="contextualization-loading-placeholder">
+        (<span className="contextualization-loading-placeholder">
           {translate('loading')}
           <span style={{display: 'none'}}>{children}</span>
-        </span>
+        </span>)
     }];
 
     return (
