@@ -168,11 +168,19 @@ class SectionEditor extends Component {
    * @param {object} nextProps - the future properties of the component
    */
   componentWillReceiveProps(nextProps) {
+    // changing section
     if (this.props.sectionId !== nextProps.sectionId) {
       const {
         activeSection
       } = nextProps;
+      // delete unused stuff
+      updateContextualizationsFromEditor(this.props);
+      // update all raw contents
+      const prevSection = this.props.activeSection;
+      const notesIds = Object.keys(prevSection.notes);
+      notesIds.forEach(noteId => this.updateSectionRawContent(noteId, this.props.activeStoryId, this.props.sectionId))
       this.updateSectionRawContent('main', this.props.activeStoryId, this.props.sectionId);
+      // hydrate editors with new section
       this.hydrateEditorStates(activeSection);
     }
 
@@ -250,7 +258,6 @@ class SectionEditor extends Component {
    * always be wrapped in a debounce)
    */
   cleanStuffFromEditorInspection = () => {
-    updateContextualizationsFromEditor(this.props);
     updateNotesFromSectionEditor(this.props);
   }
 
