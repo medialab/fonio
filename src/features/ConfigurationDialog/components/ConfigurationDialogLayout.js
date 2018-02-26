@@ -7,13 +7,19 @@ import PropTypes from 'prop-types';
 
 import Textarea from 'react-textarea-autosize';
 import {Form, Text} from 'react-form';
+import {range} from 'lodash';
 
 import HelpPin from '../../../components/HelpPin/HelpPin';
 import AuthorsManager from '../../../components/AuthorsManager/AuthorsManager';
 import Toaster from '../../../components/Toaster/Toaster';
+import OptionSelect from '../../../components/OptionSelect/OptionSelect';
+
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import './ConfigurationDialog.scss';
+
+import config from '../../../../config';
+const {maxSectionLevel} = config;
 
 /**
  * Renders the configuration dialog layout
@@ -40,10 +46,16 @@ const ConfigurationDialogLayout = ({
 }, context) => {
   // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.ConfigurationDialog');
+  const levelValues = range(maxSectionLevel).map(d => {
+    return {
+      value: d.toString(),
+      label: (d + 1).toString()
+    };
+  });
+
   /**
    * Callbacks
    */
-
   const errorValidator = (values) => {
     return {
       title: !values.title ? 'story title is required' : null,
@@ -144,6 +156,14 @@ const ConfigurationDialogLayout = ({
                         type="text"
                         placeholder={translate('description-of-the-story')}
                         style={{flex: 1}} />
+                    </div>
+                    <div className="input-group">
+                      <label htmlFor="sectionLevel">level of sections</label>
+                      <OptionSelect
+                        activeOptionId={formApi.getValue('sectionLevel')}
+                        options={levelValues}
+                        onChange={(level) => formApi.setValue('sectionLevel', level)}
+                        title={'choose a maximum number of the story sections'} />
                     </div>
                   </div>
                   <Toaster status={createStoryLogStatus} log={createStoryLog} />

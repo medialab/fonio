@@ -32,6 +32,11 @@
                     "type": "string",
                     "longString": true,
                     "default": ""
+                },
+                "sectionLevel": {
+                    "type": "string",
+                    "description": "number of section level of the story",
+                    "default": "1"
                 }
             }
         },
@@ -46,7 +51,8 @@
                     "default": {
                         "metadata": {
                             "title": "",
-                            "authors": []
+                            "authors": [],
+                            "level": 0
                         },
                         "contents": {},
                         "notes": {},
@@ -69,6 +75,9 @@
                                     "items": {
                                         "type": "string"
                                     }
+                                },
+                                "level": {
+                                    "type": "number"
                                 }
                             }
                         },

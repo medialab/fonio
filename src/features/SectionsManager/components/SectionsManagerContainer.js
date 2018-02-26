@@ -50,6 +50,34 @@ class SectionsManagerContainer extends Component {
     this.updateSectionsOrder = this.updateSectionsOrder.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.activeStory.metadata.sectionLevel !== this.props.activeStory.metadata.sectionLevel) {
+      const selectedSectionLevel = nextProps.activeStory.metadata.sectionLevel;
+      const level = parseInt(selectedSectionLevel, 10);
+      const {activeStory} = this.props;
+      let sections = activeStory.sections;
+      const sectionsOrder = activeStory.sectionsOrder;
+
+      if (sections) {
+        sections = sectionsOrder
+        .map(id => ({...activeStory.sections[id], id}));
+      }
+      sections
+        .filter((section) => section.metadata.level > level)
+        .forEach((section) => {
+          this.updateSection(
+            section.id,
+            {
+              ...section,
+              metadata: {
+                ...section.metadata,
+                level
+              }
+            }
+          );
+        });
+    }
+  }
 
   /**
    * Defines whether the component should re-render
@@ -71,6 +99,7 @@ class SectionsManagerContainer extends Component {
   createSection() {
     const id = uuid();
     const defaultSection = createDefaultSection();
+
     // look for a "chapter 1, chapter 2, ..."
     // or "section 1, section 2, ..." pattern in the title of the
     // last section to infer automatically a proper section name (e.g. "chapter 3")
@@ -114,9 +143,10 @@ class SectionsManagerContainer extends Component {
   createSubSection(section, index) {
     const {
       activeStoryId,
-      selectedSectionLevel
+      activeStory
     } = this.props;
 
+    const selectedSectionLevel = activeStory.metadata.sectionLevel;
     let newLevel = section.metadata.level + 1;
     newLevel = newLevel > selectedSectionLevel ? selectedSectionLevel : newLevel;
     // create section
@@ -125,17 +155,15 @@ class SectionsManagerContainer extends Component {
     defaultSection.id = id;
     defaultSection.metadata.level = newLevel;
 
-    this.props.actions.createSection(activeStoryId, id, defaultSection, true);
-
+    this.props.actions.createSection(activeStoryId, id, defaultSection, false);
      // change order
     setTimeout(() => {
-      let order = this.props.activeStory.sectionsOrder;
-      const newId = order[order.length - 1];
+      let order = activeStory.sectionsOrder;
       order =
       [
         ...order.slice(0, index + 1),
-        newId,
-        ...order.slice(index + 1, order.length - 1)
+        id,
+        ...order.slice(index + 1, order.length)
       ];
       this.updateSectionsOrder(order);
     });
@@ -177,8 +205,10 @@ class SectionsManagerContainer extends Component {
       activeStory,
       selectedSections
     } = this.props;
+    const selectedSectionLevel = activeStory.metadata.sectionLevel;
     let sections = activeStory.sections;
     const sectionsOrder = activeStory.sectionsOrder;
+
     if (sections) {
       const selectedSectionsIds = selectedSections;
       sections = sectionsOrder
@@ -196,10 +226,12 @@ class SectionsManagerContainer extends Component {
         else return true;
       });
     }
+
     return (
       <SectionsManagerLayout
         {...this.props}
         sections={sections}
+        selectedSectionLevel={selectedSectionLevel}
         createSection={this.createSection}
         createSubSection={this.createSubSection}
         updateSection={this.updateSection}

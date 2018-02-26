@@ -6,18 +6,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
-import {range} from 'lodash';
-
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import SectionCard from '../../../components/SectionCard/SectionCard';
 
-import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 
 import SectionConfigurationDialog from './SectionConfigurationDialog';
 import './SectionsManagerLayout.scss';
-
-import config from '../../../../config';
-const {maxSectionLevel} = config;
 
 Modal.setAppElement('#mount');
 
@@ -51,18 +45,11 @@ const SectionsManagerLayout = ({
     startExistingSectionConfiguration,
     requestDeletePrompt,
     abortDeletePrompt,
-    setSelectedSectionLevel,
   },
   style,
 }, context) => {
   // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.SectionsManager');
-  const levelValues = range(maxSectionLevel).map(d => {
-    return {
-      value: d.toString(),
-      label: (d + 1).toString()
-    };
-  });
 
   /**
    * Callbacks
@@ -70,34 +57,11 @@ const SectionsManagerLayout = ({
   const onModalClose = () => setSectionsModalState('closed');
   const onSearchInputChange = (e) => setSectionsSearchQuery(e.target.value);
 
-  const onSelectSectionLevel = (value) => {
-    setSelectedSectionLevel(value);
-    const level = parseInt(value, 10);
-    sections
-      .filter((section) => section.metadata.level > level)
-      .forEach((section) => {
-        updateSection(
-          section.id,
-          {
-            ...section,
-            metadata: {
-              ...section.metadata,
-              level
-            }
-          }
-        );
-      });
-  };
   return (
     <div
       className={'fonio-SectionsManagerLayout'}
       style={style}>
       <ul className="body">
-        <OptionSelect
-          activeOptionId={selectedSectionLevel}
-          options={levelValues}
-          onChange={onSelectSectionLevel}
-          title={'level of sections'} />
         {
           sections.map((section, index) => {
             const onDelete = () => deleteSection(activeStoryId, section.id);
