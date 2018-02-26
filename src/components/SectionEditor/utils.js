@@ -165,7 +165,7 @@ export const addTextAtCurrentSelection = (text, contentId, props) => {
           ...activeSection.notes,
           [contentId]: {
             ...activeSection.notes[contentId],
-            editorState: convertToRaw(newEditorState.getCurrentContent())
+            contents: convertToRaw(newEditorState.getCurrentContent())
           }
         }
       };
@@ -212,13 +212,14 @@ export const computeAssetChoiceProps = props => {
       resources
     },
     setEditorFocus,
-    onAssetRequestCancel
+    cancelAssetRequest,
   } = props;
   return {
     options: Object.keys(resources).map(key => resources[key]),
     addPlainText: (text, contentId) => {
-      addTextAtCurrentSelection(text, contentId);
-      onAssetRequestCancel();
+      addTextAtCurrentSelection(text, contentId, props);
+      cancelAssetRequest();
+      setEditorFocus(undefined);
       setTimeout(() => {
         setEditorFocus(contentId);
       });

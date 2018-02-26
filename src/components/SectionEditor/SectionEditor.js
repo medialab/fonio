@@ -346,7 +346,7 @@ class SectionEditor extends Component {
     };
     const newEditors = Object.keys(notes).reduce((fEditors, nd) => ({
       ...fEditors,
-      [nd]: editorStates[nd] || EditorState.createWithContent(
+      [nd]: editorStates[nd] || EditorState.createWithContent(
               convertFromRaw(notes[nd].contents),
               this.editor.mainEditor.createDecorator()
             )
@@ -641,6 +641,9 @@ class SectionEditor extends Component {
     };
 
     const onBlur = (event, contentId = 'main') => {
+      if (contentId !== 'main') {
+        this.updateSectionRawContent(contentId, story.id, activeSection.id);
+      }
       event.stopPropagation();
       // if focus has not be retaken by another editor
       // after a timeout, blur the whole editor
