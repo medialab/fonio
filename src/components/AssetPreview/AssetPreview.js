@@ -88,6 +88,7 @@ class AssetPreview extends Component {
       columns: []
     };
     this.onClickEdit = this.onClickEdit.bind(this);
+    this.onClickDelete = this.onClickDelete.bind(this);
   }
 
   componentDidMount() {
@@ -192,6 +193,14 @@ class AssetPreview extends Component {
     }
   }
 
+  onClickDelete (e) {
+    const {onEditRequest} = this.props;
+    e.stopPropagation();
+    if (typeof onEditRequest === 'function') {
+      this.props.onDeleteRequest();
+    }
+  }
+
   render() {
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
     const {data, metadata, showPannel} = this.props;
@@ -204,7 +213,8 @@ class AssetPreview extends Component {
           {metadata.title && <h5>{metadata.title}</h5>}
           {metadata.description && <p>{metadata.description}</p>}
           <div>
-            <button onClick={this.onClickEdit}>{translate('edit')}</button>
+            <button onClick={this.onClickEdit}>{translate('edit-resource')}</button>
+            <button onClick={this.onClickDelete}>{translate('delete-contextualization')}</button>
           </div>
         </div>}
       </div>);

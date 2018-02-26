@@ -46,11 +46,13 @@ class BlockContainer extends Component {
     } = this.props;
 
     const {
-      startExistingResourceConfiguration
+      startExistingResourceConfiguration,
+      deleteContextualization
     } = this.context;
 
     const {
       resource = {},
+      id
     } = asset;
 
     const onEditRequest = () => {
@@ -59,6 +61,11 @@ class BlockContainer extends Component {
       }
     };
 
+    const onDeleteRequest = () => {
+      if (typeof startExistingResourceConfiguration === 'function') {
+        deleteContextualization(undefined, id);
+      }
+    };
 
     return (resource.data ?
       <AssetPreview
@@ -66,6 +73,7 @@ class BlockContainer extends Component {
         data={resource.data}
         metadata={resource.metadata}
         onEditRequest={onEditRequest}
+        onDeleteRequest={onDeleteRequest}
         showPannel /> : null
       );
   }
@@ -93,6 +101,8 @@ BlockContainer.contextTypes = {
    * Callbacks when resource configuration is asked from
    * within the asset component
    */
-  startExistingResourceConfiguration: PropTypes.func
+  startExistingResourceConfiguration: PropTypes.func,
+
+  deleteContextualization: PropTypes.func
 };
 export default BlockContainer;
