@@ -1,0 +1,18 @@
+/**
+ * style definitions for the CodeEditor component
+ *
+ * @module fonio/components/CodeEditor
+ */
+@import '../../parameters.scss';
+
+
+.fonio-CodeEditor
+{
+    .CodeMirror-code
+    {
+        .CodeMirror-line{
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+}

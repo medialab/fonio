@@ -15,6 +15,9 @@ import {
   getCitationLocalesListFromServer,
   getCitationLocaleFromServer,
 } from '../../helpers/resourcesUtils';
+import {
+  processCustomCss
+} from '../../helpers/postcss';
 
 
 /**
@@ -23,6 +26,7 @@ import {
 const SET_SETTINGS_VISIBILITY = '§Fonio/StorySettingsManager/SET_SETTINGS_VISIBILITY';
 
 export const SET_STORY_CSS = '§Fonio/StorySettingsManager/SET_STORY_CSS';
+export const SET_STORY_CSS_FROM_USER = '§Fonio/StorySettingsManager/SET_STORY_CSS_FROM_USER';
 export const SET_STORY_SETTING_OPTION = '§Fonio/StorySettingsManager/SET_STORY_SETTING_OPTION';
 export const SET_STORY_TEMPLATE = '§Fonio/StorySettingsManager/SET_STORY_TEMPLATE';
 
@@ -53,6 +57,18 @@ export const setSettingsVisibility = (visible) => ({
  */
 export const setStoryCss = (id, css) => ({
   type: SET_STORY_CSS,
+  id,
+  css: processCustomCss(css),
+});
+
+/**
+ * Sets the settings' custom css of a story as seen by the user
+ * @param {string} id - id of the story to update
+ * @param {string} css - the new css to set
+ * @return {object} action - the redux action to dispatch
+ */
+export const setStoryCssFromUser = (id, css) => ({
+  type: SET_STORY_CSS_FROM_USER,
   id,
   css,
 });

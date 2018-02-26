@@ -72,6 +72,7 @@ import {
 
 import {
   SET_STORY_CSS,
+  SET_STORY_CSS_FROM_USER,
   SET_STORY_TEMPLATE,
   SET_STORY_SETTING_OPTION,
   FETCH_CITATION_STYLE,
@@ -723,6 +724,19 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           settings: {
             ...state.activeStory.settings,
             css: action.css
+          }
+        }
+
+      };
+    // the custom css as seen by user of a story is changed
+    case SET_STORY_CSS_FROM_USER :
+      return {
+        ...state,
+        activeStory: {
+          ...state.activeStory,
+          settings: {
+            ...state.activeStory.settings,
+            cssFromUser: action.css
           }
         }
 

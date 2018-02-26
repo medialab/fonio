@@ -5,7 +5,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import TextArea from 'react-textarea-autosize';
 import StoryPlayer, {templates} from 'quinoa-story-player';
 import {Link} from 'react-router-dom';
 
@@ -16,6 +15,7 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 import Toaster from '../../../components/Toaster/Toaster';
+import CodeEditor from '../../../components/CodeEditor/CodeEditor';
 
 const StorySettingsManagerLayout = ({
   xhrStatus,
@@ -27,6 +27,7 @@ const StorySettingsManagerLayout = ({
 
   actions: {
     setStoryCss,
+    setStoryCssFromUser,
     setStorySettingOption,
     setCitationStyle,
     setCitationLocale,
@@ -38,7 +39,7 @@ const StorySettingsManagerLayout = ({
   const translate = translateNameSpacer(context.t, 'Features.StorySettingsManager');
 
   // safely retrieving active settings data
-  const activeCss = (activeStory && activeStory.settings && activeStory.settings.css) || '';
+  const visibleCss = (activeStory && activeStory.settings && activeStory.settings.cssFromUser) || '';
   const activeTemplate = (activeStory && activeStory.settings && activeStory.settings.template) || 'garlic';
   const activeTemplateData = templates.find(template => template.id === activeTemplate);
   const activeCitationStyleId = activeStory && activeStory.settings && activeStory.settings.citationStyle && activeStory.settings.citationStyle.id;
@@ -65,8 +66,8 @@ const StorySettingsManagerLayout = ({
   const onCitationLocaleChange = value => {
     setCitationLocale(activeStoryId, value);
   };
-  const onCssChange = e => {
-    const css = e.target.value;
+  const onCssChange = css => {
+    setStoryCssFromUser(activeStoryId, css);
     setStoryCss(activeStoryId, css);
   };
 
@@ -169,23 +170,9 @@ const StorySettingsManagerLayout = ({
           <section className="settings-section">
             <h2>{translate('customize-css-title')}</h2>
             <div className="css-customizer-container">
-              <TextArea
-                minRows={10}
-                maxRows={12}
-                defaultValue="Write custom css code here"
-                value={activeCss || ''}
+              <CodeEditor
+                value={visibleCss}
                 onChange={onCssChange} />
-              {!activeCss.length &&
-              <pre className="css-example">
-
-                <code>
-                  {`Example:
-.quinoa-story-player{
-  color: red;
-}`}
-                </code>
-              </pre>
-            }
             </div>
           </section>
         </div>
