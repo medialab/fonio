@@ -547,7 +547,7 @@ class SectionEditor extends Component {
       ...no,
       [id]: {
         ...inputNotes[id],
-        contents: editorStates[id]
+        editorState: editorStates[id]
       }
     }), {}) : {};
 
