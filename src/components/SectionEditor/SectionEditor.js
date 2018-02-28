@@ -355,11 +355,11 @@ class SectionEditor extends Component {
     this.props.updateDraftEditorsStates(newEditors);
     // update focus
     // focus on new note
-    // this.props.setEditorFocus(undefined);
-    // setTimeout(() => {
-    //   this.props.setEditorFocus(id);
-    //   this.editor.focus(id);
-    // });
+    this.props.setEditorFocus(undefined);
+    setTimeout(() => {
+      this.props.setEditorFocus(id);
+      // this.editor.focus(id);
+    });
   }
 
 
