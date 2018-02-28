@@ -105,17 +105,7 @@ export const setStoryTemplate = (id, template) => ({
  */
 export const getCitationStylesList = () => ({
   type: FETCH_CITATION_STYLES_LIST,
-  promise: () => {
-    return new Promise((resolve, reject) => {
-      return getCitationStylesListFromServer()
-      .then(citationStylesList => {
-        resolve(citationStylesList);
-      })
-      .catch(e => {
-        reject(e);
-      });
-    });
-  }
+  promise: () => getCitationStylesListFromServer()
 });
 
 /**
@@ -126,17 +116,8 @@ export const getCitationStylesList = () => ({
  */
 export const setCitationStyle = (storyId, styleId) => ({
   type: FETCH_CITATION_STYLE,
-  promise: () => {
-    return new Promise((resolve, reject) => {
-      return getCitationStyleFromServer(styleId)
-      .then(citationStyle => {
-        resolve({storyId, citationStyle});
-      })
-      .catch(e => {
-        reject(e);
-      });
-    });
-  }
+  storyId,
+  promise: () => getCitationStyleFromServer(styleId)
 });
 
 /**
@@ -145,17 +126,7 @@ export const setCitationStyle = (storyId, styleId) => ({
  */
 export const getCitationLocalesList = () => ({
   type: FETCH_CITATION_LOCALES_LIST,
-  promise: () => {
-    return new Promise((resolve, reject) => {
-      return getCitationLocalesListFromServer()
-      .then(citationLocalesList => {
-        resolve(citationLocalesList);
-      })
-      .catch(e => {
-        reject(e);
-      });
-    });
-  }
+  promise: () => getCitationLocalesListFromServer()
 });
 
 /**
@@ -166,17 +137,8 @@ export const getCitationLocalesList = () => ({
  */
 export const setCitationLocale = (storyId, localeId) => ({
   type: FETCH_CITATION_LOCALE,
-  promise: () => {
-    return new Promise((resolve, reject) => {
-      return getCitationLocaleFromServer(localeId)
-      .then(citationLocale => {
-        resolve({storyId, citationLocale});
-      })
-      .catch(e => {
-        reject(e);
-      });
-    });
-  }
+  storyId,
+  promise: () => getCitationLocaleFromServer(localeId)
 });
 
 /*
@@ -238,13 +200,13 @@ function settingsManagerUi (state = SETTINGS_MANAGER_UI_DEFAULT_STATE, action) {
     case FETCH_CITATION_STYLES_LIST + '_SUCCESS':
       return {
         ...state,
-        citationStylesList: action.result,
+        citationStylesList: action.result.data,
         xhrStatus: undefined
       };
     case FETCH_CITATION_LOCALES_LIST + '_SUCCESS':
       return {
         ...state,
-        citationLocalesList: action.result,
+        citationLocalesList: action.result.data,
         xhrStatus: undefined
       };
     case FETCH_CITATION_LOCALES_LIST + '_FAIL':

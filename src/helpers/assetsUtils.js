@@ -3,9 +3,7 @@
  * @module fonio/utils/assetsUtils
  */
 
-import {
-  get
-} from 'superagent';
+import {get} from 'axios';
 
 import {v4 as genId} from 'uuid';
 
@@ -92,7 +90,7 @@ export function loadResourceData(url) {
   return new Promise((resolve) => {
     get(url)
     .then((res) => {
-      resolve(res.body);
+      resolve(res.data);
     });
   });
 }
@@ -117,16 +115,9 @@ export function retrieveMediaMetadata (url, credentials = {}) {
            // for a simple metadata retrieval we can use this route that includes the api key
             const endPoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${videoId}&key=${credentials.youtubeAPIKey}`;
             get(endPoint)
-              .set('Accept', 'application/json')
-              .redirects(2)
-              .end((error, res) => {
-                if (error) {
-                  return resolve({url, metadata: {
-                    videoUrl: url
-                  }});
-                }
-                const info = res.body && res.body.items && res.body.items[0] && res.body.items[0].snippet;
-                return resolve({
+            .then(res => {
+              const info = res.data && res.data.items && res.data.items[0] && res.data.items[0].snippet;
+              return resolve({
                   url,
                   metadata: {
                     description: info.description,
@@ -135,7 +126,12 @@ export function retrieveMediaMetadata (url, credentials = {}) {
                     videoUrl: url
                   }
                 });
-              });
+            })
+            .catch(() => {
+              return resolve({url, metadata: {
+                videoUrl: url
+              }});
+            });
         }
         else {
           return resolve({url, metadata: {
@@ -153,24 +149,23 @@ export function retrieveMediaMetadata (url, credentials = {}) {
     else if (url.match(vimeoRegexp)) {
       const endpoint = 'https://vimeo.com/api/oembed.json?url=' + url;
       get(endpoint)
-        .set('Accept', 'application/json')
-        .end((error, res) => {
-          if (error) {
-            return resolve({url, metadata: {
-        videoUrl: url
-      }});
+      .then(res => {
+        const data = res.data;
+        resolve({
+          url,
+          metadata: {
+            source: data.author_name + ` (vimeo: ${url})`,
+            title: data.title,
+            description: data.description,
+            videoUrl: url
           }
-          const data = res.body;
-          resolve({
-            url,
-            metadata: {
-              source: data.author_name + ` (vimeo: ${url})`,
-              title: data.title,
-              description: data.description,
-              videoUrl: url
-            }
-          });
         });
+      })
+      .catch(() => {
+        return resolve({url, metadata: {
+          videoUrl: url
+        }});
+      });
     }
     // default - do nothing
     else {

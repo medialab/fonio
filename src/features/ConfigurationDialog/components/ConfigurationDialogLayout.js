@@ -83,8 +83,8 @@ const ConfigurationDialogLayout = ({
     else {
       createStory(newStoryCandidate, values.password)
      .then((res) => {
-        if (res.result) {
-          const {story} = res.result;
+        if (res.result && res.result.data) {
+          const {story} = res.result.data;
           applyStoryCandidateConfiguration(story);
           history.push({
             pathname: `/story/${story.id}/edit`

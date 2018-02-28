@@ -2,9 +2,6 @@
  * This module helps for processes related to the exports of a story
  * @module fonio/utils/projectBundler
  */
-import {post} from 'superagent';
-import {serverUrl} from '../../secrets';
-
 import {
   convertFromRaw
 } from 'draft-js';
@@ -36,17 +33,6 @@ ${story.metadata.authors.join(', ')}
     const content = convertFromRaw(story.sections[id].contents);
     return stateToMarkdown(content);
   }).join('\n \n');
-}
-
-/**
- * Wraps a server call for rendering a story as all-in-one html story file
- * @param {object} story - the story to bundle
- * @param {function} callback
- */
-export function bundleProjectAsHtml (story, callback) {
-  post(serverUrl + '/render-story')
-    .send(cleanStoryForExport(story))
-    .end((err, response) => callback(err, response && response.text));
 }
 
 /**

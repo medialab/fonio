@@ -2,8 +2,7 @@
  * This module helps to export the serialized content of a presentation to a distant server
  * @module fonio/utils/serverExporter
  */
-import {get, put, post, del} from 'superagent';
-
+import {get, put, post, delete as del} from 'axios';
 import {serverUrl} from '../../secrets';
 
 /**
@@ -13,18 +12,8 @@ import {serverUrl} from '../../secrets';
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function fetchStoriesServer () {
-  return new Promise((resolve, reject) => {
-    const serverRequestUrl = serverUrl + '/stories/';
-    get(serverRequestUrl)
-      .end((err, response) => {
-          if (err) {
-            return reject(err);
-          }
-          else {
-            return resolve(JSON.parse(response.text));
-          }
-        });
-    });
+  const serverRequestUrl = serverUrl + '/stories/';
+  return get(serverRequestUrl);
 }
 /**
  * @param {string} story id
@@ -32,18 +21,8 @@ export function fetchStoriesServer () {
  * @return {promise} actionPromise - a promise handling the attempt to get the story with metadata structure
  */
 export function getStoryServer (id) {
-  return new Promise((resolve, reject) => {
-    const serverRequestUrl = serverUrl + '/stories/' + id;
-    get(serverRequestUrl)
-      .end((err, response) => {
-          if (err) {
-            return reject(err);
-          }
-          else {
-            return resolve(JSON.parse(response.text));
-          }
-        });
-    });
+  const serverRequestUrl = serverUrl + '/stories/' + id;
+  return get(serverRequestUrl);
 }
 
 /**
@@ -52,21 +31,8 @@ export function getStoryServer (id) {
  * @return {promise} actionPromise - a promise handling the attempt to get all-in-one json story
  */
 export function getStoryBundleServer(id, format) {
-  return new Promise((resolve, reject) => {
-    const serverRequestUrl = serverUrl + '/stories/' + id + '?format=' + format;
-    get(serverRequestUrl)
-      .end((err, response) => {
-        if (err) {
-          return reject(err);
-        }
-        else {
-          if (format === 'json')
-            return resolve(JSON.parse(response.text));
-          else
-            return resolve(response.text);
-        }
-      });
-    });
+  const serverRequestUrl = serverUrl + '/stories/' + id + '?format=' + format;
+  return get(serverRequestUrl);
 }
 /**
  * @param {object} story - the story to publish to server
@@ -75,23 +41,8 @@ export function getStoryBundleServer(id, format) {
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function createStoryServer (story, password) {
-  return new Promise((resolve, reject) => {
-    const serverRequestUrl = serverUrl + '/stories/';
-    post(serverRequestUrl)
-      .set('Accept', 'application/json')
-      .send({
-        story,
-        password
-      })
-      .end((err, response) => {
-          if (err) {
-            return reject(err);
-          }
-          else {
-            resolve(JSON.parse(response.text));
-          }
-        });
-    });
+  const serverRequestUrl = serverUrl + '/stories/';
+  return post(serverRequestUrl, {story, password});
 }
 
 /**
@@ -101,22 +52,13 @@ export function createStoryServer (story, password) {
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function saveStoryServer (story, token) {
-    return new Promise((resolve, reject) => {
-    const serverRequestUrl = serverUrl + '/stories/' + story.id;
-
-    put(serverRequestUrl)
-      .set('Accept', 'application/json')
-      .set('x-access-token', token)
-      .send(story)
-      .end(err => {
-          if (err) {
-            return reject(err);
-          }
-          else {
-            return resolve(story);
-          }
-        });
-    });
+  const serverRequestUrl = serverUrl + '/stories/' + story.id;
+  const options = {
+    headers: {
+      'x-access-token': token
+    }
+  };
+  return put(serverRequestUrl, story, options);
 }
 
 /**
@@ -126,19 +68,8 @@ export function saveStoryServer (story, token) {
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function publishStoryBundleServer (id) {
-  return new Promise((resolve, reject) => {
-    const serverRequestUrl = serverUrl + '/stories/' + id + '?format=bundle';
-
-    get(serverRequestUrl)
-      .end((err, res) => {
-          if (err) {
-            return reject(err);
-          }
-          else {
-            return resolve(res);
-          }
-        });
-    });
+  const serverRequestUrl = serverUrl + '/stories/' + id + '?format=bundle';
+  return get(serverRequestUrl);
 }
 
 /**
@@ -148,20 +79,13 @@ export function publishStoryBundleServer (id) {
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function deleteStoryServer (id, token) {
-  return new Promise((resolve, reject) => {
-    const serverRequestUrl = serverUrl + '/stories/' + id;
-    del(serverRequestUrl)
-      .set('Accept', 'application/json')
-      .set('x-access-token', token)
-      .end((err, res) => {
-          if (err) {
-            return reject(err);
-          }
-          else {
-            return resolve(res);
-          }
-        });
-  });
+  const serverRequestUrl = serverUrl + '/stories/' + id;
+  const options = {
+    headers: {
+      'x-access-token': token
+    }
+  };
+  return del(serverRequestUrl, options);
 }
 
 
@@ -172,21 +96,13 @@ export function deleteStoryServer (id, token) {
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function uploadResourceServer (storyId, id, resource, token) {
-  return new Promise((resolve, reject) => {
-    const serverRequestUrl = serverUrl + '/resources/' + storyId + '/' + id;
-    put(serverRequestUrl)
-      .set('x-access-token', token)
-      .set('Accept', 'application/json')
-      .send(resource)
-      .end((err) => {
-          if (err) {
-            return reject(err);
-          }
-          else {
-            return resolve(id);
-          }
-        });
-    });
+  const serverRequestUrl = serverUrl + '/resources/' + storyId + '/' + id;
+  const options = {
+    headers: {
+      'x-access-token': token
+    }
+  };
+  return put(serverRequestUrl, resource, options);
 }
 
 /**
@@ -196,23 +112,17 @@ export function uploadResourceServer (storyId, id, resource, token) {
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function deleteResourceServer (storyId, resource, token) {
-  return new Promise((resolve, reject) => {
-    let filename = '';
-    if (resource.metadata.type === 'image') {
-      const ext = resource.metadata.mime.split('/')[1];
-      filename = resource.metadata.id + '.' + ext;
+  let filename = '';
+  if (resource.metadata.type === 'image') {
+    const ext = resource.metadata.mime.split('/')[1];
+    filename = resource.metadata.id + '.' + ext;
+  }
+  else filename = resource.metadata.id + '.json';
+  const serverRequestUrl = serverUrl + '/resources/' + storyId + '/' + filename;
+  const options = {
+    headers: {
+      'x-access-token': token
     }
-    else filename = resource.metadata.id + '.json';
-    const serverRequestUrl = serverUrl + '/resources/' + storyId + '/' + filename;
-    del(serverRequestUrl)
-      .set('x-access-token', token)
-      .end((err) => {
-          if (err) {
-            return reject(err);
-          }
-          else {
-            return resolve(resource.metadata.id);
-          }
-        });
-    });
+  };
+  return del(serverRequestUrl, options);
 }

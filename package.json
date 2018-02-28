@@ -43,6 +43,7 @@
   "dependencies": {
     "ajv": "^6.1.1",
     "autoprefixer": "^8.0.0",
+    "axios": "^0.18.0",
     "citation-js": "^0.3.4",
     "codemirror": "^5.35.0",
     "d3-dsv": "^1.0.5",
@@ -83,7 +84,6 @@
     "redux-pouchdb": "^0.1.1",
     "reselect": "^3.0.0",
     "scholar-draft": "^0.2.14",
-    "superagent": "^3.2.1",
     "uuid": "^3.0.1"
   },
   "devDependencies": {

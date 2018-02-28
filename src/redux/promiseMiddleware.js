@@ -38,8 +38,8 @@ export default () => ({dispatch, getState}) => (next) => (action) => {
         next({...rest, type: RESET})
       , timers.long);
       return next({...rest, result, type: SUCCESS});
-    },
-    (error) => next({...rest, error, type: FAIL})
-  );
+    }).catch((error) =>
+      next({...rest, error, type: FAIL})
+    );
 
 };

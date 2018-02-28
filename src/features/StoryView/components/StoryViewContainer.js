@@ -56,12 +56,11 @@ export default class StoryViewContainer extends Component {
     const {fetchStory, setActiveStory, openLoginModal} = actions;
     // TODO: optimize initialize story
     fetchStory(match.params.id).then(res => {
-      if (res.result) {
-        const activeStoryId = res.result.id;
-        const isLogedIn = localStorage.getItem(activeStoryId);
-        setActiveStory(res.result);
+      if (res.result && res.result.data) {
+        const isLogedIn = localStorage.getItem(match.params.id);
+        setActiveStory(res.result.data);
         if (match.params.mode === 'edit' && !isLogedIn) {
-          openLoginModal(activeStoryId);
+          openLoginModal(match.params.id);
         }
       }
     });

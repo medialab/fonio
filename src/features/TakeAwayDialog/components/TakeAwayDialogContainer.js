@@ -26,9 +26,7 @@ import {
 
 import downloadFile from '../../../helpers/fileDownloader';
 import {
-  // bundleProjectAsHtml,
   bundleProjectAsJSON,
-  // cleanStoryForExport,
   convertStoryToMarkdown,
 } from '../../../helpers/projectBundler';
 
@@ -94,8 +92,8 @@ class TakeAwayDialogContainer extends Component {
       case 'project':
         this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'json')
         .then(res => {
-          if (res.result) {
-            const JSONbundle = bundleProjectAsJSON(res.result); // bundleProjectAsJSON(this.props.activeStory);
+          if (res.result && res.result.data) {
+            const JSONbundle = bundleProjectAsJSON(res.result.data); // bundleProjectAsJSON(this.props.activeStory);
             downloadFile(JSONbundle, 'json', title);
           }
         });
@@ -103,8 +101,8 @@ class TakeAwayDialogContainer extends Component {
       case 'markdown':
         this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'json')
         .then(res => {
-          if (res.result) {
-            const markdownRep = convertStoryToMarkdown(res.result);
+          if (res.result && res.result.data) {
+            const markdownRep = convertStoryToMarkdown(res.result.data);
             downloadFile(markdownRep, 'md', title);
           }
         });
@@ -112,8 +110,8 @@ class TakeAwayDialogContainer extends Component {
       case 'html':
         this.props.actions.fetchStoryBundle(this.props.activeStory.id, 'html')
         .then(res => {
-          if (res.result) {
-            downloadFile(res.result, 'html', title);
+          if (res.result && res.result.data) {
+            downloadFile(res.result.data, 'html', title);
           }
         });
         break;

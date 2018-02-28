@@ -66,7 +66,6 @@ import {
 } from '../SectionsManager/duck';
 
 import {
-  EXPORT_TO_GIST,
   EXPORT_STORY_BUNDLE
 } from '../TakeAwayDialog/duck';
 
@@ -222,19 +221,20 @@ export const copyStory = (id) => ({
   promise: () => {
   return new Promise((resolve, reject) => {
     return getStoryBundleServer(id, 'json')
-      .then((response) => {
+      .then((res) => {
         const newId = uuid();
+        const story = res.data;
         const newStory = {
         // breaking references with existing
         // resources/contextualizations/contents/... objects
         // to avoid side effects on their references
         // during a section of use
         // todo: better way to do that ?
-        ...response,
+        ...story,
           id: newId,
           metadata: {
-            ...response.metadata,
-            title: response.metadata.title + ' - copy'
+            ...story.metadata,
+            title: story.metadata.title + ' - copy'
           }
         };
         resolve(newStory);
@@ -435,10 +435,10 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
     case FETCH_ALL_STORIES + '_SUCCESS':
       return {
         ...state,
-        stories: action.result
+        stories: action.result.data
       };
     case FETCH_STORY + '_SUCCESS':
-      story = action.result;
+      story = action.result.data;
       const newResources = {};
       Object.keys(story.resources)
         .map(key => story.resources[key])
@@ -467,7 +467,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
         }
       };
     case CREATE_STORY + '_SUCCESS':
-      story = action.result.story;
+      story = action.result.data.story;
       return {
         ...state,
         stories: {
@@ -777,7 +777,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           ...state.activeStory,
           settings: {
             ...state.activeStory.settings,
-            citationStyle: action.result.citationStyle,
+            citationStyle: action.result.data,
           }
         }
       };
@@ -789,7 +789,7 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           ...state.activeStory,
           settings: {
             ...state.activeStory.settings,
-            citationLocale: action.result.citationLocale,
+            citationLocale: action.result.data,
           }
         }
       };
@@ -804,19 +804,6 @@ function stories(state = STORIES_DEFAULT_STATE, action) {
           metadata: {
             ...state.activeStory.metadata,
             serverHTMLUrl: serverUrl + '/static/' + state.activeStory.id
-          }
-        }
-      };
-    case EXPORT_TO_GIST + '_SUCCESS':
-      return {
-        ...state,
-        activeStory: {
-          ...state.activeStory,
-          metadata: {
-            ...state.activeStory.metadata,
-            // todo: should we wrap that in an object to be cleaner ?
-            gistUrl: action.result.gistUrl,
-            gistId: action.result.gistId
           }
         }
       };
@@ -888,18 +875,18 @@ function storyAuth(state = STORY_AUTH_DEFAULT_STATE, action) {
         resetPasswordModalOpen: false
       };
     case CREATE_STORY + '_SUCCESS':
-      const {story, token} = action.result;
+      const {story, token} = action.result.data;
       localStorage.setItem(story.id, token);
       return state;
     case LOGIN_STORY + '_SUCCESS':
-      localStorage.setItem(action.id, action.result);
+      localStorage.setItem(action.id, action.result.data.token);
       return {
         ...state,
         notAuthStoryId: undefined,
         loginModalOpen: false
       };
     case RESET_STORY_PASSWORD + '_SUCCESS':
-      localStorage.setItem(action.id, action.result);
+      localStorage.setItem(action.id, action.result.data.token);
       return {
         ...state,
         resetPasswordStoryId: undefined,
@@ -913,8 +900,8 @@ function storyAuth(state = STORY_AUTH_DEFAULT_STATE, action) {
     case LOGIN_STORY + '_FAIL':
     case UPLOAD_RESOURCE_REMOTE + '_FAIL':
     case DELETE_RESOURCE_REMOTE + '_FAIL':
-      if (action.error.response && action.error.response.text) {
-        const error = JSON.parse(action.error.response.text);
+      if (action.error.response && action.error.response.data) {
+        const error = action.error.response.data;
         if (error.auth === false) {
           const storyId = (action.type === UPLOAD_RESOURCE_REMOTE + '_FAIL' || action.type === DELETE_RESOURCE_REMOTE + '_FAIL') ? action.storyId : action.id;
           localStorage.removeItem(storyId);
