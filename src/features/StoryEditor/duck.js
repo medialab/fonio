@@ -293,7 +293,12 @@ const EDITOR_FOCUS_DEFAULT_STATE = {
    * Represents which editor is focused
    * @type {string}
    */
-  editorFocus: undefined
+  editorFocus: undefined,
+  /**
+   * Represents the previous editor focus 
+   * @type {string}
+   */
+  previousEditorFocus: undefined
 };
 
 /**
@@ -308,7 +313,8 @@ const editorFocusState = (state = EDITOR_FOCUS_DEFAULT_STATE, action) => {
     case SET_EDITOR_FOCUS:
       return {
         ...state,
-        editorFocus: action.editorFocus
+        editorFocus: action.editorFocus,
+        previousEditorFocus: state.editorFocus
       };
     default:
       return state;
@@ -342,6 +348,7 @@ const editorStates = state => state.editorstates;
 const assetRequestState = state => state.assetRequeststate;
 const assetRequested = state => state.assetRequested;
 const editorFocus = state => state.editorFocusState.editorFocus;
+const previousEditorFocus = state => state.editorFocusState.previousEditorFocus;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -352,4 +359,5 @@ export const selector = createStructuredSelector({
   assetRequestState,
   assetRequested,
   editorFocus,
+  previousEditorFocus,
 });

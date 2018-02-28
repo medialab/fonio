@@ -84,13 +84,17 @@ class ResourcesManagerContainer extends Component {
   embedAsset = resourceId => {
     const {
       activeSectionId,
-      editorFocus,
+      editorFocus: currentEditorFocus,
+      previousEditorFocus,
       actions,
     } = this.props;
+
 
     const {
       unpromptAssetEmbed,
     } = actions;
+
+    const editorFocus = currentEditorFocus || previousEditorFocus;
     let contentId = editorFocus; // assetRequestState.editorId;
     contentId = (contentId === activeSectionId || !contentId) ? 'main' : editorFocus;
     summonAsset(contentId, resourceId, this.props);
