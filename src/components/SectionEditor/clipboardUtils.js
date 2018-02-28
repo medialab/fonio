@@ -110,33 +110,36 @@ export const handleCopy = function(event) {
         // copying note pointer and related note
         if (type === NOTE_POINTER) {
           const noteId = eData.data.noteId;
-          const noteContent = editorStates[noteId].getCurrentContent();
-          // note content is storied as a raw representation
-          const rawContent = convertToRaw(noteContent);
-          copiedEntities[noteId] = [];
-          copiedNotes.push({
-            id: noteId,
-            contents: rawContent
-          });
-          // copying note's entities
-          noteContent.getBlockMap().forEach(thatBlock => {
-            thatBlock.getCharacterList().map(char => {
-              // copying note's entity and related contextualizations
-              if (char.entity) {
-                entityKey = char.entity;
-                entity = currentContent.getEntity(entityKey);
-                eData = entity.toJS();
-                copiedEntities[noteId].push({
-                  key: entityKey,
-                  entity: eData
-                });
-                copiedContextualizations.push({
-                  ...contextualizations[eData.data.asset.id]
-                });
-              }
+          const noteEditorState = editorStates[noteId];
+          if (noteEditorState && eData.data.asset) {
+            const noteContent = noteEditorState.getCurrentContent();
+            // note content is storied as a raw representation
+            const rawContent = convertToRaw(noteContent);
+            copiedEntities[noteId] = [];
+            copiedNotes.push({
+              id: noteId,
+              contents: rawContent
             });
-            return true;
-          });
+            // copying note's entities
+            noteContent.getBlockMap().forEach(thatBlock => {
+              thatBlock.getCharacterList().map(char => {
+                // copying note's entity and related contextualizations
+                if (char.entity) {
+                  entityKey = char.entity;
+                  entity = currentContent.getEntity(entityKey);
+                  eData = entity.toJS();
+                  copiedEntities[noteId].push({
+                    key: entityKey,
+                    entity: eData
+                  });
+                  copiedContextualizations.push({
+                    ...contextualizations[eData.data.asset.id]
+                  });
+                }
+              });
+              return true;
+            });
+          }
         }
         // copying asset entities and related contextualization & contextualizer
         // todo: question - should we store as well the resources being copied ?
@@ -217,7 +220,7 @@ export const handleCopy = function(event) {
       // as a editorChange event (will handle clipboard content as text or html)
       setState({
         clipboard: null,
-        copiedData: null
+        copiedData: null,
       });
       return;
     }
@@ -406,14 +409,14 @@ export const handleCopy = function(event) {
               });
             }
             // iterating through a note's editor's copied entities
-            else {
+            // to update its entities and the clipboard
+            else if (newNotes[contentId]) {
               copiedEntities[contentId].forEach(entity => {
                 const editorState = editorStates[contentId]
                   || EditorState.createWithContent(
                       convertFromRaw(newNotes[contentId].contents),
                       this.editor.mainEditor.createDecorator()
                     );
-
 
                 newContentState = editorState.getCurrentContent();
                 newContentState = newContentState.createEntity(entity.entity.type, entity.entity.mutability, {...entity.entity.data});
@@ -423,7 +426,7 @@ export const handleCopy = function(event) {
                     if (char.getEntity()) {
                       const ent = newContentState.getEntity(char.getEntity());
                       const eData = ent.getData();
-                      if (eData.asset && eData.asset.id && eData.asset.id === entity.entity.data.asset.oldId) {
+                      if (eData.asset && eData.asset.id && entity.entity.data.asset && eData.asset.id === entity.entity.data.asset.oldId) {
                         newContentState = newContentState.mergeEntityData(char.getEntity(), {
                           ...entity.entity.data
                         });
