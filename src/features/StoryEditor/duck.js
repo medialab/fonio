@@ -295,7 +295,7 @@ const EDITOR_FOCUS_DEFAULT_STATE = {
    */
   editorFocus: undefined,
   /**
-   * Represents the previous editor focus 
+   * Represents the previous editor focus
    * @type {string}
    */
   previousEditorFocus: undefined

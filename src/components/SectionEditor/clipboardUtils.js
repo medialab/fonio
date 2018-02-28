@@ -111,7 +111,7 @@ export const handleCopy = function(event) {
         if (type === NOTE_POINTER) {
           const noteId = eData.data.noteId;
           const noteEditorState = editorStates[noteId];
-          if (noteEditorState && eData.data.asset) {
+          if (noteEditorState && eData.data.noteId) {
             const noteContent = noteEditorState.getCurrentContent();
             // note content is storied as a raw representation
             const rawContent = convertToRaw(noteContent);
