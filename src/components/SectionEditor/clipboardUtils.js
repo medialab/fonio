@@ -59,7 +59,7 @@ export const handleCopy = function(event) {
       editorFocus,
       activeSection,
       editorStates,
-      activeStory
+      activeStory,
     } = props;
     const {
       contextualizations,
@@ -116,7 +116,7 @@ export const handleCopy = function(event) {
           copiedEntities[noteId] = [];
           copiedNotes.push({
             id: noteId,
-            rawContent
+            contents: rawContent
           });
           // copying note's entities
           noteContent.getBlockMap().forEach(thatBlock => {
@@ -195,6 +195,7 @@ export const handleCopy = function(event) {
       // createResource,
       updateDraftEditorsStates,
       updateSection,
+      setEditorFocus,
     } = props;
 
     const {
@@ -255,7 +256,7 @@ export const handleCopy = function(event) {
               ...result,
               [noteId]: {
                 ...notes[noteId],
-                contents: EditorState.createWithContent(convertFromRaw(notes[noteId].contents), editor.mainEditor.createDecorator()),
+                // contents: EditorState.createWithContent(convertFromRaw(notes[noteId].contents), editor.mainEditor.createDecorator()),
               }
             };
           }, {});
@@ -263,13 +264,10 @@ export const handleCopy = function(event) {
           // and merge them with the past notes
           newNotes = data.copiedNotes.reduce((result, note) => {
             const id = generateId();
-            // console.log('attributing new node id', id);
-            const noteEditorState = EditorState.createWithContent(convertFromRaw(note.rawContent), editor.mainEditor.createDecorator());
             return {
               ...result,
               [id]: {
                 ...note,
-                contents: noteEditorState,
                 oldId: note.id,
                 id
               }
@@ -318,7 +316,7 @@ export const handleCopy = function(event) {
 
         // integrate new draftjs entities in respective editorStates
         // editorStates as stored as a map in which each keys corresponds
-        // to a category of content ('main' + uuids for each note)
+        // to a category of content ('main' or uuids for each note)
         if (Object.keys(data.copiedEntities).length) {
           // update entities data with correct notes and contextualizations ids pointers
           const copiedEntities = Object.keys(data.copiedEntities).reduce((result, contentId) => {
@@ -328,9 +326,9 @@ export const handleCopy = function(event) {
                 const entity = {...inputEntity};
                 const thatData = entity.entity.data;
                 // case: copying note entity
-                if (thatData && data.noteId) {
+                if (thatData && thatData.noteId) {
                   const id = Object.keys(newNotes).find(key => {
-                    if (newNotes[key].oldId === data.noteId) {
+                    if (newNotes[key].oldId === thatData.noteId) {
                       return true;
                     }
                   });
@@ -385,6 +383,7 @@ export const handleCopy = function(event) {
               // iterating through the main editor's copied entities
               copiedEntities[contentId].forEach(entity => {
                 const editorState = editorStates[activeSectionId];
+
                 newContentState = editorState.getCurrentContent();
                 newContentState = newContentState.createEntity(entity.entity.type, entity.entity.mutability, {...entity.entity.data});
                 // const newEditorState = EditorState.push(
@@ -409,7 +408,12 @@ export const handleCopy = function(event) {
             // iterating through a note's editor's copied entities
             else {
               copiedEntities[contentId].forEach(entity => {
-                const editorState = newNotes[contentId].contents;
+                const editorState = editorStates[contentId]
+                  || EditorState.createWithContent(
+                      convertFromRaw(newNotes[contentId].contents),
+                      this.editor.mainEditor.createDecorator()
+                    );
+
 
                 newContentState = editorState.getCurrentContent();
                 newContentState = newContentState.createEntity(entity.entity.type, entity.entity.mutability, {...entity.entity.data});
@@ -427,11 +431,11 @@ export const handleCopy = function(event) {
                     }
                   });
                 });
-                newNotes[contentId].contents = EditorState.push(
-                  editor,
+                newNotes[contentId].contents = convertToRaw(EditorState.push(
+                  editorState,
                   newContentState,
                   'create-entity'
-                );
+                ).getCurrentContent());
                 const newEntityKey = newContentState.getLastCreatedEntityKey();
                 newClipboard = newClipboard.map(block => {
                   const characters = block.getCharacterList();
@@ -455,12 +459,15 @@ export const handleCopy = function(event) {
     // case pasting target is the main editor
     if (editorFocus === 'main') {
       mainEditorState = insertFragment(mainEditorState, newClipboard);
+
+
       const {newNotes: newNewNotes, notesOrder: newNotesOrder} = updateNotesFromEditor(mainEditorState, newNotes);
       newNotes = newNewNotes;
       notesOrder = newNotesOrder;
     }
     // case pasting target is a note editor
     else {
+      const noteEditorState = editorStates[editorFocus];
       newNotes = {
         ...Object.keys(newNotes).reduce((convertedNotes, noteId) => {
           const note = newNotes[noteId];
@@ -468,19 +475,23 @@ export const handleCopy = function(event) {
             ...convertedNotes,
             [noteId]: {
               ...note,
-              contents: editorStates[noteId],
+              // contents: editorStates[noteId],
             }
           };
         }, {}),
         [editorFocus]: {
           ...newNotes[editorFocus],
-          contents: insertFragment(
-            EditorState.createWithContent(
-              convertFromRaw(newNotes[editorFocus].contents),
-              editor.mainEditor.createDecorator()
-            ),
-            newClipboard
+          contents: convertToRaw(
+            insertFragment(noteEditorState, newClipboard)
+            .getCurrentContent()
           )
+          // contents: convertToRaw(insertFragment(
+          //   EditorState.createWithContent(
+          //     convertFromRaw(newNotes[editorFocus].contents),
+          //     editor.mainEditor.createDecorator()
+          //   ),
+          //   newClipboard
+          // ).getCurrentContent())
         }
       };
     }
@@ -490,17 +501,24 @@ export const handleCopy = function(event) {
       delete note.oldId;
       return {
         ...result,
-        [noteId]: note
+        [noteId]: {...note}
       };
     }, {});
+
 
     // all done ! now we batch-update all the editor states ...
     const newEditorStates = Object.keys(newNotes).reduce((editors, noteId) => {
       return {
         ...editors,
-        [noteId]: newNotes[noteId].contents
+        [noteId]: noteId === editorFocus ?
+            EditorState.forceSelection(
+              EditorState.createWithContent(convertFromRaw(newNotes[noteId].contents), editor.mainEditor.createDecorator()),
+              editorStates[editorFocus].getSelection()
+            )
+            : EditorState.createWithContent(convertFromRaw(newNotes[noteId].contents), editor.mainEditor.createDecorator())
       };
-    }, {[activeSectionId]: mainEditorState});
+    }, {[activeSectionId]: mainEditorState
+    });
 
     updateDraftEditorsStates(newEditorStates);
 
@@ -509,16 +527,20 @@ export const handleCopy = function(event) {
       ...activeSection,
       contents: convertToRaw(mainEditorState.getCurrentContent()),
       notesOrder,
-      notes: Object.keys(newNotes).reduce((result, noteId) => {
-        return {
-          ...result,
-          [noteId]: {
-            ...newNotes[noteId],
-            contents: convertToRaw(newNotes[noteId].contents.getCurrentContent())
-          }
-        };
-      }, {})
+      notes: {
+        ...activeSection.notes,
+        ...Object.keys(newNotes).reduce((result, noteId) => {
+              return {
+                ...result,
+                [noteId]: {
+                  ...newNotes[noteId],
+                }
+              };
+            }, {})
+      }
     };
     updateSection(activeStoryId, activeSectionId, newSection);
+    setEditorFocus(undefined);
+    setTimeout(() => setEditorFocus(editorFocus));
     event.preventDefault();
   };
