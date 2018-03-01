@@ -516,6 +516,8 @@ class SectionEditor extends Component {
       editorStates,
       editorFocus,
       setEditorFocus,
+      assetRequestContentId,
+
       updateDraftEditorState,
       assetRequestPosition,
       cancelAssetRequest,
@@ -632,6 +634,9 @@ class SectionEditor extends Component {
     };
     const onClick = (event, contentId = 'main') => {
       if (focusedEditorId !== contentId) {
+        if (this.props.assetRequestState) {
+          this.props.setAssetRequestContentId(contentId);
+        }
         setEditorFocus(undefined);
         setTimeout(() => setEditorFocus(contentId));
       }
@@ -695,6 +700,7 @@ class SectionEditor extends Component {
         </span>)
     }];
 
+
     return (
       <div className="fonio-SectionEditor">
         <h1 className="editable-title" onClick={onTitleInputClick}>
@@ -743,6 +749,8 @@ class SectionEditor extends Component {
 
               onNoteAdd={addNote}
               onNoteDelete={deleteNote}
+
+              assetRequestContentId={assetRequestContentId}
 
               assetRequestPosition={assetRequestPosition}
               assetChoiceProps={assetChoiceProps}
@@ -825,6 +833,8 @@ SectionEditor.propTypes = {
    * callbacks when an asset insertion is asked
    */
   summonAsset: PropTypes.func,
+
+  setAssetRequestContentId: PropTypes.func,
 };
 
 SectionEditor.childContextTypes = {

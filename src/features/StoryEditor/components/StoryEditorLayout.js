@@ -69,6 +69,8 @@ const EditorLayout = ({
     deleteContextualizer,
     setActiveSectionId,
 
+    setAssetRequestContentId,
+
     startExistingResourceConfiguration,
   },
   // custom functions
@@ -120,8 +122,11 @@ const EditorLayout = ({
 
           requestAsset={promptAssetEmbed}
           cancelAssetRequest={unpromptAssetEmbed}
+
           assetRequestState={assetRequestState}
+          setAssetRequestContentId={setAssetRequestContentId}
           assetRequestPosition={assetRequestState.selection}
+          assetRequestContentId={assetRequestState.editorId}
 
           startExistingResourceConfiguration={startExistingResourceConfiguration}
 

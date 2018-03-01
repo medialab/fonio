@@ -17,6 +17,7 @@ export const UPDATE_STORY_METADATA_FIELD = '$Fonio/StoryEditor/UPDATE_STORY_META
 
 export const PROMPT_ASSET_EMBED = '$Fonio/StoryEditor/PROMPT_ASSET_EMBED';
 export const UNPROMPT_ASSET_EMBED = '$Fonio/StoryEditor/UNPROMPT_ASSET_EMBED';
+export const SET_ASSET_REQUEST_CONTENT_ID = '$Fonio/StoryEditor/SET_ASSET_REQUEST_CONTENT_ID';
 
 export const CREATE_CONTEXTUALIZER = '§Fonio/AssetsManager/CREATE_CONTEXTUALIZER';
 export const UPDATE_CONTEXTUALIZER = '§Fonio/AssetsManager/UPDATE_CONTEXTUALIZER';
@@ -91,6 +92,12 @@ export const promptAssetEmbed = (editorId, selection) => ({
  */
 export const unpromptAssetEmbed = () => ({
   type: UNPROMPT_ASSET_EMBED
+});
+
+
+export const setAssetRequestContentId = contentId => ({
+  type: SET_ASSET_REQUEST_CONTENT_ID,
+  contentId
 });
 
 /**
@@ -258,6 +265,14 @@ const ASSET_REQUEST_DEFAULT_STATE = {
  */
 const assetRequeststate = (state = ASSET_REQUEST_DEFAULT_STATE, action) => {
   switch (action.type) {
+
+    case SET_ASSET_REQUEST_CONTENT_ID:
+      return {
+        ...state,
+        // in what editor is the asset prompted
+        editorId: action.contentId
+      };
+
     // an asset is prompted
     case PROMPT_ASSET_EMBED:
       return {
