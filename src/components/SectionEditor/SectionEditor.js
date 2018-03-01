@@ -337,7 +337,7 @@ class SectionEditor extends Component {
       }
     };
     const {
-      // newNotes, 
+      // newNotes,
       notesOrder
     } = updateNotesFromEditor(mainEditorState, notes);
     // notes = newNotes;
