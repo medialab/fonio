@@ -177,12 +177,22 @@ class SectionEditor extends Component {
       } = nextProps;
       const prevSection = this.props.activeSection;
       if (prevSection) {
-        // delete unused stuff
-        updateContextualizationsFromEditor(this.props);
         // update all raw contents
         const notesIds = Object.keys(prevSection.notes);
         notesIds.forEach(noteId => this.updateSectionRawContent(noteId, this.props.activeStoryId, this.props.sectionId));
         this.updateSectionRawContent('main', this.props.activeStoryId, this.props.sectionId);
+        // delete unused contextualizations
+        updateContextualizationsFromEditor(this.props);
+        // delete unused notes
+        const section = this.props.activeSection;
+        const newSection = {
+          ...section,
+          notes: section.notesOrder.reduce((res, noteId) => ({
+            ...res,
+            [noteId]: section.notes[noteId]
+          }), {})
+        };
+        this.props.updateSection(this.props.activeStoryId, this.props.sectionId, newSection);
       }
       // hydrate editors with new section
       this.hydrateEditorStates(activeSection);
@@ -278,13 +288,13 @@ class SectionEditor extends Component {
     // remove related entity in main editor
     deleteNoteFromEditor(mainEditorState, id, newEditorState => {
       // remove note
-      const notes = activeSection.notes;
-      delete notes[id];
+      // const notes = activeSection.notes;
+      // delete notes[id];
       // update section
       updateSection(activeStoryId, sectionId, {
         ...activeSection,
         contents: convertToRaw(newEditorState.getCurrentContent()),
-        notes
+        // notes
       });
       // update editor
       updateDraftEditorState(sectionId, newEditorState);
@@ -318,7 +328,7 @@ class SectionEditor extends Component {
       }
     }), {});
     // add note
-    let notes = {
+    const notes = {
       ...activeNotes,
       [id]: {
         id,
@@ -326,8 +336,11 @@ class SectionEditor extends Component {
         contents: convertToRaw(this.editor.generateEmptyEditor().getCurrentContent())
       }
     };
-    const {newNotes, notesOrder} = updateNotesFromEditor(mainEditorState, notes);
-    notes = newNotes;
+    const {
+      // newNotes, 
+      notesOrder
+    } = updateNotesFromEditor(mainEditorState, notes);
+    // notes = newNotes;
     const newSection = {
       ...activeSection,
       notesOrder,
@@ -539,7 +552,8 @@ class SectionEditor extends Component {
     }
 
     const {
-      notes: inputNotes
+      notes: inputNotes,
+      notesOrder,
     } = activeSection;
 
     const translate = translateNameSpacer(this.context.t, 'Components.Footer');
@@ -700,6 +714,7 @@ class SectionEditor extends Component {
         </span>)
     }];
 
+    // console.log('notes', Object.keys(notes).length, 'notes order', notesOrder);
 
     return (
       <div className="fonio-SectionEditor">
@@ -723,6 +738,7 @@ class SectionEditor extends Component {
             <Editor
               mainEditorState={mainEditorState}
               notes={notes}
+              notesOrder={notesOrder}
               assets={assets}
 
               BibliographyComponent={Object.keys(citationItems).length > 0 ? () => <Bibliography /> : null}
