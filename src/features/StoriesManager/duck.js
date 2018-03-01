@@ -1000,19 +1000,19 @@ function storiesUi(state = STORIES_UI_DEFAULT_STATE, action) {
         promptedToDelete: undefined
       };
     // story api actions
-    case SAVE_STORY + '_PENDING':
-      actionString = action.type.split('/')[2].toLowerCase().split('_').join('-');
-      return {
-        ...state,
-        storyToasterLog: actionString + '-log',
-        storyToasterLogStatus: 'processing'
-      };
     case SAVE_STORY + '_SUCCESS':
       actionString = action.type.split('/')[2].toLowerCase().split('_').join('-');
       return {
         ...state,
         storyToasterLog: actionString + '-log',
         storyToasterLogStatus: 'success'
+      };
+    case FETCH_STORY + '_PENDING':
+      actionString = action.type.split('/')[2].toLowerCase().split('_').join('-');
+      return {
+        ...state,
+        storyToasterLog: actionString + '-log',
+        storyToasterLogStatus: 'processing'
       };
     case FETCH_ALL_STORIES + '_RESET':
     case FETCH_STORY + '_RESET':

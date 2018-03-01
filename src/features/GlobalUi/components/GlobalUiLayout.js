@@ -18,6 +18,7 @@ import ConfigurationDialog from '../../ConfigurationDialog/components/Configurat
 import LoginDialog from './LoginDialog';
 import ResetPasswordDialog from './ResetPasswordDialog';
 
+import Spinner from '../../../components/Spinner/Spinner';
 import Toaster from '../../../components/Toaster/Toaster';
 
 Modal.setAppElement('#mount');
@@ -56,22 +57,18 @@ const GlobalUiLayout = ({
   },
   // custom functions
   closeAndResetDialog,
-  closeLoginDialog
+  closeLoginDialog,
+  linkToRead
 }, context) => {
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
-  let toasterMessage = translate('save-story-pending-log');
-  switch (storyToasterLog) {
-    case 'save-story-fail-log':
-      toasterMessage = translate('save-story-fail-log');
-      break;
-    default:
-      break;
-  }
+  const toasterMessage = translate(storyToasterLog);
+
   return (
-    <div>
+    <div style={{zIndex: 10}}>
       <LoadingBar style={{backgroundColor: '#3fb0ac', zIndex: 10}} />
-      {storyToasterLogStatus === 'failure' && <Toaster status={storyToasterLogStatus} log={toasterMessage} />}
+      {storyToasterLogStatus === 'failure' && <Toaster classeName="header-toaster" status={storyToasterLogStatus} log={toasterMessage} />}
+      {storyToasterLogStatus === 'processing' && <Spinner />}
       <Modal
         onRequestClose={closeAndResetDialog}
         contentLabel={translate('edit-story')}
@@ -87,7 +84,8 @@ const GlobalUiLayout = ({
           loginStory={loginStory}
           loginStoryLog={loginStoryLog}
           loginStoryLogStatus={loginStoryLogStatus}
-          closeLoginDialog={closeLoginDialog} />
+          closeLoginDialog={closeLoginDialog}
+          linkToRead={linkToRead} />
       </Modal>
       <Modal
         onRequestClose={closeResetPasswordModal}

@@ -23,6 +23,7 @@ const StoryViewLayout = ({
   match,
   globalUiMode,
   activeStory,
+  storyToasterLogStatus,
   lang,
   isTakeAwayModalOpen,
   actions: {
@@ -77,9 +78,11 @@ const StoryViewLayout = ({
         </Modal>
       </div> :
       // TODO: loading/error page
-      <h2>
-        story not found , go back to <Link to="/">Home page</Link>
-      </h2>
+      (storyToasterLogStatus === 'failure' &&
+        <h2>
+          story not found , go back to <Link to="/">Home page</Link>
+        </h2>
+      )
   );
 };
 

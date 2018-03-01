@@ -5,7 +5,7 @@ import {Form, Text} from 'react-form';
 import Toaster from '../../../components/Toaster/Toaster';
 
 // import {translateNameSpacer} from '../../helpers/translateUtils';
-
+import './LoginDialog.scss';
 /**
  * Renders the StoryCard component as a pure function
  * @param {object} props - used props (see prop types below)
@@ -17,12 +17,16 @@ const LoginDialog = ({
   loginStory,
   loginStoryLog,
   loginStoryLogStatus,
-  closeLoginDialog
+  closeLoginDialog,
+  linkToRead
 },
 // context
 ) => {
   const loginSubmit = values => {
     loginStory(storyId, values.password);
+  };
+  const onLinkToRead = () => {
+    linkToRead(storyId);
   };
   return (
     <div className="fonio-LoginDialog">
@@ -41,6 +45,13 @@ const LoginDialog = ({
               </div>
               <div className="modal-row">
                 <Toaster status={loginStoryLogStatus} log={loginStoryLog} />
+              </div>
+              <div className="modal-row link-to-read">
+                <button
+                  onClick={onLinkToRead}
+                  className="link-btn">
+                  view story
+                </button>
               </div>
             </div>
             <div className="modal-footer override-modal-footer">

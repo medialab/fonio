@@ -51,7 +51,7 @@ export default class StoryViewContainer extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const {match, actions} = this.props;
     const {fetchStory, setActiveStory, openLoginModal} = actions;
     // TODO: optimize initialize story
@@ -64,6 +64,17 @@ export default class StoryViewContainer extends Component {
         }
       }
     });
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const {match, actions} = this.props;
+    if (nextProps.match.params.mode !== match.params.mode) {
+      const {openLoginModal} = actions;
+      const isLogedIn = localStorage.getItem(nextProps.match.params.id);
+      if (nextProps.match.params.mode === 'edit' && !isLogedIn) {
+        openLoginModal(match.params.id);
+      }
+    }
   }
 
   shouldComponentUpdate() {

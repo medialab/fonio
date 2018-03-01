@@ -62,6 +62,7 @@ class GlobalUiContainer extends Component {
     super(props);
     this.closeAndResetDialog = this.closeAndResetDialog.bind(this);
     this.closeLoginDialog = this.closeLoginDialog.bind(this);
+    this.linkToRead = this.linkToRead.bind(this);
   }
 
 
@@ -95,6 +96,16 @@ class GlobalUiContainer extends Component {
     });
   }
 
+  /**
+   * Closes story login modal and go to preview page
+   */
+  linkToRead(storyId) {
+    this.props.actions.closeLoginModal();
+    this.props.history.push({
+      pathname: `/story/${storyId}`
+    });
+  }
+
 
   /**
    * Renders the component
@@ -105,7 +116,8 @@ class GlobalUiContainer extends Component {
       <GlobalUiLayout
         {...this.props}
         closeAndResetDialog={this.closeAndResetDialog}
-        closeLoginDialog={this.closeLoginDialog} />
+        closeLoginDialog={this.closeLoginDialog}
+        linkToRead={this.linkToRead} />
     );
   }
 }

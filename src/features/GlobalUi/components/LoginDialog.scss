@@ -1,0 +1,21 @@
+@import '../../../parameters.scss';
+
+.fonio-LoginDialog
+{
+  .link-to-read
+  {
+    text-align: center;
+    display: flex;
+    flex-flow: row nowrap;
+    .link-btn
+    {
+      flex: 1;
+      padding: $gutter-medium;
+      @extend .interactive-item;
+      &:hover
+      {
+        @extend .interactive-item-intent;
+      }
+    }
+  }
+}
