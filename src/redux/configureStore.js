@@ -25,8 +25,8 @@ const db = new PouchDB('fonio');
 export default function configureStore (initialState = {}) {
   // Compose final middleware with thunk and promises handling
   const middleware = applyMiddleware(
-    autoSaveMiddleware(),
     promiseMiddleware(),
+    autoSaveMiddleware(),
     loadingBarMiddleware({
       promiseTypeSuffixes: ['PENDING', 'SUCCESS', 'FAIL'],
     })
