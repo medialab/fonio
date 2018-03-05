@@ -30,9 +30,6 @@
     .card-footer
     {
         overflow: hidden;
-
-        max-height: 0;
-
         @extend .animated;
     }
 
@@ -43,15 +40,6 @@
     &.active
     {
         @extend .important-item-active;
-    }
-    &:hover,
-    &.active
-    {
-        .card-body,
-        .card-footer
-        {
-            max-height: 200px;
-        }
     }
     /*
      * secondary layout components
