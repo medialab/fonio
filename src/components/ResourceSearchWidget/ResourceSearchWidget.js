@@ -143,6 +143,7 @@ class ResourceSearchWidget extends Component {
   render () {
     const {
       onAssetChoice,
+      addNewResource,
       options = []
     } = this.props;
     const context = this.context;
@@ -150,6 +151,10 @@ class ResourceSearchWidget extends Component {
     const onOptionClick = option => {
       onAssetChoice(option, this.props.contentId);
     };
+
+    const onAddNewClick = () => {
+      addNewResource();
+    }
     const bindRef = input => {
       this.input = input;
     };
@@ -195,6 +200,7 @@ class ResourceSearchWidget extends Component {
             })
           }
         </ul>
+        <li className="choice-option new-option" onClick={onAddNewClick}>+ new resource</li>
       </div>
     );
   }

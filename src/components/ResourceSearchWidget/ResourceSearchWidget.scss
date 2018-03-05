@@ -31,21 +31,26 @@
         max-height: 10rem;
         margin: 0;
         padding: 0;
-        .choice-option
+    }
+    .choice-option
+    {
+        padding: $gutter-medium;
+
+        list-style-type: none;
+
+        @extend .important-item;
+        @extend .animated;
+        &:hover,
+        &.active
         {
-            padding: $gutter-medium;
+            cursor: pointer;
 
-            list-style-type: none;
+            @extend .important-item-intent;
+        }
 
-            @extend .important-item;
-            @extend .animated;
-            &:hover,
-            &.active
-            {
-                cursor: pointer;
-
-                @extend .important-item-intent;
-            }
+        &.new-option
+        {
+            @extend .important-item-intent;
         }
     }
 }

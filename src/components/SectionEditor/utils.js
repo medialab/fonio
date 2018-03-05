@@ -213,9 +213,11 @@ export const computeAssetChoiceProps = props => {
     },
     setEditorFocus,
     cancelAssetRequest,
+    startNewResourceConfiguration
   } = props;
   return {
     options: Object.keys(resources).map(key => resources[key]),
+    addNewResource: () => startNewResourceConfiguration(),
     addPlainText: (text, contentId) => {
       addTextAtCurrentSelection(text, contentId, props);
       cancelAssetRequest();

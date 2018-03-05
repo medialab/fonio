@@ -31,6 +31,7 @@ import {
   updateAsset,
   embedAsset,
   updateResource,
+  startNewResourceConfiguration,
   startExistingResourceConfiguration,
 } from '../../ResourcesManager/duck';
 
@@ -67,6 +68,7 @@ import {
       createSection: createSectionAction,
       updateResource,
       setActiveSectionId,
+      startNewResourceConfiguration,
       startExistingResourceConfiguration,
     }, dispatch)
   })

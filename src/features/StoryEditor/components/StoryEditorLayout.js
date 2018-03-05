@@ -70,7 +70,7 @@ const EditorLayout = ({
     setActiveSectionId,
 
     setAssetRequestContentId,
-
+    startNewResourceConfiguration,
     startExistingResourceConfiguration,
   },
   // custom functions
@@ -128,6 +128,7 @@ const EditorLayout = ({
           assetRequestPosition={assetRequestState.selection}
           assetRequestContentId={assetRequestState.editorId}
 
+          startNewResourceConfiguration={startNewResourceConfiguration}
           startExistingResourceConfiguration={startExistingResourceConfiguration}
 
           setEditorFocus={setEditorFocus}
