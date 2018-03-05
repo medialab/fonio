@@ -154,7 +154,7 @@ class ResourceSearchWidget extends Component {
 
     const onAddNewClick = () => {
       addNewResource();
-    }
+    };
     const bindRef = input => {
       this.input = input;
     };
