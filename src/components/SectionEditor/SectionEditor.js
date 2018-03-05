@@ -714,8 +714,6 @@ class SectionEditor extends Component {
         </span>)
     }];
 
-    // console.log('notes', Object.keys(notes).length, 'notes order', notesOrder);
-
     return (
       <div className="fonio-SectionEditor">
         <h1 className="editable-title" onClick={onTitleInputClick}>
