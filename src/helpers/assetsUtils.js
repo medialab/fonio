@@ -353,5 +353,5 @@ export function inferMetadata(data, assetType) {
     }
     updateSection(activeStoryId, activeSectionId, newSection);
     setEditorFocus(undefined);
-    setTimeout(() => setEditorFocus(contentId))
+    setTimeout(() => setEditorFocus(contentId));
   };
