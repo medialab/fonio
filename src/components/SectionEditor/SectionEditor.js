@@ -177,22 +177,22 @@ class SectionEditor extends Component {
       } = nextProps;
       const prevSection = this.props.activeSection;
       if (prevSection) {
+        // delete unused contextualizations
+        updateContextualizationsFromEditor(this.props);
+        // delete unused notes
+        const newSection = {
+          ...prevSection,
+          notes: prevSection.notesOrder.reduce((res, noteId) => ({
+            ...res,
+            [noteId]: prevSection.notes[noteId]
+          }), {})
+        };
+        this.props.updateSection(this.props.activeStoryId, this.props.sectionId, newSection);
+
         // update all raw contents
         const notesIds = Object.keys(prevSection.notes);
         notesIds.forEach(noteId => this.updateSectionRawContent(noteId, this.props.activeStoryId, this.props.sectionId));
         this.updateSectionRawContent('main', this.props.activeStoryId, this.props.sectionId);
-        // delete unused contextualizations
-        updateContextualizationsFromEditor(this.props);
-        // delete unused notes
-        const section = this.props.activeSection;
-        const newSection = {
-          ...section,
-          notes: section.notesOrder.reduce((res, noteId) => ({
-            ...res,
-            [noteId]: section.notes[noteId]
-          }), {})
-        };
-        this.props.updateSection(this.props.activeStoryId, this.props.sectionId, newSection);
       }
       // hydrate editors with new section
       this.hydrateEditorStates(activeSection);
