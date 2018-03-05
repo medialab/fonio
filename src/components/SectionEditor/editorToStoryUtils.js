@@ -21,13 +21,16 @@ export const updateNotesFromSectionEditor = (props) => {
     activeSection,
     updateSection,
   } = props;
-  const {newNotes, notesOrder} = updateNotesFromEditor(editorStates[sectionId], activeSection.notes);
+  const {
+    // newNotes,
+    notesOrder
+  } = updateNotesFromEditor(editorStates[sectionId], {...activeSection.notes});
   const newSection = activeSection;
-  newSection.notes = newNotes;
+  // newSection.notes = newNotes;
   newSection.notesOrder = notesOrder;
-  if (newNotes !== activeSection.notes) {
+  // if (newNotes !== activeSection.notes) {
     updateSection(activeStoryId, sectionId, newSection);
-  }
+  // }
 };
 
 /**

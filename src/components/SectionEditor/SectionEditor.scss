@@ -47,8 +47,7 @@
             content: close-quote;
         }
     }
-    .editable-title,
-    .editor-wrapper
+    .editable-title
     {
         padding-right: 10%;
         padding-left: 10%;
@@ -76,11 +75,14 @@
             top: 0;
             left: 0;
 
-            padding-right: 10%;
-            padding-left: 10%;
-
-            width: 80%;
+            width: 100%;
             height: 100%;
+
+            .main-container-editor,
+            .notes-container{
+                padding-left: 10%;
+                padding-right: 10%;
+            }
             .scholar-draft-BasicEditor
             {
                 &.active,

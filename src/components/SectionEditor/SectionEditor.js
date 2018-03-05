@@ -177,12 +177,22 @@ class SectionEditor extends Component {
       } = nextProps;
       const prevSection = this.props.activeSection;
       if (prevSection) {
-        // delete unused stuff
-        updateContextualizationsFromEditor(this.props);
         // update all raw contents
         const notesIds = Object.keys(prevSection.notes);
         notesIds.forEach(noteId => this.updateSectionRawContent(noteId, this.props.activeStoryId, this.props.sectionId));
         this.updateSectionRawContent('main', this.props.activeStoryId, this.props.sectionId);
+        // delete unused contextualizations
+        updateContextualizationsFromEditor(this.props);
+        // delete unused notes
+        const section = this.props.activeSection;
+        const newSection = {
+          ...section,
+          notes: section.notesOrder.reduce((res, noteId) => ({
+            ...res,
+            [noteId]: section.notes[noteId]
+          }), {})
+        };
+        this.props.updateSection(this.props.activeStoryId, this.props.sectionId, newSection);
       }
       // hydrate editors with new section
       this.hydrateEditorStates(activeSection);
@@ -278,13 +288,13 @@ class SectionEditor extends Component {
     // remove related entity in main editor
     deleteNoteFromEditor(mainEditorState, id, newEditorState => {
       // remove note
-      const notes = activeSection.notes;
-      delete notes[id];
+      // const notes = activeSection.notes;
+      // delete notes[id];
       // update section
       updateSection(activeStoryId, sectionId, {
         ...activeSection,
         contents: convertToRaw(newEditorState.getCurrentContent()),
-        notes
+        // notes
       });
       // update editor
       updateDraftEditorState(sectionId, newEditorState);
@@ -318,7 +328,7 @@ class SectionEditor extends Component {
       }
     }), {});
     // add note
-    let notes = {
+    const notes = {
       ...activeNotes,
       [id]: {
         id,
@@ -326,8 +336,11 @@ class SectionEditor extends Component {
         contents: convertToRaw(this.editor.generateEmptyEditor().getCurrentContent())
       }
     };
-    const {newNotes, notesOrder} = updateNotesFromEditor(mainEditorState, notes);
-    notes = newNotes;
+    const {
+      // newNotes,
+      notesOrder
+    } = updateNotesFromEditor(mainEditorState, notes);
+    // notes = newNotes;
     const newSection = {
       ...activeSection,
       notesOrder,
@@ -516,6 +529,8 @@ class SectionEditor extends Component {
       editorStates,
       editorFocus,
       setEditorFocus,
+      assetRequestContentId,
+
       updateDraftEditorState,
       assetRequestPosition,
       cancelAssetRequest,
@@ -537,7 +552,8 @@ class SectionEditor extends Component {
     }
 
     const {
-      notes: inputNotes
+      notes: inputNotes,
+      notesOrder,
     } = activeSection;
 
     const translate = translateNameSpacer(this.context.t, 'Components.Footer');
@@ -632,6 +648,9 @@ class SectionEditor extends Component {
     };
     const onClick = (event, contentId = 'main') => {
       if (focusedEditorId !== contentId) {
+        if (this.props.assetRequestState) {
+          this.props.setAssetRequestContentId(contentId);
+        }
         setEditorFocus(undefined);
         setTimeout(() => setEditorFocus(contentId));
       }
@@ -717,6 +736,7 @@ class SectionEditor extends Component {
             <Editor
               mainEditorState={mainEditorState}
               notes={notes}
+              notesOrder={notesOrder}
               assets={assets}
 
               BibliographyComponent={Object.keys(citationItems).length > 0 ? () => <Bibliography /> : null}
@@ -743,6 +763,8 @@ class SectionEditor extends Component {
 
               onNoteAdd={addNote}
               onNoteDelete={deleteNote}
+
+              assetRequestContentId={assetRequestContentId}
 
               assetRequestPosition={assetRequestPosition}
               assetChoiceProps={assetChoiceProps}
@@ -825,6 +847,8 @@ SectionEditor.propTypes = {
    * callbacks when an asset insertion is asked
    */
   summonAsset: PropTypes.func,
+
+  setAssetRequestContentId: PropTypes.func,
 };
 
 SectionEditor.childContextTypes = {

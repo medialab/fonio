@@ -243,7 +243,7 @@ export const handleCopy = function(event) {
             createContextualization(activeStoryId, contextualization.id, contextualization);
           });
         }
-        // past contextualizers (attributing them a new id)
+        // paste contextualizers (attributing them a new id)
         if (data.copiedContextualizers) {
           data.copiedContextualizers.forEach(contextualizer => {
             createContextualizer(activeStoryId, contextualizer.id, contextualizer);
