@@ -109,8 +109,6 @@
     {
         overflow: hidden;
 
-        max-height: 0;
-
         transition: all $time-short ease;
 
         .button-row
@@ -118,13 +116,6 @@
             display: flex;
             flex-flow: row nowrap;
             justify-content: stretch;
-        }
-    }
-    &:hover
-    {
-        .card-footer
-        {
-            max-height: 10rem;
         }
     }
 
