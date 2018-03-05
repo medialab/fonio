@@ -159,7 +159,6 @@ class ResourceCard extends Component {
      * component's callbacks
      */
     const onDeletePromptRequest = e => {
-      console.log(promptedToDelete)
       e.stopPropagation();
       onRequestDeletePrompt();
     };

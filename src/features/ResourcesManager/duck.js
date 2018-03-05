@@ -676,7 +676,7 @@ const resourceCandidateType = (state) => state.resourcesUi
                                       && state.resourcesUi.resourceCandidate
                                       && state.resourcesUi.resourceCandidate.metadata
                                       && state.resourcesUi.resourceCandidate.metadata.type;
-const resourcePromptedToDelete = (state) =>  state.resourcesUi.resourcePromptedToDelete;
+const resourcePromptedToDelete = (state) => state.resourcesUi.resourcePromptedToDelete;
 
 const resourcesPrompted = (state) => state.resourcesUi.resourcesPrompted;
 const insertionSelection = (state) => state.resourcesUi.insertionSelection;
