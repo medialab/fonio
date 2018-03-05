@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-3-5\n"
-"PO-Revision-Date: Mon Mar 05 2018 13:50:58 GMT+0100 (CET)\n"
+"PO-Revision-Date: Mon Mar 05 2018 15:39:07 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -649,3 +649,15 @@ msgstr "supprimer la ressource"
 
 msgid "Features.GlobalUi.#3fb0ac"
 msgstr "#3fb0ac"
+
+msgid "Features.GlobalUi.fetch-story-fail-log"
+msgstr "could not fetch your story from server(fr)"
+
+msgid "Features.GlobalUi.fetch-all-stories-fail-log"
+msgstr "could not get stories from the server(fr)"
+
+msgid "Features.GlobalUi.delete-story-fail-log"
+msgstr "could not delete your story on server(fr)"
+
+msgid "Features.GlobalUi.delete-resource-remote-fail-log"
+msgstr "could not delete the resource on server(fr)"

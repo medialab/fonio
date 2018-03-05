@@ -62,8 +62,26 @@ const GlobalUiLayout = ({
 }, context) => {
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
-  const toasterMessage = translate(storyToasterLog);
-
+  let toasterMessage = translate('save-story-pending-log');
+  switch (storyToasterLog) {
+    case 'save-story-fail-log':
+      toasterMessage = translate('save-story-fail-log');
+      break;
+    case 'fetch-story-fail-log':
+      toasterMessage = translate('fetch-story-fail-log');
+      break;
+    case 'fetch-all-stories-fail-log':
+      toasterMessage = translate('fetch-all-stories-fail-log');
+      break;
+    case 'delete-story-fail-log':
+      toasterMessage = translate('delete-story-fail-log');
+      break;
+    case 'delete-resource-remote-fail-log':
+      toasterMessage = translate('delete-resource-remote-fail-log');
+      break;
+    default:
+      break;
+  }
   return (
     <div style={{zIndex: 10}}>
       <LoadingBar style={{backgroundColor: '#3fb0ac', zIndex: 10}} />
