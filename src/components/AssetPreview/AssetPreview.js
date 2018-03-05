@@ -97,7 +97,6 @@ class AssetPreview extends Component {
 
   componentWillReceiveProps(nextProps) {
     if ((nextProps.data !== this.props.data) || nextProps.metadata.lastModifiedAt !== this.props.metadata.lastModifiedAt) {
-      console.log("here")
       this.updateResource();
     }
   }
