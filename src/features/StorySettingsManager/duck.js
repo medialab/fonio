@@ -7,7 +7,6 @@
 
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
-import {persistentReducer} from 'redux-pouchdb';
 
 import {
   getCitationStylesListFromServer,
@@ -229,7 +228,7 @@ function settingsManagerUi (state = SETTINGS_MANAGER_UI_DEFAULT_STATE, action) {
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
 export default combineReducers({
-  settingsManagerUi: persistentReducer(settingsManagerUi, 'fonio-settings-manager-ui')
+  settingsManagerUi
 });
 
 /*

@@ -6,7 +6,6 @@
  */
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
-import {persistentReducer} from 'redux-pouchdb';
 import {csvParse} from 'd3-dsv';
 
 import {
@@ -611,9 +610,9 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default persistentReducer(combineReducers({
+export default combineReducers({
   resourcesUi
-}), 'fonio-resources');
+});
 
 /*
  * Selectors

@@ -7,7 +7,6 @@
 
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
-// import {persistentReducer} from 'redux-pouchdb';
 import {v4 as uuid} from 'uuid';
 
 import debounce from 'debounce-promise';

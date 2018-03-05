@@ -6,7 +6,6 @@
  */
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
-import {persistentReducer} from 'redux-pouchdb';
 import {v4 as genId} from 'uuid';
 
 import config from '../../../config';
@@ -207,9 +206,9 @@ function storyCandidateData(state = DEFAULT_STORY_CANDIDATE_DATA, action) {
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default persistentReducer(combineReducers({
+export default combineReducers({
   storyCandidateData
-}), 'fonio-configuration');
+});
 
 /*
  * Selectors

@@ -6,7 +6,6 @@
  */
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
-import {persistentReducer} from 'redux-pouchdb';
 
 
 /*
@@ -30,7 +29,6 @@ const START_EXISTING_SECTION_CONFIGURATION = '§Fonio/SectionsManager/START_EXIS
 const SET_ACTIVE_SECTION_ID = '§Fonio/SectionsManager/SET_ACTIVE_SECTION_ID';
 const REQUEST_DELETE_PROMPT = '§Fonio/SectionsManager/REQUEST_DELETE_PROMPT';
 const ABORT_DELETE_PROMPT = '§Fonio/SectionsManager/ABORT_DELETE_PROMPT';
-const SET_MAX_SECTION_LEVEL = '§Fonio/SectionsManager/SET_MAX_SECTION_LEVEL';
 /*
  * CONTENT-RELATED
  */
@@ -160,15 +158,7 @@ export const updateSectionsOrder = (storyId, sectionsOrder) => ({
   sectionsOrder
 });
 
-/**
- * set maximum section level
- * @param {level} storyId - max section level chosen
- * @return {object} action - the redux action to dispatch
- */
-export const setSelectedSectionLevel = (level) => ({
-  type: SET_MAX_SECTION_LEVEL,
-  level
-});
+
 /**
  * Creates a new section
  * @param {string} storyId - id of the story to update
@@ -260,11 +250,6 @@ const SECTIONS_UI_DEFAULT_STATE = {
    */
   sectionPromptedToDelete: undefined,
 
-  /**
-   * maximum section level
-   * @type string
-   */
-  selectedSectionLevel: '1'
 };
 
 /**
@@ -336,11 +321,6 @@ function sectionsUi (state = SECTIONS_UI_DEFAULT_STATE, action) {
           ...action.section
         }
       };
-    case SET_MAX_SECTION_LEVEL:
-      return {
-        ...state,
-        selectedSectionLevel: action.level
-      };
     // a section is created
     case CREATE_SECTION:
       return {
@@ -396,9 +376,9 @@ function sectionsUi (state = SECTIONS_UI_DEFAULT_STATE, action) {
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default persistentReducer(combineReducers({
+export default combineReducers({
   sectionsUi
-}), 'fonio-sections');
+});
 
 /*
  * Selectors
@@ -414,7 +394,6 @@ const sectionsModalState = (state) => state.sectionsUi && state.sectionsUi.secti
 const sectionCandidate = (state) => state.sectionsUi && state.sectionsUi.sectionCandidate;
 const sectionCandidateId = (state) => state.sectionsUi && state.sectionsUi.sectionCandidateId;
 const activeSectionId = (state) => state.sectionsUi && state.sectionsUi.activeSectionId;
-const selectedSectionLevel = (state) => state.sectionsUi && state.sectionsUi.selectedSectionLevel;
 
 const sectionsPrompted = (state) => state.sectionsUi.sectionsPrompted;
 const sectionPromptedToDelete = (state) => state.sectionsUi.sectionPromptedToDelete;
@@ -428,6 +407,5 @@ export const selector = createStructuredSelector({
   sectionsPrompted,
   activeSectionId,
   sectionPromptedToDelete,
-  selectedSectionLevel
 });
 

@@ -7,7 +7,6 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {publishStoryBundleServer, getStoryBundleServer} from '../../helpers/serverExporter';
-import {persistentReducer} from 'redux-pouchdb';
 
 import {
   RESET_APP,
@@ -156,9 +155,9 @@ function takeAwayUi(state = DEFAULT_TAKE_AWAY_UI_SETTINGS, action) {
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default persistentReducer(combineReducers({
+export default combineReducers({
   takeAwayUi
-}), 'fonio-takeaway');
+});
 /*
  * Selectors
  */

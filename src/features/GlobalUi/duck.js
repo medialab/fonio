@@ -8,7 +8,6 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {v4 as uuid} from 'uuid';
-import {persistentReducer} from 'redux-pouchdb';
 
 /*
  * Action names
@@ -237,7 +236,7 @@ function globalUi(state = GLOBAL_UI_DEFAULT_STATE, action) {
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
 export default combineReducers({
-  globalUi: persistentReducer(globalUi, 'fonio-globalUi')
+  globalUi
 });
 
 
