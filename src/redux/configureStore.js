@@ -13,9 +13,6 @@ import promiseMiddleware from './promiseMiddleware';
 import autoSaveMiddleware from './autoSaveMiddleware';
 import {loadingBarMiddleware} from 'react-redux-loading-bar';
 
-const PouchDB = require('pouchdb').default;
-const db = new PouchDB('fonio');
-
 /**
  * Configures store with a possible inherited state and appropriate reducers
  * @param initialState - the state to use to bootstrap the reducer
