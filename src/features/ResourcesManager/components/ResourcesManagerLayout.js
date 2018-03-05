@@ -38,6 +38,7 @@ const ResourcesManagerLayout = ({
   updateResource,
   deleteResource,
   setCoverImage,
+  resourcePromptedToDelete,
   actions: {
     setResourceCandidateMetadataValue,
     setResourceCandidateType,
@@ -49,6 +50,8 @@ const ResourcesManagerLayout = ({
     submitResourceData,
     unpromptAssetEmbed,
     setEditorFocus,
+    requestDeletePrompt,
+    abortDeletePrompt,
   },
   // custom functions
   embedAsset,
@@ -151,6 +154,12 @@ const ResourcesManagerLayout = ({
             return 0;
           })
           .map((resource, index) => {
+            const onRequestDeletePrompt = () => {
+              requestDeletePrompt(resource.id);
+            };
+            const onAbortDeletePrompt = () => {
+              abortDeletePrompt();
+            };
             const onDelete = () => deleteResource(resource);
             const onEdit = () => startExistingResourceConfiguration(resource.id, resource);
             const onSetCoverImage = () => setCoverImage(resource.id);
@@ -166,7 +175,10 @@ const ResourcesManagerLayout = ({
                 onMouseDown={onMouseDown}
                 onDelete={onDelete}
                 onConfigure={onEdit}
+                onRequestDeletePrompt={onRequestDeletePrompt}
+                onAbortDeletePrompt={onAbortDeletePrompt}
                 onSetCoverImage={onSetCoverImage}
+                promptedToDelete={resourcePromptedToDelete === resource.id}
                 selectMode={resourcesPrompted}
                 onSelect={onEmbedResource}
                 style={{cursor: 'move'}}

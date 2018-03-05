@@ -49,6 +49,9 @@ const SET_SELECTED_RESOURCES = '§Fonio/ResourcesManager/SET_SELECTED_RESOURCES'
 const SET_RESOURCES_SEARCH_QUERY = '§Fonio/ResourcesManager/SET_RESOURCES_SEARCH_QUERY';
 const SET_RESOURCES_TYPE_QUERY = '§Fonio/ResourcesManager/SET_RESOURCES_TYPE_QUERY';
 const SET_RESOURCES_MODAL_STATE = '§Fonio/ResourcesManager/SET_RESOURCES_MODAL_STATE';
+
+const REQUEST_DELETE_PROMPT = '§Fonio/ResourcesManager/REQUEST_DELETE_PROMPT';
+const ABORT_DELETE_PROMPT = '§Fonio/ResourcesManager/ABORT_DELETE_PROMPT';
 /*
  * CANDIDATE-RELATED
  */
@@ -276,6 +279,25 @@ export const setResourceCandidateType = (resourceType) => ({
 });
 
 /**
+ * Launches the prompt for deleting a resource
+ * @param {string} resourceId - the id of the resource prompted to delete
+ * @return {object} action - the redux action to dispatch
+ */
+export const requestDeletePrompt = (resourceId) => ({
+  type: REQUEST_DELETE_PROMPT,
+  resourceId
+});
+
+/**
+ * Dismisses resource delete prompt
+ * @return {object} action - the redux action to dispatch
+ */
+export const abortDeletePrompt = () => ({
+  type: ABORT_DELETE_PROMPT
+});
+
+
+/**
  * Creates a new resource
  * @param {string} storyId - the id of the story to create the resource in
  * @param {string} id - the id of the resource
@@ -423,7 +445,12 @@ const RESOURCES_UI_DEFAULT_STATE = {
    * Current selection in an editor asking for an embed
    * @type ImmutableRecord
    */
-  insertionSelection: undefined
+  insertionSelection: undefined,
+
+  /**
+   * id of the resource asked for delete
+   */
+  resourcePromptedToDelete: undefined,
 };
 
 /**
@@ -536,6 +563,21 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
         resourcesModalState: 'closed',
         resourceCandidateId: undefined
       };
+    // section deletion is asked
+    case REQUEST_DELETE_PROMPT:
+      const {
+        resourceId
+      } = action;
+      return {
+        ...state,
+        resourcePromptedToDelete: resourceId
+      };
+    // section deletion is dismissed
+    case ABORT_DELETE_PROMPT:
+      return {
+        ...state,
+        resourcePromptedToDelete: undefined
+      };
     case UPLOAD_RESOURCE_REMOTE + '_PENDING':
       return {
         ...state,
@@ -634,6 +676,7 @@ const resourceCandidateType = (state) => state.resourcesUi
                                       && state.resourcesUi.resourceCandidate
                                       && state.resourcesUi.resourceCandidate.metadata
                                       && state.resourcesUi.resourceCandidate.metadata.type;
+const resourcePromptedToDelete = (state) =>  state.resourcesUi.resourcePromptedToDelete;
 
 const resourcesPrompted = (state) => state.resourcesUi.resourcesPrompted;
 const insertionSelection = (state) => state.resourcesUi.insertionSelection;
@@ -649,6 +692,7 @@ export const selector = createStructuredSelector({
   resourceDataLoadingState,
   resourceUploadingState,
   resourcesPrompted,
-  insertionSelection
+  insertionSelection,
+  resourcePromptedToDelete
 });
 

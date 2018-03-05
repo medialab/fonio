@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-2-26\n"
-"PO-Revision-Date: Mon Feb 26 2018 16:14:37 GMT+0100 (CET)\n"
+"POT-Creation-Date: 2018-3-5\n"
+"PO-Revision-Date: Mon Mar 05 2018 13:50:58 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -640,3 +640,12 @@ msgstr "edit-resource"
 
 msgid "Components.AssetPreview.delete-contextualization"
 msgstr "delete-contextualization"
+
+msgid "Components.ResourceCard.abord-delete"
+msgstr "cancel"
+
+msgid "Components.ResourceCard.confirm-delete"
+msgstr "delete resource"
+
+msgid "Features.GlobalUi.#3fb0ac"
+msgstr "#3fb0ac"

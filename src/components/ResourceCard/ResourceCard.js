@@ -136,6 +136,9 @@ class ResourceCard extends Component {
     const {
       data,
       metadata,
+      onRequestDeletePrompt,
+      onAbortDeletePrompt,
+      promptedToDelete,
       onDelete,
       onConfigure,
       onSetCoverImage,
@@ -155,6 +158,17 @@ class ResourceCard extends Component {
     /**
      * component's callbacks
      */
+    const onDeletePromptRequest = e => {
+      console.log(promptedToDelete)
+      e.stopPropagation();
+      onRequestDeletePrompt();
+    };
+
+    const onDeletePromptAbord = e => {
+      e.stopPropagation();
+      onAbortDeletePrompt();
+    };
+
     const onDeleteClick = e => {
       e.stopPropagation();
       onDelete();
@@ -237,23 +251,33 @@ class ResourceCard extends Component {
             <div className="buttons-column" />
           </div>*/
         }
-        <div className="card-footer">
-          <button className="settings-btn" onClick={onConfigureClick}>
-            <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
-            {translate('settings')}
-          </button>
-          <button className={'delete-btn '} onClick={onDeleteClick}>
-            <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
-            {translate('delete')}
-          </button>
-          {
-            metadata.type === 'image' &&
-            <button className="coverimage-btn" onClick={onSetCoverClick}>
-              <img src="" className="fonio-icon-image" />
-              set as cover
+        {!promptedToDelete ?
+          <div className="card-footer">
+            <button className="settings-btn" onClick={onConfigureClick}>
+              <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
+              {translate('settings')}
             </button>
-          }
-        </div>
+            <button className={'delete-btn '} onClick={onDeletePromptRequest}>
+              <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
+              {translate('delete')}
+            </button>
+            {
+              metadata.type === 'image' &&
+              <button className="coverimage-btn" onClick={onSetCoverClick}>
+                <img src="" className="fonio-icon-image" />
+                set as cover
+              </button>
+            }
+          </div> :
+          <div className="card-footer">
+            <button className="abord-delete-btn" onClick={onDeletePromptAbord}>
+              {translate('abord-delete')}
+            </button>
+            <button className={'delete-confirm-btn '} onClick={onDeleteClick}>
+              <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
+              {translate('confirm-delete')}
+            </button>
+          </div>}
       </li>
     )));
   }
@@ -283,6 +307,22 @@ ResourceCard.propTypes = {
    * Callbacks when the card is asking to be configured
    */
   onConfigure: PropTypes.func,
+
+  /**
+   * whether the resource is currently asking user whether to delete it
+   */
+  // promptedToDelete: PropTypes.bool,
+
+  /**
+   * callbacks when user asks for resource deletion
+   */
+  onRequestDeletePrompt: PropTypes.func,
+
+  /**
+   * callbacks when user dismisses the section deletion prompt
+   */
+  onAbortDeletePrompt: PropTypes.func,
+
 
   /**
    * Whether the card is in select mode

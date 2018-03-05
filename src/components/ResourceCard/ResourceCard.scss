@@ -119,6 +119,15 @@
         }
     }
 
+    .delete-confirm-btn
+    {
+        @extend .dangerous-item;
+        &:hover
+        {
+            @extend .dangerous-item-intent;
+        }
+    }
+
     &.select-mode
     {
         cursor: pointer;
