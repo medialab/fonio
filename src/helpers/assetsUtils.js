@@ -257,6 +257,7 @@ export function inferMetadata(data, assetType) {
       createContextualization,
       updateDraftEditorState,
       updateSection,
+      setEditorFocus,
     } = actions;
 
     const activeSection = activeStory.sections[activeSectionId];
@@ -328,7 +329,6 @@ export function inferMetadata(data, assetType) {
       insertBlockContextualization(newEditorState, contextualization, contextualizer, resource) :
       insertInlineContextualization(newEditorState, contextualization, contextualizer, resource);
 
-
     // update immutable editor state
     updateDraftEditorState(editorStateId, newEditorState);
     // update serialized editor state
@@ -352,4 +352,6 @@ export function inferMetadata(data, assetType) {
       };
     }
     updateSection(activeStoryId, activeSectionId, newSection);
+    setEditorFocus(undefined);
+    setTimeout(() => setEditorFocus(contentId))
   };

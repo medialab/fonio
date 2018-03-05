@@ -196,6 +196,7 @@ class SectionEditor extends Component {
       }
       // hydrate editors with new section
       this.hydrateEditorStates(activeSection);
+      setTimeout(() => this.props.setEditorFocus('main'));
     }
 
     if (this.props.story && nextProps.story &&
