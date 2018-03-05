@@ -95,8 +95,9 @@ class AssetPreview extends Component {
     this.updateResource();
   }
 
-  conponentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if ((nextProps.data !== this.props.data) || nextProps.metadata.lastModifiedAt !== this.props.metadata.lastModifiedAt) {
+      console.log("here")
       this.updateResource();
     }
   }
@@ -130,7 +131,7 @@ class AssetPreview extends Component {
   }
 
   renderPreview() {
-    const {type, data} = this.props;
+    const {type, data, metadata} = this.props;
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
     switch (type) {
       case 'table':
@@ -153,7 +154,7 @@ class AssetPreview extends Component {
           ofText={translate('table-of')}
           rowsText={translate('table-row')} />);
       case 'image':
-        return <img key={new Date()} src={data.base64 || data.url} />;
+        return <img key={metadata.lastModifiedAt} src={data.base64 || data.url} />;
       case 'video':
         return (
           <Media>

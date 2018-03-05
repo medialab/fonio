@@ -128,6 +128,7 @@ class ResourcesManagerContainer extends Component {
       metadata: {
         ...resource.metadata,
         createdAt: new Date().getTime(),
+        lastModifiedAt: new Date().getTime(),
         id
       }
     };
