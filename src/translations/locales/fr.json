@@ -45,6 +45,7 @@
   "Components.ResourceContainer.source": "source",
   "Components.ResourceSearchWidget.search-a-resource": "trouver une ressource",
   "Components.ResourceSearchWidget.untitled-asset": "untitled-asset",
+  "Components.ResourceSearchWidget.new-resource" : "nouvelle ressource",
   "Components.SectionCard.untitled-section": "section sans titre",
   "Components.SectionCard.sub-section": "section fille",
   "Components.SectionCard.settings": "réglages",

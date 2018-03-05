@@ -200,7 +200,7 @@ class ResourceSearchWidget extends Component {
             })
           }
         </ul>
-        <li className="choice-option new-option" onClick={onAddNewClick}>+ new resource</li>
+        <li className="choice-option new-option" onClick={onAddNewClick}>+ {translate('new-resource')}</li>
       </div>
     );
   }
