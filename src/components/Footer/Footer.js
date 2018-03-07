@@ -4,8 +4,8 @@
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
-import LangToggler from '../LangToggler/LangToggler';
+// import {Link} from 'react-router-dom';
+// import LangToggler from '../LangToggler/LangToggler';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -32,12 +32,13 @@ const Footer = ({
   const togglePreview = () => {
     if (globalUiMode === 'edition') {
       setUiMode('preview');
-    } else setUiMode('edition');
-  }
+    }
+ else setUiMode('edition');
+  };
   return (
 
-      <footer className="fonio-Footer">
-          <button className="mode-btn" onClick={togglePreview}>{
+    <footer className="fonio-Footer">
+      <button className="mode-btn" onClick={togglePreview}>{
             globalUiMode === 'edition' ?
               <span>
                 <img className="fonio-icon-image" src={require('../../sharedAssets/preview-white.svg')} />{translate('preview')}
@@ -47,9 +48,9 @@ const Footer = ({
                 <img className="fonio-icon-image" src={require('../../sharedAssets/edit-white.svg')} />{translate('edit')}
               </span>
           }</button>
-          {/*<button className="mode-btn" onClick={onClickMetadata} ><img className="fonio-icon-image" src={require('../../sharedAssets/settings-white.svg')} />{translate('story-settings')}</button>*/}
-          <button className="takeaway-btn" onClick={openTakeAwayModal}><img className="fonio-icon-image" src={require('../../sharedAssets/take-away-white.svg')} />{translate('take-away')}</button>
-      </footer>
+      {/*<button className="mode-btn" onClick={onClickMetadata} ><img className="fonio-icon-image" src={require('../../sharedAssets/settings-white.svg')} />{translate('story-settings')}</button>*/}
+      <button className="takeaway-btn" onClick={openTakeAwayModal}><img className="fonio-icon-image" src={require('../../sharedAssets/take-away-white.svg')} />{translate('take-away')}</button>
+    </footer>
   );
 };
 
@@ -95,6 +96,6 @@ Footer.contextTypes = {
 )
 export default class ConnectedFooter extends Component {
   render = () => {
-    return <Footer {...this.props} />
+    return <Footer {...this.props} />;
   }
 }

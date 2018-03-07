@@ -23,13 +23,13 @@ const StoryViewLayout = ({
   globalUiMode,
   activeStory,
   storyToasterLogStatus,
-  lang,
+  // lang,
   isTakeAwayModalOpen,
   actions: {
-    setLanguage,
-    setUiMode,
-    startStoryCandidateConfiguration,
-    openTakeAwayModal,
+    // setLanguage,
+    // setUiMode,
+    // startStoryCandidateConfiguration,
+    // openTakeAwayModal,
     closeTakeAwayModal
   }
 }) => {
@@ -39,17 +39,17 @@ const StoryViewLayout = ({
    */
 
   // callback for preview mode tweaking
-  const togglePreview = () => {
-    if (globalUiMode === 'edition') {
-      setUiMode('preview');
-    }
-   else {
-      setUiMode('edition');
-    }
-  };
-  const onClickMetadata = () => {
-    startStoryCandidateConfiguration(activeStory);
-  };
+  // const togglePreview = () => {
+  //   if (globalUiMode === 'edition') {
+  //     setUiMode('preview');
+  //   }
+  //  else {
+  //     setUiMode('edition');
+  //   }
+  // };
+  // const onClickMetadata = () => {
+  //   startStoryCandidateConfiguration(activeStory);
+  // };
 
   return (
     activeStory ?
@@ -62,7 +62,7 @@ const StoryViewLayout = ({
             )
             : (<StoryPlayer story={activeStory} />)}
         </section>
-        
+
         <Modal
           onRequestClose={closeTakeAwayModal}
           isOpen={isTakeAwayModalOpen}>

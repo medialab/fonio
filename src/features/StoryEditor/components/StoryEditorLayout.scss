@@ -31,6 +31,8 @@
         min-width: 84.4%;
 
         @extend .flex-stretched-column;
+
+        padding-right: 10%;
     }
 
     .no-sections-selected-container

@@ -33,9 +33,10 @@ const StorySettingsManagerLayout = ({
     setStorySettingOption,
     setCitationStyle,
     setCitationLocale,
-    setSettingsVisibility,
+    // setSettingsVisibility,
     setStoryTemplate,
-  }
+  },
+  openSettings,
 }, context) => {
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.StorySettingsManager');
@@ -163,6 +164,20 @@ const StorySettingsManagerLayout = ({
             </div>
           </section>
         </div>
+        <button
+          className="global-settings-btn"
+          onClick={openSettings}
+          type="button">
+          <img
+            className="fonio-icon-image"
+            src={require('../../../sharedAssets/settings.svg')} />
+          {activeStory && activeStory.metadata &&
+              activeStory.metadata.title &&
+              activeStory.metadata.title.length ?
+                activeStory.metadata.title
+                : translate('untitled-story')} - <i>
+                  {translate('settings')}</i>
+        </button>
         <Footer />
 
       </aside>

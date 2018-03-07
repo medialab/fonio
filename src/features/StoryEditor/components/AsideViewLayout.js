@@ -82,7 +82,7 @@ class AsideViewLayout extends Component {
         type="button">
         <img
           className="fonio-icon-image"
-          src={require('../assets/settings.svg')} />
+          src={require('../../../sharedAssets/settings.svg')} />
         {activeStory && activeStory.metadata &&
             activeStory.metadata.title &&
             activeStory.metadata.title.length ?

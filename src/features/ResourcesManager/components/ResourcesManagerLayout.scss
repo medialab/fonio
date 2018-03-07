@@ -10,15 +10,23 @@
     @extend .flex-stretched-column;
 
 
-    &.resources-prompted
-    {
-        color: $background-default;
-        background: $primary-color;
-    }
+    // &.resources-prompted
+    // {
+    //     color: $background-default;
+    //     background: $primary-color;
+    // }
 
     .asset-select-help
     {
         padding: 0 $gutter-medium 0 $gutter-medium;
+    }
+
+    .understood-btn{
+        padding: $gutter-medium;
+        @extend .important-item;
+        &:hover{
+            @extend .important-item-intent;
+        }
     }
 
     .header,

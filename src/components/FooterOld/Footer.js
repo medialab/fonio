@@ -23,7 +23,7 @@ const Footer = ({
   setLanguage,
   openTakeAwayModal,
   togglePreview,
-  onClickMetadata,
+  // onClickMetadata,
   mode
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Components.Footer');

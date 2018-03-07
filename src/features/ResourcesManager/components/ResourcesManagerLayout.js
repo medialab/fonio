@@ -114,16 +114,18 @@ const ResourcesManagerLayout = ({
       className={'fonio-ResourcesManagerLayout ' + (resourcesPrompted ? 'resources-prompted' : '')}
       style={style}>
       {
+
         resourcesPrompted && (
           <div className="asset-select-help">
             {resources.length > 0 ?
-              <h2>{translate('click-on-a-resource-to-embed')}</h2> :
+              <h3>{translate('click-on-a-resource-to-embed')}</h3> :
               <div>
-                <h2>{translate('you-must-first-add-resources-to-embed')}</h2>
-                <button onClick={unpromptAssetEmbed}>{translate('understood')}</button>
+                <h3>{translate('you-must-first-add-resources-to-embed')}</h3>
+                <button className="understood-btn" onClick={unpromptAssetEmbed}>{translate('understood')}</button>
               </div>}
           </div>
         )
+
       }
       <div className="body">
         <li id="new-resource" onClick={startNewResourceConfiguration}>
