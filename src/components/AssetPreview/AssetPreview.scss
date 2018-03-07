@@ -11,6 +11,7 @@
     padding-bottom: $gutter-medium;
 
     @extend .flex-stretched-row;
+
     .preview-container
     {
         position: relative;
@@ -26,12 +27,12 @@
         flex: 1;
 
         max-width: 20%;
-        padding-right: $gutter-medium;
-        padding-left: $gutter-medium;
+        padding: $gutter-medium;
 
         cursor: pointer;
 
         @extend .flex-stretched-column;
+        @extend .interactive-item;
         &:hover
         {
             @extend .interactive-item-intent;
@@ -39,6 +40,9 @@
         button
         {
             width: 100%;
+
+            @extend .important-item;
+            margin-bottom: $gutter-medium;
 
             &:hover
             {
