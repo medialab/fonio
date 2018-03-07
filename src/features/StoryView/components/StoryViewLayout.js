@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import {Link} from 'react-router-dom';
 
-import Footer from '../../../components/Footer/Footer';
 import StoryPlayer from 'quinoa-story-player';
 
 
@@ -63,14 +62,7 @@ const StoryViewLayout = ({
             )
             : (<StoryPlayer story={activeStory} />)}
         </section>
-        <Footer
-          openTakeAwayModal={openTakeAwayModal}
-          togglePreview={togglePreview}
-          lang={lang}
-          setLanguage={setLanguage}
-          uiMode={globalUiMode}
-          onClickMetadata={onClickMetadata}
-          mode={match.params.mode} />
+        
         <Modal
           onRequestClose={closeTakeAwayModal}
           isOpen={isTakeAwayModalOpen}>

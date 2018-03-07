@@ -129,19 +129,6 @@ const ResourcesManagerLayout = ({
         <li id="new-resource" onClick={startNewResourceConfiguration}>
           + {translate('new-resource')}
         </li>
-        <OptionSelect
-          activeOptionId={resourcesTypeQuery}
-          options={resourcesTypes}
-          onChange={onSelectResourceType}
-          title={translate('resource-type')} />
-        <li className="search-container">
-          <input
-            className="search-query"
-            type="text"
-            placeholder={translate('search-in-resources')}
-            value={resourcesSearchQuery || ''}
-            onChange={onSearchInputChange} />
-        </li>
         <ul className="resources-list">
           {
           resources.sort((a, b) => {
@@ -186,6 +173,21 @@ const ResourcesManagerLayout = ({
             );
           })
         }
+        </ul>
+        <ul className="search-container">
+          <OptionSelect
+            activeOptionId={resourcesTypeQuery}
+            options={resourcesTypes}
+            onChange={onSelectResourceType}
+            title={translate('resource-type')} />
+          <li>
+            <input
+              className="search-query"
+              type="text"
+              placeholder={translate('search-in-resources')}
+              value={resourcesSearchQuery || ''}
+              onChange={onSearchInputChange} />
+          </li>
         </ul>
       </div>
 

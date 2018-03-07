@@ -122,15 +122,23 @@
                     border-bottom: 1px solid $color-very-light;
 
                     @extend .flex-stretched-row;
+                    padding: $gutter-small;
                     button
                     {
                         width: $font-size-5;
 
                         text-align: center;
+
+                        @extend .interactive-item;
+                        border-radius: 50%;
+                        &:hover{@extend .interactive-item-intent;}
                     }
                     button:first-of-type
                     {
                         order: 2;
+                        @extend .dangerous-item;
+                        &:hover{@extend .dangerous-item-intent;}
+
                     }
                     h3
                     {

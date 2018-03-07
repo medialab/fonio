@@ -22,7 +22,7 @@ import {
 /**
  * ACTION NAMES
  */
-const SET_SETTINGS_VISIBILITY = '§Fonio/StorySettingsManager/SET_SETTINGS_VISIBILITY';
+// const SET_SETTINGS_VISIBILITY = '§Fonio/StorySettingsManager/SET_SETTINGS_VISIBILITY';
 
 export const SET_STORY_CSS = '§Fonio/StorySettingsManager/SET_STORY_CSS';
 export const SET_STORY_CSS_FROM_USER = '§Fonio/StorySettingsManager/SET_STORY_CSS_FROM_USER';
@@ -43,10 +43,10 @@ export const FETCH_CITATION_LOCALE = '§Fonio/StorySettingsManager/FETCH_CITATIO
  * @param {boolean} visible - whether the pannel is visible
  * @return {object} action - the redux action to dispatch
  */
-export const setSettingsVisibility = (visible) => ({
-  type: SET_SETTINGS_VISIBILITY,
-  visible
-});
+// export const setSettingsVisibility = (visible) => ({
+//   type: SET_SETTINGS_VISIBILITY,
+//   visible
+// });
 
 /**
  * Sets the settings' custom css of a story
@@ -182,11 +182,11 @@ const SETTINGS_MANAGER_UI_DEFAULT_STATE = {
 function settingsManagerUi (state = SETTINGS_MANAGER_UI_DEFAULT_STATE, action) {
   switch (action.type) {
     // settings are shown or hidden
-    case SET_SETTINGS_VISIBILITY:
-      return {
-        ...state,
-        settingsVisible: action.visible,
-      };
+    // case SET_SETTINGS_VISIBILITY:
+    //   return {
+    //     ...state,
+    //     settingsVisible: action.visible,
+    //   };
     // handling xhr requests ui representation
     case FETCH_CITATION_STYLES_LIST + '_PENDING':
     case FETCH_CITATION_LOCALES_LIST + '_PENDING':
@@ -236,7 +236,7 @@ export default combineReducers({
  */
 const citationStylesList = state => state.settingsManagerUi.citationStylesList;
 const citationLocalesList = state => state.settingsManagerUi.citationLocalesList;
-const settingsVisible = state => state.settingsManagerUi.settingsVisible;
+// const settingsVisible = state => state.settingsManagerUi.settingsVisible;
 const xhrStatus = state => state.settingsManagerUi.xhrStatus;
 
 /**
@@ -246,6 +246,6 @@ const xhrStatus = state => state.settingsManagerUi.xhrStatus;
 export const selector = createStructuredSelector({
   citationStylesList,
   citationLocalesList,
-  settingsVisible,
+  // settingsVisible,
   xhrStatus,
 });

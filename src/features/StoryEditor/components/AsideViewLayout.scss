@@ -44,15 +44,7 @@
             {
                 @extend .primary-item-intent;
             }
-        }
-        .settings-btn
-        {
             margin-bottom: $gutter-medium;
-            img
-            {
-                position: relative;
-                top: $gutter-small;
-            }
         }
     }
     .aside-option-container
@@ -70,6 +62,23 @@
             height: 100%;
 
             @extend .animated;
+        }
+    }
+
+    .global-settings-btn
+    {
+        margin-left: $gutter-medium;
+        margin-right: $gutter-medium;
+        padding: $gutter-medium;
+        @extend .important-item;
+        &:hover{
+            @extend .important-item-intent;
+        }
+        // margin-bottom: $gutter-medium;
+        img
+        {
+            position: relative;
+            top: $gutter-small;
         }
     }
 }

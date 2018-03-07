@@ -70,11 +70,22 @@
         }
         .search-container
         {
-            padding-top: $gutter-small;
-            @extend .flex-stretched-row;
+            margin: 0;
+            padding: 0;
+
+
+            li{
+                margin: $gutter-small;
+                margin-left: 0;
+                width: 100%;
+                list-style-type: none;
+            }
+
+
             .search-query
             {
                 flex: 1;
+                width: 100%;
                 @extend .interactive-item;
                 &:hover
                 {

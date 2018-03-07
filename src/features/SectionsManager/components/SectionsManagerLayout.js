@@ -61,6 +61,9 @@ const SectionsManagerLayout = ({
     <div
       className={'fonio-SectionsManagerLayout'}
       style={style}>
+      <li id="new-section" onClick={createSection}>
+        + {translate('new-section')}
+      </li>
       <ul className="body">
         {
           sections.map((section, index) => {
@@ -117,9 +120,6 @@ const SectionsManagerLayout = ({
             );
           })
         }
-        <li id="new-section" onClick={createSection}>
-          + {translate('new-section')}
-        </li>
       </ul>
       <div className="footer">
         <input

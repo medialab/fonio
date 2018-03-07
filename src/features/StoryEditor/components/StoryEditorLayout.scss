@@ -63,6 +63,7 @@
                 list-style-type: none;
 
                 @extend .flex-stretched-column;
+                margin-bottom: $gutter-medium;
             }
         }
         .create-new-section-container
