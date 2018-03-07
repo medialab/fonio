@@ -24,7 +24,11 @@ window.store = store;
 
 const mountNode = document.getElementById('mount');
 
-const initialLang = localStorage.getItem('fonio-lang') || navigator.language || navigator.userLanguage;
+let browserLang = (navigator.language || navigator.userLanguage).split('-')[0];
+if (browserLang !== 'en' || browserLang !== 'fr') {
+  browserLang = 'en';
+}
+const initialLang = localStorage.getItem('fonio-lang') || browserLang;
 
 /**
  * Mounts the application to the given mount node
