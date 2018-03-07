@@ -49,7 +49,7 @@ export const updateContextualizationsFromEditor = props => {
     } = props;
     const activeSectionId = activeSection.id;
     // regroup all eligible editorStates
-    const notesEditorStates = Object.keys(activeSection.notes).reduce((result, noteId) => {
+    const notesEditorStates = activeSection.notesOrder.reduce((result, noteId) => {
       return {
         ...result,
         [noteId]: editorStates[noteId]

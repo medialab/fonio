@@ -175,25 +175,8 @@ class SectionEditor extends Component {
       const {
         activeSection
       } = nextProps;
-      const prevSection = this.props.activeSection;
-      if (prevSection) {
-        // delete unused contextualizations
-        updateContextualizationsFromEditor(this.props);
-        // delete unused notes
-        const newSection = {
-          ...prevSection,
-          notes: prevSection.notesOrder.reduce((res, noteId) => ({
-            ...res,
-            [noteId]: prevSection.notes[noteId]
-          }), {})
-        };
-        this.props.updateSection(this.props.activeStoryId, this.props.sectionId, newSection);
+      this.clearNotesAndContext();
 
-        // update all raw contents
-        const notesIds = Object.keys(prevSection.notes);
-        notesIds.forEach(noteId => this.updateSectionRawContent(noteId, this.props.activeStoryId, this.props.sectionId));
-        this.updateSectionRawContent('main', this.props.activeStoryId, this.props.sectionId);
-      }
       // hydrate editors with new section
       this.hydrateEditorStates(activeSection);
       setTimeout(() => this.props.setEditorFocus('main'));
@@ -232,11 +215,34 @@ class SectionEditor extends Component {
    * Executes code before component unmounts
    */
   componentWillUnmount = () => {
+    this.clearNotesAndContext();
     // remove all document-level event listeners
     // handled by the component
     document.removeEventListener('copy', this.onCopy);
     document.removeEventListener('cut', this.onCopy);
     document.removeEventListener('paste', this.onPaste);
+  }
+
+  clearNotesAndContext = () => {
+    // delete unused notes
+    const prevSection = this.props.activeSection;
+    if (prevSection) {
+      const newSection = {
+        ...prevSection,
+        notes: prevSection.notesOrder.reduce((res, noteId) => ({
+          ...res,
+          [noteId]: prevSection.notes[noteId]
+        }), {})
+      };
+    // delete unused contextualizations
+      updateContextualizationsFromEditor(this.props);
+      this.props.updateSection(this.props.activeStoryId, this.props.sectionId, newSection);
+
+      // update all raw contents
+      const notesIds = Object.keys(prevSection.notes);
+      notesIds.forEach(noteId => this.updateSectionRawContent(noteId, this.props.activeStoryId, this.props.sectionId));
+      this.updateSectionRawContent('main', this.props.activeStoryId, this.props.sectionId);
+    }
   }
 
   updateStateFromProps = props => {
