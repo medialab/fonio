@@ -31,6 +31,8 @@
         min-width: 84.4%;
 
         @extend .flex-stretched-column;
+
+        padding-right: 10%;
     }
 
     .no-sections-selected-container
@@ -63,6 +65,7 @@
                 list-style-type: none;
 
                 @extend .flex-stretched-column;
+                margin-bottom: $gutter-medium;
             }
         }
         .create-new-section-container

@@ -8,7 +8,7 @@
 .fonio-LinkContextualization
 {
     margin: 0;
-    padding: $gutter-small 0 $gutter-small 0;
+    padding: 0;// $gutter-small 0 $gutter-small 0;
 
     cursor: pointer;
     -webkit-user-select: none;
@@ -16,26 +16,31 @@
         -ms-user-select: none;
             user-select: none;
 
-    border-radius: $gutter-medium;
+    // border-radius: $gutter-medium;
 
-    @extend .important-item;
+    @extend .interactive-item;
+    background: $color-sec-stroke;
+
+    display: inline-block;
 
     
     input
     {
-        margin-left: $gutter-medium;
+        // margin-left: $gutter-medium;
         padding: 0;
         &:hover,
         &:focus
         {
-            @extend .important-item-intent;
+            @extend .interactive-item-intent-active;
         }
     }
 
     button
     {
-        font-size: $font-size-1;
+        font-size: $font-size-1 * .9;
+        margin: 0;
+        padding-bottom: 0;
 
-        margin-right: $gutter-medium;
+        // margin-right: $gutter-medium;
     }
 }

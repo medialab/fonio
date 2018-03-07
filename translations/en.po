@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-3-5\n"
-"PO-Revision-Date: Mon Mar 05 2018 16:55:42 GMT+0100 (CET)\n"
+"POT-Creation-Date: 2018-3-7\n"
+"PO-Revision-Date: Wed Mar 07 2018 08:27:54 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -664,3 +664,9 @@ msgstr "could not delete the resource on server"
 
 msgid "Components.ResourceSearchWidget.new-resource"
 msgstr "new resource"
+
+msgid "Features.StorySettingsManager.untitled-story"
+msgstr "untitled-story"
+
+msgid "Features.StorySettingsManager.settings"
+msgstr "settings"

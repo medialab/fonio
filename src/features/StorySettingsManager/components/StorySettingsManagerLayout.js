@@ -16,6 +16,8 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 import Toaster from '../../../components/Toaster/Toaster';
 import CodeEditor from '../../../components/CodeEditor/CodeEditor';
+import Footer from '../../../components/Footer/Footer';
+
 
 const StorySettingsManagerLayout = ({
   xhrStatus,
@@ -23,7 +25,7 @@ const StorySettingsManagerLayout = ({
   activeStoryId,
   citationStylesList = [],
   citationLocalesList = [],
-  settingsVisible,
+  // settingsVisible,
 
   actions: {
     setStoryCss,
@@ -31,9 +33,10 @@ const StorySettingsManagerLayout = ({
     setStorySettingOption,
     setCitationStyle,
     setCitationLocale,
-    setSettingsVisibility,
+    // setSettingsVisibility,
     setStoryTemplate,
-  }
+  },
+  openSettings,
 }, context) => {
   // namespacing the translation keys
   const translate = translateNameSpacer(context.t, 'Features.StorySettingsManager');
@@ -71,27 +74,12 @@ const StorySettingsManagerLayout = ({
     setStoryCss(activeStoryId, css);
   };
 
-  const toggleSettingsVisibility = () => {
-    if (settingsVisible) {
-      setSettingsVisibility(false);
-    }
-    else setSettingsVisibility(true);
-  };
-
   return (
     <section className="fonio-StorySettingsManagerLayout">
-      <aside className={'settings-pannel ' + (settingsVisible ? 'visible' : 'hidden')}>
+      <aside className={'settings-pannel'}>
         <Link to="/">
           <button className="returnToLanding-btn" type="button"><span className="fonio-icon">☰</span> {translate('back-to-home')}</button>
         </Link>
-        <div
-          className="settings-pannel-header"
-          onClick={toggleSettingsVisibility}>
-          <h1>
-            <span>{translate('story-settings-title')}</span>
-            {settingsVisible && <img className="fonio-icon-image" src={require('../../../sharedAssets/close-black.svg')} />}
-          </h1>
-        </div>
         <div className="settings-pannel-body">
           <section className="settings-section">
             <h2>{translate('template-title')}</h2>
@@ -176,6 +164,22 @@ const StorySettingsManagerLayout = ({
             </div>
           </section>
         </div>
+        <button
+          className="global-settings-btn"
+          onClick={openSettings}
+          type="button">
+          <img
+            className="fonio-icon-image"
+            src={require('../../../sharedAssets/settings.svg')} />
+          {activeStory && activeStory.metadata &&
+              activeStory.metadata.title &&
+              activeStory.metadata.title.length ?
+                activeStory.metadata.title
+                : translate('untitled-story')} - <i>
+                  {translate('settings')}</i>
+        </button>
+        <Footer />
+
       </aside>
       <section className="preview-container">
         <StoryPlayer story={activeStory} />

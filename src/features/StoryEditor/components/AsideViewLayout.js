@@ -18,6 +18,7 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 import ResourcesManager from '../../ResourcesManager/components/ResourcesManagerContainer.js';
 import SectionsManager from '../../SectionsManager/components/SectionsManagerContainer.js';
 import AsideToggler from '../../../components/AsideToggler/AsideToggler.js';
+import Footer from '../../../components/Footer/Footer';
 
 
 class AsideViewLayout extends Component {
@@ -55,20 +56,6 @@ class AsideViewLayout extends Component {
         <Link to="/">
           <button className="returnToLanding-btn" type="button"><span className="fonio-icon">☰</span> {translate('back-to-home')}</button>
         </Link>
-        <button
-          className="settings-btn"
-          onClick={openSettings}
-          type="button">
-          <img
-            className="fonio-icon-image"
-            src={require('../assets/settings.svg')} />
-          {activeStory && activeStory.metadata &&
-              activeStory.metadata.title &&
-              activeStory.metadata.title.length ?
-                activeStory.metadata.title
-                : translate('untitled-story')} - <i>
-                  {translate('settings')}</i>
-        </button>
         <AsideToggler
           options={asideOptions}
           activeOption={asideUiMode}
@@ -89,6 +76,21 @@ class AsideViewLayout extends Component {
             left: asideUiMode === 'resources' ? '100%' : '0'
           }} />
       </section>
+      <button
+        className="global-settings-btn"
+        onClick={openSettings}
+        type="button">
+        <img
+          className="fonio-icon-image"
+          src={require('../../../sharedAssets/settings.svg')} />
+        {activeStory && activeStory.metadata &&
+            activeStory.metadata.title &&
+            activeStory.metadata.title.length ?
+              activeStory.metadata.title
+              : translate('untitled-story')} - <i>
+                {translate('settings')}</i>
+      </button>
+      <Footer />
     </aside>);
   }
 }

@@ -2,14 +2,18 @@
  * This module provides a reusable Footer picker component for fonio
  * @module fonio/components/Footer
  */
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
-import LangToggler from '../LangToggler/LangToggler';
+// import {Link} from 'react-router-dom';
+// import LangToggler from '../LangToggler/LangToggler';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import './Footer.scss';
-import {translateNameSpacer} from '../../helpers/translateUtils';
 
+import * as duck from '../../features/GlobalUi/duck';
+
+import {translateNameSpacer} from '../../helpers/translateUtils';
 
 /**
  * Renders the Footer component as a pure function
@@ -18,28 +22,24 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
  * @return {ReactElement} component - the resulting component
  */
 const Footer = ({
-  uiMode,
-  lang,
-  setLanguage,
-  openTakeAwayModal,
-  togglePreview,
-  onClickMetadata,
-  mode
+  globalUiMode,
+  actions: {
+    openTakeAwayModal,
+    setUiMode,
+  }
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Components.Footer');
+  const togglePreview = () => {
+    if (globalUiMode === 'edition') {
+      setUiMode('preview');
+    }
+ else setUiMode('edition');
+  };
   return (
-    mode === 'edit' ? (
-      <footer className="fonio-Footer">
-        <div className="left-group">
-          <span className="mini-brand"><Link to="/"><button>Fonio</button></Link>| {translate('by')} <a href="http://www.medialab.sciences-po.fr/fr/" target="blank">médialab</a></span>
-          <LangToggler
-            lang={lang}
-            onChange={setLanguage} />
-        </div>
-        <div className="middle-group" />
-        <div className="right-group">
-          <button className="mode-btn" onClick={togglePreview}>{
-            uiMode === 'edition' ?
+
+    <footer className="fonio-Footer">
+      <button className="mode-btn" onClick={togglePreview}>{
+            globalUiMode === 'edition' ?
               <span>
                 <img className="fonio-icon-image" src={require('../../sharedAssets/preview-white.svg')} />{translate('preview')}
               </span>
@@ -48,17 +48,9 @@ const Footer = ({
                 <img className="fonio-icon-image" src={require('../../sharedAssets/edit-white.svg')} />{translate('edit')}
               </span>
           }</button>
-          <button className="mode-btn" onClick={onClickMetadata} ><img className="fonio-icon-image" src={require('../../sharedAssets/settings-white.svg')} />{translate('story-settings')}</button>
-          <button className="takeaway-btn" onClick={openTakeAwayModal}><img className="fonio-icon-image" src={require('../../sharedAssets/take-away-white.svg')} />{translate('take-away')}</button>
-        </div>
-      </footer>
-    ) : (
-      <footer className="fonio-Footer">
-        <div className="left-group">
-          <span className="mini-brand"><Link to="/"><button>Fonio</button></Link>| {translate('by')} <a href="http://www.medialab.sciences-po.fr/fr/" target="blank">médialab</a></span>
-        </div>
-      </footer>
-    )
+      {/*<button className="mode-btn" onClick={onClickMetadata} ><img className="fonio-icon-image" src={require('../../sharedAssets/settings-white.svg')} />{translate('story-settings')}</button>*/}
+      <button className="takeaway-btn" onClick={openTakeAwayModal}><img className="fonio-icon-image" src={require('../../sharedAssets/take-away-white.svg')} />{translate('take-away')}</button>
+    </footer>
   );
 };
 
@@ -74,16 +66,6 @@ Footer.propTypes = {
   uiMode: PropTypes.string,
 
   /**
-   * Active language
-   */
-  lang: PropTypes.string,
-
-  /**
-   * Callbacks when language is changed
-   */
-  setLanguage: PropTypes.func,
-
-  /**
    * Callback when take away is asked
    */
   openTakeAwayModal: PropTypes.func,
@@ -91,12 +73,7 @@ Footer.propTypes = {
   /**
    * Callbacks when preview is asked
    */
-  togglePreview: PropTypes.func,
-
-  /**
-   * Callbacks when metadata button is clicked
-   */
-  onClickMetadata: PropTypes.func,
+  setUiMode: PropTypes.func,
 };
 
 Footer.contextTypes = {
@@ -107,4 +84,18 @@ Footer.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default Footer;
+@connect(
+  state => ({
+    ...duck.selector(state.globalUi),
+  }),
+  dispatch => ({
+    actions: bindActionCreators({
+      ...duck,
+    }, dispatch)
+  })
+)
+export default class ConnectedFooter extends Component {
+  render = () => {
+    return <Footer {...this.props} />;
+  }
+}

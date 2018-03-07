@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 import StorySettingsManagerLayout from './StorySettingsManagerLayout';
 import * as duck from '../duck';
 import * as storiesManagerDuck from '../../StoriesManager/duck';
+import * as globalDuck from '../../GlobalUi/duck';
 
 
 /**
@@ -24,6 +25,7 @@ import * as storiesManagerDuck from '../../StoriesManager/duck';
   }),
   dispatch => ({
     actions: bindActionCreators({
+      ...globalDuck,
       ...duck,
     }, dispatch)
   })
@@ -79,6 +81,13 @@ class StorySettingsManagerContainer extends Component {
     return true;
   }
 
+  /**
+   * Opens active story settings
+   */
+  openSettings = () => {
+    this.props.actions.startStoryCandidateConfiguration(this.props.activeStory);
+  }
+
 
   /**
    * Renders the component
@@ -87,6 +96,7 @@ class StorySettingsManagerContainer extends Component {
   render() {
     return (
       <StorySettingsManagerLayout
+        openSettings={this.openSettings}
         {...this.props} />
     );
   }

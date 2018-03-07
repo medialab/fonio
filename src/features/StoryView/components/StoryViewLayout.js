@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import {Link} from 'react-router-dom';
 
-import Footer from '../../../components/Footer/Footer';
 import StoryPlayer from 'quinoa-story-player';
 
 
@@ -24,13 +23,13 @@ const StoryViewLayout = ({
   globalUiMode,
   activeStory,
   storyToasterLogStatus,
-  lang,
+  // lang,
   isTakeAwayModalOpen,
   actions: {
-    setLanguage,
-    setUiMode,
-    startStoryCandidateConfiguration,
-    openTakeAwayModal,
+    // setLanguage,
+    // setUiMode,
+    // startStoryCandidateConfiguration,
+    // openTakeAwayModal,
     closeTakeAwayModal
   }
 }) => {
@@ -40,17 +39,17 @@ const StoryViewLayout = ({
    */
 
   // callback for preview mode tweaking
-  const togglePreview = () => {
-    if (globalUiMode === 'edition') {
-      setUiMode('preview');
-    }
-   else {
-      setUiMode('edition');
-    }
-  };
-  const onClickMetadata = () => {
-    startStoryCandidateConfiguration(activeStory);
-  };
+  // const togglePreview = () => {
+  //   if (globalUiMode === 'edition') {
+  //     setUiMode('preview');
+  //   }
+  //  else {
+  //     setUiMode('edition');
+  //   }
+  // };
+  // const onClickMetadata = () => {
+  //   startStoryCandidateConfiguration(activeStory);
+  // };
 
   return (
     activeStory ?
@@ -63,14 +62,7 @@ const StoryViewLayout = ({
             )
             : (<StoryPlayer story={activeStory} />)}
         </section>
-        <Footer
-          openTakeAwayModal={openTakeAwayModal}
-          togglePreview={togglePreview}
-          lang={lang}
-          setLanguage={setLanguage}
-          uiMode={globalUiMode}
-          onClickMetadata={onClickMetadata}
-          mode={match.params.mode} />
+
         <Modal
           onRequestClose={closeTakeAwayModal}
           isOpen={isTakeAwayModalOpen}>

@@ -16,9 +16,14 @@
         -ms-user-select: none;
             user-select: none;
 
-    border-radius: $gutter-medium;
+    display: inline-block;
+            
 
-    @extend .important-item;
+    // border-radius: $gutter-medium;
+
+    @extend .interactive-item;
+    background: $color-sec-stroke;
+
     .more-options-container
     {
         padding: $gutter-medium;
@@ -29,21 +34,26 @@
             &:hover,
             &:focus
             {
-                @extend .important-item-intent;
+                @extend .interactive-item-intent-active;
             }
         }
     }
     .more-options-btn
     {
-        font-size: $font-size-1;
+        // font-size: $font-size-1;
 
-        margin-right: $gutter-medium;
-        margin-left: $gutter-medium;
+        // margin-right: $gutter-medium;
+        // margin-left: $gutter-medium;
 
-        border-radius: 50%;
+        // border-radius: 50%;
         &:hover
         {
-            @extend .important-item-intent;
+            @extend .interactive-item-intent;
         }
+    }
+    button{
+        font-size: $font-size-1 * .9;
+        margin: 0;
+        padding-bottom: 0;
     }
 }

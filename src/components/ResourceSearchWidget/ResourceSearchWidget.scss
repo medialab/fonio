@@ -7,10 +7,12 @@
 
 .fonio-ResourceSearchWidget
 {
-    background: $background-default;
+    background: $color-warm-grey;
+    padding: $gutter-small;
     .search-form
     {
         @extend .flex-stretched-row;
+        margin-bottom: $gutter-small;
         .arobase
         {
             font-size: $font-size-3;
@@ -22,6 +24,11 @@
         input
         {
             flex: 5;
+            @extend .interactive-item;
+            &:hover,
+            &:focus{
+                @extend .interactive-item-intent;
+            }
         }
     }
     .choice-options-container
@@ -35,22 +42,34 @@
     .choice-option
     {
         padding: $gutter-medium;
+        margin-bottom: $gutter-small;
 
         list-style-type: none;
 
-        @extend .important-item;
+        @extend .interactive-item;
         @extend .animated;
-        &:hover,
-        &.active
+        &:hover
         {
             cursor: pointer;
 
-            @extend .important-item-intent;
+            @extend .interactive-item-intent;
+        }
+        &.active
+        {
+
+            @extend .important-item;
+            &:hover{
+                @extend .important-item-intent;
+            }
         }
 
         &.new-option
         {
-            @extend .important-item-intent;
+            margin-top: $gutter-medium;
+            @extend .important-item;
+            &:hover{
+                @extend .important-item-intent;
+            }
         }
     }
 }

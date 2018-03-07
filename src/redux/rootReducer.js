@@ -19,8 +19,17 @@ import resourcesManager from './../features/ResourcesManager/duck';
 import sectionsManager from './../features/SectionsManager/duck';
 import globalUi from './../features/GlobalUi/duck';
 
+const saveLang = (state = {}, action) => {
+  if (action.type === 'REDUX_I18N_SET_LANGUAGE') {
+    localStorage.setItem('fonio-lang', action.lang);
+    return state;
+  }
+ else return state;
+};
+
 export default combineReducers({
   i18nState,
+  saveLang,
   loadingBar: loadingBarReducer,
   storySettingsManager,
   resourcesManager,

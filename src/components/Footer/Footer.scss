@@ -7,66 +7,26 @@
 
 .fonio-Footer
 {
-    z-index: 10000;
+    @extend .flex-stretched-column;
 
-    justify-content: space-between;
+    margin: $gutter-medium;
+    margin-top: $gutter-small;
 
-    padding: 0;
-
-    border-top: 1px solid $color-sec-stroke;
-    /*
-     * root component
-     */
-
-    @extend .flex-stretched-row;
-    @extend .primary-item;
-
-    /*
-     * secondary layout components
-     */
-    .left-group
+    button
     {
-        align-items: center;
-        justify-content: space-between;
+        flex: 1;
 
-        min-width: $gutter-large * 10;
         padding: $gutter-medium;
 
-        @extend .flex-stretched-row;
+        @extend .important-item;
 
-        .fonio-lang-toggler
+        &:not(:first-of-type)
         {
-            margin-left: $gutter-medium;
+            margin-top: $gutter-small;
         }
-    }
-
-    .middle-group{
-        flex: 1;
-    }
-
-    .right-group
-    {
-        width: $legend-width;
-
-        @extend .flex-stretched-row;
-        flex: 1;
-
-        button
+        &:hover
         {
-            flex: 1;
-
-            padding: $gutter-medium;
-
-            @extend .important-item;
-
-            &:not(:first-of-type)
-            {
-                border-left: 1px solid $color-very-light;
-            }
-            &:hover
-            {
-                @extend .important-item-intent;
-            }
+            @extend .important-item-intent;
         }
     }
 }
