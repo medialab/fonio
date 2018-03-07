@@ -23,8 +23,9 @@ const saveLang = (state = {}, action) => {
   if (action.type === 'REDUX_I18N_SET_LANGUAGE') {
     localStorage.setItem('fonio-lang', action.lang);
     return state;
-  } else return state;
-}
+  }
+ else return state;
+};
 
 export default combineReducers({
   i18nState,
