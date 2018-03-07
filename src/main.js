@@ -24,13 +24,15 @@ window.store = store;
 
 const mountNode = document.getElementById('mount');
 
+const initialLang = localStorage.getItem('fonio-lang') || navigator.language || navigator.userLanguage; 
+
 /**
  * Mounts the application to the given mount node
  */
 export function renderApplication() {
   const group = (
     <Provider store={store}>
-      <I18n translations={translations}>
+      <I18n translations={translations} initialLang={initialLang || 'en-GB'}>
         <CurrentApplication />
       </I18n>
     </Provider>
