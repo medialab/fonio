@@ -190,7 +190,7 @@ class SectionEditor extends Component {
           this.props.sectionId !== nextProps.sectionId
         )
       ) {
-      this.updateStateFromProps(nextProps);
+      setTimeout(() => this.updateStateFromProps(this.props));
     }
   }
 
@@ -486,6 +486,9 @@ class SectionEditor extends Component {
     }
 
     this.props.updateSection(storyId, sectionId, newSection);
+    this.setState({
+      citations: buildCitations(this.state.assets, this.props)
+    });
   }
 
   /**

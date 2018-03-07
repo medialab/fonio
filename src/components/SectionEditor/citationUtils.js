@@ -3,6 +3,12 @@
 import defaultStyle from 'raw-loader!./assets/apa.csl';
 import defaultLocale from 'raw-loader!./assets/english-locale.xml';
 
+import {
+  constants
+} from 'scholar-draft';
+
+const {INLINE_ASSET, BLOCK_ASSET} = constants;
+
 
 /**
  * Retrieve proper citation styling models from a story
@@ -37,11 +43,29 @@ export const buildCitations = (assets, props) => {
     },
     activeSection
   } = props;
-  /*
+    /*
      * Citations preparation
      */
+    // isolate all contextualizations quoted inside editors
+    const quotedEntities = activeSection.notesOrder.reduce((contents, noteId) => [
+      ...contents,
+      activeSection.notes[noteId].contents,
+    ], [activeSection.contents])
+    .reduce((entities, contents) =>
+      [
+        ...entities,
+        ...Object.keys(contents && contents.entityMap || {}).reduce((localEntities, entityId) => {
+          const entity = contents.entityMap[entityId];
+          const isContextualization = entity.type === INLINE_ASSET || entity.type === BLOCK_ASSET;
+          if (isContextualization) {
+            return [...localEntities, entity.data.asset.id];
+          }
+          return localEntities;
+        }, [])
+      ],
+    []);
     // isolate bib contextualizations
-    const bibContextualizations = Object.keys(assets)
+    const bibContextualizations = quotedEntities
     .filter(assetKey =>
         assets[assetKey].type === 'bib'
         && assets[assetKey].sectionId === activeSection.id
