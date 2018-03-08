@@ -458,7 +458,7 @@ export const handleCopy = function(event) {
 
 
     let mainEditorState = editorStates[activeSectionId];
-    let notesOrder;
+    let notesOrder = activeSection.notesOrder;
     // case pasting target is the main editor
     if (editorFocus === 'main') {
       mainEditorState = insertFragment(mainEditorState, newClipboard);
