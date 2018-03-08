@@ -169,7 +169,7 @@ class SectionEditor extends Component {
    * Executes code when component receives new properties
    * @param {object} nextProps - the future properties of the component
    */
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps = (nextProps) => {
     // changing section
     if (this.props.sectionId !== nextProps.sectionId) {
       const {
@@ -190,7 +190,9 @@ class SectionEditor extends Component {
           this.props.sectionId !== nextProps.sectionId
         )
       ) {
-      setTimeout(() => this.updateStateFromProps(this.props));
+      setTimeout(() => {
+        this.updateStateFromProps(this.props);
+      });
     }
   }
 

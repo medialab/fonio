@@ -57,7 +57,7 @@ export const buildCitations = (assets, props) => {
         ...Object.keys(contents && contents.entityMap || {}).reduce((localEntities, entityId) => {
           const entity = contents.entityMap[entityId];
           const isContextualization = entity.type === INLINE_ASSET || entity.type === BLOCK_ASSET;
-          if (isContextualization) {
+          if (isContextualization && assets[entity.data.asset.id]) {
             return [...localEntities, entity.data.asset.id];
           }
           return localEntities;
