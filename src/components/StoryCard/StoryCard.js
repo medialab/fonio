@@ -47,7 +47,7 @@ const StoryCard = ({
           </button>
           <button className="preview-btn" onClick={onClickRead}>
             <img src={require('../../sharedAssets/preview-black.svg')} className="fonio-icon-image" />
-            read
+            {translate('read')}
           </button>
           <button className={'delete-btn ' + (promptedToDelete ? 'inactive' : '')} onClick={onClickPrompt}>
             <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
@@ -69,7 +69,7 @@ const StoryCard = ({
           <div>
             <button onClick={onClickCopy}>⎘ {translate('duplicate')}</button>
             <button onClick={onClickResetPassword}>
-              change password
+              {translate('change-password')}
             </button>
           </div> }
       </div>

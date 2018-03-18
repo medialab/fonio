@@ -4,7 +4,7 @@ import {Form, Text} from 'react-form';
 
 import Toaster from '../../../components/Toaster/Toaster';
 
-// import {translateNameSpacer} from '../../helpers/translateUtils';
+import {translateNameSpacer} from '../../../helpers/translateUtils';
 import './LoginDialog.scss';
 /**
  * Renders the StoryCard component as a pure function
@@ -15,13 +15,25 @@ import './LoginDialog.scss';
 const LoginDialog = ({
   storyId,
   loginStory,
-  loginStoryLog,
   loginStoryLogStatus,
   closeLoginDialog,
   linkToRead
-},
-// context
-) => {
+}, context) => {
+  const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
+  let toasterMessage;
+  switch (loginStoryLogStatus) {
+    case 'processing':
+      toasterMessage = translate('login-story-pending-log');
+      break;
+    case 'success':
+      toasterMessage = translate('login-story-success-log');
+      break;
+    case 'failure':
+      toasterMessage = translate('login-story-fail-log');
+      break;
+    default:
+      break;
+  }
   const loginSubmit = values => {
     loginStory(storyId, values.password);
   };
@@ -31,7 +43,7 @@ const LoginDialog = ({
   return (
     <div className="fonio-LoginDialog">
       <h1 className="modal-header">
-        Enter your password
+        {translate('login')}
       </h1>
       <Form onSubmit={loginSubmit}>
         {formApi => (
@@ -39,29 +51,29 @@ const LoginDialog = ({
             <div className="modal-content">
               <div className="modal-row">
                 <div className="input-group">
-                  <label htmlFor="password" className="label">password</label>
+                  <label htmlFor="password" className="label">{translate('enter-your-password')}</label>
                   <Text field="password" id="password" type="password" />
                 </div>
               </div>
               <div className="modal-row">
-                <Toaster status={loginStoryLogStatus} log={loginStoryLog} />
+                <Toaster status={loginStoryLogStatus} log={toasterMessage} />
               </div>
               <div className="modal-row link-to-read">
                 <button
                   onClick={onLinkToRead}
                   className="link-btn">
-                  view story
+                  {translate('read-the-story')}
                 </button>
               </div>
             </div>
             <div className="modal-footer override-modal-footer">
               <button className="valid-btn" type="submit">
-                login
+                {translate('login')}
               </button>
               <button
                 onClick={closeLoginDialog}
                 className="cancel-btn">
-                cancel
+                {translate('cancel')}
               </button>
             </div>
           </form>

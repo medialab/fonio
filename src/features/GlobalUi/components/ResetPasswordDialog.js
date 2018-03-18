@@ -4,7 +4,7 @@ import {Form, Text} from 'react-form';
 
 import Toaster from '../../../components/Toaster/Toaster';
 
-// import {translateNameSpacer} from '../../helpers/translateUtils';
+import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 /**
  * Renders the StoryCard component as a pure function
@@ -14,28 +14,42 @@ import Toaster from '../../../components/Toaster/Toaster';
  */
 const ResetPasswordDialog = ({
   status,
-  log,
   storyId,
   closeDialog,
   resetPassword
 },
 // context
 ) => {
+  const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
+  let toasterMessage;
+  switch (status) {
+    case 'processing':
+      toasterMessage = translate('reset-password-pending-log');
+      break;
+    case 'success':
+      toasterMessage = translate('reset-password-success-log');
+      break;
+    case 'failure':
+      toasterMessage = translate('reset-password-fail-log');
+      break;
+    default:
+      break;
+  }
   const resetPasswordSubmit = values => {
     resetPassword(storyId, values.oldPassword, values.newPassword);
   };
   const errorValidator = (values) => {
     return {
-      oldPassword: !values.oldPassword ? 'old password is required' : null,
-      newPassword: !values.newPassword || values.newPassword.length < 6 ? 'password should be at least 6 charactors' : null,
-      confirmPassword: values.newPassword !== values.confirmPassword ? 'confirmed password is not match' : null
+      oldPassword: !values.oldPassword ? translate('old-password-is-required') : null,
+      newPassword: !values.newPassword || values.newPassword.length < 6 ? translate('password-should-be-at-least-6-characters') : null,
+      confirmPassword: values.newPassword !== values.confirmPassword ? translate('password-does-not-match') : null
     };
   };
 
   return (
     <div className="fonio-ResetPasswordDialog">
       <h1 className="modal-header">
-        Enter your password
+        {translate('change-password')}
       </h1>
       <Form onSubmit={resetPasswordSubmit} validateError={errorValidator}>
         {formApi => (
@@ -43,21 +57,21 @@ const ResetPasswordDialog = ({
             <div className="modal-content">
               <div className="modal-row">
                 <div className="input-group">
-                  <label htmlFor="oldPassword" className="label">admin/old password</label>
+                  <label htmlFor="oldPassword" className="label">{translate('admin-or-old-password')}</label>
                   <Text field="oldPassword" id="oldPassword" type="password" />
                 </div>
                 {
                   formApi.touched.oldPassword && <Toaster status={formApi.errors.oldPassword ? 'failure' : undefined} log={formApi.errors.oldPassword} />
                 }
                 <div className="input-group">
-                  <label htmlFor="newPassword" className="label">new password</label>
+                  <label htmlFor="newPassword" className="label">{translate('new-password')}</label>
                   <Text field="newPassword" id="newPassword" type="password" />
                 </div>
                 {
                   formApi.touched.newPassword && <Toaster status={formApi.errors.newPassword ? 'failure' : undefined} log={formApi.errors.newPassword} />
                 }
                 <div className="input-group">
-                  <label htmlFor="confirmPassword" className="label">confirm password</label>
+                  <label htmlFor="confirmPassword" className="label">{translate('confirm-password')}</label>
                   <Text field="confirmPassword" id="confirmPassword" type="password" />
                 </div>
                 {
@@ -65,17 +79,17 @@ const ResetPasswordDialog = ({
                 }
               </div>
               <div className="modal-row">
-                <Toaster status={status} log={log} />
+                <Toaster status={status} log={toasterMessage} />
               </div>
             </div>
             <div className="modal-footer override-modal-footer">
               <button className="valid-btn" type="submit">
-                submit new password
+                {translate('submit-new-password')}
               </button>
               <button
                 onClick={closeDialog}
                 className="cancel-btn">
-                cancel
+                {translate('cancel')}
               </button>
             </div>
           </form>

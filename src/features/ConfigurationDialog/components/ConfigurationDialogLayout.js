@@ -34,7 +34,6 @@ const {maxSectionLevel} = config;
 const ConfigurationDialogLayout = ({
   activeStoryId,
   storyCandidate,
-  createStoryLog,
   createStoryLogStatus,
   // router props
   history,
@@ -46,6 +45,20 @@ const ConfigurationDialogLayout = ({
 }, context) => {
   // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.ConfigurationDialog');
+  let toasterMessage;
+  switch (createStoryLogStatus) {
+    case 'processing':
+      toasterMessage = translate('create-story-pending-log');
+      break;
+    case 'success':
+      toasterMessage = translate('create-story-success-log');
+      break;
+    case 'failure':
+      toasterMessage = translate('create-story-fail-log');
+      break;
+    default:
+      break;
+  }
   const levelValues = range(maxSectionLevel).map(d => {
     return {
       value: d.toString(),
@@ -58,9 +71,9 @@ const ConfigurationDialogLayout = ({
    */
   const errorValidator = (values) => {
     return {
-      title: !values.title ? 'story title is required' : null,
-      password: (!activeStoryId && (!values.password || values.password.length < 6)) ? 'password should be at least 6 charactors' : null,
-      authors: values.authors.length < 1 ? 'enter a author name' : null
+      title: !values.title ? translate('story-title-is-required') : null,
+      password: (!activeStoryId && (!values.password || values.password.length < 6)) ? translate('password-should-be-at-least-6-characters') : null,
+      authors: values.authors.length < 1 ? translate('enter-an-author-name') : null
     };
   };
 
@@ -93,8 +106,7 @@ const ConfigurationDialogLayout = ({
       });
     }
   };
-  // todo this is temporary and should be replaced by a test
-  const storyBegan = localStorage.getItem(activeStoryId);
+
   return (
     <div className="fonio-ConfigurationDialogLayout">
       <h1 className="modal-header">
@@ -125,9 +137,9 @@ const ConfigurationDialogLayout = ({
                         <Toaster status={formApi.errors.title && 'failure'} log={formApi.errors.title} />
                       }
                     </div>
-                    {!storyBegan &&
+                    {!activeStoryId &&
                       <div className="input-group">
-                        <label htmlFor="password" className="label">password*</label>
+                        <label htmlFor="password" className="label">{translate('password')}*</label>
                         <Text
                           field="password"
                           id="password"
@@ -159,15 +171,15 @@ const ConfigurationDialogLayout = ({
                         style={{flex: 1}} />
                     </div>
                     <div className="input-group">
-                      <label htmlFor="sectionLevel">level of sections</label>
+                      <label htmlFor="sectionLevel">{translate('level-of-sections')}</label>
                       <OptionSelect
                         activeOptionId={formApi.getValue('sectionLevel')}
                         options={levelValues}
                         onChange={(level) => formApi.setValue('sectionLevel', level)}
-                        title={'choose a maximum number of the story sections'} />
+                        title={translate('choose-the-maximum-section-level-of-your-story')} />
                     </div>
                   </div>
-                  <Toaster status={createStoryLogStatus} log={createStoryLog} />
+                  <Toaster status={createStoryLogStatus} log={toasterMessage} />
                 </div>
               </section>
             </section>
@@ -177,7 +189,7 @@ const ConfigurationDialogLayout = ({
               ?
                 <button
                   type="submit"
-                  className="valid-btn">{storyBegan /* todo : change to test if story is began */ ? translate('apply-changes-and-continue-story-edition') : translate('start-to-edit-this-story')}
+                  className="valid-btn">{activeStoryId /* todo : change to test if story is began */ ? translate('apply-changes-and-continue-story-edition') : translate('start-to-edit-this-story')}
                 </button>
               : ''
             }

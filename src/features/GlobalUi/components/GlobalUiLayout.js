@@ -46,9 +46,7 @@ const GlobalUiLayout = ({
   notAuthStoryId,
   storyToasterLog,
   storyToasterLogStatus,
-  loginStoryLog,
   loginStoryLogStatus,
-  resetStoryPasswordLog,
   resetStoryPasswordLogStatus,
   actions: {
     loginStory,
@@ -100,7 +98,6 @@ const GlobalUiLayout = ({
         <LoginDialog
           storyId={notAuthStoryId}
           loginStory={loginStory}
-          loginStoryLog={loginStoryLog}
           loginStoryLogStatus={loginStoryLogStatus}
           closeLoginDialog={closeLoginDialog}
           linkToRead={linkToRead} />
@@ -112,7 +109,6 @@ const GlobalUiLayout = ({
           resetPassword={resetStoryPassword}
           storyId={resetPasswordStoryId}
           closeDialog={closeResetPasswordModal}
-          log={resetStoryPasswordLog}
           status={resetStoryPasswordLogStatus} />
       </Modal>
     </div>
