@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-3-7\n"
-"PO-Revision-Date: Wed Mar 07 2018 08:27:54 GMT+0100 (CET)\n"
+"POT-Creation-Date: 2018-3-18\n"
+"PO-Revision-Date: Sun Mar 18 2018 21:10:48 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -670,3 +670,90 @@ msgstr "untitled-story"
 
 msgid "Features.StorySettingsManager.settings"
 msgstr "settings"
+
+msgid "Components.ResourceCard.set-as-cover-image"
+msgstr "définir comme image de couverture"
+
+msgid "Components.StoryCard.change-password"
+msgstr "changer le mot de passe"
+
+msgid "Features.ConfigurationDialog.create-story-pending-log"
+msgstr "en trian de créer un nouveau récit"
+
+msgid "Features.ConfigurationDialog.create-story-success-log"
+msgstr "récit est bien créé"
+
+msgid "Features.ConfigurationDialog.create-story-fail-log"
+msgstr "impossible de créer votre récit sur le serveur"
+
+msgid "Features.ConfigurationDialog.story-title-is-required"
+msgstr "récit sans titre"
+
+msgid "Features.ConfigurationDialog.password-should-be-at-least-6-characters"
+msgstr "mot de passe doit contenir au moins 6 caractères"
+
+msgid "Features.ConfigurationDialog.enter-an-author-name"
+msgstr "taper un nom d'auteur"
+
+msgid "Features.ConfigurationDialog.password"
+msgstr "mot de passe"
+
+msgid "Features.ConfigurationDialog.level-of-sections"
+msgstr "niveau de sections"
+
+msgid "Features.ConfigurationDialog.choose-the-maximum-section-level-of-your-story"
+msgstr "choisir le niveau maximum de votre récit"
+
+msgid "Features.GlobalUi.login-story-pending-log"
+msgstr "connecter au récit ..."
+
+msgid "Features.GlobalUi.login-story-success-log"
+msgstr "connexion réussie"
+
+msgid "Features.GlobalUi.login-story-fail-log"
+msgstr "connexion échouée"
+
+msgid "Features.GlobalUi.login"
+msgstr "se connecter"
+
+msgid "Features.GlobalUi.enter-your-password"
+msgstr "taper votre mot de passe"
+
+msgid "Features.GlobalUi.read-the-story"
+msgstr "lire le récit"
+
+msgid "Features.GlobalUi.cancel"
+msgstr "annuler"
+
+msgid "Features.GlobalUi.reset-password-pending-log"
+msgstr "enregistrer le nouveua mot de passe"
+
+msgid "Features.GlobalUi.reset-password-success-log"
+msgstr "le mot de passe est changé"
+
+msgid "Features.GlobalUi.reset-password-fail-log"
+msgstr "changement de mot de passe impossible"
+
+msgid "Features.GlobalUi.old-password-is-required"
+msgstr "ancien mot de passe est nécéssaire"
+
+msgid "Features.GlobalUi.password-should-be-at-least-6-characters"
+msgstr "mot de passe doit contenir au moins 6 caractères"
+
+msgid "Features.GlobalUi.password-does-not-match"
+msgstr "mot de passe incorrect"
+
+msgid "Features.GlobalUi.change-password"
+msgstr "changer le mot de passe"
+
+msgid "Features.GlobalUi.admin-or-old-password"
+msgstr "admin ou ancien mot de passe"
+
+msgid "Features.GlobalUi.new-password"
+msgstr "nouveau mot de passe"
+
+msgid "Features.GlobalUi.confirm-password"
+msgstr "confimer le mot de passe"
+
+msgid "Features.GlobalUi.submit-new-password"
+msgstr "envoyer le nouveau mot de passe"

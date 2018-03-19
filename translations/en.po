@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-3-7\n"
-"PO-Revision-Date: Wed Mar 07 2018 08:27:54 GMT+0100 (CET)\n"
+"POT-Creation-Date: 2018-3-18\n"
+"PO-Revision-Date: Sun Mar 18 2018 21:10:48 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -670,3 +670,90 @@ msgstr "untitled-story"
 
 msgid "Features.StorySettingsManager.settings"
 msgstr "settings"
+
+msgid "Components.ResourceCard.set-as-cover-image"
+msgstr "set as cover image"
+
+msgid "Components.StoryCard.change-password"
+msgstr "change password"
+
+msgid "Features.ConfigurationDialog.create-story-pending-log"
+msgstr "creating new story ..."
+
+msgid "Features.ConfigurationDialog.create-story-success-log"
+msgstr "story is created"
+
+msgid "Features.ConfigurationDialog.create-story-fail-log"
+msgstr "could not create your story on server"
+
+msgid "Features.ConfigurationDialog.story-title-is-required"
+msgstr "title of the story is required"
+
+msgid "Features.ConfigurationDialog.password-should-be-at-least-6-characters"
+msgstr "password should be at least 6 characters"
+
+msgid "Features.ConfigurationDialog.enter-an-author-name"
+msgstr "enter an author's name "
+
+msgid "Features.ConfigurationDialog.password"
+msgstr "password"
+
+msgid "Features.ConfigurationDialog.level-of-sections"
+msgstr "level of sections"
+
+msgid "Features.ConfigurationDialog.choose-the-maximum-section-level-of-your-story"
+msgstr "choose the maximum section level of your story"
+
+msgid "Features.GlobalUi.login-story-pending-log"
+msgstr "login to story ..."
+
+msgid "Features.GlobalUi.login-story-success-log"
+msgstr "login successfully"
+
+msgid "Features.GlobalUi.login-story-fail-log"
+msgstr "fail to login the story"
+
+msgid "Features.GlobalUi.login"
+msgstr "login"
+
+msgid "Features.GlobalUi.enter-your-password"
+msgstr "enter your password"
+
+msgid "Features.GlobalUi.read-the-story"
+msgstr "read the story"
+
+msgid "Features.GlobalUi.cancel"
+msgstr "cancel"
+
+msgid "Features.GlobalUi.reset-password-pending-log"
+msgstr "saving new password ..."
+
+msgid "Features.GlobalUi.reset-password-success-log"
+msgstr "password is changed"
+
+msgid "Features.GlobalUi.reset-password-fail-log"
+msgstr "could not change your password"
+
+msgid "Features.GlobalUi.old-password-is-required"
+msgstr "old password is required"
+
+msgid "Features.GlobalUi.password-should-be-at-least-6-characters"
+msgstr "password should be at least 6 characters"
+
+msgid "Features.GlobalUi.password-does-not-match"
+msgstr "password does not match"
+
+msgid "Features.GlobalUi.change-password"
+msgstr "change password"
+
+msgid "Features.GlobalUi.admin-or-old-password"
+msgstr "admin or old password"
+
+msgid "Features.GlobalUi.new-password"
+msgstr "new password"
+
+msgid "Features.GlobalUi.confirm-password"
+msgstr "confirm password"
+
+msgid "Features.GlobalUi.submit-new-password"
+msgstr "submit new password"

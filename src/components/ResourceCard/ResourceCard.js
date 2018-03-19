@@ -264,7 +264,7 @@ class ResourceCard extends Component {
               metadata.type === 'image' &&
               <button className="coverimage-btn" onClick={onSetCoverClick}>
                 <img src="" className="fonio-icon-image" />
-                set as cover
+                {translate('set-as-cover-image')}
               </button>
             }
           </div> :
