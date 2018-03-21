@@ -5,8 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Textarea from 'react-textarea-autosize';
-import {Form, Text} from 'react-form';
+import {Form, Text, TextArea} from 'react-form';
 import {range} from 'lodash';
 
 import HelpPin from '../../../components/HelpPin/HelpPin';
@@ -163,9 +162,10 @@ const ConfigurationDialogLayout = ({
                     </div>
                     <div className="input-group" style={{flex: 1}}>
                       <label htmlFor="description">{translate('description-of-the-story')}</label>
-                      <Textarea
+                      <TextArea
                         field="description"
                         id="description"
+                        className="description-input"
                         type="text"
                         placeholder={translate('description-of-the-story')}
                         style={{flex: 1}} />
