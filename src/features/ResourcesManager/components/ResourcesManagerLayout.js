@@ -127,70 +127,66 @@ const ResourcesManagerLayout = ({
         )
 
       }
-      <div className="body">
-        <li id="new-resource" onClick={startNewResourceConfiguration}>
-          + {translate('new-resource')}
-        </li>
-        <ul className="resources-list">
-          {
-          resources.sort((a, b) => {
-            if (a.metadata.title > b.metadata.title) {
-              return 1;
-            }
-            if (a.metadata.title < b.metadata.title) {
-              return -1;
-            }
-            return 0;
-          })
-          .map((resource, index) => {
-            const onRequestDeletePrompt = () => {
-              requestDeletePrompt(resource.id);
-            };
-            const onAbortDeletePrompt = () => {
-              abortDeletePrompt();
-            };
-            const onDelete = () => deleteResource(resource);
-            const onEdit = () => startExistingResourceConfiguration(resource.id, resource);
-            const onSetCoverImage = () => setCoverImage(resource.id);
-            const onEmbedResource = () => {
-              embedAsset(resource.id);
-            };
-            const onMouseDown = () => {
-              setEditorFocus(undefined);
-            };
-            return (
-              <ResourceCard
-                key={index}
-                onMouseDown={onMouseDown}
-                onDelete={onDelete}
-                onConfigure={onEdit}
-                onRequestDeletePrompt={onRequestDeletePrompt}
-                onAbortDeletePrompt={onAbortDeletePrompt}
-                onSetCoverImage={onSetCoverImage}
-                promptedToDelete={resourcePromptedToDelete === resource.id}
-                selectMode={resourcesPrompted}
-                onSelect={onEmbedResource}
-                style={{cursor: 'move'}}
-                {...resource} />
-            );
-          })
-        }
-        </ul>
-        <ul className="search-container">
-          <OptionSelect
-            activeOptionId={resourcesTypeQuery}
-            options={resourcesTypes}
-            onChange={onSelectResourceType}
-            title={translate('resource-type')} />
-          <li>
-            <input
-              className="search-query"
-              type="text"
-              placeholder={translate('search-in-resources')}
-              value={resourcesSearchQuery || ''}
-              onChange={onSearchInputChange} />
-          </li>
-        </ul>
+      <li id="new-resource" onClick={startNewResourceConfiguration}>
+        + {translate('new-resource')}
+      </li>
+      <ul className="body">
+        {
+        resources.sort((a, b) => {
+          if (a.metadata.title > b.metadata.title) {
+            return 1;
+          }
+          if (a.metadata.title < b.metadata.title) {
+            return -1;
+          }
+          return 0;
+        })
+        .map((resource, index) => {
+          const onRequestDeletePrompt = () => {
+            requestDeletePrompt(resource.id);
+          };
+          const onAbortDeletePrompt = () => {
+            abortDeletePrompt();
+          };
+          const onDelete = () => deleteResource(resource);
+          const onEdit = () => startExistingResourceConfiguration(resource.id, resource);
+          const onSetCoverImage = () => setCoverImage(resource.id);
+          const onEmbedResource = () => {
+            embedAsset(resource.id);
+          };
+          const onMouseDown = () => {
+            setEditorFocus(undefined);
+          };
+          return (
+            <ResourceCard
+              key={index}
+              onMouseDown={onMouseDown}
+              onDelete={onDelete}
+              onConfigure={onEdit}
+              onRequestDeletePrompt={onRequestDeletePrompt}
+              onAbortDeletePrompt={onAbortDeletePrompt}
+              onSetCoverImage={onSetCoverImage}
+              promptedToDelete={resourcePromptedToDelete === resource.id}
+              selectMode={resourcesPrompted}
+              onSelect={onEmbedResource}
+              style={{cursor: 'move'}}
+              {...resource} />
+          );
+        })
+      }
+      </ul>
+      <div className="footer">
+        <OptionSelect
+          activeOptionId={resourcesTypeQuery}
+          options={resourcesTypes}
+          onChange={onSelectResourceType}
+          title={translate('resource-type')} />
+        <input
+          className="search-query"
+          type="text"
+          placeholder={translate('search-in-resources')}
+          value={resourcesSearchQuery || ''}
+          onChange={onSearchInputChange} />
       </div>
 
       <Modal

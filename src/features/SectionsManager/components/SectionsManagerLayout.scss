@@ -8,18 +8,14 @@
 .fonio-SectionsManagerLayout
 {
     @extend .flex-stretched-column;
+    padding: $gutter-medium;
 
-    .header,
-    .body,
-    .footer
-    {
-        padding-right: $gutter-medium;
-        padding-left: $gutter-medium;
-    }
     .body
     {
         overflow-y: auto;
         flex: 1;
+        padding-left: 0;
+
         .fonio-SectionCard, .fonio-OptionSelect
         {
             margin-bottom: $gutter-medium;
@@ -27,8 +23,6 @@
     }
     .footer
     {
-        padding-top: $gutter-small;
-        padding-bottom: $gutter-small;
 
         @extend .flex-stretched-row;
         .search-query
@@ -51,8 +45,6 @@
     {
 
         padding: $gutter-medium;
-        margin: $gutter-medium;
-
         text-align: left;
 
         @extend .flex-stretched-row;

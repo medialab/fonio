@@ -8,7 +8,7 @@
 .fonio-ResourcesManagerLayout
 {
     @extend .flex-stretched-column;
-
+    padding: $gutter-medium;
 
     // &.resources-prompted
     // {
@@ -29,88 +29,54 @@
         }
     }
 
-    .header,
-    .body,
-    .footer
-    {
-        padding-right: $gutter-medium;
-        padding-left: $gutter-medium;
-    }
     .body
     {
+        overflow-y: auto;
         flex: 1;
 
-        @extend .flex-stretched-column;
-
-        padding-top: $gutter-medium;
-        .resources-list
+        padding-left: 0;
+        .fonio-ResourceCard
         {
-            overflow-y: auto;
-            flex: 5;
-
-            padding-left: 0;
-            .fonio-ResourceCard
-            {
-                margin-bottom: $gutter-medium;
-                margin-left: 0;
-            }
-        }
-
-        #new-resource
-        {
-            padding: $gutter-medium;
-
-            text-align: left;
-
-            @extend .flex-stretched-row;
-            @extend .important-item;
-            &:hover
-            {
-                @extend .important-item-intent;
-            }
-            &:active
-            {
-                @extend .important-item-active;
-            }
-        }
-        .fonio-OptionSelect {
-            margin-top: $gutter-medium
-        }
-        .search-container
-        {
-            margin: 0;
-            padding: 0;
-
-
-            li{
-                margin: $gutter-small;
-                margin-left: 0;
-                width: 100%;
-                list-style-type: none;
-            }
-
-
-            .search-query
-            {
-                flex: 1;
-                width: 100%;
-                @extend .interactive-item;
-                &:hover
-                {
-                    @extend .interactive-item-intent;
-                }
-                &:focus
-                {
-                    @extend .interactive-item-active;
-                }
-            }
+            margin-bottom: $gutter-medium;
+            margin-left: 0;
         }
     }
-    .footer
+
+    #new-resource
     {
-        padding-top: $gutter-small;
-        padding-bottom: $gutter-small;
+        padding: $gutter-medium;
+
+        text-align: left;
 
         @extend .flex-stretched-row;
+        @extend .important-item;
+        &:hover
+        {
+            @extend .important-item-intent;
+        }
+        &:active
+        {
+            @extend .important-item-active;
+        }
+    }
+
+    .footer
+    {
+        .search-query
+        {
+            flex: 1;
+            width: 100%;
+            margin-top: $gutter-small;
+
+            @extend .interactive-item;
+            &:hover
+            {
+                @extend .interactive-item-intent;
+            }
+            &:focus
+            {
+                @extend .interactive-item-active;
+            }
+        }
     }
 }
