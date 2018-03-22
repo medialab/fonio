@@ -76,7 +76,7 @@ const ResourceDataInput = ({
         downloadFile(
           JSON.stringify(resourceCandidate.data),
           'json',
-          resourceCandidate.data.metadata.title || 'data-presentation'
+          resourceCandidate.metadata.title || 'data-presentation'
         );
       return (
         <div className="data-presentation-input">
@@ -132,7 +132,7 @@ const ResourceDataInput = ({
       );
     case 'glossary':
       const onNameChange = e => submitResourceData('glossaryName', e.target.value, resourceCandidate.data);
-      const onTypeChange = value => submitResourceData('glossaryType', value, resourceCandidate.data);
+      // const onTypeChange = value => submitResourceData('glossaryType', value, resourceCandidate.data);
       return (
         <div className="input-group">
           <div className="input-group">
@@ -144,7 +144,7 @@ const ResourceDataInput = ({
               placeholder={translate('name-of-the-glossary-entry')}
               value={resourceCandidate.data && resourceCandidate.data.name || ''} />
           </div>
-          <div className="input-group">
+          {/*<div className="input-group">
             <OptionSelect
               activeOptionId={resourceCandidate && resourceCandidate.data && resourceCandidate.data.glossaryType}
               options={[
@@ -167,7 +167,7 @@ const ResourceDataInput = ({
               ]}
               title={translate('glossary-type')}
               onChange={onTypeChange} />
-          </div>
+          </div>*/}
         </div>
       );
     default:
@@ -392,6 +392,7 @@ const ResourceConfigurationDialog = ({
           resourceCandidateType &&
           (
             resourceCandidateType !== 'data-presentation' &&
+            resourceCandidateType !== 'webpage' &&
             resourceCandidateType !== 'glossary' &&
             resourceCandidateType !== 'bib'
           ) ?

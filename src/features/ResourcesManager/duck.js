@@ -621,7 +621,8 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
       const inferedMetadata = inferMetadata(action.result, state.resourceCandidate.metadata.type);
       const metadata = {
         ...state.resourceCandidate.metadata,
-        ...inferedMetadata
+        ...inferedMetadata,
+        title: state.resourceCandidate.metadata.title ? state.resourceCandidate.metadata.title : inferedMetadata.title,
       };
       return {
         ...state,

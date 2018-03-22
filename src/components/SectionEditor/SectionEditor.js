@@ -156,6 +156,7 @@ class SectionEditor extends Component {
     } = this.props;
     if (sectionId && activeSection.contents && Object.keys(activeSection.contents).length) {
       this.hydrateEditorStates(activeSection);
+      setTimeout(() => this.clearNotesAndContext());
     }
     document.addEventListener('copy', this.onCopy);
     document.addEventListener('cut', this.onCopy);
