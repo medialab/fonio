@@ -135,7 +135,7 @@ class AssetPreview extends Component {
     switch (type) {
       case 'table':
         let columns;
-        if (data.json) {
+        if (data.json && data.json[0]) {
           columns = Object.keys(data.json[0]).map(key => ({
             Header: key,
             accessor: key

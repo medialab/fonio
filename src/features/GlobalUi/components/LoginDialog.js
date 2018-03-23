@@ -59,11 +59,11 @@ const LoginDialog = ({
                 <Toaster status={loginStoryLogStatus} log={toasterMessage} />
               </div>
               <div className="modal-row link-to-read">
-                <button
+                <span
                   onClick={onLinkToRead}
                   className="link-btn">
                   {translate('read-the-story')}
-                </button>
+                </span>
               </div>
             </div>
             <div className="modal-footer override-modal-footer">

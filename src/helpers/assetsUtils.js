@@ -104,7 +104,7 @@ const vimeoRegexp = /^(https?\:\/\/)?(www\.)?(vimeo\.com)/gi;
  * @return {Promise} process - loading is wrapped in a promise for consistence matters
  */
 export function retrieveMediaMetadata (url, credentials = {}) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     // case youtube
     if (url.match(youtubeRegexp)) {
       // must provide a youtube simple api key
@@ -127,11 +127,7 @@ export function retrieveMediaMetadata (url, credentials = {}) {
                   }
                 });
             })
-            .catch(() => {
-              return resolve({url, metadata: {
-                videoUrl: url
-              }});
-            });
+            .catch((e) => reject(e));
         }
         else {
           return resolve({url, metadata: {
@@ -161,11 +157,7 @@ export function retrieveMediaMetadata (url, credentials = {}) {
           }
         });
       })
-      .catch(() => {
-        return resolve({url, metadata: {
-          videoUrl: url
-        }});
-      });
+      .catch((e) => reject(e));
     }
     // default - do nothing
     else {

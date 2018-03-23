@@ -637,7 +637,11 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
     case SUBMIT_RESOURCE_DATA + '_FAIL':
       return {
         ...state,
-        resourceDataLoadingState: 'fail'
+        resourceDataLoadingState: 'fail',
+        resourceCandidate: {
+          ...state.resourceCandidate,
+          data: undefined
+        }
       };
     // resetting the ui state after new data was submitted
     case SUBMIT_RESOURCE_DATA + '_RESET':

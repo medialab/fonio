@@ -18,7 +18,6 @@ import Toaster from '../../../components/Toaster/Toaster';
 import DropZone from '../../../components/DropZone/DropZone';
 import AssetPreview from '../../../components/AssetPreview/AssetPreview';
 import BibRefsEditor from '../../../components/BibRefsEditor/BibRefsEditor';
-import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 
 import './ResourceConfigurationDialog.scss';
 
@@ -32,6 +31,7 @@ import './ResourceConfigurationDialog.scss';
 const ResourceDataInput = ({
   type,
   submitResourceData,
+  setResourceCandidateMetadataValue,
   resourceCandidate
 }, context) => {
   // namespacing the translation keys with feature id
@@ -48,7 +48,10 @@ const ResourceDataInput = ({
         </DropZone>
       );
     case 'video':
-      const onVideoUrlSubmit = (e) => submitResourceData('videoUrl', e.target.value);
+      const onVideoUrlSubmit = (e) => {
+        submitResourceData('videoUrl', e.target.value);
+        setResourceCandidateMetadataValue('videoUrl', e.target.value);
+      };
       return (
         <div className="input-group">
           <label htmlFor="title">{translate('url-of-the-video')}</label>
@@ -367,6 +370,7 @@ const ResourceConfigurationDialog = ({
                 <ResourceDataInput
                   type={resourceCandidateType}
                   resourceCandidate={resourceCandidate}
+                  setResourceCandidateMetadataValue={setResourceCandidateMetadataValue}
                   submitResourceData={submitResourceData} />
                 <LoadingStateToaster loadingState={resourceDataLoadingState} type={'loading'} />
                 <LoadingStateToaster loadingState={resourceUploadingState} type={'uploading'} />
