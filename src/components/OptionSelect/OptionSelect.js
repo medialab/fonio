@@ -53,7 +53,6 @@ class OptionSelect extends React.Component {
         className={'fonio-OptionSelect'}>
         <h5>
           <b>{title}</b>
-          <span>►</span>
         </h5>
 
         <div className="select-container">
@@ -61,6 +60,7 @@ class OptionSelect extends React.Component {
             name="form-field-name"
             value={activeOptionId}
             searchable={searchable}
+            openOnFocus={true}
             clearable={false}
             ref={bindSelect}
             options={options}
