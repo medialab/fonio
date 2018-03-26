@@ -5,7 +5,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Form, Text, TextArea} from 'react-form';
+import Textarea from 'react-textarea-autosize';
+import {Form, Text} from 'react-form';
 import {range} from 'lodash';
 
 import HelpPin from '../../../components/HelpPin/HelpPin';
@@ -128,7 +129,12 @@ const ConfigurationDialogLayout = ({
                 <div className="modal-columns-container">
                   <div className="modal-column">
                     <div className="input-group">
-                      <label htmlFor="title" className="label">{translate('title-of-the-story')}*</label>
+                      <label htmlFor="title" className="label">
+                        {translate('title-of-the-story')}*
+                        <HelpPin>
+                          {translate('what-is-the-title-of-your-story')}
+                        </HelpPin>
+                      </label>
                       <Text
                         field="title" id="title" type="text"
                         placeholder={translate('title-of-the-story')} />
@@ -138,7 +144,13 @@ const ConfigurationDialogLayout = ({
                     </div>
                     {!activeStoryId &&
                       <div className="input-group">
-                        <label htmlFor="password" className="label">{translate('password')}*</label>
+                        <label htmlFor="password" className="label">
+                          {translate('password')}* 
+                          <HelpPin>
+                            <p>{translate('password-help')}</p>
+                            <p>{translate('password-should-be-at-least-6-characters')}</p>
+                          </HelpPin>
+                        </label>
                         <Text
                           field="password"
                           id="password"
@@ -162,10 +174,9 @@ const ConfigurationDialogLayout = ({
                     </div>
                     <div className="input-group" style={{flex: 1}}>
                       <label htmlFor="description">{translate('description-of-the-story')}</label>
-                      <TextArea
+                      <Textarea
                         field="description"
                         id="description"
-                        className="description-input"
                         type="text"
                         placeholder={translate('description-of-the-story')}
                         style={{flex: 1}} />
@@ -196,7 +207,7 @@ const ConfigurationDialogLayout = ({
               <button
                 className="cancel-btn"
                 onClick={closeStoryCandidate}>
-                {translate('cancel')}
+                {translate('cancel-changes')}
               </button>
             </section>
           </form>

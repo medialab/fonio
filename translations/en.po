@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-3-18\n"
-"PO-Revision-Date: Sun Mar 18 2018 21:10:48 GMT+0100 (CET)\n"
+"POT-Creation-Date: 2018-3-26\n"
+"PO-Revision-Date: Mon Mar 26 2018 15:28:57 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -757,3 +757,12 @@ msgstr "confirm password"
 
 msgid "Features.GlobalUi.submit-new-password"
 msgstr "submit new password"
+
+msgid "Features.ConfigurationDialog.what-is-the-title-of-your-story"
+msgstr "what-is-the-title-of-your-story"
+
+msgid "Features.ConfigurationDialog.password-help"
+msgstr "password-help"
+
+msgid "Features.ConfigurationDialog.cancel-changes"
+msgstr "cancel-changes"
