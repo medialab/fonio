@@ -43,12 +43,12 @@ class AsideViewLayout extends Component {
     // todo: should we put this elsewhere ?
     const asideOptions = [
       {
-        id: 'resources',
-        name: translate('resources-header')
-      },
-      {
         id: 'sections',
         name: translate('sections-header')
+      },
+      {
+        id: 'resources',
+        name: translate('resources-header')
       }
     ];
     return (<aside className="fonio-AsideViewLayout">

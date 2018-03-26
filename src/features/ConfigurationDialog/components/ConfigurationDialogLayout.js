@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import Textarea from 'react-textarea-autosize';
 import {Form, Text} from 'react-form';
-import {range} from 'lodash';
+// import {range} from 'lodash';
 
 import HelpPin from '../../../components/HelpPin/HelpPin';
 import AuthorsManager from '../../../components/AuthorsManager/AuthorsManager';
@@ -18,8 +18,8 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import './ConfigurationDialog.scss';
 
-import config from '../../../../config';
-const {maxSectionLevel} = config;
+// import config from '../../../../config';
+// const {maxSectionLevel} = config;
 
 /**
  * Renders the configuration dialog layout

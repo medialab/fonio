@@ -145,7 +145,10 @@
             @extend .dangerous-item-intent;
         }
     }
-
+    .drag-btn
+    {
+        cursor: move !important;
+    }
     .level-up-btn
     {
         font-size: $font-size-1;

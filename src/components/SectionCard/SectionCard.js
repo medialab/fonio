@@ -141,7 +141,7 @@ class SectionCard extends Component {
       onConfigure,
       onUpdateMetadata,
       onSelect,
-      createSubSection,
+      // createSubSection,
       active,
 
       onRequestDeletePrompt,
@@ -165,11 +165,11 @@ class SectionCard extends Component {
       onConfigure();
     };
 
-    const onCreateSubSection = e => {
-      e.stopPropagation();
-      e.preventDefault();
-      createSubSection();
-    };
+    // const onCreateSubSection = e => {
+    //   e.stopPropagation();
+    //   e.preventDefault();
+    //   createSubSection();
+    // };
 
     const onGlobalClick = e => {
       e.preventDefault();
@@ -228,30 +228,35 @@ class SectionCard extends Component {
           </h5>
         </div>
         {!promptedToDelete ? <div className="card-footer">
-          <button className="level-down-btn" onClick={onLevelDown}>
+          <button className="interactive-btn drag-btn">
+            <img src={active ? require('../../sharedAssets/move-white.svg') : require('../../sharedAssets/move-black.svg')} className="fonio-icon-image" />
+            <span className="label">drag</span>
+          </button>
+          <button className="interactive-btn level-down-btn" onClick={onLevelDown}>
             ◄
+            <span className="label">indent</span>
           </button>
           {metadata.level < selectedSectionLevel &&
-            <button className="level-up-btn" onClick={onLevelUp}>
+            <button className="interactive-btn level-up-btn" onClick={onLevelUp}>
+              <span className="label">indent</span>
               ►
             </button>
           }
-          {metadata.level < selectedSectionLevel &&
+          {/*metadata.level < selectedSectionLevel &&
             <button className={'subsection-btn '} onClick={onCreateSubSection}>
               <img
                 src={require('../../sharedAssets/close-black.svg')}
                 className="fonio-icon-image"
                 style={{transform: 'rotate(45deg)'}} />
               {translate('sub-section')}
-            </button>
-          }
-          <button className="settings-btn" onClick={onConfigureClick}>
-            <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
-            {translate('settings')}
+            </button>*/}
+          <button className="interactive-btn settings-btn" onClick={onConfigureClick}>
+            <img src={active ? require('../../sharedAssets/settings-white.svg') : require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
+            <span className="label">{translate('settings')}</span>
           </button>
-          <button className={'delete-btn '} onClick={onDeletePromptRequest}>
-            <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
-            {translate('delete')}
+          <button className={'interactive-btn delete-btn'} onClick={onDeletePromptRequest}>
+            <img src={active ? require('../../sharedAssets/remove-white.svg') : require('../../sharedAssets/remove-black.svg')} className="fonio-icon-image" />
+            <span className="label">{translate('delete')}</span>
           </button>
         </div> :
         <div className="card-footer">
