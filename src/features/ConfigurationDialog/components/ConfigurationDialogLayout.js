@@ -145,7 +145,7 @@ const ConfigurationDialogLayout = ({
                     {!activeStoryId &&
                       <div className="input-group">
                         <label htmlFor="password" className="label">
-                          {translate('password')}* 
+                          {translate('password')}*
                           <HelpPin>
                             <p>{translate('password-help')}</p>
                             <p>{translate('password-should-be-at-least-6-characters')}</p>
@@ -181,14 +181,14 @@ const ConfigurationDialogLayout = ({
                         placeholder={translate('description-of-the-story')}
                         style={{flex: 1}} />
                     </div>
-                    <div className="input-group">
+                    {/*<div className="input-group">
                       <label htmlFor="sectionLevel">{translate('level-of-sections')}</label>
                       <OptionSelect
                         activeOptionId={formApi.getValue('sectionLevel')}
                         options={levelValues}
                         onChange={(level) => formApi.setValue('sectionLevel', level)}
                         title={translate('choose-the-maximum-section-level-of-your-story')} />
-                    </div>
+                    </div>*/}
                   </div>
                   <Toaster status={createStoryLogStatus} log={toasterMessage} />
                 </div>
