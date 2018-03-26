@@ -162,7 +162,9 @@ const ConfigurationDialogLayout = ({
                       </div>
                     }
                     <div className="input-group">
-                      <label htmlFor="authors">{translate('authors-of-the-story')}*</label>
+                      <label htmlFor="authors">
+                        {translate('authors-of-the-story')}*
+                      </label>
                       <AuthorsManager
                         field="authors"
                         id="authors"
@@ -173,7 +175,12 @@ const ConfigurationDialogLayout = ({
                       }
                     </div>
                     <div className="input-group" style={{flex: 1}}>
-                      <label htmlFor="description">{translate('description-of-the-story')}</label>
+                      <label htmlFor="description">
+                        {translate('description-of-the-story')}
+                        <HelpPin>
+                          {translate('description-help')}
+                        </HelpPin>
+                      </label>
                       <Textarea
                         field="description"
                         id="description"
