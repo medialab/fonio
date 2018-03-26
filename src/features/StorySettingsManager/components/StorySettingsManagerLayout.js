@@ -14,27 +14,27 @@ import './StorySettingsManagerLayout.scss';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import OptionSelect from '../../../components/OptionSelect/OptionSelect';
-import Toaster from '../../../components/Toaster/Toaster';
+// import Toaster from '../../../components/Toaster/Toaster';
 import CodeEditor from '../../../components/CodeEditor/CodeEditor';
 import Footer from '../../../components/Footer/Footer';
 
 
 const StorySettingsManagerLayout = ({
-  xhrStatus,
+  // xhrStatus,
   activeStory,
   activeStoryId,
-  citationStylesList = [],
-  citationLocalesList = [],
+  // citationStylesList = [],
+  // citationLocalesList = [],
   // settingsVisible,
 
   actions: {
     setStoryCss,
     setStoryCssFromUser,
     setStorySettingOption,
-    setCitationStyle,
-    setCitationLocale,
+    // setCitationStyle,
+    // setCitationLocale,
     // setSettingsVisibility,
-    setStoryTemplate,
+    // setStoryTemplate,
   },
   openSettings,
 }, context) => {
@@ -45,30 +45,30 @@ const StorySettingsManagerLayout = ({
   const visibleCss = (activeStory && activeStory.settings && activeStory.settings.cssFromUser) || '';
   const activeTemplate = (activeStory && activeStory.settings && activeStory.settings.template) || 'garlic';
   const activeTemplateData = templates.find(template => template.id === activeTemplate);
-  const activeCitationStyleId = activeStory && activeStory.settings && activeStory.settings.citationStyle && activeStory.settings.citationStyle.id;
-  const activeCitationLocaleId = activeStory && activeStory.settings && activeStory.settings.citationLocale && activeStory.settings.citationLocale.id;
+  // const activeCitationStyleId = activeStory && activeStory.settings && activeStory.settings.citationStyle && activeStory.settings.citationStyle.id;
+  // const activeCitationLocaleId = activeStory && activeStory.settings && activeStory.settings.citationLocale && activeStory.settings.citationLocale.id;
 
 
   /**
    * Callbacks
    */
-  const onDisqusChange = val => {
-    // val can be 'yes' or 'no'
-    // todo: switch to a boolean ?
-    setStorySettingOption(activeStoryId, 'allowDisqusComments', val);
-  };
+  // const onDisqusChange = val => {
+  //   // val can be 'yes' or 'no'
+  //   // todo: switch to a boolean ?
+  //   setStorySettingOption(activeStoryId, 'allowDisqusComments', val);
+  // };
   const onNotePositionChange = value => {
     setStorySettingOption(activeStoryId, 'notesPosition', value);
   };
-  const onTemplateChange = value => {
-    setStoryTemplate(activeStoryId, value);
-  };
-  const onCitationStyleChange = value => {
-    setCitationStyle(activeStoryId, value);
-  };
-  const onCitationLocaleChange = value => {
-    setCitationLocale(activeStoryId, value);
-  };
+  // const onTemplateChange = value => {
+  //   setStoryTemplate(activeStoryId, value);
+  // };
+  // const onCitationStyleChange = value => {
+  //   setCitationStyle(activeStoryId, value);
+  // };
+  // const onCitationLocaleChange = value => {
+  //   setCitationLocale(activeStoryId, value);
+  // };
   const onCssChange = css => {
     setStoryCssFromUser(activeStoryId, css);
     setStoryCss(activeStoryId, css);
@@ -81,7 +81,7 @@ const StorySettingsManagerLayout = ({
           <button className="returnToLanding-btn" type="button"><span className="fonio-icon">☰</span> {translate('back-to-home')}</button>
         </Link>
         <div className="settings-pannel-body">
-          <section className="settings-section">
+          {/*<section className="settings-section">
             <h2>{translate('template-title')}</h2>
             <OptionSelect
               title={translate('choose-a-template')}
@@ -91,10 +91,10 @@ const StorySettingsManagerLayout = ({
               }))}
               onChange={onTemplateChange}
               activeOptionId={activeTemplate} />
-          </section>
+          </section>*/}
           <section className="settings-section">
             <h2>{translate('options-title')}</h2>
-            {
+            {/*
               // allow disqus comments
               activeTemplateData && activeTemplateData.acceptsOptions.indexOf('allowDisqusComments') > -1 &&
               <OptionSelect
@@ -111,7 +111,7 @@ const StorySettingsManagerLayout = ({
                 ]}
                 onChange={onDisqusChange}
                 activeOptionId={activeStory.settings.options.allowDisqusComments || 'no'} />
-            }
+            */}
             {
               // notes position
               activeTemplateData && activeTemplateData.acceptsOptions.indexOf('notesPosition') > -1 &&
@@ -131,7 +131,7 @@ const StorySettingsManagerLayout = ({
                 activeOptionId={(activeStory && activeStory.settings.options && activeStory.settings.options.notesPosition) || 'foot'} />
             }
           </section>
-          <section className="settings-section">
+          {/*<section className="settings-section">
             <h2>{translate('citation-settings-title')}</h2>
             <OptionSelect
               title={translate('choose-a-citation-style')}
@@ -154,7 +154,7 @@ const StorySettingsManagerLayout = ({
             {xhrStatus &&
               <Toaster status={xhrStatus} log={translate('loading')} />
             }
-          </section>
+          </section>*/}
           <section className="settings-section">
             <h2>{translate('customize-css-title')}</h2>
             <div className="css-customizer-container">
