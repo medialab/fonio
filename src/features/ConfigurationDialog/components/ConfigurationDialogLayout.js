@@ -12,7 +12,7 @@ import {range} from 'lodash';
 import HelpPin from '../../../components/HelpPin/HelpPin';
 import AuthorsManager from '../../../components/AuthorsManager/AuthorsManager';
 import Toaster from '../../../components/Toaster/Toaster';
-import OptionSelect from '../../../components/OptionSelect/OptionSelect';
+// import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -59,12 +59,12 @@ const ConfigurationDialogLayout = ({
     default:
       break;
   }
-  const levelValues = range(maxSectionLevel).map(d => {
-    return {
-      value: d.toString(),
-      label: (d + 1).toString()
-    };
-  });
+  // const levelValues = range(maxSectionLevel).map(d => {
+  //   return {
+  //     value: d.toString(),
+  //     label: (d + 1).toString()
+  //   };
+  // });
 
   /**
    * Callbacks

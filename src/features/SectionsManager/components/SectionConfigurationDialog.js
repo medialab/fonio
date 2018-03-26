@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
-import HelpPin from '../../../components/HelpPin/HelpPin';
+// import HelpPin from '../../../components/HelpPin/HelpPin';
 import AuthorsManager from '../../../components/AuthorsManager/AuthorsManager';
 
 import './SectionConfigurationDialog.scss';
