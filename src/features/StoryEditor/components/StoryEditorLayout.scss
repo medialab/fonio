@@ -32,8 +32,9 @@
 
         @extend .flex-stretched-column;
         .scholar-draft-Editor{
-            > div > div{
-                padding-right: 10%;
+            > div 
+            > div{
+                padding-right: 10rem;
             }
         }
     }
