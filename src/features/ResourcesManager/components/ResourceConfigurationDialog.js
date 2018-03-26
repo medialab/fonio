@@ -360,11 +360,11 @@ const ResourceConfigurationDialog = ({
           </section> : null}
         {resourceCandidateType ?
           <section className="modal-row">
-            <h2>{translate('resource-data')}
+            {/*<h2>{translate('resource-data')}
               <HelpPin>
                 {translate('resource-data-help')}
               </HelpPin>
-            </h2>
+            </h2>*/}
             <div className="data-row">
               <div className="modal-column">
                 <ResourceDataInput
@@ -401,11 +401,11 @@ const ResourceConfigurationDialog = ({
             resourceCandidateType !== 'bib'
           ) ?
             <section className="modal-row">
-              <h2>{translate('resource-metadata')}
+              {/*<h2>{translate('resource-metadata')}
                 <HelpPin>
                   {translate('resource-metadata-help')}
                 </HelpPin>
-              </h2>
+              </h2>*/}
               <form className="modal-columns-container">
                 <div className="modal-column">
                   <div className="input-group">

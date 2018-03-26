@@ -5,13 +5,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Form, Text, TextArea} from 'react-form';
+import Textarea from 'react-textarea-autosize';
+import {Form, Text} from 'react-form';
 import {range} from 'lodash';
 
 import HelpPin from '../../../components/HelpPin/HelpPin';
 import AuthorsManager from '../../../components/AuthorsManager/AuthorsManager';
 import Toaster from '../../../components/Toaster/Toaster';
-import OptionSelect from '../../../components/OptionSelect/OptionSelect';
+// import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -58,12 +59,12 @@ const ConfigurationDialogLayout = ({
     default:
       break;
   }
-  const levelValues = range(maxSectionLevel).map(d => {
-    return {
-      value: d.toString(),
-      label: (d + 1).toString()
-    };
-  });
+  // const levelValues = range(maxSectionLevel).map(d => {
+  //   return {
+  //     value: d.toString(),
+  //     label: (d + 1).toString()
+  //   };
+  // });
 
   /**
    * Callbacks
@@ -128,7 +129,12 @@ const ConfigurationDialogLayout = ({
                 <div className="modal-columns-container">
                   <div className="modal-column">
                     <div className="input-group">
-                      <label htmlFor="title" className="label">{translate('title-of-the-story')}*</label>
+                      <label htmlFor="title" className="label">
+                        {translate('title-of-the-story')}*
+                        <HelpPin>
+                          {translate('what-is-the-title-of-your-story')}
+                        </HelpPin>
+                      </label>
                       <Text
                         field="title" id="title" type="text"
                         placeholder={translate('title-of-the-story')} />
@@ -138,7 +144,13 @@ const ConfigurationDialogLayout = ({
                     </div>
                     {!activeStoryId &&
                       <div className="input-group">
-                        <label htmlFor="password" className="label">{translate('password')}*</label>
+                        <label htmlFor="password" className="label">
+                          {translate('password')}*
+                          <HelpPin>
+                            <p>{translate('password-help')}</p>
+                            <p>{translate('password-should-be-at-least-6-characters')}</p>
+                          </HelpPin>
+                        </label>
                         <Text
                           field="password"
                           id="password"
@@ -150,7 +162,9 @@ const ConfigurationDialogLayout = ({
                       </div>
                     }
                     <div className="input-group">
-                      <label htmlFor="authors">{translate('authors-of-the-story')}*</label>
+                      <label htmlFor="authors">
+                        {translate('authors-of-the-story')}*
+                      </label>
                       <AuthorsManager
                         field="authors"
                         id="authors"
@@ -161,23 +175,27 @@ const ConfigurationDialogLayout = ({
                       }
                     </div>
                     <div className="input-group" style={{flex: 1}}>
-                      <label htmlFor="description">{translate('description-of-the-story')}</label>
-                      <TextArea
+                      <label htmlFor="description">
+                        {translate('description-of-the-story')}
+                        <HelpPin>
+                          {translate('description-help')}
+                        </HelpPin>
+                      </label>
+                      <Textarea
                         field="description"
                         id="description"
-                        className="description-input"
                         type="text"
                         placeholder={translate('description-of-the-story')}
                         style={{flex: 1}} />
                     </div>
-                    <div className="input-group">
+                    {/*<div className="input-group">
                       <label htmlFor="sectionLevel">{translate('level-of-sections')}</label>
                       <OptionSelect
                         activeOptionId={formApi.getValue('sectionLevel')}
                         options={levelValues}
                         onChange={(level) => formApi.setValue('sectionLevel', level)}
                         title={translate('choose-the-maximum-section-level-of-your-story')} />
-                    </div>
+                    </div>*/}
                   </div>
                   <Toaster status={createStoryLogStatus} log={toasterMessage} />
                 </div>
@@ -196,7 +214,7 @@ const ConfigurationDialogLayout = ({
               <button
                 className="cancel-btn"
                 onClick={closeStoryCandidate}>
-                {translate('cancel')}
+                {translate('cancel-changes')}
               </button>
             </section>
           </form>

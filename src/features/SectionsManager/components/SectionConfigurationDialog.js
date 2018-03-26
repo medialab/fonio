@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
-import HelpPin from '../../../components/HelpPin/HelpPin';
+// import HelpPin from '../../../components/HelpPin/HelpPin';
 import AuthorsManager from '../../../components/AuthorsManager/AuthorsManager';
 
 import './SectionConfigurationDialog.scss';
@@ -50,11 +50,11 @@ const SectionConfigurationDialog = ({
       </h1>
       <section className="modal-content">
         <section className="modal-row">
-          <h2>{translate('section-metadata')}
+          {/*<h2>{translate('section-metadata')}
             <HelpPin>
               {translate('section-metadata-help')}
             </HelpPin>
-          </h2>
+          </h2>*/}
           <div className="input-group">
             <label htmlFor="title">{translate('title-of-the-section')}</label>
             <input

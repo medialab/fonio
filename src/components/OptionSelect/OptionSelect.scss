@@ -24,7 +24,8 @@
         display: flex;
         flex: 1;
         flex-flow: row nowrap;
-        justify-content: space-between;
+        justify-content: center;
+        align-items: center;
 
         margin: 0;
         padding: $gutter-medium;
