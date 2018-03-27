@@ -252,19 +252,23 @@ class ResourceCard extends Component {
         }
         {!promptedToDelete ?
           <div className="card-footer">
-            <button className="settings-btn" onClick={onConfigureClick}>
-              <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
-              {translate('settings')}
+            <button className="interactive-btn drag-btn">
+              <img src={require('../../sharedAssets/move-black.svg')} className="fonio-icon-image" />
+              <span className="label">drag</span>
             </button>
-            <button className={'delete-btn '} onClick={onDeletePromptRequest}>
-              <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
-              {translate('delete')}
+            <button className="interactive-btn settings-btn" onClick={onConfigureClick}>
+              <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
+              <span className="label">{translate('settings')}</span>
+            </button>
+            <button className={'interactive-btn delete-btn'} onClick={onDeletePromptRequest}>
+              <img src={require('../../sharedAssets/remove-black.svg')} className="fonio-icon-image" />
+              <span className="label">{translate('delete')}</span>
             </button>
             {
               metadata.type === 'image' &&
-              <button className="coverimage-btn" onClick={onSetCoverClick}>
-                <img src="" className="fonio-icon-image" />
-                {translate('set-as-cover-image')}
+              <button className="interactive-btn coverimage-btn" onClick={onSetCoverClick}>
+                <img src={require('../../sharedAssets/cover-black.svg')} className="fonio-icon-image" />
+                <span className="label">{translate('set-as-cover-image')}</span>
               </button>
             }
           </div> :
@@ -273,7 +277,7 @@ class ResourceCard extends Component {
               {translate('abord-delete')}
             </button>
             <button className={'delete-confirm-btn '} onClick={onDeleteClick}>
-              <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
+              <img src={require('../../sharedAssets/remove-black.svg')} className="fonio-icon-image" />
               {translate('confirm-delete')}
             </button>
           </div>}

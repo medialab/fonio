@@ -161,7 +161,7 @@ const GLOBAL_UI_DEFAULT_STATE = {
      * Represents the state of the aside column
      * @type {string}
      */
-    asideUiMode: 'resources', // in ['sections', 'resources'],
+    asideUiMode: 'sections', // in ['sections', 'resources'],
 };
 
 /**
