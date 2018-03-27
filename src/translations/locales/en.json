@@ -91,7 +91,6 @@
   "Features.ConfigurationDialog.choose-the-maximum-section-level-of-your-story": "choose the maximum section level of your story",
   "Features.ConfigurationDialog.apply-changes-and-continue-story-edition": "apply changes and continue story edition",
   "Features.ConfigurationDialog.start-to-edit-this-story": "start to edit this story",
-  "Features.ConfigurationDialog.cancel-changes": "cancel changes",
   "Features.GlobalUi.save-story-pending-log": "saving ...",
   "Features.GlobalUi.save-story-fail-log": "your data could not be saved on the server",
   "Features.GlobalUi.fetch-story-fail-log": "could not fetch your story from server",
@@ -105,7 +104,6 @@
   "Features.GlobalUi.login": "login",
   "Features.GlobalUi.enter-your-password": "enter your password",
   "Features.GlobalUi.read-the-story": "read the story",
-  "Features.GlobalUi.cancel": "cancel",
   "Features.GlobalUi.reset-password-pending-log": "saving new password ...",
   "Features.GlobalUi.reset-password-success-log": "password is changed",
   "Features.GlobalUi.reset-password-fail-log": "could not change your password",
@@ -161,7 +159,6 @@
   "Features.Editor.source-of-the-resource": "Source of the resource",
   "Features.Editor.description-of-the-resource": "Description of the resource",
   "Features.Editor.update-resource": "update resource",
-  "Features.Editor.close": "close",
   "Features.ResourcesManager.all-types": "all types",
   "Features.ResourcesManager.click-on-a-resource-to-embed": "click on a resource to embed",
   "Features.ResourcesManager.you-must-first-add-resources-to-embed": "you must add resources before embedding them",
@@ -232,6 +229,5 @@
   "Features.TakeAway.markdown-file-help": "markdown is a lightweight markup language that you can use to edit your story content in other software",
   "Features.TakeAway.html-file": "html file",
   "Features.TakeAway.html-file-help": "it will download an autonomous html file that can be uploaded on any server",
-  "Features.TakeAway.take-away-your-story": "export your story",
-  "Features.TakeAway.close": "close"
+  "Features.TakeAway.take-away-your-story": "export your story"
 }

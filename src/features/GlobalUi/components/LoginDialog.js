@@ -43,7 +43,10 @@ const LoginDialog = ({
   return (
     <div className="fonio-LoginDialog">
       <h1 className="modal-header">
-        {translate('login')}
+        <span className="modal-header-title">{translate('login')}</span>
+        <button className="close-btn" onClick={closeLoginDialog}>
+          <img src={require('../../../sharedAssets/cancel-white.svg')} />
+        </button>
       </h1>
       <Form onSubmit={loginSubmit}>
         {formApi => (
@@ -69,11 +72,6 @@ const LoginDialog = ({
             <div className="modal-footer override-modal-footer">
               <button className="valid-btn" type="submit">
                 {translate('login')}
-              </button>
-              <button
-                onClick={closeLoginDialog}
-                className="cancel-btn">
-                {translate('cancel')}
               </button>
             </div>
           </form>

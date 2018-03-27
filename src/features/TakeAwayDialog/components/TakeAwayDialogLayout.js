@@ -121,7 +121,10 @@ const TakeAwayDialogLayout = ({
   return (
     <div className="fonio-TakeAwayDialogLayout">
       <h1 className="modal-header">
-        {translate('take-away-your-story')}
+        <span className="modal-header-title">{translate('take-away-your-story')}</span>
+        <button className="close-btn" onClick={closeTakeAwayModal}>
+          <img src={require('../../../sharedAssets/cancel-white.svg')} />
+        </button>
       </h1>
       <section className="modal-content">
         <section className="modal-row">
@@ -136,12 +139,7 @@ const TakeAwayDialogLayout = ({
           <Toaster status={takeAwayLogStatus} log={takeAwayLog} />
         </section>
       </section>
-      <section className="modal-footer">
-        <button
-          onClick={closeTakeAwayModal}>
-          {translate('close')}
-        </button>
-      </section>
+      <section className="modal-footer">''</section>
     </div>);
 };
 

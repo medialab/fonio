@@ -5,8 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Textarea from 'react-textarea-autosize';
-import {Form, Text} from 'react-form';
+import {Form, Text, TextArea} from 'react-form';
 // import {range} from 'lodash';
 
 import HelpPin from '../../../components/HelpPin/HelpPin';
@@ -110,7 +109,10 @@ const ConfigurationDialogLayout = ({
   return (
     <div className="fonio-ConfigurationDialogLayout">
       <h1 className="modal-header">
-        {translate('story-configuration')}
+        <span className="modal-header-title">{translate('story-configuration')}</span>
+        <button className="close-btn" onClick={closeStoryCandidate}>
+          <img src={require('../../../sharedAssets/cancel-white.svg')} />
+        </button>
       </h1>
       <Form
         defaultValues={storyCandidate.metadata}
@@ -118,7 +120,7 @@ const ConfigurationDialogLayout = ({
         onSubmitFailure={validatorFail}
         onSubmit={onApplyChange}>
         {formApi => (
-          <form onSubmit={formApi.submitForm} id="login-form" className="fonio-form">
+          <form onSubmit={formApi.submitForm} className="fonio-form">
             <section className="modal-content">
               <section className="modal-row">
                 <div className="modal-columns-container">
@@ -176,7 +178,7 @@ const ConfigurationDialogLayout = ({
                           {translate('description-help')}
                         </HelpPin>
                       </label>
-                      <Textarea
+                      <TextArea
                         field="description"
                         id="description"
                         type="text"
@@ -206,11 +208,6 @@ const ConfigurationDialogLayout = ({
                 </button>
               : ''
             }
-              <button
-                className="cancel-btn"
-                onClick={closeStoryCandidate}>
-                {translate('cancel-changes')}
-              </button>
             </section>
           </form>
         )}

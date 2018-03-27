@@ -91,7 +91,6 @@
   "Features.ConfigurationDialog.choose-the-maximum-section-level-of-your-story": "choisir le niveau maximum de votre récit",
   "Features.ConfigurationDialog.apply-changes-and-continue-story-edition": "appliquer les changements et continuer l'édition du récit",
   "Features.ConfigurationDialog.start-to-edit-this-story": "démarrer l'édition de cette histoire",
-  "Features.ConfigurationDialog.cancel-changes": "annuler les changements",
   "Features.GlobalUi.save-story-pending-log": "sauvegarde ...",
   "Features.GlobalUi.save-story-fail-log": "vos données n'ont pas pu être sauvegardées sur le serveur",
   "Features.GlobalUi.fetch-story-fail-log": "Impossible de récupérer votre récit sur le serveur ! :(",
@@ -105,7 +104,6 @@
   "Features.GlobalUi.login": "se connecter",
   "Features.GlobalUi.enter-your-password": "taper votre mot de passe",
   "Features.GlobalUi.read-the-story": "lire le récit",
-  "Features.GlobalUi.cancel": "annuler",
   "Features.GlobalUi.reset-password-pending-log": "enregistrer le nouveau mot de passe",
   "Features.GlobalUi.reset-password-success-log": "le mot de passe est changé",
   "Features.GlobalUi.reset-password-fail-log": "changement de mot de passe impossible",
@@ -161,7 +159,6 @@
   "Features.Editor.source-of-the-resource": "Source de la ressource",
   "Features.Editor.description-of-the-resource": "Description de la ressource",
   "Features.Editor.update-resource": "mettre à jour la ressource",
-  "Features.Editor.close": "fermer",
   "Features.ResourcesManager.all-types": "tous les types",
   "Features.ResourcesManager.click-on-a-resource-to-embed": "cliquer sur une ressource à intégrer",
   "Features.ResourcesManager.you-must-first-add-resources-to-embed": "Vous devez ajouter des ressources à votre bibliothèque pour pouvoir les intégrer.",
@@ -232,6 +229,5 @@
   "Features.TakeAway.markdown-file-help": "markdown est un langage de balisage de plus en plus utilisé, qui vous permettra d'éditer le contenu de votre récit avec d'autres logiciels",
   "Features.TakeAway.html-file": "fichier html",
   "Features.TakeAway.html-file-help": "revient à télécharger un fichier html autonome pouvant être mis sur n'importe quel serveur",
-  "Features.TakeAway.take-away-your-story": "exporter votre récit",
-  "Features.TakeAway.close": "fermer"
+  "Features.TakeAway.take-away-your-story": "exporter votre récit"
 }

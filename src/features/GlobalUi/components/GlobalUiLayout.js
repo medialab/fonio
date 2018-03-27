@@ -10,8 +10,6 @@ import Modal from 'react-modal';
 
 import LoadingBar from 'react-redux-loading-bar';
 
-import './GlobalUiLayout.scss';
-
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import ConfigurationDialog from '../../ConfigurationDialog/components/ConfigurationDialogContainer';

@@ -352,7 +352,10 @@ const ResourceConfigurationDialog = ({
   return (
     <div className="fonio-resource-configuration-dialog">
       <h1 className="modal-header">
-        {resourceCandidateId ? translate('edit-resource') : translate('create-resource')}
+        <span className="modal-header-title">{resourceCandidateId ? translate('edit-resource') : translate('create-resource')}</span>
+        <button className="close-btn" onClick={onClose}>
+          <img src={require('../../../sharedAssets/cancel-white.svg')} />
+        </button>
       </h1>
       <section className="modal-content">
         {resourceCandidateId === undefined ?
@@ -468,10 +471,6 @@ const ResourceConfigurationDialog = ({
               onClick={onApplyChange}>{resourceCandidateId ? translate('update-resource') : translate('create-resource')}</button>
           : ''
         }
-        <button
-          onClick={onClose}>
-          {translate('close')}
-        </button>
       </section>
     </div>
   );
