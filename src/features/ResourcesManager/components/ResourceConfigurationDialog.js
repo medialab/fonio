@@ -10,8 +10,6 @@ import Textarea from 'react-textarea-autosize';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
-import downloadFile from '../../../helpers/fileDownloader';
-
 import BigSelect from '../../../components/BigSelect/BigSelect';
 import HelpPin from '../../../components/HelpPin/HelpPin';
 import Toaster from '../../../components/Toaster/Toaster';
@@ -75,7 +73,7 @@ const ResourceDataInput = ({
       );
     case 'data-presentation':
       const onPresentationSubmit = (files) => submitResourceData('dataPresentationFile', files[0]);
-      
+
       return (
         <div className="data-presentation-input">
           <DropZone
@@ -124,7 +122,7 @@ const ResourceDataInput = ({
     case 'embed':
       const onEmbedSubmit = (evt) => submitResourceData('htmlCode', evt.target.value);
       return (
-         <div className="input-group">
+        <div className="input-group">
           <label>
             {translate('embed-code')}
           </label>
@@ -135,7 +133,7 @@ const ResourceDataInput = ({
             placeholder={translate('paste-embed-code')}
             style={{flex: 1, width: '100%'}}
             value={resourceCandidate.data || ''} />
-          </div>
+        </div>
       );
     case 'glossary':
       const onNameChange = e => submitResourceData('glossaryName', e.target.value, resourceCandidate.data);
@@ -265,7 +263,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'webpage',
       icon: require('../../../sharedAssets/webpage-black.svg'),
-      label: (<span>{translate('resource-type-webpage')}<br/> <HelpPin position="right">
+      label: (<span>{translate('resource-type-webpage')}<br /> <HelpPin position="right">
         {translate('resource-type-webpage-help')}
       </HelpPin></span>),
       possible: true
@@ -273,7 +271,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'glossary',
       icon: require('../../../sharedAssets/glossary-black.svg'),
-      label: (<span>{translate('resource-type-glossary')}<br/> <HelpPin position="left">
+      label: (<span>{translate('resource-type-glossary')}<br /> <HelpPin position="left">
         {translate('resource-type-glossary-help')}
       </HelpPin></span>),
       possible: true
@@ -281,7 +279,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'bib',
       icon: require('../../../sharedAssets/bib-black.svg'),
-      label: (<span>{translate('resource-type-bib')}<br/> <HelpPin position="left">
+      label: (<span>{translate('resource-type-bib')}<br /> <HelpPin position="left">
         {translate('resource-type-bib-help')}
       </HelpPin></span>),
       possible: true
@@ -289,7 +287,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'table',
       icon: require('../../../sharedAssets/table-black.svg'),
-      label: (<span>{translate('resource-type-table')}<br/> <HelpPin>
+      label: (<span>{translate('resource-type-table')}<br /> <HelpPin>
         {translate('resource-type-table-help')}
       </HelpPin></span>),
       possible: true
@@ -297,7 +295,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'image',
       icon: require('../../../sharedAssets/image-black.svg'),
-      label: (<span>{translate('resource-type-image')}<br/> <HelpPin>
+      label: (<span>{translate('resource-type-image')}<br /> <HelpPin>
         {translate('resource-type-image-help')}
       </HelpPin></span>),
       possible: true
@@ -305,7 +303,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'video',
       icon: require('../../../sharedAssets/video-black.svg'),
-      label: (<span>{translate('resource-type-video')}<br/> <HelpPin>
+      label: (<span>{translate('resource-type-video')}<br /> <HelpPin>
         {translate('resource-type-video-help')}
       </HelpPin></span>),
       possible: true
@@ -313,7 +311,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'embed',
       icon: require('../../../sharedAssets/embed-black.svg'),
-      label: (<span>{translate('resource-type-embed')}<br/> <HelpPin position="left">
+      label: (<span>{translate('resource-type-embed')}<br /> <HelpPin position="left">
         {translate('resource-type-embed-help')}
       </HelpPin></span>),
       possible: true

@@ -78,7 +78,7 @@ const StoryViewLayout = ({
       // TODO: loading/error page
       (storyToasterLogStatus === 'failure' &&
         <h2 className="fonio-NotFound">
-          {translate('story-not-found-go-back-to')}<span> </span><Link to="/"> {translate('home page')}</Link>
+          {translate('story-not-found-go-back-to')}<span /><Link to="/"> {translate('home page')}</Link>
         </h2>
       )
   );

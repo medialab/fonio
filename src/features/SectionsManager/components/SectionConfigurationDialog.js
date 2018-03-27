@@ -68,7 +68,7 @@ const SectionConfigurationDialog = ({
               value={sectionCandidate.metadata.title} />
           </div>
         </section>
-         <section className="modal-row">
+        <section className="modal-row">
           <div className="input-group">
             <label htmlFor="authors">{translate('authors-of-the-section')}</label>
             <AuthorsManager

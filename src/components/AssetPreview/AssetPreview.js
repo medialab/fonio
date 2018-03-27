@@ -153,9 +153,9 @@ class AssetPreview extends Component {
           ofText={translate('table-of')}
           rowsText={translate('table-row')} />);
       case 'image':
-        return <div className="image-container">
+        return (<div className="image-container">
           <img key={metadata.lastModifiedAt} src={data.base64 || data.url} />
-        </div>;
+        </div>);
       case 'video':
         return (
           <Media>
@@ -222,25 +222,25 @@ class AssetPreview extends Component {
               {/*<button onClick={this.onClickDelete}>{translate('delete-contextualization')}</button>*/}
             </h5>
             <div className="line-buttons-container displaced">
-                {/*<button onClick={this.onClickEdit}>
+              {/*<button onClick={this.onClickEdit}>
                   <img className="fonio-icon-image" src={require(`../../sharedAssets/edit-black.svg`)} />
                 </button>*/}
-                <button onClick={this.onClickDelete}>
-                  <img className="fonio-icon-image" src={require(`../../sharedAssets/remove-black.svg`)} />
-                  {translate('delete-contextualization')}
-                </button>
+              <button onClick={this.onClickDelete}>
+                <img className="fonio-icon-image" src={require('../../sharedAssets/remove-black.svg')} />
+                {translate('delete-contextualization')}
+              </button>
             </div>
 
-            {metadata.description && 
+            {metadata.description &&
               <div className="displaced">
                 <h6>{translate('description')}</h6>
                 <p>{metadata.description}</p>
               </div>
             }
-              
+
           </div>
-          {metadata.source && 
-            <div className="column"> 
+          {metadata.source &&
+            <div className="column">
               <div>
                 <h6>{translate('source')}</h6>
                 <p>{metadata.source}</p>
