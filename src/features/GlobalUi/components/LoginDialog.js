@@ -49,16 +49,16 @@ const LoginDialog = ({
         {formApi => (
           <form onSubmit={formApi.submitForm} id="login-form" className="fonio-form">
             <div className="modal-content">
-              <div className="modal-row">
+              <div className="modal-row ">
                 <div className="input-group">
                   <label htmlFor="password" className="label">{translate('enter-your-password')}</label>
                   <Text field="password" id="password" type="password" />
                 </div>
               </div>
-              <div className="modal-row">
+              <div className="modal-row no-bg">
                 <Toaster status={loginStoryLogStatus} log={toasterMessage} />
               </div>
-              <div className="modal-row link-to-read">
+              <div className="modal-row no-bg link-to-read">
                 <span
                   onClick={onLinkToRead}
                   className="link-btn">
