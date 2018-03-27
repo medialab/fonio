@@ -38,7 +38,7 @@ const Footer = ({
   return (
 
     <footer className="fonio-Footer">
-      <button className="mode-btn" onClick={togglePreview}>{
+      <button className={`mode-btn ${globalUiMode}`} onClick={togglePreview}>{
             globalUiMode === 'edition' ?
               <span>
                 <img className="fonio-icon-image" src={require('../../sharedAssets/preview-white.svg')} />{translate('preview')}

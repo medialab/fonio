@@ -68,7 +68,7 @@ export const ChooseTakeAwayStep = ({
           icon: require('../assets/html.svg'),
           label: <span>
             {translate('html-file')}
-            <HelpPin>
+            <HelpPin position="left">
               {translate('html-file-help')}
             </HelpPin>
           </span>,

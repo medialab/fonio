@@ -228,6 +228,6 @@
   "Features.TakeAway.markdown-file": "fichier markdown",
   "Features.TakeAway.markdown-file-help": "markdown est un langage de balisage de plus en plus utilisé, qui vous permettra d'éditer le contenu de votre récit avec d'autres logiciels",
   "Features.TakeAway.html-file": "fichier html",
-  "Features.TakeAway.html-file-help": "revient à télécharger un fichier html autonome pouvant être mis sur n'importe quel serveur",
+  "Features.TakeAway.html-file-help": "télécharger un fichier html autonome pouvant être mis sur n'importe quel serveur",
   "Features.TakeAway.take-away-your-story": "exporter votre récit"
 }
