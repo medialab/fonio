@@ -9,6 +9,9 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import {Link} from 'react-router-dom';
 
+import {translateNameSpacer} from '../../../helpers/translateUtils';
+
+
 import StoryPlayer from 'quinoa-story-player';
 
 
@@ -32,7 +35,7 @@ const StoryViewLayout = ({
     // openTakeAwayModal,
     closeTakeAwayModal
   }
-}) => {
+}, {t}) => {
 
   /**
    * Callbacks
@@ -50,6 +53,9 @@ const StoryViewLayout = ({
   // const onClickMetadata = () => {
   //   startStoryCandidateConfiguration(activeStory);
   // };
+
+  const translate = translateNameSpacer(t, 'Components.StoryViewLayout');
+
 
   return (
     activeStory ?
@@ -71,8 +77,8 @@ const StoryViewLayout = ({
       </div> :
       // TODO: loading/error page
       (storyToasterLogStatus === 'failure' &&
-        <h2>
-          story not found , go back to <Link to="/">Home page</Link>
+        <h2 className="fonio-NotFound">
+          {translate('story-not-found-go-back-to')}<span> </span><Link to="/"> {translate('home page')}</Link>
         </h2>
       )
   );
