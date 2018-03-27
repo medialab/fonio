@@ -75,12 +75,7 @@ const ResourceDataInput = ({
       );
     case 'data-presentation':
       const onPresentationSubmit = (files) => submitResourceData('dataPresentationFile', files[0]);
-      const downloadPresentation = () =>
-        downloadFile(
-          JSON.stringify(resourceCandidate.data),
-          'json',
-          resourceCandidate.metadata.title || 'data-presentation'
-        );
+      
       return (
         <div className="data-presentation-input">
           <DropZone
@@ -89,7 +84,6 @@ const ResourceDataInput = ({
               <p>{translate('drop-a-file-here')}</p>
             </div>
           </DropZone>
-          {resourceCandidate.data && <button onClick={downloadPresentation}>{translate('download-current-presentation-data')}</button>}
         </div>
       );
     case 'bib':
