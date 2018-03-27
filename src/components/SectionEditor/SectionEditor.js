@@ -752,6 +752,12 @@ class SectionEditor extends Component {
               notesOrder={notesOrder}
               assets={assets}
 
+              messages={{
+                addNote: translate('add-note'),
+                summonAsset: translate('summon-asset'),
+                cancel: translate('cancel'),
+              }}
+
               BibliographyComponent={Object.keys(citationItems).length > 0 ? () => <Bibliography /> : null}
 
               clipboard={clipboard}

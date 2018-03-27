@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-3-26\n"
-"PO-Revision-Date: Mon Mar 26 2018 16:18:22 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-3-27\n"
+"PO-Revision-Date: Tue Mar 27 2018 14:01:16 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -772,3 +772,12 @@ msgstr "authors-help"
 
 msgid "Features.ConfigurationDialog.description-help"
 msgstr "description-help"
+
+msgid "Components.Footer.add-note"
+msgstr "add-note"
+
+msgid "Components.Footer.summon-asset"
+msgstr "summon-asset"
+
+msgid "Components.Footer.cancel"
+msgstr "cancel"
