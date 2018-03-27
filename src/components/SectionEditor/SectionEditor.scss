@@ -85,12 +85,12 @@
             }
             .scholar-draft-BasicEditor
             {
-                &.active,
-                &:hover
+                background: $color-very-light;
+                &.active
                 {
                     .public-DraftEditor-content
                     {
-                        background: $color-very-light;
+                        background: $color-sec-stroke;
                     }
                 }
             }
@@ -180,6 +180,8 @@
             .scholar-draft-BlockAssetContainer
             {
                 min-height: 10rem;// todo: parametrize that
+                background: $color-warm-grey;
+                padding: $gutter-medium;
             }
         }
     }

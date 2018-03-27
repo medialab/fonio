@@ -53,16 +53,16 @@ export const ChooseTakeAwayStep = ({
             </HelpPin></span>,
           possible: true
         },
-        {
-          id: 'markdown',
-          icon: require('../assets/html.svg'),
-          label: <span>
-            {translate('markdown-file')}
-            <HelpPin>
-              {translate('markdown-file-help')}
-            </HelpPin></span>,
-          possible: true
-        },
+        // {
+        //   id: 'markdown',
+        //   icon: require('../assets/html.svg'),
+        //   label: <span>
+        //     {translate('markdown-file')}
+        //     <HelpPin>
+        //       {translate('markdown-file-help')}
+        //     </HelpPin></span>,
+        //   possible: true
+        // },
         {
           id: 'html',
           icon: require('../assets/html.svg'),
