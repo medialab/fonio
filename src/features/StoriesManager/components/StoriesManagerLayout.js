@@ -204,7 +204,10 @@ const StoriesManagerLayout = ({
         contentLabel="Override the existing story"
         isOpen={importCandidate !== undefined}>
         <h1 className="modal-header">
-          {translate('story-already-exists')}
+          <span className="modal-header-title">{translate('story-already-exists')}</span>
+          <button className="close-btn" onClick={importReset}>
+            <img src={require('../../../sharedAssets/cancel-white.svg')} />
+          </button>
         </h1>
         <div className="modal-content">
           <div className="modal-row">
@@ -216,9 +219,6 @@ const StoriesManagerLayout = ({
         <div className="modal-footer override-modal-footer">
           <button onClick={overrideImportWithCandidate}>
             {translate('override-existing-version-of-story')}
-          </button>
-          <button onClick={importReset}>
-            {translate('cancel')}
           </button>
         </div>
       </Modal>

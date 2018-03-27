@@ -17,9 +17,7 @@ const ResetPasswordDialog = ({
   storyId,
   closeDialog,
   resetPassword
-},
-// context
-) => {
+}, context) => {
   const translate = translateNameSpacer(context.t, 'Features.GlobalUi');
   let toasterMessage;
   switch (status) {
@@ -49,7 +47,10 @@ const ResetPasswordDialog = ({
   return (
     <div className="fonio-ResetPasswordDialog">
       <h1 className="modal-header">
-        {translate('change-password')}
+        <span className="modal-header-title">{translate('change-password')}</span>
+        <button className="close-btn" onClick={closeDialog}>
+          <img src={require('../../../sharedAssets/cancel-white.svg')} />
+        </button>
       </h1>
       <Form onSubmit={resetPasswordSubmit} validateError={errorValidator}>
         {formApi => (
@@ -85,11 +86,6 @@ const ResetPasswordDialog = ({
             <div className="modal-footer override-modal-footer">
               <button className="valid-btn" type="submit">
                 {translate('submit-new-password')}
-              </button>
-              <button
-                onClick={closeDialog}
-                className="cancel-btn">
-                {translate('cancel')}
               </button>
             </div>
           </form>

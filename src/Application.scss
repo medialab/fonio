@@ -147,12 +147,27 @@ html
         padding-left: $gutter-large;
 
         @extend .important-item-active;
+
+        display: flex;
+        .modal-header-title
+        {
+            flex: 1;
+        }
+        .close-btn
+        {
+            img
+            {
+                width: 2rem;
+                height: 2rem;
+            }
+        }
     }
 
     .modal-footer
     {
         padding: $gutter-medium;
         padding-left: $gutter-large;
+        padding-right: $gutter-large;
 
         @extend .primary-item;
 

@@ -46,7 +46,10 @@ const SectionConfigurationDialog = ({
   return (
     <div className="fonio-SectionConfigurationDialog">
       <h1 className="modal-header">
-        {sectionCandidateId ? translate('edit-section') : translate('create-section')}
+        <span className="modal-header-title">{sectionCandidateId ? translate('edit-section') : translate('create-section')}</span>
+        <button className="close-btn" onClick={onClose}>
+          <img src={require('../../../sharedAssets/cancel-white.svg')} />
+        </button>
       </h1>
       <section className="modal-content">
         <section className="modal-row">
@@ -82,10 +85,6 @@ const SectionConfigurationDialog = ({
               onClick={onApplyChange}>{sectionCandidateId ? translate('update-section') : translate('create-section')}</button>
           : ''
         }
-        <button
-          onClick={onClose}>
-          {translate('close')}
-        </button>
       </section>
     </div>
   );

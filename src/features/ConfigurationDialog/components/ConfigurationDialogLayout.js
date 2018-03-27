@@ -110,7 +110,10 @@ const ConfigurationDialogLayout = ({
   return (
     <div className="fonio-ConfigurationDialogLayout">
       <h1 className="modal-header">
-        {translate('story-configuration')}
+        <span className="modal-header-title">{translate('story-configuration')}</span>
+        <button className="close-btn" onClick={closeStoryCandidate}>
+          <img src={require('../../../sharedAssets/cancel-white.svg')} />
+        </button>
       </h1>
       <Form
         defaultValues={storyCandidate.metadata}
@@ -211,11 +214,6 @@ const ConfigurationDialogLayout = ({
                 </button>
               : ''
             }
-              <button
-                className="cancel-btn"
-                onClick={closeStoryCandidate}>
-                {translate('cancel-changes')}
-              </button>
             </section>
           </form>
         )}
