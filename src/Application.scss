@@ -147,14 +147,9 @@ html
         padding-left: $gutter-large;
 
         @extend .important-item-active;
-
-        display: flex;
-        .modal-header-title
-        {
-            flex: 1;
-        }
         .close-btn
         {
+            float: right;
             img
             {
                 width: 2rem;
@@ -239,4 +234,46 @@ html
         }
     }
 
+}
+
+.ReactModal__Content.ReactModal__Content--after-open
+{
+    border: 1px solid $color-sec-stroke!important;
+    border-radius: 0!important;
+
+    @extend .flex-stretched-column;
+
+    .fonio-form
+    {
+        @extend .flex-stretched-column;
+    }
+
+     > div
+    {
+        // flex: 1;
+        @extend .flex-stretched-column;
+        .modal-content
+        {
+            overflow: auto;
+            flex: 1;
+        }
+        .modal-footer
+        {
+            min-height: $gutter-large * 2;
+        }
+    }
+}
+/*
+ * Responsive layout adjustments
+ */
+
+@media #{$breakpoint-phone}
+{
+    .fonio
+    {
+        flex-direction: column;
+    }
+}
+@media #{$breakpoint-tablet}
+{
 }

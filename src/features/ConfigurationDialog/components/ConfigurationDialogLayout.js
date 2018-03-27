@@ -5,8 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Textarea from 'react-textarea-autosize';
-import {Form, Text} from 'react-form';
+import {Form, Text, TextArea} from 'react-form';
 // import {range} from 'lodash';
 
 import HelpPin from '../../../components/HelpPin/HelpPin';
@@ -121,7 +120,7 @@ const ConfigurationDialogLayout = ({
         onSubmitFailure={validatorFail}
         onSubmit={onApplyChange}>
         {formApi => (
-          <form onSubmit={formApi.submitForm} id="login-form" className="fonio-form">
+          <form onSubmit={formApi.submitForm} className="fonio-form">
             <section className="modal-content">
               <section className="modal-row">
                 <h2>{translate('what-is-your-story-about')}
@@ -184,7 +183,7 @@ const ConfigurationDialogLayout = ({
                           {translate('description-help')}
                         </HelpPin>
                       </label>
-                      <Textarea
+                      <TextArea
                         field="description"
                         id="description"
                         type="text"
