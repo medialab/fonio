@@ -60,7 +60,7 @@ class OptionSelect extends React.Component {
             name="form-field-name"
             value={activeOptionId}
             searchable={searchable}
-            openOnFocus={true}
+            openOnFocus
             clearable={false}
             ref={bindSelect}
             options={options}

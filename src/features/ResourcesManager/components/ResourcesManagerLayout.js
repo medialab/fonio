@@ -48,7 +48,7 @@ const ResourcesManagerLayout = ({
     startExistingResourceConfiguration,
     startNewResourceConfiguration,
     submitResourceData,
-    unpromptAssetEmbed,
+    // unpromptAssetEmbed,
     setEditorFocus,
     requestDeletePrompt,
     abortDeletePrompt,
@@ -66,10 +66,10 @@ const ResourcesManagerLayout = ({
       value: '',
       label: translate('all-types')
     },
-    {
-      value: 'data-presentation',
-      label: translateResources('resource-type-data-presentation')
-    },
+    // {
+    //   value: 'data-presentation',
+    //   label: translateResources('resource-type-data-presentation')
+    // },
     {
       value: 'table',
       label: translateResources('resource-type-table')
@@ -80,6 +80,7 @@ const ResourcesManagerLayout = ({
     },
     {
       value: 'video',
+
       label: translateResources('resource-type-video')
     },
     {
@@ -132,12 +133,13 @@ const ResourcesManagerLayout = ({
       </li>
       <ul className="body">
         {
-        resources.sort((a, b) => {
-          if (a.metadata.title > b.metadata.title) {
-            return 1;
-          }
-          if (a.metadata.title < b.metadata.title) {
+        resources
+        .sort((a, b) => {
+          if (a.metadata.createdAt > b.metadata.createdAt) {
             return -1;
+          }
+          if (a.metadata.createdAt < b.metadata.createdAt) {
+            return 1;
           }
           return 0;
         })
@@ -157,6 +159,7 @@ const ResourcesManagerLayout = ({
           const onMouseDown = () => {
             setEditorFocus(undefined);
           };
+
           return (
             <ResourceCard
               key={index}
@@ -169,7 +172,9 @@ const ResourcesManagerLayout = ({
               promptedToDelete={resourcePromptedToDelete === resource.id}
               selectMode={resourcesPrompted}
               onSelect={onEmbedResource}
-              style={{cursor: 'move'}}
+              style={{
+                cursor: 'move',
+              }}
               {...resource} />
           );
         })

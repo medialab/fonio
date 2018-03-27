@@ -44,10 +44,12 @@
         img
         {
             max-height: $font-size-3;
+            padding-right: $gutter-small;
         }
         h5
         {
             margin: 0;
+            padding-top: $gutter-small;
         }
     }
     .card-body

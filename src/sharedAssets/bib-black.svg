@@ -4,11 +4,14 @@
 <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="50px" height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
 <g>
-	<polyline fill="none" stroke="#000333" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-		18.292,14.896 18.292,12.03 30.229,12.03 33.961,16.565 33.961,34.385 30.995,34.385 	"/>
-	<polygon fill="none" stroke="#000333" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-		15.326,14.895 27.262,14.895 30.995,19.43 30.995,37.25 15.326,37.25 	"/>
+	<circle fill="#C7F9ED" cx="24.75" cy="24.612" r="15"/>
+	<g>
+		<polyline fill="none" stroke="#000333" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+			20.615,18.403 20.615,16.571 28.246,16.571 30.631,19.47 30.631,30.861 28.736,30.861 		"/>
+		<polygon fill="none" stroke="#000333" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+			18.719,18.402 26.349,18.402 28.736,21.301 28.736,32.693 18.719,32.693 		"/>
+	</g>
+	<path fill="none" stroke="#000333" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M33.189,35.285"/>
+	<rect x="10.805" y="11.438" fill="none" width="28.242" height="26.894"/>
 </g>
-<path fill="none" stroke="#000333" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M36.753,39.791"/>
-<rect x="4.917" y="5.875" fill="none" stroke="#000333" stroke-miterlimit="10" width="40.167" height="38.25"/>
 </svg>

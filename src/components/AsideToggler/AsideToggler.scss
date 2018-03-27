@@ -25,14 +25,14 @@
         text-align: center;
 
         flex: 1;
-        @extend .important-item;
+        @extend .interactive-item;
         &:hover
         {
-            @extend .important-item-intent;
+            @extend .interactive-item-intent;
         }
         &.active
         {
-            @extend .important-item-active;
+            @extend .interactive-item-active;
             &:hover
             {
                 cursor: default;

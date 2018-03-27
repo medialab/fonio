@@ -229,7 +229,7 @@ class ResourceCard extends Component {
         draggable
         onDragStart={startDrag}
         onMouseDown={onMDown}
-        className={'fonio-ResourceCard' + (selectMode ? ' select-mode' : '')}
+        className={`fonio-ResourceCard ${metadata.type} ${(selectMode ? ' select-mode' : '')}`}
         onClick={onGlobalClick}>
         <div
           className="card-header">

@@ -95,9 +95,9 @@ const ResourceDataInput = ({
     case 'bib':
       const onBibTeXFileSubmit = (files) => submitResourceData('bibTeXFile', files[0]);
 
-      const onRefsChange = refs => {
-        submitResourceData('cslJSON', refs);
-      };
+      // const onRefsChange = refs => {
+      //   submitResourceData('cslJSON', refs);
+      // };
       return (
         <div>
           <DropZone
@@ -252,7 +252,7 @@ const ResourceConfigurationDialog = ({
   const resourcesTypes = [
     // {
     //   id: 'data-presentation',
-    //   icon: require('../assets/data-presentation.svg'),
+    //   icon: require('../../../sharedAssets/data-presentation-black.svg'),
     //   label: (<span>{translate('resource-type-data-presentation')} <HelpPin>
     //     {translate('resource-type-data-presentation-help')}
     //   </HelpPin></span>),
@@ -260,7 +260,7 @@ const ResourceConfigurationDialog = ({
     // },
     {
       id: 'webpage',
-      icon: require('../assets/webpage.svg'),
+      icon: require('../../../sharedAssets/webpage-black.svg'),
       label: (<span>{translate('resource-type-webpage')} <HelpPin position="right">
         {translate('resource-type-webpage-help')}
       </HelpPin></span>),
@@ -268,7 +268,7 @@ const ResourceConfigurationDialog = ({
     },
     {
       id: 'glossary',
-      icon: require('../assets/glossary.svg'),
+      icon: require('../../../sharedAssets/glossary-black.svg'),
       label: (<span>{translate('resource-type-glossary')} <HelpPin position="left">
         {translate('resource-type-glossary-help')}
       </HelpPin></span>),
@@ -276,7 +276,7 @@ const ResourceConfigurationDialog = ({
     },
     {
       id: 'bib',
-      icon: require('../assets/bib.svg'),
+      icon: require('../../../sharedAssets/bib-black.svg'),
       label: (<span>{translate('resource-type-bib')} <HelpPin position="left">
         {translate('resource-type-bib-help')}
       </HelpPin></span>),
@@ -284,7 +284,7 @@ const ResourceConfigurationDialog = ({
     },
     {
       id: 'table',
-      icon: require('../assets/table.svg'),
+      icon: require('../../../sharedAssets/table-black.svg'),
       label: (<span>{translate('resource-type-table')} <HelpPin>
         {translate('resource-type-table-help')}
       </HelpPin></span>),
@@ -292,7 +292,7 @@ const ResourceConfigurationDialog = ({
     },
     {
       id: 'image',
-      icon: require('../assets/image.svg'),
+      icon: require('../../../sharedAssets/image-black.svg'),
       label: (<span>{translate('resource-type-image')} <HelpPin>
         {translate('resource-type-image-help')}
       </HelpPin></span>),
@@ -300,7 +300,7 @@ const ResourceConfigurationDialog = ({
     },
     {
       id: 'video',
-      icon: require('../assets/video.svg'),
+      icon: require('../../../sharedAssets/video-black.svg'),
       label: (<span>{translate('resource-type-video')} <HelpPin>
         {translate('resource-type-video-help')}
       </HelpPin></span>),
@@ -308,7 +308,7 @@ const ResourceConfigurationDialog = ({
     },
     {
       id: 'embed',
-      icon: require('../assets/embed.svg'),
+      icon: require('../../../sharedAssets/embed-black.svg'),
       label: (<span>{translate('resource-type-embed')} <HelpPin position="left">
         {translate('resource-type-embed-help')}
       </HelpPin></span>),
@@ -376,7 +376,7 @@ const ResourceConfigurationDialog = ({
                 <LoadingStateToaster loadingState={resourceUploadingState} type={'uploading'} />
               </div>
               {
-                resourceCandidate.data 
+                resourceCandidate.data
                 && resourceCandidate.metadata.type !== 'glossary'
                 && resourceCandidate.metadata.type !== 'webpage' ?
                 (<div className="modal-column preview-container">
