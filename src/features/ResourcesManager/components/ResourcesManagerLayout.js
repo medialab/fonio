@@ -121,7 +121,7 @@ const ResourcesManagerLayout = ({
               <h3>{translate('click-on-a-resource-to-embed')}</h3> :
               <div>
                 <h3>{translate('you-must-first-add-resources-to-embed')}</h3>
-                <button className="understood-btn" onClick={unpromptAssetEmbed}>{translate('understood')}</button>
+                {/*<button className="understood-btn" onClick={unpromptAssetEmbed}>{translate('understood')}</button>*/}
               </div>}
           </div>
         )

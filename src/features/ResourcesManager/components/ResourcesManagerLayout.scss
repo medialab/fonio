@@ -21,13 +21,13 @@
         padding: 0 $gutter-medium 0 $gutter-medium;
     }
 
-    .understood-btn{
-        padding: $gutter-medium;
-        @extend .important-item;
-        &:hover{
-            @extend .important-item-intent;
-        }
-    }
+    // .understood-btn{
+    //     padding: $gutter-medium;
+    //     @extend .important-item;
+    //     &:hover{
+    //         @extend .important-item-intent;
+    //     }
+    // }
 
     .body
     {

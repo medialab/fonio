@@ -17,7 +17,7 @@ import HelpPin from '../../../components/HelpPin/HelpPin';
 import Toaster from '../../../components/Toaster/Toaster';
 import DropZone from '../../../components/DropZone/DropZone';
 import AssetPreview from '../../../components/AssetPreview/AssetPreview';
-import BibRefsEditor from '../../../components/BibRefsEditor/BibRefsEditor';
+// import BibRefsEditor from '../../../components/BibRefsEditor/BibRefsEditor';
 
 import './ResourceConfigurationDialog.scss';
 
@@ -106,9 +106,9 @@ const ResourceDataInput = ({
               <p>{translate('drop-bibtex-here')}</p>
             </div>
           </DropZone>
-          <BibRefsEditor
+          {/*<BibRefsEditor
             references={resourceCandidate.data}
-            onChange={onRefsChange} />
+            onChange={onRefsChange} />*/}
         </div>
       );
     case 'webpage':
@@ -250,11 +250,35 @@ const ResourceConfigurationDialog = ({
   const translate = translateNameSpacer(context.t, 'Features.Editor');
   // todo: this should be stored elsewhere
   const resourcesTypes = [
+    // {
+    //   id: 'data-presentation',
+    //   icon: require('../assets/data-presentation.svg'),
+    //   label: (<span>{translate('resource-type-data-presentation')} <HelpPin>
+    //     {translate('resource-type-data-presentation-help')}
+    //   </HelpPin></span>),
+    //   possible: true
+    // },
     {
-      id: 'data-presentation',
-      icon: require('../assets/data-presentation.svg'),
-      label: (<span>{translate('resource-type-data-presentation')} <HelpPin>
-        {translate('resource-type-data-presentation-help')}
+      id: 'webpage',
+      icon: require('../assets/webpage.svg'),
+      label: (<span>{translate('resource-type-webpage')} <HelpPin position="right">
+        {translate('resource-type-webpage-help')}
+      </HelpPin></span>),
+      possible: true
+    },
+    {
+      id: 'glossary',
+      icon: require('../assets/glossary.svg'),
+      label: (<span>{translate('resource-type-glossary')} <HelpPin position="left">
+        {translate('resource-type-glossary-help')}
+      </HelpPin></span>),
+      possible: true
+    },
+    {
+      id: 'bib',
+      icon: require('../assets/bib.svg'),
+      label: (<span>{translate('resource-type-bib')} <HelpPin position="left">
+        {translate('resource-type-bib-help')}
       </HelpPin></span>),
       possible: true
     },
@@ -287,30 +311,6 @@ const ResourceConfigurationDialog = ({
       icon: require('../assets/embed.svg'),
       label: (<span>{translate('resource-type-embed')} <HelpPin position="left">
         {translate('resource-type-embed-help')}
-      </HelpPin></span>),
-      possible: true
-    },
-    {
-      id: 'webpage',
-      icon: require('../assets/webpage.svg'),
-      label: (<span>{translate('resource-type-webpage')} <HelpPin position="left">
-        {translate('resource-type-webpage-help')}
-      </HelpPin></span>),
-      possible: true
-    },
-    {
-      id: 'glossary',
-      icon: require('../assets/glossary.svg'),
-      label: (<span>{translate('resource-type-glossary')} <HelpPin position="left">
-        {translate('resource-type-glossary-help')}
-      </HelpPin></span>),
-      possible: true
-    },
-    {
-      id: 'bib',
-      icon: require('../assets/bib.svg'),
-      label: (<span>{translate('resource-type-bib')} <HelpPin position="left">
-        {translate('resource-type-bib-help')}
       </HelpPin></span>),
       possible: true
     },
@@ -376,7 +376,9 @@ const ResourceConfigurationDialog = ({
                 <LoadingStateToaster loadingState={resourceUploadingState} type={'uploading'} />
               </div>
               {
-                resourceCandidate.data && resourceCandidate.metadata.type !== 'glossary' ?
+                resourceCandidate.data 
+                && resourceCandidate.metadata.type !== 'glossary'
+                && resourceCandidate.metadata.type !== 'webpage' ?
                 (<div className="modal-column preview-container">
                   <h4>{translate('preview-title')}</h4>
                   <AssetPreview

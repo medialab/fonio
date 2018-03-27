@@ -137,7 +137,7 @@
   "Features.Editor.resource-type-video-help": "add a video stored on youtube or vimeo",
   "Features.Editor.resource-type-embed": "embed",
   "Features.Editor.resource-type-embed-help": "add to your library an html embed code snippet retrieved somewhere on the web",
-  "Features.Editor.resource-type-webpage": "webpage",
+  "Features.Editor.resource-type-webpage": "hyperlink",
   "Features.Editor.resource-type-webpage-help": "a reference to a specific webpage url",
   "Features.Editor.resource-type-glossary": "glossary entries",
   "Features.Editor.resource-type-glossary-help": "gossary entries allow to signal remarkable words in the text",
