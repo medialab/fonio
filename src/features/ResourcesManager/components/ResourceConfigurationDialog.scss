@@ -31,44 +31,44 @@
 
         margin-top: 0;
     }
-    input[type='text'],
-    textarea
-    {
-        font-family: $editable-font-stack;
-        font-size: $font-size-2;
+    // input[type='text'],
+    // textarea
+    // {
+    //     font-family: $editable-font-stack;
+    //     font-size: $font-size-2;
 
-        padding: $gutter-medium;
+    //     padding: $gutter-medium;
 
-        resize: none;
-        cursor: text;
+    //     resize: none;
+    //     cursor: text;
 
-        border: none;
-        outline: none;
+    //     border: none;
+    //     outline: none;
 
-        @extend .animated;
-        @extend .interactive-item;
-        &:hover
-        {
-            @extend .interactive-item-intent;
-        }
-        &:focus
-        {
-            @extend .interactive-item-active;
-        }
-    }
-    .input-group
-    {
-        display: flex;
-        flex-flow: column nowrap;
-        &:not(:last-of-type)
-        {
-            margin-bottom: $gutter-medium;
-        }
-        label
-        {
-            margin-bottom: $gutter-small;
-        }
-    }
+    //     @extend .animated;
+    //     @extend .interactive-item;
+    //     &:hover
+    //     {
+    //         @extend .interactive-item-intent;
+    //     }
+    //     &:focus
+    //     {
+    //         @extend .interactive-item-active;
+    //     }
+    // }
+    // .input-group
+    // {
+    //     display: flex;
+    //     flex-flow: column nowrap;
+    //     &:not(:last-of-type)
+    //     {
+    //         margin-bottom: $gutter-medium;
+    //     }
+    //     label
+    //     {
+    //         margin-bottom: $gutter-small;
+    //     }
+    // }
 
     .modal-footer
     {
@@ -105,6 +105,9 @@
                 position: relative;
 
                 max-width: 50%;
+                h4{
+                    margin-bottom: $gutter-medium;
+                }
             }
         }
     }

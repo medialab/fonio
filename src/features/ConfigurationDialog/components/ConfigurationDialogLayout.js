@@ -121,11 +121,6 @@ const ConfigurationDialogLayout = ({
           <form onSubmit={formApi.submitForm} id="login-form" className="fonio-form">
             <section className="modal-content">
               <section className="modal-row">
-                <h2>{translate('what-is-your-story-about')}
-                  <HelpPin>
-                    {translate('what-is-your-story-about-help')}
-                  </HelpPin>
-                </h2>
                 <div className="modal-columns-container">
                   <div className="modal-column">
                     <div className="input-group">

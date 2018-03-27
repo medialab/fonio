@@ -10,6 +10,9 @@ html
     font-size: 12px;
 
     min-height: 100%;
+
+    font-family: $main-font-stack;
+    font-size: $font-size-2;
 }
 
 /*
@@ -173,9 +176,20 @@ html
         position: relative;
 
         max-height: 1000rem;
-        padding: 0 $gutter-large $gutter-large $gutter-large;
+        padding:  $gutter-large;
+
+        margin: $gutter-large;
 
         @extend .animated;
+
+        background: $color-sec-bg;
+
+        &.no-bg{
+            background: transparent;
+            margin: 0;
+            // padding: $gutter-medium;
+        }
+
         &.empty
         {
             max-height: 0;
@@ -194,7 +208,9 @@ html
         }
         label
         {
-            margin-bottom: $gutter-small;
+            margin-bottom: $gutter-medium;
+            font-weight: bold;
+            font-size: $font-size-3;
         }
     }
     input[type='text'],

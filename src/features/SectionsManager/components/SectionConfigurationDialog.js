@@ -64,6 +64,8 @@ const SectionConfigurationDialog = ({
               placeholder={translate('title-of-the-section')}
               value={sectionCandidate.metadata.title} />
           </div>
+        </section>
+         <section className="modal-row">
           <div className="input-group">
             <label htmlFor="authors">{translate('authors-of-the-section')}</label>
             <AuthorsManager

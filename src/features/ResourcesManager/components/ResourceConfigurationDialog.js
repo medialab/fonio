@@ -108,24 +108,34 @@ const ResourceDataInput = ({
     case 'webpage':
       const onWebpageSubmit = (evt) => submitResourceData('webpageUrl', evt.target.value);
       return (
-        <input
-          onChange={onWebpageSubmit}
-          type="text"
-          name="webpage"
-          placeholder={translate('paste-webpage-url')}
-          style={{flex: 1, width: '100%'}}
-          value={resourceCandidate.data || ''} />
+        <div className="input-group">
+          <label>
+            {translate('webpage-url')}
+          </label>
+          <input
+            onChange={onWebpageSubmit}
+            type="text"
+            name="webpage"
+            placeholder={translate('paste-webpage-url')}
+            style={{flex: 1, width: '100%'}}
+            value={resourceCandidate.data || ''} />
+        </div>
       );
     case 'embed':
       const onEmbedSubmit = (evt) => submitResourceData('htmlCode', evt.target.value);
       return (
-        <Textarea
-          onChange={onEmbedSubmit}
-          type="text"
-          name="description"
-          placeholder={translate('paste-embed-code')}
-          style={{flex: 1, width: '100%'}}
-          value={resourceCandidate.data || ''} />
+         <div className="input-group">
+          <label>
+            {translate('embed-code')}
+          </label>
+          <Textarea
+            onChange={onEmbedSubmit}
+            type="text"
+            name="description"
+            placeholder={translate('paste-embed-code')}
+            style={{flex: 1, width: '100%'}}
+            value={resourceCandidate.data || ''} />
+          </div>
       );
     case 'glossary':
       const onNameChange = e => submitResourceData('glossaryName', e.target.value, resourceCandidate.data);
@@ -255,7 +265,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'webpage',
       icon: require('../../../sharedAssets/webpage-black.svg'),
-      label: (<span>{translate('resource-type-webpage')} <HelpPin position="right">
+      label: (<span>{translate('resource-type-webpage')}<br/> <HelpPin position="right">
         {translate('resource-type-webpage-help')}
       </HelpPin></span>),
       possible: true
@@ -263,7 +273,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'glossary',
       icon: require('../../../sharedAssets/glossary-black.svg'),
-      label: (<span>{translate('resource-type-glossary')} <HelpPin position="left">
+      label: (<span>{translate('resource-type-glossary')}<br/> <HelpPin position="left">
         {translate('resource-type-glossary-help')}
       </HelpPin></span>),
       possible: true
@@ -271,7 +281,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'bib',
       icon: require('../../../sharedAssets/bib-black.svg'),
-      label: (<span>{translate('resource-type-bib')} <HelpPin position="left">
+      label: (<span>{translate('resource-type-bib')}<br/> <HelpPin position="left">
         {translate('resource-type-bib-help')}
       </HelpPin></span>),
       possible: true
@@ -279,7 +289,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'table',
       icon: require('../../../sharedAssets/table-black.svg'),
-      label: (<span>{translate('resource-type-table')} <HelpPin>
+      label: (<span>{translate('resource-type-table')}<br/> <HelpPin>
         {translate('resource-type-table-help')}
       </HelpPin></span>),
       possible: true
@@ -287,7 +297,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'image',
       icon: require('../../../sharedAssets/image-black.svg'),
-      label: (<span>{translate('resource-type-image')} <HelpPin>
+      label: (<span>{translate('resource-type-image')}<br/> <HelpPin>
         {translate('resource-type-image-help')}
       </HelpPin></span>),
       possible: true
@@ -295,7 +305,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'video',
       icon: require('../../../sharedAssets/video-black.svg'),
-      label: (<span>{translate('resource-type-video')} <HelpPin>
+      label: (<span>{translate('resource-type-video')}<br/> <HelpPin>
         {translate('resource-type-video-help')}
       </HelpPin></span>),
       possible: true
@@ -303,7 +313,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'embed',
       icon: require('../../../sharedAssets/embed-black.svg'),
-      label: (<span>{translate('resource-type-embed')} <HelpPin position="left">
+      label: (<span>{translate('resource-type-embed')}<br/> <HelpPin position="left">
         {translate('resource-type-embed-help')}
       </HelpPin></span>),
       possible: true
@@ -346,7 +356,7 @@ const ResourceConfigurationDialog = ({
       </h1>
       <section className="modal-content">
         {resourceCandidateId === undefined ?
-          <section className="modal-row">
+          <section className="modal-row no-bg">
             <BigSelect
               options={resourcesTypes}
               activeOptionId={resourceCandidateType}
