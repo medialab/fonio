@@ -48,7 +48,7 @@ export function fileIsAnImage(file) {
  */
 export function videoUrlIsValid(url) {
   return new Promise((resolve, reject) => {
-    const validUrlParts = ['youtube', 'vimeo'];
+    const validUrlParts = ['youtu', 'vimeo'];
     const hasMatch = validUrlParts.some(exp => url.match(exp) !== null);
     if (hasMatch) {
       resolve(url);
