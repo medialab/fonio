@@ -153,7 +153,9 @@ class AssetPreview extends Component {
           ofText={translate('table-of')}
           rowsText={translate('table-row')} />);
       case 'image':
-        return <img key={metadata.lastModifiedAt} src={data.base64 || data.url} />;
+        return <div className="image-container">
+          <img key={metadata.lastModifiedAt} src={data.base64 || data.url} />
+        </div>;
       case 'video':
         return (
           <Media>
@@ -210,12 +212,41 @@ class AssetPreview extends Component {
           {data && this.renderPreview()}
         </div>
         {showPannel && <div onClick={this.onClickEdit} className="asset-metadata">
-          {metadata.title && <h5>{metadata.title}</h5>}
-          {metadata.description && <p>{metadata.description}</p>}
-          <div>
-            <button onClick={this.onClickEdit}>{translate('edit-resource')}</button>
-            <button onClick={this.onClickDelete}>{translate('delete-contextualization')}</button>
+          <div className="column">
+            <h5>
+              <img className="type-icon" src={require(`../../sharedAssets/${metadata.type}-black.svg`)} />
+              <span>
+                {metadata.title || translate('Unnamed resource')}
+              </span>
+              {/*<button onClick={this.onClickEdit}>{translate('edit-resource')}</button>*/}
+              {/*<button onClick={this.onClickDelete}>{translate('delete-contextualization')}</button>*/}
+            </h5>
+            <div className="line-buttons-container displaced">
+                {/*<button onClick={this.onClickEdit}>
+                  <img className="fonio-icon-image" src={require(`../../sharedAssets/edit-black.svg`)} />
+                </button>*/}
+                <button onClick={this.onClickDelete}>
+                  <img className="fonio-icon-image" src={require(`../../sharedAssets/remove-black.svg`)} />
+                  {translate('delete-contextualization')}
+                </button>
+            </div>
+
+            {metadata.description && 
+              <div className="displaced">
+                <h6>{translate('description')}</h6>
+                <p>{metadata.description}</p>
+              </div>
+            }
+              
           </div>
+          {metadata.source && 
+            <div className="column"> 
+              <div>
+                <h6>{translate('source')}</h6>
+                <p>{metadata.source}</p>
+              </div>
+            </div>
+          }
         </div>}
       </div>);
   }
