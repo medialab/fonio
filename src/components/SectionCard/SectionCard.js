@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import {findDOMNode} from 'react-dom';
-
+import ReactTooltip from 'react-tooltip';
 
 import {DragSource, DropTarget} from 'react-dnd';
 
@@ -228,17 +228,23 @@ class SectionCard extends Component {
           </h5>
         </div>
         {!promptedToDelete ? <div className="card-footer">
-          <button className="interactive-btn drag-btn">
+          <ReactTooltip place="bottom" id="section-card-tooltip" />
+          <button className="drag-btn" data-tip="drag to change section order" data-for="section-card-tooltip">
             <img src={active ? require('../../sharedAssets/move-white.svg') : require('../../sharedAssets/move-black.svg')} className="fonio-icon-image" />
-            <span className="label">drag</span>
           </button>
-          <button className="interactive-btn level-down-btn" onClick={onLevelDown}>
+          <button
+            className="level-down-btn"
+            onClick={onLevelDown}
+            data-tip="indent left"
+            data-for="section-card-tooltip">
             ◄
-            <span className="label">indent</span>
           </button>
           {metadata.level < selectedSectionLevel &&
-            <button className="interactive-btn level-up-btn" onClick={onLevelUp}>
-              <span className="label">indent</span>
+            <button
+              className="level-up-btn"
+              onClick={onLevelUp}
+              data-tip="indent right"
+              data-for="section-card-tooltip">
               ►
             </button>
           }
@@ -250,13 +256,19 @@ class SectionCard extends Component {
                 style={{transform: 'rotate(45deg)'}} />
               {translate('sub-section')}
             </button>*/}
-          <button className="interactive-btn settings-btn" onClick={onConfigureClick}>
+          <button
+            className="settings-btn"
+            onClick={onConfigureClick}
+            data-tip={translate('settings')}
+            data-for="section-card-tooltip">
             <img src={active ? require('../../sharedAssets/settings-white.svg') : require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
-            <span className="label">{translate('settings')}</span>
           </button>
-          <button className={'interactive-btn delete-btn'} onClick={onDeletePromptRequest}>
+          <button
+            className={'delete-btn'}
+            onClick={onDeletePromptRequest}
+            data-tip={translate('delete')}
+            data-for="section-card-tooltip">
             <img src={active ? require('../../sharedAssets/remove-white.svg') : require('../../sharedAssets/remove-black.svg')} className="fonio-icon-image" />
-            <span className="label">{translate('delete')}</span>
           </button>
         </div> :
         <div className="card-footer">
