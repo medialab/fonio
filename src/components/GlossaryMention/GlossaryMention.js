@@ -6,6 +6,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import Input from 'react-input-autosize';
+
+
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './GlossaryMention.scss';
@@ -104,20 +107,23 @@ class GlossaryMention extends Component {
     return (
       <span
         className="fonio-GlossaryMention">
-        <input
-          placeholder={translate('alias-placeholder')}
-          value={this.state.alias && this.state.alias.length ? this.state.alias : resource.data.name}
-          onChange={onAliasChange}
-          onClick={onInputClick}
-          onFocus={onAssetFocus}
-          onBlur={onAliasBlur} />
+        <span className="items-container">
+          <Input
+            placeholder={translate('alias-placeholder')}
+            value={this.state.alias && this.state.alias.length ? this.state.alias : resource.data.name}
+            onChange={onAliasChange}
+            onClick={onInputClick}
+            onFocus={onAssetFocus}
+            onBlur={onAliasBlur} />
 
-        <button
-          className="more-options-btn"
-          onClick={onEditRequest}>
-          ✎
-        </button>
-        {children}
+          <button
+            className="more-options-btn"
+            onClick={onEditRequest}>
+            <img src={require('../../sharedAssets/glossary-black.svg')} />
+            <img src={require('../../sharedAssets/edit-black.svg')} />
+          </button>
+          {children}
+        </span>
       </span>
     );
   }

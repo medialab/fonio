@@ -105,8 +105,19 @@ const ResourceDataInput = ({
       );
     case 'webpage':
       const onWebpageSubmit = (evt) => submitResourceData('webpageUrl', evt.target.value);
+      const onWebpageTitleSubmit = (evt) => setResourceCandidateMetadataValue('title', evt.target.value);
       return (
         <div className="input-group">
+          <label>
+            {translate('webpage-name')}
+          </label>
+          <input
+            onChange={onWebpageTitleSubmit}
+            type="text"
+            name="webpage"
+            placeholder={translate('webpage-name')}
+            style={{flex: 1, width: '100%'}}
+            value={resourceCandidate.metadata.title || ''} />
           <label>
             {translate('webpage-url')}
           </label>

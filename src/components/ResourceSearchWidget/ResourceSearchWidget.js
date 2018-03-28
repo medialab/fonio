@@ -172,7 +172,11 @@ class ResourceSearchWidget extends Component {
             onClick={this.onInputClick}
             placeholder={translate('search-a-resource')} />
         </form>
-        <ul className="choice-options-container">
+        {
+          options.filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
+          .length > 0 ?
+
+          <ul className="choice-options-container">
           {
             options
             .filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
@@ -199,7 +203,8 @@ class ResourceSearchWidget extends Component {
               );
             })
           }
-        </ul>
+        </ul> : null
+      }
         <li className="choice-option new-option" onClick={onAddNewClick}>+ {translate('new-resource')}</li>
       </div>
     );
