@@ -83,14 +83,6 @@ class AuthorsManager extends Component {
               onChange(newAuthors);
               this.focusOnLastAuthor();
             };
-            const onKeyUp = e => {
-              if (e.keyCode === 8 && author.length === 0) {
-                onRemoveAuthor();
-              }
-              else if (e.keyCode === 13) {
-                onAddAuthor(e);
-              }
-            };
             const bindRef = input => {
               this.inputs[index] = input;
             };
@@ -105,8 +97,7 @@ class AuthorsManager extends Component {
                   type="text"
                   placeholder={translate('new-author')}
                   value={author}
-                  onChange={onAuthorChange}
-                  onKeyUp={onKeyUp} />
+                  onChange={onAuthorChange} />
               </li>);
           })
         }
