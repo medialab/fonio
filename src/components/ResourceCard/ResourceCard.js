@@ -7,6 +7,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragSource, DropTarget} from 'react-dnd';
 import {findDOMNode} from 'react-dom';
+import ReactTooltip from 'react-tooltip';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
@@ -252,23 +253,28 @@ class ResourceCard extends Component {
         }
         {!promptedToDelete ?
           <div className="card-footer">
-            <button className="interactive-btn drag-btn">
+            <ReactTooltip place="bottom" id="resource-card-tooltip" />
+            <button className="drag-btn" data-tip="drag to add resource in editor" data-for="resource-card-tooltip">
               <img src={require('../../sharedAssets/move-black.svg')} className="fonio-icon-image" />
-              <span className="label">drag</span>
             </button>
-            <button className="interactive-btn settings-btn" onClick={onConfigureClick}>
+            <button
+              className="settings-btn"
+              onClick={onConfigureClick} data-tip={translate('settings')}
+              data-for="resource-card-tooltip">
               <img src={require('../../sharedAssets/settings-black.svg')} className="fonio-icon-image" />
-              <span className="label">{translate('settings')}</span>
             </button>
-            <button className={'interactive-btn delete-btn'} onClick={onDeletePromptRequest}>
+            <button
+              className={'delete-btn'}
+              onClick={onDeletePromptRequest} data-tip={translate('delete')}
+              data-for="resource-card-tooltip">
               <img src={require('../../sharedAssets/remove-black.svg')} className="fonio-icon-image" />
-              <span className="label">{translate('delete')}</span>
             </button>
             {
               metadata.type === 'image' &&
-              <button className="interactive-btn coverimage-btn" onClick={onSetCoverClick}>
+              <button
+                className="coverimage-btn" onClick={onSetCoverClick} data-tip={translate('set-as-cover-image')}
+                data-for="resource-card-tooltip">
                 <img src={require('../../sharedAssets/cover-black.svg')} className="fonio-icon-image" />
-                <span className="label">{translate('set-as-cover-image')}</span>
               </button>
             }
           </div> :
