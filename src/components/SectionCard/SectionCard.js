@@ -229,13 +229,13 @@ class SectionCard extends Component {
         </div>
         {!promptedToDelete ? <div className="card-footer">
           <ReactTooltip place="bottom" id="section-card-tooltip" />
-          <button className="drag-btn" data-tip="drag to change section order" data-for="section-card-tooltip">
+          <button className="drag-btn" data-tip={translate('drag-to-change-section-order')} data-for="section-card-tooltip">
             <img src={active ? require('../../sharedAssets/move-white.svg') : require('../../sharedAssets/move-black.svg')} className="fonio-icon-image" />
           </button>
           <button
             className="level-down-btn"
             onClick={onLevelDown}
-            data-tip="indent left"
+            data-tip={translate('indent-left')}
             data-for="section-card-tooltip">
             ◄
           </button>
@@ -243,7 +243,7 @@ class SectionCard extends Component {
             <button
               className="level-up-btn"
               onClick={onLevelUp}
-              data-tip="indent right"
+              data-tip={translate('indent-right')}
               data-for="section-card-tooltip">
               ►
             </button>

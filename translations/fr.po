@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-3-28\n"
-"PO-Revision-Date: Wed Mar 28 2018 11:56:49 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Mar 28 2018 12:30:12 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -805,3 +805,18 @@ msgstr "home page"
 
 msgid "Features.Editor.webpage-name"
 msgstr "webpage-name"
+
+msgid "Components.ResourceCard."
+msgstr "\"drag-to-add-resource-in-editor\""
+
+msgid "Components.ResourceCard.drag-to-add-resource-in-editor"
+msgstr "drag-to-add-resource-in-editor"
+
+msgid "Components.SectionCard.indent-left"
+msgstr "indent-left"
+
+msgid "Components.SectionCard.indent-right"
+msgstr "indent-right"
+
+msgid "Components.SectionCard.drag-to-change-section-order"
+msgstr "drag-to-change-section-order"
