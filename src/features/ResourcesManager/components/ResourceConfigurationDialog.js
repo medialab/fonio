@@ -255,9 +255,11 @@ const ResourceConfigurationDialog = ({
   resourceUploadingState,
   setResourceCandidateMetadataValue,
   submitResourceData,
+  embedLastResource,
   onClose,
   createResource,
-  updateResource
+  updateResource,
+  contextualizeAfterResourceCreation,
 }, context) => {
   // namespacing the translate function with the feature name
   const translate = translateNameSpacer(context.t, 'Features.Editor');
@@ -351,6 +353,12 @@ const ResourceConfigurationDialog = ({
       }
       else {
         createResource(resourceCandidate);
+      }
+
+      if (contextualizeAfterResourceCreation) {
+        setTimeout(() => {
+          embedLastResource();
+        });
       }
     }
   };
@@ -468,19 +476,20 @@ const ResourceConfigurationDialog = ({
 
 
       </section>
-      <section className="modal-footer">
-        {
+      {
           resourceCandidate &&
           resourceCandidate.metadata &&
           resourceCandidate.metadata.type &&
           resourceCandidate.data
           ?
+          <section className="modal-footer">
+        
             <button
               className="valid-btn"
               onClick={onApplyChange}>{resourceCandidateId ? translate('update-resource') : translate('create-resource')}</button>
-          : ''
-        }
       </section>
+      : null
+        }
     </div>
   );
 };

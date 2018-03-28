@@ -65,6 +65,7 @@
   "Components.Footer.add-note": "ajouter une note de bas de page (raccourci clavier : cmd + q ou ctrl + q)",
   "Components.Footer.summon-asset": "ajouter une ressource tirée de votre bibliothèque (raccourci clavier : @)",
   "Components.Footer.cancel": "annuler",
+  "Component.LinkButton.add-link": "ajouter un hyperlien",
   "Components.StoryCard.untitled_story": "Récit sans titre",
   "Components.StoryCard.no_description": "pas de résumé",
   "Components.StoryCard.edit": "éditer",

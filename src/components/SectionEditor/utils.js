@@ -217,7 +217,7 @@ export const computeAssetChoiceProps = props => {
   } = props;
   return {
     options: Object.keys(resources).map(key => resources[key]),
-    addNewResource: () => startNewResourceConfiguration(),
+    addNewResource: () => startNewResourceConfiguration(true),
     addPlainText: (text, contentId) => {
       addTextAtCurrentSelection(text, contentId, props);
       cancelAssetRequest();

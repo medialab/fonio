@@ -101,6 +101,21 @@ class ResourcesManagerContainer extends Component {
     unpromptAssetEmbed();
   }
 
+  embedLastResource = () => {
+    const resources = this.props.activeStory.resources;
+    const resourcesMap = Object.keys(resources).map(id => resources[id]);
+    const lastResource = resourcesMap.sort((a, b) => {
+      if (a.metadata.createdAt > b.metadata.createdAt) {
+        return -1;
+      } else {
+        return 1;
+      }
+    })[0];
+    if (lastResource) {
+      this.embedAsset(lastResource.id);
+    }
+  }
+
   setCoverImage = (resourceId) => {
     const {
       activeStoryId,
@@ -230,6 +245,7 @@ class ResourcesManagerContainer extends Component {
         updateResource={this.updateResource}
         deleteResource={this.deleteResource}
         embedAsset={this.embedAsset}
+        embedLastResource={this.embedLastResource}
         setCoverImage={this.setCoverImage} />
     );
   }
