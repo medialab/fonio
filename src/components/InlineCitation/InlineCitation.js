@@ -158,18 +158,21 @@ class InlineCitation extends Component {
     return (
       <span
         className="fonio-InlineCitation">
+        <span className="items-container">
         <span onClick={onMoreOptionsClick}>
           {representation && representation.Component}
         </span>
+
         <button
-          className="more-options-btn"
-          onClick={onMoreOptionsClick}>
-          +
+            className="more-options-btn"
+            onClick={onEditRequest}>
+          <img src={require('../../sharedAssets/bib-black.svg')} />
+          <img src={require('../../sharedAssets/edit-black.svg')} />
         </button>
         <button
           className="more-options-btn"
-          onClick={onEditRequest}>
-          ✎
+          onClick={onMoreOptionsClick}>
+          <img style={{transform: 'rotate(45deg)'}} src={require('../../sharedAssets/close-black.svg')} />
         </button>
         {this.state.optionsVisible &&
         <span className="more-options-container">
@@ -200,7 +203,7 @@ class InlineCitation extends Component {
             onBlur={onSuffixBlur} />
         </span>}
         {children}
-
+        </span>
       </span>
     );
   }
