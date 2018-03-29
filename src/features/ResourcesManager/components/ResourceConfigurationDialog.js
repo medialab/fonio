@@ -162,7 +162,7 @@ const ResourceDataInput = ({
               value={resourceCandidate.data && resourceCandidate.data.name || ''} />
           </div>
           <div className="input-group">
-            <label htmlFor="description">{translate('description-of-the-resource')}</label>
+            <label htmlFor="description">{translate('description-of-the-glossary-entry')}</label>
             <Textarea
               onChange={setResourceDescription}
               type="text"
@@ -376,10 +376,55 @@ const ResourceConfigurationDialog = ({
   const setResourceTitle = (e) => setResourceCandidateMetadataValue('title', e.target.value);
   const setResourceDescription = (e) => setResourceCandidateMetadataValue('description', e.target.value);
   const setResourceSource = (e) => setResourceCandidateMetadataValue('source', e.target.value);
+
+  const generateHeaderTitle = type => {
+    switch (type) {
+      case 'webpage':
+        return translate('edit-webpage');
+      case 'glossary':
+        return translate('edit-glossary');
+      case 'bib':
+        return translate('edit-bib');
+      case 'video':
+        return translate('edit-video');
+      case 'table':
+        return translate('edit-table');
+      case 'image':
+        return translate('edit-image');
+      case 'embed':
+        return translate('edit-embed');
+      case 'data-presentation':
+        return translate('edit-data-presentation');
+      default:
+        return translate('edit-resource');
+    }
+  }
+  const generateFooterTitle = type => {
+    switch (type) {
+      case 'webpage':
+        return translate('update-webpage');
+      case 'glossary':
+        return translate('update-glossary');
+      case 'bib':
+        return translate('update-bib');
+      case 'video':
+        return translate('update-video');
+      case 'table':
+        return translate('update-table');
+      case 'image':
+        return translate('update-image');
+      case 'embed':
+        return translate('update-embed');
+      case 'data-presentation':
+        return translate('update-data-presentation');
+      default:
+        return translate('update-resource');
+    }
+  }
   return (
     <div className="fonio-resource-configuration-dialog">
       <h1 className="modal-header">
-        <span className="modal-header-title">{resourceCandidateId ? translate('edit-resource') : translate('create-resource')}</span>
+        <span className="modal-header-title">{resourceCandidateId ? generateHeaderTitle(resourceCandidateType) : translate('create-resource')}</span>
         <button className="close-btn" onClick={onClose}>
           <img src={require('../../../sharedAssets/cancel-white.svg')} />
         </button>
@@ -509,7 +554,7 @@ const ResourceConfigurationDialog = ({
 
               <button
                 className="valid-btn"
-                onClick={onApplyChange}>{resourceCandidateId ? translate('update-resource') : translate('create-resource')}</button>
+                onClick={onApplyChange}>{resourceCandidateId ? generateFooterTitle(resourceCandidateType) : translate('create-resource')}</button>
             </section>
       : null
         }
