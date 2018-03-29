@@ -72,7 +72,7 @@ const ConfigurationDialogLayout = ({
     return {
       title: !values.title ? translate('story-title-is-required') : null,
       password: (!activeStoryId && (!values.password || values.password.length < 6)) ? translate('password-should-be-at-least-6-characters') : null,
-      authors: values.authors.length < 1 || (values.authors.length === 1 && values.authors[0].length === 0) ? translate('enter-an-author-name') : null
+      authors: values.authors.length < 1 || (values.authors.length === 1 && values.authors[0].trim().length === 0) ? translate('enter-an-author-name') : null
     };
   };
 
@@ -82,7 +82,12 @@ const ConfigurationDialogLayout = ({
   const onApplyChange = (values) => {
     const newValues = {...values};
     delete newValues.password;
-    const authors = newValues.authors.filter(d => d.length > 0);
+
+    // parse authors
+    const authors = newValues.authors
+                    .reduce((result, item) => result.concat(item.split(',')), [])
+                    .map(d => d.trim())
+                    .filter(d => d.length > 0);
 
     const newStoryCandidate = {
       ...storyCandidate,

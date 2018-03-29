@@ -34,6 +34,7 @@ const ResourceDataInput = ({
 }, context) => {
   // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.Editor');
+  const setResourceDescription = (e) => setResourceCandidateMetadataValue('description', e.target.value);
   switch (type) {
     case 'table':
       const onCsvSubmit = (files) => submitResourceData('csvFile', files[0]);
@@ -159,6 +160,15 @@ const ResourceDataInput = ({
               name="url"
               placeholder={translate('name-of-the-glossary-entry')}
               value={resourceCandidate.data && resourceCandidate.data.name || ''} />
+          </div>
+          <div className="input-group">
+            <label htmlFor="description">{translate('description-of-the-resource')}</label>
+            <Textarea
+              onChange={setResourceDescription}
+              type="text"
+              name="description"
+              placeholder={translate('description-of-the-resource')}
+              value={resourceCandidate.metadata.description} />
           </div>
           {/*<div className="input-group">
             <OptionSelect
@@ -396,8 +406,21 @@ const ResourceConfigurationDialog = ({
                   resourceCandidate={resourceCandidate}
                   setResourceCandidateMetadataValue={setResourceCandidateMetadataValue}
                   submitResourceData={submitResourceData} />
-                <LoadingStateToaster loadingState={resourceDataLoadingState} type={'loading'} />
-                <LoadingStateToaster loadingState={resourceUploadingState} type={'uploading'} />
+                {
+                  resourceCandidateType !== 'glossary' &&
+                  resourceCandidateType !== 'webpage' &&
+                  resourceCandidateType !== 'embed' &&
+                  <LoadingStateToaster loadingState={resourceDataLoadingState} type={'loading'} />
+                }
+                {
+                  resourceCandidateType !== 'glossary' &&
+                  resourceCandidateType !== 'webpage' &&
+                  resourceCandidateType !== 'embed' &&
+                  resourceCandidateType !== 'bib' &&
+                  resourceCandidateType !== 'video' &&
+                  <LoadingStateToaster loadingState={resourceUploadingState} type={'uploading'} />
+                }
+
               </div>
               {
                 resourceCandidate.data
