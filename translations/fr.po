@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-3-28\n"
-"PO-Revision-Date: Wed Mar 28 2018 18:15:36 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-3-29\n"
+"PO-Revision-Date: Thu Mar 29 2018 21:55:09 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -823,3 +823,54 @@ msgstr "drag-to-change-section-order"
 
 msgid "Component.LinkButton.add-link"
 msgstr "add-link"
+
+msgid "Features.Editor.edit-glossary"
+msgstr "edit-glossary"
+
+msgid "Features.Editor.edit-bib"
+msgstr "edit-bib"
+
+msgid "Features.Editor.edit-video"
+msgstr "edit-video"
+
+msgid "Features.Editor.edit-table"
+msgstr "edit-table"
+
+msgid "Features.Editor.edit-image"
+msgstr "edit-image"
+
+msgid "Features.Editor.edit-embed"
+msgstr "edit-embed"
+
+msgid "Features.Editor.edit-data-presentation"
+msgstr "edit-data-presentation"
+
+msgid "Features.Editor.update-glossary"
+msgstr "update-glossary"
+
+msgid "Features.Editor.update-bib"
+msgstr "update-bib"
+
+msgid "Features.Editor.update-video"
+msgstr "update-video"
+
+msgid "Features.Editor.update-table"
+msgstr "update-table"
+
+msgid "Features.Editor.update-image"
+msgstr "update-image"
+
+msgid "Features.Editor.update-embed"
+msgstr "update-embed"
+
+msgid "Features.Editor.update-data-presentation"
+msgstr "update-data-presentation"
+
+msgid "Features.Editor.description-of-the-glossary-entry"
+msgstr "description-of-the-glossary-entry"
+
+msgid "Features.Editor.edit-webpage"
+msgstr "edit-webpage"
+
+msgid "Features.Editor.update-webpage"
+msgstr "update-webpage"
