@@ -34,6 +34,7 @@ const ResourceDataInput = ({
 }, context) => {
   // namespacing the translation keys with feature id
   const translate = translateNameSpacer(context.t, 'Features.Editor');
+  const setResourceDescription = (e) => setResourceCandidateMetadataValue('description', e.target.value);
   switch (type) {
     case 'table':
       const onCsvSubmit = (files) => submitResourceData('csvFile', files[0]);
@@ -160,6 +161,15 @@ const ResourceDataInput = ({
               placeholder={translate('name-of-the-glossary-entry')}
               value={resourceCandidate.data && resourceCandidate.data.name || ''} />
           </div>
+          <div className="input-group">
+            <label htmlFor="description">{translate('description-of-the-resource')}</label>
+            <Textarea
+              onChange={setResourceDescription}
+              type="text"
+              name="description"
+              placeholder={translate('description-of-the-resource')}
+              value={resourceCandidate.metadata.description} />
+          </div>
           {/*<div className="input-group">
             <OptionSelect
               activeOptionId={resourceCandidate && resourceCandidate.data && resourceCandidate.data.glossaryType}
@@ -213,7 +223,6 @@ const LoadingStateToaster = ({
   type
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.Editor');
-  console.log(loadingState)
   let log;
   switch (loadingState) {
     case 'processing':
