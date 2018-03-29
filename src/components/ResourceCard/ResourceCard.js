@@ -9,6 +9,10 @@ import {DragSource, DropTarget} from 'react-dnd';
 import {findDOMNode} from 'react-dom';
 import ReactTooltip from 'react-tooltip';
 
+import {Bibliography} from 'react-citeproc';
+import english from 'raw-loader!../../sharedAssets/bibAssets/english-locale.xml';
+import apa from 'raw-loader!../../sharedAssets/bibAssets/apa.csl';
+
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './ResourceCard.scss';
@@ -210,6 +214,7 @@ class ResourceCard extends Component {
      };
 
     let resourceName;
+    let bibData = {};
     // todo: clean the following hack
     // for now we use the data instead of metadata
     // for citations and glossary mentions because it is more
@@ -217,7 +222,9 @@ class ResourceCard extends Component {
     // These types of resources should be given a proper title in their
     // metadata field in other parts of the code (resource creation/update)
     if (metadata.type === 'bib') {
-      resourceName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
+      bibData = {
+        [data[0].id]: data[0]
+      };
     }
     else if (metadata.type === 'glossary') {
       resourceName = data.name && data.name.length ? data.name : translate('untitled-asset');
@@ -236,7 +243,9 @@ class ResourceCard extends Component {
           className="card-header">
           <img src={require('../../sharedAssets/' + metadata.type + '-black.svg')} />
           <h5>
-            <span className="title">{resourceName}</span>
+            {
+              metadata.type === 'bib' ? <Bibliography items={bibData} style={apa} locale={english} /> : <span className="title">{resourceName}</span>
+            }
           </h5>
         </div>
         {

@@ -51,6 +51,19 @@
             margin: 0;
             padding-top: $gutter-small;
         }
+        .Bibliography
+        {
+            .csl-entry
+            {
+                word-break: break-all;
+                max-height: 5rem;
+                overflow: hidden;
+            }
+            a
+            {
+                pointer-events: none;
+            }
+        }
     }
     .card-body
     {
