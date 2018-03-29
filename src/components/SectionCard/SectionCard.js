@@ -232,13 +232,13 @@ class SectionCard extends Component {
           <button className="drag-btn" data-tip={translate('drag-to-change-section-order')} data-for="section-card-tooltip">
             <img src={active ? require('../../sharedAssets/move-white.svg') : require('../../sharedAssets/move-black.svg')} className="fonio-icon-image" />
           </button>
-          <button
+          {metadata.level > 0 && <button
             className="level-down-btn"
             onClick={onLevelDown}
             data-tip={translate('indent-left')}
             data-for="section-card-tooltip">
             ◄
-          </button>
+          </button>}
           {metadata.level < selectedSectionLevel &&
             <button
               className="level-up-btn"
