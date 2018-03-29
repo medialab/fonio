@@ -126,6 +126,14 @@ class ResourceCard extends Component {
    */
   constructor(props) {
     super(props);
+    this.state = {
+      moved: undefined
+    }
+  }
+
+  componentDidMount() {
+    const { connectDragPreview } = this.props;
+    connectDragPreview(<div>coucou</div>);
   }
 
 
@@ -209,8 +217,17 @@ class ResourceCard extends Component {
       if (selectMode) {
         return e.preventDefault();
       }
+       this.setState({
+        moved: true
+       });
        e.dataTransfer.dropEffect = 'move';
        e.dataTransfer.setData('text', 'DRAFTJS_RESOURCE_ID:' + metadata.id);
+     };
+
+     const endDrag = (e) => {
+      this.setState({
+        moved: false
+      })
      };
 
     let resourceName;
@@ -236,8 +253,9 @@ class ResourceCard extends Component {
       <li
         draggable
         onDragStart={startDrag}
+        onDragEnd={endDrag}
         onMouseDown={onMDown}
-        className={`fonio-ResourceCard ${metadata.type} ${(selectMode ? ' select-mode' : '')}`}
+        className={`fonio-ResourceCard ${this.state.moved ? 'moved': ''} ${metadata.type} ${(selectMode ? ' select-mode' : '')}`}
         onClick={onGlobalClick}>
         <div
           className="card-header">
@@ -263,7 +281,7 @@ class ResourceCard extends Component {
         {!promptedToDelete ?
           <div className="card-footer">
             <ReactTooltip place="bottom" id="resource-card-tooltip" />
-            <button className="drag-btn" data-tip="drag to add resource in editor" data-for="resource-card-tooltip">
+            <button className="drag-btn" data-tip={translate('drag-to-add-resource-in-editor')} data-for="resource-card-tooltip">
               <img src={require('../../sharedAssets/move-black.svg')} className="fonio-icon-image" />
             </button>
             <button

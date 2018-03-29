@@ -29,6 +29,10 @@
     {
         @extend .primary-item-intent;
     }
+    transition: all .5s ease;
+    &.moved{
+        @extend .important-item-active;
+    }
     /*
      * secondary layout components
      */

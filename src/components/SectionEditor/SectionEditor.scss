@@ -179,7 +179,7 @@
             }
             .scholar-draft-BlockAssetContainer
             {
-                min-height: 10rem;// todo: parametrize that
+                min-height: 15rem;// todo: parametrize that
                 background: $color-warm-grey;
                 padding: $gutter-medium;
             }
@@ -197,5 +197,22 @@
     .contextualization-loading-placeholder{
         @extend .important-item;
         padding: $gutter-small;
+    }
+
+    .fonio-LinkButton{
+        padding: 0;
+        font-size: 1em;
+        .button-content{
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            justify-content: center;
+            padding-left: $gutter-small;
+            padding-right: $gutter-small;
+            img{
+                width: 1em;
+            }
+        }
+            
     }
 }

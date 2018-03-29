@@ -64,6 +64,29 @@ import LinkContextualization from '../LinkContextualization/LinkContextualizatio
 import Bibliography from './Bibliography';
 
 
+import BlockQuoteButton from './buttons/BlockQuoteButton';
+import BoldButton from './buttons/BoldButton';
+import CodeBlockButton from './buttons/CodeBlockButton';
+import HeaderOneButton from './buttons/HeaderOneButton';
+import HeaderTwoButton from './buttons/HeaderTwoButton';
+import ItalicButton from './buttons/ItalicButton';
+import OrderedListItemButton from './buttons/OrderedListItemButton';
+import UnorderedListItemButton from './buttons/UnorderedListItemButton';
+import LinkButton from './buttons/LinkButton';
+
+const inlineButtons = [
+  <BoldButton />,
+  <ItalicButton />,
+  <BlockQuoteButton />,
+  <HeaderOneButton />,
+  <HeaderTwoButton />,
+  <OrderedListItemButton />,
+  <UnorderedListItemButton />,
+  <LinkButton />,
+  /*<CodeBlockButton />,*/
+];
+
+
 /**
  * We have to provide scholar-draft the components
  * we want to use to display the assets in the editor.
@@ -142,6 +165,7 @@ class SectionEditor extends Component {
    */
   getChildContext = () => ({
     startExistingResourceConfiguration: this.props.startExistingResourceConfiguration,
+    startNewResourceConfiguration: this.props.startNewResourceConfiguration,
     deleteContextualization: this.props.deleteContextualization,
   })
 
@@ -774,6 +798,7 @@ class SectionEditor extends Component {
               onDragOver={onDragOver}
               onClick={onClick}
               onBlur={onBlur}
+              inlineButtons={inlineButtons}
 
               onAssetRequest={onAssetRequest}
               onAssetChange={onDataChange}
@@ -872,6 +897,7 @@ SectionEditor.propTypes = {
 
 SectionEditor.childContextTypes = {
   startExistingResourceConfiguration: PropTypes.func,
+  startNewResourceConfiguration: PropTypes.func,
   deleteContextualization: PropTypes.func
 };
 

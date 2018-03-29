@@ -39,6 +39,7 @@ const ResourcesManagerLayout = ({
   deleteResource,
   setCoverImage,
   resourcePromptedToDelete,
+  contextualizeAfterResourceCreation,
   actions: {
     setResourceCandidateMetadataValue,
     setResourceCandidateType,
@@ -55,6 +56,7 @@ const ResourcesManagerLayout = ({
   },
   // custom functions
   embedAsset,
+  embedLastResource,
   // custom props
   style,
 }, context) => {
@@ -128,7 +130,7 @@ const ResourcesManagerLayout = ({
         )
 
       }
-      <li id="new-resource" onClick={startNewResourceConfiguration}>
+      <li id="new-resource" onClick={() => startNewResourceConfiguration(resourcesPrompted === true)}>
         + {translate('new-resource')}
       </li>
       <ul className="body">
@@ -202,6 +204,8 @@ const ResourcesManagerLayout = ({
           resourceCandidate={resourceCandidate}
           resourceCandidateId={resourceCandidateId}
           resourceCandidateType={resourceCandidateType}
+          contextualizeAfterResourceCreation={contextualizeAfterResourceCreation}
+          embedLastResource={embedLastResource}
           onClose={onModalClose}
           setResourceCandidateType={setResourceCandidateType}
           setResourceCandidateMetadataValue={setResourceCandidateMetadataValue}

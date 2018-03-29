@@ -6,6 +6,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import Input from 'react-input-autosize';
+
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './LinkContextualization.scss';
@@ -114,25 +116,26 @@ class LinkContextualization extends Component {
     return (
       <span
         className="fonio-LinkContextualization">
-        <input
-          placeholder={translate('alias-placeholder')}
-          value={this.state.alias && this.state.alias.length ? this.state.alias : resource.metadata.title || ''}
-          onChange={onAliasChange}
-          onClick={onInputClick}
-          onFocus={onAssetFocus}
-          onBlur={onAliasBlur} />
-        <a
-          href={data} target="_blank" alt="href"
-          rel="noopener" onClick={onLinkClick}>
-          🔗
-        </a>
-        <button
-          className="more-options-btn"
-          onClick={onEditRequest}>
-          ✎
-        </button>
-        {children}
-
+        <span className="items-container">
+          <Input
+            placeholder={translate('alias-placeholder')}
+            value={this.state.alias && this.state.alias.length ? this.state.alias : resource.metadata.title || ''}
+            onChange={onAliasChange}
+            onClick={onInputClick}
+            onFocus={onAssetFocus}
+            onBlur={onAliasBlur} />
+          <a
+            href={data} target="_blank" alt="href"
+            rel="noopener" onClick={onLinkClick}>
+            <img src={require('../../sharedAssets/webpage-black.svg')} />
+          </a>
+          <button
+            className="more-options-btn"
+            onClick={onEditRequest}>
+            <img src={require('../../sharedAssets/edit-black.svg')} />
+          </button>
+          {children}
+        </span>
       </span>
     );
   }

@@ -216,6 +216,7 @@ export const submitResourceData = (type, data, existingData) => ({
         case 'htmlCode':
           return resolve(data);
         // case bib text file --> load file and convert it to csl-json
+        
         case 'bibTeXFile':
           return getFileAsText(data, (err, str) => {
             const csl = parseBibTeXToCSLJSON(str);
@@ -252,8 +253,10 @@ export const setResourcesModalState = (state) => ({
  * Starts a new resource candidate configuration
  * @return {object} action - the redux action to dispatch
  */
-export const startNewResourceConfiguration = () => ({
-  type: START_NEW_RESOURCE_CONFIGURATION
+export const startNewResourceConfiguration = (contextualizeAfterCreation = false, resourceType) => ({
+  type: START_NEW_RESOURCE_CONFIGURATION,
+  contextualizeAfterCreation,
+  resourceType,
 });
 
 /**
@@ -451,6 +454,10 @@ const RESOURCES_UI_DEFAULT_STATE = {
    * id of the resource asked for delete
    */
   resourcePromptedToDelete: undefined,
+  /**
+   * whether to directly contextualize after resource creation
+   */
+  contextualizeAfterResourceCreation: false
 };
 
 /**
@@ -477,7 +484,8 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
     case EMBED_ASSET:
       return {
         ...state,
-        resourcesPrompted: false
+        resourcesPrompted: false,
+        contextualizeAfterResourceCreation: false,
       };
     // a resource is selected
     case SELECT_RESOURCE:
@@ -527,9 +535,13 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
         ...state,
         resourcesModalState: 'new',
         resourceCandidate: {
-          metadata: emptyResourceMetadata
+          metadata: {
+            ...emptyResourceMetadata,
+            type: action.resourceType
+          }
         },
-        resourceCandidateId: undefined
+        resourceCandidateId: undefined,
+        contextualizeAfterResourceCreation: action.contextualizeAfterCreation
       };
     // configuration of an existing resource is asked
     case START_EXISTING_RESOURCE_CONFIGURATION:
@@ -561,7 +573,8 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
       return {
         ...state,
         resourcesModalState: 'closed',
-        resourceCandidateId: undefined
+        resourceCandidateId: undefined,
+        contextualizeAfterResourceCreation: false
       };
     // section deletion is asked
     case REQUEST_DELETE_PROMPT:
@@ -685,6 +698,7 @@ const resourcePromptedToDelete = (state) => state.resourcesUi.resourcePromptedTo
 
 const resourcesPrompted = (state) => state.resourcesUi.resourcesPrompted;
 const insertionSelection = (state) => state.resourcesUi.insertionSelection;
+const contextualizeAfterResourceCreation = state => state.resourcesUi.contextualizeAfterResourceCreation;
 
 export const selector = createStructuredSelector({
   selectedResources,
@@ -698,6 +712,7 @@ export const selector = createStructuredSelector({
   resourceUploadingState,
   resourcesPrompted,
   insertionSelection,
-  resourcePromptedToDelete
+  resourcePromptedToDelete,
+  contextualizeAfterResourceCreation,
 });
 

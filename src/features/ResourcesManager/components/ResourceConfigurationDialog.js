@@ -105,8 +105,19 @@ const ResourceDataInput = ({
       );
     case 'webpage':
       const onWebpageSubmit = (evt) => submitResourceData('webpageUrl', evt.target.value);
+      const onWebpageTitleSubmit = (evt) => setResourceCandidateMetadataValue('title', evt.target.value);
       return (
         <div className="input-group">
+          <label>
+            {translate('webpage-name')}
+          </label>
+          <input
+            onChange={onWebpageTitleSubmit}
+            type="text"
+            name="webpage"
+            placeholder={translate('webpage-name')}
+            style={{flex: 1, width: '100%'}}
+            value={resourceCandidate.metadata.title || ''} />
           <label>
             {translate('webpage-url')}
           </label>
@@ -244,9 +255,11 @@ const ResourceConfigurationDialog = ({
   resourceUploadingState,
   setResourceCandidateMetadataValue,
   submitResourceData,
+  embedLastResource,
   onClose,
   createResource,
-  updateResource
+  updateResource,
+  contextualizeAfterResourceCreation,
 }, context) => {
   // namespacing the translate function with the feature name
   const translate = translateNameSpacer(context.t, 'Features.Editor');
@@ -340,6 +353,12 @@ const ResourceConfigurationDialog = ({
       }
       else {
         createResource(resourceCandidate);
+      }
+
+      if (contextualizeAfterResourceCreation) {
+        setTimeout(() => {
+          embedLastResource();
+        });
       }
     }
   };
@@ -457,19 +476,20 @@ const ResourceConfigurationDialog = ({
 
 
       </section>
-      <section className="modal-footer">
-        {
+      {
           resourceCandidate &&
           resourceCandidate.metadata &&
           resourceCandidate.metadata.type &&
           resourceCandidate.data
           ?
+          <section className="modal-footer">
+        
             <button
               className="valid-btn"
               onClick={onApplyChange}>{resourceCandidateId ? translate('update-resource') : translate('create-resource')}</button>
-          : ''
-        }
       </section>
+      : null
+        }
     </div>
   );
 };
