@@ -2,7 +2,8 @@ import {
   EditorState,
   convertToRaw,
   convertFromRaw,
-  CharacterMetadata
+  CharacterMetadata,
+  Modifier,
 } from 'draft-js';
 
 import {v4 as generateId} from 'uuid';
@@ -11,6 +12,8 @@ import {
   getSelectedBlocksList
 } from 'draftjs-utils';
 
+import {stateToHTML} from 'draft-js-export-html';
+
 import {
   utils,
   constants
@@ -18,7 +21,7 @@ import {
 
 const {
   NOTE_POINTER,
-  SCHOLAR_DRAFT_CLIPBOARD_CODE,
+  // SCHOLAR_DRAFT_CLIPBOARD_CODE,
   INLINE_ASSET,
   BLOCK_ASSET,
 } = constants;
@@ -165,7 +168,27 @@ export const handleCopy = function(event) {
       copiedNotes
     };
 
-    event.clipboardData.setData('text/plain', SCHOLAR_DRAFT_CLIPBOARD_CODE);
+    const tempEditorState = EditorState.createEmpty();
+
+    const clipboardContentState = Modifier.replaceWithFragment(
+      tempEditorState.getCurrentContent(),
+      tempEditorState.getSelection(),
+      clipboard
+    );
+    const plainText = clipboardContentState.getPlainText();
+
+    copiedData.clipboardContentState = convertToRaw(clipboardContentState);
+
+    const clipboardHtml = `
+      ${stateToHTML(clipboardContentState)}
+      <script id="fonio-copied-data" type="application/json">
+       ${JSON.stringify(copiedData)}
+      </script>
+    `.split('\n').join('').trim();
+    event.clipboardData.setData('text/plain', plainText);
+    event.clipboardData.setData('text/html', clipboardHtml);
+
+    // event.clipboardData.setData('text/plain', SCHOLAR_DRAFT_CLIPBOARD_CODE);
     stateDiff.copiedData = copiedData;
     setState(stateDiff);
     event.preventDefault();
@@ -182,7 +205,7 @@ export const handleCopy = function(event) {
       state,
       editor
     } = this;
-    const setState = this.setState.bind(this);
+    // const setState = this.setState.bind(this);
     // ensuring this is happening while editing the content
     if (!props.editorFocus) {
       return;
@@ -208,30 +231,77 @@ export const handleCopy = function(event) {
     const activeSectionId = activeSection.id;
 
     const {
-      clipboard, // blockMap of the data copied to clipboard
-      copiedData, // model-dependent set of data objects saved to clipboard
+      // clipboard, // blockMap of the data copied to clipboard
+      // copiedData, // model-dependent set of data objects saved to clipboard
     } = state;
 
-    // this hack allows to check if data comes from outside of the editor
-    // case 1 : comes from outside
-    if (!clipboard || event.clipboardData.getData('text/plain') !== SCHOLAR_DRAFT_CLIPBOARD_CODE) {
+    let copiedData;
+
+    let html = event.clipboardData.getData('text/html');
+
+    // check whether the clipboard contains fonio data
+    const dataRegex = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>$/gm;
+    const hasScript = dataRegex.test(html);
+    // case 1 : comes from outside (no fonio data)
+    if (!hasScript) {
       // clear components "internal clipboard" and let the event happen
       // normally (it is in this case draft-js which will handle the paste process)
       // as a editorChange event (will handle clipboard content as text or html)
-      setState({
-        clipboard: null,
-        copiedData: null,
-      });
+      // setState({
+      //   clipboard: null,
+      //   copiedData: null,
+      // });
+      if (html && html.length) {
+        let match;
+        const aRegex = /<a[^.]+href="([^"]+)"[^>]+>(.*)<\/a>/gi;
+        while ((match = aRegex.exec(html)) !== null) {
+          const toReplace = match[0];
+          const url = match[1];
+          const text = match[2];
+          html = `${html.substring(0, match.index)}${text} (${url})${html.substring(match.index + toReplace.length)}`;
+          match.index = -1;
+        }
+        event.clipboardData.setData('text/html', html);
+        event.clipboardData.setData('text/plain', null);
+        event.preventDefault();
+      }
       return;
     }
+    // case 2 : comes from inside
     else {
       // if contents comes from scholar-draft, prevent default
       // because we are going to handle the paste process manually
+
+      try {
+        // copiedData = JSON.parse(dataRegex.match(html)[1]);
+       let json;
+       let match = html.match(dataRegex);
+       // if (match) {
+       //  match = match[0].substr(`<script id="fonio-copied-data" type="application/json">`.length, html.length - `</script>`.length);
+       //  console.log('match', match);
+       // }
+
+        while ((match = dataRegex.exec(html)) !== null) {
+          json = match[1];
+          // console.log(`Found ${match[1]}. Next starts at ${match.lastIndex}.`);
+          // expected output: "Found foo. Next starts at 9."
+          // expected output: "Found foo. Next starts at 19."
+        }
+        copiedData = JSON.parse(json);
+      }
+ catch (e) {
+        // console.log('e', e);
+      }
     }
+    if (!copiedData) {
+      return;
+    }
+
 
     // let editorState;
     let newNotes;
-    let newClipboard = clipboard;// clipboard entities will have to be updated
+    // let newClipboard = clipboard;// clipboard entities will have to be updated
+    let newClipboard = convertFromRaw(copiedData.clipboardContentState).getBlockMap();// clipboard entities will have to be updated
 
 
     // case: some non-textual data has been saved to the clipboard
