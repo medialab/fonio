@@ -3,6 +3,6 @@ import BoldButton from './BoldButton';
 import ItalicButton from './ItalicButton';
 
 export default [
-  <BoldButton />,
-  <ItalicButton />,
+  <BoldButton key={1} />,
+  <ItalicButton key={2} />,
 ];

@@ -107,7 +107,6 @@ const EditorLayout = ({
           updateDraftEditorState={updateDraftEditorState}
           updateDraftEditorsStates={updateDraftEditorsStates}
           editorFocus={editorFocus}
-          startNewResourceConfiguration={startNewResourceConfiguration}
 
           summonAsset={summonAsset}
 

@@ -398,7 +398,7 @@ const ResourceConfigurationDialog = ({
       default:
         return translate('edit-resource');
     }
-  }
+  };
   const generateFooterTitle = type => {
     switch (type) {
       case 'webpage':
@@ -420,7 +420,7 @@ const ResourceConfigurationDialog = ({
       default:
         return translate('update-resource');
     }
-  }
+  };
   return (
     <div className="fonio-resource-configuration-dialog">
       <h1 className="modal-header">

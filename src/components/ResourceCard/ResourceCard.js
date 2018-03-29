@@ -1,4 +1,5 @@
 /* eslint react/no-find-dom-node: 0 */
+/* eslint react/no-set-state: 0 */
 /**
  * This module provides a reusable resource card component
  * @module fonio/components/ResourceCard
@@ -224,7 +225,7 @@ class ResourceCard extends Component {
        e.dataTransfer.setData('text', 'DRAFTJS_RESOURCE_ID:' + metadata.id);
      };
 
-     const endDrag = (e) => {
+     const endDrag = () => {
       this.setState({
         moved: false
       });

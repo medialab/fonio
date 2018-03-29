@@ -66,7 +66,7 @@ import Bibliography from './Bibliography';
 
 import BlockQuoteButton from './buttons/BlockQuoteButton';
 import BoldButton from './buttons/BoldButton';
-import CodeBlockButton from './buttons/CodeBlockButton';
+// import CodeBlockButton from './buttons/CodeBlockButton';
 import HeaderOneButton from './buttons/HeaderOneButton';
 import HeaderTwoButton from './buttons/HeaderTwoButton';
 import ItalicButton from './buttons/ItalicButton';
@@ -75,14 +75,14 @@ import UnorderedListItemButton from './buttons/UnorderedListItemButton';
 import LinkButton from './buttons/LinkButton';
 
 const inlineButtons = [
-  <BoldButton />,
-  <ItalicButton />,
-  <BlockQuoteButton />,
-  <HeaderOneButton />,
-  <HeaderTwoButton />,
-  <OrderedListItemButton />,
-  <UnorderedListItemButton />,
-  <LinkButton />,
+  <BoldButton key={1} />,
+  <ItalicButton key={2} />,
+  <BlockQuoteButton key={3} />,
+  <HeaderOneButton key={4} />,
+  <HeaderTwoButton key={5} />,
+  <OrderedListItemButton key={6} />,
+  <UnorderedListItemButton key={7} />,
+  <LinkButton key={8} />,
   /*<CodeBlockButton />,*/
 ];
 

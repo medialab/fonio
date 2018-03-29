@@ -159,50 +159,50 @@ class InlineCitation extends Component {
       <span
         className="fonio-InlineCitation">
         <span className="items-container">
-        <span onClick={onMoreOptionsClick}>
-          {representation && representation.Component}
-        </span>
+          <span onClick={onMoreOptionsClick}>
+            {representation && representation.Component}
+          </span>
 
-        <button
+          <button
             className="more-options-btn"
             onClick={onEditRequest}>
-          <img src={require('../../sharedAssets/bib-black.svg')} />
-          <img src={require('../../sharedAssets/edit-black.svg')} />
-        </button>
-        <button
-          className="more-options-btn"
-          onClick={onMoreOptionsClick}>
-          <img style={{transform: 'rotate(45deg)'}} src={require('../../sharedAssets/close-black.svg')} />
-        </button>
-        {this.state.optionsVisible &&
-        <span className="more-options-container">
-          {translate('prefix-label')}:
-          <input
-            placeholder={translate('prefix-placeholder')}
-            value={this.state.prefix}
-            onChange={onPrefixChange}
-            onClick={onInputClick}
-            onFocus={onAssetFocus}
-            onBlur={onPrefixBlur} />
-          {translate('locator-label')}:
-          <input
-            placeholder={translate('locator-placeholder')}
-            value={this.state.locator}
-            onChange={onLocatorChange}
-            onFocus={onAssetFocus}
-            onClick={onInputClick}
-            onBlur={onLocatorBlur} />
+            <img src={require('../../sharedAssets/bib-black.svg')} />
+            <img src={require('../../sharedAssets/edit-black.svg')} />
+          </button>
+          <button
+            className="more-options-btn"
+            onClick={onMoreOptionsClick}>
+            <img style={{transform: 'rotate(45deg)'}} src={require('../../sharedAssets/close-black.svg')} />
+          </button>
+          {this.state.optionsVisible &&
+          <span className="more-options-container">
+            {translate('prefix-label')}:
+            <input
+              placeholder={translate('prefix-placeholder')}
+              value={this.state.prefix}
+              onChange={onPrefixChange}
+              onClick={onInputClick}
+              onFocus={onAssetFocus}
+              onBlur={onPrefixBlur} />
+            {translate('locator-label')}:
+            <input
+              placeholder={translate('locator-placeholder')}
+              value={this.state.locator}
+              onChange={onLocatorChange}
+              onFocus={onAssetFocus}
+              onClick={onInputClick}
+              onBlur={onLocatorBlur} />
 
-          {translate('suffix-label')}:
-          <input
-            placeholder={translate('suffix-placeholder')}
-            value={this.state.suffix}
-            onChange={onSuffixChange}
-            onClick={onInputClick}
-            onFocus={onAssetFocus}
-            onBlur={onSuffixBlur} />
-        </span>}
-        {children}
+            {translate('suffix-label')}:
+            <input
+              placeholder={translate('suffix-placeholder')}
+              value={this.state.suffix}
+              onChange={onSuffixChange}
+              onClick={onInputClick}
+              onFocus={onAssetFocus}
+              onBlur={onSuffixBlur} />
+          </span>}
+          {children}
         </span>
       </span>
     );
