@@ -4,12 +4,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 
-const AssetButton = ({ 
-  onClick, 
+const AssetButton = ({
+  onClick,
   active,
   iconMap,
   message,
-  ...otherProps 
+  ...otherProps
 }) => {
   const onMouseDown = event => event.preventDefault();
   return (
@@ -18,12 +18,10 @@ const AssetButton = ({
       onMouseDown={onMouseDown}
       onClick={onClick}
       data-tip={message}
-      {...otherProps}
-    >
+      {...otherProps}>
       {iconMap.asset}
-      <ReactTooltip 
-        place={active ? 'left' : 'right'}
-      />
+      <ReactTooltip
+        place={active ? 'left' : 'right'} />
     </div>);
 };
 

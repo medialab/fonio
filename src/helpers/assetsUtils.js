@@ -274,7 +274,6 @@ export function inferMetadata(data, assetType) {
     // get selected text
     const selectedText = getTextSelection(editorState.getCurrentContent(), editorState.getSelection());
 
-    console.log('selected text', selectedText);
     // 1. create contextualizer
     // question: why isn't the contextualizer
     // data directly embedded in the contextualization data ?

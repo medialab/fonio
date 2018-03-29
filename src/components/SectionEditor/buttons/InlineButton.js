@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { RichUtils } from 'draft-js';
+import React, {Component} from 'react';
+import {RichUtils} from 'draft-js';
 import PropTypes from 'prop-types';
 
 import './ButtonStyles.scss';
@@ -13,7 +13,7 @@ class InlineButton extends Component {
     editorState: PropTypes.object,
 
     /**
-     * A method that can be called to update the editor's editorState. This 
+     * A method that can be called to update the editor's editorState. This
      * gets passed down from the editor.
      */
     updateEditorState: PropTypes.func,
@@ -34,7 +34,7 @@ class InlineButton extends Component {
    * Checks wether current styling button is selected
    * @param {Record} editorState - editorState to check for selection
    * @param {string} inlineStyleType - inline style to inspect against the provided editorState
-   * @return {boolean} isSelected - 
+   * @return {boolean} isSelected -
    */
   isSelected = (editorState, inlineStyleType) => {
     if (!editorState || !editorState.getSelection) {
@@ -56,15 +56,15 @@ class InlineButton extends Component {
 
   render = () => {
 
-    const { 
-      editorState, 
-      updateEditorState, 
+    const {
+      editorState,
+      updateEditorState,
       inlineStyleType,
       iconMap, /* eslint  no-unused-vars:0 */
-      ...otherProps 
+      ...otherProps
     } = this.props;
 
-    const selected = this.isSelected(editorState, inlineStyleType); 
+    const selected = this.isSelected(editorState, inlineStyleType);
     const className = `scholar-draft-InlineButton${selected ? ' active' : ''} `;
 
     const onMouseDown = (event) => {
@@ -76,11 +76,10 @@ class InlineButton extends Component {
       <div
         onMouseDown={onMouseDown}
         className={className}
-        {...otherProps}
-      >
+        {...otherProps}>
         {React.Children.map(
-          this.props.children, 
-          child => React.cloneElement(child, { 
+          this.props.children,
+          child => React.cloneElement(child, {
             selected
           })
         )}

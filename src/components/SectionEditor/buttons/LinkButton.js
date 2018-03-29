@@ -9,7 +9,7 @@ const LinkButton = (props, {
   startNewResourceConfiguration,
   t
 }) => {
-  const translate = translateNameSpacer(t, 'Component.LinkButton')
+  const translate = translateNameSpacer(t, 'Component.LinkButton');
   const onClick = e => {
     e.preventDefault();
     e.stopPropagation();

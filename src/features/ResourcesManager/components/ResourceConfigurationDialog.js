@@ -213,6 +213,7 @@ const LoadingStateToaster = ({
   type
 }, context) => {
   const translate = translateNameSpacer(context.t, 'Features.Editor');
+  console.log(loadingState)
   let log;
   switch (loadingState) {
     case 'processing':
@@ -396,8 +397,21 @@ const ResourceConfigurationDialog = ({
                   resourceCandidate={resourceCandidate}
                   setResourceCandidateMetadataValue={setResourceCandidateMetadataValue}
                   submitResourceData={submitResourceData} />
-                <LoadingStateToaster loadingState={resourceDataLoadingState} type={'loading'} />
-                <LoadingStateToaster loadingState={resourceUploadingState} type={'uploading'} />
+                {
+                  resourceCandidateType !== 'glossary' &&
+                  resourceCandidateType !== 'webpage' &&
+                  resourceCandidateType !== 'embed' &&
+                  <LoadingStateToaster loadingState={resourceDataLoadingState} type={'loading'} />
+                }
+                {
+                  resourceCandidateType !== 'glossary' &&
+                  resourceCandidateType !== 'webpage' &&
+                  resourceCandidateType !== 'embed' &&
+                  resourceCandidateType !== 'bib' &&
+                  resourceCandidateType !== 'video' &&
+                  <LoadingStateToaster loadingState={resourceUploadingState} type={'uploading'} />
+                }
+
               </div>
               {
                 resourceCandidate.data
@@ -482,12 +496,12 @@ const ResourceConfigurationDialog = ({
           resourceCandidate.metadata.type &&
           resourceCandidate.data
           ?
-          <section className="modal-footer">
-        
-            <button
-              className="valid-btn"
-              onClick={onApplyChange}>{resourceCandidateId ? translate('update-resource') : translate('create-resource')}</button>
-      </section>
+            <section className="modal-footer">
+
+              <button
+                className="valid-btn"
+                onClick={onApplyChange}>{resourceCandidateId ? translate('update-resource') : translate('create-resource')}</button>
+            </section>
       : null
         }
     </div>
