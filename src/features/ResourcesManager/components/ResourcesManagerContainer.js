@@ -107,7 +107,8 @@ class ResourcesManagerContainer extends Component {
     const lastResource = resourcesMap.sort((a, b) => {
       if (a.metadata.createdAt > b.metadata.createdAt) {
         return -1;
-      } else {
+      }
+ else {
         return 1;
       }
     })[0];

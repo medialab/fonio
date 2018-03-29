@@ -482,12 +482,12 @@ const ResourceConfigurationDialog = ({
           resourceCandidate.metadata.type &&
           resourceCandidate.data
           ?
-          <section className="modal-footer">
-        
-            <button
-              className="valid-btn"
-              onClick={onApplyChange}>{resourceCandidateId ? translate('update-resource') : translate('create-resource')}</button>
-      </section>
+            <section className="modal-footer">
+
+              <button
+                className="valid-btn"
+                onClick={onApplyChange}>{resourceCandidateId ? translate('update-resource') : translate('create-resource')}</button>
+            </section>
       : null
         }
     </div>

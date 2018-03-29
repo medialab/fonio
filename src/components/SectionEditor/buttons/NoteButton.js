@@ -3,11 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 
-const NoteButton = ({ 
-  onClick, 
+const NoteButton = ({
+  onClick,
   iconMap,
   message,
-  ...otherProps 
+  ...otherProps
 }) => {
 
   const onMouseDown = event => event.preventDefault();
@@ -18,12 +18,10 @@ const NoteButton = ({
       onClick={onClick}
       onMouseDown={onMouseDown}
       data-tip={message}
-      {...otherProps}
-    >
+      {...otherProps}>
       {iconMap.note}
-      <ReactTooltip 
-        place="right"
-      />
+      <ReactTooltip
+        place="right" />
     </div>
   );
 };

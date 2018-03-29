@@ -216,7 +216,7 @@ export const submitResourceData = (type, data, existingData) => ({
         case 'htmlCode':
           return resolve(data);
         // case bib text file --> load file and convert it to csl-json
-        
+
         case 'bibTeXFile':
           return getFileAsText(data, (err, str) => {
             const csl = parseBibTeXToCSLJSON(str);

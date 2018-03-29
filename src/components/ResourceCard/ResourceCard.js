@@ -124,11 +124,11 @@ class ResourceCard extends Component {
     super(props);
     this.state = {
       moved: undefined
-    }
+    };
   }
 
   componentDidMount() {
-    const { connectDragPreview } = this.props;
+    const {connectDragPreview} = this.props;
     connectDragPreview(<div>coucou</div>);
   }
 
@@ -223,7 +223,7 @@ class ResourceCard extends Component {
      const endDrag = (e) => {
       this.setState({
         moved: false
-      })
+      });
      };
 
     let resourceName;
@@ -248,7 +248,7 @@ class ResourceCard extends Component {
         onDragStart={startDrag}
         onDragEnd={endDrag}
         onMouseDown={onMDown}
-        className={`fonio-ResourceCard ${this.state.moved ? 'moved': ''} ${metadata.type} ${(selectMode ? ' select-mode' : '')}`}
+        className={`fonio-ResourceCard ${this.state.moved ? 'moved' : ''} ${metadata.type} ${(selectMode ? ' select-mode' : '')}`}
         onClick={onGlobalClick}>
         <div
           className="card-header">

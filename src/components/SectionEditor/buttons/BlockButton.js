@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { RichUtils } from 'draft-js';
+import React, {Component} from 'react';
+import {RichUtils} from 'draft-js';
 import PropTypes from 'prop-types';
 
 class BlockButton extends Component {
@@ -11,7 +11,7 @@ class BlockButton extends Component {
     editorState: PropTypes.object,
 
     /**
-     * A method that can be called to update the editor's editorState. This 
+     * A method that can be called to update the editor's editorState. This
      * gets passed down from the editor.
      */
     updateEditorState: PropTypes.func,
@@ -42,16 +42,16 @@ class BlockButton extends Component {
 
   render = () => {
 
-    const { 
-      editorState, 
-      blockType, 
-      children, 
+    const {
+      editorState,
+      blockType,
+      children,
       updateEditorState,
       // iconMap,
-      // ...otherProps 
+      // ...otherProps
     } = this.props;
 
-    const selected = this.isSelected(editorState, blockType); 
+    const selected = this.isSelected(editorState, blockType);
     const className = `scholar-draft-BlockButton${selected ? ' active' : ''}`;
 
     const onMouseDown = (event) => {
@@ -62,11 +62,10 @@ class BlockButton extends Component {
     return (
       <div
         onMouseDown={onMouseDown}
-        className={className}
-      >
+        className={className}>
         {React.Children.map(
-          children, 
-          child => React.cloneElement(child, { 
+          children,
+          child => React.cloneElement(child, {
             selected
           })
         )}

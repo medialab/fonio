@@ -176,8 +176,8 @@ class ResourceSearchWidget extends Component {
           options.filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
           .length > 0 ?
 
-          <ul className="choice-options-container">
-          {
+            <ul className="choice-options-container">
+              {
             options
             .filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
             .map((option, index) => {
@@ -203,7 +203,7 @@ class ResourceSearchWidget extends Component {
               );
             })
           }
-        </ul> : null
+            </ul> : null
       }
         <li className="choice-option new-option" onClick={onAddNewClick}>+ {translate('new-resource')}</li>
       </div>
