@@ -7,16 +7,19 @@
 
 .fonio-ResourceSearchWidget
 {
-    background: $color-savannah-grey;
     padding: $gutter-small;
+
+    background: $color-savannah-grey;
 
 
     .search-form
     {
-        @extend .flex-stretched-row;
-        margin-bottom: $gutter-small;
         overflow: hidden;
+
+        margin-bottom: $gutter-small;
         padding: $gutter-small;
+
+        @extend .flex-stretched-row;
 
         .arobase
         {
@@ -24,18 +27,22 @@
 
             flex: 1;
 
-            text-align: center;
             padding-right: $gutter-small;
+
+            text-align: center;
         }
         input
         {
             flex: 5;
+
+            max-height: 80%;
+
             @extend .interactive-item;
             &:hover,
-            &:focus{
+            &:focus
+            {
                 @extend .interactive-item-intent;
             }
-            max-height: 80%;
         }
     }
     .choice-options-container
@@ -46,13 +53,13 @@
         margin: 0;
         padding: 0;
         padding: $gutter-medium;
-        @extend .important-item;
 
+        @extend .important-item;
     }
     .choice-option
     {
-        padding: $gutter-medium;
         margin-bottom: $gutter-small;
+        padding: $gutter-medium;
 
         list-style-type: none;
 
@@ -66,20 +73,36 @@
         }
         &.active
         {
-
             @extend .interactive-item-active;
-            &:hover{
+            &:hover
+            {
                 @extend .interactive-item-intent-active;
             }
         }
 
         &.new-option
         {
+            display: flex;
+            align-items: center;
+            flex-flow: row nowrap;
+            justify-content: center;
+
             margin-top: $gutter-medium;
+
             @extend .important-item;
-            &:hover{
+            &:hover
+            {
                 @extend .important-item-intent;
             }
+        }
+    }
+
+    .fonio-icon
+    {
+        img
+        {
+            height: 1em;
+            margin-right: $gutter-medium;
         }
     }
 }
