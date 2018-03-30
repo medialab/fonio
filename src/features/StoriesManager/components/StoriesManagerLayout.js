@@ -70,7 +70,7 @@ const StoriesManagerLayout = ({
     <section className="fonio-StoriesManagerLayout">
       <section className="landing-group">
         <div className="brand-cartel">
-          <img src={require('../assets/logo-quinoa.png')} />
+          <img src={require('../../../sharedAssets/logo-quinoa.png')} />
           <div className="title">
             <h1><span>Fonio</span></h1>
             <h2 className="app-baseline">{translate('fonio-baseline')}</h2>
