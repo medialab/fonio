@@ -128,7 +128,7 @@ const ResourceDataInput = ({
             name="webpage"
             placeholder={translate('paste-webpage-url')}
             style={{flex: 1, width: '100%'}}
-            value={resourceCandidate.data || ''} />
+            value={resourceCandidate.data || 'http://'} />
         </div>
       );
     case 'embed':

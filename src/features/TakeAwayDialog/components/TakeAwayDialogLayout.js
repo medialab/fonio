@@ -139,7 +139,6 @@ const TakeAwayDialogLayout = ({
           <Toaster status={takeAwayLogStatus} log={takeAwayLog} />
         </section>
       </section>
-      <section className="modal-footer">''</section>
     </div>);
 };
 

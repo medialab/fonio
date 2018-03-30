@@ -28,7 +28,7 @@
         flex-flow: row nowrap;
     }
 
-    
+
     input
     {
         // margin-left: $gutter-medium;
@@ -52,6 +52,11 @@
         align-items: center;
         justify-content: center;
 
+        &:hover,
+        &:focus
+        {
+            @extend .interactive-item-intent-active;
+        }
         img{
             height: 2em;
             display: inline-block;

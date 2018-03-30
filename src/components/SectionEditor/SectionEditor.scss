@@ -83,6 +83,10 @@
             .editor-bibliography{
                 padding-left: 10rem;
             }
+            .csl-entry
+            {
+                word-break: break-all;
+            }
             .scholar-draft-BasicEditor
             {
                 background: $color-very-light;
@@ -213,6 +217,6 @@
                 width: 1em;
             }
         }
-            
+
     }
 }

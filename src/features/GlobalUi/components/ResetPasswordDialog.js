@@ -79,9 +79,11 @@ const ResetPasswordDialog = ({
                   formApi.touched.confirmPassword && <Toaster status={formApi.errors.confirmPassword ? 'failure' : undefined} log={formApi.errors.confirmPassword} />
                 }
               </div>
-              <div className="modal-row">
-                <Toaster status={status} log={toasterMessage} />
-              </div>
+              {toasterMessage &&
+                <div className="modal-row no-bg">
+                  <Toaster status={status} log={toasterMessage} />
+                </div>
+              }
             </div>
             <div className="modal-footer override-modal-footer">
               <button className="valid-btn" type="submit">
