@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-3-29\n"
-"PO-Revision-Date: Thu Mar 29 2018 21:55:09 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-3-30\n"
+"PO-Revision-Date: Fri Mar 30 2018 15:03:26 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -874,3 +874,24 @@ msgstr "edit-webpage"
 
 msgid "Features.Editor.update-webpage"
 msgstr "update-webpage"
+
+msgid "Components.Footer.native link to {u}"
+msgstr "native link to {u}"
+
+msgid "Features.ResourcesManager.drop-files-here"
+msgstr "drop-files-here"
+
+msgid "Features.ResourcesManager.resources-drop-help"
+msgstr "resources-drop-help"
+
+msgid "Features.ResourcesManager.resources-drop-help-intro"
+msgstr "Vous pouvez déposer ici des fichiers à intégrer dans votre bibliothèque."
+
+msgid "Features.ResourcesManager.resource-drop-help-image"
+msgstr "resource-drop-help-image"
+
+msgid "Features.ResourcesManager.resource-drop-help-table"
+msgstr "resource-drop-help-table"
+
+msgid "Features.ResourcesManager.resource-drop-help-bib"
+msgstr "resource-drop-help-bib"
