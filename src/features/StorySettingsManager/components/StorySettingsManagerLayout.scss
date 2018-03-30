@@ -17,7 +17,6 @@
 
         flex: 1;
 
-
         transition: all $time-short ease;
 
         @extend .flex-stretched-column;
@@ -134,27 +133,35 @@
     }
 
     .returnToLanding-btn
+    {
+        width: 100%;
+        margin-bottom: $gutter-medium;
+        padding: $gutter-medium;
+
+        @extend .primary-item;
+        .fonio-icon
         {
-            @extend .primary-item;
-            padding: $gutter-medium;
-            width: 100%;
-            .fonio-icon
+            padding-right: $gutter-small;
+            img
             {
-                padding-right: $gutter-small;
-            }
-            &:hover
-            {
-                @extend .primary-item-intent;
+                height: 1em;
             }
         }
+        &:hover
+        {
+            @extend .primary-item-intent;
+        }
+    }
 
     .global-settings-btn
     {
-        margin-left: $gutter-medium;
         margin-right: $gutter-medium;
+        margin-left: $gutter-medium;
         padding: $gutter-medium;
+
         @extend .important-item;
-        &:hover{
+        &:hover
+        {
             @extend .important-item-intent;
         }
         // margin-bottom: $gutter-medium;

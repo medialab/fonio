@@ -54,7 +54,13 @@ class AsideViewLayout extends Component {
     return (<aside className="fonio-AsideViewLayout">
       <div className="aside-header">
         <Link to="/">
-          <button className="returnToLanding-btn" type="button"><span className="fonio-icon" /> {translate('back-to-home')}</button>
+          <button className="returnToLanding-btn" type="button">
+            <span className="fonio-icon">
+              <img src={require('../../../sharedAssets/logo-quinoa.png')} />
+            </span>
+            <b>Fonio </b>
+            {translate('back-to-home')}
+          </button>
         </Link>
         <AsideToggler
           options={asideOptions}

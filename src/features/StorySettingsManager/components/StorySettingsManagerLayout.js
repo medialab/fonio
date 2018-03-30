@@ -78,7 +78,13 @@ const StorySettingsManagerLayout = ({
     <section className="fonio-StorySettingsManagerLayout">
       <aside className={'settings-pannel'}>
         <Link to="/">
-          <button className="returnToLanding-btn" type="button"><span className="fonio-icon">☰</span> {translate('back-to-home')}</button>
+          <button className="returnToLanding-btn" type="button">
+            <span className="fonio-icon">
+              <img src={require('../../../sharedAssets/logo-quinoa.png')} />
+            </span>
+            <b>Fonio </b>
+            {translate('back-to-home')}
+          </button>
         </Link>
         <div className="settings-pannel-body">
           {/*<section className="settings-section">
