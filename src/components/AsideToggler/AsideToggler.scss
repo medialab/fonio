@@ -17,6 +17,8 @@
     @extend .flex-stretched-row;
     .option
     {
+        flex: 1;
+
         padding: $gutter-medium;
 
         list-style-type: none;
@@ -24,7 +26,6 @@
         cursor: pointer;
         text-align: center;
 
-        flex: 1;
         @extend .interactive-item;
         &:hover
         {

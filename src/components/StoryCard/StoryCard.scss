@@ -76,7 +76,9 @@
             .edit-btn
             {
                 font-size: $font-size-3;
+
                 width: 100%;
+
                 @extend .important-item;
                 &:hover
                 {

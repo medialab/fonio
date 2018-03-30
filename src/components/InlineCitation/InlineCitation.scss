@@ -7,6 +7,8 @@
 
 .fonio-InlineCitation
 {
+    display: inline-block;
+
     margin: 0;
     padding: 0;
 
@@ -16,48 +18,51 @@
         -ms-user-select: none;
             user-select: none;
 
-    
     @extend .interactive-item;
 
-    display: inline-block;
 
-
-    .items-container{
+    .items-container
+    {
         display: flex;
         flex-flow: row nowrap;
     }
 
     input
     {
+        display: inline;
         // margin-left: $gutter-medium;
+
         padding: 0;
         &:hover,
         &:focus
         {
             @extend .interactive-item-intent-active;
         }
-        display: inline;
     }
 
     button,
     a
     {
         font-size: $font-size-1 * .9;
-        margin: 0;
-        padding-bottom: 0;
+
         display: flex;
-        flex-flow: row nowrap;
         align-items: center;
+        flex-flow: row nowrap;
         justify-content: center;
 
-        img{
-            height: 2em;
+        margin: 0;
+        padding-bottom: 0;
+
+        img
+        {
             display: inline-block;
+
+            height: 2em;
         }
 
         // margin-right: $gutter-medium;
     }
-            
+
 
     .more-options-container
     {

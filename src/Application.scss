@@ -7,12 +7,11 @@
 
 html
 {
+    font-family: $main-font-stack;
     font-size: 12px;
+    font-size: $font-size-2;
 
     min-height: 100%;
-
-    font-family: $main-font-stack;
-    font-size: $font-size-2;
 }
 
 /*
@@ -20,16 +19,15 @@ html
  */
 .fonio
 {
+    font-family: $main-font-stack;
+    font-size: $font-size-2;
+
     position: fixed;
     top: 0;
     left: 0;
 
     width: 100%;
     height: 100%;
-
-    font-family: $main-font-stack;
-    font-size: $font-size-2;
-
 
     @extend .flex-stretched-column;
     @extend .normal-item;
@@ -166,7 +164,6 @@ html
         // padding: $gutter-medium;
         // padding-left: $gutter-large;
         // padding-right: $gutter-large;
-
         @extend .primary-item;
 
         button
@@ -186,17 +183,18 @@ html
         position: relative;
 
         max-height: 1000rem;
-        padding:  $gutter-large;
-
         margin: $gutter-large;
-
-        @extend .animated;
+        padding: $gutter-large;
 
         background: $color-sec-bg;
 
-        &.no-bg{
-            background: transparent;
+        @extend .animated;
+
+        &.no-bg
+        {
             margin: 0;
+
+            background: transparent;
             // padding: $gutter-medium;
         }
 
@@ -218,9 +216,14 @@ html
         }
         label
         {
-            margin-bottom: $gutter-medium;
-            font-weight: bold;
             font-size: $font-size-3;
+            font-weight: bold;
+
+            margin-bottom: $gutter-medium;
+            &:not(:first-of-type)
+            {
+                margin-top: $gutter-medium;
+            }
         }
     }
     input[type='text'],
@@ -249,7 +252,6 @@ html
             @extend .interactive-item-active;
         }
     }
-
 }
 
 .ReactModal__Content.ReactModal__Content--after-open

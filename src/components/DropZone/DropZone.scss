@@ -42,12 +42,13 @@
         }
         .caption-container
         {
+            font-size: $font-size-2-5;
+            font-style: italic;
+
             display: flex;
             align-items: center;
             flex: 1;
             flex-flow: column nowrap;
-            font-size: $font-size-2-5;
-            font-style: italic;
         }
     }
 }

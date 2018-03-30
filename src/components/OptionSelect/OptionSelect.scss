@@ -22,10 +22,10 @@
     h5
     {
         display: flex;
+        align-items: center;
         flex: 1;
         flex-flow: row nowrap;
         justify-content: center;
-        align-items: center;
 
         margin: 0;
         padding: $gutter-medium;
