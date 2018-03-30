@@ -308,10 +308,11 @@ class ResourceCard extends Component {
           </div> :
           <div className="card-footer">
             <button className="abord-delete-btn" onClick={onDeletePromptAbord}>
+              <img src={require('../../sharedAssets/close-black.svg')} className="fonio-icon-image" />
               {translate('abord-delete')}
             </button>
             <button className={'delete-confirm-btn '} onClick={onDeleteClick}>
-              <img src={require('../../sharedAssets/remove-black.svg')} className="fonio-icon-image" />
+              <img src={require('../../sharedAssets/remove-white.svg')} className="fonio-icon-image" />
               {translate('confirm-delete')}
             </button>
           </div>}

@@ -31,9 +31,10 @@
         min-width: 84.4%;
 
         @extend .flex-stretched-column;
-        .scholar-draft-Editor{
-            > div 
-            > div{
+        .scholar-draft-Editor
+        {
+             > div > div
+            {
                 padding-right: 10rem;
                 padding-bottom: 20rem;
             }
@@ -65,12 +66,12 @@
             @extend .flex-stretched-column;
             li
             {
+                margin-bottom: $gutter-medium;
                 padding: 0;
 
                 list-style-type: none;
 
                 @extend .flex-stretched-column;
-                margin-bottom: $gutter-medium;
             }
         }
         .create-new-section-container

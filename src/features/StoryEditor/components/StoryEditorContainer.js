@@ -30,6 +30,7 @@ import {
 import {
   updateAsset,
   embedAsset,
+  createResource,
   updateResource,
   startNewResourceConfiguration,
   startExistingResourceConfiguration,
@@ -67,6 +68,7 @@ import {
       updateSection: updateSectionAction,
       createSection: createSectionAction,
       updateResource,
+      createResource,
       setActiveSectionId,
       startNewResourceConfiguration,
       startExistingResourceConfiguration,

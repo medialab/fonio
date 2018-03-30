@@ -13,7 +13,6 @@
 
     border-right: 1px solid $color-sec-stroke;
     background: $color-sec-bg;
-
     /*
      * root component
      */
@@ -25,7 +24,6 @@
     .aside-header
     {
         display: flex;
-
         flex-flow: column nowrap;
         button
         {
@@ -35,17 +33,23 @@
         }
         .returnToLanding-btn
         {
-            @extend .primary-item;
             width: 100%;
+            margin-bottom: $gutter-medium;
+            padding: $gutter-medium;
+
+            @extend .primary-item;
             .fonio-icon
             {
                 padding-right: $gutter-small;
+                img
+                {
+                    height: 1em;
+                }
             }
             &:hover
             {
                 @extend .primary-item-intent;
             }
-            margin-bottom: $gutter-medium;
         }
     }
     .aside-option-container
@@ -67,11 +71,13 @@
     }
     .global-settings-btn
     {
-        margin-left: $gutter-medium;
         margin-right: $gutter-medium;
+        margin-left: $gutter-medium;
         padding: $gutter-medium;
+
         @extend .important-item;
-        &:hover{
+        &:hover
+        {
             @extend .important-item-intent;
         }
         // margin-bottom: $gutter-medium;

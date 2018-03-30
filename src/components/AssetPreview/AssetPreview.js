@@ -226,7 +226,7 @@ class AssetPreview extends Component {
                   <img className="fonio-icon-image" src={require(`../../sharedAssets/edit-black.svg`)} />
                 </button>*/}
               <button onClick={this.onClickDelete}>
-                <img className="fonio-icon-image" src={require('../../sharedAssets/remove-black.svg')} />
+                <img className="fonio-icon-image" src={require('../../sharedAssets/remove-white.svg')} />
                 {translate('delete-contextualization')}
               </button>
             </div>
