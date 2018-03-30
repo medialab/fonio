@@ -62,7 +62,12 @@ const SectionsManagerLayout = ({
       className={'fonio-SectionsManagerLayout'}
       style={style}>
       <li id="new-section" onClick={createSection}>
-        + {translate('new-section')}
+        <span className="fonio-icon">
+          <img
+            src={require('../../../sharedAssets/close-white.svg')}
+            style={{transform: 'rotate(45deg)'}} />
+        </span>
+        <span>{translate('new-section')}</span>
       </li>
       <ul className="body">
         {
@@ -121,14 +126,14 @@ const SectionsManagerLayout = ({
           })
         }
       </ul>
-      <div className="footer">
+      {sections.length > 1 && <div className="footer">
         <input
           className="search-query"
           type="text"
           placeholder={translate('search-in-sections')}
           value={sectionsSearchQuery || ''}
           onChange={onSearchInputChange} />
-      </div>
+      </div>}
 
       <Modal
         isOpen={sectionsModalState !== 'closed'}

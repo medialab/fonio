@@ -7,23 +7,25 @@
 
 .fonio-SectionsManagerLayout
 {
-    @extend .flex-stretched-column;
     padding: $gutter-medium;
+
+    @extend .flex-stretched-column;
 
     .body
     {
         overflow-y: auto;
         flex: 1;
+
         padding-left: 0;
 
-        .fonio-SectionCard, .fonio-OptionSelect
+        .fonio-SectionCard,
+        .fonio-OptionSelect
         {
             margin-bottom: $gutter-medium;
         }
     }
     .footer
     {
-
         @extend .flex-stretched-row;
         .search-query
         {
@@ -43,8 +45,8 @@
 
     #new-section
     {
-
         padding: $gutter-medium;
+
         text-align: left;
 
         @extend .flex-stretched-row;
@@ -56,6 +58,15 @@
         &:active
         {
             @extend .important-item-active;
+        }
+
+        .fonio-icon
+        {
+            img
+            {
+                height: 1em;
+                margin-right: $gutter-medium;
+            }
         }
     }
 }
