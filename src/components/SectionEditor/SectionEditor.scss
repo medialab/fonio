@@ -216,13 +216,24 @@
         @extend .important-item;
     }
 
+    .scholar-draft-InlineButton,
+    .scholar-draft-BlockButton,
+    .fonio-LinkButton{
+        float: left;
+    }
+
     .fonio-LinkButton
     {
         font-size: 1em;
 
         padding: 0;
+        height: 100%;
+        margin: 0;
+        position: relative;
+        top: 0;
         .button-content
         {
+            height: 100%;
             display: flex;
             align-items: center;
             flex-flow: row nowrap;
