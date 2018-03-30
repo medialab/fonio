@@ -253,6 +253,8 @@ export const handleCopy = function(event) {
       // replacing pasted links with resources/contextualizers/contextualizations
       let contentState = activeEditorState.getCurrentContent();
       const mods = [];
+      // trying not to duplicate same links
+      const linksMap = {};
       contentState
         .getBlocksAsArray()
         .map(contentBlock => {
@@ -271,7 +273,15 @@ export const handleCopy = function(event) {
             (from, to) => {
               const text = contentBlock.getText().substring(from, to);
               const blockKey = contentBlock.getKey();
-              const resId = generateId();
+              let resId = generateId();
+              let shouldCreateResource;
+              if (linksMap[url]) {
+                resId = linksMap[url];
+                shouldCreateResource = false;
+              } else {
+                linksMap[url] = resId;
+                shouldCreateResource = true;
+              };
               const contextualizationId = generateId();
               const contextualizerId = generateId();
               const resource = {
@@ -281,6 +291,7 @@ export const handleCopy = function(event) {
                   createdAt: new Date().getTime(),
                   lastModifiedAt: new Date().getTime(),
                   title: text,
+                  id: resId,
                 },
                 data: url
               };
@@ -297,7 +308,9 @@ export const handleCopy = function(event) {
                 type: 'webpage',
                 title: text
               };
-              createResource(activeStoryId, resId, resource);
+              if (shouldCreateResource) {
+                createResource(activeStoryId, resId, resource);
+              }
               createContextualizer(activeStoryId, contextualizerId, contextualizer);
               createContextualization(activeStoryId, contextualizationId, contextualization);
               mods.push({
