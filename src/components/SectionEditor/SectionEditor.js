@@ -60,6 +60,7 @@ import ResourceSearchWidget from '../ResourceSearchWidget/ResourceSearchWidget';
 import InlineCitation from '../InlineCitation/InlineCitation';
 import GlossaryMention from '../GlossaryMention/GlossaryMention';
 import LinkContextualization from '../LinkContextualization/LinkContextualization';
+import HelpPin from '../HelpPin/HelpPin';
 
 import Bibliography from './Bibliography';
 
@@ -541,6 +542,30 @@ class SectionEditor extends Component {
     const PLACE_HLODER_REGEX = /(DRAFTJS_RESOURCE_ID:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/gi;
     this.findWithRegex(PLACE_HLODER_REGEX, contentBlock, callback);
   }
+  /**
+   * Draft.js strategy for finding native links
+   * @param {ImmutableRecord} contentBlock - the content block in which entities are searched
+   * @param {function} callback - callback with arguments (startRange, endRange, props to pass)
+   * @param {ImmutableRecord} inputContentState - the content state to parse
+   */
+  findLink = (contentBlock, callback, contentState) => {
+      let props;
+      contentBlock.findEntityRanges(
+        (character) => {
+          const entityKey = character.getEntity();
+          if (
+            entityKey !== null &&
+            contentState.getEntity(entityKey).getType() === 'LINK'
+          ) {
+            props = {...contentState.getEntity(entityKey).getData()};
+            return true;
+          }
+        },
+        (from, to) => {
+          callback(from, to, props);
+        }
+      );
+    }
 
 
   /**
@@ -742,14 +767,31 @@ class SectionEditor extends Component {
     const {style, locale} = getCitationModels(story);
 
     // additional inline entities to display in the editor
-    const additionalInlineEntities = [{
-      strategy: this.findDraftDropPlaceholder,
-      component: ({children}) =>
-        (<span className="contextualization-loading-placeholder">
-          {translate('loading')}
-          <span style={{display: 'none'}}>{children}</span>
-        </span>)
-    }];
+    const additionalInlineEntities = [
+      {
+        strategy: this.findDraftDropPlaceholder,
+        component: ({children}) =>
+          (<span className="contextualization-loading-placeholder">
+            {translate('loading')}
+            <span style={{display: 'none'}}>{children}</span>
+          </span>)
+      },
+      {
+        strategy: this.findLink,
+        component: ({children, url}) => {
+          return (<span className="native-link">
+            <span className="link-content">
+              <span>{children}</span>
+              <span className="pin-container">
+                <HelpPin>
+                  {translate('native link to {u}', {u: url})}
+                </HelpPin>
+              </span>
+            </span>
+          </span>);
+        }
+      }
+    ];
 
     return (
       <div className="fonio-SectionEditor">

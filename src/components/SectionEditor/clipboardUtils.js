@@ -3,6 +3,7 @@ import {
   convertToRaw,
   convertFromRaw,
   CharacterMetadata,
+  SelectionState,
   Modifier,
 } from 'draft-js';
 
@@ -218,8 +219,9 @@ export const handleCopy = function(event) {
       editorStates,
       createContextualization,
       createContextualizer,
-      // createResource,
+      createResource,
       updateDraftEditorsStates,
+      updateDraftEditorState,
       updateSection,
       setEditorFocus,
     } = props;
@@ -237,34 +239,145 @@ export const handleCopy = function(event) {
 
     let copiedData;
 
-    let html = event.clipboardData.getData('text/html');
+    const html = event.clipboardData.getData('text/html');
+
+    const activeEditorStateId = editorFocus === 'main' ? activeSectionId : editorFocus;
+    let activeEditorState = editorStates[activeEditorStateId];
+
 
     // check whether the clipboard contains fonio data
     const dataRegex = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>$/gm;
     const hasScript = dataRegex.test(html);
     // case 1 : comes from outside (no fonio data)
     if (!hasScript) {
-      // clear components "internal clipboard" and let the event happen
-      // normally (it is in this case draft-js which will handle the paste process)
-      // as a editorChange event (will handle clipboard content as text or html)
-      // setState({
-      //   clipboard: null,
-      //   copiedData: null,
-      // });
-      if (html && html.length) {
-        let match;
-        const aRegex = /<a[^.]+href="([^"]+)"[^>]+>(.*)<\/a>/gi;
-        while ((match = aRegex.exec(html)) !== null) {
-          const toReplace = match[0];
-          const url = match[1];
-          const text = match[2];
-          html = `${html.substring(0, match.index)}${text} (${url})${html.substring(match.index + toReplace.length)}`;
-          match.index = -1;
-        }
-        event.clipboardData.setData('text/html', html);
-        event.clipboardData.setData('text/plain', null);
-        event.preventDefault();
+      // replacing pasted links with resources/contextualizers/contextualizations
+      let contentState = activeEditorState.getCurrentContent();
+      const mods = [];
+      contentState
+        .getBlocksAsArray()
+        .map(contentBlock => {
+          let url;
+          contentBlock.findEntityRanges(
+            (character) => {
+              const entityKey = character.getEntity();
+              if (
+                entityKey !== null &&
+                contentState.getEntity(entityKey).getType() === 'LINK'
+              ) {
+                url = contentState.getEntity(entityKey).getData().url;
+                return true;
+              }
+            },
+            (from, to) => {
+              const text = contentBlock.getText().substring(from, to);
+              const blockKey = contentBlock.getKey();
+              const resId = generateId();
+              const contextualizationId = generateId();
+              const contextualizerId = generateId();
+              const resource = {
+                id: resId,
+                metadata: {
+                  type: 'webpage',
+                  createdAt: new Date().getTime(),
+                  lastModifiedAt: new Date().getTime(),
+                  title: text,
+                },
+                data: url
+              };
+              const contextualizer = {
+                id: contextualizerId,
+                type: 'webpage',
+                alias: text,
+                insertionType: INLINE_ASSET
+              };
+              const contextualization = {
+                id: contextualizationId,
+                resourceId: resId,
+                contextualizerId,
+                type: 'webpage',
+                title: text
+              };
+              createResource(activeStoryId, resId, resource);
+              createContextualizer(activeStoryId, contextualizerId, contextualizer);
+              createContextualization(activeStoryId, contextualizationId, contextualization);
+              mods.push({
+                from,
+                to,
+                blockKey,
+                contextualizationId,
+              });
+            }
+          );
+        });
+      // reversing modifications to content state
+      // to avoid messing with indexes
+      mods.reverse().forEach(({from, to, blockKey, contextualizationId}) => {
+        let textSelection = new SelectionState({
+          anchorKey: blockKey,
+          anchorOffset: from,
+          focusKey: blockKey,
+          focusOffset: to,
+          collapsed: true
+        });
+
+        contentState = Modifier.replaceText(
+          contentState,
+          textSelection,
+          ' ',
+        );
+        contentState = contentState.createEntity(
+          INLINE_ASSET,
+          'IMMUTABLE',
+          {
+            asset: {
+              id: contextualizationId,
+            }
+          }
+        );
+        const entityKey = contentState.getLastCreatedEntityKey();
+        // update selection
+        textSelection = textSelection.merge({
+          focusOffset: from + 1
+        });
+        contentState = Modifier.applyEntity(
+          contentState,
+          textSelection,
+          entityKey
+        );
+      });
+      // applying updated editor state
+      activeEditorState = EditorState.push(
+          activeEditorState,
+          contentState,
+          'apply-entity'
+        );
+      updateDraftEditorState(
+        activeEditorStateId,
+        activeEditorState,
+      );
+      // ...then update the section with editorStates convert to serializable raw objects
+      let newSection;
+      if (editorFocus === 'main') {
+        newSection = {
+          ...activeSection,
+          contents: convertToRaw(activeEditorState.getCurrentContent()),
+        };
       }
+ else {
+        newSection = {
+          ...activeSection,
+          notes: {
+            ...activeSection.notes,
+            [activeEditorStateId]: {
+              ...activeSection.notes[activeEditorStateId],
+              contents: convertToRaw(activeEditorState.getCurrentContent()),
+            }
+          }
+        };
+      }
+      updateSection(activeStoryId, activeSectionId, newSection);
+
+
       return;
     }
     // case 2 : comes from inside
@@ -302,7 +415,6 @@ export const handleCopy = function(event) {
     let newNotes;
     // let newClipboard = clipboard;// clipboard entities will have to be updated
     let newClipboard = convertFromRaw(copiedData.clipboardContentState).getBlockMap();// clipboard entities will have to be updated
-
 
     // case: some non-textual data has been saved to the clipboard
     if (typeof copiedData === 'object') {

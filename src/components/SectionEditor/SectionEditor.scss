@@ -65,10 +65,9 @@
         position: relative;
 
         overflow: auto;
+        flex: 1;
 
         padding-bottom: 10rem;// todo: parametrize that
-
-        flex: 1;
         .scholar-draft-Editor
         {
             position: absolute;
@@ -80,7 +79,8 @@
 
             .main-container-editor,
             .notes-container,
-            .editor-bibliography{
+            .editor-bibliography
+            {
                 padding-left: 10rem;
             }
             .scholar-draft-BasicEditor
@@ -98,10 +98,9 @@
             .public-DraftEditorPlaceholder-inner
             {
                 font-family: $editable-font-stack;
+                line-height: 2em;
 
                 padding: $gutter-medium;
-
-                line-height: 2em;
 
                 @extend .animated;
                 .public-DraftStyleDefault-block
@@ -121,10 +120,11 @@
                 }
                 .note-header
                 {
+                    padding: $gutter-small;
+
                     border-bottom: 1px solid $color-very-light;
 
                     @extend .flex-stretched-row;
-                    padding: $gutter-small;
                     button
                     {
                         width: $font-size-1*2.5;
@@ -133,21 +133,29 @@
                         text-align: center;
                         vertical-align: center;
 
-                        @extend .interactive-item;
                         border-radius: 50%;
-                        &:hover{@extend .interactive-item-intent;}
+
+                        @extend .interactive-item;
+                        &:hover
+                        {
+                            @extend .interactive-item-intent;
+                        }
                     }
                     button:first-of-type
                     {
                         order: 2;
-                        @extend .dangerous-item;
-                        &:hover{@extend .dangerous-item-intent;}
 
+                        @extend .dangerous-item;
+                        &:hover
+                        {
+                            @extend .dangerous-item-intent;
+                        }
                     }
                     h3
                     {
                         flex: 1;
                         order: 1;
+
                         margin-left: $gutter-small;
                     }
                 }
@@ -180,37 +188,63 @@
             .scholar-draft-BlockAssetContainer
             {
                 min-height: 15rem;// todo: parametrize that
-                background: $color-warm-grey;
                 padding: $gutter-medium;
+
+                background: $color-warm-grey;
             }
         }
     }
     .editor-bibliography
     {
         margin-bottom: $gutter-large;
+        overflow: hidden;
+        .csl-entry{
+            margin-bottom: $gutter-medium;
+        }
     }
     .ReactTable
     {
-        max-width: 50rem;// todo: parametrize that
+        // max-width: 50rem;// todo: parametrize that
+        height: 100%;
+        background : white;
     }
 
-    .contextualization-loading-placeholder{
-        @extend .important-item;
+    .contextualization-loading-placeholder
+    {
         padding: $gutter-small;
+
+        @extend .important-item;
     }
 
-    .fonio-LinkButton{
-        padding: 0;
+    .fonio-LinkButton
+    {
         font-size: 1em;
-        .button-content{
+
+        padding: 0;
+        .button-content
+        {
             display: flex;
-            flex-flow: row nowrap;
             align-items: center;
+            flex-flow: row nowrap;
             justify-content: center;
-            padding-left: $gutter-small;
+
             padding-right: $gutter-small;
-            img{
+            padding-left: $gutter-small;
+            img
+            {
                 width: 1em;
+            }
+        }
+    }
+
+    .native-link{
+        @extend .interactive-item;
+        text-decoration: underline;
+        display: inline;
+        .link-content{
+            
+            .pin-container{
+                display: inline;
             }
         }
             

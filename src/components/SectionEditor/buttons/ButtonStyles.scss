@@ -10,27 +10,30 @@
     width: 24px;
     height: 24px;
 
-    transition: all .1s ease;
-
     cursor: pointer;
-
-    img{
     transition: all .1s ease;
-    }
 
     background: inherit;
 
-    &:hover{
-      background: #CCC;
+    img
+    {
+        transition: all .1s ease;
     }
-    &.active{
-      background: #999;
+
+    &:hover
+    {
+        background: #ccc;
+    }
+    &.active
+    {
+        background: #999;
     }
 }
 
 
 .scholar-draft-NoteButton,
-.scholar-draft-AssetButton{
+.scholar-draft-AssetButton
+{
     border-radius: 50%;
 }
 
