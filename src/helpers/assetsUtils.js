@@ -253,6 +253,7 @@ export function inferMetadata(data, assetType) {
     } = actions;
 
     const activeSection = activeStory.sections[activeSectionId];
+
     const resource = activeStory.resources[resourceId];
 
     const editorStateId = contentId === 'main' ? activeSectionId : contentId;
@@ -266,6 +267,7 @@ export function inferMetadata(data, assetType) {
     // could be the full reference version of the reference)
     // (e.g. 2: a 'quinoa presentation' reference in inline mode
     // could be an academic-like short citation of this reference)
+
 
     // todo: choose that from resource model
     const insertionType = ['bib', 'glossary', 'webpage'].indexOf(resource.metadata.type) > -1 ? 'inline' : 'block';
