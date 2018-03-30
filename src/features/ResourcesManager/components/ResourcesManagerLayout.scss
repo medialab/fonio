@@ -7,8 +7,9 @@
 
 .fonio-ResourcesManagerLayout
 {
-    @extend .flex-stretched-column;
     padding: $gutter-medium;
+
+    @extend .flex-stretched-column;
 
     // &.resources-prompted
     // {
@@ -58,6 +59,63 @@
         {
             @extend .important-item-active;
         }
+
+        .fonio-icon
+        {
+            img
+            {
+                height: 1em;
+                margin-right: $gutter-medium;
+            }
+        }
+    }
+
+    .batch-drop-container{
+        .fonio-DropZone{
+            // height: unset;
+
+            transition: all .5s ease;
+
+            .caption-wrapper{
+                overflow: auto;
+                .caption-container{
+                    padding: $gutter-medium;
+                    h3{
+                        transition: all .2s ease;
+                        overflow: hidden;
+                        max-height: 10rem;
+                        opacity: 1;
+                        font-size: $font-size-2;
+                    }
+                    .details-container{
+                        text-align : left;
+                        font-size: $font-size-2;
+                        overflow: hidden;
+                        max-height: 0;
+                        transition: all .5s ease;
+                        ul{
+                            padding-left: $gutter-large;
+                        }
+                        li{
+                            margin-bottom: $gutter-medium;
+                        }
+                    }
+                }
+                &:hover{
+                    .details-container{
+                        max-height: 20rem;
+                    }
+                    h3{
+                        max-height: 0;
+                        opacity: 0e-6;
+                        margin: 0;
+                    }
+                }
+            }
+            &:hover{
+                height: 20rem;
+            }
+        }
     }
 
     .footer
@@ -65,8 +123,10 @@
         .search-query
         {
             flex: 1;
+
             width: 100%;
             margin-top: $gutter-small;
+            margin-bottom: $gutter-small;
 
             @extend .interactive-item;
             &:hover

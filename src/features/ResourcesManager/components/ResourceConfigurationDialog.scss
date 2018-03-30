@@ -21,14 +21,15 @@
     }
     h4
     {
-        margin-top: 0;
         font-size: $font-size-3;
+
+        margin-top: 0;
     }
     h5
     {
-        margin-top: 0;
         font-size: $font-size-2;
 
+        margin-top: 0;
         margin-top: 0;
     }
     // input[type='text'],
@@ -105,7 +106,8 @@
                 position: relative;
 
                 max-width: 50%;
-                h4{
+                h4
+                {
                     margin-bottom: $gutter-medium;
                 }
             }
@@ -123,17 +125,21 @@
         }
     }
 
-    .fonio-DropZone{
+    .fonio-DropZone
+    {
         margin-bottom: $gutter-large;
     }
 
     .data-presentation-input
     {
         @extend .flex-stretched-column;
-        button{
+        button
+        {
             padding: $gutter-medium;
+
             @extend .interactive-item;
-            &:hover{
+            &:hover
+            {
                 @extend .interactive-item-intent;
             }
         }

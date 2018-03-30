@@ -294,7 +294,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'glossary',
       icon: require('../../../sharedAssets/glossary-black.svg'),
-      label: (<span>{translate('resource-type-glossary')}<br /> <HelpPin position="left">
+      label: (<span>{translate('resource-type-glossary')}<br /> <HelpPin position="right">
         {translate('resource-type-glossary-help')}
       </HelpPin></span>),
       possible: true
@@ -302,7 +302,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'bib',
       icon: require('../../../sharedAssets/bib-black.svg'),
-      label: (<span>{translate('resource-type-bib')}<br /> <HelpPin position="left">
+      label: (<span>{translate('resource-type-bib')}<br /> <HelpPin position="right">
         {translate('resource-type-bib-help')}
       </HelpPin></span>),
       possible: true
@@ -310,7 +310,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'table',
       icon: require('../../../sharedAssets/table-black.svg'),
-      label: (<span>{translate('resource-type-table')}<br /> <HelpPin>
+      label: (<span>{translate('resource-type-table')}<br /> <HelpPin position="left">
         {translate('resource-type-table-help')}
       </HelpPin></span>),
       possible: true
@@ -318,7 +318,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'image',
       icon: require('../../../sharedAssets/image-black.svg'),
-      label: (<span>{translate('resource-type-image')}<br /> <HelpPin>
+      label: (<span>{translate('resource-type-image')}<br /> <HelpPin position="left">
         {translate('resource-type-image-help')}
       </HelpPin></span>),
       possible: true
@@ -326,7 +326,7 @@ const ResourceConfigurationDialog = ({
     {
       id: 'video',
       icon: require('../../../sharedAssets/video-black.svg'),
-      label: (<span>{translate('resource-type-video')}<br /> <HelpPin>
+      label: (<span>{translate('resource-type-video')}<br /> <HelpPin position="left">
         {translate('resource-type-video-help')}
       </HelpPin></span>),
       possible: true

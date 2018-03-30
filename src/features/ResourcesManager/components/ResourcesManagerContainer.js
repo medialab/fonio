@@ -6,6 +6,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {csvParse} from 'd3-dsv';
 
 import {v4 as genId} from 'uuid';
 
@@ -16,6 +17,21 @@ import * as managerDuck from '../../StoriesManager/duck';
 import * as editorDuck from '../../StoryEditor/duck';
 import * as globalUiDuck from '../../GlobalUi/duck';
 import * as sectionsDuck from '../../SectionsManager/duck';
+
+
+import {
+  // fileIsAnImage,
+  inferMetadata,
+  // retrieveMediaMetadata,
+  parseBibTeXToCSLJSON,
+  // videoUrlIsValid,
+  loadImage
+} from '../../../helpers/assetsUtils';
+
+
+import {
+  getFileAsText
+} from '../../../helpers/fileLoader';
 
 import {
   updateSection as updateSectionAction,
@@ -201,6 +217,92 @@ class ResourcesManagerContainer extends Component {
       this.props.actions.deleteResource(activeStoryId, resource.id);
   }
 
+  onDropFiles = files => {
+    // console.log('on drop', files);
+    files.forEach(file => {
+      const {name} = file;
+      const extension = name.split('.').pop();
+      const resource = {
+        metadata: {
+        }
+      };
+      switch (extension) {
+        case 'png':
+        case 'jpg':
+        case 'jpeg':
+        case 'gif':
+          resource.metadata.type = 'image';
+          loadImage(file)
+            .then((base64) => {
+              resource.data = {base64, file};
+              resource.metadata = {
+                ...resource.metadata,
+                ...inferMetadata(resource.data, resource.metadata.type)
+              };
+              this.createResource(resource);
+            })
+            .catch((e) => {
+              console.error('image file loading failure', e);/* eslint no-console: 0 */
+            });
+          break;
+        case 'json':
+          resource.metadata.type = 'data-presentation';
+          getFileAsText(file, (err, str) => {
+            try {
+              // todo: add a presentation validation hook here
+              resource.data = JSON.parse(str);
+              resource.metadata = {
+                ...resource.metadata,
+                ...inferMetadata(resource.data, resource.metadata.type)
+              };
+              this.createResource(resource);
+            }
+            catch (e) {
+              console.error('json file loading failure', e);/* eslint no-console: 0 */
+            }
+          });
+          break;
+        case 'csv':
+        case 'tsv':
+          resource.metadata.type = 'table';
+          getFileAsText(file, (err, str) => {
+            try {
+              const structuredData = csvParse(str);
+              resource.data = {json: structuredData};
+              this.createResource(resource);
+            }
+            catch (e) {
+              console.error('table file loading failure', e);/* eslint no-console: 0 */
+            }
+          });
+          break;
+        // case 'txt':
+        //   console.log('import text file');
+        //   break;
+        case 'bib':
+          resource.metadata.type = 'bib';
+          getFileAsText(file, (err, str) => {
+            const csl = parseBibTeXToCSLJSON(str);
+            csl.forEach(bib => {
+              const subResource = {
+                metadata: {
+                  ...bib,
+                  // title: bib.title,
+                  type: 'bib'
+                },
+                data: [bib]
+              };
+              this.createResource(subResource);
+            });
+          });
+          break;
+        default:
+          // console.log('unhandled file extension');
+          break;
+      }
+    });
+  }
+
   /**
    * Renders the component
    * @return {ReactElement} component - the component
@@ -246,6 +348,7 @@ class ResourcesManagerContainer extends Component {
         updateResource={this.updateResource}
         deleteResource={this.deleteResource}
         embedAsset={this.embedAsset}
+        onDropFiles={this.onDropFiles}
         embedLastResource={this.embedLastResource}
         setCoverImage={this.setCoverImage} />
     );

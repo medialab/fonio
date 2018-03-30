@@ -11,6 +11,7 @@ import Modal from 'react-modal';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import ResourceCard from '../../../components/ResourceCard/ResourceCard';
 import OptionSelect from '../../../components/OptionSelect/OptionSelect';
+import DropZone from '../../../components/DropZone/DropZone';
 
 import ResourceConfigurationDialog from './ResourceConfigurationDialog';
 import './ResourcesManagerLayout.scss';
@@ -57,6 +58,7 @@ const ResourcesManagerLayout = ({
   // custom functions
   embedAsset,
   embedLastResource,
+  onDropFiles,
   // custom props
   style,
 }, context) => {
@@ -131,7 +133,12 @@ const ResourcesManagerLayout = ({
 
       }
       <li id="new-resource" onClick={() => startNewResourceConfiguration(resourcesPrompted === true)}>
-        + {translate('new-resource')}
+        <span className="fonio-icon">
+          <img
+            src={require('../../../sharedAssets/close-white.svg')}
+            style={{transform: 'rotate(45deg)'}} />
+        </span>
+        <span>{translate('new-resource')}</span>
       </li>
       <ul className="body">
         {
@@ -181,19 +188,48 @@ const ResourcesManagerLayout = ({
           );
         })
       }
+        <li
+          className="batch-drop-container">
+          <DropZone
+            onDrop={onDropFiles}>
+            <h3>
+              {translate('drop-files-here')}
+              <span
+                className={'fonio-HelpPin'}>
+                <span className="pin-icon">
+                  ?
+                </span>
+              </span>
+            </h3>
+            <div className="details-container">
+              <p>{translate('resources-drop-help-intro')}</p>
+              <ul>
+                <li>
+                  {translate('resource-drop-help-image')}
+                </li>
+                <li>
+                  {translate('resource-drop-help-table')}
+                </li>
+                <li>
+                  {translate('resource-drop-help-bib')}
+                </li>
+              </ul>
+            </div>
+          </DropZone>
+        </li>
       </ul>
       <div className="footer">
+        {resources.length > 1 && <input
+          className="search-query"
+          type="text"
+          placeholder={translate('search-in-resources')}
+          value={resourcesSearchQuery || ''}
+          onChange={onSearchInputChange} />}
         <OptionSelect
           activeOptionId={resourcesTypeQuery}
           options={resourcesTypes}
           onChange={onSelectResourceType}
           title={translate('resource-type')} />
-        <input
-          className="search-query"
-          type="text"
-          placeholder={translate('search-in-resources')}
-          value={resourcesSearchQuery || ''}
-          onChange={onSearchInputChange} />
       </div>
 
       <Modal
