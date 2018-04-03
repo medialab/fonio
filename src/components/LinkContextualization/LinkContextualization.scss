@@ -57,8 +57,13 @@
         margin: 0;
         padding-bottom: 0;
 
-        img
+        &:hover,
+        &:focus
         {
+            @extend .interactive-item-intent-active;
+        }
+        img{
+            height: 2em;
             display: inline-block;
 
             height: 2em;

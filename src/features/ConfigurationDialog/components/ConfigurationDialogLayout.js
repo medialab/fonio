@@ -160,6 +160,7 @@ const ConfigurationDialogLayout = ({
                           field="password"
                           id="password"
                           type="password"
+                          autoComplete="new-password"
                           placeholder="password" />
                         {formApi.touched.password &&
                           <Toaster status={formApi.errors.password && 'failure'} log={formApi.errors.password} />

@@ -58,9 +58,11 @@ const LoginDialog = ({
                   <Text field="password" id="password" type="password" />
                 </div>
               </div>
-              <div className="modal-row no-bg">
-                <Toaster status={loginStoryLogStatus} log={toasterMessage} />
-              </div>
+              {toasterMessage &&
+                <div className="modal-row no-bg">
+                  <Toaster status={loginStoryLogStatus} log={toasterMessage} />
+                </div>
+              }
               <div className="modal-row no-bg link-to-read">
                 <span
                   onClick={onLinkToRead}
