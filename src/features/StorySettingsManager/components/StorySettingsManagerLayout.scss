@@ -9,16 +9,14 @@
 .fonio-StorySettingsManagerLayout
 {
     flex: 1;
-
     @extend .flex-stretched-row;
     .settings-pannel
     {
         z-index: 2;
 
-        flex: 1;
-
         transition: all $time-short ease;
 
+        flex: 1;
         @extend .flex-stretched-column;
         &.hidden
         {
@@ -44,6 +42,7 @@
             .settings-pannel-header
             {
                 display: flex;
+
                 align-items: center;
                 flex: 5;
                 flex-flow: column nowrap;
@@ -85,13 +84,14 @@
         .settings-pannel-body
         {
             overflow-y: auto;
-            flex: 1;
 
             padding-bottom: $gutter-large * 2;
 
             transition: all $time-short ease;
 
             opacity: 1;
+
+            flex: 1;
         }
     }
     .preview-container
@@ -169,6 +169,70 @@
         {
             position: relative;
             top: $gutter-small;
+        }
+    }
+
+    @media print
+    {
+        .settings-pannel
+        {
+            display: none;
+        }
+        .quinoa-story-player
+        {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: unset;
+
+            overflow: visible;
+            
+            .references-manager{
+                overflow: visible;
+                position: unset;
+                height: unset;
+            }
+            .wrapper
+            {
+                width: unset!important;
+                height: unset!important;
+                overflow: visible!important;
+                 > div
+                {
+                    overflow: visible!important;
+
+                    width: unset!important;
+                    height: unset!important;
+                     > div
+                    {
+                        position: unset!important;
+
+                        overflow: visible!important;
+                    }
+                }
+            }
+            .nav
+            {
+                display: none;
+            }
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            blockquote,
+            figure,
+            ul,
+            ol,
+            .header-titles,
+            .unstyled
+            {
+                margin-right: 0!important;
+                margin-left: 0!important;
+                padding-right: 0;
+                padding-left: 0;
+            }
         }
     }
 }

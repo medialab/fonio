@@ -8,9 +8,6 @@ import PropTypes from 'prop-types';
 import StoryPlayer, {templates} from 'quinoa-story-player';
 import {Link} from 'react-router-dom';
 
-
-import './StorySettingsManagerLayout.scss';
-
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import OptionSelect from '../../../components/OptionSelect/OptionSelect';
@@ -18,6 +15,7 @@ import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 import CodeEditor from '../../../components/CodeEditor/CodeEditor';
 import Footer from '../../../components/Footer/Footer';
 
+import './StorySettingsManagerLayout.scss';
 
 const StorySettingsManagerLayout = ({
   // xhrStatus,

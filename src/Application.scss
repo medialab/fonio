@@ -91,6 +91,15 @@ html
         height: $font-size-2-5;
         padding-right: $gutter-small;
     }
+
+    @media print 
+    {
+        position: unset!important;
+        top: unset!important;
+        left: unset!important;
+        width: unset!important;
+        height: unset!important;
+    }
 }
 
 
