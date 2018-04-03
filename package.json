@@ -86,7 +86,7 @@
     "redux-i18n": "^1.1.4",
     "redux-pouchdb": "^0.1.1",
     "reselect": "^3.0.0",
-    "scholar-draft": "^0.2.19",
+    "scholar-draft": "^0.2.21",
     "uuid": "^3.0.1"
   },
   "devDependencies": {

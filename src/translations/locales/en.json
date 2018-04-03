@@ -63,7 +63,7 @@
   "Components.Footer.loading": "loading",
   "Components.Footer.native link to {u}": "native link to {u}",
   "Components.Footer.section-title": "section title",
-  "Components.Footer.add-note": "add a footnote (keyboard shortcut : cmd + q or ctrl + q)",
+  "Components.Footer.add-note": "add a footnote (keyboard shortcut : cmd + m or ctrl + m)",
   "Components.Footer.summon-asset": "add a resource from your library (keyboard shortcut : @)",
   "Components.Footer.cancel": "cancel",
   "Component.LinkButton.add-link": "add a hyperlink",
