@@ -29,10 +29,18 @@
     &:hover
     {
         @extend .primary-item-intent;
+        .csl-entry:before
+        {
+            background: linear-gradient(transparent 3rem, $color-sec-stroke) !important;
+        }
     }
     &.moved
     {
         @extend .important-item-active;
+        .csl-entry:before
+        {
+            background: none !important;
+        }
     }
     /*
      * secondary layout components
@@ -61,10 +69,19 @@
             .csl-entry
             {
                 overflow: hidden;
-
                 max-height: 5rem;
-
                 word-break: break-all;
+                position: relative;
+                &:before
+                {
+                    content:'';
+                    width:100%;
+                    height:100%;
+                    position:absolute;
+                    left:0;
+                    top:0;
+                    background:linear-gradient(transparent 3rem, $color-very-light);
+                }
             }
             a
             {
