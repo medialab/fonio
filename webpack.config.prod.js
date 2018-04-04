@@ -19,10 +19,12 @@ module.exports = {
         NODE_ENV: JSON.stringify('production')
       }
     }))
-    .concat(new BundleAnalyzerPlugin()),
+    .concat(new BundleAnalyzerPlugin({
+      openAnalyzer: false
+    })),
 
     output: {
       path: "/build",
-      publicPath: urlPrefix && urlPrefix.length ? urlPrefix + "/build" : urlPrefix
+      publicPath: urlPrefix && urlPrefix.length ? urlPrefix + "/build/" : '/build/'
     }
 };
