@@ -7,18 +7,22 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const {urlPrefix} = require('./secrets.json')
 
 var sharedConfig = require('./webpack.config.shared');
-
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
+
   module: sharedConfig.module,
+
   plugins: sharedConfig.plugins
     .concat(new UglifyJsPlugin())
     .concat(new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
-    })),
-  output: {
-    path: "/build",
-    publicPath: urlPrefix && urlPrefix.length ? urlPrefix + "/build" : urlPrefix
-  }
+    }))
+    .concat(new BundleAnalyzerPlugin()),
+
+    output: {
+      path: "/build",
+      publicPath: urlPrefix && urlPrefix.length ? urlPrefix + "/build" : urlPrefix
+    }
 };
