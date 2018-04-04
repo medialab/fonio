@@ -20,7 +20,9 @@ module.exports = {
       }
     }))
     .concat(new BundleAnalyzerPlugin({
-      openAnalyzer: false
+      openAnalyzer: false,
+      generateStatsFile: true,
+      analyzerMode: 'disabled'
     })),
 
     output: {

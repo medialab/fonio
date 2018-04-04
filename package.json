@@ -7,6 +7,7 @@
     "dev": "kotatsu serve --config ./webpack.config.dev.js --progress --babel --index ./index.html --public ./ ./src/main.js",
     "build": "kotatsu build client ./src/main.js -o build  --progress --config ./webpack.config.prod.js --babel",
     "lint": "eslint --fix src",
+    "analyze": "webpack-bundle-analyzer build/stats.json",
     "comb": "csscomb src",
     "test": "mocha --compilers js:babel-core/register -R spec --recursive $(find src -name '*.spec.js')",
     "deploy": "npm run build && surge ./",
