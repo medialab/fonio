@@ -4,6 +4,7 @@
  */
 var webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const {urlPrefix} = require('./secrets.json')
 
 var sharedConfig = require('./webpack.config.shared');
 
@@ -15,5 +16,9 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
-    }))
+    })),
+  output: {
+    path: "/build",
+    publicPath: urlPrefix && urlPrefix.length ? urlPrefix + "/build" : urlPrefix
+  }
 };

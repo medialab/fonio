@@ -24,6 +24,10 @@ import GlobalUi from './features/GlobalUi/components/GlobalUiContainer.js';
 import StoryView from './features/StoryView/components/StoryViewContainer.js';
 import StoriesManager from './features/StoriesManager/components/StoriesManagerContainer';
 
+import {
+    urlPrefix
+} from '../secrets';
+
 @connect(
   state => ({
     loadingBar: state.loadingBar.default,
@@ -58,7 +62,7 @@ export default class Application extends Component {
   }
   render() {
     return (
-      <Router>
+      <Router basename={urlPrefix || '/'}>
         <div id="wrapper" className="fonio">
           <GlobalUi />
           <Switch>
