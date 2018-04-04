@@ -37,7 +37,8 @@ const StoryCard = ({
             <span className="title">{story.metadata && story.metadata.title && story.metadata.title.length ? story.metadata.title : translate('untitled_story')}</span>
           </h5>
           <p className="description">
-            {story.metadata && story.metadata.description && story.metadata.description.length ? story.metadata.description : translate('no_description')}
+            {/*story.metadata && story.metadata.description && story.metadata.description.length ? story.metadata.description : translate('no_description')*/}
+            <i>{story.metadata.authors.join(', ')}</i>
           </p>
         </div>
         <div className="buttons-column">
