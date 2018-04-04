@@ -60,7 +60,7 @@
     "postcss-prefix-selector": "^1.6.0",
     "pouchdb": "^6.3.4",
     "quinoa-presentation-player": "^0.2.6",
-    "quinoa-story-player": "^0.2.12",
+    "quinoa-story-player": "^0.2.13",
     "react": "^16.2.0",
     "react-codemirror2": "^4.0.0",
     "react-dnd": "^2.4.0",
