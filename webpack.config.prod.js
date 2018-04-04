@@ -6,7 +6,7 @@ var webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 var sharedConfig = require('./webpack.config.shared');
-
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
   module: sharedConfig.module,
   plugins: sharedConfig.plugins
@@ -16,4 +16,5 @@ module.exports = {
         NODE_ENV: JSON.stringify('production')
       }
     }))
+    .concat(new BundleAnalyzerPlugin())
 };

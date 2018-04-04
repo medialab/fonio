@@ -1,6 +1,5 @@
 import postcss from 'postcss';
 import prefixer from 'postcss-prefix-selector';
-import autoprefixer from 'autoprefixer';
 
 
 export const processCustomCss = (css = '') => {
@@ -14,12 +13,11 @@ export const processCustomCss = (css = '') => {
           if (selector === 'body') {
             return 'body.' + prefix;
           }
- else {
+          else {
             return prefixedSelector;
           }
         }
       }))
-      .use(autoprefixer)
       .process(css).css;
   }
  catch (e) {
