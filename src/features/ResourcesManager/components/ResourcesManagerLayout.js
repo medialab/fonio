@@ -12,6 +12,7 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 import ResourceCard from '../../../components/ResourceCard/ResourceCard';
 import OptionSelect from '../../../components/OptionSelect/OptionSelect';
 import DropZone from '../../../components/DropZone/DropZone';
+import Toaster from '../../../components/Toaster/Toaster';
 
 import ResourceConfigurationDialog from './ResourceConfigurationDialog';
 import './ResourcesManagerLayout.scss';
@@ -59,6 +60,8 @@ const ResourcesManagerLayout = ({
   embedAsset,
   embedLastResource,
   onDropFiles,
+  dropFilesStatus,
+  dropFilesLog,
   // custom props
   style,
 }, context) => {
@@ -190,8 +193,9 @@ const ResourcesManagerLayout = ({
       }
         <li
           className="batch-drop-container">
+          <Toaster status={dropFilesStatus} log={dropFilesLog} />
           <DropZone
-            onDrop={onDropFiles}>
+            onDrop={onDropFiles} accept="image/png, image/jpeg, image/gif, .bib, .csv, .tsv">
             <h3>
               {translate('drop-files-here')}
               <span

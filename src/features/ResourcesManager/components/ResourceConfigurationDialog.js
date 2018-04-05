@@ -40,7 +40,7 @@ const ResourceDataInput = ({
       const onCsvSubmit = (files) => submitResourceData('csvFile', files[0]);
       return (
         <DropZone
-          onDrop={onCsvSubmit}>
+          onDrop={onCsvSubmit} accept=".csv, .tsv">
           <div>
             <p>{translate('drop-a-csv-file-here')}</p>
           </div>
@@ -66,7 +66,7 @@ const ResourceDataInput = ({
       const onImageSubmit = (files) => submitResourceData('imageFile', files[0]);
       return (
         <DropZone
-          onDrop={onImageSubmit}>
+          onDrop={onImageSubmit} accept="image/png, image/jpeg, image/gif">
           <div>
             <p>{translate('drop-a-file-here')}</p>
           </div>
@@ -78,7 +78,7 @@ const ResourceDataInput = ({
       return (
         <div className="data-presentation-input">
           <DropZone
-            onDrop={onPresentationSubmit}>
+            onDrop={onPresentationSubmit} accept=".json">
             <div>
               <p>{translate('drop-a-file-here')}</p>
             </div>
@@ -94,7 +94,7 @@ const ResourceDataInput = ({
       return (
         <div>
           <DropZone
-            onDrop={onBibTeXFileSubmit}>
+            onDrop={onBibTeXFileSubmit} accept=".bib">
             <div>
               <p>{translate('drop-bibtex-here')}</p>
             </div>

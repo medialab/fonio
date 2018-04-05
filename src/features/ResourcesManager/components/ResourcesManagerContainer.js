@@ -1,3 +1,4 @@
+/* eslint react/no-set-state : 0 */
 /**
  * This module exports a stateful component connected to the redux logic of the app,
  * dedicated to rendering the resources manager feature interface
@@ -18,6 +19,8 @@ import * as editorDuck from '../../StoryEditor/duck';
 import * as globalUiDuck from '../../GlobalUi/duck';
 import * as sectionsDuck from '../../SectionsManager/duck';
 
+import config from '../../../../config';
+const {timers} = config;
 
 import {
   // fileIsAnImage,
@@ -75,6 +78,10 @@ class ResourcesManagerContainer extends Component {
    */
   constructor(props) {
     super(props);
+    this.state = {
+      dropFilesStatus: undefined,
+      dropFilesLog: undefined
+    };
     this.createResource = this.createResource.bind(this);
     this.updateResource = this.updateResource.bind(this);
     this.deleteResource = this.deleteResource.bind(this);
@@ -124,7 +131,7 @@ class ResourcesManagerContainer extends Component {
       if (a.metadata.createdAt > b.metadata.createdAt) {
         return -1;
       }
- else {
+      else {
         return 1;
       }
     })[0];
@@ -217,13 +224,21 @@ class ResourcesManagerContainer extends Component {
       this.props.actions.deleteResource(activeStoryId, resource.id);
   }
 
-  onDropFiles = files => {
-    // console.log('on drop', files);
-    files.forEach(file => {
+  submitFile = file => {
+    return new Promise((resolve, reject) => {
       const {name} = file;
       const extension = name.split('.').pop();
+      const {
+        activeStoryId
+      } = this.props;
+      const token = localStorage.getItem(activeStoryId);
+      const id = genId();
       const resource = {
+        id,
         metadata: {
+          createdAt: new Date().getTime(),
+          lastModifiedAt: new Date().getTime(),
+          id
         }
       };
       switch (extension) {
@@ -239,10 +254,15 @@ class ResourcesManagerContainer extends Component {
                 ...resource.metadata,
                 ...inferMetadata(resource.data, resource.metadata.type)
               };
-              this.createResource(resource);
+
+              this.props.actions.uploadResourceRemote(activeStoryId, id, resource, token)
+              .then((res) => {
+                if (res.error) resolve({error: 'upload resource fail', metadata: resource.metadata});
+                else resolve();
+              });
             })
-            .catch((e) => {
-              console.error('image file loading failure', e);/* eslint no-console: 0 */
+            .catch(() => {
+              resolve({error: 'load resource fail', metadata: resource.metadata});
             });
           break;
         case 'json':
@@ -255,10 +275,14 @@ class ResourcesManagerContainer extends Component {
                 ...resource.metadata,
                 ...inferMetadata(resource.data, resource.metadata.type)
               };
-              this.createResource(resource);
+              this.props.actions.uploadResourceRemote(activeStoryId, id, resource, token)
+              .then((res) => {
+                if (res.error) resolve({error: 'upload resource fail', metadata: resource.metadata});
+                else resolve();
+              });
             }
             catch (e) {
-              console.error('json file loading failure', e);/* eslint no-console: 0 */
+              resolve({error: 'load resource fail', metadata: resource.metadata});
             }
           });
           break;
@@ -268,11 +292,19 @@ class ResourcesManagerContainer extends Component {
           getFileAsText(file, (err, str) => {
             try {
               const structuredData = csvParse(str);
-              resource.data = {json: structuredData};
-              this.createResource(resource);
+              resource.data = {json: structuredData, file};
+              resource.metadata = {
+                ...resource.metadata,
+                ...inferMetadata(resource.data, resource.metadata.type)
+              };
+              this.props.actions.uploadResourceRemote(activeStoryId, id, resource, token)
+              .then((res) => {
+                if (res.error) resolve({error: 'upload resource fail', metadata: resource.metadata});
+                else resolve();
+              });
             }
             catch (e) {
-              console.error('table file loading failure', e);/* eslint no-console: 0 */
+              resolve({error: 'load resource fail', metadata: resource.metadata});
             }
           });
           break;
@@ -293,14 +325,67 @@ class ResourcesManagerContainer extends Component {
                 data: [bib]
               };
               this.createResource(subResource);
+              resolve();
             });
           });
           break;
         default:
-          // console.log('unhandled file extension');
+          resolve({error: 'unhandled file extension', metadata: resource.metadata});
           break;
       }
     });
+  };
+
+  onDropFiles = files => {
+    if (files.length > 50) {
+      this.setState({
+        dropFilesStatus: 'failure',
+        dropFilesLog: 'Please upload no more than 50 files.'
+      }, () => {
+        setTimeout(() =>
+          this.setState({
+            dropFilesStatus: undefined,
+            dropFilesLog: undefined
+          }), timers.veryLong);
+      });
+      return false;
+    }
+    const errors = [];
+    files.reduce((curr, next) => {
+        return curr.then(() =>
+          this.submitFile(next)
+          .then((res) => {
+            if (res && res.error) errors.push(res);
+          })
+        );
+      }, Promise.resolve())
+      .then(() => {
+        if (errors.length > 0) {
+          const failedFiles = errors.map(e => e.metadata.fileName).join(', ');
+          this.setState({
+            dropFilesStatus: 'failure',
+            dropFilesLog: failedFiles + ' could not be created, check the format or size of your file.'
+          }, () => {
+            setTimeout(() =>
+              this.setState({
+                dropFilesStatus: undefined,
+                dropFilesLog: undefined
+              }), timers.veryLong);
+          });
+        }
+      })
+      .catch((e) => {
+        this.setState({
+          dropFilesStatus: 'failure',
+          dropFilesLog: e
+        }, () => {
+          setTimeout(() =>
+            this.setState({
+              dropFilesStatus: undefined,
+              dropFilesLog: undefined
+            }), timers.veryLong);
+        });
+      });
   }
 
   /**
@@ -349,6 +434,8 @@ class ResourcesManagerContainer extends Component {
         deleteResource={this.deleteResource}
         embedAsset={this.embedAsset}
         onDropFiles={this.onDropFiles}
+        dropFilesStatus={this.state.dropFilesStatus}
+        dropFilesLog={this.state.dropFilesLog}
         embedLastResource={this.embedLastResource}
         setCoverImage={this.setCoverImage} />
     );

@@ -60,6 +60,7 @@ const SET_RESOURCE_CANDIDATE_METADATA_VALUE = '§Fonio/ResourcesManager/SET_RESO
 const START_NEW_RESOURCE_CONFIGURATION = '§Fonio/ResourcesManager/START_NEW_RESOURCE_CONFIGURATION';
 const START_EXISTING_RESOURCE_CONFIGURATION = '§Fonio/ResourcesManager/START_EXISTING_RESOURCE_CONFIGURATION';
 const SUBMIT_RESOURCE_DATA = '§Fonio/ResourcesManager/SUBMIT_RESOURCE_DATA';
+
 /*
  * CONTENT-RELATED
  */
@@ -166,7 +167,7 @@ export const submitResourceData = (type, data, existingData) => ({
           return getFileAsText(data, (err, str) => {
             try {
               const structuredData = csvParse(str);
-              resolve({json: structuredData});
+              resolve({json: structuredData, file: data});
             }
             catch (e) {
               reject(e);
@@ -557,6 +558,8 @@ function resourcesUi (state = RESOURCES_UI_DEFAULT_STATE, action) {
     case SET_RESOURCE_CANDIDATE_TYPE:
       return {
         ...state,
+        resourceUploadingState: undefined,
+        resourceDataLoadingState: undefined,
         resourceCandidate: {
           ...state.resourceCandidate,
           metadata: {

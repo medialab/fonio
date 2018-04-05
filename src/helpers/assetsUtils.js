@@ -210,6 +210,7 @@ export function inferMetadata(data, assetType) {
     case 'data-presentation':
       return {...data.json.metadata};
     case 'image':
+    case 'table':
       let title = data && data.file && data.file.name && data.file.name.split('.');
       if (title) {
         title.pop();
@@ -217,6 +218,7 @@ export function inferMetadata(data, assetType) {
       }
       return {
         title,
+        fileName: data && data.file && data.file.name && data.file.name,
         mime: data && data.file && data.file.type
       };
     case 'embed':
