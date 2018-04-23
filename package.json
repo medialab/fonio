@@ -5,7 +5,7 @@
   "main": "dist/entry.js",
   "scripts": {
     "dev": "kotatsu serve --config ./webpack.config.dev.js --progress --babel --index ./index.html --public ./ ./src/main.js",
-    "build": "kotatsu build client ./src/main.js -o build  --progress --config ./webpack.config.prod.js --babel",
+    "build": "kotatsu build client ./src/main.js -o build  --progress --config ./webpack.config.prod.js --babel;node buildProdIndex",
     "lint": "eslint --fix src",
     "analyze": "webpack-bundle-analyzer build/stats.json",
     "comb": "csscomb src",
@@ -107,6 +107,7 @@
     "eslint": "^4.3.0",
     "eslint-plugin-react": "^7.0.1",
     "file-loader": "^1.1.6",
+    "fs-extra": "^5.0.0",
     "image-webpack-loader": "^4.1.0",
     "kotatsu": "^0.15.0",
     "mocha": "^5.0.1",
