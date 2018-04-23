@@ -278,10 +278,11 @@ export const handleCopy = function(event) {
               if (linksMap[url]) {
                 resId = linksMap[url];
                 shouldCreateResource = false;
-              } else {
+              }
+ else {
                 linksMap[url] = resId;
                 shouldCreateResource = true;
-              };
+              }
               const contextualizationId = generateId();
               const contextualizerId = generateId();
               const resource = {

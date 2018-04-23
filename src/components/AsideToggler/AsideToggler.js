@@ -66,8 +66,7 @@ const AsideToggler = ({
               className={'option' + (activeOption === option.id ? ' active' : '')}
               onClick={onClick}
               key={index}>
-              <span
-              >{option.name}</span>
+              <span >{option.name}</span>
             </li>
           );
         })

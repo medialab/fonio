@@ -225,7 +225,7 @@ class ResourcesManagerContainer extends Component {
   }
 
   submitFile = file => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const {name} = file;
       const extension = name.split('.').pop();
       const {
