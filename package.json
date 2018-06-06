@@ -46,6 +46,7 @@
     "axios": "^0.18.0",
     "citation-js": "^0.3.4",
     "codemirror": "^5.35.0",
+    "config": "^1.30.0",
     "d3-dsv": "^1.0.5",
     "debounce-promise": "^3.1.0",
     "draft-convert": "^2.0.1",
