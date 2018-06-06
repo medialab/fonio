@@ -17,10 +17,12 @@ import {
   Switch
 } from 'react-router-dom';
 
+import * as connectionsDuck from './features/ConnectionsManager/duck';
+import Home from './features/HomeView/components/HomeViewContainer.js';
+
 import 'quinoa-design-library/themes/millet/style.css';
 import './Application.scss';
 
-import Home from './features/HomeView/components/HomeViewContainer.js';
 
 import {
     urlPrefix
@@ -35,6 +37,11 @@ import {
  * Renders the whole fonio application
  * @return {ReactComponent} component
  */
+@connect(
+  state => ({
+    ...connectionsDuck.selector(state.connections),
+  })
+)
 export default class Application extends Component {
 
   /**
@@ -59,18 +66,26 @@ export default class Application extends Component {
     }
   }
   render() {
+    const {
+      props: {
+        // usersNumber,
+        userId
+      }
+    } = this;
     return (
       <Router basename={urlPrefix || '/'}>
         <div id="wrapper" className="fonio">
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route render={(props) => (
-              // TODO: render proper loading/error page
-              <h2>
-                No match for {props.location.pathname}, go back to <Link to="/">Home page</Link>
-              </h2>
-            )} />
-          </Switch>
+          {userId &&
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route render={(props) => (
+                // TODO: render proper loading/error page
+                <h2>
+                  No match for {props.location.pathname}, go back to <Link to="/">Home page</Link>
+                </h2>
+              )} />
+            </Switch>
+          }
         </div>
       </Router>
     );

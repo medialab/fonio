@@ -11,6 +11,7 @@ import {i18nState} from 'redux-i18n';
 import {loadingBarReducer} from 'react-redux-loading-bar';
 
 import home from '../features/HomeView/duck';
+import connections from '../features/ConnectionsManager/duck';
 
 const saveLang = (state = {}, action) => {
   if (action.type === 'REDUX_I18N_SET_LANGUAGE') {
@@ -24,5 +25,6 @@ export default combineReducers({
   i18nState,
   saveLang,
   loadingBar: loadingBarReducer,
+  connections,
   home,
 });
