@@ -49,7 +49,6 @@ Output your data to high-quality and very robust documents :
 git clone https://github.com/medialab/fonio
 cd fonio
 npm install
-cp secrets.sample.json secrets.json
 ```
 
 Then edit the ``secrets.json`` file with your own data.
@@ -68,9 +67,7 @@ See the [contributing guide](https://github.com/medialab/fonio/blob/master/CONTR
 
 # Deployment
 
-Fonio does not need a backend for composing presentations and storing them on the localStorage. Nevertheless, Fonio needs an instance of [quinoa server](https://github.com/medialab/quinoa-server) application available in order to be able to handle all-in-one html bundling, oAuth connection to github/gist and exports to distant server. 
-
-It also needs a [youtube API key](https://developers.google.com/youtube/registering_an_application) if you want to be able to retrieve metadata from youtube assets.
+Fonio needs a [youtube API key](https://developers.google.com/youtube/registering_an_application) if you want to be able to retrieve metadata from youtube assets.
 
 For now Fonio deploys to a [surge](http://surge.sh/) instance for preproduction tests. If you plan to do the same, be sure to change the `CNAME` file to your own destination, then :
 

@@ -17,12 +17,9 @@ import {
   Switch
 } from 'react-router-dom';
 
-import './core.scss';
 import './Application.scss';
 
-import GlobalUi from './features/GlobalUi/components/GlobalUiContainer.js';
-import StoryView from './features/StoryView/components/StoryViewContainer.js';
-import StoriesManager from './features/StoriesManager/components/StoriesManagerContainer';
+import Home from './features/HomeView/components/HomeViewContainer.js';
 
 import {
     urlPrefix
@@ -64,12 +61,10 @@ export default class Application extends Component {
     return (
       <Router basename={urlPrefix || '/'}>
         <div id="wrapper" className="fonio">
-          <GlobalUi />
           <Switch>
-            <Route exact path="/" component={StoriesManager} />
-            <Route path="/story/:id/:mode?" render={(props) => (<StoryView {...props} />)} />
+            <Route exact path="/" component={Home} />
             <Route render={(props) => (
-              // TODO: loading/error page
+              // TODO: render proper loading/error page
               <h2>
                 No match for {props.location.pathname}, go back to <Link to="/">Home page</Link>
               </h2>

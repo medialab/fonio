@@ -10,7 +10,6 @@ import {
 } from 'redux';
 import rootReducer from './rootReducer';
 import promiseMiddleware from './promiseMiddleware';
-import autoSaveMiddleware from './autoSaveMiddleware';
 import {loadingBarMiddleware} from 'react-redux-loading-bar';
 
 /**
@@ -22,7 +21,6 @@ export default function configureStore (initialState = {}) {
   // Compose final middleware with thunk and promises handling
   const middleware = applyMiddleware(
     promiseMiddleware(),
-    autoSaveMiddleware(),
     loadingBarMiddleware({
       promiseTypeSuffixes: ['PENDING', 'SUCCESS', 'FAIL'],
     })
