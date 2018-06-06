@@ -121,7 +121,7 @@ const UI_DEFAULT_STATE = {
 };
 
 const getStatePropFromActionSet = actionName => {
-  return actionName.replace('SET_', '').toLowerCase().replace(/(_[A-Z])/i, (a, b) => b.substr(1).toUpperCase());
+  return actionName.replace('SET_', '').toLowerCase().replace(/(_[a-z])/gi, (a, b) => b.substr(1).toUpperCase());
 };
 
 /**

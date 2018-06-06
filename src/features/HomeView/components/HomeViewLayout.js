@@ -260,12 +260,12 @@ class HomeViewLayout extends Component {
                                   <Tabs isBoxed isFullWidth>
                                     <Container>
                                       <TabList>
-                                        <Tab onClick={() => setNewStoryTabMode('new-story')} isActive={newStoryTabMode === 'new-story'}><TabLink>Create a story</TabLink></Tab>
-                                        <Tab onClick={() => setNewStoryTabMode('import-story')} isActive={newStoryTabMode === 'import-story'}><TabLink>Import an existing story</TabLink></Tab>
+                                        <Tab onClick={() => setNewStoryTabMode('form')} isActive={newStoryTabMode === 'form'}><TabLink>{this.translate('Create a story')}</TabLink></Tab>
+                                        <Tab onClick={() => setNewStoryTabMode('file')} isActive={newStoryTabMode === 'file'}><TabLink>{this.translate('Import an existing story')}</TabLink></Tab>
                                       </TabList>
                                     </Container>
                                   </Tabs>
-                                  {newStoryTabMode === 'new-story' ?
+                                  {newStoryTabMode === 'form' ?
                                     <form>
                                       <Field>
                                         <Control>
