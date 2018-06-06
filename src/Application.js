@@ -17,6 +17,7 @@ import {
   Switch
 } from 'react-router-dom';
 
+import 'quinoa-design-library/themes/millet/style.css';
 import './Application.scss';
 
 import Home from './features/HomeView/components/HomeViewContainer.js';

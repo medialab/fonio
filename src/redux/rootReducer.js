@@ -10,6 +10,8 @@ import {i18nState} from 'redux-i18n';
 
 import {loadingBarReducer} from 'react-redux-loading-bar';
 
+import home from '../features/HomeView/duck';
+
 const saveLang = (state = {}, action) => {
   if (action.type === 'REDUX_I18N_SET_LANGUAGE') {
     localStorage.setItem('fonio-lang', action.lang);
@@ -22,4 +24,5 @@ export default combineReducers({
   i18nState,
   saveLang,
   loadingBar: loadingBarReducer,
+  home,
 });

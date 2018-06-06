@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-3-30\n"
-"PO-Revision-Date: Fri Mar 30 2018 15:03:26 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-6-6\n"
+"PO-Revision-Date: Wed Jun 06 2018 16:38:42 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -895,3 +895,66 @@ msgstr "resource-drop-help-table"
 
 msgid "Features.ResourcesManager.resource-drop-help-bib"
 msgstr "resource-drop-help-bib"
+
+msgid "Features.HomeView.Your profile"
+msgstr "Your profile"
+
+msgid "Features.HomeView.choose how you will be identified by other writers"
+msgstr "choose how you will be identified by other writers"
+
+msgid "Features.HomeView.edit"
+msgstr "edit"
+
+msgid "Features.HomeView.intro short title"
+msgstr "intro short title"
+
+msgid "Features.HomeView.New story"
+msgstr "New story"
+
+msgid "Features.HomeView.find a story"
+msgstr "find a story"
+
+msgid "Features.HomeView.search"
+msgstr "search"
+
+msgid "Features.HomeView.sort by:"
+msgstr "sort by:"
+
+msgid "Features.HomeView.last modification date"
+msgstr "last modification date"
+
+msgid "Features.HomeView.creation date"
+msgstr "creation date"
+
+msgid "Features.HomeView.title"
+msgstr "title"
+
+msgid "Features.HomeView.Stories"
+msgstr "Stories"
+
+msgid "Features.HomeView.Learn"
+msgstr "Learn"
+
+msgid "Features.HomeView.About"
+msgstr "About"
+
+msgid "Features.HomeView.Learn fonio"
+msgstr "Learn fonio"
+
+msgid "Features.HomeView.learn fonio detail"
+msgstr "learn fonio detail"
+
+msgid "Features.HomeView.About fonio"
+msgstr "About fonio"
+
+msgid "Features.HomeView.about fonio details"
+msgstr "about fonio details"
+
+msgid "Features.HomeView.Made by medialab"
+msgstr "Made by medialab"
+
+msgid "Features.HomeView.The source code is licensed under "
+msgstr "The source code is licensed under "
+
+msgid "Features.HomeView.The website content is licensed under "
+msgstr "The website content is licensed under "
