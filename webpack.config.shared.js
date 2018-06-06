@@ -2,6 +2,7 @@
  * Webpack configuration base for handling the application's source code
  */
 var webpack = require('webpack');
+var config = require('config');
 
 module.exports = {
   module: {
@@ -45,5 +46,8 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      CONFIG: JSON.stringify(config)
+    })
   ]
 };

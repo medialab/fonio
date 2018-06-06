@@ -8,6 +8,8 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
+import {get/*, put, post, delete as del*/} from 'axios';
+
 /**
  * ===================================================
  * ACTION NAMES
@@ -23,6 +25,9 @@ const SET_SEARCH_STRING = 'SET_SEARCH_STRING';
 const SET_SORTING_MODE = 'SET_SORTING_MODE';
 const SET_IDENTIFICATION_MODAL_SWITCH = 'SET_IDENTIFICATION_MODAL_SWITCH';
 const SET_PREVIEWED_STORY_ID = 'SET_PREVIEWED_STORY_ID';
+
+const FETCH_STORIES = 'FETCH_STORIES';
+
 /**
  * data
  */
@@ -66,6 +71,14 @@ export const setPreviewedStoryId = payload => ({
 export const setNewStoryMetadata = payload => ({
   type: SET_NEW_STORY_METADATA,
   payload
+});
+
+export const fetchStories = () => ({
+  type: FETCH_STORIES,
+  promise: () => {
+    const serverRequestUrl = `${CONFIG.serverUrl}/stories/`;/* eslint no-undef: 0 */
+    return get(serverRequestUrl);
+  },
 });
 
 /**
@@ -161,6 +174,12 @@ function data(state = DATA_DEFAULT_STATE, action) {
       return {
         ...state,
         newStoryMetadata: payload
+      };
+    case `${FETCH_STORIES}_SUCCESS`:
+      const {data: thatData} = action.result;
+      return {
+        ...state,
+        stories: thatData
       };
     default:
       return state;

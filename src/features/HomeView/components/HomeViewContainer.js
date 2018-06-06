@@ -55,6 +55,10 @@ class HomeViewContainer extends Component {
     super(props);
   }
 
+  componentWillMount() {
+    this.props.actions.fetchStories();
+  }
+
 
   /**
    * Defines whether the component should re-render

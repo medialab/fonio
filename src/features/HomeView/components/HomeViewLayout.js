@@ -104,13 +104,14 @@ class HomeViewLayout extends Component {
           }
         } = this.props;
 
+
         const storiesList = Object.keys(stories).map(id => stories[id]);
         return (
           <Container>
             <Columns>
               <Column isHidden={storyInfoVisible} isSize={storyInfoVisible ? 0 : '1/3'}>
                 <Title isSize={2}>
-                  {'Scube 2018'}
+                  {CONFIG.sessionName /* eslint no-undef: 0 */}
                 </Title>
 
                 <div>
@@ -172,10 +173,10 @@ class HomeViewLayout extends Component {
                             <Column>
                               <Card
                                 key={index}
-                                title={story.title}
-                                subtitle={story.subtitle}
+                                title={story.metadata.title}
+                                subtitle={story.metadata.subtitle}
                                 lockStatus={story.edited ? 'active' : 'open'}
-                                statusMessage={story.edited ? `Edited by ${story.subtitle}` : undefined}
+                                statusMessage={story.edited ? `Edited by ${story.metadata.subtitle}` : undefined}
                                 onAction={(id) => {
                                 if (id === 'info') {
                                   console.log('show info');/* eslint no-console:0 */
@@ -413,7 +414,7 @@ class HomeViewLayout extends Component {
               locationBreadCrumbs={[
               {
                 href: '/',
-                content: <strong>{'Scube 2018'}</strong>,
+                content: <strong>{CONFIG.sessionName /* eslint no-undef: 0 */}</strong>,
                 isActive: true
               },
             ]}
@@ -427,7 +428,7 @@ class HomeViewLayout extends Component {
 
           <HeroBody>
             <Container hasTextAlign="centered">
-              <Title>{'Scube 2018'}</Title>
+              <Title>{CONFIG.sessionName /* eslint no-undef: 0 */}</Title>
             </Container>
           </HeroBody>
 
