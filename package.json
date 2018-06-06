@@ -88,6 +88,7 @@
     "redux-pouchdb": "^0.1.1",
     "reselect": "^3.0.0",
     "scholar-draft": "^0.2.21",
+    "socket.io-client": "^2.1.1",
     "uuid": "^3.0.1"
   },
   "devDependencies": {

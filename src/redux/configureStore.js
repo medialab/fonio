@@ -12,6 +12,16 @@ import rootReducer from './rootReducer';
 import promiseMiddleware from './promiseMiddleware';
 import {loadingBarMiddleware} from 'react-redux-loading-bar';
 
+import io from 'socket.io-client';
+import createSocketIoMiddleware from './socketIoMiddleware';
+
+/**
+ * @todo: fetch that from config
+ */
+const socket = io('http://localhost:3001');
+
+const socketIoMiddleware = createSocketIoMiddleware(socket);
+
 /**
  * Configures store with a possible inherited state and appropriate reducers
  * @param initialState - the state to use to bootstrap the reducer
@@ -20,6 +30,7 @@ import {loadingBarMiddleware} from 'react-redux-loading-bar';
 export default function configureStore (initialState = {}) {
   // Compose final middleware with thunk and promises handling
   const middleware = applyMiddleware(
+    socketIoMiddleware,
     promiseMiddleware(),
     loadingBarMiddleware({
       promiseTypeSuffixes: ['PENDING', 'SUCCESS', 'FAIL'],
