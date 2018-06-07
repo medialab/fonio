@@ -1,4 +1,8 @@
 {
+  "Components.ExportModal.Export story": "Export story",
+  "Components.ExportModal.Export as an html page": "Export as an html page",
+  "Components.ExportModal.Export as a json workfile": "Export as a json workfile",
+  "Components.ExportModal.Story was bundled successfully": "Story was bundled successfully",
   "Components.IdentificationModal.Who is this?": "Who is this?",
   "Components.IdentificationModal.Enter a nickname": "Enter a nickname",
   "Components.IdentificationModal.Submit new information": "Submit new information",
@@ -11,6 +15,7 @@
   "Features.AuthManager.Enter": "Enter",
   "Features.AuthManager.Read": "Read",
   "Features.AuthManager.Back to home": "Back to home",
+  "Features.EditionUiWrapper.Unnamed story": "Unnamed story",
   "Features.EditionUiWrapper.Summary": "Summary",
   "Features.EditionUiWrapper.Library": "Library",
   "Features.EditionUiWrapper.Design": "Design",
@@ -42,5 +47,6 @@
   "Components.StoryCard.change password": "change password",
   "Components.StoryCard.open": "open",
   "Components.StoryCard.duplicate": "duplicate",
-  "Components.StoryCard.delete": "delete"
+  "Components.StoryCard.delete": "delete",
+  "Features.SummaryView.Edit global settings": "Edit global settings"
 }
