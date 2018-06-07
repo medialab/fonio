@@ -8,7 +8,7 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
-import {get/*, put, post, delete as del*/} from 'axios';
+import {get, post, delete as del} from 'axios';
 
 import {createDefaultStory} from '../../helpers/schemaUtils';
 /**
@@ -29,6 +29,7 @@ const SET_PREVIEWED_STORY_ID = 'SET_PREVIEWED_STORY_ID';
 const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
 const FETCH_STORIES = 'FETCH_STORIES';
 const CREATE_STORY = 'CREATE_STORY';
+const DELETE_STORY = 'DELETE_STORY';
 
 import {SET_USER_INFO} from '../UserInfoManager/duck';
 /**
@@ -95,6 +96,21 @@ export const createStory = ({payload, password}) => ({
   promise: () => {
     const serverRequestUrl = `${CONFIG.serverUrl}/stories/`;/* eslint no-undef: 0 */
     return post(serverRequestUrl, {payload, password});
+  },
+});
+
+export const deleteStory = payload => ({
+  type: DELETE_STORY,
+  payload,
+  promise: () => {
+    const {id, token} = payload;
+    const options = {
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    const serverRequestUrl = `${CONFIG.serverUrl}/stories/${id}`;
+    return del(serverRequestUrl, options);
   },
 });
 
@@ -165,6 +181,11 @@ function ui(state = UI_DEFAULT_STATE, action) {
         ...state,
         [propName]: payload
       };
+    case `${CREATE_STORY}_SUCCESS`:
+      return {
+        ...state,
+        newStoryOpen: false
+      };
     default:
       return state;
   }
@@ -193,22 +214,51 @@ const DATA_DEFAULT_STATE = {
  */
 function data(state = DATA_DEFAULT_STATE, action) {
   const {payload} = action;
+  let newStory;
   switch (action.type) {
+    case SET_NEW_STORY_OPEN:
+      newStory = createDefaultStory();
+      return {
+        ...state,
+        newStory
+      };
     case SET_NEW_STORY_TAB_MODE:
       if (payload === 'form') {
-        const newStory = createDefaultStory();
+        newStory = createDefaultStory();
         return {
           ...state,
           newStory
         };
       }
-      else
-        return state;
+      else return state;
     case `${FETCH_STORIES}_SUCCESS`:
       const {data: thatData} = action.result;
       return {
         ...state,
         stories: thatData
+      };
+    case `${CREATE_STORY}_SUCCESS`:
+      const {story, token} = action.result.data;
+      localStorage.setItem(story.id, token);
+      return {
+        ...state,
+        stories: {
+          ...state.stories,
+          [story.id]: story
+        }
+      };
+    case `${CREATE_STORY}_BROADCAST`:
+      return {
+        ...state,
+        [payload.id]: payload,
+      };
+    case `${DELETE_STORY}_SUCCESS`:
+    case `${DELETE_STORY}_BROADCAST`:
+      const newStories = {...state.stories};
+      delete newStories[payload.id];
+      return {
+        ...state,
+        stories: newStories
       };
     case SET_USER_INFO:
     case SET_USER_INFO_TEMP:
