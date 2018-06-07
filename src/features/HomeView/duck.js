@@ -25,9 +25,10 @@ const SET_SEARCH_STRING = 'SET_SEARCH_STRING';
 const SET_SORTING_MODE = 'SET_SORTING_MODE';
 const SET_IDENTIFICATION_MODAL_SWITCH = 'SET_IDENTIFICATION_MODAL_SWITCH';
 const SET_PREVIEWED_STORY_ID = 'SET_PREVIEWED_STORY_ID';
-
+const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
 const FETCH_STORIES = 'FETCH_STORIES';
 
+import {SET_USER_INFO} from '../UserInfo/duck';
 /**
  * data
  */
@@ -72,6 +73,10 @@ export const setNewStoryMetadata = payload => ({
   type: SET_NEW_STORY_METADATA,
   payload
 });
+export const setUserInfoTemp = payload => ({
+  type: SET_USER_INFO_TEMP,
+  payload
+});
 
 export const fetchStories = () => ({
   type: FETCH_STORIES,
@@ -113,7 +118,7 @@ const UI_DEFAULT_STATE = {
   /**
    * Whether identification modal is opened
    */
-  identificationModalOpen: false,
+  identificationModalSwitch: false,
   /**
    * id of a story to display as a resume/readonly way
    */
@@ -158,7 +163,11 @@ const DATA_DEFAULT_STATE = {
   /**
    * list of stories metadata
    */
-  stories: {}
+  stories: {},
+    /**
+   * temp value of user info
+   */
+  userInfoTemp: {}
 };
 
 /**
@@ -181,6 +190,20 @@ function data(state = DATA_DEFAULT_STATE, action) {
         ...state,
         stories: thatData
       };
+    case SET_USER_INFO:
+    case SET_USER_INFO_TEMP:
+      return {
+        ...state,
+        userInfoTemp: payload,
+      };
+    case SET_IDENTIFICATION_MODAL_SWITCH:
+      if (payload === false) {
+        return {
+          ...state,
+          userInfoTemp: JSON.parse(localStorage.getItem('fonio_user_info'))
+        };
+      }
+      return state;
     default:
       return state;
   }
@@ -205,10 +228,11 @@ const newStoryOpen = state => state.ui.newStoryOpen;
 const newStoryTabMode = state => state.ui.newStoryTabMode;
 const searchString = state => state.ui.searchString;
 const sortingMode = state => state.ui.sortingMode;
-const identificationModalOpen = state => state.ui.identificationModalOpen;
+const identificationModalSwitch = state => state.ui.identificationModalSwitch;
 
 const newStoryMetadata = state => state.data.newStoryMetadata;
 const stories = state => state.data.stories;
+const userInfoTemp = state => state.data.userInfoTemp;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -220,7 +244,8 @@ export const selector = createStructuredSelector({
   newStoryTabMode,
   searchString,
   sortingMode,
-  identificationModalOpen,
+  identificationModalSwitch,
   newStoryMetadata,
+  userInfoTemp,
   stories
 });

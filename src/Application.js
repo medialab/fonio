@@ -9,6 +9,7 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import {
   BrowserRouter as Router,
@@ -18,7 +19,9 @@ import {
 } from 'react-router-dom';
 
 import * as connectionsDuck from './features/ConnectionsManager/duck';
-import Home from './features/HomeView/components/HomeViewContainer.js';
+import Home from './features/HomeView/components/HomeViewContainer';
+import * as userInfoDuck from './features/UserInfo/duck';
+import generateRandomUserInfo from './helpers/userInfo';
 
 import 'quinoa-design-library/themes/millet/style.css';
 import './Application.scss';
@@ -28,11 +31,6 @@ import {
     urlPrefix
 } from '../secrets';
 
-@connect(
-  state => ({
-    loadingBar: state.loadingBar.default,
-  })
-)
 /**
  * Renders the whole fonio application
  * @return {ReactComponent} component
@@ -40,6 +38,15 @@ import {
 @connect(
   state => ({
     ...connectionsDuck.selector(state.connections),
+    ...userInfoDuck.selector(state.userInfo),
+    loadingBar: state.loadingBar.default,
+    lang: state.i18nState.lang,
+  }),
+  dispatch => ({
+    actions: bindActionCreators({
+      ...userInfoDuck,
+      ...connectionsDuck,
+    }, dispatch)
   })
 )
 export default class Application extends Component {
@@ -55,6 +62,28 @@ export default class Application extends Component {
 
   componentDidMount() {
     window.addEventListener('beforeunload', this.confirmExit);
+  }
+
+  componentWillReceiveProps = nextProps => {
+    if (this.props.userId !== nextProps.userId && nextProps.userId) {
+      const userId = nextProps.userId;
+      const userInfo = localStorage.getItem('fonio_user_info');
+      let userInfoOk;
+      if (userInfo) {
+        try {
+          userInfoOk = JSON.parse(userInfo);
+        }
+        catch (e) {
+          userInfoOk = generateRandomUserInfo(this.props.lang);
+        }
+      }
+      else {
+        userInfoOk = generateRandomUserInfo(this.props.lang);
+      }
+      userInfoOk.userId = userId;
+      this.props.actions.setUserInfo(userInfoOk);
+      this.props.actions.createUser(userInfoOk);
+    }
   }
 
   confirmExit(e) {

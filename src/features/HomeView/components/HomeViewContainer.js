@@ -12,6 +12,8 @@ import {withRouter} from 'react-router';
 
 import HomeViewLayout from './HomeViewLayout';
 import * as duck from '../duck';
+import * as userInfoDuck from '../../UserInfo/duck';
+import * as connectionsDuck from '../../ConnectionsManager/duck';
 
 
 /**
@@ -21,10 +23,14 @@ import * as duck from '../duck';
   state => ({
     ...duck.selector(state.home),
     lang: state.i18nState.lang,
+    ...userInfoDuck.selector(state.userInfo),
+    ...connectionsDuck.selector(state.connections),
   }),
   dispatch => ({
     actions: bindActionCreators({
       ...duck,
+      ...userInfoDuck,
+      ...connectionsDuck,
       setLanguage,
     }, dispatch)
   })
