@@ -264,7 +264,6 @@ export const selector = createStructuredSelector({
   newStoryTabMode,
   searchString,
   sortingMode,
-  identificationModalOpen,
   newStory,
   identificationModalSwitch,
   userInfoTemp,

@@ -8,6 +8,7 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
+import {LOGIN_STORY} from '../ConnectionsManager/duck';
 
 /**
  * ===================================================
@@ -15,6 +16,7 @@ import {createStructuredSelector} from 'reselect';
  * ===================================================
  */
 const SET_STORY_LOGIN_ID = 'SET_STORY_LOGIN_ID';
+const SET_LOGIN_STATUS = 'SET_LOGIN_STATUS';
 
 /**
  * ===================================================
@@ -25,6 +27,12 @@ export const setStoryLoginId = payload => ({
   type: SET_STORY_LOGIN_ID,
   payload
 });
+
+export const setLoginStatus = payload => ({
+  type: SET_LOGIN_STATUS,
+  payload
+});
+
 /**
  * ===================================================
  * REDUCERS
@@ -40,6 +48,11 @@ const UI_DEFAULT_STATE = {
    * id of the story being asked to be logged in
    */
   storyLoginId: undefined,
+
+  /**
+   * status of the login process (['processing', 'fail', 'success'])
+   */
+   loginStatus: undefined,
 };
 
 /**
@@ -52,10 +65,27 @@ function ui(state = UI_DEFAULT_STATE, action) {
   const {payload} = action;
   switch (action.type) {
     case SET_STORY_LOGIN_ID:
+    case SET_LOGIN_STATUS:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
         [propName]: payload
+      };
+    case LOGIN_STORY:
+      return {
+        ...state,
+        loginStatus: 'processing'
+      };
+    case `${LOGIN_STORY}_SUCCESS`:
+      return {
+        ...state,
+        loginStatus: undefined,
+        storyLoginId: undefined,
+      };
+    case `${LOGIN_STORY}_FAIL`:
+      return {
+        ...state,
+        loginStatus: 'fail'
       };
     default:
       return state;
@@ -75,6 +105,7 @@ export default combineReducers({
  * ===================================================
  */
 const storyLoginId = state => state.ui.storyLoginId;
+const loginStatus = state => state.ui.loginStatus;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -82,4 +113,5 @@ const storyLoginId = state => state.ui.storyLoginId;
  */
 export const selector = createStructuredSelector({
   storyLoginId,
+  loginStatus,
 });

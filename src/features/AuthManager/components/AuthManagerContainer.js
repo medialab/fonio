@@ -33,7 +33,7 @@ class AuthManagerContainer extends Component {
   componentDidMount() {
     const {userId} = this.props;
     const {storyId} = this.props.match.params;
-    const token = localStorage.getItem(storyId);
+    const token = this.loadStoryToken(storyId);
     this.props.actions.activateStory({storyId, userId, token})
     .then((res) => {
       if (res.error && res.error.response && res.error.response.data && res.error.response.data.auth === false) {
@@ -43,21 +43,27 @@ class AuthManagerContainer extends Component {
   }
 
   componentWillUnmount() {
-    // const {userId} = this.props;
-    // const {id} = this.props.match.params;
-    // this.props.actions.leaveStory({storyId: id, userId});
+    const {userId} = this.props;
+    const {storyId} = this.props.match.params;
+    this.props.actions.leaveStory({storyId, userId});
   }
+
+  loadStoryToken = storyId => localStorage.getItem(`fonio/storyToken/${storyId}`);
+  saveStoryToken = (storyId, token) => localStorage.setItem(`fonio/storyToken/${storyId}`, token);
 
   render() {
     const {
       props: {
         children,
-      }
+      },
+      saveStoryToken
     } = this;
     return (
       <div>
         {children}
-        <AuthManagerLayout {...this.props} />
+        <AuthManagerLayout
+          {...this.props}
+          saveStoryToken={saveStoryToken} />
       </div>
     );
   }

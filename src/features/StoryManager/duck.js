@@ -54,8 +54,10 @@ const STORY_DEFAULT_STATE = {
  * @return {object} newState - the resulting state
  */
 function story(state = STORY_DEFAULT_STATE, action) {
-  // const {payload} = action;
+  const {result} = action;
   switch (action.type) {
+    case `${ACTIVATE_STORY}_SUCCESS`:
+      return result.data;
     default:
       return state;
   }
