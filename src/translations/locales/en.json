@@ -1,4 +1,8 @@
 {
+  "Components.IdentificationModal.Who is this?": "Who is this?",
+  "Components.IdentificationModal.Enter a nickname": "Enter a nickname",
+  "Components.IdentificationModal.Submit new information": "Submit new information",
+  "Components.IdentificationModal.Cancel": "Cancel",
   "Features.HomeView.Learn fonio": "Learn fonio",
   "Features.HomeView.learn fonio detail": "learn fonio detail",
   "Features.HomeView.About fonio": "About fonio",
@@ -6,6 +10,7 @@
   "Features.HomeView.Your profile": "Your profile",
   "Features.HomeView.choose how you will be identified by other writers": "choose how you will be identified by other writers",
   "Features.HomeView.edit": "edit",
+  "Features.HomeView.Who is online ?": "Who is online ?",
   "Features.HomeView.intro short title": "intro short title",
   "Features.HomeView.New story": "New story",
   "Features.HomeView.find a story": "find a story",

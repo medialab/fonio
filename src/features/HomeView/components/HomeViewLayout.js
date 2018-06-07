@@ -45,6 +45,7 @@ import {
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import LanguageToggler from '../../../components/LanguageToggler';
+import IdentificationModal from '../../../components/IdentificationModal';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -97,15 +98,29 @@ class HomeViewLayout extends Component {
           newStoryOpen,
           storyInfoVisible,
           newStoryTabMode,
+          userInfo,
+          sortingMode,
+          searchString,
+
+          activeUsers,
+          userId,
 
           actions: {
             setNewStoryTabMode,
+            setIdentificationModalSwitch,
             setNewStoryOpen,
+            setSortingMode,
+            setSearchString,
           }
         } = this.props;
 
 
         const storiesList = Object.keys(stories).map(id => stories[id]);
+        const searchStringLower = searchString.toLowerCase();
+        const visibleStoriesList = storiesList.filter(s => {
+          const data = JSON.stringify(s).toLowerCase();
+          return data.indexOf(searchStringLower) > -1;
+        });
         return (
           <Container>
             <Columns>
@@ -119,21 +134,48 @@ class HomeViewLayout extends Component {
                     {this.translate('Your profile')} <HelpPin>{this.translate('choose how you will be identified by other writers')}</HelpPin>
                   </Title>
                   <Level isMobile>
-                    <LevelLeft>
+                    {userInfo && <LevelLeft>
                       <LevelItem>
-                        <Image isRounded isSize="64x64" src="https://via.placeholder.com/48x48" />
+                        <Image isRounded isSize="64x64" src={require(`../../../sharedAssets/avatars/${userInfo.avatar}`)} />
                       </LevelItem>
                       <LevelItem>
-                       Anonymous
+                        {userInfo.name}
                       </LevelItem>
                       <LevelItem>
-                        <Button>
+                        <Button onClick={() => setIdentificationModalSwitch(true)}>
                           {this.translate('edit')}
                         </Button>
                       </LevelItem>
-                    </LevelLeft>
+                    </LevelLeft>}
                   </Level>
                 </div>
+                <div>
+                  <Title isSize={5}>
+                    {this.translate('Who is online ?')} <HelpPin>{this.translate('choose how you will be identified by other writers')}</HelpPin>
+                  </Title>
+                  {activeUsers &&
+                    Object.keys(activeUsers)
+                    .filter(thatUserId => userId !== thatUserId)
+                    .map(thatUserId => ({userId, ...activeUsers[thatUserId]}))
+                    .map((user, index) => {
+                      return (
+                        <Level key={index}>
+                          <Columns>
+                            <Column isSize={'1/3'}>
+                              <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
+                            </Column>
+                            <Column isSize={'2/3'}>
+                              <Content>
+                                {user.name}
+                              </Content>
+                            </Column>
+                          </Columns>
+                        </Level>
+                      );
+                    })
+                  }
+                </div>
+
                 <Level />
                 <Content>
                   {this.translate('intro short title')}
@@ -152,7 +194,7 @@ class HomeViewLayout extends Component {
                     <LevelLeft>
                       <Field hasAddons>
                         <Control>
-                          <Input placeholder={this.translate('find a story')} />
+                          <Input value={searchString} onChange={e => setSearchString(e.target.value)} placeholder={this.translate('find a story')} />
                         </Control>
                         <Control>
                           <Button>{this.translate('search')}</Button>
@@ -161,14 +203,35 @@ class HomeViewLayout extends Component {
                     </LevelLeft>
                     <LevelRight>
                       <LevelItem><i>{this.translate('sort by:')}</i></LevelItem>
-                      <LevelItem><strong>{this.translate('last modification date')}</strong></LevelItem>
-                      <LevelItem><a>{this.translate('creation date')}</a></LevelItem>
-                      <LevelItem><a>{this.translate('title')}</a></LevelItem>
+                      <LevelItem onClick={() => setSortingMode('last modification date')}>
+                        <a>{
+                          sortingMode === 'last modification date' ?
+                            <strong>{this.translate('last modification date')}</strong>
+                            :
+                            this.translate('last modification date')
+                        }</a>
+                      </LevelItem>
+                      <LevelItem onClick={() => setSortingMode('creation date')}>
+                        <a>{
+                          sortingMode === 'creation date' ?
+                            <strong>{this.translate('creation date')}</strong>
+                            :
+                            this.translate('creation date')
+                        }</a>
+                      </LevelItem>
+                      <LevelItem onClick={() => setSortingMode('title')}>
+                        <a>{
+                          sortingMode === 'title' ?
+                            <strong>{this.translate('title')}</strong>
+                            :
+                            this.translate('title')
+                        }</a>
+                      </LevelItem>
                     </LevelRight>
                   </Level>
                 </Column>
                 {
-                        storiesList.map((story, index) => (
+                        visibleStoriesList.map((story, index) => (
                           <Level key={index}>
                             <Column>
                               <Card
@@ -386,12 +449,28 @@ class HomeViewLayout extends Component {
     const {
       props: {
         tabMode,
+        identificationModalSwitch,
+        userInfoTemp,
+        userId,
         actions: {
-          setTabMode
+          setTabMode,
+          setIdentificationModalSwitch,
+          setUserInfoTemp,
+          setUserInfo,
+          createUser,
         }
       },
       renderContent,
     } = this;
+
+    const onSubmitUserInfo = () => {
+      createUser({
+        ...userInfoTemp,
+        userId
+      });
+      setUserInfo(userInfoTemp);
+      setIdentificationModalSwitch(false);
+    };
     return (
       <section>
         <Hero
@@ -469,6 +548,15 @@ class HomeViewLayout extends Component {
             </Content>
           </Container>
         </Footer>
+
+        <IdentificationModal
+          isActive={identificationModalSwitch}
+
+          userInfo={userInfoTemp}
+
+          onChange={setUserInfoTemp}
+          onClose={() => setIdentificationModalSwitch(false)}
+          onSubmit={onSubmitUserInfo} />
 
       </section>
     );

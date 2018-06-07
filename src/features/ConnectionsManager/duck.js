@@ -16,15 +16,21 @@ const USER_CONNECTED = 'USER_CONNECTED';
 const USER_DISCONNECTING = 'USER_DISCONNECTING';
 const USER_DISCONNECTED = 'USER_DISCONNECTED';
 
+const CREATE_USER = 'CREATE_USER';
+
 
 export const LOGIN_STORY = 'LOGIN_STORY';
 
-const USERS_DEFAULT_STATE = {
-  userId: undefined,
-  count: 0,
-};
-
 const LOCKING_DEFAULT_STATE = {};
+
+export const createUser = payload => ({
+  type: CREATE_USER,
+  payload,
+  meta: {
+    remote: true,
+    broadcast: true,
+  },
+});
 
 export const enterStory = payload => ({
   type: ENTER_STORY,
@@ -86,6 +92,12 @@ export const loginStory = payload => ({
   },
 });
 
+const USERS_DEFAULT_STATE = {
+  userId: undefined,
+  count: 0,
+  users: {}
+};
+
 /**
  * This redux reducer handles the users information
  * @param {object} state - the state given to the reducer
@@ -99,6 +111,15 @@ function users(state = USERS_DEFAULT_STATE, action) {
       return {
         ...state,
         userId: action.payload,
+      };
+    case CREATE_USER:
+    case `${CREATE_USER}_BROADCAST`:
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          [payload.userId]: payload,
+        },
       };
     case USER_CONNECTED:
     case USER_DISCONNECTED:
@@ -257,6 +278,7 @@ export default combineReducers({
 });
 
 const userId = state => state.users.userId;
+const activeUsers = state => state.users.users;
 const usersNumber = state => state.users.count;
 const lockingMap = state => state.locking;
 
@@ -264,4 +286,5 @@ export const selector = createStructuredSelector({
   userId,
   usersNumber,
   lockingMap,
+  activeUsers,
 });
