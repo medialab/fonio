@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-7\n"
-"PO-Revision-Date: Thu Jun 07 2018 14:10:23 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jun 07 2018 17:05:25 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1036,3 +1036,33 @@ msgstr "Read"
 
 msgid "Features.AuthManager.Back to home"
 msgstr "Back to home"
+
+msgid "Features.EditionUiWrapper.Summary"
+msgstr "Summary"
+
+msgid "Features.EditionUiWrapper.Library"
+msgstr "Library"
+
+msgid "Features.EditionUiWrapper.Design"
+msgstr "Design"
+
+msgid "Features.EditionUiWrapper.Export"
+msgstr "Export"
+
+msgid "Components.ExportModal.Export story"
+msgstr "Export story"
+
+msgid "Components.ExportModal.Export as an html page"
+msgstr "Export as an html page"
+
+msgid "Components.ExportModal.Export as a json workfile"
+msgstr "Export as a json workfile"
+
+msgid "Components.ExportModal.Story was bundled successfully"
+msgstr "Story was bundled successfully"
+
+msgid "Features.EditionUiWrapper.Unnamed story"
+msgstr "Unnamed story"
+
+msgid "Features.SummaryView.Edit global settings"
+msgstr "Edit global settings"

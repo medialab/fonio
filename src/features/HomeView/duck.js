@@ -220,7 +220,7 @@ function data(state = DATA_DEFAULT_STATE, action) {
       if (payload === false) {
         return {
           ...state,
-          userInfoTemp: JSON.parse(localStorage.getItem('fonio_user_info'))
+          userInfoTemp: JSON.parse(localStorage.getItem('fonio/user_info'))
         };
       }
       return state;

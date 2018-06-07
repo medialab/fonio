@@ -76,11 +76,12 @@ export default combineReducers({
  * ===================================================
  */
 
+const editedStory = state => state.story;
 
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
  */
 export const selector = createStructuredSelector({
-
+  editedStory
 });

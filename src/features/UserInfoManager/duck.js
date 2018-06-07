@@ -33,7 +33,7 @@ export const setUserInfo = payload => ({
 export default function userInfo(state = {userInfo: undefined}, action) {
   switch (action.type) {
     case SET_USER_INFO:
-      localStorage.setItem('fonio_user_info', JSON.stringify({
+      localStorage.setItem('fonio/user_info', JSON.stringify({
         ...action.payload,
         userInfo: undefined
       }));

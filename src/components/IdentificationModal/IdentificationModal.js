@@ -66,7 +66,7 @@ class IdentificationModal extends Component {
     });
 
 
-    return (
+    return userInfo ? (
       <ModalCard
         isActive={isActive}
         onClose={onClose}
@@ -110,7 +110,7 @@ class IdentificationModal extends Component {
           <Button key={0} onClick={onSubmit} isColor="success">{translate('Submit new information')}</Button>,
           <Button onClick={onClose} key={1} isColor="warning">{translate('Cancel')}</Button>
             ]} />
-    );
+    ) : null;
 
   }
 }
