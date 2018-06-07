@@ -104,7 +104,7 @@ const EditionUiWrapperLayout = ({
               content: translate('Design'),
               lockStatus: 'open',
               statusMessage: translate('open to edition')
-              
+
               // lockStatus: 'locked',
               // statusMessage: 'Edited by fred'
             }

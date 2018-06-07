@@ -34,10 +34,21 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 const SummaryViewLayout = ({
   sections = [],
   activeAuthors = [],
-  metadataEdited = false
+  metadataEdited = false,
+  editedStory,
 }, {t}) => {
 
   const translate = translateNameSpacer(t, 'Features.SummaryView');
+
+  const {
+    // id: storyId,
+    metadata: {
+      title,
+      subtitle,
+      authors,
+      description
+    }
+  } = editedStory;
 
   return (
     <EditionUiWrapper>
@@ -49,49 +60,29 @@ const SummaryViewLayout = ({
             <Level>
               <Collapsable isCollapsed={metadataEdited}>
                 <Title isSize={2}>
-                    My story
+                  {title}
                 </Title>
-                <Title isSize={5}>
-                  <i>A song of ice and fire</i>
-                </Title>
-                <Level>
-                  <LevelLeft>
-                    <LevelItem>
-                      <Icon isSize="small" isAlign="left">
-                        <span className="fa fa-user" aria-hidden="true" />
-                      </Icon>
-                    </LevelItem>
-                    <LevelItem>
-                        Felipe
-                    </LevelItem>
-                  </LevelLeft>
-                </Level>
-                <Level>
-                  <LevelLeft>
-                    <LevelItem>
-                      <Icon isSize="small" isAlign="left">
-                        <span className="fa fa-user" aria-hidden="true" />
-                      </Icon>
-                    </LevelItem>
-                    <LevelItem>
-                        Fania
-                    </LevelItem>
-                  </LevelLeft>
-                </Level>
-                <Level>
-                  <LevelLeft>
-                    <LevelItem>
-                      <Icon isSize="small" isAlign="left">
-                        <span className="fa fa-user" aria-hidden="true" />
-                      </Icon>
-                    </LevelItem>
-                    <LevelItem>
-                        Fred
-                    </LevelItem>
-                  </LevelLeft>
-                </Level>
+                {subtitle && <Title isSize={5}>
+                  <i>{subtitle}</i>
+                </Title>}
+                {
+                  authors.map((author, index) => (
+                    <Level key={index}>
+                      <LevelLeft>
+                        <LevelItem>
+                          <Icon isSize="small" isAlign="left">
+                            <span className="fa fa-user" aria-hidden="true" />
+                          </Icon>
+                        </LevelItem>
+                        <LevelItem>
+                          {author}
+                        </LevelItem>
+                      </LevelLeft>
+                    </Level>
+                  ))
+                }
                 <Content>
-                    The abstract
+                  {description}
                 </Content>
               </Collapsable>
             </Level>

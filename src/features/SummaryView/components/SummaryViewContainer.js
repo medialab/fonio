@@ -1,19 +1,22 @@
 import React, {Component} from 'react';
-// import {bindActionCreators} from 'redux';
-// import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import AuthWrapper from '../../AuthManager/components/AuthManagerContainer';
 
 import SummaryViewLayout from './SummaryViewLayout';
 
-// @connect(
-//   state => ({
-//   }),
-//   dispatch => ({
-//     actions: bindActionCreators({
-//     }, dispatch)
-//   })
-// )
+import * as editedStoryDuck from '../../StoryManager/duck';
+
+@connect(
+  state => ({
+    ...editedStoryDuck.selector(state.editedStory),
+  }),
+  dispatch => ({
+    actions: bindActionCreators({
+    }, dispatch)
+  })
+)
 class SummaryViewContainer extends Component {
 
   constructor(props) {
@@ -23,12 +26,12 @@ class SummaryViewContainer extends Component {
   shouldComponentUpdate = () => true;
 
   render() {
-    return (
+    return this.props.editedStory ? (
       <AuthWrapper>
         <SummaryViewLayout
           {...this.props} />
       </AuthWrapper>
-    );
+    ) : null;
   }
 }
 

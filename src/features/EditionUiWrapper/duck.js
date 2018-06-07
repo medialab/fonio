@@ -44,7 +44,7 @@ export const setUserInfoTemp = payload => ({
 
 export const toggleNavbarOpen = () => ({
   type: TOGGLE_NAVBAR_OPEN,
-})
+});
 
 /**
  * ===================================================
@@ -83,7 +83,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
       return {
         ...state,
         navbarOpen: !state.navbarOpen,
-      }
+      };
     default:
       return state;
   }
@@ -149,6 +149,6 @@ export const selector = createStructuredSelector({
   userInfoModalOpen,
   exportModalOpen,
   navbarOpen,
-  
+
   userInfoTemp,
 });
