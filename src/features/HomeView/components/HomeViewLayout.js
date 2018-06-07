@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 
 import {
   Button,
-  Card,
   Column,
   Columns,
   Container,
@@ -46,6 +45,7 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import LanguageToggler from '../../../components/LanguageToggler';
 import IdentificationModal from '../../../components/IdentificationModal';
+import StoryCard from './StoryCard';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -203,20 +203,20 @@ class HomeViewLayout extends Component {
                     </LevelLeft>
                     <LevelRight>
                       <LevelItem><i>{this.translate('sort by:')}</i></LevelItem>
-                      <LevelItem onClick={() => setSortingMode('last modification date')}>
+                      <LevelItem onClick={() => setSortingMode('last modification')}>
                         <a>{
-                          sortingMode === 'last modification date' ?
-                            <strong>{this.translate('last modification date')}</strong>
+                          sortingMode === 'last modification' ?
+                            <strong>{this.translate('last modification')}</strong>
                             :
-                            this.translate('last modification date')
+                            this.translate('last modification')
                         }</a>
                       </LevelItem>
-                      <LevelItem onClick={() => setSortingMode('creation date')}>
+                      <LevelItem onClick={() => setSortingMode('last modification by me')}>
                         <a>{
-                          sortingMode === 'creation date' ?
-                            <strong>{this.translate('creation date')}</strong>
+                          sortingMode === 'last modification by me' ?
+                            <strong>{this.translate('last modification by me')}</strong>
                             :
-                            this.translate('creation date')
+                            this.translate('last modification by me')
                         }</a>
                       </LevelItem>
                       <LevelItem onClick={() => setSortingMode('title')}>
@@ -234,44 +234,13 @@ class HomeViewLayout extends Component {
                         visibleStoriesList.map((story, index) => (
                           <Level key={index}>
                             <Column>
-                              <Card
-                                key={index}
-                                title={story.metadata.title}
-                                subtitle={story.metadata.subtitle}
-                                lockStatus={story.edited ? 'active' : 'open'}
-                                statusMessage={story.edited ? `Edited by ${story.metadata.subtitle}` : undefined}
+                              <StoryCard
+                                story={story}
                                 onAction={(id) => {
-                                if (id === 'info') {
-                                  console.log('show info');/* eslint no-console:0 */
-                                }
-                              }}
-                                footerActions={[
-
-                                // {
-                                //   label: 'change password',
-                                //   id: 'change password'
-                                // }
-                              ]}
-                                asideActions={[
-                                {
-                                  label: <span>Open</span>,
-                                  isColor: 'primary',
-                                  id: 'open'
-                                },
-                                {
-                                  label: 'duplicate',
-                                  id: 'duplicate'
-                                },
-                                {
-                                  label: 'info',
-                                  id: 'info'
-                                },
-                                {
-                                  label: <span>Delete</span>,
-                                  isColor: 'danger',
-                                  id: 'delete'
-                                },
-                              ]} />
+                                  if (id === 'info') {
+                                    console.log('show info');/* eslint no-console:0 */
+                                  }
+                                }} />
                             </Column>
                           </Level>
                         ))

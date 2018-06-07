@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-7\n"
-"PO-Revision-Date: Thu Jun 07 2018 11:33:02 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jun 07 2018 12:10:32 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -991,3 +991,15 @@ msgstr "Cancel"
 
 msgid "Features.HomeView.Who is online ?"
 msgstr "Who is online ?"
+
+msgid "Features.HomeView.last modification"
+msgstr "last modification"
+
+msgid "Features.HomeView.last modification by me"
+msgstr "last modification by me"
+
+msgid "Components.StoryCard.change password"
+msgstr "change password"
+
+msgid "Components.StoryCard.open"
+msgstr "open"
