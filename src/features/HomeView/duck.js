@@ -10,6 +10,7 @@ import {createStructuredSelector} from 'reselect';
 
 import {get/*, put, post, delete as del*/} from 'axios';
 
+import {createDefaultStory} from '../../helpers/schemaUtils';
 /**
  * ===================================================
  * ACTION NAMES
@@ -27,6 +28,7 @@ const SET_IDENTIFICATION_MODAL_SWITCH = 'SET_IDENTIFICATION_MODAL_SWITCH';
 const SET_PREVIEWED_STORY_ID = 'SET_PREVIEWED_STORY_ID';
 const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
 const FETCH_STORIES = 'FETCH_STORIES';
+const CREATE_STORY = 'CREATE_STORY';
 
 import {SET_USER_INFO} from '../UserInfoManager/duck';
 /**
@@ -83,6 +85,16 @@ export const fetchStories = () => ({
   promise: () => {
     const serverRequestUrl = `${CONFIG.serverUrl}/stories/`;/* eslint no-undef: 0 */
     return get(serverRequestUrl);
+  },
+});
+
+
+export const createStory = ({payload, password}) => ({
+  type: CREATE_STORY,
+  payload,
+  promise: () => {
+    const serverRequestUrl = `${CONFIG.serverUrl}/stories/`;/* eslint no-undef: 0 */
+    return post(serverRequestUrl, {payload, password});
   },
 });
 
@@ -162,7 +174,7 @@ const DATA_DEFAULT_STATE = {
   /**
    * temp data of the new story form
    */
-  newStoryMetadata: {},
+  newStory: {},
   /**
    * list of stories metadata
    */
@@ -183,10 +195,15 @@ function data(state = DATA_DEFAULT_STATE, action) {
   const {payload} = action;
   switch (action.type) {
     case SET_NEW_STORY_TAB_MODE:
-      return {
-        ...state,
-        newStoryMetadata: payload
-      };
+      if (payload === 'form') {
+        const newStory = createDefaultStory();
+        return {
+          ...state,
+          newStory
+        };
+      }
+      else
+        return state;
     case `${FETCH_STORIES}_SUCCESS`:
       const {data: thatData} = action.result;
       return {
@@ -233,7 +250,7 @@ const searchString = state => state.ui.searchString;
 const sortingMode = state => state.ui.sortingMode;
 const identificationModalSwitch = state => state.ui.identificationModalSwitch;
 
-const newStoryMetadata = state => state.data.newStoryMetadata;
+const newStory = state => state.data.newStory;
 const stories = state => state.data.stories;
 const userInfoTemp = state => state.data.userInfoTemp;
 
@@ -247,8 +264,9 @@ export const selector = createStructuredSelector({
   newStoryTabMode,
   searchString,
   sortingMode,
+  identificationModalOpen,
+  newStory,
   identificationModalSwitch,
-  newStoryMetadata,
   userInfoTemp,
   stories
 });
