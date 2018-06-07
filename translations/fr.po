@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-7\n"
-"PO-Revision-Date: Thu Jun 07 2018 17:05:25 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jun 07 2018 17:56:36 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1066,3 +1066,30 @@ msgstr "Unnamed story"
 
 msgid "Features.SummaryView.Edit global settings"
 msgstr "Edit global settings"
+
+msgid "Features.EditionUiWrapper.open to edition"
+msgstr "open to edition"
+
+msgid "Components.SectionCard.edit"
+msgstr "edit"
+
+msgid "Components.SectionCard.move"
+msgstr "move"
+
+msgid "Components.SectionCard.duplicate"
+msgstr "duplicate"
+
+msgid "Features.SummaryView.Who is on what ?"
+msgstr "Who is on what ?"
+
+msgid "Features.SummaryView.Summary"
+msgstr "Summary"
+
+msgid "Features.SummaryView.find a section"
+msgstr "find a section"
+
+msgid "Features.SummaryView.search"
+msgstr "search"
+
+msgid "Features.SummaryView.New section"
+msgstr "New section"

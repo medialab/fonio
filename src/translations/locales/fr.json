@@ -18,6 +18,7 @@
   "Features.EditionUiWrapper.Unnamed story": "Unnamed story",
   "Features.EditionUiWrapper.Summary": "Summary",
   "Features.EditionUiWrapper.Library": "Library",
+  "Features.EditionUiWrapper.open to edition": "open to edition",
   "Features.EditionUiWrapper.Design": "Design",
   "Features.EditionUiWrapper.Export": "Export",
   "Features.HomeView.Learn fonio": "Learn fonio",
@@ -48,5 +49,14 @@
   "Components.StoryCard.open": "open",
   "Components.StoryCard.duplicate": "duplicate",
   "Components.StoryCard.delete": "delete",
-  "Features.SummaryView.Edit global settings": "Edit global settings"
+  "Components.SectionCard.edit": "edit",
+  "Components.SectionCard.move": "move",
+  "Components.SectionCard.delete": "delete",
+  "Components.SectionCard.duplicate": "duplicate",
+  "Features.SummaryView.Edit global settings": "Edit global settings",
+  "Features.SummaryView.Who is on what ?": "Who is on what ?",
+  "Features.SummaryView.Summary": "Summary",
+  "Features.SummaryView.find a section": "find a section",
+  "Features.SummaryView.search": "search",
+  "Features.SummaryView.New section": "New section"
 }

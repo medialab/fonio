@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import {
   Button,
-  Card,
   Column,
   Columns,
   Container,
@@ -29,10 +28,11 @@ import {
 
 import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
 
+import SectionCard from './SectionCard';
+
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 const SummaryViewLayout = ({
-  sections = [],
   activeAuthors = [],
   metadataEdited = false,
   editedStory,
@@ -47,8 +47,11 @@ const SummaryViewLayout = ({
       subtitle,
       authors,
       description
-    }
+    },
+    sections,
   } = editedStory;
+
+  const sectionsList = Object.keys(sections).map(sectionId => sections[sectionId]);
 
   return (
     <EditionUiWrapper>
@@ -171,7 +174,7 @@ const SummaryViewLayout = ({
             <Level />
             <Level />
             <Title isSize={4}>
-                Who's on what ?
+              {translate('Who is on what ?')}
             </Title>
             {
                   activeAuthors.map((author, authorIndex) => (
@@ -190,7 +193,7 @@ const SummaryViewLayout = ({
           </Column>
           <Column isSize={'2/3'}>
             <Title isSize={2}>
-                  Summary
+              {translate('Summary')}
             </Title>
             <Column>
               <Level>
@@ -198,10 +201,10 @@ const SummaryViewLayout = ({
                   <LevelItem>
                     <Field hasAddons>
                       <Control>
-                        <Input placeholder="Find a section" />
+                        <Input placeholder={translate('find a section')} />
                       </Control>
                       <Control>
-                        <Button>Search</Button>
+                        <Button>{translate('search')}</Button>
                       </Control>
                     </Field>
                   </LevelItem>
@@ -211,41 +214,16 @@ const SummaryViewLayout = ({
             <Level>
               <Column>
                 <Button isFullWidth isColor="primary">
-                        New section
+                  {translate('New section')}
                 </Button>
               </Column>
             </Level>
             {
-              sections.map((section, index) => (
+              sectionsList.map((section, index) => (
                 <Level key={index}>
                   <Column>
-                    <Card
-                      key={index}
-                      title={section.title}
-                      subtitle={section.subtitle}
-                      lockStatus={section.lockStatus}
-                      statusMessage={section.statusMessage}
-                      asideActions={[
-                        {
-                          label: 'edit',
-                          id: 'edit',
-                          isColor: 'primary'
-                        }, {
-                          label: 'move',
-                          isColor: 'info',
-                          id: 'move'
-                        },
-                        {
-                          label: 'delete',
-                          isColor: 'danger',
-                          id: 'delete'
-                        },
-
-                        {
-                          label: 'duplicate',
-                          id: 'duplicate'
-                        }
-                      ]} />
+                    <SectionCard
+                      section={section} />
                   </Column>
                 </Level>
               ))
