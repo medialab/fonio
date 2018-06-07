@@ -26,12 +26,14 @@ class SummaryViewContainer extends Component {
   shouldComponentUpdate = () => true;
 
   render() {
-    return this.props.editedStory ? (
+    return (
       <AuthWrapper>
-        <SummaryViewLayout
-          {...this.props} />
+        {this.props.editedStory && this.props.editedStory.metadata ?
+          <SummaryViewLayout
+            {...this.props} />
+          : null}
       </AuthWrapper>
-    ) : null;
+    );
   }
 }
 

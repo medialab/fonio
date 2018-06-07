@@ -40,6 +40,7 @@ const SummaryViewLayout = ({
 
   const translate = translateNameSpacer(t, 'Features.SummaryView');
 
+  console.log('edited story', editedStory);
   const {
     // id: storyId,
     metadata: {
@@ -52,6 +53,7 @@ const SummaryViewLayout = ({
   } = editedStory;
 
   const sectionsList = Object.keys(sections).map(sectionId => sections[sectionId]);
+  console.log('sections list', sectionsList);
 
   return (
     <EditionUiWrapper>
