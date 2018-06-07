@@ -23,9 +23,7 @@ import {
   HeroFooter,
   HeroHeader,
   HelpPin,
-  Icon,
   Image,
-  Label,
   Input,
   Level,
   LevelItem,
@@ -36,9 +34,7 @@ import {
   Delete,
   TabLink,
   TabList,
-  TextArea,
   Tabs,
-  Help,
   Title,
 } from 'quinoa-design-library/components/';
 
@@ -46,6 +42,7 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import LanguageToggler from '../../../components/LanguageToggler';
 import IdentificationModal from '../../../components/IdentificationModal';
+import MetadataForm from '../../../components/MetadataForm';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -95,6 +92,7 @@ class HomeViewLayout extends Component {
       default:
         const {
           stories,
+          newStory,
           newStoryOpen,
           storyInfoVisible,
           newStoryTabMode,
@@ -106,6 +104,7 @@ class HomeViewLayout extends Component {
           userId,
 
           actions: {
+            createStory,
             setNewStoryTabMode,
             setIdentificationModalSwitch,
             setNewStoryOpen,
@@ -329,90 +328,10 @@ class HomeViewLayout extends Component {
                                     </Container>
                                   </Tabs>
                                   {newStoryTabMode === 'form' ?
-                                    <form>
-                                      <Field>
-                                        <Control>
-                                          <Label>
-                                          Story title
-                                            <HelpPin place="right">
-                                            Explanation about the story title
-                                            </HelpPin>
-                                          </Label>
-                                          <Input type="text" placeholder="Story title" />
-                                        </Control>
-                                      </Field>
-                                      <Field>
-                                        <Control>
-                                          <Label>
-                                          Story subtitle
-                                            <HelpPin place="right">
-                                            Explanation about the story subtitle
-                                            </HelpPin>
-                                          </Label>
-                                          <Input type="text" placeholder="A song of ice and fire" />
-                                        </Control>
-                                      </Field>
-
-                                      <Field>
-                                        <Label>
-                                        Story password
-                                          <HelpPin place="right">
-                                          Explanation about the story password
-                                          </HelpPin>
-                                        </Label>
-                                        <Control hasIcons>
-                                          <Input
-                                            isColor="success" placeholder="Text Input" value="bloomer"
-                                            type="password" />
-                                          <Icon isSize="small" isAlign="left">
-                                            <span className="fa fa-lock" aria-hidden="true" />
-                                          </Icon>
-                                          <Icon isSize="small" isAlign="right">
-                                            <span className="fa fa-exclamation" aria-hidden="true" />
-                                          </Icon>
-                                        </Control>
-                                        <Help isColor="danger">Password must be at least 6 characters long</Help>
-                                      </Field>
-
-                                      <Field>
-                                        <Label>
-                                      Authors
-                                          <HelpPin place="right">
-                                          Explanation about the story authors
-                                          </HelpPin>
-                                        </Label>
-                                        <Control hasIcons>
-                                          <Input isColor="success" placeholder="Text Input" value="bloomer" />
-                                          <Icon isSize="small" isAlign="left">
-                                            <span className="fa fa-user" aria-hidden="true" />
-                                          </Icon>
-                                          <Icon isSize="small" isAlign="right">
-                                            <Delete />
-                                          </Icon>
-                                          <Button>
-                                          Add an author
-                                          </Button>
-                                        </Control>
-                                      </Field>
-                                      <Field>
-                                        <Label>Abstract</Label>
-                                        <Control hasIcons>
-                                          <TextArea placeholder={'abstract'} />
-                                        </Control>
-                                      </Field>
-                                      <Columns>
-                                        <Column>
-                                          <Button isFullWidth isColor="success">
-                                        Create a new story
-                                          </Button>
-                                        </Column>
-                                        <Column>
-                                          <Button isFullWidth isColor="danger">
-                                        Cancel
-                                          </Button>
-                                        </Column>
-                                      </Columns>
-                                    </form>
+                                    <MetadataForm
+                                      story={newStory}
+                                      createStory={createStory}
+                                      onCancel={() => setNewStoryOpen(false)} />
                                     :
                                     <Column>
                                       <DropZone>
