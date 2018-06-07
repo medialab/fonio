@@ -18,9 +18,12 @@ import {
   Switch
 } from 'react-router-dom';
 
-import * as connectionsDuck from './features/ConnectionsManager/duck';
 import Home from './features/HomeView/components/HomeViewContainer';
-import * as userInfoDuck from './features/UserInfo/duck';
+import Summary from './features/SummaryView/components/SummaryViewContainer';
+
+import * as connectionsDuck from './features/ConnectionsManager/duck';
+import * as userInfoDuck from './features/UserInfoManager/duck';
+
 import generateRandomUserInfo from './helpers/userInfo';
 
 import 'quinoa-design-library/themes/millet/style.css';
@@ -107,6 +110,7 @@ export default class Application extends Component {
           {userId &&
             <Switch>
               <Route exact path="/" component={Home} />
+              <Route exact path="/story/:storyId" component={Summary} />
               <Route render={(props) => (
                 // TODO: render proper loading/error page
                 <h2>

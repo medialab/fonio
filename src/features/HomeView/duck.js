@@ -31,7 +31,7 @@ const FETCH_STORIES = 'FETCH_STORIES';
 const CREATE_STORY = 'CREATE_STORY';
 const DELETE_STORY = 'DELETE_STORY';
 
-import {SET_USER_INFO} from '../UserInfo/duck';
+import {SET_USER_INFO} from '../UserInfoManager/duck';
 /**
  * data
  */
@@ -153,6 +153,9 @@ const UI_DEFAULT_STATE = {
   previewedStoryId: undefined,
 };
 
+/**
+ * @todo refactor as helper
+ */
 const getStatePropFromActionSet = actionName => {
   return actionName.replace('SET_', '').toLowerCase().replace(/(_[a-z])/gi, (a, b) => b.substr(1).toUpperCase());
 };
