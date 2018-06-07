@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-7\n"
-"PO-Revision-Date: Thu Jun 07 2018 12:10:32 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jun 07 2018 14:10:23 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1003,3 +1003,36 @@ msgstr "change password"
 
 msgid "Components.StoryCard.open"
 msgstr "open"
+
+msgid "Features.AuthManager.connect to a story"
+msgstr "connect to a story"
+
+msgid "Features.AuthManager.Enter your password"
+msgstr "Enter your password"
+
+msgid "Features.AuthManager.Explanation about the password"
+msgstr "Explanation about the password"
+
+msgid "Features.AuthManager.Password is not valid"
+msgstr "Password is not valid"
+
+msgid "Features.AuthManager.Submit"
+msgstr "Submit"
+
+msgid "Features.AuthManager.Cancel"
+msgstr "Cancel"
+
+msgid "Features.AuthManager.Connect to a story"
+msgstr "Connect to a story"
+
+msgid "Features.AuthManager.Submitting password"
+msgstr "Submitting password"
+
+msgid "Features.AuthManager.Enter"
+msgstr "Enter"
+
+msgid "Features.AuthManager.Read"
+msgstr "Read"
+
+msgid "Features.AuthManager.Back to home"
+msgstr "Back to home"

@@ -33,9 +33,8 @@ const StoryCard = ({
       asideActions={[
         {
           label: <Link to={`/story/${story.id}`}>
-                    {translate('open')}
-                  </Link>
-          ,
+            {translate('open')}
+          </Link>,
           isColor: 'primary',
           id: 'open'
         },
