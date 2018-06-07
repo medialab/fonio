@@ -115,7 +115,7 @@ class HomeViewLayout extends Component {
         } = this.props;
 
 
-        const storiesList = Object.keys(stories).map(id => stories[id]);
+        const storiesList = Object.keys(stories).map(id => ({id, ...stories[id]}));
         const searchStringLower = searchString.toLowerCase();
         const visibleStoriesList = storiesList.filter(s => {
           const data = JSON.stringify(s).toLowerCase();

@@ -12,7 +12,7 @@ import {withRouter} from 'react-router';
 
 import HomeViewLayout from './HomeViewLayout';
 import * as duck from '../duck';
-import * as userInfoDuck from '../../UserInfo/duck';
+import * as userInfoDuck from '../../UserInfoManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 
 
