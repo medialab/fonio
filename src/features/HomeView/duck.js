@@ -28,7 +28,7 @@ const SET_PREVIEWED_STORY_ID = 'SET_PREVIEWED_STORY_ID';
 const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
 const FETCH_STORIES = 'FETCH_STORIES';
 
-import {SET_USER_INFO} from '../UserInfo/duck';
+import {SET_USER_INFO} from '../UserInfoManager/duck';
 /**
  * data
  */
