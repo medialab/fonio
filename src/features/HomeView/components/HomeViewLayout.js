@@ -103,8 +103,10 @@ class HomeViewLayout extends Component {
           activeUsers,
           userId,
 
+          history,
           actions: {
             createStory,
+            deleteStory,
             setNewStoryTabMode,
             setIdentificationModalSwitch,
             setNewStoryOpen,
@@ -236,8 +238,18 @@ class HomeViewLayout extends Component {
                               <StoryCard
                                 story={story}
                                 onAction={(id) => {
-                                  if (id === 'info') {
-                                    console.log('show info');/* eslint no-console:0 */
+                                  switch (id) {
+                                    case 'open':
+                                      history.push({
+                                        pathname: `/story/${story.id}`
+                                      });
+                                      break;
+                                    case 'delete':
+                                      const token = localStorage.getItem(`fonio/storyToken/${story.id}`);
+                                      deleteStory({id: story.id, token});
+                                      break;
+                                    default:
+                                      break;
                                   }
                                 }} />
                             </Column>

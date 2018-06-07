@@ -239,7 +239,7 @@ function data(state = DATA_DEFAULT_STATE, action) {
       };
     case `${CREATE_STORY}_SUCCESS`:
       const {story, token} = action.result.data;
-      localStorage.setItem(story.id, token);
+      localStorage.setItem(`fonio/storyToken/${story.id}`, token);
       return {
         ...state,
         stories: {
@@ -254,6 +254,7 @@ function data(state = DATA_DEFAULT_STATE, action) {
       };
     case `${DELETE_STORY}_SUCCESS`:
     case `${DELETE_STORY}_BROADCAST`:
+      localStorage.removeItem(`fonio/storyToken/${payload.id}`);
       const newStories = {...state.stories};
       delete newStories[payload.id];
       return {
