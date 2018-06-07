@@ -20,6 +20,8 @@ const SET_EXPORT_MODAL_OPEN = 'SET_EXPORT_MODAL_OPEN';
 
 const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
 
+const TOGGLE_NAVBAR_OPEN = 'TOGGLE_NAVBAR_OPEN';
+
 /**
  * ===================================================
  * ACTION CREATORS
@@ -40,6 +42,10 @@ export const setUserInfoTemp = payload => ({
   payload
 });
 
+export const toggleNavbarOpen = () => ({
+  type: TOGGLE_NAVBAR_OPEN,
+})
+
 /**
  * ===================================================
  * REDUCERS
@@ -53,6 +59,7 @@ const getStatePropFromActionSet = actionName => {
 const UI_DEFAULT_STATE = {
   userInfoModalOpen: false,
   exportModalOpen: false,
+  navbarOpen: false,
 };
 
 /**
@@ -72,6 +79,11 @@ function ui(state = UI_DEFAULT_STATE, action) {
         ...state,
         [propName]: payload
       };
+    case TOGGLE_NAVBAR_OPEN:
+      return {
+        ...state,
+        navbarOpen: !state.navbarOpen,
+      }
     default:
       return state;
   }
@@ -125,6 +137,8 @@ export default combineReducers({
  */
 const userInfoModalOpen = state => state.ui.userInfoModalOpen;
 const exportModalOpen = state => state.ui.exportModalOpen;
+const navbarOpen = state => state.ui.navbarOpen;
+
 const userInfoTemp = state => state.data.userInfoTemp;
 
 /**
@@ -134,5 +148,7 @@ const userInfoTemp = state => state.data.userInfoTemp;
 export const selector = createStructuredSelector({
   userInfoModalOpen,
   exportModalOpen,
+  navbarOpen,
+  
   userInfoTemp,
 });

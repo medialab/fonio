@@ -24,23 +24,20 @@ const EditionUiWrapperLayout = ({
   exportModalOpen,
   editedStory = {},
   navLocation,
+  navbarOpen,
   actions: {
     setUserInfoTemp,
     setUserInfoModalOpen,
     setExportModalOpen,
     createUser,
     setUserInfo,
+    toggleNavbarOpen,
   },
   children,
 }, {
   t
 }) => {
   const translate = translateNameSpacer(t, 'Features.EditionUiWrapper');
-
-  // const {
-  //   id: storyId,
-  //   metadata
-  // } = editedStory;
 
   const onSubmitUserInfo = () => {
     createUser({
@@ -54,13 +51,14 @@ const EditionUiWrapperLayout = ({
     <div>
       <Navbar
         brandImage={icons.fonioBrand.svg}
-        isOpen={false}
+        isOpen={navbarOpen === true}
+        onToggle={toggleNavbarOpen}
         isFixed
 
         locationBreadCrumbs={[
             {
               href: '/',
-              content: <a>{CONFIG.sessionName /* eslint no-undef:0 */}</a>
+              content: <a>{CONFIG.sessionName /* eslint no-undef:0 */}</a>,
             },
             {
               href: '/',
@@ -73,7 +71,7 @@ const EditionUiWrapperLayout = ({
             {
               href: '/',
               isActive: navLocation === 'summary',
-              content: <span>{translate('Summary')}</span>,
+              content: translate('Summary'),
               // subItems: [
               //   {
               //     href: '/',
@@ -96,12 +94,17 @@ const EditionUiWrapperLayout = ({
             {
               href: '/',
               isActive: navLocation === 'library',
-              content: <span>{translate('Library')}</span>
+              content: translate('Library'),
+              lockStatus: 'open',
+              statusMessage: translate('open to edition')
             },
             {
               href: '/',
               isActive: navLocation === 'design',
-              content: <span>{translate('Design')}</span>,
+              content: translate('Design'),
+              lockStatus: 'open',
+              statusMessage: translate('open to edition')
+              
               // lockStatus: 'locked',
               // statusMessage: 'Edited by fred'
             }
