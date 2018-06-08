@@ -58,11 +58,11 @@ const EditionUiWrapperLayout = ({
         locationBreadCrumbs={[
             {
               href: '/',
-              content: <a>{CONFIG.sessionName /* eslint no-undef:0 */}</a>,
+              content: CONFIG.sessionName /* eslint no-undef:0 */,
             },
             {
               href: '/',
-              content: <a>{(editedStory && editedStory.metadata && editedStory.metadata.title) || translate('Unnamed story')}</a>,
+              content: (editedStory && editedStory.metadata && editedStory.metadata.title) || translate('Unnamed story'),
               isActive: true
             },
           ]}
