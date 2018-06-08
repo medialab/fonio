@@ -9,6 +9,7 @@ import {
 import * as duck from '../duck';
 
 import * as connectionsDuck from '../../ConnectionsManager/duck';
+import * as storyDuck from '../../StoryManager/duck';
 
 import SectionViewLayout from './SectionViewLayout';
 
@@ -16,10 +17,13 @@ import SectionViewLayout from './SectionViewLayout';
   state => ({
     ...duck.selector(state.section),
     ...connectionsDuck.selector(state.connections),
+    ...storyDuck.selector(state.editedStory),
   }),
   dispatch => ({
     actions: bindActionCreators({
       ...connectionsDuck,
+      ...storyDuck,
+      ...duck,
     }, dispatch)
   })
 )
@@ -111,10 +115,18 @@ class SectionViewContainer extends Component {
 
 
   render() {
-    return (
-      <SectionViewLayout
-        {...this.props} />
-    );
+    if (this.props.editedStory && this.props.editedStory.sections) {
+      const section = this.props.editedStory.sections[this.props.match.params.sectionId];
+      if (section) {
+        return (
+          <SectionViewLayout
+            section={section}
+            story={this.props.editedStory}
+            {...this.props} />
+        );
+      }
+    }
+    return null;
   }
 }
 

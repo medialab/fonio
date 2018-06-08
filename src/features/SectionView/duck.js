@@ -8,6 +8,7 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
+import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 
 /**
  * ===================================================
@@ -16,12 +17,40 @@ import {createStructuredSelector} from 'reselect';
  */
 import {ENTER_BLOCK} from '../ConnectionsManager/duck';
 
+const SET_ASIDE_TAB_MODE = 'SET_ASIDE_TAB_MODE';
+const SET_ASIDE_TAB_COLLAPSED = 'SET_ASIDE_TAB_COLLAPSED';
+const SET_MAIN_COLUMN_MODE = 'SET_MAIN_COLUMN_MODE';
+const SET_RESOURCE_SORT_VISIBLE = 'SET_RESOURCE_SORT_VISIBLE';
+const SET_RESOURCE_FILTER_VISIBLE = 'SET_RESOURCE_FILTER_VISIBLE';
 /**
  * ===================================================
  * ACTION CREATORS
  * ===================================================
  */
+export const setAsideTabMode = payload => ({
+  type: SET_ASIDE_TAB_MODE,
+  payload,
+});
 
+export const setAsideTabCollapsed = payload => ({
+  type: SET_ASIDE_TAB_COLLAPSED,
+  payload,
+});
+
+export const setMainColumnMode = payload => ({
+  type: SET_MAIN_COLUMN_MODE,
+  payload,
+});
+
+export const setResourceFilterVisible = payload => ({
+  type: SET_RESOURCE_FILTER_VISIBLE,
+  payload
+});
+
+export const setResourceSortVisible = payload => ({
+  type: SET_RESOURCE_SORT_VISIBLE,
+  payload
+});
 
 /**
  * ===================================================
@@ -29,11 +58,13 @@ import {ENTER_BLOCK} from '../ConnectionsManager/duck';
  * ===================================================
  */
 
-/**
- * @todo refactor as helper
- */
 
 const UI_DEFAULT_STATE = {
+  asideTabMode: 'library',
+  asideTabCollapsed: false,
+  mainColumnMode: 'edition',
+  resourceSortVisible: false,
+  resourceFilterVisible: false,
 };
 
 /**
@@ -43,8 +74,18 @@ const UI_DEFAULT_STATE = {
  * @return {object} newState - the resulting state
  */
 function ui(state = UI_DEFAULT_STATE, action) {
-  // const {payload} = action;
+  const {payload} = action;
   switch (action.type) {
+    case SET_ASIDE_TAB_MODE:
+    case SET_ASIDE_TAB_COLLAPSED:
+    case SET_MAIN_COLUMN_MODE:
+    case SET_RESOURCE_SORT_VISIBLE:
+    case SET_RESOURCE_FILTER_VISIBLE:
+      const propName = getStatePropFromActionSet(action.type);
+      return {
+        ...state,
+        [propName]: payload
+      };
     default:
       return state;
   }
@@ -110,11 +151,25 @@ export default combineReducers({
  * SELECTORS
  * ===================================================
  */
+
+const asideTabMode = state => state.ui.asideTabMode;
+const asideTabCollapsed = state => state.ui.asideTabCollapsed;
+const mainColumnMode = state => state.ui.mainColumnMode;
+const resourceSortVisible = state => state.ui.resourceSortVisible;
+const resourceFilterVisible = state => state.ui.resourceFilterVisible;
+
 const viewLockState = state => state.lockManagement.viewLockState;
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
  */
 export const selector = createStructuredSelector({
+  asideTabMode,
+  asideTabCollapsed,
+  mainColumnMode,
+
+  resourceSortVisible,
+  resourceFilterVisible,
+
   viewLockState,
 });
