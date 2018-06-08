@@ -10,6 +10,8 @@ import {connect} from 'react-redux';
 import {setLanguage} from 'redux-i18n';
 import {withRouter} from 'react-router';
 
+import {getEditionHistoryMap} from '../../../helpers/localStorageUtils';
+
 import HomeViewLayout from './HomeViewLayout';
 import * as duck from '../duck';
 import * as userInfoDuck from '../../UserInfoManager/duck';
@@ -63,6 +65,8 @@ class HomeViewContainer extends Component {
 
   componentWillMount() {
     this.props.actions.fetchStories();
+    const editionHistoryMap = getEditionHistoryMap();
+    this.props.actions.setEditionHistory(editionHistoryMap);
   }
 
 

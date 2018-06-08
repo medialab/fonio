@@ -27,6 +27,7 @@ const SET_SORTING_MODE = 'SET_SORTING_MODE';
 const SET_IDENTIFICATION_MODAL_SWITCH = 'SET_IDENTIFICATION_MODAL_SWITCH';
 const SET_PREVIEWED_STORY_ID = 'SET_PREVIEWED_STORY_ID';
 const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
+const SET_EDITION_HISTORY = 'SET_EDITION_HISTORY';
 const FETCH_STORIES = 'FETCH_STORIES';
 const CREATE_STORY = 'CREATE_STORY';
 const DELETE_STORY = 'DELETE_STORY';
@@ -78,6 +79,10 @@ export const setNewStoryMetadata = payload => ({
 });
 export const setUserInfoTemp = payload => ({
   type: SET_USER_INFO_TEMP,
+  payload
+});
+export const setEditionHistory = payload => ({
+  type: SET_EDITION_HISTORY,
   payload
 });
 
@@ -203,7 +208,11 @@ const DATA_DEFAULT_STATE = {
     /**
    * temp value of user info
    */
-  userInfoTemp: {}
+  userInfoTemp: {},
+  /**
+   * Map of the stories visited by the current client browser
+   */
+  editionHistory: {}
 };
 
 /**
@@ -216,6 +225,13 @@ function data(state = DATA_DEFAULT_STATE, action) {
   const {payload} = action;
   let newStory;
   switch (action.type) {
+     case SET_EDITION_HISTORY:
+      const propName = getStatePropFromActionSet(action.type);
+      return {
+        ...state,
+        [propName]: payload
+      };
+
     case SET_NEW_STORY_OPEN:
       newStory = createDefaultStory();
       return {
@@ -303,6 +319,7 @@ const identificationModalSwitch = state => state.ui.identificationModalSwitch;
 const newStory = state => state.data.newStory;
 const stories = state => state.data.stories;
 const userInfoTemp = state => state.data.userInfoTemp;
+const editionHistory = state => state.data.editionHistory;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -317,5 +334,6 @@ export const selector = createStructuredSelector({
   newStory,
   identificationModalSwitch,
   userInfoTemp,
+  editionHistory,
   stories
 });

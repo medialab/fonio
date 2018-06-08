@@ -2,6 +2,8 @@ import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {post} from 'axios';
 
+import {updateEditionHistoryMap} from '../../helpers/localStorageUtils';
+
 // import { ACTIVATE_STORY } from '../StoriesManager/duck';
 // import { CREATE_SECTION, DELETE_SECTION } from '../SectionsManager/duck';
 
@@ -149,6 +151,8 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
     //   return payload.connections.locking;
     case `${ENTER_STORY}_INIT`:
       locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
+      // save log to local storage for history
+      updateEditionHistoryMap(payload.storyId);
       return {
         ...state,
         [payload.storyId]: {

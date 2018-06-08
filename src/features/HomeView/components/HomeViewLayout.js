@@ -56,7 +56,6 @@ class HomeViewLayout extends Component {
   constructor(props, context) {
     super(props);
 
-
     this.translate = translateNameSpacer(context.t, 'Features.HomeView');
   }
 
@@ -99,6 +98,7 @@ class HomeViewLayout extends Component {
           userInfo,
           sortingMode,
           searchString,
+          editionHistory,
 
           activeUsers,
           userId,
@@ -113,12 +113,31 @@ class HomeViewLayout extends Component {
           }
         } = this.props;
 
-
         const storiesList = Object.keys(stories).map(id => ({id, ...stories[id]}));
         const searchStringLower = searchString.toLowerCase();
         const visibleStoriesList = storiesList.filter(s => {
           const data = JSON.stringify(s).toLowerCase();
           return data.indexOf(searchStringLower) > -1;
+        })
+        .sort((a, b) => {
+          switch (sortingMode) {
+            case 'edited recently':
+              if (a.metadata.lastModified > b.metadata.lastModified) {
+                return 1;
+              }
+              return -1;
+            case 'edited by me':
+              if (editionHistory[a.id] > editionHistory[b.id]) {
+                return 1;
+              }
+              return -1;
+            case 'title':
+            default:
+              if (a.metadata.title > b.metadata.title) {
+                return 1;
+              }
+              return -1;
+          }
         });
         return (
           <Container>
@@ -150,7 +169,7 @@ class HomeViewLayout extends Component {
                 </div>
                 <div>
                   <Title isSize={5}>
-                    {this.translate('Who is online ?')} <HelpPin>{this.translate('choose how you will be identified by other writers')}</HelpPin>
+                    {this.translate('Who is online ?')} <HelpPin>{this.translate('writers connected to one of the stories right now')}</HelpPin>
                   </Title>
                   {activeUsers &&
                     Object.keys(activeUsers)
@@ -202,20 +221,20 @@ class HomeViewLayout extends Component {
                     </LevelLeft>
                     <LevelRight>
                       <LevelItem><i>{this.translate('sort by:')}</i></LevelItem>
-                      <LevelItem onClick={() => setSortingMode('last modification')}>
+                      <LevelItem onClick={() => setSortingMode('edited by me')}>
                         <a>{
-                          sortingMode === 'last modification' ?
-                            <strong>{this.translate('last modification')}</strong>
+                          sortingMode === 'edited by me' ?
+                            <strong>{this.translate('edited by me')}</strong>
                             :
-                            this.translate('last modification')
+                            this.translate('edited by me')
                         }</a>
                       </LevelItem>
-                      <LevelItem onClick={() => setSortingMode('last modification by me')}>
+                      <LevelItem onClick={() => setSortingMode('edited recently')}>
                         <a>{
-                          sortingMode === 'last modification by me' ?
-                            <strong>{this.translate('last modification by me')}</strong>
+                          sortingMode === 'edited recently' ?
+                            <strong>{this.translate('edited recently')}</strong>
                             :
-                            this.translate('last modification by me')
+                            this.translate('edited recently')
                         }</a>
                       </LevelItem>
                       <LevelItem onClick={() => setSortingMode('title')}>
@@ -425,13 +444,15 @@ class HomeViewLayout extends Component {
               <Columns>
                 <Column>
                   <p>
-                    {this.translate('Made by medialab')}
+                    {this.translate('Provided thanks to the FORCCAST program')}.
+                  </p>
+                  <p>
+                    {this.translate('Made by médialab Sciences Po')}.
                   </p>
                 </Column>
               </Columns>
               <Content isSize="small">
                 <p>{this.translate('The source code is licensed under ')}<a target="_blank">LGPL</a>.</p>
-                <p>{this.translate('The website content is licensed under ')}<a target="_blank">CC ANS 4.0</a>.</p>
               </Content>
             </Content>
           </Container>

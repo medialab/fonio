@@ -4,6 +4,8 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 
+import {loadStoryToken, saveStoryToken} from '../../../helpers/localStorageUtils';
+
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as storyDuck from '../../StoryManager/duck';
 import * as duck from '../duck';
@@ -33,7 +35,7 @@ class AuthManagerContainer extends Component {
   componentDidMount() {
     const {userId} = this.props;
     const {storyId} = this.props.match.params;
-    const token = this.loadStoryToken(storyId);
+    const token = loadStoryToken(storyId);
     this.props.actions.activateStory({storyId, userId, token})
     .then((res) => {
       if (res.error && res.error.response && res.error.response.data && res.error.response.data.auth === false) {
@@ -48,15 +50,12 @@ class AuthManagerContainer extends Component {
     this.props.actions.leaveStory({storyId, userId});
   }
 
-  loadStoryToken = storyId => localStorage.getItem(`fonio/storyToken/${storyId}`);
-  saveStoryToken = (storyId, token) => localStorage.setItem(`fonio/storyToken/${storyId}`, token);
 
   render() {
     const {
       props: {
         children,
       },
-      saveStoryToken
     } = this;
     return (
       <div>
