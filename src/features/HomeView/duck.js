@@ -11,6 +11,9 @@ import {createStructuredSelector} from 'reselect';
 import {get, post, delete as del} from 'axios';
 
 import {createDefaultStory} from '../../helpers/schemaUtils';
+
+import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
+
 /**
  * ===================================================
  * ACTION NAMES
@@ -156,13 +159,6 @@ const UI_DEFAULT_STATE = {
    * id of a story to display as a resume/readonly way
    */
   previewedStoryId: undefined,
-};
-
-/**
- * @todo refactor as helper
- */
-const getStatePropFromActionSet = actionName => {
-  return actionName.replace('SET_', '').toLowerCase().replace(/(_[a-z])/gi, (a, b) => b.substr(1).toUpperCase());
 };
 
 /**

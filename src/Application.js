@@ -15,7 +15,7 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
-  Switch
+  Switch,
 } from 'react-router-dom';
 
 import Home from './features/HomeView/components/HomeViewContainer';
