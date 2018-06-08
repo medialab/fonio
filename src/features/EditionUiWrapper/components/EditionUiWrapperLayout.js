@@ -39,6 +39,8 @@ const EditionUiWrapperLayout = ({
 }) => {
   const translate = translateNameSpacer(t, 'Features.EditionUiWrapper');
 
+  const storyId = editedStory.id;
+
   const onSubmitUserInfo = () => {
     createUser({
       ...userInfoTemp,
@@ -69,7 +71,7 @@ const EditionUiWrapperLayout = ({
 
         menuOptions={[
             {
-              href: '/',
+              href: `/story/${storyId}`,
               isActive: navLocation === 'summary',
               content: translate('Summary'),
               // subItems: [
@@ -92,14 +94,14 @@ const EditionUiWrapperLayout = ({
               // ]
             },
             {
-              href: '/',
+              href: `/story/${storyId}/library`,
               isActive: navLocation === 'library',
               content: translate('Library'),
               lockStatus: 'open',
               statusMessage: translate('open to edition')
             },
             {
-              href: '/',
+              href: `/story/${storyId}/design`,
               isActive: navLocation === 'design',
               content: translate('Design'),
               lockStatus: 'open',
