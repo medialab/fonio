@@ -45,7 +45,6 @@ const SummaryViewLayout = ({
   const translate = translateNameSpacer(t, 'Features.SummaryView');
 
   const {
-    // id: storyId,
     metadata: {
       title,
       subtitle,
@@ -86,9 +85,9 @@ const SummaryViewLayout = ({
 
   const activeAuthors = lockingMap[id] && lockingMap[id].locks ?
     Object.keys(activeUsers)
-      .filter(thatUserId => storyActiveUsersIds.indexOf(thatUserId) > -1)
+      .filter(thatUserId => storyActiveUsersIds.indexOf(thatUserId) !== -1)
       .map(thatUserId => ({
-        ...activeUsers[userId],
+        ...activeUsers[thatUserId],
         locks: lockingMap[id].locks[thatUserId]
       }))
       : [];
@@ -100,7 +99,7 @@ const SummaryViewLayout = ({
     if (lockNames.length === 1 && lockNames[0] === 'summary') {
       message = translate('{a} is here on the summary', {a: name});
     }
- else if (lockNames.length > 1) {
+    else if (lockNames.length > 1) {
       const oLockNames = lockNames.filter(n => n !== 'summary');
       if (oLockNames.length === 1) {
         const lockName = oLockNames[0];
@@ -112,12 +111,12 @@ const SummaryViewLayout = ({
             const sectionTitle = section.metadata.title;
             message = translate('{a} is working on section "{t}"', {a: name, t: sectionTitle});
           }
- else message = translate('{a} is working on a section', {a: name});
+          else message = translate('{a} is working on a section', {a: name});
 
         }
         else message = translate('{a} is working on {l}', {a: name, l: oLockNames[0]});
       }
- else {
+      else {
         message = translate('{a} is working on {l} and {n}', {a: name, l: lockNames[0], n: lockNames[1]});
       }
     }
