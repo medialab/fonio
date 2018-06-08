@@ -12,10 +12,11 @@ import {
   Icon,
   Label,
   // Input,
-  Delete,
   // TextArea,
   Help,
 } from 'quinoa-design-library/components/';
+
+import AuthorsManager from '../AuthorsManager';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
@@ -48,6 +49,7 @@ const MetadataForm = ({
   const onSubmitFailure = (error, onsubmitError, formApi) => {
     console.log(error);
   };
+
   return (
     <Form
       defaultValues={story.metadata}
@@ -84,61 +86,44 @@ const MetadataForm = ({
               {/*<Input type="text" placeholder="A song of ice and fire" />*/}
             </Control>
           </Field>
-
-          <Field>
-            <Label>
-            Story password
-              <HelpPin place="right">
-              Explanation about the story password
-              </HelpPin>
-            </Label>
-            <Control hasIcons>
-              <Text
-                field="password"
-                id="password"
-                autoComplete="new-password"
-                type="password"
-                placeholder="password" />
-              {/*<Input isColor="success" placeholder="Text Input" value="bloomer" type="password" />*/}
-              <Icon isSize="small" isAlign="left">
-                <span className="fa fa-lock" aria-hidden="true" />
-              </Icon>
-              <Icon isSize="small" isAlign="right">
-                <span className="fa fa-exclamation" aria-hidden="true" />
-              </Icon>
-            </Control>
-            <Help isColor="danger">Password must be at least 6 characters long</Help>
-          </Field>
-
-          <Field>
-            <Label>
-              Authors
-              <HelpPin place="right">
-              Explanation about the story authors
-              </HelpPin>
-            </Label>
-            <Control hasIcons>
-              {/*<Input isColor="success" placeholder="Text Input" value="bloomer" />*/}
-              <Text
-                id="author"
-                type="text" />
-              <Icon isSize="small" isAlign="left">
-                <span className="fa fa-user" aria-hidden="true" />
-              </Icon>
-              <Icon isSize="small" isAlign="right">
-                <Delete />
-              </Icon>
-              <Button>
-              Add an author
-              </Button>
-            </Control>
-          </Field>
+          {
+            !story.id &&
+              <Field>
+                <Label>
+                Story password
+                  <HelpPin place="right">
+                  Explanation about the story password
+                  </HelpPin>
+                </Label>
+                <Control hasIcons>
+                  <Text
+                    field="password"
+                    id="password"
+                    autoComplete="new-password"
+                    type="password"
+                    placeholder="password" />
+                  {/*<Input isColor="success" placeholder="Text Input" value="bloomer" type="password" />*/}
+                  <Icon isSize="small" isAlign="left">
+                    <span className="fa fa-lock" aria-hidden="true" />
+                  </Icon>
+                  <Icon isSize="small" isAlign="right">
+                    <span className="fa fa-exclamation" aria-hidden="true" />
+                  </Icon>
+                </Control>
+                <Help isColor="danger">Password must be at least 6 characters long</Help>
+              </Field>
+          }
+          <AuthorsManager
+            field="authors"
+            id="authors"
+            onChange={(authors) => formApi.setValue('authors', authors)}
+            authors={formApi.getValue('authors')} />
           <Field>
             <Label>Abstract</Label>
             <Control hasIcons>
               <TextArea
-                field="description"
-                id="description"
+                field="abstract"
+                id="abstract"
                 type="text"
                 placeholder={'abstract'} />
             </Control>
@@ -146,7 +131,10 @@ const MetadataForm = ({
           <Columns>
             <Column>
               <Button isFullWidth type="submit" isColor="success">
-                Create a new story
+                {story.id ?
+                  <span>Update Settings</span> :
+                  <span>Create a new story</span>
+                }
               </Button>
             </Column>
             <Column>
