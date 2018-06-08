@@ -14,7 +14,12 @@ const SectionViewLayout = ({
 
   return (
     <EditionUiWrapper>
-      Section view
+      {translate('Section')}
+      Section view<br />
+      Section view<br />
+      Section view<br />
+      Section view<br />
+      Section view<br />
     </EditionUiWrapper>
   );
 };

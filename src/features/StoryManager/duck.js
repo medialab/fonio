@@ -15,7 +15,7 @@ import {get/*, put, post, delete as del*/} from 'axios';
  * ACTION NAMES
  * ===================================================
  */
-const ACTIVATE_STORY = 'ACTIVATE_STORY';
+export const ACTIVATE_STORY = 'ACTIVATE_STORY';
 
 /**
  * ===================================================

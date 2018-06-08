@@ -12,6 +12,7 @@ import {loadingBarReducer} from 'react-redux-loading-bar';
 
 import home from '../features/HomeView/duck';
 import summary from '../features/SummaryView/duck';
+import section from '../features/SectionView/duck';
 
 import connections from '../features/ConnectionsManager/duck';
 import userInfo from '../features/UserInfoManager/duck';
@@ -37,6 +38,8 @@ export default combineReducers({
   editionUiWrapper,
   editedStory,
 
+
   home,
   summary,
+  section,
 });
