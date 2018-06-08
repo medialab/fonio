@@ -20,6 +20,10 @@ import {
 
 import Home from './features/HomeView/components/HomeViewContainer';
 import Summary from './features/SummaryView/components/SummaryViewContainer';
+import Section from './features/SectionView/components/SectionViewContainer';
+import AuthWrapper from './features/AuthManager/components/AuthManagerContainer';
+import EditionUiWrapper from './features/EditionUiWrapper/components/EditionUiWrapperContainer';
+
 
 import * as connectionsDuck from './features/ConnectionsManager/duck';
 import * as userInfoDuck from './features/UserInfoManager/duck';
@@ -33,6 +37,19 @@ import './Application.scss';
 import {
     urlPrefix
 } from '../secrets';
+
+
+const ProtectedRoutes = ({match}) => {
+
+  return (
+    <AuthWrapper>
+      <EditionUiWrapper>
+        <Route exact path={match.path} component={Summary} />
+        <Route exact path={`${match.path}/section/:sectionId`} component={Section} />
+      </EditionUiWrapper>
+    </AuthWrapper>
+  );
+};
 
 /**
  * Renders the whole fonio application
@@ -110,7 +127,7 @@ export default class Application extends Component {
           {userId &&
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route exact path="/story/:storyId" component={Summary} />
+              <Route path="/story/:storyId" component={ProtectedRoutes} />
               <Route render={(props) => (
                 // TODO: render proper loading/error page
                 <h2>
