@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-6-7\n"
-"PO-Revision-Date: Thu Jun 07 2018 17:56:36 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-6-8\n"
+"PO-Revision-Date: Fri Jun 08 2018 11:39:30 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1093,3 +1093,21 @@ msgstr "search"
 
 msgid "Features.SummaryView.New section"
 msgstr "New section"
+
+msgid "Components.SectionCard.edited by {n}"
+msgstr "edited by {n}"
+
+msgid "Components.SectionCard.open for edition"
+msgstr "open for edition"
+
+msgid "Features.SummaryView.{a} is working in {l}"
+msgstr "{a} is working in {l}"
+
+msgid "Features.SummaryView.{a} is working in {l} and {n}"
+msgstr "{a} is working in {l} and {n}"
+
+msgid "Features.SummaryView.{a} is nowhere, alone in the dark"
+msgstr "{a} is nowhere, alone in the dark"
+
+msgid "Features.SummaryView.What is happening in the story now ?"
+msgstr "What is happening in the story now ?"

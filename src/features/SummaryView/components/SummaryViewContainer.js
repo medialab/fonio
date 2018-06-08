@@ -7,13 +7,16 @@ import AuthWrapper from '../../AuthManager/components/AuthManagerContainer';
 import SummaryViewLayout from './SummaryViewLayout';
 
 import * as editedStoryDuck from '../../StoryManager/duck';
+import * as connectionsDuck from '../../ConnectionsManager/duck';
 
 @connect(
   state => ({
     ...editedStoryDuck.selector(state.editedStory),
+    ...connectionsDuck.selector(state.connections),
   }),
   dispatch => ({
     actions: bindActionCreators({
+      ...connectionsDuck,
     }, dispatch)
   })
 )

@@ -8,17 +8,29 @@ import {
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 const SectionCard = ({
-  section
+  section,
+  goTo,
+  lockData
 }, {t}) => {
 
   const translate = translateNameSpacer(t, 'Components.SectionCard');
+
+  const onAction = action => {
+    switch (action) {
+      case 'edit':
+      default:
+        goTo(section.id);
+        break;
+    }
+  };
 
   return (
     <Card
       title={section.metadata.title}
       subtitle={section.metadata.subtitle}
-      lockStatus={'open'}
-      statusMessage={'open for edition'}
+      lockStatus={lockData ? 'locked' : 'open'}
+      statusMessage={lockData ? translate('edited by {n}', {n: lockData.name}) : translate('open for edition')}
+      onAction={onAction}
       asideActions={[
         {
           label: translate('edit'),

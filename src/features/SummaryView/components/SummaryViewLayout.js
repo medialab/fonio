@@ -33,14 +33,16 @@ import SectionCard from './SectionCard';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 const SummaryViewLayout = ({
-  activeAuthors = [],
   metadataEdited = false,
   editedStory,
+  history,
+  lockingMap = {},
+  activeUsers,
+
 }, {t}) => {
 
   const translate = translateNameSpacer(t, 'Features.SummaryView');
 
-  console.log('edited story', editedStory);
   const {
     // id: storyId,
     metadata: {
@@ -50,10 +52,54 @@ const SummaryViewLayout = ({
       description
     },
     sections,
+    id,
   } = editedStory;
 
+  const goToSection = sectionId => {
+    history.push(`/story/${id}/section/${sectionId}`);
+  };
+
   const sectionsList = Object.keys(sections).map(sectionId => sections[sectionId]);
-  console.log('sections list', sectionsList);
+
+  const reverseSectionLockMap = lockingMap[id] && lockingMap[id].locks ?
+     Object.keys(lockingMap[id].locks)
+      .reduce((result, userId) => {
+        const userSectionLock = lockingMap[id].locks[userId].sections;
+        if (userSectionLock) {
+          return {
+            ...result,
+            [userSectionLock.blockId]: {
+              ...activeUsers[userSectionLock.userId]
+            }
+          };
+        }
+        return result;
+      }, {})
+     : {};
+
+  const activeAuthors = lockingMap[id] && lockingMap[id].locks ?
+  Object.keys(activeUsers)
+    .map(userId => ({
+      ...activeUsers[userId],
+      locks: lockingMap[id].locks[userId]
+    })) : [];
+
+  const buildAuthorMessage = author => {
+    const {name, locks = {}} = author;
+    const lockNames = Object.keys(locks);
+    let message;
+    if (lockNames === 1) {
+      message = translate('{a} is working in {l}', {a: name, l: lockNames[0]});
+    }
+ else if (lockNames > 1) {
+      message = translate('{a} is working in {l} and {n}', {a: name, l: lockNames[0], n: lockNames[1]});
+    }
+ else {
+      message = translate('{a} is nowhere, alone in the dark', {a: name});
+    }
+    return message;
+  };
+
 
   return (
     <EditionUiWrapper>
@@ -176,22 +222,26 @@ const SummaryViewLayout = ({
             <Level />
             <Level />
             <Title isSize={4}>
-              {translate('Who is on what ?')}
+              {translate('What is happening in the story now ?')}
             </Title>
             {
-                  activeAuthors.map((author, authorIndex) => (
+                activeAuthors.map((author, authorIndex) => {
+                  return (
                     <Level key={authorIndex}>
                       <LevelLeft>
                         <LevelItem>
-                          <Image isRounded isSize="32x32" src="https://via.placeholder.com/48x48" />
+                          <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${author.avatar}`)} />
                         </LevelItem>
                         <LevelItem>
-                          <Help>{author.message}</Help>
+                          <Help>
+                            {buildAuthorMessage(author)}
+                          </Help>
                         </LevelItem>
                       </LevelLeft>
                     </Level>
-                  ))
-                }
+                  );
+                })
+              }
           </Column>
           <Column isSize={'2/3'}>
             <Title isSize={2}>
@@ -225,7 +275,9 @@ const SummaryViewLayout = ({
                 <Level key={index}>
                   <Column>
                     <SectionCard
-                      section={section} />
+                      section={section}
+                      goTo={goToSection}
+                      lockData={reverseSectionLockMap[section.id]} />
                   </Column>
                 </Level>
               ))
