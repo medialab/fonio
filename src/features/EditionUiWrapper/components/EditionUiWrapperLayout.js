@@ -49,6 +49,14 @@ const EditionUiWrapperLayout = ({
     setUserInfo(userInfoTemp);
     setUserInfoModalOpen(false);
   };
+  const computeTitle = () => {
+    if (editedStory && editedStory.metadata && editedStory.metadata.title) {
+      return editedStory.metadata.title.length > 10 ?
+                editedStory.metadata.title.substr(0, 10) + '...'
+                : editedStory.metadata.title;
+    }
+ else return translate('Unnamed story');
+  };
   return (
     <div>
       <Navbar
@@ -64,7 +72,8 @@ const EditionUiWrapperLayout = ({
             },
             {
               href: '/',
-              content: (editedStory && editedStory.metadata && editedStory.metadata.title) || translate('Unnamed story'),
+              content: computeTitle()
+              || translate('Unnamed story'),
               isActive: true
             },
           ]}
