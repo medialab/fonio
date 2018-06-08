@@ -25,16 +25,63 @@ import AuthManagerLayout from './AuthManagerLayout';
     }, dispatch)
   })
 )
-
 class AuthManagerContainer extends Component {
 
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    /**
+     * Activate story on mount
+     */
     const {userId} = this.props;
     const {storyId} = this.props.match.params;
+    this.activateStory(storyId, userId);
+  }
+
+  componentWillReceiveProps = nextProps => {
+    /**
+     * If story id is changed (through direct URL change for instance)
+     * leave previous story and login to next story
+     */
+    const {
+      match: {
+        params: {
+          storyId: prevStoryId
+        }
+      },
+    } = this.props;
+    const {
+      match: {
+        params: {
+          storyId: nextStoryId
+        }
+      },
+      userId,
+    } = nextProps;
+    if (prevStoryId !== nextStoryId) {
+      this.props.actions.leaveStory({prevStoryId, userId});
+      this.activateStory(nextStoryId, userId);
+    }
+  }
+
+  componentWillUnmount() {
+    /**
+     * Desactive story on unmount (giving the server the opportunity to unload story if no one else is editing it)
+     */
+    const {userId} = this.props;
+    const {storyId} = this.props.match.params;
+    this.props.actions.leaveStory({storyId, userId});
+  }
+
+  /**
+   * Activate a story by sending a request to the socket
+   * and handle login process if the client is not authenticated
+   * @param storyId {string}
+   * @param userId {string}
+   */
+  activateStory = (storyId, userId) => {
     const token = loadStoryToken(storyId);
     this.props.actions.activateStory({storyId, userId, token})
     .then((res) => {
@@ -42,12 +89,6 @@ class AuthManagerContainer extends Component {
         this.props.actions.setStoryLoginId(storyId);
       }
     });
-  }
-
-  componentWillUnmount() {
-    const {userId} = this.props;
-    const {storyId} = this.props.match.params;
-    this.props.actions.leaveStory({storyId, userId});
   }
 
 

@@ -25,7 +25,7 @@ const AuthManagerLayout = ({
   actions: {
     loginStory,
     activateStory,
-    setStoryLoginStatus,
+    setLoginStatus,
   },
   saveStoryToken
 }, {t}) => {
@@ -39,7 +39,7 @@ const AuthManagerLayout = ({
     })
     .then((res) => {
       if (res.error) {
-        setStoryLoginStatus('fail');
+        setLoginStatus('fail');
       }
       else {
         const {token} = res.result.data;
