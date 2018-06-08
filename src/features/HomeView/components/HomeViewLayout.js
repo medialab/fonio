@@ -311,7 +311,7 @@ class HomeViewLayout extends Component {
                                   {newStoryTabMode === 'form' ?
                                     <MetadataForm
                                       story={newStory}
-                                      createStory={createStory}
+                                      onSubmit={createStory}
                                       onCancel={() => setNewStoryOpen(false)} />
                                     :
                                     <Column>
