@@ -4,14 +4,14 @@ import {post} from 'axios';
 
 import {updateEditionHistoryMap} from '../../helpers/localStorageUtils';
 
-// import { ACTIVATE_STORY } from '../StoriesManager/duck';
+import {ACTIVATE_STORY} from '../StoryManager/duck';
 // import { CREATE_SECTION, DELETE_SECTION } from '../SectionsManager/duck';
 
 const SET_SOCKET_ID = 'SET_SOCKET_ID';
 const ENTER_STORY = 'ENTER_STORY';
 const LEAVE_STORY = 'LEAVE_STORY';
 export const ENTER_BLOCK = 'ENTER_BLOCK';
-const LEAVE_BLOCK = 'LEAVE_BLOCK';
+export const LEAVE_BLOCK = 'LEAVE_BLOCK';
 const IDLE_BLOCK = 'IDLE_BLOCK';
 
 const USER_CONNECTED = 'USER_CONNECTED';
@@ -163,7 +163,7 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
           },
         },
       };
-    // case `${ACTIVATE_STORY}_SUCCESS`:
+    case `${ACTIVATE_STORY}_SUCCESS`:
     case ENTER_STORY:
     case `${ENTER_STORY}_BROADCAST`:
       locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
