@@ -38,8 +38,10 @@ const SummaryViewLayout = ({
   history,
   lockingMap = {},
   activeUsers,
+  userId,
 
 }, {t}) => {
+
 
   const translate = translateNameSpacer(t, 'Features.SummaryView');
 
@@ -55,6 +57,8 @@ const SummaryViewLayout = ({
     id,
   } = editedStory;
 
+  // console.log('locking map', lockingMap[id].locks);
+
   const goToSection = sectionId => {
     history.push(`/story/${id}/section/${sectionId}`);
   };
@@ -63,8 +67,8 @@ const SummaryViewLayout = ({
 
   const reverseSectionLockMap = lockingMap[id] && lockingMap[id].locks ?
      Object.keys(lockingMap[id].locks)
-      .reduce((result, userId) => {
-        const userSectionLock = lockingMap[id].locks[userId].sections;
+      .reduce((result, thatUserId) => {
+        const userSectionLock = lockingMap[id].locks[thatUserId].sections;
         if (userSectionLock) {
           return {
             ...result,
@@ -77,24 +81,48 @@ const SummaryViewLayout = ({
       }, {})
      : {};
 
+  const storyActiveUsersIds = lockingMap[id] && lockingMap[id].locks ?
+    Object.keys(lockingMap[id].locks)
+    : [];
+
   const activeAuthors = lockingMap[id] && lockingMap[id].locks ?
-  Object.keys(activeUsers)
-    .map(userId => ({
-      ...activeUsers[userId],
-      locks: lockingMap[id].locks[userId]
-    })) : [];
+    Object.keys(activeUsers)
+      .filter(thatUserId => storyActiveUsersIds.indexOf(thatUserId) > -1)
+      .map(thatUserId => ({
+        ...activeUsers[userId],
+        locks: lockingMap[id].locks[thatUserId]
+      }))
+      : [];
 
   const buildAuthorMessage = author => {
     const {name, locks = {}} = author;
     const lockNames = Object.keys(locks);
     let message;
-    if (lockNames === 1) {
-      message = translate('{a} is working in {l}', {a: name, l: lockNames[0]});
+    if (lockNames.length === 1 && lockNames[0] === 'summary') {
+      message = translate('{a} is here on the summary', {a: name});
     }
- else if (lockNames > 1) {
-      message = translate('{a} is working in {l} and {n}', {a: name, l: lockNames[0], n: lockNames[1]});
-    }
+ else if (lockNames.length > 1) {
+      const oLockNames = lockNames.filter(n => n !== 'summary');
+      if (oLockNames.length === 1) {
+        const lockName = oLockNames[0];
+        if (lockName === 'sections') {
+          const lock = locks[lockName];
+          if (lock) {
+            const sectionId = locks[lockName].blockId;
+            const section = sections[sectionId];
+            const sectionTitle = section.metadata.title;
+            message = translate('{a} is working on section "{t}"', {a: name, t: sectionTitle});
+          }
+ else message = translate('{a} is working on a section', {a: name});
+
+        }
+        else message = translate('{a} is working on {l}', {a: name, l: oLockNames[0]});
+      }
  else {
+        message = translate('{a} is working on {l} and {n}', {a: name, l: lockNames[0], n: lockNames[1]});
+      }
+    }
+    else {
       message = translate('{a} is nowhere, alone in the dark', {a: name});
     }
     return message;
@@ -222,10 +250,12 @@ const SummaryViewLayout = ({
             <Level />
             <Level />
             <Title isSize={4}>
-              {translate('What is happening in the story now ?')}
+              {translate('What are other authors doing ?')}
             </Title>
             {
-                activeAuthors.map((author, authorIndex) => {
+                activeAuthors
+                .filter(a => a.userId !== userId)
+                .map((author, authorIndex) => {
                   return (
                     <Level key={authorIndex}>
                       <LevelLeft>

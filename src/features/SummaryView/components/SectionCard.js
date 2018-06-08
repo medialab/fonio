@@ -31,6 +31,11 @@ const SectionCard = ({
       lockStatus={lockData ? 'locked' : 'open'}
       statusMessage={lockData ? translate('edited by {n}', {n: lockData.name}) : translate('open for edition')}
       onAction={onAction}
+      bodyContent={
+        section.contents
+        && section.contents.blocks[0]
+        && <i>{section.contents.blocks[0].text.substr(0, 30) + '...'}</i>
+      }
       asideActions={[
         {
           label: translate('edit'),
