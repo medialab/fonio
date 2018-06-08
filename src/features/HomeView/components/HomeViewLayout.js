@@ -169,7 +169,7 @@ class HomeViewLayout extends Component {
                 </div>
                 <div>
                   <Title isSize={5}>
-                    {this.translate('Who is online ?')} <HelpPin>{this.translate('writers connected to one of the stories right now')}</HelpPin>
+                    {this.translate('Who else is online ?')} <HelpPin>{this.translate('writers connected to this classroom right now')}</HelpPin>
                   </Title>
                   {activeUsers &&
                     Object.keys(activeUsers)
