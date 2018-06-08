@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-8\n"
-"PO-Revision-Date: Fri Jun 08 2018 11:39:30 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Fri Jun 08 2018 17:50:32 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1111,3 +1111,39 @@ msgstr "{a} is nowhere, alone in the dark"
 
 msgid "Features.SummaryView.What is happening in the story now ?"
 msgstr "What is happening in the story now ?"
+
+msgid "Features.HomeView.writers connected to one of the stories right now"
+msgstr "writers connected to one of the stories right now"
+
+msgid "Features.HomeView.edited recently"
+msgstr "edited recently"
+
+msgid "Features.HomeView.edited by me"
+msgstr "edited by me"
+
+msgid "Features.HomeView.Provided thanks to the FORCCAST program"
+msgstr "Provided thanks to the FORCCAST program"
+
+msgid "Features.HomeView.Made by médialab Sciences Po"
+msgstr "Made by médialab Sciences Po"
+
+msgid "Features.HomeView.Who else is online ?"
+msgstr "Who else is online ?"
+
+msgid "Features.HomeView.writers connected to this classroom right now"
+msgstr "writers connected to this classroom right now"
+
+msgid "Features.SummaryView.{a} is working on {l}"
+msgstr "{a} is working on {l}"
+
+msgid "Features.SummaryView.{a} is working on {l} and {n}"
+msgstr "{a} is working on {l} and {n}"
+
+msgid "Features.SummaryView.{a} is here on the summary"
+msgstr "{a} is here on the summary"
+
+msgid "Features.SummaryView.{a} is working on section "{t}""
+msgstr "{a} is working on section \"{t}\""
+
+msgid "Features.SummaryView.What are other authors doing ?"
+msgstr "What are other authors doing ?"
