@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Link} from 'react-router-dom';
-
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import {
@@ -32,9 +30,7 @@ const StoryCard = ({
         ]}
       asideActions={[
         {
-          label: <Link to={`/story/${story.id}`}>
-            {translate('open')}
-          </Link>,
+          label: translate('open'),
           isColor: 'primary',
           id: 'open'
         },

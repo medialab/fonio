@@ -9,16 +9,12 @@ import {
   Content,
   Control,
   Field,
-  Delete,
   Collapsable,
   Icon,
   Input,
   Image,
   Help,
   Level,
-  Label,
-  HelpPin,
-  TextArea,
   LevelItem,
   LevelLeft,
   StatusMarker,
@@ -27,19 +23,22 @@ import {
 
 
 import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
+import MetadataForm from '../../../components/MetadataForm';
 
 import SectionCard from './SectionCard';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 const SummaryViewLayout = ({
-  metadataEdited = false,
   editedStory,
   history,
   lockingMap = {},
   activeUsers,
   userId,
-
+  metadataOpen,
+  actions: {
+    setMetadataOpen
+  }
 }, {t}) => {
 
 
@@ -137,7 +136,7 @@ const SummaryViewLayout = ({
         <Columns>
           <Column isSize={'1/3'}>
             <Level>
-              <Collapsable isCollapsed={metadataEdited}>
+              <Collapsable isCollapsed={metadataOpen}>
                 <Title isSize={2}>
                   {title}
                 </Title>
@@ -167,84 +166,20 @@ const SummaryViewLayout = ({
             </Level>
 
             <Level isFullWidth>
-              <Button isColor={metadataEdited ? 'primary' : 'info'} onClick={() => console.log('toggle edit metadata') /* eslint no-console: 0 */}>
+              <Button
+                isColor={metadataOpen ? 'primary' : 'info'}
+                onClick={() => setMetadataOpen(!metadataOpen)}>
                 <StatusMarker
-                  lockStatus={metadataEdited ? 'active' : 'open'}
-                  statusMessage={metadataEdited ? 'edited by you' : 'open'} />
+                  lockStatus={metadataOpen ? 'active' : 'open'}
+                  statusMessage={metadataOpen ? 'edited by you' : 'open'} />
                 {translate('Edit global settings')}
               </Button>
             </Level>
-            <Collapsable isCollapsed={!metadataEdited}>
-              <form>
-                <Field>
-                  <Control>
-                    <Label>
-                          Story title
-                      <HelpPin place="right">
-                        Explanation about the story title
-                      </HelpPin>
-                    </Label>
-                    <Input type="text" placeholder="My story" />
-                  </Control>
-                </Field>
-                <Field>
-                  <Control>
-                    <Label>
-                          Story subtitle
-                      <HelpPin place="right">
-                            Explanation about the story subtitle
-                      </HelpPin>
-                    </Label>
-                    <Input type="text" placeholder="A song of ice and fire" />
-                  </Control>
-                </Field>
-
-                <Field>
-                  <Label>
-                      Authors
-                    <HelpPin place="right">
-                          Explanation about the story authors
-                    </HelpPin>
-                  </Label>
-                  <Control hasIcons>
-                    <Input isColor="success" placeholder="Text Input" value="Fania" />
-                    <Icon isSize="small" isAlign="left">
-                      <span className="fa fa-user" aria-hidden="true" />
-                    </Icon>
-                    <Icon isSize="small" isAlign="right">
-                      <Delete />
-                    </Icon>
-                  </Control>
-                  <Control hasIcons>
-                    <Input isColor="success" placeholder="Text Input" value="Fred" />
-                    <Icon isSize="small" isAlign="left">
-                      <span className="fa fa-user" aria-hidden="true" />
-                    </Icon>
-                    <Icon isSize="small" isAlign="right">
-                      <Delete />
-                    </Icon>
-                  </Control>
-                  <Control hasIcons>
-                    <Input isColor="success" placeholder="Text Input" value="Felipe" />
-                    <Icon isSize="small" isAlign="left">
-                      <span className="fa fa-user" aria-hidden="true" />
-                    </Icon>
-                    <Icon isSize="small" isAlign="right">
-                      <Delete />
-                    </Icon>
-                  </Control>
-                  <Level />
-                  <Button isFullWidth>
-                      Add an author
-                  </Button>
-                </Field>
-                <Field>
-                  <Label>Abstract</Label>
-                  <Control hasIcons>
-                    <TextArea placeholder={'The abstract'} />
-                  </Control>
-                </Field>
-              </form>
+            <Collapsable isCollapsed={!metadataOpen}>
+              <MetadataForm
+                story={editedStory}
+                onSubmit={() => console.log('update metadata')}
+                onCancel={() => console.log('cancel update')} />
             </Collapsable>
             <Level />
             <Level />
