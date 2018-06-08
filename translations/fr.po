@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-8\n"
-"PO-Revision-Date: Fri Jun 08 2018 17:50:32 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Fri Jun 08 2018 19:51:18 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1142,8 +1142,38 @@ msgstr "{a} is working on {l} and {n}"
 msgid "Features.SummaryView.{a} is here on the summary"
 msgstr "{a} is here on the summary"
 
-msgid "Features.SummaryView.{a} is working on section "{t}""
+msgid "Features.SummaryView.{a} is working on section "
 msgstr "{a} is working on section \"{t}\""
 
 msgid "Features.SummaryView.What are other authors doing ?"
 msgstr "What are other authors doing ?"
+
+msgid "Features.SectionView.find a resource"
+msgstr "find a resource"
+
+msgid "Features.SectionView.search"
+msgstr "search"
+
+msgid "Features.SectionView.sort resources"
+msgstr "sort resources"
+
+msgid "Features.SectionView.filter resources"
+msgstr "filter resources"
+
+msgid "Features.SectionView.Library"
+msgstr "Library"
+
+msgid "Features.SectionView.Summary"
+msgstr "Summary"
+
+msgid "Features.SummaryView.{a} is working on a section"
+msgstr "{a} is working on a section"
+
+msgid "Features.SectionView.filter"
+msgstr "filter"
+
+msgid "Features.SummaryView.{a} is working on section "{t}""
+msgstr "{a} is working on section \"{t}\""
+
+msgid "Features.SummaryView.Edit story settings"
+msgstr "Edit story settings"
