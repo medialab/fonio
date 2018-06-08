@@ -133,6 +133,8 @@ const EditionUiWrapperLayout = ({
             nickName: userInfo && userInfo.name
           }} />
       <Level />
+      <Level />
+      <Level />
       {children}
       <IdentificationModal
         isActive={userInfoModalOpen}
