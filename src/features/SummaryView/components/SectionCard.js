@@ -23,7 +23,6 @@ const SectionCard = ({
         break;
     }
   };
-
   return (
     <Card
       title={section.metadata.title}
@@ -40,7 +39,8 @@ const SectionCard = ({
         {
           label: translate('edit'),
           id: 'edit',
-          isColor: 'primary'
+          isColor: 'primary',
+          isDisabled: lockData
         }, {
           label: translate('move'),
           isColor: 'info',
@@ -49,7 +49,8 @@ const SectionCard = ({
         {
           label: translate('delete'),
           isColor: 'danger',
-          id: 'delete'
+          id: 'delete',
+          isDisabled: lockData
         },
 
         {

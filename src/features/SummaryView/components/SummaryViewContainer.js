@@ -29,6 +29,33 @@ class SummaryViewContainer extends Component {
 
   shouldComponentUpdate = () => true;
 
+  componentWillUnmount = () => {
+    /**
+     * Leave metadata if it was locked
+     */
+    const {
+      lockingMap,
+      userId,
+      editedStory: {
+        id
+      },
+      actions: {
+        leaveBlock
+      }
+    } = this.props;
+    const userLockedOnMetadataId = lockingMap[id] && lockingMap[id].locks &&
+      Object.keys(lockingMap[id].locks)
+        .find(thatUserId => lockingMap[id].locks[thatUserId].storyMetadata !== undefined);
+    if (userLockedOnMetadataId && userLockedOnMetadataId === userId) {
+      leaveBlock({
+        storyId: id,
+        userId,
+        location: 'storyMetadata',
+      });
+    }
+
+  }
+
   render() {
     return this.props.editedStory
       && this.props.editedStory.metadata ?

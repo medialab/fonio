@@ -8,11 +8,14 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
+import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
+
 /**
  * ===================================================
  * ACTION NAMES
  * ===================================================
  */
+ import {ENTER_BLOCK, LEAVE_BLOCK} from '../ConnectionsManager/duck';
 /**
  * ui
  */
@@ -57,9 +60,6 @@ const UI_DEFAULT_STATE = {
 /**
  * @todo refactor as helper
  */
-const getStatePropFromActionSet = actionName => {
-  return actionName.replace('SET_', '').toLowerCase().replace(/(_[a-z])/gi, (a, b) => b.substr(1).toUpperCase());
-};
 
 /**
  * This redux reducer handles the global ui state management (screen & modals opening)
@@ -76,6 +76,24 @@ function ui(state = UI_DEFAULT_STATE, action) {
         ...state,
         [propName]: payload
       };
+
+    case `${ENTER_BLOCK}_SUCCESS`:
+      if (payload.location === 'storyMetadata') {
+        return {
+          ...state,
+          metadataOpen: true
+        };
+      }
+      return state;
+    case `${ENTER_BLOCK}_FAIL`:
+    case `${LEAVE_BLOCK}`:
+      if (payload.location === 'storyMetadata') {
+        return {
+          ...state,
+          metadataOpen: false
+        };
+      }
+      return state;
     default:
       return state;
   }

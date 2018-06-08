@@ -7,11 +7,8 @@ import {
   Columns,
   Container,
   Content,
-  Control,
-  Field,
   Collapsable,
   Icon,
-  Input,
   Image,
   Help,
   Level,
@@ -22,7 +19,6 @@ import {
 } from 'quinoa-design-library/components/';
 
 
-import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
 import MetadataForm from '../../../components/MetadataForm';
 
 import SectionCard from './SectionCard';
@@ -37,7 +33,8 @@ const SummaryViewLayout = ({
   userId,
   metadataOpen,
   actions: {
-    setMetadataOpen
+    enterBlock,
+    leaveBlock
   }
 }, {t}) => {
 
@@ -55,7 +52,7 @@ const SummaryViewLayout = ({
     id,
   } = editedStory;
 
-  // console.log('locking map', lockingMap[id].locks);
+  console.log('locking map', lockingMap[id].locks);
 
   const goToSection = sectionId => {
     history.push(`/story/${id}/section/${sectionId}`);
@@ -94,7 +91,7 @@ const SummaryViewLayout = ({
 
   const buildAuthorMessage = author => {
     const {name, locks = {}} = author;
-    const lockNames = Object.keys(locks);
+    const lockNames = Object.keys(locks).filter(name => locks[name]);
     let message;
     if (lockNames.length === 1 && lockNames[0] === 'summary') {
       message = translate('{a} is here on the summary', {a: name});
@@ -112,7 +109,9 @@ const SummaryViewLayout = ({
             message = translate('{a} is working on section "{t}"', {a: name, t: sectionTitle});
           }
           else message = translate('{a} is working on a section', {a: name});
-
+        }
+ else if (lockName === 'storyMetadata') {
+          message = translate('{a} is editing the global information of the story', {a: name});
         }
         else message = translate('{a} is working on {l}', {a: name, l: oLockNames[0]});
       }
@@ -126,23 +125,61 @@ const SummaryViewLayout = ({
     return message;
   };
 
+  const userLockedOnMetadataId = lockingMap[id] && lockingMap[id].locks &&
+    Object.keys(lockingMap[id].locks)
+      .find(thatUserId => lockingMap[id].locks[thatUserId].storyMetadata !== undefined);
+
+  let metadataLockStatus;
+  let metadataLockMessage;
+  if (userLockedOnMetadataId) {
+    if (userLockedOnMetadataId === userId) {
+      metadataLockStatus = 'active';
+      metadataLockMessage = translate('edited by you');
+    }
+ else {
+      metadataLockStatus = 'locked';
+      metadataLockMessage = translate('edited by {a}', {a: activeUsers[userLockedOnMetadataId].name});
+    }
+  }
+ else {
+    metadataLockStatus = 'open';
+    metadataLockMessage = translate('open to edition');
+  }
+
+
+  const toggleMetadataEdition = () => {
+    if (metadataOpen) {
+      // leave metadata edition
+      leaveBlock({
+        storyId: id,
+        userId,
+        location: 'storyMetadata',
+      });
+    }
+ else {
+      // enter metadata edition
+      enterBlock({
+        storyId: id,
+        userId,
+        location: 'storyMetadata',
+      });
+    }
+  };
+
 
   return (
-    <EditionUiWrapper>
-      <Container>
-        <Level />
-        <Level />
-        <Columns>
-          <Column isSize={'1/3'}>
-            <Level>
-              <Collapsable isCollapsed={metadataOpen}>
-                <Title isSize={2}>
-                  {title}
-                </Title>
-                {subtitle && <Title isSize={5}>
-                  <i>{subtitle}</i>
+    <Container>
+      <Columns>
+        <Column isSize={'1/3'}>
+          <Level>
+            <Collapsable isCollapsed={metadataOpen}>
+              <Title isSize={2}>
+                {title}
+              </Title>
+              {subtitle && <Title isSize={5}>
+                <i>{subtitle}</i>
                 </Title>}
-                {
+              {
                   authors.map((author, index) => (
                     <Level key={index}>
                       <LevelLeft>
@@ -158,35 +195,36 @@ const SummaryViewLayout = ({
                     </Level>
                   ))
                 }
-                <Content>
-                  {description}
-                </Content>
-              </Collapsable>
-            </Level>
-
-            <Level isFullWidth>
-              <Button
-                isColor={metadataOpen ? 'primary' : 'info'}
-                onClick={() => setMetadataOpen(!metadataOpen)}>
-                <StatusMarker
-                  lockStatus={metadataOpen ? 'active' : 'open'}
-                  statusMessage={metadataOpen ? 'edited by you' : 'open'} />
-                {translate('Edit global settings')}
-              </Button>
-            </Level>
-            <Collapsable isCollapsed={!metadataOpen}>
-              <MetadataForm
-                story={editedStory}
-                onSubmit={() => console.log('update metadata')}
-                onCancel={() => console.log('cancel update')} />
+              <Content>
+                {description}
+              </Content>
             </Collapsable>
-            <Level />
-            <Level />
-            <Level />
-            <Title isSize={4}>
-              {translate('What are other authors doing ?')}
-            </Title>
-            {
+          </Level>
+
+          <Level isFullWidth>
+            <Button
+              isColor={metadataOpen ? 'primary' : 'info'}
+              disabled={metadataLockStatus === 'locked'}
+              onClick={toggleMetadataEdition}>
+              <StatusMarker
+                lockStatus={metadataLockStatus}
+                statusMessage={metadataLockMessage} />
+              {translate('Edit story settings')}
+            </Button>
+          </Level>
+          <Collapsable isCollapsed={!metadataOpen}>
+            <MetadataForm
+              story={editedStory}
+              onSubmit={() => console.log('update metadata')}
+              onCancel={() => console.log('cancel update')} />
+          </Collapsable>
+          <Level />
+          <Level />
+          <Level />
+          <Title isSize={4}>
+            {translate('What are other authors doing ?')}
+          </Title>
+          {
                 activeAuthors
                 .filter(a => a.userId !== userId)
                 .map((author, authorIndex) => {
@@ -206,35 +244,19 @@ const SummaryViewLayout = ({
                   );
                 })
               }
-          </Column>
-          <Column isSize={'2/3'}>
-            <Title isSize={2}>
-              {translate('Summary')}
-            </Title>
+        </Column>
+        <Column isSize={'2/3'}>
+          <Title isSize={2}>
+            {translate('Summary')}
+          </Title>
+          <Level>
             <Column>
-              <Level>
-                <LevelLeft>
-                  <LevelItem>
-                    <Field hasAddons>
-                      <Control>
-                        <Input placeholder={translate('find a section')} />
-                      </Control>
-                      <Control>
-                        <Button>{translate('search')}</Button>
-                      </Control>
-                    </Field>
-                  </LevelItem>
-                </LevelLeft>
-              </Level>
+              <Button isFullWidth isColor="primary">
+                {translate('New section')}
+              </Button>
             </Column>
-            <Level>
-              <Column>
-                <Button isFullWidth isColor="primary">
-                  {translate('New section')}
-                </Button>
-              </Column>
-            </Level>
-            {
+          </Level>
+          {
               sectionsList.map((section, index) => (
                 <Level key={index}>
                   <Column>
@@ -246,12 +268,11 @@ const SummaryViewLayout = ({
                 </Level>
               ))
             }
-          </Column>
-        </Columns>
+        </Column>
+      </Columns>
 
 
-      </Container>
-    </EditionUiWrapper>
+    </Container>
     );
 };
 
