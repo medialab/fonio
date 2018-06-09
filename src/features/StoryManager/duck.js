@@ -16,6 +16,7 @@ import {get/*, put, post, delete as del*/} from 'axios';
  * ===================================================
  */
 export const ACTIVATE_STORY = 'ACTIVATE_STORY';
+export const UPDATE_STORY_METADATA = 'UPDATE_STORY_METADATA';
 
 /**
  * ===================================================
@@ -38,6 +39,21 @@ export const activateStory = payload => ({
 });
 
 
+export const updateStoryMetadata = payload => ({
+  type: UPDATE_STORY_METADATA,
+  payload: {
+    ...payload,
+    lastUpdateAt: new Date().getTime(),
+  },
+  meta: {
+    remote: true,
+    request: true,
+    broadcast: true,
+    room: payload.storyId,
+  },
+});
+
+
 /**
  * ===================================================
  * REDUCERS
@@ -54,10 +70,17 @@ const STORY_DEFAULT_STATE = {
  * @return {object} newState - the resulting state
  */
 function story(state = STORY_DEFAULT_STATE, action) {
-  const {result} = action;
+  const {result, payload} = action;
   switch (action.type) {
     case `${ACTIVATE_STORY}_SUCCESS`:
       return result.data;
+    case UPDATE_STORY_METADATA:
+    case `${UPDATE_STORY_METADATA}_BROADCAST`:
+      return {
+          ...state,
+          metadata: {...payload.metadata},
+          lastUpdateAt: payload.lastUpdateAt,
+      };
     default:
       return state;
   }
