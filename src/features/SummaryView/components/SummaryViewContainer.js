@@ -17,6 +17,7 @@ import * as connectionsDuck from '../../ConnectionsManager/duck';
   dispatch => ({
     actions: bindActionCreators({
       ...connectionsDuck,
+      ...editedStoryDuck,
       ...duck
     }, dispatch)
   })

@@ -5,6 +5,7 @@ import {
   Button,
   Column,
   Columns,
+  Delete,
   Container,
   Content,
   Collapsable,
@@ -34,7 +35,8 @@ const SummaryViewLayout = ({
   metadataOpen,
   actions: {
     enterBlock,
-    leaveBlock
+    leaveBlock,
+    updateStoryMetadata,
   }
 }, {t}) => {
 
@@ -46,13 +48,11 @@ const SummaryViewLayout = ({
       title,
       subtitle,
       authors,
-      description
+      abstract
     },
     sections,
     id,
   } = editedStory;
-
-  console.log('locking map', lockingMap[id].locks);
 
   const goToSection = sectionId => {
     history.push(`/story/${id}/section/${sectionId}`);
@@ -110,8 +110,8 @@ const SummaryViewLayout = ({
           }
           else message = translate('{a} is working on a section', {a: name});
         }
- else if (lockName === 'storyMetadata') {
-          message = translate('{a} is editing the global information of the story', {a: name});
+        else if (lockName === 'storyMetadata') {
+          message = translate('{a} is editing story settings', {a: name});
         }
         else message = translate('{a} is working on {l}', {a: name, l: oLockNames[0]});
       }
@@ -156,7 +156,7 @@ const SummaryViewLayout = ({
         location: 'storyMetadata',
       });
     }
- else {
+    else {
       // enter metadata edition
       enterBlock({
         storyId: id,
@@ -165,6 +165,15 @@ const SummaryViewLayout = ({
       });
     }
   };
+
+  const onMetadataSubmit = ({payload: {metadata}}) => {
+    const payload = {
+      storyId: id,
+      metadata
+    };
+    updateStoryMetadata(payload);
+    toggleMetadataEdition();
+  }
 
 
   return (
@@ -196,7 +205,7 @@ const SummaryViewLayout = ({
                   ))
                 }
               <Content>
-                {description}
+                <i>{abstract}</i>
               </Content>
             </Collapsable>
           </Level>
@@ -209,21 +218,30 @@ const SummaryViewLayout = ({
               <StatusMarker
                 lockStatus={metadataLockStatus}
                 statusMessage={metadataLockMessage} />
-              {translate('Edit story settings')}
+              {metadataOpen ? 
+                <Columns>
+                  <Column>{translate('Close story settings')}</Column>
+                  <Column><Delete onClick={toggleMetadataEdition}/></Column>
+                </Columns>
+                : translate('Edit story settings')
+              }
             </Button>
           </Level>
           <Collapsable isCollapsed={!metadataOpen}>
-            <MetadataForm
+            {metadataOpen && <MetadataForm
               story={editedStory}
-              onSubmit={() => console.log('update metadata')}
-              onCancel={() => console.log('cancel update')} />
+              onSubmit={onMetadataSubmit}
+              onCancel={toggleMetadataEdition} />}
           </Collapsable>
           <Level />
           <Level />
           <Level />
-          <Title isSize={4}>
-            {translate('What are other authors doing ?')}
-          </Title>
+          {
+            activeAuthors.length > 1 && 
+              <Title isSize={4}>
+                {translate('What are other authors doing ?')}
+              </Title>
+          }
           {
                 activeAuthors
                 .filter(a => a.userId !== userId)

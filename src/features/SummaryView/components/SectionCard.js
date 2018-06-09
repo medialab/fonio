@@ -23,6 +23,16 @@ const SectionCard = ({
         break;
     }
   };
+  const computeFirstWords = () => {
+    return section.contents
+        && section.contents.blocks
+        && section.contents.blocks[0]
+        && section.contents.blocks[0].text
+        && section.contents.blocks[0].text.length > 30 ?
+            <i>{`${section.contents.blocks[0].text.substr(0, 30)}...`}</i> 
+          : 
+            <i>{section.contents.blocks[0].text}</i> 
+  }
   return (
     <Card
       title={section.metadata.title}
@@ -30,11 +40,7 @@ const SectionCard = ({
       lockStatus={lockData ? 'locked' : 'open'}
       statusMessage={lockData ? translate('edited by {n}', {n: lockData.name}) : translate('open for edition')}
       onAction={onAction}
-      bodyContent={
-        section.contents
-        && section.contents.blocks[0]
-        && <i>{section.contents.blocks[0].text.substr(0, 30) + '...'}</i>
-      }
+      bodyContent={computeFirstWords()}
       asideActions={[
         {
           label: translate('edit'),
