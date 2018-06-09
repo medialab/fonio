@@ -124,7 +124,7 @@ class HomeViewLayout extends Component {
         .sort((a, b) => {
           switch (sortingMode) {
             case 'edited recently':
-              if (a.metadata.lastModified > b.metadata.lastModified) {
+              if (a.metadata.lastUpdateAt > b.metadata.lastUpdateAt) {
                 return 1;
               }
               return -1;
@@ -169,6 +169,7 @@ class HomeViewLayout extends Component {
                     </LevelLeft>}
                   </Level>
                 </div>
+                <Level />
                 <div>
                   <Title isSize={5}>
                     {this.translate('Who else is online ?')} <HelpPin>{this.translate('writers connected to this classroom right now')}</HelpPin>
