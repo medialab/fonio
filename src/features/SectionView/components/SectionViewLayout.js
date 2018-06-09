@@ -236,17 +236,17 @@ const SectionViewLayout = ({
                               </Columns>
                               <Columns>
                                 <Column isOffset={2} isSize={10}>
-                                  <Button data-for="card-action" data-tip={'drag this card to the editor'}>
+                                  <Button data-for="card-action" data-tip={'drag to change section order'}>
                                     <Icon isSize="small" isAlign="left">
                                       <img src={icons.move.black.svg} />
                                     </Icon>
                                   </Button>
-                                  <Button data-for="card-action" data-tip={'settings'}>
+                                  <Button data-for="card-action" data-tip={'section settings'}>
                                     <Icon isSize="small" isAlign="left">
                                       <img src={icons.settings.black.svg} />
                                     </Icon>
                                   </Button>
-                                  <Button data-for="card-action" data-tip={'delete this resource'}>
+                                  <Button data-for="card-action" data-tip={'delete this section'}>
                                     <Icon isSize="small" isAlign="left">
                                       <img src={icons.remove.black.svg} />
                                     </Icon>
