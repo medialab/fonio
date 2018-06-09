@@ -72,7 +72,7 @@ class IdentificationModal extends Component {
         onClose={onClose}
         headerContent={translate('Who is this?')}
         mainContent={
-          <form>
+          <form onSubmit={e => {e.preventDefault();onSubmit();}}>
             <Columns>
               <Column isSize={'1/3'}>
                 <Dropdown
