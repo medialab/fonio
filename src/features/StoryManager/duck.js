@@ -10,6 +10,8 @@ import {createStructuredSelector} from 'reselect';
 
 import {get} from 'axios';
 
+import {updateEditionHistoryMap} from '../../helpers/localStorageUtils';
+
 /**
  * ===================================================
  * ACTION NAMES
@@ -59,18 +61,21 @@ export const activateStory = payload => ({
 /**
  * Template for all story change related actions
  */
-export const updateStory = (TYPE, payload) => ({
-  type: TYPE,
-  payload: {
-    ...payload,
-    lastUpdateAt: new Date().getTime(),
-  },
-  meta: {
-    remote: true,
-    broadcast: true,
-    room: payload.storyId,
-  },
-});
+export const updateStory = (TYPE, payload) => {
+  updateEditionHistoryMap(payload.storyId);
+  return {
+    type: TYPE,
+    payload: {
+      ...payload,
+      lastUpdateAt: new Date().getTime(),
+    },
+    meta: {
+      remote: true,
+      broadcast: true,
+      room: payload.storyId,
+    },
+  };
+};
 
 /**
  * Action creators related to socket-based edited story data edition
