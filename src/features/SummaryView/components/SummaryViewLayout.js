@@ -356,6 +356,7 @@ const SummaryViewLayout = ({
                 onSortEnd={onSortEnd}
                 goToSection={goToSection}
                 onDelete={onSectionDelete}
+                useDragHandle
                 reverseSectionLockMap={reverseSectionLockMap} />
             </Column>
         }

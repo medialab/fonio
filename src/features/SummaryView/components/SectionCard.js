@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {SortableHandle} from 'react-sortable-hoc';
 
 import {
   Card,
@@ -59,7 +60,12 @@ const SectionCard = ({
         }, {
           label: translate('move'),
           isColor: 'info',
-          id: 'move'
+          id: 'move',
+          component: SortableHandle(() =>
+            (<span className="button is-fullwidth is-info">
+              {translate('move')}
+            </span>)
+          )
         },
         {
           label: translate('delete'),
