@@ -55,7 +55,7 @@ const EditionUiWrapperLayout = ({
                 editedStory.metadata.title.substr(0, 10) + '...'
                 : editedStory.metadata.title;
     }
- else return translate('Unnamed story');
+    else return translate('Unnamed story');
   };
   return (
     <div>
@@ -71,7 +71,7 @@ const EditionUiWrapperLayout = ({
               content: CONFIG.sessionName /* eslint no-undef:0 */,
             },
             {
-              href: '/',
+              href: `/story/${storyId}`,
               content: computeTitle()
               || translate('Unnamed story'),
               isActive: true
@@ -106,8 +106,6 @@ const EditionUiWrapperLayout = ({
               href: `/story/${storyId}/library`,
               isActive: navLocation === 'library',
               content: translate('Library'),
-              lockStatus: 'open',
-              statusMessage: translate('open to edition')
             },
             {
               href: `/story/${storyId}/design`,
