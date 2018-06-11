@@ -25,7 +25,7 @@ class ToasterContainer extends Component {
     t: PropTypes.func,
     store: PropTypes.object,
   }
-  
+
   constructor(props) {
     super(props);
   }
