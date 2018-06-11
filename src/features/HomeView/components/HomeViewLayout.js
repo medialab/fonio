@@ -43,6 +43,7 @@ import LanguageToggler from '../../../components/LanguageToggler';
 import IdentificationModal from '../../../components/IdentificationModal';
 import MetadataForm from '../../../components/MetadataForm';
 import StoryCard from './StoryCard';
+import DeleteStoryModal from './DeleteStoryModal';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -102,16 +103,21 @@ class HomeViewLayout extends Component {
 
           activeUsers,
           userId,
+          storyDeleteId,
+          loginStatus,
 
           history,
           actions: {
             createStory,
             deleteStory,
+            loginStory,
             setNewStoryTabMode,
             setIdentificationModalSwitch,
             setNewStoryOpen,
             setSortingMode,
             setSearchString,
+            setStoryDeleteId,
+            setLoginStatus,
           }
         } = this.props;
 
@@ -141,6 +147,20 @@ class HomeViewLayout extends Component {
               return -1;
           }
         });
+
+
+        const onDeleteStory = (password) => {
+          loginStory({storyId: storyDeleteId, password})
+          .then((res) => {
+            if (res.error) {
+              setLoginStatus('fail');
+            }
+            else {
+              const {token} = res.result.data;
+              deleteStory({storyId: storyDeleteId, token});
+            }
+          });
+        };
         return (
           <Container>
             <Columns>
@@ -265,8 +285,7 @@ class HomeViewLayout extends Component {
                                       });
                                       break;
                                     case 'delete':
-                                      const token = localStorage.getItem(`fonio/storyToken/${story.id}`);
-                                      deleteStory({id: story.id, token});
+                                      setStoryDeleteId(story.id);
                                       break;
                                     default:
                                       break;
@@ -276,6 +295,12 @@ class HomeViewLayout extends Component {
                           </Level>
                         ))
                       }
+                {storyDeleteId ?
+                  <DeleteStoryModal
+                    loginStatus={loginStatus}
+                    onDeleteStory={onDeleteStory}
+                    onCancel={() => setStoryDeleteId(undefined)} /> : null
+                }
               </Column>
               {
                       newStoryOpen || storyInfoVisible ?

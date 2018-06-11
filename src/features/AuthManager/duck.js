@@ -52,7 +52,7 @@ const UI_DEFAULT_STATE = {
   /**
    * status of the login process (['processing', 'fail', 'success'])
    */
-   loginStatus: undefined,
+  loginStatus: undefined,
 };
 
 /**
