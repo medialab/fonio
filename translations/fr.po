@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-6-9\n"
-"PO-Revision-Date: Sat Jun 09 2018 12:41:00 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-6-11\n"
+"PO-Revision-Date: Mon Jun 11 2018 18:21:40 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1202,8 +1202,158 @@ msgstr "Create and start editing"
 msgid "Components.NewSectionForm.Cancel"
 msgstr "Cancel"
 
-msgid "Features.SummaryView.{a} is working on section "{t}""
-msgstr "{a} is working on section \"{t}\""
-
 msgid "Features.SummaryView.{a} is editing story settings"
 msgstr "{a} is editing story settings"
+
+msgid "Components.NewSectionForm.section-title-is-required"
+msgstr "section-title-is-required"
+
+msgid "Features.ToasterContainer.You could not edit a section"
+msgstr "You could not edit a section"
+
+msgid "Features.ToasterContainer.You could not edit story metadata"
+msgstr "You could not edit story metadata"
+
+msgid "Features.ToasterContainer.You could not edit the order of sections"
+msgstr "You could not edit the order of sections"
+
+msgid "Features.ToasterContainer.You could not edit the story design"
+msgstr "You could not edit the story design"
+
+msgid "Features.ToasterContainer.You could not edit a block"
+msgstr "You could not edit a block"
+
+msgid "Features.ToasterContainer.It is edited by {a}"
+msgstr "It is edited by {a}"
+
+msgid "Components.ChangePasswordModal.Old password is required"
+msgstr "Old password is required"
+
+msgid "Components.ChangePasswordModal.Password should be at least 6 characters"
+msgstr "Password should be at least 6 characters"
+
+msgid "Components.ChangePasswordModal.password does not match"
+msgstr "password does not match"
+
+msgid "Components.ChangePasswordModal.Delete a story"
+msgstr "Delete a story"
+
+msgid "Components.ChangePasswordModal.Enter your password"
+msgstr "Enter your password"
+
+msgid "Components.ChangePasswordModal.Explanation about the password"
+msgstr "Explanation about the password"
+
+msgid "Components.ChangePasswordModal.Submitting password"
+msgstr "Submitting password"
+
+msgid "Components.ChangePasswordModal.Password is not valid"
+msgstr "Password is not valid"
+
+msgid "Components.ChangePasswordModal.Change Password"
+msgstr "Change Password"
+
+msgid "Components.ChangePasswordModal.Cancel"
+msgstr "Cancel"
+
+msgid "Components.DeleteStoryModal.Delete a story"
+msgstr "Delete a story"
+
+msgid "Components.DeleteStoryModal.Enter your password"
+msgstr "Enter your password"
+
+msgid "Components.DeleteStoryModal.Explanation about the password"
+msgstr "Explanation about the password"
+
+msgid "Components.DeleteStoryModal.Submitting password"
+msgstr "Submitting password"
+
+msgid "Components.DeleteStoryModal.Password is not valid"
+msgstr "Password is not valid"
+
+msgid "Components.DeleteStoryModal.Delete"
+msgstr "Delete"
+
+msgid "Components.DeleteStoryModal.Cancel"
+msgstr "Cancel"
+
+msgid "Components.StoryCard.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "Features.SectionView.New section"
+msgstr "New section"
+
+msgid "Features.SectionView.Edit section metadata"
+msgstr "Edit section metadata"
+
+msgid "Features.SectionView.Save changes"
+msgstr "Save changes"
+
+msgid "Features.SectionView.Url of the video"
+msgstr "Url of the video"
+
+msgid "Features.SectionView.Explanation about the video url"
+msgstr "Explanation about the video url"
+
+msgid "Features.SectionView.Video url"
+msgstr "Video url"
+
+msgid "Features.SectionView.Preview"
+msgstr "Preview"
+
+msgid "Features.SectionView.Title of the video"
+msgstr "Title of the video"
+
+msgid "Features.SectionView.Explanation about the video title"
+msgstr "Explanation about the video title"
+
+msgid "Features.SectionView.Video title"
+msgstr "Video title"
+
+msgid "Features.SectionView.Source of the video"
+msgstr "Source of the video"
+
+msgid "Features.SectionView.Explanation about the video source"
+msgstr "Explanation about the video source"
+
+msgid "Features.SectionView.Video source"
+msgstr "Video source"
+
+msgid "Features.SectionView.Description of the video"
+msgstr "Description of the video"
+
+msgid "Features.SectionView.Explanation about the video description"
+msgstr "Explanation about the video description"
+
+msgid "Features.SectionView.Video description"
+msgstr "Video description"
+
+msgid "Features.SectionView.drag this card to the editor"
+msgstr "drag this card to the editor"
+
+msgid "Features.SectionView.delete this resource"
+msgstr "delete this resource"
+
+msgid "Features.SectionView.use as cover image"
+msgstr "use as cover image"
+
+msgid "Features.SectionView.edited by you"
+msgstr "edited by you"
+
+msgid "Features.SectionView.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "Features.SectionView.open to edition"
+msgstr "open to edition"
+
+msgid "Features.SectionView.drag to change section order"
+msgstr "drag to change section order"
+
+msgid "Features.SectionView.section settings"
+msgstr "section settings"
+
+msgid "Features.SectionView.delete this section"
+msgstr "delete this section"
+
+msgid "Features.SummaryView.{a} is working on section "{t}""
+msgstr "{a} is working on section \"{t}\""
