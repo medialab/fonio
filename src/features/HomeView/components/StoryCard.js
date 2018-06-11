@@ -3,13 +3,20 @@ import PropTypes from 'prop-types';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
+import ReactTooltip from 'react-tooltip';
+
+
 import {
   Card,
+  Image,
+  Columns,
+  Column,
 } from 'quinoa-design-library/components/';
 
 const StoryCard = ({
   story,
-  onAction
+  onAction,
+  users = [],
 }, {
   t
 }) => {
@@ -17,9 +24,29 @@ const StoryCard = ({
 
   return (
     <Card
-      title={story.metadata.title}
+      title={
+        <Columns>
+          <Column>{story.metadata.title}</Column>
+          {
+            users.map((user, index) => (
+              <Column key={index}>
+                <Image 
+                  data-for="card-author" 
+                  data-tip={translate('edited by {a}', {a: user.name})} 
+                  isRounded 
+                  isSize="32x32" 
+                  src={require(`../../../sharedAssets/avatars/${user.avatar}`)} 
+                />
+              </Column>
+            ))
+          }
+          <ReactTooltip
+            place="bottom"
+            effect="solid"
+            id="card-author" />
+        </Columns>
+      }
       subtitle={story.metadata.subtitle}
-      lockStatus={story.edited ? 'active' : 'open'}
       statusMessage={story.edited ? `Edited by ${story.metadata.subtitle}` : undefined}
       onAction={onAction}
       footerActions={[
@@ -32,20 +59,20 @@ const StoryCard = ({
         {
           label: translate('open'),
           isColor: 'primary',
-          id: 'open'
+          id: 'open',
         },
         {
           label: translate('duplicate'),
-          id: 'duplicate'
+          id: 'duplicate',
         },
         {
           label: 'info',
-          id: 'info'
+          id: 'info',
         },
         {
           label: <span>{translate('delete')}</span>,
           isColor: 'danger',
-          id: 'delete'
+          id: 'delete',
         },
       ]} />
   );

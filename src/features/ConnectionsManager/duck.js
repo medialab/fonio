@@ -147,8 +147,12 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
     summary: true,
   };
   switch (action.type) {
-    // case USER_CONNECTED:
-    //   return payload.connections.locking;
+    case USER_CONNECTED:
+    case USER_DISCONNECTED:
+      return {...payload.locking};
+    /**
+     * @todo : following case not necessary ?
+     */
     case `${ENTER_STORY}_INIT`:
       locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
       // save log to local storage for history
