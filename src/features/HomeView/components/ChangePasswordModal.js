@@ -17,6 +17,7 @@ import {
 import {Form, Text} from 'react-form';
 
 const ChangePasswordModal = ({
+  changePasswordStatus,
   onChangePassword,
   onCancel
 }, {
@@ -42,11 +43,11 @@ const ChangePasswordModal = ({
           <form onSubmit={formApi.submitForm} id="login-form" className="fonio-form">
             <ModalCard
               isActive
-              headerContent={translate('Delete a story')}
+              headerContent={translate('Change password')}
               mainContent={
                 <Field>
                   <Label>
-                    {translate('Enter your password')}
+                    {translate('Old password')}
                     <HelpPin place="right">
                       {translate('Explanation about the password')}
                     </HelpPin>
@@ -60,6 +61,9 @@ const ChangePasswordModal = ({
                       <span className="fa fa-exclamation" aria-hidden="true" />
                     </Icon>
                   </Control>
+                  <Label>
+                    {translate('New password')}
+                  </Label>
                   <Control hasIcons>
                     <Text field="newPassword" id="newPassword" type="password" />
                     <Icon isSize="small" isAlign="left">
@@ -69,6 +73,9 @@ const ChangePasswordModal = ({
                       <span className="fa fa-exclamation" aria-hidden="true" />
                     </Icon>
                   </Control>
+                  <Label>
+                    {translate('Confirm password')}
+                  </Label>
                   <Control hasIcons>
                     <Text field="confirmPassword" id="confirmPassword" type="password" />
                     <Icon isSize="small" isAlign="left">
@@ -78,8 +85,8 @@ const ChangePasswordModal = ({
                       <span className="fa fa-exclamation" aria-hidden="true" />
                     </Icon>
                   </Control>
-                  {/*loginStatus === 'processing' && <Help>{translate('Submitting password')}</Help>*/}
-                  {/*loginStatus === 'fail' && <Help isColor="danger">{translate('Password is not valid')}</Help>*/}
+                  {changePasswordStatus === 'processing' && <Help>{translate('Submitting password')}</Help>}
+                  {changePasswordStatus === 'fail' && <Help isColor="danger">{translate('Old password is not valid')}</Help>}
                 </Field>
             }
               footerContent={[
@@ -98,6 +105,7 @@ const ChangePasswordModal = ({
 };
 
 ChangePasswordModal.propTypes = {
+  changePasswordStatus: PropTypes.string,
   onChangePassword: PropTypes.func,
   onCancel: PropTypes.func,
 };
