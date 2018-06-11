@@ -176,7 +176,7 @@ function data(state = DATA_DEFAULT_STATE, action) {
 
 const LOCK_MANAGEMENT_DEFAULT_STATE = {
   /**
-   * Status of the global view lock ([undefined, 'pending', 'success', 'fail', 'idle'])
+   * Status of the sections order lock ([undefined, 'pending', 'success', 'fail', 'idle'])
    */
   sectionsOrderLockState: undefined,
 };

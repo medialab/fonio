@@ -62,7 +62,7 @@ const SectionCard = ({
           isColor: 'info',
           id: 'move',
           component: SortableHandle(() =>
-            (<span className="button is-fullwidth is-info">
+            (<span style={{cursor: 'move'}} className="button is-fullwidth is-info">
               {translate('move')}
             </span>)
           )

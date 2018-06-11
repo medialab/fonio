@@ -68,7 +68,7 @@ const SummaryViewLayout = ({
     id,
   } = editedStory;
 
-  const sectionsList = sectionsOrder.map(sectionId => sections[sectionId]);
+  const sectionsList = sectionsOrder.filter(sectionId => sections[sectionId]).map(sectionId => sections[sectionId]);
 
   const reverseSectionLockMap = lockingMap[id] && lockingMap[id].locks ?
      Object.keys(lockingMap[id].locks)
@@ -330,14 +330,13 @@ const SummaryViewLayout = ({
                     <Delete onClick={() => setNewSectionOpen(false)} />
                   </Column>
                 </Columns>
-                <Level>
-                  <NewSectionForm
-                    metadata={{...defaultSectionMetadata}}
-                    onSubmit={onNewSectionSubmit}
-                    onCancel={() => setNewSectionOpen(false)} />
-                </Level>
               </Title>
-
+              <Level>
+                <NewSectionForm
+                  metadata={{...defaultSectionMetadata}}
+                  onSubmit={onNewSectionSubmit}
+                  onCancel={() => setNewSectionOpen(false)} />
+              </Level>
             </Column>
             :
             <Column isSize={'2/3'}>

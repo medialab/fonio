@@ -13,7 +13,7 @@ const SortableItem = SortableElement(({
   value: section,
   goToSection,
   onDelete,
-  reverseSectionLockMap
+  reverseSectionLockMap = {}
 }) =>
   (
     <Level>

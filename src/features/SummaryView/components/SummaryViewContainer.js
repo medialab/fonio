@@ -68,7 +68,7 @@ class SummaryViewContainer extends Component {
           userId,
           location: 'sectionsOrder'
         });
-        this.goToSection(nextProps.tempSectionToCreate.id);
+        this.goToSection(tempSectionToCreate.id);
       }
       // a section is waiting to be deleted
       if (tempSectionIdToDelete) {
