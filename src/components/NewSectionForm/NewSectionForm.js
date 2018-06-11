@@ -24,7 +24,8 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 const NewSectionForm = ({
   metadata,
   onSubmit,
-  onCancel
+  onCancel,
+  submitMessage
 }, {t}) => {
 
   const translate = translateNameSpacer(t, 'Components.NewSectionForm');
@@ -80,7 +81,7 @@ const NewSectionForm = ({
           <Columns>
             <Column>
               <Button isFullWidth type="submit" isColor="success">
-                {translate('Create and start editing')}
+                {submitMessage || translate('Create and start editing')}
               </Button>
             </Column>
 
