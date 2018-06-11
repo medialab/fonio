@@ -39,8 +39,8 @@ export const enterStory = payload => ({
   payload,
   meta: {
     remote: true,
-    request: true,
-    room: payload.storyId,
+    broadcast: true,
+    // room: payload.storyId,
   },
 });
 
@@ -51,7 +51,7 @@ export const leaveStory = payload => ({
   meta: {
     remote: true,
     broadcast: true,
-    room: payload.storyId,
+    // room: payload.storyId,
   },
 });
 

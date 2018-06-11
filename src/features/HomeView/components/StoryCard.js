@@ -21,29 +21,28 @@ const StoryCard = ({
   t
 }) => {
   const translate = translateNameSpacer(t, 'Components.StoryCard');
-
   return (
     <Card
       title={
         <Columns>
           <Column>{story.metadata.title}</Column>
           {
-            users.map((user, index) => (
+            users
+            .map((user, index) => (
               <Column key={index}>
-                <Image 
-                  data-for="card-author" 
-                  data-tip={translate('edited by {a}', {a: user.name})} 
-                  isRounded 
-                  isSize="32x32" 
-                  src={require(`../../../sharedAssets/avatars/${user.avatar}`)} 
-                />
+                <Image
+                  data-for={`card-author-${user.userId}`}
+                  data-tip={translate('edited by {a}', {a: user.name})}
+                  isRounded
+                  isSize="32x32"
+                  src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
+                <ReactTooltip
+                  place="bottom"
+                  effect="solid"
+                  id={`card-author-${user.userId}`} />
               </Column>
             ))
           }
-          <ReactTooltip
-            place="bottom"
-            effect="solid"
-            id="card-author" />
         </Columns>
       }
       subtitle={story.metadata.subtitle}
