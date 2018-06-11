@@ -9,6 +9,7 @@ import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
 import {LOGIN_STORY} from '../ConnectionsManager/duck';
+import {CHANGE_PASSWORD} from '../HomeView/duck';
 
 /**
  * ===================================================
@@ -53,6 +54,12 @@ const UI_DEFAULT_STATE = {
    * status of the login process (['processing', 'fail', 'success'])
    */
   loginStatus: undefined,
+
+  /**
+   * status of the change password process (['processing', 'fail', 'success'])
+   */
+  changePasswordStatus: undefined,
+
 };
 
 /**
@@ -87,6 +94,16 @@ function ui(state = UI_DEFAULT_STATE, action) {
         ...state,
         loginStatus: 'fail'
       };
+    case `${CHANGE_PASSWORD}_SUCCESS`:
+      return {
+        ...state,
+        changePasswordStatus: undefined,
+      };
+    case `${CHANGE_PASSWORD}_FAIL`:
+      return {
+        ...state,
+        changePasswordStatus: 'fail'
+      };
     default:
       return state;
   }
@@ -106,6 +123,7 @@ export default combineReducers({
  */
 const storyLoginId = state => state.ui.storyLoginId;
 const loginStatus = state => state.ui.loginStatus;
+const changePasswordStatus = state => state.ui.changePasswordStatus;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -114,4 +132,5 @@ const loginStatus = state => state.ui.loginStatus;
 export const selector = createStructuredSelector({
   storyLoginId,
   loginStatus,
+  changePasswordStatus,
 });

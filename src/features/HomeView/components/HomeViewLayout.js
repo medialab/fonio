@@ -38,6 +38,7 @@ import {
 } from 'quinoa-design-library/components/';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
+import {saveStoryToken} from '../../../helpers/localStorageUtils';
 
 import LanguageToggler from '../../../components/LanguageToggler';
 import IdentificationModal from '../../../components/IdentificationModal';
@@ -108,6 +109,7 @@ class HomeViewLayout extends Component {
           storyDeleteId,
           changePasswordId,
           loginStatus,
+          changePasswordStatus,
 
           history,
           actions: {
@@ -122,7 +124,6 @@ class HomeViewLayout extends Component {
             setSearchString,
             setStoryDeleteId,
             setChangePasswordId,
-            setLoginStatus,
           }
         } = this.props;
 
@@ -156,10 +157,7 @@ class HomeViewLayout extends Component {
         const onDeleteStory = (password) => {
           loginStory({storyId: storyDeleteId, password})
           .then((res) => {
-            if (res.error) {
-              setLoginStatus('fail');
-            }
-            else {
+            if (res.result && res.result.data) {
               const {token} = res.result.data;
               deleteStory({storyId: storyDeleteId, token});
             }
@@ -167,7 +165,13 @@ class HomeViewLayout extends Component {
         };
 
         const onChangePassword = (oldPassword, newPassword) => {
-          changePassword({storyId: changePasswordId, oldPassword, newPassword});
+          changePassword({storyId: changePasswordId, oldPassword, newPassword})
+          .then((res) => {
+            if (res.result && res.result.data) {
+              const {token} = res.result.data;
+              saveStoryToken(changePasswordId, token);
+            }
+          });
         };
         return (
           <Container>
@@ -324,7 +328,7 @@ class HomeViewLayout extends Component {
                 }
                 {changePasswordId ?
                   <ChangePasswordModal
-                    loginStatus={loginStatus}
+                    changePasswordStatus={changePasswordStatus}
                     onChangePassword={onChangePassword}
                     onCancel={() => setChangePasswordId(undefined)} /> : null
                 }
