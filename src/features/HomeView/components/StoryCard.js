@@ -72,6 +72,7 @@ const StoryCard = ({
           label: <span>{translate('delete')}</span>,
           isColor: 'danger',
           id: 'delete',
+          isDisabled: users.length > 0
         },
       ]} />
   );
