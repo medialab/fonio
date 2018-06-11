@@ -100,6 +100,7 @@ class HomeViewLayout extends Component {
           searchString,
           editionHistory,
 
+          lockingMap,
           activeUsers,
           userId,
 
@@ -257,6 +258,14 @@ class HomeViewLayout extends Component {
                             <Column>
                               <StoryCard
                                 story={story}
+                                users={
+                                  lockingMap[story.id] ?
+                                    Object.keys(lockingMap[story.id].locks)
+                                      .map(userId => ({
+                                        ...activeUsers[userId]
+                                      }))
+                                  : []
+                                }
                                 onAction={(id) => {
                                   switch (id) {
                                     case 'open':
@@ -372,6 +381,8 @@ class HomeViewLayout extends Component {
         identificationModalSwitch,
         userInfoTemp,
         userId,
+        activeUsers,
+        lockingMap,
         actions: {
           setTabMode,
           setIdentificationModalSwitch,
@@ -391,6 +402,7 @@ class HomeViewLayout extends Component {
       setUserInfo(userInfoTemp);
       setIdentificationModalSwitch(false);
     };
+
     return (
       <section>
         <Hero
@@ -478,7 +490,8 @@ class HomeViewLayout extends Component {
 
           onChange={setUserInfoTemp}
           onClose={() => setIdentificationModalSwitch(false)}
-          onSubmit={onSubmitUserInfo} />
+          onSubmit={onSubmitUserInfo} 
+        />
 
       </section>
     );
