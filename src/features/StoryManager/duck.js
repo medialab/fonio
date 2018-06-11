@@ -8,7 +8,7 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
-import {get/*, put, post, delete as del*/} from 'axios';
+import {get} from 'axios';
 
 /**
  * ===================================================
@@ -16,7 +16,25 @@ import {get/*, put, post, delete as del*/} from 'axios';
  * ===================================================
  */
 export const ACTIVATE_STORY = 'ACTIVATE_STORY';
+/**
+ * Section small objects
+ */
 export const UPDATE_STORY_METADATA = 'UPDATE_STORY_METADATA';
+export const UPDATE_STORY_SETTINGS = 'UPDATE_STORY_SETTINGS';
+export const UPDATE_SECTIONS_ORDER = 'UPDATE_SECTIONS_ORDER';
+
+/**
+ * sections CRUD
+ */
+export const CREATE_SECTION = 'CREATE_SECTION';
+export const UPDATE_SECTION = 'UPDATE_SECTION';
+export const DELETE_SECTION = 'DELETE_SECTION';
+/**
+ * resources CRUD
+ */
+export const CREATE_RESOURCE = 'CREATE_RESOURCE';
+export const UPDATE_RESOURCE = 'UPDATE_RESOURCE';
+export const DELETE_RESOURCE = 'DELETE_RESOURCE';
 
 /**
  * ===================================================
@@ -38,21 +56,34 @@ export const activateStory = payload => ({
   },
 });
 
-
-export const updateStoryMetadata = payload => ({
-  type: UPDATE_STORY_METADATA,
+/**
+ * Template for all story change related actions
+ */
+export const updateStory = (TYPE, payload) => ({
+  type: TYPE,
   payload: {
     ...payload,
     lastUpdateAt: new Date().getTime(),
   },
   meta: {
     remote: true,
-    request: true,
     broadcast: true,
     room: payload.storyId,
   },
 });
 
+/**
+ * Action creators related to socket-based edited story data edition
+ */
+export const updateStoryMetadata = payload => updateStory(UPDATE_STORY_METADATA, payload);
+export const updateStorySettings = payload => updateStory(UPDATE_STORY_SETTINGS, payload);
+export const updateSectionsOrder = payload => updateStory(UPDATE_SECTIONS_ORDER, payload);
+export const createSection = payload => updateStory(CREATE_SECTION, payload);
+export const updateSection = payload => updateStory(UPDATE_SECTION, payload);
+export const deleteSection = payload => updateStory(DELETE_SECTION, payload);
+export const createResource = payload => updateStory(CREATE_RESOURCE, payload);
+export const updateResource = payload => updateStory(UPDATE_RESOURCE, payload);
+export const deleteResource = payload => updateStory(DELETE_RESOURCE, payload);
 
 /**
  * ===================================================
@@ -74,6 +105,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
   switch (action.type) {
     case `${ACTIVATE_STORY}_SUCCESS`:
       return result.data;
+    /**
+     * STORY METADATA
+     */
     case UPDATE_STORY_METADATA:
     case `${UPDATE_STORY_METADATA}_BROADCAST`:
       return {
@@ -81,6 +115,108 @@ function story(state = STORY_DEFAULT_STATE, action) {
           metadata: {...payload.metadata},
           lastUpdateAt: payload.lastUpdateAt,
       };
+    /**
+     * STORY SETTINGS
+     */
+    case `${UPDATE_STORY_SETTINGS}`:
+    case `${UPDATE_STORY_SETTINGS}_BROADCAST`:
+      return {
+          ...state,
+          settings: {...payload.settings},
+          lastUpdateAt: payload.lastUpdateAt,
+      };
+    /**
+     * SECTIONS ORDER
+     */
+    case `${UPDATE_SECTIONS_ORDER}`:
+    case `${UPDATE_SECTIONS_ORDER}_BROADCAST`:
+      return {
+          ...state,
+          sectionsOrder: [...payload.sectionsOrder],
+          lastUpdateAt: payload.lastUpdateAt,
+      };
+    /**
+     * SECTION CRUD
+     */
+    case `${CREATE_SECTION}`:
+    case `${CREATE_SECTION}_BROADCAST`:
+      return {
+          ...state,
+          sections: {
+            ...state.sections,
+            [payload.sectionId]: {
+              ...payload.section
+            }
+          },
+          sectionsOrder: [
+            ...state.sectionsOrder,
+            payload.sectionId
+          ],
+          lastUpdateAt: payload.lastUpdateAt,
+      };
+    case `${UPDATE_SECTION}`:
+    case `${UPDATE_SECTION}_BROADCAST`:
+      return {
+          ...state,
+          sections: {
+            ...state.sections,
+            [payload.sectionId]: {
+              ...payload.section
+            }
+          },
+          lastUpdateAt: payload.lastUpdateAt,
+      };
+    case `${DELETE_SECTION}`:
+    case `${DELETE_SECTION}_BROADCAST`:
+      return {
+          ...state,
+          sections: Object.keys(state.sections)
+            .reduce((thatResult, thatSectionId) => {
+              if (thatSectionId === payload.sectionId) {
+                return thatResult;
+              }
+              else return {
+                ...thatResult,
+                [thatSectionId]: state.sections[thatSectionId]
+              };
+            }, {}),
+          sectionsOrder: state.sectionsOrder.filter(id => id !== payload.sectionId),
+          lastUpdateAt: payload.lastUpdateAt,
+      };
+    /**
+     * STORY RESOURCES
+     */
+    case `${CREATE_RESOURCE}`:
+    case `${CREATE_RESOURCE}_BROADCAST`:
+    case `${UPDATE_RESOURCE}`:
+    case `${UPDATE_RESOURCE}_BROADCAST`:
+      return {
+          ...state,
+          resources: {
+            ...state.resources,
+            [payload.resourceId]: {
+              ...payload.resource
+            }
+          },
+          lastUpdateAt: payload.lastUpdateAt,
+      };
+    case `${DELETE_RESOURCE}`:
+    case `${DELETE_RESOURCE}_BROADCAST`:
+      return {
+          ...state,
+          resources: Object.keys(state.resources)
+            .reduce((thatResult, thatResourceId) => {
+              if (thatResourceId === payload.resourceId) {
+                return thatResult;
+              }
+              else return {
+                ...thatResult,
+                [thatResourceId]: state.resources[thatResourceId]
+              };
+            }, {}),
+          lastUpdateAt: payload.lastUpdateAt,
+      };
+
     default:
       return state;
   }
