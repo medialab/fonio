@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-6-8\n"
-"PO-Revision-Date: Fri Jun 08 2018 19:51:18 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-6-9\n"
+"PO-Revision-Date: Sat Jun 09 2018 12:41:00 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1172,8 +1172,38 @@ msgstr "{a} is working on a section"
 msgid "Features.SectionView.filter"
 msgstr "filter"
 
+msgid "Features.SummaryView.Edit story settings"
+msgstr "Edit story settings"
+
+msgid "Features.SummaryView.{a} is editing the global information of the story"
+msgstr "{a} is editing the global information of the story"
+
+msgid "Features.SummaryView.edited by you"
+msgstr "edited by you"
+
+msgid "Features.SummaryView.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "Features.SummaryView.open to edition"
+msgstr "open to edition"
+
+msgid "Features.SummaryView.Close story settings"
+msgstr "Close story settings"
+
+msgid "Components.NewSectionForm.Section title"
+msgstr "Section title"
+
+msgid "Components.NewSectionForm.Explanation about the section title"
+msgstr "Explanation about the section title"
+
+msgid "Components.NewSectionForm.Create and start editing"
+msgstr "Create and start editing"
+
+msgid "Components.NewSectionForm.Cancel"
+msgstr "Cancel"
+
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} is working on section \"{t}\""
 
-msgid "Features.SummaryView.Edit story settings"
-msgstr "Edit story settings"
+msgid "Features.SummaryView.{a} is editing story settings"
+msgstr "{a} is editing story settings"
