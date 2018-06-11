@@ -20,7 +20,8 @@ import {Link} from 'react-router-dom';
 
 const SectionMiniCard = ({
   section,
-  storyId
+  storyId,
+  onDeleteSection
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Features.SectionView');
 
@@ -79,7 +80,7 @@ const SectionMiniCard = ({
                   <img src={icons.settings.black.svg} />
                 </Icon>
               </Button>
-              <Button isDisabled={section.lockStatus === 'locked' || section.lockStatus === 'active'} data-for="card-action" data-tip={translate('delete this section')}>
+              <Button onClick={onDeleteSection} isDisabled={section.lockStatus === 'locked' || section.lockStatus === 'active'} data-for="card-action" data-tip={translate('delete this section')}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.remove.black.svg} />
                 </Icon>

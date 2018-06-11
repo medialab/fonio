@@ -36,6 +36,8 @@ const AsideSectionColumn = ({
   setResourceSortVisible,
   setResourceFilterVisible,
   setMainColumnMode,
+
+  onDeleteSection,
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Features.SectionView');
 
@@ -147,9 +149,16 @@ const AsideSectionColumn = ({
             {
                   sections
                   .map((thatSection, index) => {
+                    const handleDelete = () => {
+                      onDeleteSection(thatSection.id);
+                    };
                     return (
                       <Column style={{margin: '0 0 1rem 0', padding: 0}} key={index}>
-                        <SectionMiniCard section={thatSection} storyId={storyId} />
+                        <SectionMiniCard 
+                          section={thatSection} 
+                          storyId={storyId} 
+                          onDeleteSection={handleDelete}
+                        />
                       </Column>
                   );
                   })
