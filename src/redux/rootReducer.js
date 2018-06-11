@@ -10,6 +10,9 @@ import {i18nState} from 'redux-i18n';
 
 import {loadingBarReducer} from 'react-redux-loading-bar';
 
+import {reducer as toastrReducer} from 'react-redux-toastr';
+
+
 import home from '../features/HomeView/duck';
 import summary from '../features/SummaryView/duck';
 import section from '../features/SectionView/duck';
@@ -31,7 +34,10 @@ const saveLang = (state = {}, action) => {
 export default combineReducers({
   i18nState,
   saveLang,
+
   loadingBar: loadingBarReducer,
+  toastr: toastrReducer,
+
   connections,
   userInfo,
   auth,

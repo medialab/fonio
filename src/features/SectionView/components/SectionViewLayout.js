@@ -55,7 +55,7 @@ const SectionViewLayout = ({
       }, {})
      : {};
 
-  const sectionsList = Object.keys(story.sections)
+  const sectionsList = story.sectionsOrder
   .map(sectionId => {
     let lockStatus;
     if (reverseSectionLockMap[sectionId]) {

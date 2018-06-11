@@ -69,6 +69,7 @@ class SectionViewContainer extends Component {
      * -> for now the UI behaviour is to get back client to the summary view
      */
      if (nextProps.viewLockState === 'fail') {
+      nextProps.actions.setViewLockState(undefined);
       nextProps.history.push(`/story/${nextStoryId}/`);
      }
   }

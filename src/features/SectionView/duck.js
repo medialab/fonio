@@ -22,6 +22,8 @@ const SET_ASIDE_TAB_COLLAPSED = 'SET_ASIDE_TAB_COLLAPSED';
 const SET_MAIN_COLUMN_MODE = 'SET_MAIN_COLUMN_MODE';
 const SET_RESOURCE_SORT_VISIBLE = 'SET_RESOURCE_SORT_VISIBLE';
 const SET_RESOURCE_FILTER_VISIBLE = 'SET_RESOURCE_FILTER_VISIBLE';
+const SET_VIEW_LOCK_STATE = 'SET_VIEW_LOCK_STATE';
+
 /**
  * ===================================================
  * ACTION CREATORS
@@ -50,6 +52,11 @@ export const setResourceFilterVisible = payload => ({
 export const setResourceSortVisible = payload => ({
   type: SET_RESOURCE_SORT_VISIBLE,
   payload
+});
+
+export const setViewLockState = payload => ({
+  type: SET_VIEW_LOCK_STATE,
+  payload,
 });
 
 /**
@@ -132,6 +139,11 @@ function lockManagement(state = LOCK_MANAGEMENT_DEFAULT_STATE, action) {
         };
       }
       return state;
+    case SET_VIEW_LOCK_STATE:
+      return {
+        ...state,
+        viewLockState: payload
+      };
     default:
       return state;
   }

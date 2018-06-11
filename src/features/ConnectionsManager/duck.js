@@ -279,22 +279,45 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
       return newState;
     default:
       return state;
+
   }
 }
+
+const FAIL_DEFAULT_STATE = {
+  lastEnterFail: undefined,
+};
+const fails = (state = FAIL_DEFAULT_STATE, action) => {
+  const {payload} = action;
+  switch (action.type) {
+    /**
+     * Errors and failures management
+     */
+    case `${ENTER_BLOCK}_FAIL`:
+      return {
+        ...state,
+        lastEnterFail: payload,
+      };
+    default:
+      return state;
+  }
+};
 
 export default combineReducers({
   locking,
   users,
+  fails,
 });
 
 const userId = state => state.users.userId;
 const activeUsers = state => state.users.users;
 const usersNumber = state => state.users.count;
 const lockingMap = state => state.locking;
+const lastEnterFail = state => state.fails.lastEnterFail;
 
 export const selector = createStructuredSelector({
   userId,
   usersNumber,
   lockingMap,
   activeUsers,
+  lastEnterFail,
 });

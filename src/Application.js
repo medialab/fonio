@@ -18,11 +18,16 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import ReduxToastr from 'react-redux-toastr';
+
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+
 import Home from './features/HomeView/components/HomeViewContainer';
 import Summary from './features/SummaryView/components/SummaryViewContainer';
 import Section from './features/SectionView/components/SectionViewContainer';
 import AuthWrapper from './features/AuthManager/components/AuthManagerContainer';
 import EditionUiWrapper from './features/EditionUiWrapper/components/EditionUiWrapperContainer';
+import ToasterContainer from './features/ConnectionsManager/components/ToasterContainer';
 
 
 import * as connectionsDuck from './features/ConnectionsManager/duck';
@@ -44,8 +49,10 @@ const ProtectedRoutes = ({match}) => {
   return (
     <AuthWrapper>
       <EditionUiWrapper>
-        <Route exact path={match.path} component={Summary} />
-        <Route exact path={`${match.path}/section/:sectionId`} component={Section} />
+        <ToasterContainer>
+          <Route exact path={match.path} component={Summary} />
+          <Route exact path={`${match.path}/section/:sectionId`} component={Section} />
+        </ToasterContainer>
       </EditionUiWrapper>
     </AuthWrapper>
   );
@@ -125,17 +132,24 @@ export default class Application extends Component {
       <Router basename={urlPrefix || '/'}>
         <div id="wrapper" className="fonio">
           {userId &&
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/story/:storyId" component={ProtectedRoutes} />
-              <Route render={(props) => (
-                // TODO: render proper loading/error page
-                <h2>
-                  No match for {props.location.pathname}, go back to <Link to="/">Home page</Link>
-                </h2>
-              )} />
-            </Switch>
-          }
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/story/:storyId" component={ProtectedRoutes} />
+            <Route render={(props) => (
+                  // TODO: render proper loading/error page
+              <h2>
+                    No match for {props.location.pathname}, go back to <Link to="/">Home page</Link>
+              </h2>
+                )} />
+          </Switch>
+            }
+          <ReduxToastr
+            timeOut={3000}
+            newestOnTop={false}
+            preventDuplicates
+            position="top-right"
+            transitionIn="fadeIn"
+            transitionOut="fadeOut" />
         </div>
       </Router>
     );
