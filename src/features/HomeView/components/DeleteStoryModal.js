@@ -77,8 +77,9 @@ const DeleteStoryModal = ({
 };
 
 DeleteStoryModal.propTypes = {
-//   storyDeleteId: PropTypes.object,
-//   deleteStory: PropTypes.func,
+  loginStatus: PropTypes.string,
+  onDeleteStory: PropTypes.func,
+  onCancel: PropTypes.func
 };
 
 DeleteStoryModal.contextTypes = {
