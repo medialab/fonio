@@ -281,9 +281,11 @@ class HomeViewLayout extends Component {
                                 users={
                                   lockingMap[story.id] ?
                                     Object.keys(lockingMap[story.id].locks)
-                                      .map(userId => ({
-                                        ...activeUsers[userId]
-                                      }))
+                                      .map(thatUserId => {
+                                        return {
+                                          ...activeUsers[thatUserId]
+                                        };
+                                      })
                                   : []
                                 }
                                 onAction={(id) => {
@@ -405,9 +407,6 @@ class HomeViewLayout extends Component {
         tabMode,
         identificationModalSwitch,
         userInfoTemp,
-        userId,
-        activeUsers,
-        lockingMap,
         actions: {
           setTabMode,
           setIdentificationModalSwitch,
@@ -427,7 +426,6 @@ class HomeViewLayout extends Component {
       setUserInfo(userInfoTemp);
       setIdentificationModalSwitch(false);
     };
-
     return (
       <section>
         <Hero
@@ -515,8 +513,7 @@ class HomeViewLayout extends Component {
 
           onChange={setUserInfoTemp}
           onClose={() => setIdentificationModalSwitch(false)}
-          onSubmit={onSubmitUserInfo} 
-        />
+          onSubmit={onSubmitUserInfo} />
 
       </section>
     );
