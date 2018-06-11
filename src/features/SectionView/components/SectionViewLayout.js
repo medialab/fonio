@@ -31,6 +31,7 @@ const SectionViewLayout = ({
     setResourceSortVisible,
     setResourceFilterVisible,
     updateSection,
+    deleteSection,
   }
 }, {
   // t
@@ -61,11 +62,11 @@ const SectionViewLayout = ({
       if (reverseSectionLockMap[sectionId].userId === userId) {
         lockStatus = 'active';
       }
- else {
+      else {
         lockStatus = 'locked';
       }
     }
- else {
+    else {
       lockStatus = 'open';
     }
     return {
@@ -74,6 +75,14 @@ const SectionViewLayout = ({
       lockStatus
     };
   });
+
+
+  const onDeleteSection = sectionId => {
+    deleteSection({
+      sectionId,
+      storyId
+    });
+  };
 
   return (
     <div>
@@ -91,7 +100,10 @@ const SectionViewLayout = ({
           setResourceFilterVisible={setResourceFilterVisible}
           setAsideTabMode={setAsideTabMode}
           setAsideTabCollapsed={setAsideTabCollapsed}
-          setMainColumnMode={setMainColumnMode} />
+          setMainColumnMode={setMainColumnMode} 
+
+          onDeleteSection={onDeleteSection}
+        />
         <MainSectionColumn
           mainColumnMode={mainColumnMode}
           setMainColumnMode={setMainColumnMode}
