@@ -20,7 +20,7 @@ import {
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import SectionMiniCard from './SectionMiniCard';
-import ResourceMinicard from './ResourceMinicard';
+import ResourceMiniCard from './ResourceMiniCard';
 
 const AsideSectionColumn = ({
   asideTabCollapsed,
@@ -128,7 +128,7 @@ const AsideSectionColumn = ({
                 .map(resource => {
                   return (
                     <Column style={{margin: '0 0 1rem 0', padding: 0}} key={resource.id}>
-                      <ResourceMinicard
+                      <ResourceMiniCard
                         resource={resource}
                         onEdit={() => setMainColumnMode('editresource')} />
                     </Column>
