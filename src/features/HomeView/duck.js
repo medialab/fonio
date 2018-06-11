@@ -32,9 +32,12 @@ const SET_PREVIEWED_STORY_ID = 'SET_PREVIEWED_STORY_ID';
 const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
 const SET_EDITION_HISTORY = 'SET_EDITION_HISTORY';
 const SET_STORY_DELETE_ID = 'SET_STORY_DELETE_ID';
+const SET_CHANGE_PASSWORD_ID = 'SET_CHANGE_PASSWORD_ID';
+
 const FETCH_STORIES = 'FETCH_STORIES';
 const CREATE_STORY = 'CREATE_STORY';
 const DELETE_STORY = 'DELETE_STORY';
+const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 
 import {SET_USER_INFO} from '../UserInfoManager/duck';
 /**
@@ -93,6 +96,10 @@ export const setStoryDeleteId = payload => ({
   type: SET_STORY_DELETE_ID,
   payload
 });
+export const setChangePasswordId = payload => ({
+  type: SET_CHANGE_PASSWORD_ID,
+  payload
+});
 
 export const fetchStories = () => ({
   type: FETCH_STORIES,
@@ -125,6 +132,15 @@ export const deleteStory = payload => ({
     const serverRequestUrl = `${CONFIG.serverUrl}/stories/${storyId}`;
     return del(serverRequestUrl, options);
   },
+});
+
+export const changePassword = payload => ({
+  type: CHANGE_PASSWORD,
+  payload,
+  promise: () => {
+    const serverRequestUrl = `${CONFIG.serverUrl}` + '/auth/resetPassword/';
+    return post(serverRequestUrl, payload);
+  }
 });
 
 /**
@@ -168,6 +184,10 @@ const UI_DEFAULT_STATE = {
   * id of a story to delete
   */
   storyDeleteId: undefined,
+  /**
+  * id of a story to change password
+  */
+  changePasswordId: undefined,
 };
 
 /**
@@ -187,6 +207,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_IDENTIFICATION_MODAL_SWITCH:
     case SET_PREVIEWED_STORY_ID:
     case SET_STORY_DELETE_ID:
+    case SET_CHANGE_PASSWORD_ID:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -201,6 +222,11 @@ function ui(state = UI_DEFAULT_STATE, action) {
       return {
         ...state,
         storyDeleteId: undefined
+      };
+    case `${CHANGE_PASSWORD}_SUCCESS`:
+      return {
+        ...state,
+        changePasswordId: undefined
       };
     default:
       return state;
@@ -328,6 +354,7 @@ const searchString = state => state.ui.searchString;
 const sortingMode = state => state.ui.sortingMode;
 const identificationModalSwitch = state => state.ui.identificationModalSwitch;
 const storyDeleteId = state => state.ui.storyDeleteId;
+const changePasswordId = state => state.ui.changePasswordId;
 
 const newStory = state => state.data.newStory;
 const stories = state => state.data.stories;
@@ -347,6 +374,7 @@ export const selector = createStructuredSelector({
   newStory,
   identificationModalSwitch,
   storyDeleteId,
+  changePasswordId,
   userInfoTemp,
   editionHistory,
   stories

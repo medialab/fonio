@@ -44,6 +44,7 @@ import IdentificationModal from '../../../components/IdentificationModal';
 import MetadataForm from '../../../components/MetadataForm';
 import StoryCard from './StoryCard';
 import DeleteStoryModal from './DeleteStoryModal';
+import ChangePasswordModal from './ChangePasswordModal';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -105,6 +106,7 @@ class HomeViewLayout extends Component {
           activeUsers,
           userId,
           storyDeleteId,
+          changePasswordId,
           loginStatus,
 
           history,
@@ -112,12 +114,14 @@ class HomeViewLayout extends Component {
             createStory,
             deleteStory,
             loginStory,
+            changePassword,
             setNewStoryTabMode,
             setIdentificationModalSwitch,
             setNewStoryOpen,
             setSortingMode,
             setSearchString,
             setStoryDeleteId,
+            setChangePasswordId,
             setLoginStatus,
           }
         } = this.props;
@@ -149,7 +153,6 @@ class HomeViewLayout extends Component {
           }
         });
 
-
         const onDeleteStory = (password) => {
           loginStory({storyId: storyDeleteId, password})
           .then((res) => {
@@ -161,6 +164,10 @@ class HomeViewLayout extends Component {
               deleteStory({storyId: storyDeleteId, token});
             }
           });
+        };
+
+        const onChangePassword = (oldPassword, newPassword) => {
+          changePassword({storyId: changePasswordId, oldPassword, newPassword});
         };
         return (
           <Container>
@@ -296,6 +303,9 @@ class HomeViewLayout extends Component {
                                     case 'delete':
                                       setStoryDeleteId(story.id);
                                       break;
+                                    case 'change password':
+                                      setChangePasswordId(story.id);
+                                      break;
                                     default:
                                       break;
                                   }
@@ -309,6 +319,12 @@ class HomeViewLayout extends Component {
                     loginStatus={loginStatus}
                     onDeleteStory={onDeleteStory}
                     onCancel={() => setStoryDeleteId(undefined)} /> : null
+                }
+                {changePasswordId ?
+                  <ChangePasswordModal
+                    loginStatus={loginStatus}
+                    onChangePassword={onChangePassword}
+                    onCancel={() => setChangePasswordId(undefined)} /> : null
                 }
               </Column>
               {
@@ -515,7 +531,7 @@ class HomeViewLayout extends Component {
 
           onChange={setUserInfoTemp}
           onClose={() => setIdentificationModalSwitch(false)}
-          onSubmit={onSubmitUserInfo} 
+          onSubmit={onSubmitUserInfo}
         />
 
       </section>
