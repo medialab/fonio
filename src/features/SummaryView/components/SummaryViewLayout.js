@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {arrayMove} from 'react-sortable-hoc';
+
 import {v4 as genId} from 'uuid';
 
 import {
@@ -25,14 +27,13 @@ import {
 import MetadataForm from '../../../components/MetadataForm';
 import NewSectionForm from '../../../components/NewSectionForm';
 
-import SectionCard from './SectionCard';
+import SortableSectionsList from './SortableSectionsList';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultSection} from '../../../helpers/schemaUtils';
 
 const SummaryViewLayout = ({
   editedStory,
-  history,
   lockingMap = {},
   activeUsers,
   userId,
@@ -45,9 +46,11 @@ const SummaryViewLayout = ({
     leaveBlock,
     updateStoryMetadata,
     setNewSectionOpen,
-    createSection,
-    deleteSection,
-  }
+    setTempSectionToCreate,
+    setTempSectionsOrder,
+    setTempSectionIdToDelete,
+  },
+  goToSection
 }, {t}) => {
 
 
@@ -61,14 +64,11 @@ const SummaryViewLayout = ({
       abstract
     },
     sections,
+    sectionsOrder,
     id,
   } = editedStory;
 
-  const goToSection = sectionId => {
-    history.push(`/story/${id}/section/${sectionId}`);
-  };
-
-  const sectionsList = Object.keys(sections).map(sectionId => sections[sectionId]);
+  const sectionsList = sectionsOrder.map(sectionId => sections[sectionId]);
 
   const reverseSectionLockMap = lockingMap[id] && lockingMap[id].locks ?
      Object.keys(lockingMap[id].locks)
@@ -194,24 +194,41 @@ const SummaryViewLayout = ({
       metadata,
       id: genId()
     };
-    createSection({
-      section: newSection,
+
+    setTempSectionToCreate(newSection);
+    // get lock on sections order
+    enterBlock({
       storyId: id,
-      sectionId: newSection.id
+      userId,
+      location: 'sectionsOrder',
     });
-    setNewSectionOpen(false);
-    goToSection(newSection.id);
   };
 
   const onSectionDelete = sectionId => {
     // make sure that section is not edited by another user to prevent bugs and inconsistencies
     // (in UI delete button should be disabled when section is edited, this is a supplementary safety check)
     if (!reverseSectionLockMap[sectionId]) {
-      deleteSection({
-        sectionId,
-        storyId: id
+      // store section to be deleted
+      setTempSectionIdToDelete(sectionId);
+      // get lock on sections order
+      enterBlock({
+        storyId: id,
+        userId,
+        location: 'sectionsOrder',
       });
     }
+  };
+
+  const onSortEnd = ({oldIndex, newIndex}) => {
+    const sectionsIds = sectionsList.map(section => section.id);
+    const newSectionsOrder = arrayMove(sectionsIds, oldIndex, newIndex);
+    setTempSectionsOrder(newSectionsOrder);
+    // get lock on sections order
+    enterBlock({
+      storyId: id,
+      userId,
+      location: 'sectionsOrder',
+    });
   };
 
   return (
@@ -334,19 +351,12 @@ const SummaryViewLayout = ({
                   </Button>
                 </Column>
               </Level>
-              {
-                    sectionsList.map((section, index) => (
-                      <Level key={index}>
-                        <Column>
-                          <SectionCard
-                            section={section}
-                            goTo={goToSection}
-                            onDelete={onSectionDelete}
-                            lockData={reverseSectionLockMap[section.id]} />
-                        </Column>
-                      </Level>
-                    ))
-                  }
+              <SortableSectionsList
+                items={sectionsList}
+                onSortEnd={onSortEnd}
+                goToSection={goToSection}
+                onDelete={onSectionDelete}
+                reverseSectionLockMap={reverseSectionLockMap} />
             </Column>
         }
 

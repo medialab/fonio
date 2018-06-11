@@ -80,7 +80,9 @@ const SectionMiniCard = ({
                   <img src={icons.settings.black.svg} />
                 </Icon>
               </Button>
-              <Button onClick={onDeleteSection} isDisabled={section.lockStatus === 'locked' || section.lockStatus === 'active'} data-for="card-action" data-tip={translate('delete this section')}>
+              <Button
+                onClick={onDeleteSection} isDisabled={section.lockStatus === 'locked' || section.lockStatus === 'active'} data-for="card-action"
+                data-tip={translate('delete this section')}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.remove.black.svg} />
                 </Icon>

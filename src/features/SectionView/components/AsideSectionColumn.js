@@ -154,11 +154,10 @@ const AsideSectionColumn = ({
                     };
                     return (
                       <Column style={{margin: '0 0 1rem 0', padding: 0}} key={index}>
-                        <SectionMiniCard 
-                          section={thatSection} 
-                          storyId={storyId} 
-                          onDeleteSection={handleDelete}
-                        />
+                        <SectionMiniCard
+                          section={thatSection}
+                          storyId={storyId}
+                          onDeleteSection={handleDelete} />
                       </Column>
                   );
                   })
