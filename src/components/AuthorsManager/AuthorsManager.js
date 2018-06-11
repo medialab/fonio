@@ -60,10 +60,10 @@ const AuthorsManager = ({
                 <Icon isSize="small" isAlign="left">
                   <span className="fa fa-user" aria-hidden="true" />
                 </Icon>
+                <Icon isSize="small" isAlign="right" style={{pointerEvents: 'auto'}}>
+                  <Delete onClick={onRemoveAuthor} />
+                </Icon>
               </Control>
-              <Icon isSize="small" isAlign="right">
-                <Delete onClick={onRemoveAuthor} />
-              </Icon>
             </div>
           );
         })
