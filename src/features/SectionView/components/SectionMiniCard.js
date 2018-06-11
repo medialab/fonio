@@ -40,7 +40,6 @@ const SectionMiniCard = ({
   onOpenSettings
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Features.SectionView');
-
   const lockStatusMessage = () => {
     switch (section.lockStatus) {
       case 'active':

@@ -46,7 +46,7 @@ const SectionViewLayout = ({
 }) => {
   // const translate = translateNameSpacer(t, 'Features.SectionView');
   const {id: storyId} = story;
-  const {id: sectionId} = section;
+  // const {id: sectionId} = section;
   const defaultSection = createDefaultSection();
 
 
@@ -66,6 +66,7 @@ const SectionViewLayout = ({
       }, {})
      : {};
 
+
   const sectionsList = story.sectionsOrder
   .map(thatSectionId => {
     let lockStatus;
@@ -81,8 +82,8 @@ const SectionViewLayout = ({
       lockStatus = 'open';
     }
     return {
-      ...story.sections[sectionId],
-      lockData: reverseSectionLockMap[sectionId],
+      ...story.sections[thatSectionId],
+      lockData: reverseSectionLockMap[thatSectionId],
       lockStatus
     };
   });

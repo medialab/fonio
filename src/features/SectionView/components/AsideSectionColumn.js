@@ -154,27 +154,6 @@ const AsideSectionColumn = ({
               onOpenSettings={thatSection => onOpenSectionSettings(thatSection.id)}
               onDeleteSection={(thatSection) => onDeleteSection(thatSection.id)}
               useDragHandle />
-            {/*
-                  sections
-                  .map((thatSection, index) => {
-                    const handleDelete = () => {
-                      onDeleteSection(thatSection.id);
-                    };
-                    const handleOpenSettings = () => {
-                      onOpenSectionSettings(thatSection.id);
-                    }
-                    return (
-                      <Column style={{margin: '0 0 1rem 0', padding: 0}} key={index}>
-                        <SectionMiniCard
-                          section={thatSection}
-                          storyId={storyId}
-                          onDeleteSection={handleDelete}
-                          onOpenSettings={handleOpenSettings}
-                        />
-                      </Column>
-                  );
-                  })
-                */}
             <Column style={{margin: '0 0 1rem 0', padding: 0}}>
               <Button onClick={() => setMainColumnMode('newsection')} isColor={'primary'} isFullWidth>
                 {translate('New section')}

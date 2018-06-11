@@ -13,16 +13,18 @@ const SortableItem = SortableElement(({
   value: section,
   onOpenSettings,
   onDeleteSection,
-}) => (
-  <Level>
-    <Column>
-      <SectionMiniCard
-        section={section}
-        onDeleteSection={onDeleteSection}
-        onOpenSettings={onOpenSettings} />
-    </Column>
-  </Level>
-));
+}) => {
+  return (
+    <Level>
+      <Column>
+        <SectionMiniCard
+          section={section}
+          onDeleteSection={onDeleteSection}
+          onOpenSettings={onOpenSettings} />
+      </Column>
+    </Level>
+  );
+});
 
 const SortableSectionsList = SortableContainer(({
   items, ...props
