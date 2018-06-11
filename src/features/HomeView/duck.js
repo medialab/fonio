@@ -31,6 +31,7 @@ const SET_IDENTIFICATION_MODAL_SWITCH = 'SET_IDENTIFICATION_MODAL_SWITCH';
 const SET_PREVIEWED_STORY_ID = 'SET_PREVIEWED_STORY_ID';
 const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
 const SET_EDITION_HISTORY = 'SET_EDITION_HISTORY';
+const SET_STORY_DELETE_ID = 'SET_STORY_DELETE_ID';
 const FETCH_STORIES = 'FETCH_STORIES';
 const CREATE_STORY = 'CREATE_STORY';
 const DELETE_STORY = 'DELETE_STORY';
@@ -88,6 +89,10 @@ export const setEditionHistory = payload => ({
   type: SET_EDITION_HISTORY,
   payload
 });
+export const setStoryDeleteId = payload => ({
+  type: SET_STORY_DELETE_ID,
+  payload
+});
 
 export const fetchStories = () => ({
   type: FETCH_STORIES,
@@ -111,13 +116,13 @@ export const deleteStory = payload => ({
   type: DELETE_STORY,
   payload,
   promise: () => {
-    const {id, token} = payload;
+    const {storyId, token} = payload;
     const options = {
       headers: {
         'x-access-token': token,
       },
     };
-    const serverRequestUrl = `${CONFIG.serverUrl}/stories/${id}`;
+    const serverRequestUrl = `${CONFIG.serverUrl}/stories/${storyId}`;
     return del(serverRequestUrl, options);
   },
 });
@@ -159,6 +164,10 @@ const UI_DEFAULT_STATE = {
    * id of a story to display as a resume/readonly way
    */
   previewedStoryId: undefined,
+  /**
+  * id of a story to delete
+  */
+  storyDeleteId: undefined,
 };
 
 /**
@@ -177,6 +186,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_SORTING_MODE:
     case SET_IDENTIFICATION_MODAL_SWITCH:
     case SET_PREVIEWED_STORY_ID:
+    case SET_STORY_DELETE_ID:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -186,6 +196,11 @@ function ui(state = UI_DEFAULT_STATE, action) {
       return {
         ...state,
         newStoryOpen: false
+      };
+    case `${DELETE_STORY}_SUCCESS`:
+      return {
+        ...state,
+        storyDeleteId: undefined
       };
     default:
       return state;
@@ -312,6 +327,7 @@ const newStoryTabMode = state => state.ui.newStoryTabMode;
 const searchString = state => state.ui.searchString;
 const sortingMode = state => state.ui.sortingMode;
 const identificationModalSwitch = state => state.ui.identificationModalSwitch;
+const storyDeleteId = state => state.ui.storyDeleteId;
 
 const newStory = state => state.data.newStory;
 const stories = state => state.data.stories;
@@ -330,6 +346,7 @@ export const selector = createStructuredSelector({
   sortingMode,
   newStory,
   identificationModalSwitch,
+  storyDeleteId,
   userInfoTemp,
   editionHistory,
   stories

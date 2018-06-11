@@ -16,7 +16,7 @@ import HomeViewLayout from './HomeViewLayout';
 import * as duck from '../duck';
 import * as userInfoDuck from '../../UserInfoManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
-
+import * as authDuck from '../../AuthManager/duck';
 
 /**
  * Redux-decorated component class rendering the takeaway dialog feature to the app
@@ -27,12 +27,14 @@ import * as connectionsDuck from '../../ConnectionsManager/duck';
     lang: state.i18nState.lang,
     ...userInfoDuck.selector(state.userInfo),
     ...connectionsDuck.selector(state.connections),
+    ...authDuck.selector(state.auth),
   }),
   dispatch => ({
     actions: bindActionCreators({
       ...duck,
       ...userInfoDuck,
       ...connectionsDuck,
+      ...authDuck,
       setLanguage,
     }, dispatch)
   })
