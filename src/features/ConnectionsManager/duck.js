@@ -268,7 +268,9 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
           },
         },
       };
-
+    /**
+     * update locking system by room manually (client)
+     */
     case USER_DISCONNECTING:
       const newState = {...state};
       payload.rooms.forEach((room) => {
