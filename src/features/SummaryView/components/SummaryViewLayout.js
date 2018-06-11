@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {v4 as genId} from 'uuid';
+
 import {
   Button,
   Column,
@@ -21,10 +23,12 @@ import {
 
 
 import MetadataForm from '../../../components/MetadataForm';
+import NewSectionForm from '../../../components/NewSectionForm';
 
 import SectionCard from './SectionCard';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
+import {createDefaultSection} from '../../../helpers/schemaUtils';
 
 const SummaryViewLayout = ({
   editedStory,
@@ -32,11 +36,17 @@ const SummaryViewLayout = ({
   lockingMap = {},
   activeUsers,
   userId,
+
   metadataOpen,
+  newSectionOpen,
+
   actions: {
     enterBlock,
     leaveBlock,
     updateStoryMetadata,
+    setNewSectionOpen,
+    createSection,
+    deleteSection,
   }
 }, {t}) => {
 
@@ -91,7 +101,7 @@ const SummaryViewLayout = ({
 
   const buildAuthorMessage = author => {
     const {name, locks = {}} = author;
-    const lockNames = Object.keys(locks).filter(name => locks[name]);
+    const lockNames = Object.keys(locks).filter(thatName => locks[thatName]);
     let message;
     if (lockNames.length === 1 && lockNames[0] === 'summary') {
       message = translate('{a} is here on the summary', {a: name});
@@ -136,12 +146,12 @@ const SummaryViewLayout = ({
       metadataLockStatus = 'active';
       metadataLockMessage = translate('edited by you');
     }
- else {
+    else {
       metadataLockStatus = 'locked';
       metadataLockMessage = translate('edited by {a}', {a: activeUsers[userLockedOnMetadataId].name});
     }
   }
- else {
+   else {
     metadataLockStatus = 'open';
     metadataLockMessage = translate('open to edition');
   }
@@ -173,8 +183,36 @@ const SummaryViewLayout = ({
     };
     updateStoryMetadata(payload);
     toggleMetadataEdition();
-  }
+  };
 
+  const defaultSection = createDefaultSection();
+  const defaultSectionMetadata = defaultSection.metadata;
+
+  const onNewSectionSubmit = (metadata) => {
+    const newSection = {
+      ...defaultSection,
+      metadata,
+      id: genId()
+    };
+    createSection({
+      section: newSection,
+      storyId: id,
+      sectionId: newSection.id
+    });
+    setNewSectionOpen(false);
+    goToSection(newSection.id);
+  };
+
+  const onSectionDelete = sectionId => {
+    // make sure that section is not edited by another user to prevent bugs and inconsistencies
+    // (in UI delete button should be disabled when section is edited, this is a supplementary safety check)
+    if (!reverseSectionLockMap[sectionId]) {
+      deleteSection({
+        sectionId,
+        storyId: id
+      });
+    }
+  };
 
   return (
     <Container>
@@ -218,10 +256,10 @@ const SummaryViewLayout = ({
               <StatusMarker
                 lockStatus={metadataLockStatus}
                 statusMessage={metadataLockMessage} />
-              {metadataOpen ? 
+              {metadataOpen ?
                 <Columns>
                   <Column>{translate('Close story settings')}</Column>
-                  <Column><Delete onClick={toggleMetadataEdition}/></Column>
+                  <Column><Delete onClick={toggleMetadataEdition} /></Column>
                 </Columns>
                 : translate('Edit story settings')
               }
@@ -237,7 +275,7 @@ const SummaryViewLayout = ({
           <Level />
           <Level />
           {
-            activeAuthors.length > 1 && 
+            activeAuthors.length > 1 &&
               <Title isSize={4}>
                 {translate('What are other authors doing ?')}
               </Title>
@@ -263,30 +301,55 @@ const SummaryViewLayout = ({
                 })
               }
         </Column>
-        <Column isSize={'2/3'}>
-          <Title isSize={2}>
-            {translate('Summary')}
-          </Title>
-          <Level>
-            <Column>
-              <Button isFullWidth isColor="primary">
-                {translate('New section')}
-              </Button>
-            </Column>
-          </Level>
-          {
-              sectionsList.map((section, index) => (
-                <Level key={index}>
-                  <Column>
-                    <SectionCard
-                      section={section}
-                      goTo={goToSection}
-                      lockData={reverseSectionLockMap[section.id]} />
+        {
+          newSectionOpen ?
+            <Column isSize={'2/3'}>
+              <Title isSize={2}>
+                <Columns>
+                  <Column isSize={12}>
+                    {translate('New section')}
                   </Column>
+                  <Column>
+                    <Delete onClick={() => setNewSectionOpen(false)} />
+                  </Column>
+                </Columns>
+                <Level>
+                  <NewSectionForm
+                    metadata={{...defaultSectionMetadata}}
+                    onSubmit={onNewSectionSubmit}
+                    onCancel={() => setNewSectionOpen(false)} />
                 </Level>
-              ))
-            }
-        </Column>
+              </Title>
+
+            </Column>
+            :
+            <Column isSize={'2/3'}>
+              <Title isSize={2}>
+                {translate('Summary')}
+              </Title>
+              <Level>
+                <Column>
+                  <Button onClick={() => setNewSectionOpen(true)} isFullWidth isColor="primary">
+                    {translate('New section')}
+                  </Button>
+                </Column>
+              </Level>
+              {
+                    sectionsList.map((section, index) => (
+                      <Level key={index}>
+                        <Column>
+                          <SectionCard
+                            section={section}
+                            goTo={goToSection}
+                            onDelete={onSectionDelete}
+                            lockData={reverseSectionLockMap[section.id]} />
+                        </Column>
+                      </Level>
+                    ))
+                  }
+            </Column>
+        }
+
       </Columns>
 
 

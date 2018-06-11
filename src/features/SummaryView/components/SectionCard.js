@@ -10,29 +10,37 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 const SectionCard = ({
   section,
   goTo,
-  lockData
+  lockData,
+  onDelete
 }, {t}) => {
 
   const translate = translateNameSpacer(t, 'Components.SectionCard');
 
   const onAction = action => {
     switch (action) {
+      case 'delete':
+        onDelete(section.id);
+        break;
       case 'edit':
       default:
         goTo(section.id);
         break;
+
     }
   };
   const computeFirstWords = () => {
-    return section.contents
+    if (section.contents
         && section.contents.blocks
         && section.contents.blocks[0]
         && section.contents.blocks[0].text
-        && section.contents.blocks[0].text.length > 30 ?
-            <i>{`${section.contents.blocks[0].text.substr(0, 30)}...`}</i> 
-          : 
-            <i>{section.contents.blocks[0].text}</i> 
-  }
+    ) {
+      return section.contents.blocks[0].text.length > 30 ?
+        <i>{`${section.contents.blocks[0].text.substr(0, 30)}...`}</i>
+        :
+        <i>{section.contents.blocks[0].text}</i>;
+    }
+    return '';
+  };
   return (
     <Card
       title={section.metadata.title}
