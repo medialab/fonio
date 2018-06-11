@@ -56,6 +56,25 @@ class SectionViewContainer extends Component {
           sectionId: nextSectionId,
           storyId: nextStoryId
         }
+      },
+      userId,
+      tempSectionIdToDelete,
+      tempSectionToCreate,
+      tempSectionsOrder,
+      sectionsOrderLockState,
+      editedStory: {
+        id: storyId,
+      },
+      actions: {
+        leaveBlock,
+        createSection,
+        deleteSection,
+        updateSectionsOrder,
+        setMainColumnMode,
+        setSectionsOrderLockState,
+        setTempSectionToCreate,
+        setTempSectionsOrder,
+        setTempSectionIdToDelete,
       }
     } = nextProps;
 
@@ -72,6 +91,54 @@ class SectionViewContainer extends Component {
       nextProps.actions.setViewLockState(undefined);
       nextProps.history.push(`/story/${nextStoryId}/`);
      }
+     // managing section creation, deletion and order change operations
+    // all these actions deal with sections order
+    // so that we perform them then leave the lock on sections order
+    if (sectionsOrderLockState === 'success') {
+      // a section is waiting to be created
+      if (tempSectionToCreate) {
+        createSection({
+          section: tempSectionToCreate,
+          storyId,
+          sectionId: tempSectionToCreate.id
+        });
+        setMainColumnMode('edit');
+        setTempSectionToCreate(undefined);
+        leaveBlock({
+          storyId,
+          userId,
+          location: 'sectionsOrder'
+        });
+        this.goToSection(tempSectionToCreate.id);
+      }
+      // a section is waiting to be deleted
+      if (tempSectionIdToDelete) {
+        deleteSection({
+          sectionId: tempSectionIdToDelete,
+          storyId
+        });
+        leaveBlock({
+          storyId,
+          userId,
+          location: 'sectionsOrder'
+        });
+        setTempSectionIdToDelete(undefined);
+      }
+      // section order is waiting to be changed
+      if (tempSectionsOrder) {
+        updateSectionsOrder({
+          sectionsOrder: tempSectionsOrder,
+          storyId
+        });
+        leaveBlock({
+          storyId,
+          userId,
+          location: 'sectionsOrder'
+        });
+        setTempSectionsOrder(undefined);
+      }
+      setSectionsOrderLockState(undefined);
+    }
   }
 
   componentWillUnmount = () => {
@@ -112,6 +179,15 @@ class SectionViewContainer extends Component {
       userId,
       location: 'sections',
     });
+  }
+
+  goToSection = sectionId => {
+    const {
+      editedStory: {
+        id
+      }
+    } = this.props;
+    this.props.history.push(`/story/${id}/section/${sectionId}`);
   }
 
 

@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {SortableHandle} from 'react-sortable-hoc';
+
+import ReactTooltip from 'react-tooltip';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
-import ReactTooltip from 'react-tooltip';
 
 import {
   Button,
@@ -18,10 +20,24 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {Link} from 'react-router-dom';
 
+
+const DragHandle = SortableHandle(({icon, tip}) =>
+  (<Button
+    data-for="card-action"
+    data-tip={tip}
+    style={{cursor: 'pointer'}}>
+    <Icon isSize="small" isAlign="left">
+      <img src={icon} />
+    </Icon>
+  </Button>)
+);
+
+
 const SectionMiniCard = ({
   section,
   storyId,
-  onDeleteSection
+  onDeleteSection,
+  onOpenSettings
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Features.SectionView');
 
@@ -70,18 +86,22 @@ const SectionMiniCard = ({
           </Columns>
           <Columns>
             <Column isOffset={2} isSize={10}>
-              <Button data-for="card-action" data-tip={translate('drag to change section order')}>
-                <Icon isSize="small" isAlign="left">
-                  <img src={icons.move.black.svg} />
-                </Icon>
-              </Button>
-              <Button isDisabled={section.lockStatus === 'locked'} data-for="card-action" data-tip={translate('section settings')}>
+              <DragHandle
+                icon={icons.move.black.svg}
+                tip={translate('drag to change section order')} />
+              <Button
+                onClick={onOpenSettings}
+                isDisabled={section.lockStatus !== 'active'}
+                data-for="card-action"
+                data-tip={translate('section settings')}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.settings.black.svg} />
                 </Icon>
               </Button>
               <Button
-                onClick={onDeleteSection} isDisabled={section.lockStatus === 'locked' || section.lockStatus === 'active'} data-for="card-action"
+                onClick={onDeleteSection}
+                isDisabled={section.lockStatus === 'locked' || section.lockStatus === 'active'}
+                data-for="card-action"
                 data-tip={translate('delete this section')}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.remove.black.svg} />

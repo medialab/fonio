@@ -19,8 +19,8 @@ import {
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
-import SectionMiniCard from './SectionMiniCard';
 import ResourceMiniCard from './ResourceMiniCard';
+import SortableMiniSectionsList from './SortableMiniSectionsList';
 
 const AsideSectionColumn = ({
   asideTabCollapsed,
@@ -38,10 +38,12 @@ const AsideSectionColumn = ({
   setMainColumnMode,
 
   onDeleteSection,
+  onOpenSectionSettings,
+  onSortEnd,
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Features.SectionView');
 
-  const {id: storyId} = story;
+  // const {id: storyId} = story;
 
   const renderAside = () => {
     if (asideTabCollapsed) {
@@ -118,7 +120,7 @@ const AsideSectionColumn = ({
               </Dropdown>
             </Level>
             <Level>
-              <Button isFullWidth onClick={() => setMainColumnMode('newresource')} isColor={mainColumnMode === 'new' ? 'primary' : 'info'}>
+              <Button isFullWidth onClick={() => setMainColumnMode('newresource')} isColor={mainColumnMode === 'newresource' ? 'primary' : 'info'}>
                 New resource
               </Button>
             </Level>
@@ -146,22 +148,38 @@ const AsideSectionColumn = ({
       default:
         return (
           <Column>
-            {
+            <SortableMiniSectionsList
+              items={sections}
+              onSortEnd={onSortEnd}
+              onOpenSettings={thatSection => onOpenSectionSettings(thatSection.id)}
+              onDeleteSection={(thatSection) => onDeleteSection(thatSection.id)}
+              useDragHandle />
+            {/*
                   sections
                   .map((thatSection, index) => {
                     const handleDelete = () => {
                       onDeleteSection(thatSection.id);
                     };
+                    const handleOpenSettings = () => {
+                      onOpenSectionSettings(thatSection.id);
+                    }
                     return (
                       <Column style={{margin: '0 0 1rem 0', padding: 0}} key={index}>
                         <SectionMiniCard
                           section={thatSection}
                           storyId={storyId}
-                          onDeleteSection={handleDelete} />
+                          onDeleteSection={handleDelete}
+                          onOpenSettings={handleOpenSettings}
+                        />
                       </Column>
                   );
                   })
-                }
+                */}
+            <Column style={{margin: '0 0 1rem 0', padding: 0}}>
+              <Button onClick={() => setMainColumnMode('newsection')} isColor={'primary'} isFullWidth>
+                {translate('New section')}
+              </Button>
+            </Column>
           </Column>
         );
     }

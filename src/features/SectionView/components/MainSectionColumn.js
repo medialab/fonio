@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// import {translateNameSpacer} from '../../../helpers/translateUtils';
+
+import NewSectionForm from '../../../components/NewSectionForm';
+
+import {translateNameSpacer} from '../../../helpers/translateUtils';
+
 const resourceTypes = ['bib', 'image', 'video', 'embed', 'webpage', 'table', 'glossary'];
 
 import {
@@ -19,18 +23,21 @@ import NewResourceForm from './NewResourceForm';
 
 const MainSectionColumn = ({
   mainColumnMode,
-  setMainColumnMode,
+  defaultSectionMetadata,
   story,
   section,
 
   updateSection,
+  setMainColumnMode,
+  onNewSectionSubmit,
 }, {
-  // t
+  t
 }) => {
+
 
   const {id: storyId} = story;
   const {id: sectionId} = section;
-  // const translate = translateNameSpacer(t, 'Features.SectionView');
+  const translate = translateNameSpacer(t, 'Features.SectionView');
 
   const onUpdateSection = newSection => {
     updateSection({
@@ -50,6 +57,18 @@ const MainSectionColumn = ({
       }
     });
   };
+
+  const onUpdateMetadata = metadata => {
+    onUpdateSection({
+      ...section,
+      metadata: {
+        ...section.metadata,
+        ...metadata
+      }
+    });
+    setMainColumnMode('edit');
+  };
+
 
   const renderMain = () => {
 
@@ -100,6 +119,49 @@ const MainSectionColumn = ({
             </Title>
             <NewResourceForm />
           </div>
+        );
+      case 'newsection':
+        return (
+          <Column>
+            <Title isSize={2}>
+              <Columns>
+                <Column isSize={10}>
+                  {translate('New section')}
+                </Column>
+                <Column isSize={2}>
+                  <Delete onClick={() => setMainColumnMode('edit')} />
+                </Column>
+              </Columns>
+            </Title>
+            <Level>
+              <NewSectionForm
+                metadata={{...defaultSectionMetadata}}
+                onSubmit={onNewSectionSubmit}
+                onCancel={() => setMainColumnMode('main')} />
+            </Level>
+          </Column>
+        );
+      case 'editmetadata':
+        return (
+          <Column>
+            <Title isSize={2}>
+              <Columns>
+                <Column isSize={10}>
+                  {translate('Edit section metadata')}
+                </Column>
+                <Column isSize={2}>
+                  <Delete onClick={() => setMainColumnMode('edit')} />
+                </Column>
+              </Columns>
+            </Title>
+            <Level>
+              <NewSectionForm
+                submitMessage={translate('Save changes')}
+                metadata={{...section.metadata}}
+                onSubmit={onUpdateMetadata}
+                onCancel={() => setMainColumnMode('main')} />
+            </Level>
+          </Column>
         );
       case 'edit':
       default:
