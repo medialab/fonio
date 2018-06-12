@@ -32,6 +32,10 @@ import SortableSectionsList from './SortableSectionsList';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultSection} from '../../../helpers/schemaUtils';
+import {
+  getReverseSectionsLockMap,
+  getStoryActiveAuthors,
+} from '../../../helpers/lockUtils';
 
 const SummaryViewLayout = ({
   editedStory: story,
@@ -72,35 +76,8 @@ const SummaryViewLayout = ({
   } = story;
 
   const sectionsList = sectionsOrder.filter(sectionId => sections[sectionId]).map(sectionId => sections[sectionId]);
-
-  const reverseSectionLockMap = lockingMap[storyId] && lockingMap[storyId].locks ?
-     Object.keys(lockingMap[storyId].locks)
-      .reduce((result, thatUserId) => {
-        const userSectionLock = lockingMap[storyId].locks[thatUserId].sections;
-        if (userSectionLock) {
-          return {
-            ...result,
-            [userSectionLock.blockId]: {
-              ...activeUsers[userSectionLock.userId]
-            }
-          };
-        }
-        return result;
-      }, {})
-     : {};
-
-  const storyActiveUsersIds = lockingMap[storyId] && lockingMap[storyId].locks ?
-    Object.keys(lockingMap[storyId].locks)
-    : [];
-
-  const activeAuthors = lockingMap[storyId] && lockingMap[storyId].locks ?
-    Object.keys(activeUsers)
-      .filter(thatUserId => storyActiveUsersIds.indexOf(thatUserId) !== -1)
-      .map(thatUserId => ({
-        ...activeUsers[thatUserId],
-        locks: lockingMap[storyId].locks[thatUserId]
-      }))
-      : [];
+  const reverseSectionLockMap = getReverseSectionsLockMap(lockingMap, activeUsers, storyId);
+  const activeAuthors = getStoryActiveAuthors(lockingMap, activeUsers, storyId);
 
   const buildAuthorMessage = author => {
     const {name, locks = {}} = author;
