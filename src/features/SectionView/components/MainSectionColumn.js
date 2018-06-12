@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 // import SectionEditor from '../../../components/SectionEditor';
 import NewSectionForm from '../../../components/NewSectionForm';
 
+import TitleForm from './TitleForm';
+
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 const resourceTypes = ['bib', 'image', 'video', 'embed', 'webpage', 'table', 'glossary'];
@@ -47,8 +49,8 @@ const MainSectionColumn = ({
     });
   };
 
-  const onUpdateTitle = e => {
-    const title = e.target.value;
+  const onUpdateTitle = title => {
+    // const title = e.target.value;
     onUpdateSection({
       ...section,
       metadata: {
@@ -167,25 +169,25 @@ const MainSectionColumn = ({
       default:
         return (
           <div>
-            <input onChange={onUpdateTitle} value={section.metadata.title} />
+            <TitleForm
+              onSubmit={onUpdateTitle}
+              title={section.metadata.title} />
             {/*<SectionEditor
-              // startExistingResourceConfiguration={e => console.log('start existing resource configuration')}
-              // startNewResourceConfiguration={e => console.log('start new resource configuration')}
-              // deleteContextualization={e => console.log('delete contextualization')}
-              // story: PropTypes.object,
-              // activeStoryId: PropTypes.string,
-              // activeSection: PropTypes.object,
-              // sectionId: PropTypes.string,
-              // editorStates: PropTypes.object,
-              // assetRequestPosition: PropTypes.object,
-              // editorFocus: PropTypes.string,
-              // updateSection: PropTypes.func,
-              // setEditorFocus: PropTypes.func,
-              // updateDraftEditorState: PropTypes.func,
-              // cancelAssetRequest: PropTypes.func,
-              // summonAsset: PropTypes.func,
-              // setAssetRequestContentId: PropTypes.func,
-            // /> */}
+              startExistingResourceConfiguration={e => console.log('start existing resource configuration')}
+              startNewResourceConfiguration={e => console.log('start new resource configuration')}
+              deleteContextualization={e => console.log('delete contextualization')}
+              story={story}
+              activeSection={section}
+              editorStates={undefined}
+              assetRequestPosition={undefined}
+              editorFocus={undefined}
+              updateSection={() => console.log('update section')}
+              setEditorFocus={() => console.log('set editor focus')}
+              updateDraftEditorState={() => console.log('update draft editor state')}
+              cancelAssetRequest={() => console.log('cancel asset request')}
+              summonAsset={() => console.log('summon asset')}
+              setAssetRequestContentId={() => console.log('setAssetRequestContentId')}
+            /> */}
           </div>
         );
     }
