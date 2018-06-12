@@ -10,6 +10,7 @@ import * as duck from '../duck';
 
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as storyDuck from '../../StoryManager/duck';
+import * as sectionsManagementDuck from '../../SectionsManager/duck';
 
 import SectionViewLayout from './SectionViewLayout';
 
@@ -18,11 +19,13 @@ import SectionViewLayout from './SectionViewLayout';
     ...duck.selector(state.section),
     ...connectionsDuck.selector(state.connections),
     ...storyDuck.selector(state.editedStory),
+    ...sectionsManagementDuck.selector(state.sectionsManagement),
   }),
   dispatch => ({
     actions: bindActionCreators({
       ...connectionsDuck,
       ...storyDuck,
+      ...sectionsManagementDuck,
       ...duck,
     }, dispatch)
   })

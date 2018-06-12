@@ -7,17 +7,20 @@ import SummaryViewLayout from './SummaryViewLayout';
 import * as duck from '../duck';
 import * as editedStoryDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
+import * as sectionsManagementDuck from '../../SectionsManager/duck';
 
 @connect(
   state => ({
     ...duck.selector(state.summary),
     ...editedStoryDuck.selector(state.editedStory),
     ...connectionsDuck.selector(state.connections),
+    ...sectionsManagementDuck.selector(state.sectionsManagement),
   }),
   dispatch => ({
     actions: bindActionCreators({
       ...connectionsDuck,
       ...editedStoryDuck,
+      ...sectionsManagementDuck,
       ...duck
     }, dispatch)
   })
