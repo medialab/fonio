@@ -38,7 +38,10 @@ class SectionViewContainer extends Component {
   }
 
   componentDidMount = () => {
-    this.requireLockOnSection(this.props);
+    // require lock if edited story is here
+    if (this.props.editedStory && this.props.editedStory.sections) {
+      this.requireLockOnSection(this.props);
+    }
   }
 
   componentWillReceiveProps = nextProps => {
@@ -80,6 +83,13 @@ class SectionViewContainer extends Component {
         setTempSectionIdToDelete,
       }
     } = nextProps;
+
+    /**
+     * @todo skip this conditional with another method relying on components architecture
+     */
+    if (!this.props.editedStory.sections && nextProps.editedStory.sections) {
+      this.requireLockOnSection(this.props);
+    }
 
     if (prevSectionId !== nextSectionId || prevStoryId !== nextStoryId) {
       this.unlockOnSection(this.props);
