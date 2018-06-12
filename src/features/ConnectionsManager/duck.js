@@ -149,7 +149,10 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
   switch (action.type) {
     case USER_CONNECTED:
     case USER_DISCONNECTED:
-      return {...payload.locking};
+      if (payload && payload.locking) {
+        return {...payload.locking};
+      }
+      return state;
     /**
      * @todo : following case not necessary ?
      */
