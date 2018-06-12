@@ -12,10 +12,14 @@ import {
   Delete,
 } from 'quinoa-design-library/components/';
 
+import {translateNameSpacer} from '../../helpers/translateUtils';
+
 const AuthorsManager = ({
   authors,
   onChange
 }, {t}) => {
+  const translate = translateNameSpacer(t, 'Components.AuthorsManager');
+
   const onAddAuthor = e => {
   e.preventDefault();
   e.stopPropagation();
@@ -54,7 +58,7 @@ const AuthorsManager = ({
               <Control hasIcons>
                 <Input
                   isColor="success"
-                  placeholder={'new author'}
+                  placeholder={translate('New auhthor')}
                   value={author}
                   onChange={onAuthorChange} />
                 <Icon isSize="small" isAlign="left">
@@ -69,7 +73,7 @@ const AuthorsManager = ({
         })
       }
       <Button onClick={onAddAuthor}>
-        Add an author
+        {translate('Add an author')}
       </Button>
     </Field>
   );
