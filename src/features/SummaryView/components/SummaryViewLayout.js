@@ -52,10 +52,11 @@ const SummaryViewLayout = ({
     leaveBlock,
     updateStoryMetadata,
     setNewSectionOpen,
-    setTempSectionToCreate,
-    setTempSectionsOrder,
-    setTempSectionIdToDelete,
     setPromptedToDeleteSectionId,
+
+    createSection,
+    deleteSection,
+    updateSectionsOrder,
   },
   goToSection
 }, {t}) => {
@@ -175,13 +176,13 @@ const SummaryViewLayout = ({
       id: genId()
     };
 
-    setTempSectionToCreate(newSection);
-    // get lock on sections order
-    enterBlock({
+    createSection({
+      sectionId: newSection.id,
+      section: newSection,
       storyId,
       userId,
-      location: 'sectionsOrder',
     });
+    setNewSectionOpen(false);
   };
 
   const onDeleteSection = thatSectionId => {
@@ -192,13 +193,10 @@ const SummaryViewLayout = ({
     // make sure that section is not edited by another user to prevent bugs and inconsistencies
     // (in UI delete button should be disabled when section is edited, this is a supplementary safety check)
     if (!reverseSectionLockMap[thatSectionId]) {
-      // store section to be deleted
-      setTempSectionIdToDelete(thatSectionId);
-      // get lock on sections order
-      enterBlock({
+      deleteSection({
+        sectionId: thatSectionId,
         storyId,
         userId,
-        location: 'sectionsOrder',
       });
     }
   };
@@ -211,13 +209,18 @@ const SummaryViewLayout = ({
   const onSortEnd = ({oldIndex, newIndex}) => {
     const sectionsIds = sectionsList.map(section => section.id);
     const newSectionsOrder = arrayMove(sectionsIds, oldIndex, newIndex);
-    setTempSectionsOrder(newSectionsOrder);
-    // get lock on sections order
-    enterBlock({
+    updateSectionsOrder({
       storyId,
       userId,
-      location: 'sectionsOrder',
+      sectionsOrder: newSectionsOrder
     });
+    // setTempSectionsOrder(newSectionsOrder);
+    // // get lock on sections order
+    // enterBlock({
+    //   storyId,
+    //   userId,
+    //   location: 'sectionsOrder',
+    // });
   };
 
   return (

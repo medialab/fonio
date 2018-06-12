@@ -41,12 +41,12 @@ const SectionViewLayout = ({
     setMainColumnMode,
     setResourceSortVisible,
     setResourceFilterVisible,
-    updateSection,
-    enterBlock,
-    setTempSectionToCreate,
-    setTempSectionIdToDelete,
-    setTempSectionsOrder,
     setPromptedToDeleteSectionId,
+
+    updateSection,
+    createSection,
+    deleteSection,
+    updateSectionsOrder,
   }
 }, {
   t
@@ -86,12 +86,11 @@ const SectionViewLayout = ({
       id: genId()
     };
 
-    setTempSectionToCreate(newSection);
-    // get lock on sections order
-    enterBlock({
+    createSection({
+      section: newSection,
+      sectionId: newSection.id,
       storyId,
-      userId,
-      location: 'sectionsOrder',
+      userId
     });
   };
 
@@ -113,13 +112,10 @@ const SectionViewLayout = ({
     // make sure that section is not edited by another user to prevent bugs and inconsistencies
     // (in UI delete button should be disabled when section is edited, this is a supplementary safety check)
     if (!reverseSectionLockMap[thatSectionId]) {
-      // store section to be deleted
-      setTempSectionIdToDelete(thatSectionId);
-      // get lock on sections order
-      enterBlock({
+      deleteSection({
+        sectionId: thatSectionId,
         storyId,
         userId,
-        location: 'sectionsOrder',
       });
     }
   };
@@ -136,12 +132,11 @@ const SectionViewLayout = ({
   const onSectionsSortEnd = ({oldIndex, newIndex}) => {
     const sectionsIds = sectionsList.map(thatSection => thatSection.id);
     const newSectionsOrder = arrayMove(sectionsIds, oldIndex, newIndex);
-    setTempSectionsOrder(newSectionsOrder);
-    // get lock on sections order
-    enterBlock({
+
+    updateSectionsOrder({
       storyId,
       userId,
-      location: 'sectionsOrder',
+      sectionsOrder: newSectionsOrder,
     });
   };
 
