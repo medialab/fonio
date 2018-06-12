@@ -19,7 +19,7 @@ import {ENTER_BLOCK} from '../ConnectionsManager/duck';
 /**
  * UI
  */
-const SET_SECTION_ID_TO_BE_DELETED = 'SET_SECTION_ID_TO_BE_DELETED';
+const SET_PROMPTED_TO_DELETE_SECTION_ID = 'SET_PROMPTED_TO_DELETE_SECTION_ID';
 /**
  * lock system
  */
@@ -37,8 +37,8 @@ const SET_TEMP_SECTIONS_ORDER = 'SET_TEMP_SECTIONS_ORDER';
  * ===================================================
  */
 
-export const setSectionIdToBeDeleted = payload => ({
-  type: SET_SECTION_ID_TO_BE_DELETED,
+export const setPromptedToDeleteSectionId = payload => ({
+  type: SET_PROMPTED_TO_DELETE_SECTION_ID,
   payload
 });
 
@@ -70,7 +70,7 @@ export const setSectionsOrderLockState = payload => ({
 
 
 const UI_DEFAULT_STATE = {
-  sectionIdToBeDeleted: undefined,
+  promptedToDeleteSectionId: undefined,
 };
 
 /**
@@ -82,7 +82,7 @@ const UI_DEFAULT_STATE = {
 function ui(state = UI_DEFAULT_STATE, action) {
   const {payload} = action;
   switch (action.type) {
-    case SET_SECTION_ID_TO_BE_DELETED:
+    case SET_PROMPTED_TO_DELETE_SECTION_ID:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -222,6 +222,7 @@ const tempSectionToCreate = state => state.data.tempSectionToCreate;
 const tempSectionIdToDelete = state => state.data.tempSectionIdToDelete;
 const tempSectionsOrder = state => state.data.tempSectionsOrder;
 
+const promptedToDeleteSectionId = state => state.ui.promptedToDeleteSectionId;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -233,4 +234,5 @@ export const selector = createStructuredSelector({
   tempSectionToCreate,
   tempSectionIdToDelete,
   tempSectionsOrder,
+  promptedToDeleteSectionId,
 });

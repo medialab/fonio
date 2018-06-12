@@ -19,6 +19,7 @@ import {
   Level,
   LevelItem,
   LevelLeft,
+  ModalCard,
   StatusMarker,
   Title,
 } from 'quinoa-design-library/components/';
@@ -33,13 +34,14 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultSection} from '../../../helpers/schemaUtils';
 
 const SummaryViewLayout = ({
-  editedStory,
+  editedStory: story,
   lockingMap = {},
   activeUsers,
   userId,
 
   metadataOpen,
   newSectionOpen,
+  promptedToDeleteSectionId,
 
   actions: {
     enterBlock,
@@ -49,6 +51,7 @@ const SummaryViewLayout = ({
     setTempSectionToCreate,
     setTempSectionsOrder,
     setTempSectionIdToDelete,
+    setPromptedToDeleteSectionId,
   },
   goToSection
 }, {t}) => {
@@ -65,15 +68,15 @@ const SummaryViewLayout = ({
     },
     sections,
     sectionsOrder,
-    id,
-  } = editedStory;
+    id: storyId,
+  } = story;
 
   const sectionsList = sectionsOrder.filter(sectionId => sections[sectionId]).map(sectionId => sections[sectionId]);
 
-  const reverseSectionLockMap = lockingMap[id] && lockingMap[id].locks ?
-     Object.keys(lockingMap[id].locks)
+  const reverseSectionLockMap = lockingMap[storyId] && lockingMap[storyId].locks ?
+     Object.keys(lockingMap[storyId].locks)
       .reduce((result, thatUserId) => {
-        const userSectionLock = lockingMap[id].locks[thatUserId].sections;
+        const userSectionLock = lockingMap[storyId].locks[thatUserId].sections;
         if (userSectionLock) {
           return {
             ...result,
@@ -86,16 +89,16 @@ const SummaryViewLayout = ({
       }, {})
      : {};
 
-  const storyActiveUsersIds = lockingMap[id] && lockingMap[id].locks ?
-    Object.keys(lockingMap[id].locks)
+  const storyActiveUsersIds = lockingMap[storyId] && lockingMap[storyId].locks ?
+    Object.keys(lockingMap[storyId].locks)
     : [];
 
-  const activeAuthors = lockingMap[id] && lockingMap[id].locks ?
+  const activeAuthors = lockingMap[storyId] && lockingMap[storyId].locks ?
     Object.keys(activeUsers)
       .filter(thatUserId => storyActiveUsersIds.indexOf(thatUserId) !== -1)
       .map(thatUserId => ({
         ...activeUsers[thatUserId],
-        locks: lockingMap[id].locks[thatUserId]
+        locks: lockingMap[storyId].locks[thatUserId]
       }))
       : [];
 
@@ -135,9 +138,9 @@ const SummaryViewLayout = ({
     return message;
   };
 
-  const userLockedOnMetadataId = lockingMap[id] && lockingMap[id].locks &&
-    Object.keys(lockingMap[id].locks)
-      .find(thatUserId => lockingMap[id].locks[thatUserId].storyMetadata !== undefined);
+  const userLockedOnMetadataId = lockingMap[storyId] && lockingMap[storyId].locks &&
+    Object.keys(lockingMap[storyId].locks)
+      .find(thatUserId => lockingMap[storyId].locks[thatUserId].storyMetadata !== undefined);
 
   let metadataLockStatus;
   let metadataLockMessage;
@@ -161,7 +164,7 @@ const SummaryViewLayout = ({
     if (metadataOpen) {
       // leave metadata edition
       leaveBlock({
-        storyId: id,
+        storyId,
         userId,
         location: 'storyMetadata',
       });
@@ -169,7 +172,7 @@ const SummaryViewLayout = ({
     else {
       // enter metadata edition
       enterBlock({
-        storyId: id,
+        storyId,
         userId,
         location: 'storyMetadata',
       });
@@ -178,7 +181,7 @@ const SummaryViewLayout = ({
 
   const onMetadataSubmit = ({payload: {metadata}}) => {
     const payload = {
-      storyId: id,
+      storyId,
       metadata
     };
     updateStoryMetadata(payload);
@@ -198,25 +201,34 @@ const SummaryViewLayout = ({
     setTempSectionToCreate(newSection);
     // get lock on sections order
     enterBlock({
-      storyId: id,
+      storyId,
       userId,
       location: 'sectionsOrder',
     });
   };
 
-  const onSectionDelete = sectionId => {
+  const onDeleteSection = thatSectionId => {
+    setPromptedToDeleteSectionId(thatSectionId);
+  };
+
+  const actuallyDeleteSection = thatSectionId => {
     // make sure that section is not edited by another user to prevent bugs and inconsistencies
     // (in UI delete button should be disabled when section is edited, this is a supplementary safety check)
-    if (!reverseSectionLockMap[sectionId]) {
+    if (!reverseSectionLockMap[thatSectionId]) {
       // store section to be deleted
-      setTempSectionIdToDelete(sectionId);
+      setTempSectionIdToDelete(thatSectionId);
       // get lock on sections order
       enterBlock({
-        storyId: id,
+        storyId,
         userId,
         location: 'sectionsOrder',
       });
     }
+  };
+
+  const onDeleteSectionConfirm = () => {
+    actuallyDeleteSection(promptedToDeleteSectionId);
+    setPromptedToDeleteSectionId(undefined);
   };
 
   const onSortEnd = ({oldIndex, newIndex}) => {
@@ -225,7 +237,7 @@ const SummaryViewLayout = ({
     setTempSectionsOrder(newSectionsOrder);
     // get lock on sections order
     enterBlock({
-      storyId: id,
+      storyId,
       userId,
       location: 'sectionsOrder',
     });
@@ -284,7 +296,7 @@ const SummaryViewLayout = ({
           </Level>
           <Collapsable isCollapsed={!metadataOpen}>
             {metadataOpen && <MetadataForm
-              story={editedStory}
+              story={story}
               onSubmit={onMetadataSubmit}
               onCancel={toggleMetadataEdition} />}
           </Collapsable>
@@ -354,7 +366,7 @@ const SummaryViewLayout = ({
                 items={sectionsList}
                 onSortEnd={onSortEnd}
                 goToSection={goToSection}
-                onDelete={onSectionDelete}
+                onDelete={onDeleteSection}
                 useDragHandle
                 reverseSectionLockMap={reverseSectionLockMap} />
             </Column>
@@ -362,7 +374,34 @@ const SummaryViewLayout = ({
 
       </Columns>
 
-
+      {
+          promptedToDeleteSectionId &&
+          !reverseSectionLockMap[promptedToDeleteSectionId] &&
+          <ModalCard
+            isActive
+            headerContent={translate('Delete a section')}
+            mainContent={
+              <div>
+                {(story && story.sections[promptedToDeleteSectionId]) ? translate(
+                    'Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery.',
+                    {
+                      s: story.sections[promptedToDeleteSectionId].metadata.title
+                    }
+                  ) : translate('Are you sure you want to delete this section ?')}
+              </div>
+            }
+            footerContent={[
+              <Button
+                type="submit"
+                isFullWidth
+                key={0}
+                onClick={onDeleteSectionConfirm}
+                isColor="success">{translate('Delete the section')}</Button>,
+              <Button
+                onClick={() => setPromptedToDeleteSectionId(undefined)} isFullWidth key={1}
+                isColor="warning">{translate('Cancel')}</Button>,
+            ]} />
+        }
     </Container>
     );
 };

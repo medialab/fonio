@@ -6,11 +6,13 @@ import {v4 as genId} from 'uuid';
 import {arrayMove} from 'react-sortable-hoc';
 
 import {
-  Columns
+  Columns,
+  Button,
+  ModalCard
 } from 'quinoa-design-library/components/';
 
 
-// import {translateNameSpacer} from '../../../helpers/translateUtils';
+import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultSection} from '../../../helpers/schemaUtils';
 
 import AsideSectionColumn from './AsideSectionColumn';
@@ -26,6 +28,7 @@ const SectionViewLayout = ({
   lockingMap = {},
   activeUsers,
   userId,
+  promptedToDeleteSectionId,
 
   story,
   section,
@@ -40,11 +43,12 @@ const SectionViewLayout = ({
     setTempSectionToCreate,
     setTempSectionIdToDelete,
     setTempSectionsOrder,
+    setPromptedToDeleteSectionId,
   }
 }, {
-  // t
+  t
 }) => {
-  // const translate = translateNameSpacer(t, 'Features.SectionView');
+  const translate = translateNameSpacer(t, 'Features.SectionView');
   const {id: storyId} = story;
   // const {id: sectionId} = section;
   const defaultSection = createDefaultSection();
@@ -104,7 +108,21 @@ const SectionViewLayout = ({
     });
   };
 
+  /**
+   * DELETE SECTION MANAGEMENT
+   */
+
+  // if modal to delete section was prompted and in the meantime someone has entered this section
+  // then we unset the delete prompt on that section
+  if (promptedToDeleteSectionId && reverseSectionLockMap[promptedToDeleteSectionId]) {
+    setPromptedToDeleteSectionId(undefined);
+  }
+
   const onDeleteSection = thatSectionId => {
+    setPromptedToDeleteSectionId(thatSectionId);
+  };
+
+  const actuallyDeleteSection = thatSectionId => {
     // make sure that section is not edited by another user to prevent bugs and inconsistencies
     // (in UI delete button should be disabled when section is edited, this is a supplementary safety check)
     if (!reverseSectionLockMap[thatSectionId]) {
@@ -117,6 +135,11 @@ const SectionViewLayout = ({
         location: 'sectionsOrder',
       });
     }
+  };
+
+  const onDeleteSectionConfirm = () => {
+    actuallyDeleteSection(promptedToDeleteSectionId);
+    setPromptedToDeleteSectionId(undefined);
   };
 
   const onOpenSectionSettings = () => {
@@ -167,6 +190,34 @@ const SectionViewLayout = ({
           onNewSectionSubmit={onNewSectionSubmit}
 
           updateSection={updateSection} />
+        {
+          promptedToDeleteSectionId &&
+          !reverseSectionLockMap[promptedToDeleteSectionId] &&
+          <ModalCard
+            isActive
+            headerContent={translate('Delete a section')}
+            mainContent={
+              <div>
+                {(story && story.sections[promptedToDeleteSectionId]) ? translate(
+                    'Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery.',
+                    {
+                      s: story.sections[promptedToDeleteSectionId].metadata.title
+                    }
+                  ) : translate('Are you sure you want to delete this section ?')}
+              </div>
+            }
+            footerContent={[
+              <Button
+                type="submit"
+                isFullWidth
+                key={0}
+                onClick={onDeleteSectionConfirm}
+                isColor="success">{translate('Delete the section')}</Button>,
+              <Button
+                onClick={() => setPromptedToDeleteSectionId(undefined)} isFullWidth key={1}
+                isColor="warning">{translate('Cancel')}</Button>,
+            ]} />
+        }
       </Columns>
     </div>
   );
