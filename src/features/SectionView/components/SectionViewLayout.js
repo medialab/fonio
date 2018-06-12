@@ -16,7 +16,6 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultSection} from '../../../helpers/schemaUtils';
 import {
   getReverseSectionsLockMap,
-  getStoryActiveAuthors,
 } from '../../../helpers/lockUtils';
 
 import AsideSectionColumn from './AsideSectionColumn';
@@ -56,7 +55,6 @@ const SectionViewLayout = ({
   const {id: storyId} = story;
   // const {id: sectionId} = section;
   const defaultSection = createDefaultSection();
-
 
   const reverseSectionLockMap = getReverseSectionsLockMap(lockingMap, activeUsers, storyId);
 

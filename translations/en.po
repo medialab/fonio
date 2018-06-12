@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-6-11\n"
-"PO-Revision-Date: Mon Jun 11 2018 18:22:48 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-6-12\n"
+"PO-Revision-Date: Tue Jun 12 2018 11:38:46 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1370,5 +1370,62 @@ msgstr "Confirm password"
 msgid "Components.ChangePasswordModal.Old password is not valid"
 msgstr "Old password is not valid"
 
+msgid "Components.EnterPasswordModal.Create a password"
+msgstr "Create a password"
+
+msgid "Components.EnterPasswordModal.Enter your password"
+msgstr "Enter your password"
+
+msgid "Components.EnterPasswordModal.Explanation about the password"
+msgstr "Explanation about the password"
+
+msgid "Components.EnterPasswordModal.Submitting password"
+msgstr "Submitting password"
+
+msgid "Components.EnterPasswordModal.Password is not valid"
+msgstr "Password is not valid"
+
+msgid "Components.EnterPasswordModal.Create"
+msgstr "Create"
+
+msgid "Components.EnterPasswordModal.Cancel"
+msgstr "Cancel"
+
+msgid "Features.HomeView.Drop a fonio file"
+msgstr "Drop a fonio file"
+
+msgid "Features.SectionView.Drop files to include new resources in your library (images, tables, bibliographies)"
+msgstr "Drop files to include new resources in your library (images, tables, bibliographies)"
+
+msgid "Features.SectionView.Delete a section"
+msgstr "Delete a section"
+
+msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr ""
+
+msgid "Features.SectionView.Are you sure you want to delete this section ?"
+msgstr "Are you sure you want to delete this section ?"
+
+msgid "Features.SectionView.Delete the section"
+msgstr "Delete the section"
+
+msgid "Features.SectionView.Cancel"
+msgstr "Cancel"
+
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} is working on section \"{t}\""
+
+msgid "Features.SummaryView.Delete a section"
+msgstr "Delete a section"
+
+msgid "Features.SummaryView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr ""
+
+msgid "Features.SummaryView.Are you sure you want to delete this section ?"
+msgstr "Are you sure you want to delete this section ?"
+
+msgid "Features.SummaryView.Delete the section"
+msgstr "Delete the section"
+
+msgid "Features.SummaryView.Cancel"
+msgstr "Cancel"

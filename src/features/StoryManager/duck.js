@@ -96,8 +96,7 @@ export const deleteResource = payload => updateStory(DELETE_RESOURCE, payload);
  * ===================================================
  */
 
-const STORY_DEFAULT_STATE = {
-};
+const STORY_DEFAULT_STATE = {};
 
 /**
  * This redux reducer handles the state of edited story

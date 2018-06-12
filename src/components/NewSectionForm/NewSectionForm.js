@@ -44,6 +44,7 @@ const NewSectionForm = ({
   const onSubmitMetadata = (values) => {
     onSubmit(values);
   };
+
   return (
     <Form
       defaultValues={metadata}
