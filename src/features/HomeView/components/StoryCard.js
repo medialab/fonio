@@ -35,7 +35,7 @@ const StoryCard = ({
                   data-tip={translate('edited by {a}', {a: user.name})}
                   isRounded
                   isSize="32x32"
-                  src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
+                  src={user.avatar && require(`../../../sharedAssets/avatars/${user.avatar}`)} />
                 <ReactTooltip
                   place="bottom"
                   effect="solid"
