@@ -21,6 +21,7 @@ import {
   HeroBody,
   HeroFooter,
   HeroHeader,
+  Help,
   HelpPin,
   Image,
   Input,
@@ -110,6 +111,9 @@ class HomeViewLayout extends Component {
           storyDeleteId,
           changePasswordId,
           passwordModalOpen,
+          createStoryStatus,
+          deleteStoryStatus,
+          importStoryStatus,
 
           loginStatus,
           changePasswordStatus,
@@ -187,15 +191,8 @@ class HomeViewLayout extends Component {
           importStory(files[0]);
         };
 
-        const OnCreateStory = (password) => {
-          const copiedStory = {
-            ...newStory,
-            metadata: {
-              ...newStory.metadata,
-              title: `${newStory.metadata.title}-copy`
-            },
-          };
-          createStory({payload: copiedStory, password})
+        const OnCreateExistStory = (password) => {
+          createStory({payload: newStory, password})
           .then((res) => {
             if (res.result) {
               setPasswordModalOpen(false);
@@ -357,7 +354,8 @@ class HomeViewLayout extends Component {
                 {storyDeleteId &&
                   <DeleteStoryModal
                     loginStatus={loginStatus}
-                    onDeleteStory={onDeleteStory}
+                    deleteStatus={deleteStoryStatus}
+                    onSubmitPassword={onDeleteStory}
                     onCancel={() => setStoryDeleteId(undefined)} />
                 }
                 {changePasswordId &&
@@ -421,6 +419,7 @@ class HomeViewLayout extends Component {
                                   {newStoryTabMode === 'form' ?
                                     <MetadataForm
                                       story={newStory}
+                                      status={createStoryStatus}
                                       onSubmit={createStory}
                                       onCancel={() => setNewStoryOpen(false)} />
                                     :
@@ -430,19 +429,7 @@ class HomeViewLayout extends Component {
                                         onDrop={onDropFiles}>
                                         {this.translate('Drop a fonio file')}
                                       </DropZone>
-                                      <Level />
-                                      <Columns>
-                                        <Column>
-                                          <Button isFullWidth isColor="success">
-                                        Create a new story
-                                          </Button>
-                                        </Column>
-                                        <Column>
-                                          <Button isFullWidth isColor="danger">
-                                        Cancel
-                                          </Button>
-                                        </Column>
-                                      </Columns>
+                                      {importStoryStatus === 'fail' && <Help isColor="danger">{this.translate('Story is not valid')}</Help>}
                                     </Column>
                                 }
                                 </Column>
@@ -453,7 +440,8 @@ class HomeViewLayout extends Component {
                     }
               {passwordModalOpen &&
                 <EnterPasswordModal
-                  onSubmitPassword={OnCreateStory}
+                  status={createStoryStatus}
+                  onSubmitPassword={OnCreateExistStory}
                   onCancel={() => setPasswordModalOpen(false)} />
               }
             </Columns>

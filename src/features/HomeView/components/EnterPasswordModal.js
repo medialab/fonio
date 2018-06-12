@@ -17,7 +17,7 @@ import {
 import {Form, Text} from 'react-form';
 
 const EnterPasswordModal = ({
-  loginStatus,
+  status,
   onSubmitPassword,
   onCancel
 }, {
@@ -36,11 +36,12 @@ const EnterPasswordModal = ({
           <form onSubmit={formApi.submitForm} className="fonio-form">
             <ModalCard
               isActive
-              headerContent={translate('Create a password')}
+              headerContent={translate('Create story')}
+              onClose={onCancel}
               mainContent={
                 <Field>
                   <Label>
-                    {translate('Enter your password')}
+                    {translate('Create a story password')}
                     <HelpPin place="right">
                       {translate('Explanation about the password')}
                     </HelpPin>
@@ -57,8 +58,8 @@ const EnterPasswordModal = ({
                       <span className="fa fa-exclamation" aria-hidden="true" />
                     </Icon>
                   </Control>
-                  {loginStatus === 'processing' && <Help>{translate('Submitting password')}</Help>}
-                  {loginStatus === 'fail' && <Help isColor="danger">{translate('Password is not valid')}</Help>}
+                  {status === 'processing' && <Help>{translate('Creating Story')}</Help>}
+                  {status === 'fail' && <Help isColor="danger">{translate('Story could not be created')}</Help>}
                 </Field>
             }
               footerContent={[

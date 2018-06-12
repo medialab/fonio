@@ -44,6 +44,7 @@ const ChangePasswordModal = ({
             <ModalCard
               isActive
               headerContent={translate('Change password')}
+              onClose={onCancel}
               mainContent={
                 <Field>
                   <Label>
@@ -61,6 +62,10 @@ const ChangePasswordModal = ({
                       <span className="fa fa-exclamation" aria-hidden="true" />
                     </Icon>
                   </Control>
+                  {
+                    formApi.touched.oldPassword && formApi.errors.oldPassword &&
+                      <Help isColor="danger">{formApi.errors.oldPassword}</Help>
+                  }
                   <Label>
                     {translate('New password')}
                   </Label>
@@ -73,6 +78,10 @@ const ChangePasswordModal = ({
                       <span className="fa fa-exclamation" aria-hidden="true" />
                     </Icon>
                   </Control>
+                  {
+                    formApi.touched.newPassword && formApi.errors.newPassword &&
+                      <Help isColor="danger">{formApi.errors.newPassword}</Help>
+                  }
                   <Label>
                     {translate('Confirm password')}
                   </Label>
@@ -85,6 +94,10 @@ const ChangePasswordModal = ({
                       <span className="fa fa-exclamation" aria-hidden="true" />
                     </Icon>
                   </Control>
+                  {
+                    formApi.touched.confirmPassword && formApi.errors.confirmPassword &&
+                      <Help isColor="danger">{formApi.errors.confirmPassword}</Help>
+                  }
                   {changePasswordStatus === 'processing' && <Help>{translate('Submitting password')}</Help>}
                   {changePasswordStatus === 'fail' && <Help isColor="danger">{translate('Old password is not valid')}</Help>}
                 </Field>

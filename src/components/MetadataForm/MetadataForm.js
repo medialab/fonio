@@ -22,67 +22,75 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 
 const MetadataForm = ({
   story,
+  status,
   onSubmit,
   onCancel
 }, {t}) => {
-  // const errorValidator = (values) => {
-  //   return {
-  //     title: !values.title ? this.translate('story-title-is-required') : null,
-  //     password: (!values.password || values.password.length < 6) ? this.translate('password-should-be-at-least-6-characters') : null,
-  //     authors: values.authors.length < 1 || (values.authors.length === 1 && values.authors[0].trim().length === 0) ? this.translate('enter-an-author-name') : null
-  //   };
-  // };
 
-  const onSubmitStory = (values) => {
+  const translate = translateNameSpacer(t, 'Components.MetadataForm');
+
+  const errorValidator = (values) => {
+    return {
+      title: !values.title ? translate('Story title is required') : null,
+      password: (!story.id && (!values.password || values.password.length < 6)) ? translate('Password should be at least 6 characters') : null,
+    };
+  };
+
+  const onSubmitForm = (values) => {
     const newValues = {...values};
     delete newValues.password;
+    // parse authors
+    const authors = newValues.authors
+                    // .reduce((result, item) => result.concat(item.split(',')), [])
+                    .map(d => d.trim())
+                    .filter(d => d.length > 0);
     const payload = {
       ...story,
       metadata: {
         ...story.metadata,
-        ...newValues
+        ...newValues,
+        authors
       },
     };
     onSubmit({payload, password: values.password});
   };
 
-  const onSubmitFailure = (error, onsubmitError, formApi) => {
-    console.log(error);
-  };
-
   return (
     <Form
       defaultValues={story.metadata}
-      // validateError={errorValidator}
-      onSubmitFailure={onSubmitFailure}
-      onSubmit={onSubmitStory}>
+      validateError={errorValidator}
+      onSubmit={onSubmitForm}>
       {formApi => (
         <form onSubmit={formApi.submitForm}>
           <Field>
             <Control>
               <Label>
-              Story title
+                {translate('Story title')}
                 <HelpPin place="right">
-                Explanation about the story title
+                  {translate('Explanation about the story title')}
                 </HelpPin>
               </Label>
               <Text
                 field="title" id="title" type="text"
-                placeholder="Story title" />
+                placeholder={translate('title')} />
               {/*<Input type="text" placeholder="Story title" />*/}
             </Control>
+            {
+              formApi.touched.title && formApi.errors.title &&
+                <Help isColor="danger">{formApi.errors.title}</Help>
+            }
           </Field>
           <Field>
             <Control>
               <Label>
-              Story subtitle
+                {translate('Story subtitle')}
                 <HelpPin place="right">
-                Explanation about the story subtitle
+                  {translate('Explanation about the story subtitle')}
                 </HelpPin>
               </Label>
               <Text
                 field="subtitle" id="subtitle" type="text"
-                placeholder="subtitle" />
+                placeholder={translate('subtitle')} />
               {/*<Input type="text" placeholder="A song of ice and fire" />*/}
             </Control>
           </Field>
@@ -90,9 +98,9 @@ const MetadataForm = ({
             !story.id &&
               <Field>
                 <Label>
-                Story password
+                  {translate('Story password')}
                   <HelpPin place="right">
-                  Explanation about the story password
+                    {translate('Explanation about the story password')}
                   </HelpPin>
                 </Label>
                 <Control hasIcons>
@@ -110,7 +118,10 @@ const MetadataForm = ({
                     <span className="fa fa-exclamation" aria-hidden="true" />
                   </Icon>
                 </Control>
-                <Help isColor="danger">Password must be at least 6 characters long</Help>
+                {
+                  formApi.touched.password && formApi.errors.password &&
+                    <Help isColor="danger">{formApi.errors.password}</Help>
+                }
               </Field>
           }
           <AuthorsManager
@@ -119,27 +130,29 @@ const MetadataForm = ({
             onChange={(authors) => formApi.setValue('authors', authors)}
             authors={formApi.getValue('authors')} />
           <Field>
-            <Label>Abstract</Label>
+            <Label>{translate('Story Abstract')}</Label>
             <Control hasIcons>
               <TextArea
                 field="abstract"
                 id="abstract"
                 type="text"
-                placeholder={'abstract'} />
+                placeholder={translate('abstract')} />
             </Control>
           </Field>
+          {!story.id && status === 'processing' && <Help>{translate('Creating story')}</Help>}
+          {!story.id && status === 'fail' && <Help isColor="danger">{translate('Story could not be created')}</Help>}
           <Columns>
             <Column>
               <Button isFullWidth type="submit" isColor="success">
                 {story.id ?
-                  <span>Update Settings</span> :
-                  <span>Create a new story</span>
+                  <span>{translate('Update ettings')}</span> :
+                  <span>{translate('Create story')}</span>
                 }
               </Button>
             </Column>
             <Column>
               <Button onClick={onCancel} isFullWidth isColor="danger">
-                Cancel
+                {translate('Cancel')}
               </Button>
             </Column>
           </Columns>

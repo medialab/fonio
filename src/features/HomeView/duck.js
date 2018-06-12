@@ -225,6 +225,18 @@ const UI_DEFAULT_STATE = {
    * Whether story password modal pop up
    */
   passwordModalOpen: false,
+  /**
+   * status of the import story process (['processing', 'fail', 'success'])
+   */
+  importStoryStatus: undefined,
+  /**
+   * status of the create story process (['processing', 'fail', 'success'])
+   */
+  createStoryStatus: undefined,
+  /**
+   * status of the delete story process (['processing', 'fail', 'success'])
+   */
+  deleteStoryStatus: undefined,
 };
 
 /**
@@ -235,10 +247,9 @@ const UI_DEFAULT_STATE = {
  */
 function ui(state = UI_DEFAULT_STATE, action) {
   const {payload} = action;
+  let propName;
   switch (action.type) {
     case SET_TAB_MODE:
-    case SET_NEW_STORY_OPEN:
-    case SET_NEW_STORY_TAB_MODE:
     case SET_SEARCH_STRING:
     case SET_SORTING_MODE:
     case SET_IDENTIFICATION_MODAL_SWITCH:
@@ -246,20 +257,39 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_STORY_DELETE_ID:
     case SET_CHANGE_PASSWORD_ID:
     case SET_PASSWORD_MODAL_OPEN:
-      const propName = getStatePropFromActionSet(action.type);
+      propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
         [propName]: payload
+      };
+    case SET_NEW_STORY_OPEN:
+    case SET_NEW_STORY_TAB_MODE:
+      propName = getStatePropFromActionSet(action.type);
+      return {
+        ...state,
+        [propName]: payload,
+        importStoryStatus: undefined,
+        createStoryStatus: undefined
       };
     case `${CREATE_STORY}_SUCCESS`:
       return {
         ...state,
         newStoryOpen: false
       };
+    case `${CREATE_STORY}_FAIL`:
+      return {
+        ...state,
+        createStoryStatus: 'fail'
+      };
     case `${DELETE_STORY}_SUCCESS`:
       return {
         ...state,
         storyDeleteId: undefined
+      };
+    case `${DELETE_STORY}_FAIL`:
+      return {
+        ...state,
+        deleteStoryStatus: 'fail'
       };
     case `${CHANGE_PASSWORD}_SUCCESS`:
       return {
@@ -270,6 +300,11 @@ function ui(state = UI_DEFAULT_STATE, action) {
       return {
         ...state,
         passwordModalOpen: true
+      };
+    case `${IMPORT_STORY}_FAIL`:
+      return {
+        ...state,
+        importStoryStatus: 'fail'
       };
     default:
       return state;
@@ -330,7 +365,13 @@ function data(state = DATA_DEFAULT_STATE, action) {
     case DUPLICATE_STORY:
       return {
         ...state,
-        newStory: payload
+        newStory: {
+          ...payload,
+          metadata: {
+            ...payload.metadata,
+            title: `${payload.metadata.title} - copy`
+          }
+        }
       };
     case `${IMPORT_STORY}_SUCCESS`:
       return {
@@ -409,6 +450,9 @@ const identificationModalSwitch = state => state.ui.identificationModalSwitch;
 const storyDeleteId = state => state.ui.storyDeleteId;
 const changePasswordId = state => state.ui.changePasswordId;
 const passwordModalOpen = state => state.ui.passwordModalOpen;
+const importStoryStatus = state => state.ui.importStoryStatus;
+const createStoryStatus = state => state.ui.createStoryStatus;
+const deleteStoryStatus = state => state.ui.deleteStoryStatus;
 
 const newStory = state => state.data.newStory;
 const stories = state => state.data.stories;
@@ -430,6 +474,9 @@ export const selector = createStructuredSelector({
   storyDeleteId,
   changePasswordId,
   passwordModalOpen,
+  createStoryStatus,
+  deleteStoryStatus,
+  importStoryStatus,
   userInfoTemp,
   editionHistory,
   stories

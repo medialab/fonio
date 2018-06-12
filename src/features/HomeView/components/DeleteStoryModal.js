@@ -18,25 +18,27 @@ import {Form, Text} from 'react-form';
 
 const DeleteStoryModal = ({
   loginStatus,
-  onDeleteStory,
+  deleteStatus,
+  onSubmitPassword,
   onCancel
 }, {
   t
 }) => {
   const translate = translateNameSpacer(t, 'Components.DeleteStoryModal');
 
-  const onSumitForm = values => {
-    onDeleteStory(values.password);
+  const onSubmitForm = values => {
+    onSubmitPassword(values.password);
   };
 
   return (
-    <Form onSubmit={onSumitForm}>
+    <Form onSubmit={onSubmitForm}>
       {
         formApi => (
           <form onSubmit={formApi.submitForm} className="fonio-form">
             <ModalCard
               isActive
               headerContent={translate('Delete a story')}
+              onClose={onCancel}
               mainContent={
                 <Field>
                   <Label>
@@ -59,6 +61,8 @@ const DeleteStoryModal = ({
                   </Control>
                   {loginStatus === 'processing' && <Help>{translate('Submitting password')}</Help>}
                   {loginStatus === 'fail' && <Help isColor="danger">{translate('Password is not valid')}</Help>}
+                  {deleteStatus === 'processing' && <Help>{translate('Deleting Story')}</Help>}
+                  {deleteStatus === 'fail' && <Help isColor="danger">{translate('Story could not be deleted')}</Help>}
                 </Field>
             }
               footerContent={[

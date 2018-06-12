@@ -8,8 +8,8 @@ import {ACTIVATE_STORY} from '../StoryManager/duck';
 // import { CREATE_SECTION, DELETE_SECTION } from '../SectionsManager/duck';
 
 const SET_SOCKET_ID = 'SET_SOCKET_ID';
-const ENTER_STORY = 'ENTER_STORY';
-const LEAVE_STORY = 'LEAVE_STORY';
+export const ENTER_STORY = 'ENTER_STORY';
+export const LEAVE_STORY = 'LEAVE_STORY';
 export const ENTER_BLOCK = 'ENTER_BLOCK';
 export const LEAVE_BLOCK = 'LEAVE_BLOCK';
 const IDLE_BLOCK = 'IDLE_BLOCK';

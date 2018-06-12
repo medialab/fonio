@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-12\n"
-"PO-Revision-Date: Tue Jun 12 2018 11:38:46 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Tue Jun 12 2018 17:10:20 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1400,7 +1400,7 @@ msgstr "Drop files to include new resources in your library (images, tables, bib
 msgid "Features.SectionView.Delete a section"
 msgstr "Delete a section"
 
-msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgid "Features.SectionView.Are you sure you want to delete the section "
 msgstr ""
 
 msgid "Features.SectionView.Are you sure you want to delete this section ?"
@@ -1412,13 +1412,10 @@ msgstr "Delete the section"
 msgid "Features.SectionView.Cancel"
 msgstr "Cancel"
 
-msgid "Features.SummaryView.{a} is working on section "{t}""
-msgstr "{a} is working on section \"{t}\""
-
 msgid "Features.SummaryView.Delete a section"
 msgstr "Delete a section"
 
-msgid "Features.SummaryView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgid "Features.SummaryView.Are you sure you want to delete the section "
 msgstr ""
 
 msgid "Features.SummaryView.Are you sure you want to delete this section ?"
@@ -1429,3 +1426,102 @@ msgstr "Delete the section"
 
 msgid "Features.SummaryView.Cancel"
 msgstr "Cancel"
+
+msgid "Components.AuthorsManager.New auhthor"
+msgstr "New auhthor"
+
+msgid "Components.AuthorsManager.Add an author"
+msgstr "Add an author"
+
+msgid "Components.MetadataForm.Story title is required"
+msgstr "Story title is required"
+
+msgid "Components.MetadataForm.Password should be at least 6 characters"
+msgstr "Password should be at least 6 characters"
+
+msgid "Components.MetadataForm.Story title"
+msgstr "Story title"
+
+msgid "Components.MetadataForm.Explanation about the story title"
+msgstr "Explanation about the story title"
+
+msgid "Components.MetadataForm.title"
+msgstr "title"
+
+msgid "Components.MetadataForm.Story subtitle"
+msgstr "Story subtitle"
+
+msgid "Components.MetadataForm.Explanation about the story subtitle"
+msgstr "Explanation about the story subtitle"
+
+msgid "Components.MetadataForm.subtitle"
+msgstr "subtitle"
+
+msgid "Components.MetadataForm.Story password"
+msgstr "Story password"
+
+msgid "Components.MetadataForm.Explanation about the story password"
+msgstr "Explanation about the story password"
+
+msgid "Components.MetadataForm.Story Abstract"
+msgstr "Story Abstract"
+
+msgid "Components.MetadataForm.abstract"
+msgstr "abstract"
+
+msgid "Components.MetadataForm.Creating story"
+msgstr "Creating story"
+
+msgid "Components.MetadataForm.Story could not be created"
+msgstr "Story could not be created"
+
+msgid "Components.MetadataForm.Update ettings"
+msgstr "Update ettings"
+
+msgid "Components.MetadataForm.Create story"
+msgstr "Create story"
+
+msgid "Components.MetadataForm.Cancel"
+msgstr "Cancel"
+
+msgid "Components.DeleteStoryModal.Deleting Story"
+msgstr "Deleting Story"
+
+msgid "Components.DeleteStoryModal.Story could not be deleted"
+msgstr "Story could not be deleted"
+
+msgid "Components.EnterPasswordModal.Create story"
+msgstr "Create story"
+
+msgid "Components.EnterPasswordModal.Create a story password"
+msgstr "Create a story password"
+
+msgid "Components.EnterPasswordModal.Creating Story"
+msgstr "Creating Story"
+
+msgid "Components.EnterPasswordModal.Story could not be created"
+msgstr "Story could not be created"
+
+msgid "Features.HomeView.Story is not valid"
+msgstr "Story is not valid"
+
+msgid "Components.TitleForm.section-title-is-required"
+msgstr "section-title-is-required"
+
+msgid "Components.TitleForm.Section title"
+msgstr "Section title"
+
+msgid "Components.TitleForm.Explanation about the section title"
+msgstr "Explanation about the section title"
+
+msgid "Components.TitleForm.Save title"
+msgstr "Save title"
+
+msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr ""
+
+msgid "Features.SummaryView.{a} is working on section "{t}""
+msgstr "{a} is working on section \"{t}\""
+
+msgid "Features.SummaryView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr ""
