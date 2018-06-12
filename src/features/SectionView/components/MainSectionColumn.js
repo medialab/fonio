@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
+// import SectionEditor from '../../../components/SectionEditor';
 import NewSectionForm from '../../../components/NewSectionForm';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
@@ -168,7 +168,24 @@ const MainSectionColumn = ({
         return (
           <div>
             <input onChange={onUpdateTitle} value={section.metadata.title} />
-            Editor here
+            {/*<SectionEditor
+              // startExistingResourceConfiguration={e => console.log('start existing resource configuration')}
+              // startNewResourceConfiguration={e => console.log('start new resource configuration')}
+              // deleteContextualization={e => console.log('delete contextualization')}
+              // story: PropTypes.object,
+              // activeStoryId: PropTypes.string,
+              // activeSection: PropTypes.object,
+              // sectionId: PropTypes.string,
+              // editorStates: PropTypes.object,
+              // assetRequestPosition: PropTypes.object,
+              // editorFocus: PropTypes.string,
+              // updateSection: PropTypes.func,
+              // setEditorFocus: PropTypes.func,
+              // updateDraftEditorState: PropTypes.func,
+              // cancelAssetRequest: PropTypes.func,
+              // summonAsset: PropTypes.func,
+              // setAssetRequestContentId: PropTypes.func,
+            // /> */}
           </div>
         );
     }

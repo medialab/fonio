@@ -42,8 +42,7 @@ const AsideSectionColumn = ({
   onSortEnd,
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Features.SectionView');
-
-  // const {id: storyId} = story;
+  const {id: storyId} = story;
 
   const renderAside = () => {
     if (asideTabCollapsed) {
@@ -139,7 +138,7 @@ const AsideSectionColumn = ({
               }
             <Level>
               <DropZone>
-                 Drop files to include new resources in your library (images, tables, bibliographies)
+                {translate('Drop files to include new resources in your library (images, tables, bibliographies)')}
               </DropZone>
             </Level>
           </Column>
@@ -149,10 +148,11 @@ const AsideSectionColumn = ({
         return (
           <Column>
             <SortableMiniSectionsList
+              storyId={storyId}
               items={sections}
               onSortEnd={onSortEnd}
               onOpenSettings={thatSection => onOpenSectionSettings(thatSection.id)}
-              onDeleteSection={(thatSection) => onDeleteSection(thatSection.id)}
+              onDeleteSection={onDeleteSection}
               useDragHandle />
             <Column style={{margin: '0 0 1rem 0', padding: 0}}>
               <Button onClick={() => setMainColumnMode('newsection')} isColor={'primary'} isFullWidth>

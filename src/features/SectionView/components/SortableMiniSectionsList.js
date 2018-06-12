@@ -13,13 +13,18 @@ const SortableItem = SortableElement(({
   value: section,
   onOpenSettings,
   onDeleteSection,
+  storyId,
 }) => {
+  const handleDelete = () => {
+    onDeleteSection(section.id);
+  };
   return (
     <Level>
       <Column>
         <SectionMiniCard
           section={section}
-          onDeleteSection={onDeleteSection}
+          storyId={storyId}
+          onDeleteSection={handleDelete}
           onOpenSettings={onOpenSettings} />
       </Column>
     </Level>
