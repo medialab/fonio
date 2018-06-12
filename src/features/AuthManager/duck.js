@@ -9,7 +9,7 @@ import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
 import {LOGIN_STORY} from '../ConnectionsManager/duck';
-import {CHANGE_PASSWORD} from '../HomeView/duck';
+import {CHANGE_PASSWORD, SET_CHANGE_PASSWORD_ID} from '../HomeView/duck';
 
 /**
  * ===================================================
@@ -77,6 +77,11 @@ function ui(state = UI_DEFAULT_STATE, action) {
       return {
         ...state,
         [propName]: payload
+      };
+    case SET_CHANGE_PASSWORD_ID:
+      return {
+        ...state,
+        changePasswordStatus: undefined
       };
     case LOGIN_STORY:
       return {

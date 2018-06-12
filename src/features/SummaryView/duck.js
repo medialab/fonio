@@ -15,7 +15,7 @@ import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
  * ACTION NAMES
  * ===================================================
  */
- import {ENTER_BLOCK, LEAVE_BLOCK} from '../ConnectionsManager/duck';
+ import {ENTER_BLOCK, LEAVE_BLOCK, LEAVE_STORY} from '../ConnectionsManager/duck';
 /**
  * ui
  */
@@ -78,6 +78,8 @@ const UI_DEFAULT_STATE = {
 function ui(state = UI_DEFAULT_STATE, action) {
   const {payload} = action;
   switch (action.type) {
+    case LEAVE_STORY:
+      return UI_DEFAULT_STATE;
     case SET_METADATA_OPEN:
     case SET_NEW_SECTION_OPEN:
       const propName = getStatePropFromActionSet(action.type);
@@ -85,7 +87,6 @@ function ui(state = UI_DEFAULT_STATE, action) {
         ...state,
         [propName]: payload
       };
-
     case `${ENTER_BLOCK}_SUCCESS`:
       if (payload.location === 'storyMetadata') {
         return {
