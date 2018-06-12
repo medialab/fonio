@@ -16,17 +16,17 @@ import {
 
 import {Form, Text} from 'react-form';
 
-const DeleteStoryModal = ({
+const EnterPasswordModal = ({
   loginStatus,
-  onDeleteStory,
+  onSubmitPassword,
   onCancel
 }, {
   t
 }) => {
-  const translate = translateNameSpacer(t, 'Components.DeleteStoryModal');
+  const translate = translateNameSpacer(t, 'Components.EnterPasswordModal');
 
   const onSumitForm = values => {
-    onDeleteStory(values.password);
+    onSubmitPassword(values.password);
   };
 
   return (
@@ -36,7 +36,7 @@ const DeleteStoryModal = ({
           <form onSubmit={formApi.submitForm} className="fonio-form">
             <ModalCard
               isActive
-              headerContent={translate('Delete a story')}
+              headerContent={translate('Create a password')}
               mainContent={
                 <Field>
                   <Label>
@@ -64,7 +64,7 @@ const DeleteStoryModal = ({
               footerContent={[
                 <Button
                   type="submit" isFullWidth key={0}
-                  isColor="danger">{translate('Delete')}</Button>,
+                  isColor="danger">{translate('Create')}</Button>,
                 <Button isFullWidth key={2} onClick={onCancel} >
                   {translate('Cancel')}
                 </Button>
@@ -76,14 +76,14 @@ const DeleteStoryModal = ({
   );
 };
 
-DeleteStoryModal.propTypes = {
+EnterPasswordModal.propTypes = {
   loginStatus: PropTypes.string,
   onDeleteStory: PropTypes.func,
   onCancel: PropTypes.func
 };
 
-DeleteStoryModal.contextTypes = {
+EnterPasswordModal.contextTypes = {
   t: PropTypes.func
 };
 
-export default DeleteStoryModal;
+export default EnterPasswordModal;

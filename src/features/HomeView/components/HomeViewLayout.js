@@ -46,6 +46,7 @@ import MetadataForm from '../../../components/MetadataForm';
 import StoryCard from './StoryCard';
 import DeleteStoryModal from './DeleteStoryModal';
 import ChangePasswordModal from './ChangePasswordModal';
+import EnterPasswordModal from './EnterPasswordModal';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -108,14 +109,18 @@ class HomeViewLayout extends Component {
           userId,
           storyDeleteId,
           changePasswordId,
+          passwordModalOpen,
+
           loginStatus,
           changePasswordStatus,
 
           history,
           actions: {
             createStory,
+            duplicateStory,
             deleteStory,
             loginStory,
+            importStory,
             changePassword,
             setNewStoryTabMode,
             setIdentificationModalSwitch,
@@ -124,6 +129,7 @@ class HomeViewLayout extends Component {
             setSearchString,
             setStoryDeleteId,
             setChangePasswordId,
+            setPasswordModalOpen,
           }
         } = this.props;
 
@@ -173,6 +179,30 @@ class HomeViewLayout extends Component {
             }
           });
         };
+
+        const onDropFiles = (files) => {
+          if (!files || !files.length) {
+            return;
+          }
+          importStory(files[0]);
+        };
+
+        const OnCreateStory = (password) => {
+          const copiedStory = {
+            ...newStory,
+            metadata: {
+              ...newStory.metadata,
+              title: `${newStory.metadata.title}-copy`
+            },
+          };
+          createStory({payload: copiedStory, password})
+          .then((res) => {
+            if (res.result) {
+              setPasswordModalOpen(false);
+            }
+          });
+        };
+
         return (
           <Container>
             <Columns>
@@ -306,6 +336,10 @@ class HomeViewLayout extends Component {
                                         pathname: `/story/${story.id}`
                                       });
                                       break;
+                                    case 'duplicate':
+                                      setPasswordModalOpen(true);
+                                      duplicateStory(story);
+                                      break;
                                     case 'delete':
                                       setStoryDeleteId(story.id);
                                       break;
@@ -320,17 +354,17 @@ class HomeViewLayout extends Component {
                           </Level>
                         ))
                       }
-                {storyDeleteId ?
+                {storyDeleteId &&
                   <DeleteStoryModal
                     loginStatus={loginStatus}
                     onDeleteStory={onDeleteStory}
-                    onCancel={() => setStoryDeleteId(undefined)} /> : null
+                    onCancel={() => setStoryDeleteId(undefined)} />
                 }
-                {changePasswordId ?
+                {changePasswordId &&
                   <ChangePasswordModal
                     changePasswordStatus={changePasswordStatus}
                     onChangePassword={onChangePassword}
-                    onCancel={() => setChangePasswordId(undefined)} /> : null
+                    onCancel={() => setChangePasswordId(undefined)} />
                 }
               </Column>
               {
@@ -391,8 +425,10 @@ class HomeViewLayout extends Component {
                                       onCancel={() => setNewStoryOpen(false)} />
                                     :
                                     <Column>
-                                      <DropZone>
-                                    Drop a fonio file
+                                      <DropZone
+                                        accept="application/json"
+                                        onDrop={onDropFiles}>
+                                        {this.translate('Drop a fonio file')}
                                       </DropZone>
                                       <Level />
                                       <Columns>
@@ -415,6 +451,11 @@ class HomeViewLayout extends Component {
                         </Column>
                       : null
                     }
+              {passwordModalOpen &&
+                <EnterPasswordModal
+                  onSubmitPassword={OnCreateStory}
+                  onCancel={() => setPasswordModalOpen(false)} />
+              }
             </Columns>
           </Container>
         );

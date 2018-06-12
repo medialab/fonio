@@ -10,8 +10,10 @@ import {createStructuredSelector} from 'reselect';
 
 import {get, post, delete as del} from 'axios';
 
-import {createDefaultStory} from '../../helpers/schemaUtils';
+import {createDefaultStory, validateStory} from '../../helpers/schemaUtils';
 
+import {saveStoryToken} from '../../helpers/localStorageUtils';
+import {getFileAsText} from '../../helpers/fileLoader';
 import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 
 /**
@@ -33,10 +35,14 @@ const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
 const SET_EDITION_HISTORY = 'SET_EDITION_HISTORY';
 const SET_STORY_DELETE_ID = 'SET_STORY_DELETE_ID';
 const SET_CHANGE_PASSWORD_ID = 'SET_CHANGE_PASSWORD_ID';
+const SET_PASSWORD_MODAL_OPEN = 'SET_PASSWORD_MODAL_OPEN';
 
 const FETCH_STORIES = 'FETCH_STORIES';
 const CREATE_STORY = 'CREATE_STORY';
+const DUPLICATE_STORY = 'DUPLICATE_STORY';
 const DELETE_STORY = 'DELETE_STORY';
+const IMPORT_STORY = 'IMPORT_STORY';
+
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 
 import {SET_USER_INFO} from '../UserInfoManager/duck';
@@ -100,6 +106,10 @@ export const setChangePasswordId = payload => ({
   type: SET_CHANGE_PASSWORD_ID,
   payload
 });
+export const setPasswordModalOpen = payload => ({
+  type: SET_PASSWORD_MODAL_OPEN,
+  payload
+});
 
 export const fetchStories = () => ({
   type: FETCH_STORIES,
@@ -117,6 +127,29 @@ export const createStory = ({payload, password}) => ({
     const serverRequestUrl = `${CONFIG.serverUrl}/stories/`;/* eslint no-undef: 0 */
     return post(serverRequestUrl, {payload, password});
   },
+});
+
+
+export const importStory = file => ({
+  type: IMPORT_STORY,
+  promise: () =>
+    new Promise((resolve, reject) => {
+      return getFileAsText(file)
+             .then((text) => {
+                const story = JSON.parse(text);
+                const validation = validateStory(story);
+                if (validation.valid) {
+                  resolve(story);
+                }
+                else reject(validation.errors);
+             })
+             .catch(e => reject(e));
+    }),
+});
+
+export const duplicateStory = payload => ({
+  type: DUPLICATE_STORY,
+  payload
 });
 
 export const deleteStory = payload => ({
@@ -188,6 +221,10 @@ const UI_DEFAULT_STATE = {
   * id of a story to change password
   */
   changePasswordId: undefined,
+  /**
+   * Whether story password modal pop up
+   */
+  passwordModalOpen: false,
 };
 
 /**
@@ -208,6 +245,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_PREVIEWED_STORY_ID:
     case SET_STORY_DELETE_ID:
     case SET_CHANGE_PASSWORD_ID:
+    case SET_PASSWORD_MODAL_OPEN:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -227,6 +265,11 @@ function ui(state = UI_DEFAULT_STATE, action) {
       return {
         ...state,
         changePasswordId: undefined
+      };
+    case `${IMPORT_STORY}_SUCCESS`:
+      return {
+        ...state,
+        passwordModalOpen: true
       };
     default:
       return state;
@@ -284,6 +327,16 @@ function data(state = DATA_DEFAULT_STATE, action) {
         };
       }
       else return state;
+    case DUPLICATE_STORY:
+      return {
+        ...state,
+        newStory: payload
+      };
+    case `${IMPORT_STORY}_SUCCESS`:
+      return {
+        ...state,
+        newStory: action.result
+      };
     case `${FETCH_STORIES}_SUCCESS`:
       const {data: thatData} = action.result;
       return {
@@ -292,7 +345,7 @@ function data(state = DATA_DEFAULT_STATE, action) {
       };
     case `${CREATE_STORY}_SUCCESS`:
       const {story, token} = action.result.data;
-      localStorage.setItem(`fonio/storyToken/${story.id}`, token);
+      saveStoryToken(story.id, token);
       return {
         ...state,
         stories: {
@@ -355,6 +408,7 @@ const sortingMode = state => state.ui.sortingMode;
 const identificationModalSwitch = state => state.ui.identificationModalSwitch;
 const storyDeleteId = state => state.ui.storyDeleteId;
 const changePasswordId = state => state.ui.changePasswordId;
+const passwordModalOpen = state => state.ui.passwordModalOpen;
 
 const newStory = state => state.data.newStory;
 const stories = state => state.data.stories;
@@ -375,6 +429,7 @@ export const selector = createStructuredSelector({
   identificationModalSwitch,
   storyDeleteId,
   changePasswordId,
+  passwordModalOpen,
   userInfoTemp,
   editionHistory,
   stories
