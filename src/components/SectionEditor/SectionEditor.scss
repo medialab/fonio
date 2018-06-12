@@ -1,0 +1,267 @@
+/**
+ * style definitions for the SectionEditor component
+ *
+ * @module fonio/components/SectionEditor
+ */
+@import '../../parameters.scss';
+
+
+.fonio-SectionEditor
+{
+    // @extend .flex-stretched-column;
+    q
+    {
+        quotes: none;
+
+        // background: $color-warm-grey;
+    }
+    pre,
+    blockquote
+    {
+        // padding: $gutter-medium;
+
+        // background: $color-warm-grey;
+    }
+    blockquote
+    {
+        position: relative;
+
+        margin: 0;
+        // padding: $gutter-large;
+
+        quotes: '« ' ' »' '‹ ' ' ›';
+        &:before
+        {
+            position: absolute;
+            // top: $gutter-small;
+            // left: $gutter-small;
+
+            content: open-quote;
+        }
+        &:after
+        {
+            position: absolute;
+            // right: $gutter-small;
+            // bottom: $gutter-small;
+
+            content: close-quote;
+        }
+    }
+    .editable-title
+    {
+        padding-right: 10rem;
+        padding-left: 10rem;
+    }
+    .editable-title
+    {
+        // @extend .flex-stretched-row;
+        input
+        {
+            flex: 1;
+        }
+    }
+    .editor-wrapper
+    {
+        position: relative;
+
+        overflow: auto;
+        flex: 1;
+
+        padding-bottom: 10rem;// todo: parametrize that
+        .scholar-draft-Editor
+        {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            .main-container-editor,
+            .notes-container,
+            .editor-bibliography
+            {
+                padding-left: 10rem;
+            }
+            .csl-entry
+            {
+                word-break: break-all;
+            }
+            .scholar-draft-BasicEditor
+            {
+                // background: $color-very-light;
+                &.active
+                {
+                    .public-DraftEditor-content
+                    {
+                        // background: $color-sec-stroke;
+                    }
+                }
+            }
+            .public-DraftEditor-content,
+            .public-DraftEditorPlaceholder-inner
+            {
+                // font-family: $editable-font-stack;
+                line-height: 2em;
+
+                // padding: $gutter-medium;
+
+                // @extend .animated;
+                // .public-DraftStyleDefault-block
+                // {
+                    // margin-bottom: $gutter-medium;
+                // }
+            }
+            .scholar-draft-NoteContainer
+            {
+                // margin-top: $gutter-large;
+                // padding: $gutter-medium 0 $gutter-medium 0;
+
+                // border-top: 1px solid $color-warm-grey;
+                // &:not(:first-of-type)
+                // {
+                //     border-bottom: 1px solid $color-warm-grey;
+                // }
+                .note-header
+                {
+                    // padding: $gutter-small;
+
+                    // border-bottom: 1px solid $color-very-light;
+
+                    // @extend .flex-stretched-row;
+                    button
+                    {
+                        // width: $font-size-1*2.5;
+                        // height: $font-size-1*2.5;
+
+                        text-align: center;
+                        vertical-align: center;
+
+                        border-radius: 50%;
+
+                        // @extend .interactive-item;
+                        // &:hover
+                        // {
+                        //     @extend .interactive-item-intent;
+                        // }
+                    }
+                    button:first-of-type
+                    {
+                        order: 2;
+
+                        // @extend .dangerous-item;
+                        // &:hover
+                        // {
+                        //     @extend .dangerous-item-intent;
+                        // }
+                    }
+                    h3
+                    {
+                        flex: 1;
+                        order: 1;
+
+                        // margin-left: $gutter-small;
+                    }
+                }
+            }
+            .scholar-draft-NotePointer
+            {
+                // font-size: $font-size-1;
+                // line-height: $font-size-1*3;
+
+                display: inline-block;
+                display: inline-block;
+
+                // width: $font-size-2 * 1.4;
+                // height: $font-size-2 * 1.4;
+                // margin-left: $gutter-small;
+
+                cursor: pointer;
+                cursor: pointer;
+                text-align: center;
+                vertical-align: unset;
+
+                border-radius: 50%;// todo: parametrize that
+
+                // @extend .important-item;
+                // &:hover
+                // {
+                //     @extend .important-item-intent;
+                // }
+            }
+            .scholar-draft-BlockAssetContainer
+            {
+                // min-height: 15rem;// todo: parametrize that
+                // padding: $gutter-medium;
+
+                // background: $color-warm-grey;
+            }
+        }
+    }
+    .editor-bibliography
+    {
+        // margin-bottom: $gutter-large;
+        overflow: hidden;
+        // .csl-entry{
+        //     margin-bottom: $gutter-medium;
+        // }
+    }
+    .ReactTable
+    {
+        // max-width: 50rem;// todo: parametrize that
+        height: 100%;
+        background : white;
+    }
+
+    .contextualization-loading-placeholder
+    {
+        // padding: $gutter-small;
+
+        // @extend .important-item;
+    }
+
+    .scholar-draft-InlineButton,
+    .scholar-draft-BlockButton,
+    .fonio-LinkButton{
+        float: left;
+    }
+
+    .fonio-LinkButton
+    {
+        font-size: 1em;
+
+        padding: 0;
+        height: 100%;
+        margin: 0;
+        position: relative;
+        top: 0;
+        .button-content
+        {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            flex-flow: row nowrap;
+            justify-content: center;
+
+            // padding-right: $gutter-small;
+            // padding-left: $gutter-small;
+            img
+            {
+                width: 1em;
+            }
+        }
+    }
+
+    .native-link{
+        // @extend .interactive-item;
+        text-decoration: underline;
+        display: inline;
+        .link-content{
+            
+            .pin-container{
+                display: inline;
+            }
+        }
+            
+    }
+}

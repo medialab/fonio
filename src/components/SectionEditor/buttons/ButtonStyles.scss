@@ -1,0 +1,49 @@
+
+
+.scholar-draft-InlineButton,
+.scholar-draft-BlockButton,
+.scholar-draft-NoteButton,
+.scholar-draft-AssetButton
+{
+    display: inline-block;
+
+    width: 24px;
+    height: 24px;
+
+    cursor: pointer;
+    transition: all .1s ease;
+
+    background: inherit;
+
+    img
+    {
+        transition: all .1s ease;
+    }
+
+    &:hover
+    {
+        background: #ccc;
+    }
+    &.active
+    {
+        background: #999;
+    }
+}
+
+
+.scholar-draft-NoteButton,
+.scholar-draft-AssetButton
+{
+    border-radius: 50%;
+}
+
+.scholar-draft-AssetButton
+{
+    &.active
+    {
+        img
+        {
+            transform: rotate(45deg);
+        }
+    }
+}
