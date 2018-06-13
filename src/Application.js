@@ -38,12 +38,6 @@ import generateRandomUserInfo from './helpers/userInfo';
 import 'quinoa-design-library/themes/millet/style.css';
 import './Application.scss';
 
-
-import {
-    urlPrefix
-} from '../secrets';
-
-
 const ProtectedRoutes = ({match}) => {
 
   return (
@@ -129,7 +123,7 @@ export default class Application extends Component {
       }
     } = this;
     return (
-      <Router basename={urlPrefix || '/'}>
+      <Router basename={CONFIG.urlPrefix || '/' /* eslint no-undef : 0 */}>
         <div id="wrapper" className="fonio">
           {userId &&
           <Switch>
