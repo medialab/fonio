@@ -56,7 +56,7 @@ const SectionCard = ({
           label: translate('edit'),
           id: 'edit',
           isColor: 'primary',
-          // isDisabled: lockData
+          isDisabled: lockData
         }, {
           label: translate('move'),
           isColor: 'info',
