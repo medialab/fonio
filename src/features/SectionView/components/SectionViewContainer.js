@@ -126,12 +126,11 @@ class SectionViewContainer extends Component {
          * this means another client is editing the section
          * -> for now the UI behaviour is to get back client to the summary view
          */
-        this.props.actions.setViewLockState(undefined);
         this.props.history.push(`/story/${storyId}/`);
       }
       else {
         // ENTER_BLOCK_SUCCESS
-        this.goToSection(sectionId);
+        // this.goToSection(sectionId);
       }
     });
   }
