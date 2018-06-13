@@ -183,6 +183,7 @@ const SummaryViewLayout = ({
       userId,
     });
     setNewSectionOpen(false);
+    goToSection(newSection.id);
   };
 
   const onDeleteSection = thatSectionId => {
