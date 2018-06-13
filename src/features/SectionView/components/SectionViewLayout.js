@@ -50,7 +50,8 @@ const SectionViewLayout = ({
     createSection,
     deleteSection,
     updateSectionsOrder,
-  }
+  },
+  goToSection,
 }, {
   t
 }) => {
@@ -96,6 +97,8 @@ const SectionViewLayout = ({
       storyId,
       userId
     });
+    setMainColumnMode('edit');
+    goToSection(newSection.id);
   };
 
   /**

@@ -144,7 +144,6 @@ class SectionViewContainer extends Component {
     this.props.history.push(`/story/${id}/section/${sectionId}`);
   }
 
-
   render() {
     const {
       props: {
@@ -154,7 +153,8 @@ class SectionViewContainer extends Component {
             sectionId,
           }
         },
-      }
+      },
+      goToSection
     } = this;
     if (editedStory) {
       const section = editedStory.sections[sectionId];
@@ -163,6 +163,7 @@ class SectionViewContainer extends Component {
           <EditionUiWrapper>
             <SectionViewLayout
               section={section}
+              goToSection={goToSection}
               story={this.props.editedStory}
               {...this.props} />
           </EditionUiWrapper>
