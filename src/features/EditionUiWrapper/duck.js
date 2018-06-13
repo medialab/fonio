@@ -9,6 +9,7 @@ import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
 import {SET_USER_INFO} from '../UserInfoManager/duck';
+import {loadUserInfo} from '../../helpers/localStorageUtils';
 
 /**
  * ===================================================
@@ -112,7 +113,7 @@ function data(state = DATA_DEFAULT_STATE, action) {
       if (payload === false) {
         return {
           ...state,
-          userInfoTemp: JSON.parse(localStorage.getItem('fonio/user_info'))
+          userInfoTemp: loadUserInfo()
         };
       }
       return state;

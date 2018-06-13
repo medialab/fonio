@@ -6,6 +6,7 @@
  */
 
 import {createStructuredSelector} from 'reselect';
+import {saveUserInfo} from '../../helpers/localStorageUtils';
 
 /**
  * ===================================================
@@ -24,19 +25,22 @@ export const setUserInfo = payload => ({
   payload
 });
 
+const DEFAULT_USER_INFO_STATE = {
+  userInfo: undefined
+};
 /**
  * Reducer for the user info function
  * @param {object} state
  * @param {object} action
  * @return {object} newState
  */
-export default function userInfo(state = {userInfo: undefined}, action) {
+export default function userInfo(state = DEFAULT_USER_INFO_STATE, action) {
   switch (action.type) {
     case SET_USER_INFO:
-      localStorage.setItem('fonio/user_info', JSON.stringify({
+      saveUserInfo({
         ...action.payload,
         userInfo: undefined
-      }));
+      });
       return action.payload;
     default:
       return state;

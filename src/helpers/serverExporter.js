@@ -3,7 +3,7 @@
  * @module fonio/utils/serverExporter
  */
 import {get, put, post, delete as del} from 'axios';
-import {serverUrl} from '../../secrets';
+const {serverUrl} = CONFIG;/* eslint no-undef : 0 */
 
 /**
  * @param {object} story

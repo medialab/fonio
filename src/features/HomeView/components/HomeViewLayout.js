@@ -456,6 +456,7 @@ class HomeViewLayout extends Component {
         tabMode,
         identificationModalSwitch,
         userInfoTemp,
+        userId,
         actions: {
           setTabMode,
           setIdentificationModalSwitch,

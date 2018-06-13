@@ -6,6 +6,7 @@ import {
   withRouter,
 } from 'react-router';
 
+
 import * as duck from '../duck';
 
 import * as connectionsDuck from '../../ConnectionsManager/duck';
@@ -39,7 +40,7 @@ class SectionViewContainer extends Component {
 
   componentDidMount = () => {
     // require lock if edited story is here
-    if (this.props.editedStory && this.props.editedStory.sections) {
+    if (this.props.editedStory) {
       this.requireLockOnSection(this.props);
     }
   }
@@ -68,7 +69,7 @@ class SectionViewContainer extends Component {
     /**
      * @todo skip this conditional with another strategy relying on components architecture
      */
-    if (!this.props.editedStory.sections && nextProps.editedStory.sections) {
+    if (!this.props.editedStory && nextProps.editedStory) {
       this.requireLockOnSection(this.props);
     }
 
@@ -144,8 +145,18 @@ class SectionViewContainer extends Component {
 
 
   render() {
-    if (this.props.editedStory && this.props.editedStory.sections) {
-      const section = this.props.editedStory.sections[this.props.match.params.sectionId];
+    const {
+      props: {
+        editedStory,
+        match: {
+          params: {
+            sectionId,
+          }
+        },
+      }
+    } = this;
+    if (editedStory) {
+      const section = editedStory.sections[sectionId];
       if (section) {
         return (
           <SectionViewLayout
@@ -154,6 +165,7 @@ class SectionViewContainer extends Component {
             {...this.props} />
         );
       }
+      else return <div>Section does not exist</div>;
     }
     return null;
   }

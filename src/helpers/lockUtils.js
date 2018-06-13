@@ -36,3 +36,25 @@ export const getStoryActiveAuthors = (lockingMap = {}, activeUsers = {}, storyId
   }
   return [];
 };
+
+export const checkIfUserHasLockOnMetadata = (lockingMap = {}, userId, storyId) => {
+  if (lockingMap[storyId] && lockingMap[storyId].locks) {
+    const user = lockingMap[storyId].locks[userId];
+    if (user) {
+      return user.storyMetadata !== undefined;
+    }
+    return false;
+  }
+  return false;
+};
+
+export const checkIfUserHasLockOnSection = (lockingMap = {}, userId, storyId, sectionId) => {
+  if (lockingMap[storyId] && lockingMap[storyId].locks) {
+    const user = lockingMap[storyId].locks[userId];
+    if (user) {
+      return user.sections !== undefined && user.sections.blockId === sectionId;
+    }
+    return false;
+  }
+  return false;
+};

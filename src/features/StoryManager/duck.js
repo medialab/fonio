@@ -97,7 +97,9 @@ export const deleteResource = (payload, callback) => updateStory(DELETE_RESOURCE
  * ===================================================
  */
 
-const STORY_DEFAULT_STATE = {};
+const STORY_DEFAULT_STATE = {
+  story: undefined
+};
 
 /**
  * This redux reducer handles the state of edited story
@@ -109,7 +111,10 @@ function story(state = STORY_DEFAULT_STATE, action) {
   const {result, payload} = action;
   switch (action.type) {
     case `${ACTIVATE_STORY}_SUCCESS`:
-      return result.data;
+      return {
+        ...state,
+        story: result.data
+      };
     /**
      * STORY METADATA
      */
@@ -117,8 +122,11 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${UPDATE_STORY_METADATA}_BROADCAST`:
       return {
           ...state,
-          metadata: {...payload.metadata},
-          lastUpdateAt: payload.lastUpdateAt,
+          story: {
+            ...state.story,
+            metadata: {...payload.metadata},
+            lastUpdateAt: payload.lastUpdateAt,
+          }
       };
     /**
      * STORY SETTINGS
@@ -127,15 +135,18 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${UPDATE_STORY_SETTINGS}_BROADCAST`:
       return {
           ...state,
-          settings: {...payload.settings},
-          lastUpdateAt: payload.lastUpdateAt,
+          story: {
+            ...state.story,
+            settings: {...payload.settings},
+            lastUpdateAt: payload.lastUpdateAt,
+          }
       };
     /**
      * SECTIONS ORDER
      */
     case `${UPDATE_SECTIONS_ORDER}`:
     case `${UPDATE_SECTIONS_ORDER}_BROADCAST`:
-      const oldSectionsOrder = [...state.sectionsOrder];
+      const oldSectionsOrder = [...state.story.sectionsOrder];
       const newSectionsOrder = [...payload.sectionsOrder];
       let resolvedSectionsOrder = [...payload.sectionsOrder];
       // new order is bigger than older order
@@ -143,13 +154,13 @@ function story(state = STORY_DEFAULT_STATE, action) {
       // --> we filter the new order with only existing sections
       if (newSectionsOrder.length > oldSectionsOrder.length) {
           resolvedSectionsOrder = newSectionsOrder.filter(
-            newSectionId => oldSectionsOlder.indexOf(newSectionId) > -1
+            newSectionId => oldSectionsOrder.indexOf(newSectionId) > -1
           );
       // new order is smaller than older order
       // (probably because a user created a section in the meantime)
-      // --> we add created sections to the new sections
+      // --> we add created sections to the new sections order
       }
- else if (newSectionsOrder.length < oldSectionsOrder.length) {
+      else if (newSectionsOrder.length < oldSectionsOrder.length) {
         resolvedSectionsOrder = [
           ...newSectionsOrder,
           ...oldSectionsOrder.slice(newSectionsOrder.length)
@@ -157,8 +168,11 @@ function story(state = STORY_DEFAULT_STATE, action) {
       }
       return {
           ...state,
-          sectionsOrder: [...resolvedSectionsOrder],
-          lastUpdateAt: payload.lastUpdateAt,
+          story: {
+            ...state.story,
+            sectionsOrder: [...resolvedSectionsOrder],
+            lastUpdateAt: payload.lastUpdateAt,
+          }
       };
     /**
      * SECTION CRUD
@@ -167,46 +181,56 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${CREATE_SECTION}_BROADCAST`:
       return {
           ...state,
-          sections: {
-            ...state.sections,
-            [payload.sectionId]: {
-              ...payload.section
-            }
-          },
-          sectionsOrder: [
-            ...state.sectionsOrder,
-            payload.sectionId
-          ],
-          lastUpdateAt: payload.lastUpdateAt,
+          story: {
+            ...state.story,
+            sections: {
+              ...state.story.sections,
+              [payload.sectionId]: {
+                ...payload.section
+              }
+            },
+            sectionsOrder: [
+              ...state.story.sectionsOrder,
+              payload.sectionId
+            ],
+            lastUpdateAt: payload.lastUpdateAt,
+          }
       };
     case `${UPDATE_SECTION}`:
     case `${UPDATE_SECTION}_BROADCAST`:
       return {
           ...state,
-          sections: {
-            ...state.sections,
-            [payload.sectionId]: {
-              ...payload.section
-            }
-          },
-          lastUpdateAt: payload.lastUpdateAt,
+          story: {
+            ...state.story,
+            sections: {
+              ...state.story.sections,
+              [payload.sectionId]: {
+                ...payload.section
+              }
+            },
+            lastUpdateAt: payload.lastUpdateAt,
+          }
       };
     case `${DELETE_SECTION}`:
     case `${DELETE_SECTION}_BROADCAST`:
       return {
           ...state,
-          sections: Object.keys(state.sections)
-            .reduce((thatResult, thatSectionId) => {
-              if (thatSectionId === payload.sectionId) {
-                return thatResult;
-              }
-              else return {
-                ...thatResult,
-                [thatSectionId]: state.sections[thatSectionId]
-              };
-            }, {}),
-          sectionsOrder: state.sectionsOrder.filter(id => id !== payload.sectionId),
-          lastUpdateAt: payload.lastUpdateAt,
+          story: {
+            ...state.story,
+            sections: Object.keys(state.story.sections)
+              .reduce((thatResult, thatSectionId) => {
+                if (thatSectionId === payload.sectionId) {
+                  return thatResult;
+                }
+                else return {
+                  ...thatResult,
+                  [thatSectionId]: state.story.sections[thatSectionId]
+                };
+              }, {}),
+            sectionsOrder: state.story.sectionsOrder.filter(id => id !== payload.sectionId),
+            lastUpdateAt: payload.lastUpdateAt,
+          }
+
       };
     /**
      * STORY RESOURCES
@@ -217,29 +241,35 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${UPDATE_RESOURCE}_BROADCAST`:
       return {
           ...state,
-          resources: {
-            ...state.resources,
-            [payload.resourceId]: {
-              ...payload.resource
-            }
-          },
-          lastUpdateAt: payload.lastUpdateAt,
+          story: {
+            ...state.story,
+            resources: {
+              ...state.story.resources,
+              [payload.resourceId]: {
+                ...payload.resource
+              }
+            },
+            lastUpdateAt: payload.lastUpdateAt,
+          }
       };
     case `${DELETE_RESOURCE}`:
     case `${DELETE_RESOURCE}_BROADCAST`:
       return {
           ...state,
-          resources: Object.keys(state.resources)
-            .reduce((thatResult, thatResourceId) => {
-              if (thatResourceId === payload.resourceId) {
-                return thatResult;
-              }
-              else return {
-                ...thatResult,
-                [thatResourceId]: state.resources[thatResourceId]
-              };
-            }, {}),
-          lastUpdateAt: payload.lastUpdateAt,
+          story: {
+            ...state.story,
+            resources: Object.keys(state.story.resources)
+              .reduce((thatResult, thatResourceId) => {
+                if (thatResourceId === payload.resourceId) {
+                  return thatResult;
+                }
+                else return {
+                  ...thatResult,
+                  [thatResourceId]: state.story.resources[thatResourceId]
+                };
+              }, {}),
+            lastUpdateAt: payload.lastUpdateAt,
+          }
       };
 
     default:
@@ -254,13 +284,14 @@ export default combineReducers({
   story
 });
 
+
 /**
  * ===================================================
  * SELECTORS
  * ===================================================
  */
 
-const editedStory = state => state.story;
+const editedStory = state => state.story.story;
 
 /**
  * The selector is a set of functions for accessing this feature's state

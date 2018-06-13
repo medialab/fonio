@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-6-12\n"
-"PO-Revision-Date: Tue Jun 12 2018 18:43:34 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-6-13\n"
+"PO-Revision-Date: Wed Jun 13 2018 14:55:00 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1516,6 +1516,9 @@ msgstr "Explanation about the section title"
 
 msgid "Components.TitleForm.Save title"
 msgstr "Save title"
+
+msgid "Components.LoadingScreen.loading..."
+msgstr ""
 
 msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr ""

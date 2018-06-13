@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 
+
 import * as duck from '../duck';
 import * as userInfoDuck from '../../UserInfoManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
@@ -33,7 +34,6 @@ class EditionUiWrapperContainer extends Component {
   constructor(props) {
     super(props);
   }
-
   getNavLocation = path => {
     switch (path) {
       case '/story/:storyId/library':

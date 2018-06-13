@@ -3,8 +3,9 @@
  * in production mode (standard + minify)
  */
 var webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const {urlPrefix} = require('./secrets.json')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const config = require('config');
+const urlPrefix = config.get('urlPrefix');
 
 var sharedConfig = require('./webpack.config.shared');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;

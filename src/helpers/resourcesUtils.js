@@ -5,8 +5,7 @@
 
 import {get} from 'axios';
 
-import {serverUrl} from '../../secrets';
-
+const {serverUrl} = CONFIG;/* eslint no-undef : 0 */
 
 /**
  * Returns from server a list of all csl citation styles available in a light form
