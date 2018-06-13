@@ -4,8 +4,7 @@ import {post} from 'axios';
 
 import {updateEditionHistoryMap} from '../../helpers/localStorageUtils';
 
-import {ACTIVATE_STORY} from '../StoryManager/duck';
-// import { CREATE_SECTION, DELETE_SECTION } from '../SectionsManager/duck';
+import {ACTIVATE_STORY, DELETE_SECTION, DELETE_RESOURCE} from '../StoryManager/duck';
 
 const SET_SOCKET_ID = 'SET_SOCKET_ID';
 export const ENTER_STORY = 'ENTER_STORY';
@@ -256,8 +255,6 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
       };
     case LEAVE_BLOCK:
     case `${LEAVE_BLOCK}_BROADCAST`:
-    // case DELETE_SECTION:
-    // case `${DELETE_SECTION}_BROADCAST`:
       locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
       return {
         ...state,
@@ -288,7 +285,7 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
 }
 
 const FAIL_DEFAULT_STATE = {
-  lastEnterFail: undefined,
+  lastLockFail: undefined,
 };
 const fails = (state = FAIL_DEFAULT_STATE, action) => {
   const {payload} = action;
@@ -299,7 +296,28 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
     case `${ENTER_BLOCK}_FAIL`:
       return {
         ...state,
-        lastEnterFail: payload,
+        lastLockFail: {
+          ...payload,
+          mode: 'enter',
+        },
+      };
+    case `${DELETE_RESOURCE}_FAIL`:
+      return {
+        ...state,
+        lastLockFail: {
+          ...payload,
+          mode: 'delete',
+          location: 'resources'
+        },
+      };
+    case `${DELETE_SECTION}_FAIL`:
+      return {
+        ...state,
+        lastLockFail: {
+          ...payload,
+          mode: 'delete',
+          location: 'sections'
+        },
       };
     default:
       return state;
@@ -316,12 +334,12 @@ const userId = state => state.users.userId;
 const activeUsers = state => state.users.users;
 const usersNumber = state => state.users.count;
 const lockingMap = state => state.locking;
-const lastEnterFail = state => state.fails.lastEnterFail;
+const lastLockFail = state => state.fails.lastLockFail;
 
 export const selector = createStructuredSelector({
   userId,
   usersNumber,
   lockingMap,
   activeUsers,
-  lastEnterFail,
+  lastLockFail,
 });

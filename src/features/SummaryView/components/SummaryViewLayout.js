@@ -192,13 +192,13 @@ const SummaryViewLayout = ({
   const actuallyDeleteSection = thatSectionId => {
     // make sure that section is not edited by another user to prevent bugs and inconsistencies
     // (in UI delete button should be disabled when section is edited, this is a supplementary safety check)
-    if (!reverseSectionLockMap[thatSectionId]) {
-      deleteSection({
-        sectionId: thatSectionId,
-        storyId,
-        userId,
-      });
-    }
+    deleteSection({
+      sectionId: thatSectionId,
+      storyId,
+      userId,
+      blockId: thatSectionId,
+      location: 'sections'
+    });
   };
 
   const onDeleteSectionConfirm = () => {
@@ -356,7 +356,6 @@ const SummaryViewLayout = ({
 
       {
           promptedToDeleteSectionId &&
-          !reverseSectionLockMap[promptedToDeleteSectionId] &&
           <ModalCard
             isActive
             headerContent={translate('Delete a section')}
@@ -376,6 +375,7 @@ const SummaryViewLayout = ({
                 isFullWidth
                 key={0}
                 onClick={onDeleteSectionConfirm}
+                isDisabled={reverseSectionLockMap[promptedToDeleteSectionId]}
                 isColor="success">{translate('Delete the section')}</Button>,
               <Button
                 onClick={() => setPromptedToDeleteSectionId(undefined)} isFullWidth key={1}

@@ -120,6 +120,8 @@ const SectionViewLayout = ({
         sectionId: thatSectionId,
         storyId,
         userId,
+        blockId: thatSectionId,
+        location: 'sections',
       });
     }
   };
