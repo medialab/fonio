@@ -55,9 +55,10 @@ export const leaveStory = payload => ({
   },
 });
 
-export const enterBlock = payload => ({
+export const enterBlock = (payload, callback) => ({
   type: ENTER_BLOCK,
   payload,
+  callback,
   meta: {
     remote: true,
     broadcast: true,
