@@ -35,6 +35,7 @@ import {createDefaultSection} from '../../../helpers/schemaUtils';
 import {
   getReverseSectionsLockMap,
   getStoryActiveAuthors,
+  checkIfUserHasLockOnMetadata,
 } from '../../../helpers/lockUtils';
 
 const SummaryViewLayout = ({
@@ -42,8 +43,6 @@ const SummaryViewLayout = ({
   lockingMap = {},
   activeUsers,
   userId,
-
-  metadataOpen,
   newSectionOpen,
   promptedToDeleteSectionId,
 
@@ -78,6 +77,7 @@ const SummaryViewLayout = ({
 
   const sectionsList = sectionsOrder.filter(sectionId => sections[sectionId]).map(sectionId => sections[sectionId]);
   const reverseSectionLockMap = getReverseSectionsLockMap(lockingMap, activeUsers, storyId);
+  const metadataOpen = checkIfUserHasLockOnMetadata(lockingMap, userId, storyId);
   const activeAuthors = getStoryActiveAuthors(lockingMap, activeUsers, storyId);
 
   const buildAuthorMessage = author => {

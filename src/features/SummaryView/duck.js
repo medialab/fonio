@@ -19,7 +19,6 @@ import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 /**
  * ui
  */
-const SET_METADATA_OPEN = 'SET_METADATA_OPEN';
 const SET_NEW_SECTION_OPEN = 'SET_NEW_SECTION_OPEN';
 
 /**
@@ -34,11 +33,6 @@ const SET_STORY_METADATA = 'SET_STORY_METADATA';
  * ACTION CREATORS
  * ===================================================
  */
-export const setMetadataOpen = payload => ({
-  type: SET_METADATA_OPEN,
-  payload
-});
-
 
 export const setStoryMetadata = payload => ({
   type: SET_STORY_METADATA,
@@ -60,10 +54,6 @@ export const setNewSectionOpen = payload => ({
  */
 const UI_DEFAULT_STATE = {
   /**
-   * Tab of the main view
-   */
-  metadataOpen: false,
-  /**
    * Whether new section dialog is open
    */
   newSectionOpen: false,
@@ -80,7 +70,6 @@ function ui(state = UI_DEFAULT_STATE, action) {
   switch (action.type) {
     case LEAVE_STORY:
       return UI_DEFAULT_STATE;
-    case SET_METADATA_OPEN:
     case SET_NEW_SECTION_OPEN:
       const propName = getStatePropFromActionSet(action.type);
       return {
@@ -120,7 +109,6 @@ export default combineReducers({
  * ===================================================
  */
 
-const metadataOpen = state => state.ui.metadataOpen;
 const newSectionOpen = state => state.ui.newSectionOpen;
 
 /**
@@ -128,6 +116,5 @@ const newSectionOpen = state => state.ui.newSectionOpen;
  * @type {object}
  */
 export const selector = createStructuredSelector({
-  metadataOpen,
   newSectionOpen,
 });
