@@ -4,7 +4,9 @@ export default (socket) => {
     socket.on(eventName, store.dispatch);
     return next => (action) => {
       if (action.meta && action.meta.remote) {
-        socket.emit(eventName, action);
+        if (action.callback && typeof action.callback === 'function')
+          socket.emit(eventName, action, action.callback);
+        else socket.emit(eventName, action);
       }
       return next(action);
     };

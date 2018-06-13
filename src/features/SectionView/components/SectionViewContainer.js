@@ -79,15 +79,6 @@ class SectionViewContainer extends Component {
       this.unlockOnSection(this.props);
       this.requireLockOnSection(nextProps);
     }
-    /**
-     * If section lock is failed/refused,
-     * this means another client is editing the section
-     * -> for now the UI behaviour is to get back client to the summary view
-     */
-     if (nextProps.viewLockState === 'fail') {
-      nextProps.actions.setViewLockState(undefined);
-      nextProps.history.push(`/story/${nextStoryId}/`);
-     }
   }
 
   componentWillUnmount = () => {
@@ -127,6 +118,21 @@ class SectionViewContainer extends Component {
       storyId,
       userId,
       location: 'sections',
+    }, (err) => {
+      if (err) {
+        /**
+         * ENTER_BLOCK_FAIL
+         * If section lock is failed/refused,
+         * this means another client is editing the section
+         * -> for now the UI behaviour is to get back client to the summary view
+         */
+        this.props.actions.setViewLockState(undefined);
+        this.props.history.push(`/story/${storyId}/`);
+      }
+      else {
+        // ENTER_BLOCK_SUCCESS
+        this.goToSection(sectionId);
+      }
     });
   }
 

@@ -61,7 +61,7 @@ export const activateStory = payload => ({
 /**
  * Template for all story change related actions
  */
-export const updateStory = (TYPE, payload) => {
+export const updateStory = (TYPE, payload, callback) => {
   updateEditionHistoryMap(payload.storyId);
   return {
     type: TYPE,
@@ -69,6 +69,7 @@ export const updateStory = (TYPE, payload) => {
       ...payload,
       lastUpdateAt: new Date().getTime(),
     },
+    callback,
     meta: {
       remote: true,
       broadcast: true,
@@ -85,10 +86,10 @@ export const updateStorySettings = payload => updateStory(UPDATE_STORY_SETTINGS,
 export const updateSectionsOrder = payload => updateStory(UPDATE_SECTIONS_ORDER, payload);
 export const createSection = payload => updateStory(CREATE_SECTION, payload);
 export const updateSection = payload => updateStory(UPDATE_SECTION, payload);
-export const deleteSection = payload => updateStory(DELETE_SECTION, payload);
+export const deleteSection = (payload, callback) => updateStory(DELETE_SECTION, payload, callback);
 export const createResource = payload => updateStory(CREATE_RESOURCE, payload);
 export const updateResource = payload => updateStory(UPDATE_RESOURCE, payload);
-export const deleteResource = payload => updateStory(DELETE_RESOURCE, payload);
+export const deleteResource = (payload, callback) => updateStory(DELETE_RESOURCE, payload, callback);
 
 /**
  * ===================================================
