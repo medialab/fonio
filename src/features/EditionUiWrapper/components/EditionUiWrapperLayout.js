@@ -23,6 +23,7 @@ const EditionUiWrapperLayout = ({
   userInfoModalOpen,
   exportModalOpen,
   editedStory = {},
+  sectionId,
   navLocation,
   navbarOpen,
   actions: {
@@ -34,6 +35,7 @@ const EditionUiWrapperLayout = ({
     toggleNavbarOpen,
   },
   children,
+  activeSectionTitle,
 }, {
   t
 }) => {
@@ -61,20 +63,21 @@ const EditionUiWrapperLayout = ({
     <div>
       <Navbar
         brandImage={icons.fonioBrand.svg}
+        brandUrl={'/'}
         isOpen={navbarOpen === true}
         onToggle={toggleNavbarOpen}
         isFixed
 
         locationBreadCrumbs={[
-            {
-              href: '/',
-              content: CONFIG.sessionName /* eslint no-undef:0 */,
-            },
+            // {
+            //   href: '/',
+            //   content: CONFIG.sessionName /* eslint no-undef:0 */,
+            // },
             {
               href: `/story/${storyId}`,
               content: computeTitle()
               || translate('Unnamed story'),
-              isActive: true
+              isActive: navLocation === 'summary'
             },
           ]}
 
@@ -82,7 +85,7 @@ const EditionUiWrapperLayout = ({
             {
               href: `/story/${storyId}`,
               isActive: navLocation === 'summary',
-              content: translate('Summary'),
+              content: `${translate('Summary')}`,
               // subItems: [
               //   {
               //     href: '/',
@@ -102,6 +105,13 @@ const EditionUiWrapperLayout = ({
               //   }
               // ]
             },
+            navLocation === 'editor' ?
+            {
+              isActive: true,
+              content: `/ ${activeSectionTitle.length > 10 ? activeSectionTitle.substr(0, 10) + '...' : activeSectionTitle}`,
+              href: `/story/${storyId}/section/${sectionId}`,
+            }
+            : undefined,
             {
               href: `/story/${storyId}/library`,
               isActive: navLocation === 'library',
@@ -117,7 +127,7 @@ const EditionUiWrapperLayout = ({
               // lockStatus: 'locked',
               // statusMessage: 'Edited by fred'
             }
-          ]}
+          ].filter(d => d)}
         actionOptions={[{
             content: <Button onClick={() => setExportModalOpen(true)} className="button">{translate('Export')}</Button>
           },

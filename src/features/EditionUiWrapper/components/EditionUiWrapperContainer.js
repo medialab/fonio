@@ -40,7 +40,8 @@ class EditionUiWrapperContainer extends Component {
         return 'library';
       case '/story/:storyId/design':
         return 'design';
-
+      case '/story/:storyId/section/:sectionId':
+        return 'editor';
       case '/story/:storyId/summary':
       case '/story/:storyId':
         return 'summary';
@@ -49,12 +50,19 @@ class EditionUiWrapperContainer extends Component {
     }
   }
 
+  getActiveSectionTitle = (story, sectionId) => story.sections[sectionId].metadata.title;
 
   render() {
     const navLocation = this.getNavLocation(this.props.match.path);
+    let activeSectionTitle;
+    if (this.props.match.params.sectionId && this.props.editedStory) {
+      activeSectionTitle = this.getActiveSectionTitle(this.props.editedStory, this.props.match.params.sectionId);
+    }
     return (
       <EditionUiWrapperLayout
         {...this.props}
+        activeSectionTitle={activeSectionTitle}
+        sectionId={this.props.match.params.sectionId}
         navLocation={navLocation} />
     );
   }

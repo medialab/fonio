@@ -9,6 +9,8 @@ import * as editedStoryDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
 
+import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
+
 @connect(
   state => ({
     ...duck.selector(state.summary),
@@ -69,11 +71,14 @@ class SummaryViewContainer extends Component {
   }
 
   render() {
-    return this.props.editedStory
-      && this.props.editedStory.metadata ?
-          (<SummaryViewLayout
-            {...this.props}
-            goToSection={this.goToSection} />)
+    return this.props.editedStory ?
+          (
+            <EditionUiWrapper>
+              <SummaryViewLayout
+                {...this.props}
+                goToSection={this.goToSection} />
+            </EditionUiWrapper>
+          )
           : null;
   }
 }

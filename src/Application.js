@@ -28,7 +28,6 @@ import Home from './features/HomeView/components/HomeViewContainer';
 import Summary from './features/SummaryView/components/SummaryViewContainer';
 import Section from './features/SectionView/components/SectionViewContainer';
 import AuthWrapper from './features/AuthManager/components/AuthManagerContainer';
-import EditionUiWrapper from './features/EditionUiWrapper/components/EditionUiWrapperContainer';
 import ToasterContainer from './features/ConnectionsManager/components/ToasterContainer';
 
 
@@ -41,15 +40,12 @@ import 'quinoa-design-library/themes/millet/style.css';
 import './Application.scss';
 
 const ProtectedRoutes = ({match}) => {
-
   return (
     <AuthWrapper>
-      <EditionUiWrapper>
-        <ToasterContainer>
-          <Route exact path={match.path} component={Summary} />
-          <Route exact path={`${match.path}/section/:sectionId`} component={Section} />
-        </ToasterContainer>
-      </EditionUiWrapper>
+      <ToasterContainer>
+        <Route exact path={match.path} component={Summary} />
+        <Route exact path={`${match.path}/section/:sectionId`} component={Section} />
+      </ToasterContainer>
     </AuthWrapper>
   );
 };

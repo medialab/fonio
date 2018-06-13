@@ -15,6 +15,8 @@ import * as sectionsManagementDuck from '../../SectionsManager/duck';
 
 import SectionViewLayout from './SectionViewLayout';
 
+import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
+
 @connect(
   state => ({
     ...duck.selector(state.section),
@@ -153,10 +155,12 @@ class SectionViewContainer extends Component {
       const section = editedStory.sections[sectionId];
       if (section) {
         return (
-          <SectionViewLayout
-            section={section}
-            story={this.props.editedStory}
-            {...this.props} />
+          <EditionUiWrapper>
+            <SectionViewLayout
+              section={section}
+              story={this.props.editedStory}
+              {...this.props} />
+          </EditionUiWrapper>
         );
       }
       else return <div>Section does not exist</div>;
