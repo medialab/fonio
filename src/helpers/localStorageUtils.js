@@ -26,15 +26,29 @@ export const updateEditionHistoryMap = storyId => {
   localStorage.setItem('fonio/editionStoryMap', JSON.stringify(newMap));
 };
 
-export const getEditionHistoryMap = () => {
-  const existing = localStorage.getItem('fonio/editionStoryMap');
+const getJSONFromStorage = (key) => {
+  const existing = localStorage.getItem(key);
+  let result;
   try {
     if (existing) {
-      return JSON.parse(existing);
+      result = JSON.parse(existing);
     }
- else return {};
   }
- catch (e) {
-    return {};
+  catch (e) {
+    result = undefined;
   }
+  return result;
+};
+
+export const getEditionHistoryMap = () => {
+  return getJSONFromStorage('fonio/editionStoryMap');
+};
+
+
+export const saveUserInfo = userInfo => {
+  localStorage.setItem('fonio/user_info', JSON.stringify(userInfo));
+};
+
+export const loadUserInfo = () => {
+  return getJSONFromStorage('fonio/user_info');
 };

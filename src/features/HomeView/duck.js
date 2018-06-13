@@ -15,6 +15,7 @@ import {createDefaultStory, validateStory} from '../../helpers/schemaUtils';
 import {saveStoryToken} from '../../helpers/localStorageUtils';
 import {getFileAsText} from '../../helpers/fileLoader';
 import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
+import {loadUserInfo} from '../../helpers/localStorageUtils';
 
 /**
  * ===================================================
@@ -46,6 +47,7 @@ const IMPORT_STORY = 'IMPORT_STORY';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 
 import {SET_USER_INFO} from '../UserInfoManager/duck';
+
 /**
  * data
  */
@@ -418,7 +420,7 @@ function data(state = DATA_DEFAULT_STATE, action) {
       if (payload === false) {
         return {
           ...state,
-          userInfoTemp: JSON.parse(localStorage.getItem('fonio/user_info'))
+          userInfoTemp: loadUserInfo()
         };
       }
       return state;

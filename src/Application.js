@@ -11,6 +11,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import {loadUserInfo} from './helpers/localStorageUtils';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -88,22 +90,17 @@ export default class Application extends Component {
   componentWillReceiveProps = nextProps => {
     if (this.props.userId !== nextProps.userId && nextProps.userId) {
       const userId = nextProps.userId;
-      const userInfo = localStorage.getItem('fonio_user_info');
-      let userInfoOk;
-      if (userInfo) {
-        try {
-          userInfoOk = JSON.parse(userInfo);
-        }
-        catch (e) {
-          userInfoOk = generateRandomUserInfo(this.props.lang);
-        }
+      const inheritedUserInfo = loadUserInfo();
+      let userInfo;
+      if (inheritedUserInfo) {
+        userInfo = inheritedUserInfo;
       }
       else {
-        userInfoOk = generateRandomUserInfo(this.props.lang);
+        userInfo = generateRandomUserInfo(this.props.lang);
       }
-      userInfoOk.userId = userId;
-      this.props.actions.setUserInfo(userInfoOk);
-      this.props.actions.createUser(userInfoOk);
+      userInfo.userId = userId;
+      this.props.actions.setUserInfo(userInfo);
+      this.props.actions.createUser(userInfo);
     }
   }
 
