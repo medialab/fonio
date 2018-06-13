@@ -40,7 +40,7 @@ class SectionViewContainer extends Component {
 
   componentDidMount = () => {
     // require lock if edited story is here
-    if (this.props.editedStory && this.props.editedStory.sections) {
+    if (this.props.editedStory) {
       this.requireLockOnSection(this.props);
     }
   }
@@ -69,7 +69,7 @@ class SectionViewContainer extends Component {
     /**
      * @todo skip this conditional with another strategy relying on components architecture
      */
-    if (!this.props.editedStory.sections && nextProps.editedStory.sections) {
+    if (!this.props.editedStory && nextProps.editedStory) {
       this.requireLockOnSection(this.props);
     }
 
@@ -149,7 +149,7 @@ class SectionViewContainer extends Component {
         },
       }
     } = this;
-    if (editedStory && editedStory.sections) {
+    if (editedStory) {
       const section = editedStory.sections[sectionId];
       if (section) {
         return (

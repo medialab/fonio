@@ -8,7 +8,9 @@ import reducer, {UPDATE_SECTIONS_ORDER} from './duck';
 
 const mockState = {
   story: {
-    sectionsOrder: ['a', 'b', 'c', 'd']
+    story: {
+      sectionsOrder: ['a', 'b', 'c', 'd']
+    }
   }
 };
 
@@ -28,7 +30,7 @@ describe('StoryManager duck', () => {
         }
       };
       const result = reducer(mockState, action);
-      expect(result.story.sectionsOrder).eql(providedSectionsOrder);
+      expect(result.story.story.sectionsOrder).eql(providedSectionsOrder);
       done();
     });
     it('should successfully update sections order after a section was deleted', (done) => {
@@ -41,7 +43,7 @@ describe('StoryManager duck', () => {
         }
       };
       const result = reducer(mockState, action);
-      expect(result.story.sectionsOrder).eql(expectedSectionsOrder);
+      expect(result.story.story.sectionsOrder).eql(expectedSectionsOrder);
       done();
     });
     it('should successfully update sections order after a section was added', (done) => {
@@ -54,7 +56,7 @@ describe('StoryManager duck', () => {
         }
       };
       const result = reducer(mockState, action);
-      expect(result.story.sectionsOrder).eql(expectedSectionsOrder);
+      expect(result.story.story.sectionsOrder).eql(expectedSectionsOrder);
       done();
     });
 
