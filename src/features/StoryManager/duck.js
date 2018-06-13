@@ -142,7 +142,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
       // --> we filter the new order with only existing sections
       if (newSectionsOrder.length > oldSectionsOrder.length) {
           resolvedSectionsOrder = newSectionsOrder.filter(
-            newSectionId => oldSectionsOlder.indexOf(newSectionId) > -1
+            newSectionId => oldSectionsOrder.indexOf(newSectionId) > -1
           );
       // new order is smaller than older order
       // (probably because a user created a section in the meantime)
