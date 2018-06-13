@@ -10,7 +10,7 @@ const mockState = {
   story: {
     sectionsOrder: ['a', 'b', 'c', 'd']
   }
-}
+};
 
 describe('StoryManager duck', () => {
   describe('UPDATE_SECTIONS_ORDER action', () => {
@@ -26,7 +26,7 @@ describe('StoryManager duck', () => {
         payload: {
           sectionsOrder: providedSectionsOrder
         }
-      }
+      };
       const result = reducer(mockState, action);
       expect(result.story.sectionsOrder).eql(providedSectionsOrder);
       done();
@@ -39,7 +39,7 @@ describe('StoryManager duck', () => {
         payload: {
           sectionsOrder: providedSectionsOrder
         }
-      }
+      };
       const result = reducer(mockState, action);
       expect(result.story.sectionsOrder).eql(expectedSectionsOrder);
       done();
@@ -52,11 +52,11 @@ describe('StoryManager duck', () => {
         payload: {
           sectionsOrder: providedSectionsOrder
         }
-      }
+      };
       const result = reducer(mockState, action);
       expect(result.story.sectionsOrder).eql(expectedSectionsOrder);
       done();
     });
 
-  })
+  });
 });
