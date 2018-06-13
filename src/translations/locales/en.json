@@ -9,6 +9,7 @@
   "Components.IdentificationModal.Enter a nickname": "Enter a nickname",
   "Components.IdentificationModal.Submit new information": "Submit new information",
   "Components.IdentificationModal.Cancel": "Cancel",
+  "Components.LoadingScreen.loading...": "",
   "Components.MetadataForm.Story title is required": "Story title is required",
   "Components.MetadataForm.Password should be at least 6 characters": "Password should be at least 6 characters",
   "Components.MetadataForm.Story title": "Story title",

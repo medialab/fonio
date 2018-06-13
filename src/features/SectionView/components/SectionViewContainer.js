@@ -6,9 +6,6 @@ import {
   withRouter,
 } from 'react-router';
 
-import {
-  checkIfUserHasLockOnSection,
-} from '../../../helpers/lockUtils';
 
 import * as duck from '../duck';
 
@@ -17,8 +14,6 @@ import * as storyDuck from '../../StoryManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
 
 import SectionViewLayout from './SectionViewLayout';
-
-import LoadingScreen from '../../../components/LoadingScreen';
 
 @connect(
   state => ({
@@ -150,31 +145,19 @@ class SectionViewContainer extends Component {
         match: {
           params: {
             sectionId,
-            storyId,
           }
         },
-        lockingMap,
-        userId,
       }
     } = this;
     if (editedStory && editedStory.sections) {
       const section = editedStory.sections[sectionId];
       if (section) {
-        const hasLockOnSection = checkIfUserHasLockOnSection(lockingMap, userId, storyId, sectionId);
-        if (hasLockOnSection) {
-          return (
-            <SectionViewLayout
-              section={section}
-              story={this.props.editedStory}
-              {...this.props} />
-          );
-        }
-        /**
-         * @todo display a view in readonly mode instead of a loading screen
-         * to avoid flashing
-         */
-        else return <LoadingScreen />;
-
+        return (
+          <SectionViewLayout
+            section={section}
+            story={this.props.editedStory}
+            {...this.props} />
+        );
       }
       else return <div>Section does not exist</div>;
     }

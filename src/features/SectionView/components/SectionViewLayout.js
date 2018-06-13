@@ -16,10 +16,13 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultSection} from '../../../helpers/schemaUtils';
 import {
   getReverseSectionsLockMap,
+  checkIfUserHasLockOnSection,
 } from '../../../helpers/lockUtils';
 
 import AsideSectionColumn from './AsideSectionColumn';
 import MainSectionColumn from './MainSectionColumn';
+
+import LoadingScreen from '../../../components/LoadingScreen';
 
 
 const SectionViewLayout = ({
@@ -53,10 +56,11 @@ const SectionViewLayout = ({
 }) => {
   const translate = translateNameSpacer(t, 'Features.SectionView');
   const {id: storyId} = story;
-  // const {id: sectionId} = section;
+  const {id: sectionId} = section;
   const defaultSection = createDefaultSection();
 
   const reverseSectionLockMap = getReverseSectionsLockMap(lockingMap, activeUsers, storyId);
+  const hasLockOnSection = checkIfUserHasLockOnSection(lockingMap, userId, storyId, sectionId);
 
   const sectionsList = story.sectionsOrder
   .map(thatSectionId => {
@@ -161,17 +165,20 @@ const SectionViewLayout = ({
           onSortEnd={onSectionsSortEnd}
 
           onDeleteSection={onDeleteSection} />
-        <MainSectionColumn
-          mainColumnMode={mainColumnMode}
-          setMainColumnMode={setMainColumnMode}
-          section={section}
-          story={story}
-          userId={userId}
-          defaultSectionMetadata={defaultSection.metadata}
+        {hasLockOnSection ?
+          <MainSectionColumn
+            mainColumnMode={mainColumnMode}
+            setMainColumnMode={setMainColumnMode}
+            section={section}
+            story={story}
+            userId={userId}
+            defaultSectionMetadata={defaultSection.metadata}
 
-          onNewSectionSubmit={onNewSectionSubmit}
+            onNewSectionSubmit={onNewSectionSubmit}
 
-          updateSection={updateSection} />
+            updateSection={updateSection} />
+            : <LoadingScreen />
+        }
         {
           promptedToDeleteSectionId &&
           !reverseSectionLockMap[promptedToDeleteSectionId] &&
