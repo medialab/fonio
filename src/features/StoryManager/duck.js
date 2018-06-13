@@ -211,7 +211,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
             lastUpdateAt: payload.lastUpdateAt,
           }
       };
-    case `${DELETE_SECTION}`:
+    case `${DELETE_SECTION}_SUCCESS`:
     case `${DELETE_SECTION}_BROADCAST`:
       return {
           ...state,
