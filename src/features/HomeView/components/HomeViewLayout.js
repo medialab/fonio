@@ -335,7 +335,7 @@ class HomeViewLayout extends Component {
                                       break;
                                     case 'duplicate':
                                       setPasswordModalOpen(true);
-                                      duplicateStory(story);
+                                      duplicateStory({storyId: story.id});
                                       break;
                                     case 'delete':
                                       setStoryDeleteId(story.id);
