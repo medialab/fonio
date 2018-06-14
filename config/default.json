@@ -1,6 +1,6 @@
 {
-  "serverUrl": "http://10.1.234.107:3001",
-  "apiUrl": "http://10.1.234.107:3001/api",
+  "serverUrl": "http://localhost:3001",
+  "apiUrl": "http://localhost:3001/api",
   "youtubeAPIKey": "AIzaSyARZnXNhr9FhbE8j0igfs9KjjVxT29-F8A",
   "maxSectionLevel": 6,
   "sessionName": "Scube 2019",
