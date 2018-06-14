@@ -155,6 +155,8 @@
   "Features.SectionView.Summary": "Summary",
   "Features.SectionView.Edit section metadata": "Edit section metadata",
   "Features.SectionView.Save changes": "Save changes",
+  "Features.SectionView.Section content": "Section content",
+  "Features.SectionView.Explanation about the section title": "Explanation about the section title",
   "Features.SectionView.Url of the video": "Url of the video",
   "Features.SectionView.Explanation about the video url": "Explanation about the video url",
   "Features.SectionView.Video url": "Video url",

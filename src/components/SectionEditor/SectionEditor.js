@@ -601,7 +601,7 @@ class SectionEditor extends Component {
       assetRequestPosition,
       cancelAssetRequest,
       summonAsset,
-      style : componentStyle = {}
+      style: componentStyle = {}
     } = props;
 
     const {

@@ -200,8 +200,7 @@ const MainSectionColumn = ({
               <Level>
                 <TitleForm
                   onSubmit={onUpdateTitle}
-                  title={section.metadata.title} 
-                />
+                  title={section.metadata.title} />
               </Level>
               <Level>
                 <Control>
@@ -213,7 +212,7 @@ const MainSectionColumn = ({
                   </Label>
                 </Control>
               </Level>
-              <Level/>
+              <Level />
             </div>
             <SectionEditor
               style={{flex: 1}}
