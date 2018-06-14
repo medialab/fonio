@@ -164,7 +164,7 @@ class HomeViewLayout extends Component {
               return 1;
             case 'title':
             default:
-              if (a.metadata.title > b.metadata.title) {
+              if (a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim()) {
                 return 1;
               }
               return -1;
