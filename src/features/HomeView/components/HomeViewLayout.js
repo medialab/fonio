@@ -153,7 +153,7 @@ class HomeViewLayout extends Component {
         .sort((a, b) => {
           switch (sortingMode) {
             case 'edited recently':
-              if (a.metadata.lastUpdateAt > b.metadata.lastUpdateAt) {
+              if (a.lastUpdateAt > b.lastUpdateAt) {
                 return -1;
               }
               return 1;

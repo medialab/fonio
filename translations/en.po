@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-14\n"
-"PO-Revision-Date: Thu Jun 14 2018 11:26:31 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jun 14 2018 12:36:41 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1534,6 +1534,33 @@ msgstr "Section content"
 
 msgid "Features.SectionView.Explanation about the section title"
 msgstr "Explanation about the section title"
+
+msgid "Components.DeleteStoryModal.Enter password of the story"
+msgstr "Enter password of the story"
+
+msgid "Components.EnterPasswordModal.Override story"
+msgstr "Override story"
+
+msgid "Components.EnterPasswordModal.Enter password of the story"
+msgstr "Enter password of the story"
+
+msgid "Components.EnterPasswordModal.Story could not be overrided"
+msgstr "Story could not be overrided"
+
+msgid "Components.EnterPasswordModal.Override"
+msgstr "Override"
+
+msgid "Features.HomeView.Override story"
+msgstr "Override story"
+
+msgid "Features.HomeView.story is exist, do you want to override it?"
+msgstr "story is exist, do you want to override it?"
+
+msgid "Features.HomeView.Override exist story"
+msgstr "Override exist story"
+
+msgid "Features.HomeView.Create new story"
+msgstr "Create new story"
 
 msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr ""
