@@ -8,10 +8,12 @@ import {toastr} from 'react-redux-toastr';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import * as duck from '../duck';
+import * as storyDuck from '../../StoryManager/duck';
 
 @connect(
   state => ({
     ...duck.selector(state.connections),
+    ...storyDuck.selector(state.editedStory),
   }),
   dispatch => ({
     actions: bindActionCreators({
@@ -67,10 +69,19 @@ class ToasterContainer extends Component {
             break;
         }
       }
-      const lockedUser = nextProps.activeUsers[nextProps.lastLockFail.userId];
-      const message = translate('It is edited by {a}', {a: lockedUser && lockedUser.name});
 
-      toastr.error(title, message);
+      if (nextProps.editedStory) {
+        const lockedUsers = nextProps.lockingMap[nextProps.editedStory.id].locks;
+        const lockedUserId = Object.keys(lockedUsers).find(
+            thatUserId => lockedUsers[thatUserId].sections &&
+                          lockedUsers[thatUserId].sections.blockId === nextProps.lastLockFail.blockId
+          );
+        const lockedUser = lockedUserId && nextProps.activeUsers[lockedUserId];
+        if (lockedUser) {
+          const message = translate('It is edited by {a}', {a: lockedUser && lockedUser.name});
+          toastr.error(title, message);
+        }
+      }
     }
   }
 
