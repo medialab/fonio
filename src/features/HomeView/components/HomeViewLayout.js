@@ -219,9 +219,6 @@ class HomeViewLayout extends Component {
 
         const confirmImport = importMode => {
           setOverrideImport(false);
-          if (importMode === 'create') {
-            duplicateStory(newStory);
-          }
           setOverrideStoryMode(importMode);
           setPasswordModalOpen(true);
         };
@@ -399,8 +396,13 @@ class HomeViewLayout extends Component {
                                       });
                                       break;
                                     case 'duplicate':
-                                      setPasswordModalOpen(true);
-                                      duplicateStory({storyId: story.id});
+                                      duplicateStory({storyId : story.id})
+                                      .then((res) => {
+                                        if (res.result) {
+                                          setPasswordModalOpen(true);
+                                          setOverrideStoryMode('create');
+                                        }
+                                      });
                                       break;
                                     case 'delete':
                                       setStoryDeleteId(story.id);

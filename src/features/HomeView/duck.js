@@ -400,7 +400,6 @@ function data(state = DATA_DEFAULT_STATE, action) {
         ...state,
         [propName]: payload
       };
-
     case SET_NEW_STORY_OPEN:
       newStory = createDefaultStory();
       return {
@@ -416,17 +415,25 @@ function data(state = DATA_DEFAULT_STATE, action) {
         };
       }
       else return state;
+    case SET_OVERRIDE_STORY_MODE:
+      if (payload === 'create') {
+        return {
+          ...state,
+          newStory: {
+            ...state.newStory,
+            metadata: {
+              ...state.newStory.metadata,
+              title: `${state.newStory.metadata.title} - copy`
+            }
+          }
+        };
+      }
+      else return state;
     case `${DUPLICATE_STORY}_SUCCESS`:
       const {data: newData} = action.result;
       return {
         ...state,
-        newStory: {
-          ...newData,
-          metadata: {
-            ...newData.metadata,
-            title: `${newData.metadata.title} - copy`
-          }
-        }
+        newStory: newData
       };
     case `${IMPORT_STORY}_SUCCESS`:
       return {
@@ -451,7 +458,10 @@ function data(state = DATA_DEFAULT_STATE, action) {
     case `${CREATE_STORY}_BROADCAST`:
       return {
         ...state,
-        [payload.id]: payload,
+        stories: {
+          ...state.stories,
+          [story.id]: story
+        }
       };
     case `${DELETE_STORY}_SUCCESS`:
     case `${DELETE_STORY}_BROADCAST`:
