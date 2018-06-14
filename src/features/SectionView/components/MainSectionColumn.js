@@ -14,6 +14,9 @@ import {
   BigSelect,
   Column,
   Columns,
+  Control,
+  Label,
+  HelpPin,
   Delete,
   Level,
   Title,
@@ -192,11 +195,28 @@ const MainSectionColumn = ({
       case 'edit':
       default:
         return (
-          <div>
-            <TitleForm
-              onSubmit={onUpdateTitle}
-              title={section.metadata.title} />
+          <div style={{display: 'flex', flexFlow: 'column nowrap', height: '100%', justifyContent: 'stretch'}}>
+            <div style={{padding: '0 10rem 0 10rem'}}>
+              <Level>
+                <TitleForm
+                  onSubmit={onUpdateTitle}
+                  title={section.metadata.title} 
+                />
+              </Level>
+              <Level>
+                <Control>
+                  <Label>
+                    {translate('Section content')}
+                    <HelpPin place="right">
+                      {translate('Explanation about the section title')}
+                    </HelpPin>
+                  </Label>
+                </Control>
+              </Level>
+              <Level/>
+            </div>
             <SectionEditor
+              style={{flex: 1}}
               story={story}
               activeSection={section}
               sectionId={section.id}

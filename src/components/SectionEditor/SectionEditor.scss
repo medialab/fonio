@@ -8,6 +8,9 @@
 
 .fonio-SectionEditor
 {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: stretch;
     // @extend .flex-stretched-column;
     q
     {

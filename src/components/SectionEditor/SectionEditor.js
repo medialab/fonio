@@ -601,6 +601,7 @@ class SectionEditor extends Component {
       assetRequestPosition,
       cancelAssetRequest,
       summonAsset,
+      style : componentStyle = {}
     } = props;
 
     const {
@@ -779,7 +780,7 @@ class SectionEditor extends Component {
     ];
 
     return (
-      <div className="fonio-SectionEditor">
+      <div style={componentStyle} className="fonio-SectionEditor">
         <div className="editor-wrapper" onScroll={onScroll}>
           <ReferencesManager
             style={style}
