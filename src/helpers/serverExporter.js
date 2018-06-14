@@ -3,7 +3,7 @@
  * @module fonio/utils/serverExporter
  */
 import {get, put, post, delete as del} from 'axios';
-const {serverUrl} = CONFIG;/* eslint no-undef : 0 */
+const {apiUrl} = CONFIG;/* eslint no-undef : 0 */
 
 /**
  * @param {object} story
@@ -12,7 +12,7 @@ const {serverUrl} = CONFIG;/* eslint no-undef : 0 */
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function fetchStoriesServer () {
-  const serverRequestUrl = serverUrl + '/stories/';
+  const serverRequestUrl = apiUrl + '/stories/';
   return get(serverRequestUrl);
 }
 /**
@@ -21,7 +21,7 @@ export function fetchStoriesServer () {
  * @return {promise} actionPromise - a promise handling the attempt to get the story with metadata structure
  */
 export function getStoryServer (id) {
-  const serverRequestUrl = serverUrl + '/stories/' + id;
+  const serverRequestUrl = apiUrl + '/stories/' + id;
   return get(serverRequestUrl);
 }
 
@@ -31,7 +31,7 @@ export function getStoryServer (id) {
  * @return {promise} actionPromise - a promise handling the attempt to get all-in-one json story
  */
 export function getStoryBundleServer(id, format) {
-  const serverRequestUrl = serverUrl + '/stories/' + id + '?format=' + format;
+  const serverRequestUrl = apiUrl + '/stories/' + id + '?format=' + format;
   return get(serverRequestUrl);
 }
 /**
@@ -41,7 +41,7 @@ export function getStoryBundleServer(id, format) {
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function createStoryServer (story, password) {
-  const serverRequestUrl = serverUrl + '/stories/';
+  const serverRequestUrl = apiUrl + '/stories/';
   return post(serverRequestUrl, {story, password});
 }
 
@@ -52,7 +52,7 @@ export function createStoryServer (story, password) {
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function saveStoryServer (story, token) {
-  const serverRequestUrl = serverUrl + '/stories/' + story.id;
+  const serverRequestUrl = apiUrl + '/stories/' + story.id;
   const options = {
     headers: {
       'x-access-token': token
@@ -68,7 +68,7 @@ export function saveStoryServer (story, token) {
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function publishStoryBundleServer (id) {
-  const serverRequestUrl = serverUrl + '/stories/' + id + '?format=bundle';
+  const serverRequestUrl = apiUrl + '/stories/' + id + '?format=bundle';
   return get(serverRequestUrl);
 }
 
@@ -79,7 +79,7 @@ export function publishStoryBundleServer (id) {
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function deleteStoryServer (id, token) {
-  const serverRequestUrl = serverUrl + '/stories/' + id;
+  const serverRequestUrl = apiUrl + '/stories/' + id;
   const options = {
     headers: {
       'x-access-token': token
@@ -96,7 +96,7 @@ export function deleteStoryServer (id, token) {
  * @return {promise} actionPromise - a promise handling the attempt to publish to server
  */
 export function uploadResourceServer (storyId, id, resource, token) {
-  const serverRequestUrl = serverUrl + '/resources/' + storyId + '/' + id;
+  const serverRequestUrl = apiUrl + '/resources/' + storyId + '/' + id;
   const options = {
     headers: {
       'x-access-token': token
@@ -118,7 +118,7 @@ export function deleteResourceServer (storyId, resource, token) {
     filename = resource.metadata.id + '.' + ext;
   }
   else filename = resource.metadata.id + '.json';
-  const serverRequestUrl = serverUrl + '/resources/' + storyId + '/' + filename;
+  const serverRequestUrl = apiUrl + '/resources/' + storyId + '/' + filename;
   const options = {
     headers: {
       'x-access-token': token

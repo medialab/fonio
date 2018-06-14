@@ -5,14 +5,14 @@
 
 import {get} from 'axios';
 
-const {serverUrl} = CONFIG;/* eslint no-undef : 0 */
+const {apiUrl} = CONFIG;/* eslint no-undef : 0 */
 
 /**
  * Returns from server a list of all csl citation styles available in a light form
  * @return {Promise} resolver - promise wrapping the request
  */
 export const getCitationStylesListFromServer = () => {
-  const endPoint = serverUrl + '/citation-styles/';
+  const endPoint = apiUrl + '/citation-styles/';
   return get(endPoint);
 };
 
@@ -21,7 +21,7 @@ export const getCitationStylesListFromServer = () => {
  * @return {Promise} resolver - promise wrapping the request
  */
 export const getCitationStyleFromServer = (styleId) => {
-  const endPoint = serverUrl + '/citation-styles/' + styleId;
+  const endPoint = apiUrl + '/citation-styles/' + styleId;
   return get(endPoint);
 };
 
@@ -30,7 +30,7 @@ export const getCitationStyleFromServer = (styleId) => {
  * @return {Promise} resolver - promise wrapping the request
  */
 export const getCitationLocalesListFromServer = () => {
-  const endPoint = serverUrl + '/citation-locales/';
+  const endPoint = apiUrl + '/citation-locales/';
   return get(endPoint);
 };
 
@@ -40,6 +40,6 @@ export const getCitationLocalesListFromServer = () => {
  * @return {Promise} resolver - promise wrapping the request
  */
 export const getCitationLocaleFromServer = (localeId) => {
-  const endPoint = serverUrl + '/citation-locales/' + localeId;
+  const endPoint = apiUrl + '/citation-locales/' + localeId;
   return get(endPoint);
 };

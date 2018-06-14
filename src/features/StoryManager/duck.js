@@ -48,7 +48,7 @@ export const activateStory = payload => ({
   payload,
   promise: () => {
     const {storyId, userId, token} = payload;
-    const serverRequestUrl = `${CONFIG.serverUrl}/stories/${storyId}?userId=${userId}&edit=true`;/* eslint no-undef : 0 */
+    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${storyId}?userId=${userId}&edit=true`;/* eslint no-undef : 0 */
     const options = {
       headers: {
         'x-access-token': token,

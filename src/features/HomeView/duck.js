@@ -123,7 +123,7 @@ export const setOverrideStoryMode = payload => ({
 export const fetchStories = () => ({
   type: FETCH_STORIES,
   promise: () => {
-    const serverRequestUrl = `${CONFIG.serverUrl}/stories/`;/* eslint no-undef: 0 */
+    const serverRequestUrl = `${CONFIG.apiUrl}/stories/`;/* eslint no-undef: 0 */
     return get(serverRequestUrl);
   },
 });
@@ -133,7 +133,7 @@ export const createStory = ({payload, password}) => ({
   type: CREATE_STORY,
   payload,
   promise: () => {
-    const serverRequestUrl = `${CONFIG.serverUrl}/stories/`;/* eslint no-undef: 0 */
+    const serverRequestUrl = `${CONFIG.apiUrl}/stories/`;/* eslint no-undef: 0 */
     return post(serverRequestUrl, {payload, password});
   },
 });
@@ -147,7 +147,7 @@ export const overrideStory = ({payload, token}) => ({
         'x-access-token': token,
       },
     };
-    const serverRequestUrl = `${CONFIG.serverUrl}/stories/${payload.id}`;/* eslint no-undef: 0 */
+    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${payload.id}`;/* eslint no-undef: 0 */
     return put(serverRequestUrl, payload, options);
   },
 });
@@ -184,7 +184,7 @@ export const duplicateStory = payload => ({
   payload,
   promise: () => {
     const {storyId} = payload;
-    const serverRequestUrl = `${CONFIG.serverUrl}/stories/${storyId}`;/* eslint no-undef : 0 */
+    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${storyId}`;/* eslint no-undef : 0 */
     return get(serverRequestUrl);
   },
 });
@@ -199,7 +199,7 @@ export const deleteStory = payload => ({
         'x-access-token': token,
       },
     };
-    const serverRequestUrl = `${CONFIG.serverUrl}/stories/${storyId}`;
+    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${storyId}`;
     return del(serverRequestUrl, options);
   },
 });
@@ -208,7 +208,7 @@ export const changePassword = payload => ({
   type: CHANGE_PASSWORD,
   payload,
   promise: () => {
-    const serverRequestUrl = `${CONFIG.serverUrl}` + '/auth/resetPassword/';
+    const serverRequestUrl = `${CONFIG.apiUrl}` + '/auth/resetPassword/';
     return post(serverRequestUrl, payload);
   }
 });

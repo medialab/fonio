@@ -18,7 +18,7 @@ import createSocketIoMiddleware from './socketIoMiddleware';
 /**
  * @todo: fetch that from config
  */
-const socket = io('http://localhost:3001');
+const socket = io(CONFIG.serverUrl);/* eslint no-undef : 0 */
 
 const socketIoMiddleware = createSocketIoMiddleware(socket);
 
