@@ -71,7 +71,7 @@ class AuthManagerContainer extends Component {
      * so we redirect client to the home
      */
     if (Object.keys(this.props.lockingMap).length > 0 && Object.keys(nextProps.lockingMap).length === 0) {
-      this.props.history.push(`/`);
+      this.props.history.push('/');
     }
   }
 
