@@ -493,7 +493,6 @@ class HomeViewLayout extends Component {
                                         accept="application/json"
                                         onDrop={onDropFiles}>
                                         {this.translate('Drop a fonio file')}
-                                        {overrideStoryMode}
                                       </DropZone>
                                       {importStoryStatus === 'fail' && <Help isColor="danger">{this.translate('Story is not valid')}</Help>}
                                       <ModalCard
