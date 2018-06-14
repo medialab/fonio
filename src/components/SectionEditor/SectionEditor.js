@@ -270,7 +270,7 @@ class SectionEditor extends Component {
       };
     // delete unused contextualizations
       updateContextualizationsFromEditor(this.props);
-      this.props.updateSection(this.props.story.id, this.props.activeSection.id, newSection);
+      this.props.updateSection(newSection);
 
       // update all raw contents
       const notesIds = Object.keys(prevSection.notes);
@@ -318,10 +318,6 @@ class SectionEditor extends Component {
     const {
       editorStates,
       activeSection,
-      story: {
-        id: activeStoryId
-      },
-
       updateSection,
       updateDraftEditorState,
       setEditorFocus,
@@ -334,7 +330,7 @@ class SectionEditor extends Component {
       // const notes = activeSection.notes;
       // delete notes[id];
       // update section
-      updateSection(activeStoryId, sectionId, {
+      updateSection({
         ...activeSection,
         contents: convertToRaw(newEditorState.getCurrentContent()),
         // notes
@@ -355,9 +351,6 @@ class SectionEditor extends Component {
   addNote = () => {
     const {
       editorStates,
-      story: {
-        id: activeStoryId
-      },
       activeSection,
     } = this.props;
 
@@ -409,7 +402,7 @@ class SectionEditor extends Component {
       [sectionId]: mainEditorState
     });
     // update contents
-    this.props.updateSection(activeStoryId, sectionId, newSection);
+    this.props.updateSection(newSection);
     // update editors
     this.props.updateDraftEditorsStates(newEditors);
     // update focus
@@ -526,7 +519,7 @@ class SectionEditor extends Component {
       };
     }
 
-    this.props.updateSection(storyId, sectionId, newSection);
+    this.props.updateSection(newSection);
     this.setState({
       citations: buildCitations(this.state.assets, this.props)
     });
@@ -598,7 +591,7 @@ class SectionEditor extends Component {
     const {
       story,
       activeSection,
-      updateSection,
+      // updateSection,
       editorStates,
       editorFocus,
       setEditorFocus,
@@ -684,20 +677,6 @@ class SectionEditor extends Component {
       updateSectionRawContentDebounced(editorId, activeStoryId, sectionId);
     };
 
-    const onActiveSectionTitleChange = e => {
-      const title = e.target.value;
-      e.stopPropagation();
-      e.preventDefault();
-      const newActiveSection = {
-        ...activeSection,
-        metadata: {
-          ...activeSection.metadata,
-          title
-        }
-      };
-      updateSection(activeStoryId, sectionId, newActiveSection);
-    };
-
     const onDrop = (contentId, payload, selection) => {
       if (payload && payload.indexOf('DRAFTJS_RESOURCE_ID:') > -1) {
         const id = payload.split('DRAFTJS_RESOURCE_ID:')[1];
@@ -760,9 +739,6 @@ class SectionEditor extends Component {
         this.editor.notes[focusedEditorId].editor.updateSelection();
       }
     };
-    const onTitleInputClick = e => {
-      e.stopPropagation();
-    };
 
     const onAssetRequestCancel = () => {
       cancelAssetRequest();
@@ -771,13 +747,6 @@ class SectionEditor extends Component {
         setEditorFocus(focusedEditorId);
       }, timers.short);
     };
-
-    const onSectionTitleClick = () => {
-      // because of editor's focus management,
-      // focus has to be forced
-      setTimeout(() => this.sectionTitle.focus());
-    };
-
 
     // define citation style and locales, falling back on defaults if needed
     const {style, locale} = getCitationModels(story);
@@ -811,17 +780,6 @@ class SectionEditor extends Component {
 
     return (
       <div className="fonio-SectionEditor">
-        <h1 className="editable-title" onClick={onTitleInputClick}>
-          <input
-            type="text"
-            ref={sectionTitle => {
-              this.sectionTitle = sectionTitle;
-              }}
-            onClick={onSectionTitleClick}
-            value={activeSection.metadata.title || ''}
-            onChange={onActiveSectionTitleChange}
-            placeholder={translate('section-title')} />
-        </h1>
         <div className="editor-wrapper" onScroll={onScroll}>
           <ReferencesManager
             style={style}

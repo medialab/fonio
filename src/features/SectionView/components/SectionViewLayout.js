@@ -36,6 +36,10 @@ const SectionViewLayout = ({
   userId,
   promptedToDeleteSectionId,
 
+  editorStates,
+  editorFocus,
+  assetRequestState,
+
   story,
   section,
   actions: {
@@ -50,8 +54,28 @@ const SectionViewLayout = ({
     createSection,
     deleteSection,
     updateSectionsOrder,
+    promptAssetEmbed,
+    unpromptAssetEmbed,
+    setEditorFocus,
+
+    createContextualization,
+    createContextualizer,
+    createResource,
+
+    updateDraftEditorState,
+    updateDraftEditorsStates,
+
+    updateContextualizer,
+    updateResource,
+    deleteContextualization,
+    deleteContextualizer,
+
+    setAssetRequestContentId,
+    startNewResourceConfiguration,
+    startExistingResourceConfiguration,
   },
   goToSection,
+  summonAsset
 }, {
   t
 }) => {
@@ -149,6 +173,18 @@ const SectionViewLayout = ({
     });
   };
 
+  const onUpdateSection = thatSection => {
+    if (thatSection) {
+      updateSection({
+        sectionId,
+        storyId,
+        userId,
+
+        section: thatSection,
+      });
+    }
+  };
+
   return (
     <div>
       <Columns isFullHeight>
@@ -178,10 +214,34 @@ const SectionViewLayout = ({
             story={story}
             userId={userId}
             defaultSectionMetadata={defaultSection.metadata}
+            editorStates={editorStates}
+            editorFocus={editorFocus}
+            assetRequestState={assetRequestState}
 
             onNewSectionSubmit={onNewSectionSubmit}
 
-            updateSection={updateSection} />
+            updateSection={onUpdateSection}
+
+            promptAssetEmbed={promptAssetEmbed}
+            unpromptAssetEmbed={unpromptAssetEmbed}
+            setEditorFocus={setEditorFocus}
+
+            createContextualization={createContextualization}
+            createContextualizer={createContextualizer}
+            createResource={createResource}
+
+            updateDraftEditorState={updateDraftEditorState}
+            updateDraftEditorsStates={updateDraftEditorsStates}
+
+            updateContextualizer={updateContextualizer}
+            updateResource={updateResource}
+            deleteContextualization={deleteContextualization}
+            deleteContextualizer={deleteContextualizer}
+
+            setAssetRequestContentId={setAssetRequestContentId}
+            startNewResourceConfiguration={startNewResourceConfiguration}
+            startExistingResourceConfiguration={startExistingResourceConfiguration}
+            summonAsset={summonAsset} />
             : <LoadingScreen />
         }
         {

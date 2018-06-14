@@ -6,6 +6,10 @@ import {
   withRouter,
 } from 'react-router';
 
+import {
+  summonAsset
+} from '../../../helpers/assetsUtils';
+
 
 import * as duck from '../duck';
 
@@ -144,6 +148,8 @@ class SectionViewContainer extends Component {
     this.props.history.push(`/story/${id}/section/${sectionId}`);
   }
 
+  onSummonAsset = (contentId, resourceId) => summonAsset(contentId, resourceId, this.props);
+
   render() {
     const {
       props: {
@@ -154,7 +160,8 @@ class SectionViewContainer extends Component {
           }
         },
       },
-      goToSection
+      goToSection,
+      onSummonAsset
     } = this;
     if (editedStory) {
       const section = editedStory.sections[sectionId];
@@ -165,6 +172,7 @@ class SectionViewContainer extends Component {
               section={section}
               goToSection={goToSection}
               story={this.props.editedStory}
+              summonAsset={onSummonAsset}
               {...this.props} />
           </EditionUiWrapper>
         );
