@@ -42,7 +42,7 @@ const DeleteStoryModal = ({
               mainContent={
                 <Field>
                   <Label>
-                    {translate('Enter your password')}
+                    {translate('Enter password of the story')}
                     <HelpPin place="right">
                       {translate('Explanation about the password')}
                     </HelpPin>

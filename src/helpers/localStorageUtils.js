@@ -6,6 +6,9 @@ export const loadStoryToken = storyId => {
 export const saveStoryToken = (storyId, token) => {
   localStorage.setItem(`fonio/storyToken/${storyId}`, token);
 };
+export const deleteStoryToken = (storyId) => {
+  localStorage.removeItem(`fonio/storyToken/${storyId}`);
+};
 
 export const updateEditionHistoryMap = storyId => {
   const existing = localStorage.getItem('fonio/editionStoryMap');

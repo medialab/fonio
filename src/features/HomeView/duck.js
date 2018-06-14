@@ -8,11 +8,10 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
-import {get, post, delete as del} from 'axios';
+import {get, post, put, delete as del} from 'axios';
 
 import {createDefaultStory, validateStory} from '../../helpers/schemaUtils';
 
-import {saveStoryToken} from '../../helpers/localStorageUtils';
 import {getFileAsText} from '../../helpers/fileLoader';
 import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 import {loadUserInfo} from '../../helpers/localStorageUtils';
@@ -37,9 +36,12 @@ const SET_EDITION_HISTORY = 'SET_EDITION_HISTORY';
 const SET_STORY_DELETE_ID = 'SET_STORY_DELETE_ID';
 const SET_CHANGE_PASSWORD_ID = 'SET_CHANGE_PASSWORD_ID';
 const SET_PASSWORD_MODAL_OPEN = 'SET_PASSWORD_MODAL_OPEN';
+const SET_OVERRIDE_IMPORT = 'SET_OVERRIDE_IMPORT';
+const SET_OVERRIDE_STORY_MODE = 'SET_OVERRIDE_STORY_MODE';
 
 const FETCH_STORIES = 'FETCH_STORIES';
 const CREATE_STORY = 'CREATE_STORY';
+const OVERRIDE_STORY = 'OVERRIDE_STORY';
 const DUPLICATE_STORY = 'DUPLICATE_STORY';
 const DELETE_STORY = 'DELETE_STORY';
 const IMPORT_STORY = 'IMPORT_STORY';
@@ -113,6 +115,11 @@ export const setPasswordModalOpen = payload => ({
   payload
 });
 
+export const setOverrideStoryMode = payload => ({
+  type: SET_OVERRIDE_STORY_MODE,
+  payload,
+});
+
 export const fetchStories = () => ({
   type: FETCH_STORIES,
   promise: () => {
@@ -131,6 +138,19 @@ export const createStory = ({payload, password}) => ({
   },
 });
 
+export const overrideStory = ({payload, token}) => ({
+  type: OVERRIDE_STORY,
+  payload,
+  promise: () => {
+    const options = {
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    const serverRequestUrl = `${CONFIG.serverUrl}/stories/${payload.id}`;/* eslint no-undef: 0 */
+    return put(serverRequestUrl, payload, options);
+  },
+});
 
 export const importStory = file => ({
   type: IMPORT_STORY,
@@ -147,6 +167,16 @@ export const importStory = file => ({
              })
              .catch(e => reject(e));
     }),
+});
+/**
+ * Displays an override warning when user tries to import
+ * a story that has the same id as an existing one
+ * @param {object} candidate - the data of the story waiting to be imported or not instead of existing one
+ * @return {object} action - the redux action to dispatch
+ */
+export const setOverrideImport = payload => ({
+  type: SET_OVERRIDE_IMPORT,
+  payload
 });
 
 export const duplicateStory = payload => ({
@@ -241,9 +271,21 @@ const UI_DEFAULT_STATE = {
    */
   createStoryStatus: undefined,
   /**
+   * status of the override story process (['processing', 'fail', 'success'])
+   */
+  overrideStoryStatus: undefined,
+  /**
    * status of the delete story process (['processing', 'fail', 'success'])
    */
   deleteStoryStatus: undefined,
+  /**
+   * message to show if imported story is exist
+   */
+  overrideImport: false,
+  /**
+   * mode of override story ['create', 'override']
+   */
+  overrideStoryMode: undefined,
 };
 
 /**
@@ -263,7 +305,8 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_PREVIEWED_STORY_ID:
     case SET_STORY_DELETE_ID:
     case SET_CHANGE_PASSWORD_ID:
-    case SET_PASSWORD_MODAL_OPEN:
+    case SET_OVERRIDE_IMPORT:
+    case SET_OVERRIDE_STORY_MODE:
       propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -271,26 +314,35 @@ function ui(state = UI_DEFAULT_STATE, action) {
       };
     case SET_NEW_STORY_OPEN:
     case SET_NEW_STORY_TAB_MODE:
+    case SET_PASSWORD_MODAL_OPEN:
       propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
         [propName]: payload,
         importStoryStatus: undefined,
-        createStoryStatus: undefined
+        createStoryStatus: undefined,
+        overrideStoryStatus: undefined,
+        overrideImport: false,
       };
     case `${CREATE_STORY}_SUCCESS`:
       return {
         ...state,
-        newStoryOpen: false
+        createStoryStatus: 'success'
       };
     case `${CREATE_STORY}_FAIL`:
       return {
         ...state,
         createStoryStatus: 'fail'
       };
+    case `${OVERRIDE_STORY}_FAIL`:
+      return {
+        ...state,
+        overrideStoryStatus: 'fail'
+      };
     case `${DELETE_STORY}_SUCCESS`:
       return {
         ...state,
+        deleteStoryStatus: 'success',
         storyDeleteId: undefined
       };
     case `${DELETE_STORY}_FAIL`:
@@ -302,11 +354,6 @@ function ui(state = UI_DEFAULT_STATE, action) {
       return {
         ...state,
         changePasswordId: undefined
-      };
-    case `${IMPORT_STORY}_SUCCESS`:
-      return {
-        ...state,
-        passwordModalOpen: true
       };
     case `${IMPORT_STORY}_FAIL`:
       return {
@@ -393,8 +440,7 @@ function data(state = DATA_DEFAULT_STATE, action) {
         stories: thatData
       };
     case `${CREATE_STORY}_SUCCESS`:
-      const {story, token} = action.result.data;
-      saveStoryToken(story.id, token);
+      const {story} = action.result.data;
       return {
         ...state,
         stories: {
@@ -409,7 +455,6 @@ function data(state = DATA_DEFAULT_STATE, action) {
       };
     case `${DELETE_STORY}_SUCCESS`:
     case `${DELETE_STORY}_BROADCAST`:
-      localStorage.removeItem(`fonio/storyToken/${payload.id}`);
       const newStories = {...state.stories};
       delete newStories[payload.id];
       return {
@@ -460,7 +505,10 @@ const changePasswordId = state => state.ui.changePasswordId;
 const passwordModalOpen = state => state.ui.passwordModalOpen;
 const importStoryStatus = state => state.ui.importStoryStatus;
 const createStoryStatus = state => state.ui.createStoryStatus;
+const overrideStoryStatus = state => state.ui.overrideStoryStatus;
 const deleteStoryStatus = state => state.ui.deleteStoryStatus;
+const overrideImport = state => state.ui.overrideImport;
+const overrideStoryMode = state => state.ui.overrideStoryMode;
 
 const newStory = state => state.data.newStory;
 const stories = state => state.data.stories;
@@ -483,8 +531,11 @@ export const selector = createStructuredSelector({
   changePasswordId,
   passwordModalOpen,
   createStoryStatus,
+  overrideStoryStatus,
   deleteStoryStatus,
   importStoryStatus,
+  overrideImport,
+  overrideStoryMode,
   userInfoTemp,
   editionHistory,
   stories

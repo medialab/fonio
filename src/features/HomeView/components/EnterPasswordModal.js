@@ -17,7 +17,9 @@ import {
 import {Form, Text} from 'react-form';
 
 const EnterPasswordModal = ({
+  mode,
   status,
+  loginStatus,
   onSubmitPassword,
   onCancel
 }, {
@@ -36,12 +38,12 @@ const EnterPasswordModal = ({
           <form onSubmit={formApi.submitForm} className="fonio-form">
             <ModalCard
               isActive
-              headerContent={translate('Create story')}
+              headerContent={mode === 'create' ? translate('Create story') : translate('Override story')}
               onClose={onCancel}
               mainContent={
                 <Field>
                   <Label>
-                    {translate('Create a story password')}
+                    {mode === 'create' ? translate('Create a story password') : translate('Enter password of the story')}
                     <HelpPin place="right">
                       {translate('Explanation about the password')}
                     </HelpPin>
@@ -58,14 +60,24 @@ const EnterPasswordModal = ({
                       <span className="fa fa-exclamation" aria-hidden="true" />
                     </Icon>
                   </Control>
-                  {status === 'processing' && <Help>{translate('Creating Story')}</Help>}
-                  {status === 'fail' && <Help isColor="danger">{translate('Story could not be created')}</Help>}
+                  {
+                    mode === 'override' && loginStatus === 'fail' &&
+                    <Help isColor="danger">{translate('Password is not valid')}</Help>
+                  }
+                  {status === 'fail' &&
+                    <Help isColor="danger">
+                      { mode === 'create' ?
+                        translate('Story could not be created') :
+                        translate('Story could not be overrided')
+                      }
+                    </Help>
+                  }
                 </Field>
             }
               footerContent={[
                 <Button
                   type="submit" isFullWidth key={0}
-                  isColor="danger">{translate('Create')}</Button>,
+                  isColor="danger">{mode === 'create' ? translate('Create') : translate('Override')}</Button>,
                 <Button isFullWidth key={2} onClick={onCancel} >
                   {translate('Cancel')}
                 </Button>
