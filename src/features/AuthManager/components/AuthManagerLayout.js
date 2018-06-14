@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 
 import {
   Button,
@@ -22,6 +21,7 @@ const AuthManagerLayout = ({
   storyLoginId,
   userId,
   loginStatus,
+  history,
   actions: {
     loginStory,
     activateStory,
@@ -49,6 +49,12 @@ const AuthManagerLayout = ({
     });
   };
 
+  const goBackHome = () => {
+    history.push({
+      pathname: '/'
+    });
+  };
+
   return storyLoginId ? (
     <Form onSubmit={loginSubmit}>
       {
@@ -56,6 +62,7 @@ const AuthManagerLayout = ({
           <form onSubmit={formApi.submitForm} id="login-form" className="fonio-form">
             <ModalCard
               isActive
+              onClose={goBackHome}
               headerContent={translate('Connect to a story')}
               mainContent={
                 <Field>
@@ -86,10 +93,8 @@ const AuthManagerLayout = ({
                   type="submit" isFullWidth key={0}
                   isColor="success">{translate('Enter')}</Button>,
                 <Button isFullWidth key={1} isColor="warning">{translate('Read')}</Button>,
-                <Button isFullWidth key={2} >
-                  <Link to="/">
-                    {translate('Back to home')}
-                  </Link>
+                <Button isFullWidth key={2} onClick={goBackHome}>
+                  {translate('Back to home')}
                 </Button>
             ]} />
           </form>
