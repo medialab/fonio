@@ -29,6 +29,7 @@ import {
   LevelItem,
   LevelLeft,
   LevelRight,
+  ModalCard,
   Navbar,
   Tab,
   Delete,
@@ -39,7 +40,7 @@ import {
 } from 'quinoa-design-library/components/';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
-import {saveStoryToken} from '../../../helpers/localStorageUtils';
+import {saveStoryToken, deleteStoryToken} from '../../../helpers/localStorageUtils';
 
 import LanguageToggler from '../../../components/LanguageToggler';
 import IdentificationModal from '../../../components/IdentificationModal';
@@ -112,8 +113,11 @@ class HomeViewLayout extends Component {
           changePasswordId,
           passwordModalOpen,
           createStoryStatus,
+          overrideStoryStatus,
           deleteStoryStatus,
           importStoryStatus,
+          overrideImport,
+          overrideStoryMode,
 
           loginStatus,
           changePasswordStatus,
@@ -121,6 +125,7 @@ class HomeViewLayout extends Component {
           history,
           actions: {
             createStory,
+            overrideStory,
             duplicateStory,
             deleteStory,
             loginStory,
@@ -134,6 +139,8 @@ class HomeViewLayout extends Component {
             setStoryDeleteId,
             setChangePasswordId,
             setPasswordModalOpen,
+            setOverrideImport,
+            setOverrideStoryMode,
           }
         } = this.props;
 
@@ -169,7 +176,10 @@ class HomeViewLayout extends Component {
           .then((res) => {
             if (res.result && res.result.data) {
               const {token} = res.result.data;
-              deleteStory({storyId: storyDeleteId, token});
+              deleteStory({storyId: storyDeleteId, token})
+              .then((resp) => {
+                if (resp.result) deleteStoryToken(storyDeleteId);
+              });
             }
           });
         };
@@ -188,14 +198,69 @@ class HomeViewLayout extends Component {
           if (!files || !files.length) {
             return;
           }
-          importStory(files[0]);
+          importStory(files[0])
+          .then((res) => {
+            const storyImported = res.result;
+            if (storyImported) {
+             // override an existing story (which has the same id)
+              const existant = storiesList.find(story => story.id === storyImported.id);
+              // has preexisting story, prompt for override
+              if (existant !== undefined) {
+                setOverrideImport(true);
+              }
+              else {
+                setOverrideImport(false);
+                setOverrideStoryMode('create');
+                setPasswordModalOpen(true);
+              }
+            }
+          });
+        };
+
+        const confirmImport = importMode => {
+          setOverrideImport(false);
+          if (importMode === 'create') {
+            duplicateStory(newStory);
+          }
+          setOverrideStoryMode(importMode);
+          setPasswordModalOpen(true);
+        };
+
+        const onCreateNewStory = payload => {
+          createStory(payload)
+          .then((res) => {
+            if (res.result) {
+              const {story, token} = res.result.data;
+              saveStoryToken(story.id, token);
+              setNewStoryOpen(false);
+            }
+          });
         };
 
         const OnCreateExistStory = (password) => {
-          createStory({payload: newStory, password})
+          createStory({
+            payload: newStory, password})
           .then((res) => {
             if (res.result) {
               setPasswordModalOpen(false);
+              setNewStoryOpen(false);
+            }
+          });
+        };
+
+        const OnOverrideExistStory = (password) => {
+          loginStory({storyId: newStory.id, password})
+          .then((res) => {
+            if (res.result && res.result.data) {
+              const {token} = res.result.data;
+              saveStoryToken(newStory.id, token);
+              overrideStory({payload: newStory, token})
+              .then((resp) => {
+                if (resp.result) {
+                  setPasswordModalOpen(false);
+                  setNewStoryOpen(false);
+                }
+              });
             }
           });
         };
@@ -420,7 +485,7 @@ class HomeViewLayout extends Component {
                                     <MetadataForm
                                       story={newStory}
                                       status={createStoryStatus}
-                                      onSubmit={createStory}
+                                      onSubmit={onCreateNewStory}
                                       onCancel={() => setNewStoryOpen(false)} />
                                     :
                                     <Column>
@@ -428,8 +493,33 @@ class HomeViewLayout extends Component {
                                         accept="application/json"
                                         onDrop={onDropFiles}>
                                         {this.translate('Drop a fonio file')}
+                                        {overrideStoryMode}
                                       </DropZone>
                                       {importStoryStatus === 'fail' && <Help isColor="danger">{this.translate('Story is not valid')}</Help>}
+                                      <ModalCard
+                                        isActive={overrideImport}
+                                        headerContent={this.translate('Override story')}
+                                        onClose={() => setOverrideImport(false)}
+                                        mainContent={
+                                          <Help isColor="danger">{this.translate('story is exist, do you want to override it?')}
+                                          </Help>}
+                                        footerContent={[
+                                          <Button
+                                            isFullWidth key={0}
+                                            onClick={() => confirmImport('override')}
+                                            isColor="danger">{this.translate('Override exist story')}
+                                          </Button>,
+                                          <Button
+                                            isFullWidth key={1}
+                                            onClick={() => confirmImport('create')}
+                                            isColor="warning">{this.translate('Create new story')}
+                                          </Button>,
+                                          <Button
+                                            isFullWidth key={2}
+                                            onClick={() => setOverrideImport(false)} >
+                                            {this.translate('Cancel')}
+                                          </Button>
+                                        ]} />
                                     </Column>
                                 }
                                 </Column>
@@ -438,10 +528,12 @@ class HomeViewLayout extends Component {
                         </Column>
                       : null
                     }
-              {passwordModalOpen &&
+              {passwordModalOpen && overrideStoryMode &&
                 <EnterPasswordModal
-                  status={createStoryStatus}
-                  onSubmitPassword={OnCreateExistStory}
+                  mode={overrideStoryMode}
+                  status={overrideStoryMode === 'create' ? createStoryStatus : overrideStoryStatus}
+                  loginStatus={loginStatus}
+                  onSubmitPassword={overrideStoryMode === 'create' ? OnCreateExistStory : OnOverrideExistStory}
                   onCancel={() => setPasswordModalOpen(false)} />
               }
             </Columns>
