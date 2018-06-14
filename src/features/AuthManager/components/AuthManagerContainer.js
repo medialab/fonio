@@ -64,6 +64,15 @@ class AuthManagerContainer extends Component {
       this.props.actions.leaveStory({prevStoryId, userId});
       this.activateStory(nextStoryId, userId);
     }
+
+    /**
+     * If locking map gets empty it is abnormal (e.g. server restarted)
+     * so the whole lock system is not working anymore
+     * so we redirect client to the home
+     */
+    if (Object.keys(this.props.lockingMap).length > 0 && Object.keys(nextProps.lockingMap).length === 0) {
+      this.props.history.push(`/`);
+    }
   }
 
   componentWillUnmount() {
