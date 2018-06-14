@@ -16,6 +16,7 @@ import AuthManagerLayout from './AuthManagerLayout';
   state => ({
     ...connectionsDuck.selector(state.connections),
     ...duck.selector(state.auth),
+    ...storyDuck.selector(state.editedStory),
   }),
   dispatch => ({
     actions: bindActionCreators({
@@ -96,11 +97,12 @@ class AuthManagerContainer extends Component {
     const {
       props: {
         children,
+        editedStory,
       },
     } = this;
     return (
       <div>
-        {children}
+        {editedStory && children}
         <AuthManagerLayout
           {...this.props}
           saveStoryToken={saveStoryToken} />

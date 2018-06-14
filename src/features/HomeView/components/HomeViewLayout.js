@@ -396,7 +396,7 @@ class HomeViewLayout extends Component {
                                       });
                                       break;
                                     case 'duplicate':
-                                      duplicateStory({storyId : story.id})
+                                      duplicateStory({storyId: story.id})
                                       .then((res) => {
                                         if (res.result) {
                                           setPasswordModalOpen(true);
