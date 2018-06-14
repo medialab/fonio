@@ -209,7 +209,7 @@ class ResourceSearchWidget extends Component {
         <li className="choice-option new-option" onClick={onAddNewClick}>
           <span className="fonio-icon">
             <img
-              src={icons.close.white.svg}
+              src={icons.remove.white.svg}
               style={{transform: 'rotate(45deg)'}} />
           </span>
           <span>{translate('new-resource')}</span>
