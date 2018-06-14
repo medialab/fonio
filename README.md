@@ -41,7 +41,6 @@ Output your data to high-quality and very robust documents :
 
 * [git](https://git-scm.com/)
 * [node](https://nodejs.org/en/)
-* [API secret and user ID for your implementation of the application](https://github.com/settings/applications/new) if you plan to enable gist exports
 
 # Installation
 
@@ -49,9 +48,10 @@ Output your data to high-quality and very robust documents :
 git clone https://github.com/medialab/fonio
 cd fonio
 npm install
+cp config/sample.json config/default.json
 ```
 
-Then edit the ``secrets.json`` file with your own data.
+Then edit the ``config/default.json`` file with your own data.
 
 # Development
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// import SectionEditor from '../../../components/SectionEditor';
+import SectionEditor from '../../../components/SectionEditor';
 import NewSectionForm from '../../../components/NewSectionForm';
 
 import TitleForm from './TitleForm';
@@ -29,24 +29,48 @@ const MainSectionColumn = ({
   story,
   section,
 
+  editorStates,
+  editorFocus,
+  assetRequestState,
+
   updateSection,
+
   setMainColumnMode,
   onNewSectionSubmit,
+
+
+  promptAssetEmbed,
+  unpromptAssetEmbed,
+  setEditorFocus,
+
+  createContextualization,
+  createContextualizer,
+  createResource,
+
+  updateDraftEditorState,
+  updateDraftEditorsStates,
+
+  updateContextualizer,
+  updateResource,
+  deleteContextualization,
+  deleteContextualizer,
+
+  setAssetRequestContentId,
+  startNewResourceConfiguration,
+  startExistingResourceConfiguration,
+
+  summonAsset,
 }, {
   t
 }) => {
 
 
-  const {id: storyId} = story;
-  const {id: sectionId} = section;
+  // const {id: storyId} = story;
+  // const {id: sectionId} = section;
   const translate = translateNameSpacer(t, 'Features.SectionView');
 
   const onUpdateSection = newSection => {
-    updateSection({
-      storyId,
-      sectionId,
-      section: newSection
-    });
+    updateSection(newSection);
   };
 
   const onUpdateTitle = title => {
@@ -172,22 +196,41 @@ const MainSectionColumn = ({
             <TitleForm
               onSubmit={onUpdateTitle}
               title={section.metadata.title} />
-            {/*<SectionEditor
-              startExistingResourceConfiguration={e => console.log('start existing resource configuration')}
-              startNewResourceConfiguration={e => console.log('start new resource configuration')}
-              deleteContextualization={e => console.log('delete contextualization')}
+            <SectionEditor
               story={story}
               activeSection={section}
-              editorStates={undefined}
-              assetRequestPosition={undefined}
-              editorFocus={undefined}
-              updateSection={() => console.log('update section')}
-              setEditorFocus={() => console.log('set editor focus')}
-              updateDraftEditorState={() => console.log('update draft editor state')}
-              cancelAssetRequest={() => console.log('cancel asset request')}
-              summonAsset={() => console.log('summon asset')}
-              setAssetRequestContentId={() => console.log('setAssetRequestContentId')}
-            /> */}
+              sectionId={section.id}
+              editorStates={editorStates}
+              updateDraftEditorState={updateDraftEditorState}
+              updateDraftEditorsStates={updateDraftEditorsStates}
+              editorFocus={editorFocus}
+
+              updateSection={newSection => onUpdateSection(newSection)}
+
+              summonAsset={summonAsset}
+
+              createContextualization={createContextualization}
+              createContextualizer={createContextualizer}
+              createResource={createResource}
+
+              updateContextualizer={updateContextualizer}
+              updateResource={updateResource}
+
+              deleteContextualization={deleteContextualization}
+              deleteContextualizer={deleteContextualizer}
+
+              requestAsset={promptAssetEmbed}
+              cancelAssetRequest={unpromptAssetEmbed}
+
+              assetRequestState={assetRequestState}
+              setAssetRequestContentId={setAssetRequestContentId}
+              assetRequestPosition={assetRequestState.selection}
+              assetRequestContentId={assetRequestState.editorId}
+
+              startNewResourceConfiguration={startNewResourceConfiguration}
+              startExistingResourceConfiguration={startExistingResourceConfiguration}
+
+              setEditorFocus={setEditorFocus} />
           </div>
         );
     }

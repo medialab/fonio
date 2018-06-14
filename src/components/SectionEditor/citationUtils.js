@@ -36,7 +36,7 @@ export const getCitationModels = story => {
  */
 export const buildCitations = (assets, props) => {
   const {
-    activeStory: {
+    story: {
       contextualizations,
       resources,
       contextualizers

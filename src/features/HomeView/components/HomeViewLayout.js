@@ -154,14 +154,14 @@ class HomeViewLayout extends Component {
           switch (sortingMode) {
             case 'edited recently':
               if (a.metadata.lastUpdateAt > b.metadata.lastUpdateAt) {
-                return 1;
+                return -1;
               }
-              return -1;
+              return 1;
             case 'edited by me':
               if (editionHistory[a.id] > editionHistory[b.id]) {
-                return 1;
+                return -1;
               }
-              return -1;
+              return 1;
             case 'title':
             default:
               if (a.metadata.title > b.metadata.title) {
@@ -400,7 +400,7 @@ class HomeViewLayout extends Component {
                                       break;
                                     case 'duplicate':
                                       setPasswordModalOpen(true);
-                                      duplicateStory(story);
+                                      duplicateStory({storyId: story.id});
                                       break;
                                     case 'delete':
                                       setStoryDeleteId(story.id);

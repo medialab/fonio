@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-6-13\n"
-"PO-Revision-Date: Wed Jun 13 2018 16:22:23 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-6-14\n"
+"PO-Revision-Date: Thu Jun 14 2018 10:45:20 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1519,6 +1519,15 @@ msgstr "Save title"
 
 msgid "Components.LoadingScreen.loading..."
 msgstr ""
+
+msgid "Features.ToasterContainer.You could not delete a section"
+msgstr "You could not delete a section"
+
+msgid "Features.ToasterContainer.You could not delete a resource"
+msgstr "You could not delete a resource"
+
+msgid "Features.ToasterContainer.You could not delete a block"
+msgstr "You could not delete a block"
 
 msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr ""

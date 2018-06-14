@@ -181,7 +181,12 @@ export const setOverrideImport = payload => ({
 
 export const duplicateStory = payload => ({
   type: DUPLICATE_STORY,
-  payload
+  payload,
+  promise: () => {
+    const {storyId} = payload;
+    const serverRequestUrl = `${CONFIG.serverUrl}/stories/${storyId}`;/* eslint no-undef : 0 */
+    return get(serverRequestUrl);
+  },
 });
 
 export const deleteStory = payload => ({
@@ -411,14 +416,15 @@ function data(state = DATA_DEFAULT_STATE, action) {
         };
       }
       else return state;
-    case DUPLICATE_STORY:
+    case `${DUPLICATE_STORY}_SUCCESS`:
+      const {data: newData} = action.result;
       return {
         ...state,
         newStory: {
-          ...payload,
+          ...newData,
           metadata: {
-            ...payload.metadata,
-            title: `${payload.metadata.title} - copy`
+            ...newData.metadata,
+            title: `${newData.metadata.title} - copy`
           }
         }
       };
