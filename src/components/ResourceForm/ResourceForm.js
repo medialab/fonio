@@ -7,6 +7,7 @@ import {Form, Text} from 'react-form';
 import resourceSchema from 'quinoa-schemas/resource';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
+import {retrieveMediaMetadata} from '../../helpers/assetsUtils';
 import {validate, createDefaultResource} from '../../helpers/schemaUtils';
 import {
   BigSelect,
@@ -29,6 +30,7 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 import AssetPreview from '../AssetPreview';
 
 const resourceTypes = Object.keys(resourceSchema.definitions);
+const credentials = CONFIG;/* eslint no-undef : 0 */
 // const resourceTypes = ['bib', 'image', 'video', 'embed', 'webpage', 'table', 'glossary'];
 
 class ResourceForm extends Component {
@@ -49,13 +51,24 @@ class ResourceForm extends Component {
     }
   }
 
-  generateDataForm = (resourceType, resource, onChange) => {
+  generateDataForm = (resourceType, resource, onChange, formApi) => {
     const {translate} = this;
     switch (resourceType) {
       case 'video':
-        const url = resource.data && resource.data.url ? resource.data.url : '';
-        console.log('url', url);
-        const onVideoUrlChange = val => onChange('data', 'url', val);
+
+        const onVideoUrlChange = (thatUrl) => {
+          onChange('data', 'url', thatUrl);
+          retrieveMediaMetadata(thatUrl, credentials)
+            .then(({metadata}) => {
+              Object.keys(metadata)
+                .forEach(key => {
+                  const ex = formApi.getValue(`metadata.${key}`);
+                  if (!(ex && ex.length)) {
+                    formApi.setValue(`metadata.${key}`, metadata[key]);
+                  }
+                });
+            });
+        };
         return (
           <Field>
             <Control>
@@ -180,7 +193,7 @@ class ResourceForm extends Component {
                       } />}
               {resourceType && <Columns>
                 <Column>
-                  {generateDataForm(resourceType, resource, updateTempResource)}
+                  {generateDataForm(resourceType, resource, updateTempResource, formApi)}
                 </Column>
                 <Column>
                   <Title isSize={5}>
@@ -207,7 +220,7 @@ class ResourceForm extends Component {
                         field="metadata.title"
                         placeholder={translate('Resource title')}
                         value={title}
-                        onChange={val => onResourceTitleChange(val)} />
+                        onChange={onResourceTitleChange} />
                     </Control>
                   </Field>
                   <Field>
@@ -224,7 +237,7 @@ class ResourceForm extends Component {
                         field="metadata.source"
                         placeholder={translate('Resource source')}
                         value={source}
-                        onChange={val => onResourceSourceChange(val)} />
+                        onChange={onResourceSourceChange} />
                     </Control>
                   </Field>
                 </Column>
@@ -243,7 +256,7 @@ class ResourceForm extends Component {
                         id="metadata.description"
                         placeholder={translate('Resource description')}
                         value={description}
-                        onChange={val => onResourceDescriptionChange(val)} />
+                        onChange={onResourceDescriptionChange} />
                     </Control>
                   </Field>
                 </Column>
