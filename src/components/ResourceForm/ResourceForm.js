@@ -97,20 +97,36 @@ class ResourceForm extends Component {
         );
       case 'webpage':
         return (
-          <Field>
-            <Control>
-              <Label>
-                {translate('hyperlink')}
-                <HelpPin place="right">
-                  {translate('Explanation about the webpage')}
-                </HelpPin>
-              </Label>
-              <Text
-                field="data.url" id="data.url"
-                type="text"
-                placeholder={translate('http://')} />
-            </Control>
-          </Field>
+          <Column>
+            <Field>
+              <Control>
+                <Label>
+                  {translate('Webpage name')}
+                  <HelpPin place="right">
+                    {translate('Explanation about the webpage')}
+                  </HelpPin>
+                </Label>
+                <Text
+                  field="data.name" id="data.name"
+                  type="text"
+                  placeholder={translate('name')} />
+              </Control>
+            </Field>
+            <Field>
+              <Control>
+                <Label>
+                  {translate('hyperlink')}
+                  <HelpPin place="right">
+                    {translate('Explanation about the hyperlink')}
+                  </HelpPin>
+                </Label>
+                <Text
+                  field="data.url" id="data.url"
+                  type="text"
+                  placeholder={translate('http://')} />
+              </Control>
+            </Field>
+          </Column>
         );
       case 'glossary':
         return (
