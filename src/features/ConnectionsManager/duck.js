@@ -86,8 +86,8 @@ export const leaveBlock = payload => ({
     remote: true,
     broadcast: true,
     room: payload.storyId,
-    blockType: payload.blockType,
-    blockId: payload.blockId,
+    // blockType: payload.blockType,
+    // blockId: payload.blockId,
   },
 });
 
