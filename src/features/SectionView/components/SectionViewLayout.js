@@ -219,7 +219,7 @@ const SectionViewLayout = ({
   };
 
   const onUpdateSection = thatSection => {
-    if (thatSection && reverseSectionLockMap[thatSection.id] === userId) {
+    if (thatSection && reverseSectionLockMap[thatSection.id] && reverseSectionLockMap[thatSection.id].userId === userId) {
       updateSection({
         sectionId,
         storyId,
