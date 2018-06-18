@@ -81,7 +81,7 @@ const LibraryViewLayout = ({
         leaveBlock({
           storyId,
           userId,
-          location: 'resources',
+          blockType: 'resources',
           blockId: userLockedResourceId
         });
       };
@@ -89,7 +89,7 @@ const LibraryViewLayout = ({
         leaveBlock({
           storyId,
           userId,
-          location: 'resources',
+          blockType: 'resources',
           blockId: userLockedResourceId
         });
       };
@@ -203,7 +203,7 @@ const LibraryViewLayout = ({
                         enterBlock({
                           storyId,
                           userId,
-                          location: 'resources',
+                          blockType: 'resources',
                           blockId: resource.id
                         });
                       };

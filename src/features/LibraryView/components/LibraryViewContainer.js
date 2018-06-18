@@ -62,7 +62,7 @@ class LibraryViewContainer extends Component {
       leaveBlock({
         storyId,
         userId,
-        location: 'resources',
+        blockType: 'resources',
         blockId: userLocks.resources.blockId
       });
     }

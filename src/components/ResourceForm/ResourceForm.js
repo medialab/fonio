@@ -2,10 +2,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {Form, Text} from 'react-form';
+
 import resourceSchema from 'quinoa-schemas/resource';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
-import {validate} from '../../helpers/schemaUtils';
+import {validate, createDefaultResource} from '../../helpers/schemaUtils';
 import {
   BigSelect,
   Button,
@@ -15,7 +17,7 @@ import {
   Delete,
   Field,
   HelpPin,
-  Input,
+  // Input,
   Label,
   Level,
   TextArea,
@@ -26,10 +28,7 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import AssetPreview from '../AssetPreview';
 
-const resourcesSchemas = {
-  video: {}
-};
-const resourceTypes = Object.keys(resourcesSchemas);
+const resourceTypes = Object.keys(resourceSchema.definitions);
 // const resourceTypes = ['bib', 'image', 'video', 'embed', 'webpage', 'table', 'glossary'];
 
 class ResourceForm extends Component {
@@ -37,21 +36,15 @@ class ResourceForm extends Component {
   constructor(props, context) {
     super(props);
     this.state = {
-      resource: undefined
+      resource: props.resource || createDefaultResource()
     };
     this.translate = translateNameSpacer(context.t, 'Components.ResourceForm');
-  }
-
-  componentWillMount = () => {
-    if (this.props.resource) {
-      this.setState({resource: this.props.resource});
-    }
   }
 
   componentWillReceiveProps = nextProps => {
     if (this.props.resource !== nextProps.resource) {
       this.setState({
-        resource: nextProps.resource
+        resource: nextProps.resource || createDefaultResource()
       });
     }
   }
@@ -61,7 +54,8 @@ class ResourceForm extends Component {
     switch (resourceType) {
       case 'video':
         const url = resource.data && resource.data.url ? resource.data.url : '';
-        const onVideoUrlChange = e => onChange('data', 'url', e.target.value);
+        console.log('url', url);
+        const onVideoUrlChange = val => onChange('data', 'url', val);
         return (
           <Field>
             <Control>
@@ -71,8 +65,10 @@ class ResourceForm extends Component {
                   {translate('Explanation about the video url')}
                 </HelpPin>
               </Label>
-              <Input
-                value={url} onChange={onVideoUrlChange} type="text"
+              <Text
+                field="data.url" id="data.url"
+                onChange={onVideoUrlChange}
+                type="text"
                 placeholder={translate('Video url')} />
             </Control>
           </Field>
@@ -108,9 +104,11 @@ class ResourceForm extends Component {
     } = metadata;
     const resourceType = type || propResourceType;
 
+    const schema = resourceSchema.definitions[resourceType];
+
     const handleSubmit = () => {
       const dataSchema = resourceSchema.definitions[resourceType];
-      if (validate(resourceSchema, resource) && validate(dataSchema, resource.data)) {
+      if (validate(resourceSchema, resource).valid && validate(dataSchema, resource.data).valid) {
         onSubmit(resource);
       }
     };
@@ -131,113 +129,147 @@ class ResourceForm extends Component {
     const onResourceSourceChange = thatSource => updateTempResource('metadata', 'source', thatSource);
     const onResourceDescriptionChange = thatDescription => updateTempResource('metadata', 'description', thatDescription);
 
+    const onSubmitFailure = error => {
+      console.log(error);/* eslint no-console : 0 */
+    };
+
+    const errorValidator = (values) => {
+      if (resourceType) {
+        const dataSchema = resourceSchema.definitions[resourceType];
+        const dataRequiredValues = dataSchema.requiredValues || [];
+        return {
+          ...dataRequiredValues.reduce((result, key) => ({
+            ...result,
+            [key]: values.data[key] ? null : translate('this field is required')
+          }), {})
+        };
+      }
+    };
+
     return (
-      <div>
-        <Level />
-        <Title isSize={2}>
-          <Columns>
-            <Column isSize={11}>
-              {asNewResource ? translate('Create a new resource') : translate('Edit resource')}
-            </Column>
-            <Column>
-              <Delete onClick={
-                () => onCancel()
-              } />
-            </Column>
-          </Columns>
-        </Title>
-        {asNewResource && <BigSelect
-          activeOptionId={resourceType}
-          onChange={onResourceTypeChange}
-          options={
-                  resourceTypes.map(thatType => ({
-                    id: thatType,
-                    label: thatType,
-                    iconUrl: icons[thatType].black.svg
-                  }))
-                } />}
-        {resourceType && <Columns>
-          <Column>
-            {generateDataForm(resourceType, resource, updateTempResource)}
-          </Column>
-          <Column>
-            <Title isSize={5}>
-              {translate('Preview')}
-            </Title>
-            <AssetPreview
-              resource={resource} />
-          </Column>
-        </Columns>}
-        <Level />
-        {resourceType && <Columns>
-          <Column>
-            <Field>
-              <Control>
-                <Label>
-                  {translate('Title of the resource')}
-                  <HelpPin place="right">
-                    {translate('Explanation about the resource title')}
-                  </HelpPin>
-                </Label>
-                <Input
-                  type="text"
-                  placeholder={translate('Resource title')}
-                  value={title}
-                  onChange={e => onResourceTitleChange(e.target.value)} />
-              </Control>
-            </Field>
-            <Field>
-              <Control>
-                <Label>
-                  {translate('Source of the resource')}
-                  <HelpPin place="right">
-                    {translate('Explanation about the resource source')}
-                  </HelpPin>
-                </Label>
-                <Input
-                  type="text"
-                  placeholder={translate('Resource source')}
-                  value={source}
-                  onChange={e => onResourceSourceChange(e.target.value)} />
-              </Control>
-            </Field>
-          </Column>
-          <Column>
-            <Field>
-              <Control>
-                <Label>
-                  {translate('Description of the resource')}
-                  <HelpPin place="right">
-                    {translate('Explanation about the resource description')}
-                  </HelpPin>
-                </Label>
-                <TextArea
-                  type="text"
-                  placeholder={translate('Resource description')}
-                  value={description}
-                  onChange={e => onResourceDescriptionChange(e.target.value)} />
-              </Control>
-            </Field>
-          </Column>
-        </Columns>}
-        {resourceType &&
-        <Level>
-          <Button
-            type="submit"
-            isFullWidth
-            onClick={handleSubmit}
-            isColor="success">
-            {asNewResource ? translate('Create resource') : translate('Save resource')}
-          </Button>
-          <Button
-            isFullWidth
-            isColor="danger"
-            onClick={onCancel}>
-            {translate('Cancel')}
-          </Button>
-        </Level>
-          }
-      </div>
+      <Form
+        defaultValues={metadata}
+        validateError={errorValidator}
+        onSubmitFailure={onSubmitFailure}
+        onSubmit={handleSubmit}>
+        {
+          formApi => (
+            <form onSubmit={formApi.submitForm}>
+              <Level />
+              <Title isSize={2}>
+                <Columns>
+                  <Column isSize={11}>
+                    {asNewResource ? translate('Create a new resource') : translate('Edit resource')}
+                  </Column>
+                  <Column>
+                    <Delete onClick={
+                      () => onCancel()
+                    } />
+                  </Column>
+                </Columns>
+              </Title>
+              {asNewResource && <BigSelect
+                activeOptionId={resourceType}
+                onChange={onResourceTypeChange}
+                options={
+                        resourceTypes.map(thatType => ({
+                          id: thatType,
+                          label: thatType,
+                          iconUrl: icons[thatType].black.svg
+                        }))
+                      } />}
+              {resourceType && <Columns>
+                <Column>
+                  {generateDataForm(resourceType, resource, updateTempResource)}
+                </Column>
+                <Column>
+                  <Title isSize={5}>
+                    {translate('Preview')}
+                  </Title>
+                  <AssetPreview
+                    resource={resource} />
+                </Column>
+              </Columns>}
+              <Level />
+              {resourceType && schema.showMetadata && <Columns>
+                <Column>
+                  <Field>
+                    <Control>
+                      <Label>
+                        {translate('Title of the resource')}
+                        <HelpPin place="right">
+                          {translate('Explanation about the resource title')}
+                        </HelpPin>
+                      </Label>
+                      <Text
+                        type="text"
+                        id="metadata.title"
+                        field="metadata.title"
+                        placeholder={translate('Resource title')}
+                        value={title}
+                        onChange={val => onResourceTitleChange(val)} />
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Control>
+                      <Label>
+                        {translate('Source of the resource')}
+                        <HelpPin place="right">
+                          {translate('Explanation about the resource source')}
+                        </HelpPin>
+                      </Label>
+                      <Text
+                        type="text"
+                        id="metadata.source"
+                        field="metadata.source"
+                        placeholder={translate('Resource source')}
+                        value={source}
+                        onChange={val => onResourceSourceChange(val)} />
+                    </Control>
+                  </Field>
+                </Column>
+                <Column>
+                  <Field>
+                    <Control>
+                      <Label>
+                        {translate('Description of the resource')}
+                        <HelpPin place="right">
+                          {translate('Explanation about the resource description')}
+                        </HelpPin>
+                      </Label>
+                      <TextArea
+                        type="text"
+                        field="metadata.description"
+                        id="metadata.description"
+                        placeholder={translate('Resource description')}
+                        value={description}
+                        onChange={val => onResourceDescriptionChange(val)} />
+                    </Control>
+                  </Field>
+                </Column>
+              </Columns>}
+              {resourceType &&
+              <Level>
+                <Button
+                  type="submit"
+                  isFullWidth
+                  onClick={handleSubmit}
+                  isColor="success">
+                  {asNewResource ? translate('Create resource') : translate('Save resource')}
+                </Button>
+                <Button
+                  isFullWidth
+                  isColor="danger"
+                  onClick={onCancel}>
+                  {translate('Cancel')}
+                </Button>
+              </Level>
+                }
+            </form>
+          )
+        }
+
+      </Form>
     );
   }
 }
