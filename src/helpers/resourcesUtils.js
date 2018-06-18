@@ -5,7 +5,7 @@
 
 import {get} from 'axios';
 
-const {apiUrl} = CONFIG;/* eslint no-undef : 0 */
+const {apiUrl} = CONFIG;
 
 /**
  * Returns from server a list of all csl citation styles available in a light form

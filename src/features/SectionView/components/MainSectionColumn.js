@@ -81,7 +81,6 @@ const MainSectionColumn = ({
   };
 
   const onUpdateTitle = title => {
-    // const title = e.target.value;
     onUpdateSection({
       ...section,
       metadata: {

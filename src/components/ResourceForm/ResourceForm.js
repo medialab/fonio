@@ -28,7 +28,7 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 import AssetPreview from '../AssetPreview';
 
 const resourceTypes = Object.keys(resourceSchema.definitions);
-const credentials = CONFIG;/* eslint no-undef : 0 */
+const credentials = CONFIG;
 
 class ResourceForm extends Component {
 

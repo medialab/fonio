@@ -152,6 +152,9 @@
       "require-jsdoc": 2,
       "react/forbid-prop-types": 0,
       "react/jsx-no-bind": 0
+    },
+    "globals": {
+      "CONFIG": true
     }
   }
 }

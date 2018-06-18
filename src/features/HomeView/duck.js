@@ -184,7 +184,7 @@ export const duplicateStory = payload => ({
   payload,
   promise: () => {
     const {storyId} = payload;
-    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${storyId}`;/* eslint no-undef : 0 */
+    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${storyId}`;
     return get(serverRequestUrl);
   },
 });
