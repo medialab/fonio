@@ -174,10 +174,10 @@ class AssetPreview extends Component {
             presentation={data.json || this.state.data} />
         );
       case 'webpage':
-        return (<iframe src={data} />);
+        return (<iframe src={data.url} />);
       case 'embed':
         return (
-          <EmbedContainer html={data} />
+          <EmbedContainer html={data.html} />
         );
       case 'bib':
         const items = data.reduce((result, item) => ({

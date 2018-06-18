@@ -76,7 +76,8 @@ const LibraryViewLayout = ({
         updateResource({
           resourceId,
           resource,
-          storyId
+          storyId,
+          userId
         });
         leaveBlock({
           storyId,
@@ -96,7 +97,7 @@ const LibraryViewLayout = ({
       return (<ResourceForm
         onCancel={handleCancel}
         onSubmit={handleSubmit}
-        resource={resources[userLockedResourceId]} asNew={false} />);
+        resource={resources[userLockedResourceId]} asNewResource={false} />);
     }
     switch (mainColumnMode) {
       case 'new':
@@ -116,7 +117,7 @@ const LibraryViewLayout = ({
           <ResourceForm
             onCancel={() => setMainColumnMode('list')}
             onSubmit={handleSubmit}
-            asNew />
+            asNewResource />
         );
       case 'list':
       default:
