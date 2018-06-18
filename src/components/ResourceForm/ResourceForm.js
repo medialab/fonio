@@ -48,21 +48,16 @@ class ResourceForm extends Component {
     }
   }
 
-  generateDataForm = (resourceType, resource, onChange, formApi) => {
+  generateDataForm = (resourceType, resource, formApi) => {
     const {translate} = this;
     switch (resourceType) {
       case 'video':
-
         const onVideoUrlChange = (thatUrl) => {
-          onChange('data', 'url', thatUrl);
           retrieveMediaMetadata(thatUrl, credentials)
             .then(({metadata}) => {
               Object.keys(metadata)
                 .forEach(key => {
-                  const ex = formApi.getValue(`metadata.${key}`);
-                  if (!(ex && ex.length)) {
-                    formApi.setValue(`metadata.${key}`, metadata[key]);
-                  }
+                  formApi.setValue(`metadata.${key}`, metadata[key]);
                 });
             });
         };
@@ -82,6 +77,90 @@ class ResourceForm extends Component {
                 placeholder={translate('Video url')} />
             </Control>
           </Field>
+        );
+      case 'embed':
+        return (
+          <Field>
+            <Control>
+              <Label>
+                {translate('Embed code')}
+                <HelpPin place="right">
+                  {translate('Explanation about the embed')}
+                </HelpPin>
+              </Label>
+              <TextArea
+                field="data.html" id="data.html"
+                type="text"
+                placeholder={translate('Embed code')} />
+            </Control>
+          </Field>
+        );
+      case 'webpage':
+        return (
+          <Column>
+            <Field>
+              <Control>
+                <Label>
+                  {translate('Webpage name')}
+                  <HelpPin place="right">
+                    {translate('Explanation about the webpage')}
+                  </HelpPin>
+                </Label>
+                <Text
+                  field="data.name" id="data.name"
+                  type="text"
+                  placeholder={translate('name')} />
+              </Control>
+            </Field>
+            <Field>
+              <Control>
+                <Label>
+                  {translate('hyperlink')}
+                  <HelpPin place="right">
+                    {translate('Explanation about the hyperlink')}
+                  </HelpPin>
+                </Label>
+                <Text
+                  field="data.url" id="data.url"
+                  type="text"
+                  placeholder={translate('http://')} />
+              </Control>
+            </Field>
+          </Column>
+        );
+      case 'glossary':
+        return (
+          <Column>
+            <Field>
+              <Control>
+                <Label>
+                  {translate('Glossary name')}
+                  <HelpPin place="right">
+                    {translate('Explanation about the glossary')}
+                  </HelpPin>
+                </Label>
+                <Text
+                  field="data.name" id="data.name"
+                  type="text"
+                  placeholder={translate('glossary name')} />
+              </Control>
+            </Field>
+            <Field>
+              <Control>
+                <Label>
+                  {translate('Glossary description')}
+                  <HelpPin place="right">
+                    {translate('Explanation about the glossary description')}
+                  </HelpPin>
+                </Label>
+                <TextArea
+                  type="text"
+                  field="data.description"
+                  id="data.description"
+                  placeholder={translate('glossary description')} />
+              </Control>
+            </Field>
+          </Column>
         );
       default:
         return null;
@@ -111,19 +190,18 @@ class ResourceForm extends Component {
       }
     };
 
-    const updateTempResource = (key, subKey, value) => {
-      this.setState({
-        resource: {
-          ...resource,
-          [key]: {
-            ...(resource[key] : {}),
-            [subKey]: value
-          }
-        }
-      });
-    };
+    // const updateTempResource = (key, subKey, value) => {
+    //   this.setState({
+    //     resource: {
+    //       ...resource,
+    //       [key]: {
+    //         ...(resource[key] : {}),
+    //         [subKey]: value
+    //       }
+    //     }
+    //   });
+    // };
     const onResourceTypeChange = (thatType, formApi) => {
-      console.log(thatType, formApi);
       formApi.setValue('metadata.type', thatType);
     };
 
@@ -179,15 +257,17 @@ class ResourceForm extends Component {
                       } />}
               {formApi.getValue('metadata.type') && <Columns>
                 <Column>
-                  {generateDataForm(formApi.getValue('metadata.type'), resource, updateTempResource, formApi)}
+                  {generateDataForm(formApi.getValue('metadata.type'), resource, formApi)}
                 </Column>
-                <Column>
-                  <Title isSize={5}>
-                    {translate('Preview')}
-                  </Title>
-                  <AssetPreview
-                    resource={formApi.values} />
-                </Column>
+                {formApi.getValue('metadata.type') !== 'glossary' &&
+                  <Column>
+                    <Title isSize={5}>
+                      {translate('Preview')}
+                    </Title>
+                    <AssetPreview
+                      resource={formApi.values} />
+                  </Column>
+                }
               </Columns>}
               <Level />
               {formApi.getValue('metadata.type') && resourceSchema.definitions[formApi.getValue('metadata.type')].showMetadata && <Columns>

@@ -120,7 +120,7 @@ const LibraryViewLayout = ({
           resourceId,
           resource,
           storyId,
-          userId,
+          userId
         });
         leaveBlock({
           storyId,

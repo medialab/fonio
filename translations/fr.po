@@ -2,7 +2,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-18\n"
+<<<<<<< HEAD
 "PO-Revision-Date: Mon Jun 18 2018 18:42:44 GMT+0200 (CEST)\n"
+=======
+"PO-Revision-Date: Mon Jun 18 2018 17:56:23 GMT+0200 (GMT+02:00)\n"
+>>>>>>> 1a1b22fae19acc4321306c66ef5c205a9cfde5e2
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1658,6 +1662,7 @@ msgstr "title"
 msgid "Features.LibraryView.Source: "
 msgstr "Source: "
 
+<<<<<<< HEAD
 msgid "Features.SectionView.edited recently"
 msgstr "edited recently"
 
@@ -1669,6 +1674,40 @@ msgstr "Sort resources"
 
 msgid "Features.SectionView.Filter resources"
 msgstr "Filter resources"
+=======
+msgid "Components.ResourceForm.Embed code"
+msgstr "Embed code"
+
+msgid "Components.ResourceForm.Explanation about the embed"
+msgstr "Explanation about the embed"
+
+msgid "Components.ResourceForm.hyperlink"
+msgstr "hyperlink"
+
+msgid "Components.ResourceForm.Explanation about the webpage"
+msgstr "Explanation about the webpage"
+
+msgid "Components.ResourceForm.http://"
+msgstr "http://"
+
+msgid "Components.ResourceForm.Glossary name"
+msgstr "Glossary name"
+
+msgid "Components.ResourceForm.Explanation about the glossary"
+msgstr "Explanation about the glossary"
+
+msgid "Components.ResourceForm.glossary name"
+msgstr "glossary name"
+
+msgid "Components.ResourceForm.Glossary description"
+msgstr "Glossary description"
+
+msgid "Components.ResourceForm.Explanation about the glossary description"
+msgstr "Explanation about the glossary description"
+
+msgid "Components.ResourceForm.glossary description"
+msgstr "glossary description"
+>>>>>>> 1a1b22fae19acc4321306c66ef5c205a9cfde5e2
 
 msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr ""

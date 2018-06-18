@@ -25,6 +25,7 @@ const ResourceCard = ({
 }, {t}) => {
 
   const {
+    data,
     metadata = {}
   } = resource;
 
@@ -46,6 +47,14 @@ const ResourceCard = ({
     return `${str.substr(0, limit - 3)}...`;
   };
 
+  let resourceTitle;
+  if (specificSchema.showMetadata) {
+    resourceTitle = title ? title : translate('untitled resource');
+  }
+  else {
+    resourceTitle = (data && data.name) ? data.name : translate('untitled resource');
+  }
+
   return (
     <Card
       bodyContent={
@@ -58,7 +67,7 @@ const ResourceCard = ({
             </Column>
 
             <Column isSize={8}>
-              {title}
+              {resourceTitle}
             </Column>
 
             <Column isSize={2}>
@@ -83,6 +92,15 @@ const ResourceCard = ({
                     <i>{shorten(description, 40)}</i>
                   </p>
                 }
+              </div>
+            }
+            {
+              type === 'glossary' &&
+              data && data.description &&
+              <div>
+                <p>
+                  <i>{shorten(data.description, 40)}</i>
+                </p>
               </div>
             }
           </Column>
