@@ -10,7 +10,7 @@ import {createStructuredSelector} from 'reselect';
 
 import {get} from 'axios';
 
-import {updateEditionHistoryMap} from '../../helpers/localStorageUtils';
+import {updateEditionHistoryMap, loadStoryToken} from '../../helpers/localStorageUtils';
 
 /**
  * ===================================================
@@ -38,6 +38,8 @@ export const CREATE_RESOURCE = 'CREATE_RESOURCE';
 export const UPDATE_RESOURCE = 'UPDATE_RESOURCE';
 export const DELETE_RESOURCE = 'DELETE_RESOURCE';
 
+export const UPLOAD_RESOURCE = 'UPLOAD_RESOURCE';
+export const DELETE_UPLOADED_RESOURCE = 'DELETE_UPLOADED_RESOURCE';
 /**
  * ===================================================
  * ACTION CREATORS
@@ -120,6 +122,43 @@ export const createResource = payload => updateStory(CREATE_RESOURCE, payload);
 export const updateResource = payload => updateStory(UPDATE_RESOURCE, payload);
 export const deleteResource = (payload, callback) => updateStory(DELETE_RESOURCE, payload, callback);
 
+/**
+ * Action creators related to resource upload request
+ */
+export const uploadResource = (payload, mode) => ({
+  type: UPLOAD_RESOURCE,
+  payload,
+  promise: () => {
+    const token = loadStoryToken(payload.storyId);
+    const options = {
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    let serverRequestUrl;
+    if (mode === 'create') {
+      serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}?userId=${payload.userId}&lastUpdateAt=${payload.lastUpdateAt}`;/* eslint no-undef : 0 */
+      return post(serverRequestUrl, payload.resource, options);
+    }
+    serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${payload.lastUpdateAt}`;
+    return put(serverRequestUrl, payload.resource, options);
+  },
+});
+
+export const deleteUploadedResource = payload => ({
+  type: DELETE_UPLOADED_RESOURCE,
+  payload,
+  promise: () => {
+    const token = loadStoryToken(payload.storyId);
+    const options = {
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    const serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${payload.lastUpdateAt}`;
+    return del(serverRequestUrl, options);
+  },
+});
 /**
  * ===================================================
  * REDUCERS
@@ -281,8 +320,21 @@ function story(state = STORY_DEFAULT_STATE, action) {
             lastUpdateAt: payload.lastUpdateAt,
           }
       };
+    case `${UPLOAD_RESOURCE}_SUCCESS`:
+      return {
+        ...state,
+        story: {
+          ...state.story,
+          resources: {
+            ...state.resources,
+            [payload.resourceId]: result.data,
+          },
+          lastUpdateAt: payload.lastUpdateAt,
+        }
+      };
     case `${DELETE_RESOURCE}`:
     case `${DELETE_RESOURCE}_BROADCAST`:
+    case `${DELETE_UPLOADED_RESOURCE}_SUCCESS`:
       return {
           ...state,
           story: {

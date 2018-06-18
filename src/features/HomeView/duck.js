@@ -460,7 +460,7 @@ function data(state = DATA_DEFAULT_STATE, action) {
         ...state,
         stories: {
           ...state.stories,
-          [story.id]: story
+          [payload.id]: payload,
         }
       };
     case `${DELETE_STORY}_SUCCESS`:
