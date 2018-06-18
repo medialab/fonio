@@ -77,7 +77,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
         [propName]: payload
       };
     case `${ENTER_BLOCK}_SUCCESS`:
-      if (payload.location === 'storyMetadata') {
+      if (payload.blockType === 'storyMetadata') {
         return {
           ...state,
           metadataOpen: true
@@ -86,7 +86,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
       return state;
     case `${ENTER_BLOCK}_FAIL`:
     case `${LEAVE_BLOCK}`:
-      if (payload.location === 'storyMetadata') {
+      if (payload.blockType === 'storyMetadata') {
         return {
           ...state,
           metadataOpen: false

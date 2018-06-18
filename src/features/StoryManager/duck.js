@@ -63,6 +63,32 @@ export const activateStory = payload => ({
  */
 export const updateStory = (TYPE, payload, callback) => {
   updateEditionHistoryMap(payload.storyId);
+  let blockType;
+  let blockId;
+  switch (TYPE) {
+    case UPDATE_STORY_METADATA:
+      blockType = 'storyMetadata';
+      blockId = 'storyMetadata';
+      break;
+    case UPDATE_STORY_SETTINGS:
+      blockType = 'settings';
+      blockId = 'settings';
+      break;
+    case DELETE_SECTION:
+    case UPDATE_SECTION:
+      blockType = 'sections';
+      blockId = payload.sectionId;
+      break;
+    case DELETE_RESOURCE:
+    case UPDATE_RESOURCE:
+      blockType = 'resources';
+      blockId = payload.resourceId;
+      break;
+    default:
+      blockType = undefined;
+      blockId = undefined;
+      break;
+  }
   return {
     type: TYPE,
     payload: {
@@ -74,6 +100,9 @@ export const updateStory = (TYPE, payload, callback) => {
       remote: true,
       broadcast: true,
       room: payload.storyId,
+      userId: payload.userId,
+      blockType,
+      blockId,
     },
   };
 };
@@ -118,7 +147,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
     /**
      * STORY METADATA
      */
-    case UPDATE_STORY_METADATA:
+    case `${UPDATE_STORY_METADATA}_SUCCESS`:
     case `${UPDATE_STORY_METADATA}_BROADCAST`:
       return {
           ...state,
@@ -131,7 +160,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
     /**
      * STORY SETTINGS
      */
-    case `${UPDATE_STORY_SETTINGS}`:
+    case `${UPDATE_STORY_SETTINGS}_SUCCESS`:
     case `${UPDATE_STORY_SETTINGS}_BROADCAST`:
       return {
           ...state,
@@ -196,7 +225,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
             lastUpdateAt: payload.lastUpdateAt,
           }
       };
-    case `${UPDATE_SECTION}`:
+    case `${UPDATE_SECTION}_SUCCESS`:
     case `${UPDATE_SECTION}_BROADCAST`:
       return {
           ...state,

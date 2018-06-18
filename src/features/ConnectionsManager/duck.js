@@ -62,6 +62,8 @@ export const enterBlock = (payload, callback) => ({
     remote: true,
     broadcast: true,
     room: payload.storyId,
+    blockType: payload.blockType,
+    blockId: payload.blockId
   },
 });
 
@@ -72,6 +74,8 @@ export const idleBlock = payload => ({
     remote: true,
     broadcast: true,
     room: payload.storyId,
+    blockType: payload.blockType,
+    blockId: payload.blockId,
   },
 });
 
@@ -82,6 +86,8 @@ export const leaveBlock = payload => ({
     remote: true,
     broadcast: true,
     room: payload.storyId,
+    blockType: payload.blockType,
+    blockId: payload.blockId,
   },
 });
 
@@ -209,7 +215,7 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
     //           sections: {
     //             blockId: payload.sectionId,
     //             status: 'active',
-    //             location: 'sections',
+    //             blockType: 'sections',
     //           },
     //         },
     //       },
@@ -226,7 +232,7 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
             ...locks,
             [payload.userId]: {
               ...locks[payload.userId],
-              [payload.location]: {
+              [payload.blockType]: {
                 ...payload,
                 status: 'active',
               },
@@ -245,7 +251,7 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
             ...locks,
             [payload.userId]: {
               ...locks[payload.userId],
-              [payload.location]: {
+              [payload.blockType]: {
                 ...payload,
                 status: 'idle',
               },
@@ -264,7 +270,7 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
             ...locks,
             [payload.userId]: {
               ...locks[payload.userId],
-              [payload.location]: undefined,
+              [payload.blockType]: undefined,
             },
           },
         },
@@ -307,7 +313,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
         lastLockFail: {
           ...payload,
           mode: 'delete',
-          location: 'resources'
+          blockType: 'resources'
         },
       };
     case `${DELETE_SECTION}_FAIL`:
@@ -316,7 +322,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
         lastLockFail: {
           ...payload,
           mode: 'delete',
-          location: 'sections'
+          blockType: 'sections'
         },
       };
     default:

@@ -38,7 +38,7 @@ class ToasterContainer extends Component {
 
       let title;
       if (nextProps.lastLockFail.mode === 'enter') {
-        switch (nextProps.lastLockFail.location) {
+        switch (nextProps.lastLockFail.blockType) {
           case 'sections':
             title = translate('You could not edit a section');
             break;
@@ -57,7 +57,7 @@ class ToasterContainer extends Component {
         }
       }
       if (nextProps.lastLockFail.mode === 'delete') {
-        switch (nextProps.lastLockFail.location) {
+        switch (nextProps.lastLockFail.blockType) {
           case 'sections':
             title = translate('You could not delete a section');
             break;
