@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import {v4 as genId} from 'uuid';
 
+import resourceSchema from 'quinoa-schemas/resource';
+
 import {
   Column,
   Columns,
@@ -35,6 +37,8 @@ import ResourceForm from '../../../components/ResourceForm';
 
 import ResourceCard from './ResourceCard';
 
+const resourceTypes = Object.keys(resourceSchema.definitions);
+
 const LibraryViewLayout = ({
 
   editedStory: story = {},
@@ -45,10 +49,16 @@ const LibraryViewLayout = ({
   mainColumnMode,
   sortVisible,
   filterVisible,
+  filterValues,
+  sortValue,
+  searchString,
   actions: {
     setSortVisible,
     setFilterVisible,
     setMainColumnMode,
+    setSearchString,
+    setFilterValues,
+    setSortValue,
 
     enterBlock,
     leaveBlock,
@@ -64,11 +74,35 @@ const LibraryViewLayout = ({
     id: storyId
   } = story;
 
+  const activeFilters = Object.keys(filterValues).filter(key => filterValues[key]);
   const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
+  const visibleResources = resourcesList
+    .filter(resource => activeFilters.indexOf(resource.metadata.type) > -1 && JSON.stringify(resource).toLowerCase().indexOf(searchString.toLowerCase()) > -1)
+    .sort((a, b) => {
+        switch (sortValue) {
+          case 'edited recently':
+            if (a.lastUpdateAt > b.lastUpdateAt) {
+              return -1;
+            }
+            return 1;
+          case 'title':
+          default:
+            if (a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim()) {
+              return 1;
+            }
+            return -1;
+        }
+      });
   const userLockedResourceId = getUserResourceLockId(lockingMap, userId, storyId);
   const reverseResourcesLockMap = getReverseResourcesLockMap(lockingMap, activeUsers, storyId);
   const translate = translateNameSpacer(t, 'Features.LibraryView');
 
+  const toggleFilter = type => {
+    setFilterValues({
+      ...filterValues,
+      [type]: filterValues[type] ? false : true
+    });
+  };
   const renderMainColumn = () => {
     if (userLockedResourceId) {
       const handleSubmit = resource => {
@@ -96,7 +130,7 @@ const LibraryViewLayout = ({
       return (<ResourceForm
         onCancel={handleCancel}
         onSubmit={handleSubmit}
-        resource={resources[userLockedResourceId]} asNew={false} />);
+        resource={resources[userLockedResourceId]} asNewResource={false} />);
     }
     switch (mainColumnMode) {
       case 'new':
@@ -116,7 +150,7 @@ const LibraryViewLayout = ({
           <ResourceForm
             onCancel={() => setMainColumnMode('list')}
             onSubmit={handleSubmit}
-            asNew />
+            asNewResource />
         );
       case 'list':
       default:
@@ -128,7 +162,7 @@ const LibraryViewLayout = ({
                 <LevelLeft>
                   <Field hasAddons>
                     <Control>
-                      <Input placeholder={translate('Find a resource')} />
+                      <Input value={searchString} onChange={e => setSearchString(e.target.value)} placeholder={translate('Find a resource')} />
                     </Control>
                     <Control>
                       <Button>{translate('Search')}</Button>
@@ -139,22 +173,20 @@ const LibraryViewLayout = ({
                   <LevelItem>
                     <Dropdown
                       onToggle={() => {
-                      setSortVisible(!sortVisible); setFilterVisible(false);
+                        setSortVisible(!sortVisible);
+                        setFilterVisible(false);
                       }}
+                      onChange={setSortValue}
                       isActive={sortVisible}
-                      value={{id: 'lastmod', label: 'last modification'}}
+                      value={{id: sortValue, label: translate(sortValue)}}
                       options={[
                         {
-                          id: 'lastmod',
-                          label: 'last modification'
-                        },
-                        {
-                          id: 'creation',
-                          label: 'creation'
+                          id: 'edited recently',
+                          label: translate('edited recently')
                         },
                         {
                           id: 'title',
-                          label: 'title'
+                          label: translate('title')
                         },
                       ]}>
                       {translate('Sort')}
@@ -163,32 +195,23 @@ const LibraryViewLayout = ({
                   <LevelItem>
                     <Dropdown
                       onToggle={() => {
-                      setFilterVisible(!filterVisible); setSortVisible(false);
+                        setFilterVisible(!filterVisible);
+                        setSortVisible(false);
                       }}
                       isActive={filterVisible}
                       value={{id: 1, label: '1 rem'}}
-                      options={[
-                        {
-                          id: 'images',
+                      onChange={toggleFilter}
+                      options={
+                        resourceTypes.map(type => ({
+                          id: type,
                           label: <Field>
                             <Control>
-                              <Checkbox checked>Images</Checkbox>
+                              <Checkbox
+                                checked={filterValues[type]}>{translate(type)}</Checkbox>
                             </Control>
                           </Field>
-                        },
-                        {
-                          id: 'videos',
-                          label: <Field>
-                            <Control>
-                              <Checkbox>Videos</Checkbox>
-                            </Control>
-                          </Field>
-                        },
-                        {
-                          id: 'all',
-                          label: 'Select all'
-                        }
-                      ]}>
+                        }))
+                        }>
                       {translate('Filter')}
                     </Dropdown>
                   </LevelItem>
@@ -198,7 +221,7 @@ const LibraryViewLayout = ({
             <div>
               <Grid columns={3}>
                 {
-                    resourcesList.map(resource => {
+                    visibleResources.map(resource => {
                       const handleEdit = () => {
                         enterBlock({
                           storyId,

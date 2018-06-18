@@ -47,6 +47,7 @@
   "Components.ResourceForm.Url of the video": "Url of the video",
   "Components.ResourceForm.Explanation about the video url": "Explanation about the video url",
   "Components.ResourceForm.Video url": "Video url",
+  "Components.ResourceForm.this field is required": "this field is required",
   "Components.ResourceForm.Create a new resource": "Create a new resource",
   "Components.ResourceForm.Edit resource": "Edit resource",
   "Components.ResourceForm.Preview": "Preview",
