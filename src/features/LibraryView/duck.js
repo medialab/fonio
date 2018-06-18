@@ -10,6 +10,8 @@ import {createStructuredSelector} from 'reselect';
 
 import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 
+import resourceSchema from 'quinoa-schemas/resource';
+
 /**
  * ===================================================
  * ACTION NAMES
@@ -22,6 +24,9 @@ import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 const SET_MAIN_COLUMN_MODE = 'SET_MAIN_COLUMN_MODE';
 const SET_SORT_VISIBLE = 'SET_SORT_VISIBLE';
 const SET_FILTER_VISIBLE = 'SET_FILTER_VISIBLE';
+const SET_FILTER_VALUES = 'SET_FILTER_VALUES';
+const SET_SORT_VALUE = 'SET_SORT_VALUE';
+const SET_SEARCH_STRING = 'SET_SEARCH_STRING';
 /**
  * lock system
  */
@@ -45,6 +50,18 @@ export const setFilterVisible = payload => ({
   type: SET_FILTER_VISIBLE,
   payload
 });
+export const setSearchString = payload => ({
+  type: SET_SEARCH_STRING,
+  payload,
+});
+export const setFilterValues = payload => ({
+  type: SET_FILTER_VALUES,
+  payload
+});
+export const setSortValue = payload => ({
+  type: SET_SORT_VALUE,
+  payload
+});
 /**
  * ===================================================
  * REDUCERS
@@ -53,10 +70,20 @@ export const setFilterVisible = payload => ({
 /**
  * Default/fallback state of the ui state
  */
+
+const defaultFilterValues = Object.keys(resourceSchema.definitions)
+  .reduce((result, type) => ({
+    ...result,
+    [type]: true
+  }), {});
+
 const UI_DEFAULT_STATE = {
   mainColumnMode: 'list',
   sortVisible: false,
   filterVisible: false,
+  searchString: '',
+  filterValues: defaultFilterValues,
+  sortValue: 'title'
 };
 
 /**
@@ -73,6 +100,9 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_MAIN_COLUMN_MODE:
     case SET_SORT_VISIBLE:
     case SET_FILTER_VISIBLE:
+    case SET_SEARCH_STRING:
+    case SET_FILTER_VALUES:
+    case SET_SORT_VALUE:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -113,6 +143,9 @@ export default combineReducers({
 const mainColumnMode = state => state.ui.mainColumnMode;
 const sortVisible = state => state.ui.sortVisible;
 const filterVisible = state => state.ui.filterVisible;
+const searchString = state => state.ui.searchString;
+const filterValues = state => state.ui.filterValues;
+const sortValue = state => state.ui.sortValue;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -122,4 +155,7 @@ export const selector = createStructuredSelector({
   mainColumnMode,
   sortVisible,
   filterVisible,
+  searchString,
+  filterValues,
+  sortValue,
 });

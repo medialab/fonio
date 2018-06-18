@@ -1,0 +1,6 @@
+{
+  "serverUrl": "SERVER_URL",
+  "youtubeAPIKey": "YOUTUBE_API_KEY",
+  "sessionName": "SESSION_NAME",
+  "urlPrefix": "URL_PREFIX"
+}

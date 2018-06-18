@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-18\n"
-"PO-Revision-Date: Mon Jun 18 2018 15:04:33 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jun 18 2018 17:08:04 GMT+0200 (GMT+02:00)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1648,6 +1648,15 @@ msgstr "Update settings"
 
 msgid "Components.ResourceForm.this field is required"
 msgstr "this field is required"
+
+msgid "Features.LibraryView.edited recently"
+msgstr "edited recently"
+
+msgid "Features.LibraryView.title"
+msgstr "title"
+
+msgid "Features.LibraryView.Source: "
+msgstr "Source: "
 
 msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr ""

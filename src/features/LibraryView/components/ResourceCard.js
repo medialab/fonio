@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import resourceSchema from 'quinoa-schemas/resource';
+
 import {
   Column,
   Columns,
@@ -22,7 +24,27 @@ const ResourceCard = ({
   onDelete
 }, {t}) => {
 
+  const {
+    metadata = {}
+  } = resource;
+
+  const {
+    type,
+    title,
+    description,
+    source,
+  } = metadata;
+
   const translate = translateNameSpacer(t, 'Features.LibraryView');
+
+  const specificSchema = resourceSchema.definitions[type];
+
+  const shorten = (str, limit) => {
+    if (str.length < limit) {
+      return str;
+    }
+    return `${str.substr(0, limit - 3)}...`;
+  };
 
   return (
     <Card
@@ -31,12 +53,12 @@ const ResourceCard = ({
           <Columns>
             <Column isSize={2}>
               <Icon isSize="medium" isAlign="left">
-                <img src={icons[resource.metadata.type].black.svg} />
+                <img src={icons[type].black.svg} />
               </Icon>
             </Column>
 
             <Column isSize={8}>
-              {resource.metadata.title}
+              {title}
             </Column>
 
             <Column isSize={2}>
@@ -47,8 +69,21 @@ const ResourceCard = ({
           </Columns>
           <Column>
             {
-              ['image', 'video'].indexOf(resource.metadata.type) > -1 &&
-              <img src="https://inra-dam-front-resources-cdn.brainsonic.com/ressources/afile/224020-77d3e-picture_client_link_1-ouverture-dossier-controverse.JPG" />
+              specificSchema.showMetadata &&
+              <div>
+                {
+                  source &&
+                  <p>
+                    {translate('Source: ')} : {shorten(source, 30)}
+                  </p>
+                }
+                {
+                  description &&
+                  <p>
+                    <i>{shorten(description, 40)}</i>
+                  </p>
+                }
+              </div>
             }
           </Column>
         </div>
