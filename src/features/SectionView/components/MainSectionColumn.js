@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {v4 as genId} from 'uuid';
+
 import SectionEditor from '../../../components/SectionEditor';
 import NewSectionForm from '../../../components/NewSectionForm';
 import ResourceForm from '../../../components/ResourceForm';
@@ -22,10 +24,12 @@ import {
 
 
 const MainSectionColumn = ({
+  userLockedResourceId,
   mainColumnMode,
   defaultSectionMetadata,
   story,
   section,
+  userId,
 
   editorStates,
   editorFocus,
@@ -45,6 +49,8 @@ const MainSectionColumn = ({
   createContextualizer,
   createResource,
 
+  leaveBlock,
+
   updateDraftEditorState,
   updateDraftEditorsStates,
 
@@ -63,7 +69,10 @@ const MainSectionColumn = ({
 }) => {
 
 
-  // const {id: storyId} = story;
+  const {
+    id: storyId,
+    resources,
+  } = story;
   // const {id: sectionId} = section;
   const translate = translateNameSpacer(t, 'Features.SectionView');
 
@@ -95,13 +104,58 @@ const MainSectionColumn = ({
 
 
   const renderMain = () => {
-
+    if (userLockedResourceId) {
+      const handleSubmit = resource => {
+        const {id: resourceId} = resource;
+        updateResource({
+          resourceId,
+          resource,
+          storyId,
+          userId
+        });
+        leaveBlock({
+          storyId,
+          userId,
+          blockType: 'resources',
+          blockId: userLockedResourceId
+        });
+      };
+      const handleCancel = () => {
+        leaveBlock({
+          storyId,
+          userId,
+          blockType: 'resources',
+          blockId: userLockedResourceId
+        });
+      };
+      return (<ResourceForm
+        onCancel={handleCancel}
+        onSubmit={handleSubmit}
+        resource={resources[userLockedResourceId]}
+        asNewResource={false} />);
+    }
     switch (mainColumnMode) {
       case 'newresource':
-        return (
-          <ResourceForm
-            onCancel={() => setMainColumnMode('list')} />
-        );
+          const handleSubmit = resource => {
+            const resourceId = genId();
+
+            createResource({
+              resourceId,
+              resource: {
+                ...resource,
+                id: resourceId
+              },
+              storyId,
+              userId
+            });
+            setMainColumnMode('list');
+          };
+          return (
+            <ResourceForm
+              onCancel={() => setMainColumnMode('list')}
+              onSubmit={handleSubmit}
+              asNewResource />
+          );
       case 'editresource':
         return (
           <div>

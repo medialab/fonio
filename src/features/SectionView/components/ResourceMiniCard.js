@@ -18,9 +18,27 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 const ResourceMiniCard = ({
   resource,
-  onEdit
+  lockData,
+  isActive,
+  onEdit,
+  onDelete,
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Features.SectionView');
+
+  let lockStatus;
+  let lockMessage;
+  if (isActive) {
+    lockStatus = 'active';
+    lockMessage = translate('edited by you');
+  }
+ else if (lockData) {
+    lockStatus = 'locked';
+    lockMessage = translate('edited by {a}', {a: lockData.name});
+  }
+ else {
+    lockStatus = 'open';
+    lockMessage = translate('open to edition');
+  }
 
   return (
     <Card
@@ -40,8 +58,8 @@ const ResourceMiniCard = ({
 
             <Column isSize={2}>
               <StatusMarker
-                lockStatus={'open'}
-                statusMessage={'open'} />
+                lockStatus={lockStatus}
+                statusMessage={lockMessage} />
             </Column>
           </Columns>
           <Columns>
@@ -51,21 +69,27 @@ const ResourceMiniCard = ({
                   <img src={icons.move.black.svg} />
                 </Icon>
               </Button>
-              <Button onClick={onEdit} data-for="card-action" data-tip={'settings'}>
+              <Button
+                onClick={onEdit} isDisabled={isActive || lockStatus === 'locked'} data-for="card-action"
+                data-tip={'settings'}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.settings.black.svg} />
                 </Icon>
               </Button>
-              <Button data-for="card-action" data-tip={translate('delete this resource')}>
+              <Button
+                onClick={onDelete} isDisabled={isActive || lockStatus === 'locked'} data-for="card-action"
+                data-tip={translate('delete this resource')}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.remove.black.svg} />
                 </Icon>
               </Button>
-              <Button data-for="card-action" data-tip={translate('use as cover image')}>
-                <Icon isSize="small" isAlign="left">
-                  <img src={icons.cover.black.svg} />
-                </Icon>
-              </Button>
+              {resource.metadata.type === 'image' &&
+                <Button data-for="card-action" data-tip={translate('use as cover image')}>
+                  <Icon isSize="small" isAlign="left">
+                    <img src={icons.cover.black.svg} />
+                  </Icon>
+                </Button>
+              }
             </Column>
           </Columns>
           <ReactTooltip
