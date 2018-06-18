@@ -15,7 +15,7 @@ import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
  * ACTION NAMES
  * ===================================================
  */
- import {ENTER_BLOCK, LEAVE_BLOCK, LEAVE_STORY} from '../ConnectionsManager/duck';
+ import {LEAVE_STORY} from '../ConnectionsManager/duck';
 /**
  * ui
  */
@@ -76,23 +76,23 @@ function ui(state = UI_DEFAULT_STATE, action) {
         ...state,
         [propName]: payload
       };
-    case `${ENTER_BLOCK}_SUCCESS`:
-      if (payload.location === 'storyMetadata') {
-        return {
-          ...state,
-          metadataOpen: true
-        };
-      }
-      return state;
-    case `${ENTER_BLOCK}_FAIL`:
-    case `${LEAVE_BLOCK}`:
-      if (payload.location === 'storyMetadata') {
-        return {
-          ...state,
-          metadataOpen: false
-        };
-      }
-      return state;
+    // case `${ENTER_BLOCK}_SUCCESS`:
+    //   if (payload.location === 'storyMetadata') {
+    //     return {
+    //       ...state,
+    //       metadataOpen: true
+    //     };
+    //   }
+    //   return state;
+    // case `${ENTER_BLOCK}_FAIL`:
+    // case `${LEAVE_BLOCK}`:
+    //   if (payload.location === 'storyMetadata') {
+    //     return {
+    //       ...state,
+    //       metadataOpen: false
+    //     };
+    //   }
+    //   return state;
     default:
       return state;
   }

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-6-14\n"
-"PO-Revision-Date: Thu Jun 14 2018 17:20:17 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-6-18\n"
+"PO-Revision-Date: Mon Jun 18 2018 13:10:35 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1561,6 +1561,87 @@ msgstr "Override exist story"
 
 msgid "Features.HomeView.Create new story"
 msgstr "Create new story"
+
+msgid "Features.LibraryView.Your library contains all the resources (references, images, visualizations...) that can be used within the story."
+msgstr ""
+
+msgid "Features.LibraryView.New resource"
+msgstr "New resource"
+
+msgid "Features.LibraryView.Drop files to include new resources in your library (images, tables, bibliographies)"
+msgstr "Drop files to include new resources in your library (images, tables, bibliographies)"
+
+msgid "Features.LibraryView.Find a resource"
+msgstr "Find a resource"
+
+msgid "Features.LibraryView.Search"
+msgstr "Search"
+
+msgid "Features.LibraryView.Sort"
+msgstr "Sort"
+
+msgid "Features.LibraryView.Filter"
+msgstr "Filter"
+
+msgid "Components.ResourceForm.Url of the video"
+msgstr "Url of the video"
+
+msgid "Components.ResourceForm.Explanation about the video url"
+msgstr "Explanation about the video url"
+
+msgid "Components.ResourceForm.Video url"
+msgstr "Video url"
+
+msgid "Components.ResourceForm.Create a new resource"
+msgstr "Create a new resource"
+
+msgid "Components.ResourceForm.Edit resource"
+msgstr "Edit resource"
+
+msgid "Components.ResourceForm.Preview"
+msgstr "Preview"
+
+msgid "Components.ResourceForm.Title of the resource"
+msgstr "Title of the resource"
+
+msgid "Components.ResourceForm.Explanation about the resource title"
+msgstr "Explanation about the resource title"
+
+msgid "Components.ResourceForm.Resource title"
+msgstr "Resource title"
+
+msgid "Components.ResourceForm.Source of the resource"
+msgstr "Source of the resource"
+
+msgid "Components.ResourceForm.Explanation about the resource source"
+msgstr "Explanation about the resource source"
+
+msgid "Components.ResourceForm.Resource source"
+msgstr "Resource source"
+
+msgid "Components.ResourceForm.Description of the resource"
+msgstr "Description of the resource"
+
+msgid "Components.ResourceForm.Explanation about the resource description"
+msgstr "Explanation about the resource description"
+
+msgid "Components.ResourceForm.Resource description"
+msgstr "Resource description"
+
+msgid "Components.ResourceForm.Create resource"
+msgstr "Create resource"
+
+msgid "Components.ResourceForm.Save resource"
+msgstr "Save resource"
+
+msgid "Components.ResourceForm.Cancel"
+msgstr "Cancel"
+
+msgid "Features.LibraryView.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "Features.LibraryView.open to edition"
+msgstr "open to edition"
 
 msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr ""

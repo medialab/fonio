@@ -12,6 +12,11 @@ const sectionSchema = {
   ...storySchema.definitions,
 };
 
+const resourceSchema = {
+  ...storySchema.properties.resources.patternProperties['[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
+  ...storySchema.definitions,
+};
+
 export const validate = (schema, data) => {
   const val = ajv.compile(schema);
   return {valid: val(data), errors: val.errors};
@@ -24,3 +29,5 @@ export const defaults = schema => def(schema);
 export const createDefaultStory = () => defaults(storySchema);
 
 export const createDefaultSection = () => defaults(sectionSchema);
+
+export const createDefaultResource = () => defaults(resourceSchema);

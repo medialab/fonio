@@ -16,6 +16,7 @@ import {reducer as toastrReducer} from 'react-redux-toastr';
 import home from '../features/HomeView/duck';
 import summary from '../features/SummaryView/duck';
 import section from '../features/SectionView/duck';
+import library from '../features/LibraryView/duck';
 
 import connections from '../features/ConnectionsManager/duck';
 import userInfo from '../features/UserInfoManager/duck';
@@ -50,4 +51,5 @@ export default combineReducers({
   home,
   summary,
   section,
+  library,
 });

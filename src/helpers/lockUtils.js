@@ -17,6 +17,25 @@ export const getReverseSectionsLockMap = (lockingMap = {}, activeUsers = {}, sto
   return {};
 };
 
+export const getReverseResourcesLockMap = (lockingMap = {}, activeUsers = {}, storyId) => {
+  if (lockingMap[storyId] && lockingMap[storyId].locks) {
+    return Object.keys(lockingMap[storyId].locks)
+      .reduce((result, thatUserId) => {
+        const userResourceLock = lockingMap[storyId].locks[thatUserId].resources;
+        if (userResourceLock) {
+          return {
+            ...result,
+            [userResourceLock.blockId]: {
+              ...activeUsers[userResourceLock.userId]
+            }
+          };
+        }
+        return result;
+      }, {});
+  }
+  return {};
+};
+
 export const getStoryActiveUsersIds = (lockingMap, storyId) => {
   if (lockingMap[storyId] && lockingMap[storyId].locks) {
     return Object.keys(lockingMap[storyId].locks);
@@ -57,4 +76,15 @@ export const checkIfUserHasLockOnSection = (lockingMap = {}, userId, storyId, se
     return false;
   }
   return false;
+};
+
+export const getUserResourceLockId = (lockingMap = {}, userId, storyId) => {
+  if (lockingMap[storyId] && lockingMap[storyId].locks) {
+    const user = lockingMap[storyId].locks[userId];
+    if (user) {
+      return user.resources && user.resources.blockId;
+    }
+    return undefined;
+  }
+  return undefined;
 };

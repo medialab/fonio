@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 
 import SectionEditor from '../../../components/SectionEditor';
 import NewSectionForm from '../../../components/NewSectionForm';
+import ResourceForm from '../../../components/ResourceForm';
 
 import TitleForm from './TitleForm';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
-const resourceTypes = ['bib', 'image', 'video', 'embed', 'webpage', 'table', 'glossary'];
-
 import {
-  BigSelect,
   Column,
   Columns,
   Control,
@@ -22,9 +20,6 @@ import {
   Title,
 } from 'quinoa-design-library/components/';
 
-import icons from 'quinoa-design-library/src/themes/millet/icons';
-
-import NewResourceForm from './NewResourceForm';
 
 const MainSectionColumn = ({
   mainColumnMode,
@@ -104,31 +99,8 @@ const MainSectionColumn = ({
     switch (mainColumnMode) {
       case 'newresource':
         return (
-          <div>
-            <Level />
-            <Title isSize={2}>
-              <Columns>
-                <Column isSize={11}>
-                  Create a new resource
-                </Column>
-                <Column>
-                  <Delete onClick={
-                    () => setMainColumnMode('list')
-                  } />
-                </Column>
-              </Columns>
-            </Title>
-            <BigSelect
-              activeOptionId={'image'}
-              options={
-                resourceTypes.map(type => ({
-                  id: type,
-                  label: type,
-                  iconUrl: icons[type].black.svg
-                }))
-              } />
-            <NewResourceForm />
-          </div>
+          <ResourceForm
+            onCancel={() => setMainColumnMode('list')} />
         );
       case 'editresource':
         return (
@@ -146,7 +118,7 @@ const MainSectionColumn = ({
                 </Column>
               </Columns>
             </Title>
-            <NewResourceForm />
+            <ResourceForm asNewResource={false} />
           </div>
         );
       case 'newsection':

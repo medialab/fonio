@@ -27,6 +27,7 @@ import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import Home from './features/HomeView/components/HomeViewContainer';
 import Summary from './features/SummaryView/components/SummaryViewContainer';
 import Section from './features/SectionView/components/SectionViewContainer';
+import Library from './features/LibraryView/components/LibraryViewContainer';
 import AuthWrapper from './features/AuthManager/components/AuthManagerContainer';
 import ToasterContainer from './features/ConnectionsManager/components/ToasterContainer';
 
@@ -45,6 +46,7 @@ const ProtectedRoutes = ({match}) => {
       <ToasterContainer>
         <Route exact path={match.path} component={Summary} />
         <Route exact path={`${match.path}/section/:sectionId`} component={Section} />
+        <Route exact path={`${match.path}/library`} component={Library} />
       </ToasterContainer>
     </AuthWrapper>
   );
