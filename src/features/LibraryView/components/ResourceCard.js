@@ -104,7 +104,7 @@ const ResourceCard = ({
         if (action === 'edit') {
           onEdit();
         }
- else if (action === 'delete') {
+        else if (action === 'delete') {
           onDelete();
         }
       }} />
