@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {Form, Text} from 'react-form';
+import {Form, Text, TextArea} from 'react-form';
 
 import resourceSchema from 'quinoa-schemas/resource';
 
@@ -18,10 +18,8 @@ import {
   Delete,
   Field,
   HelpPin,
-  // Input,
   Label,
   Level,
-  TextArea,
   Title,
 } from 'quinoa-design-library/components/';
 
@@ -31,7 +29,6 @@ import AssetPreview from '../AssetPreview';
 
 const resourceTypes = Object.keys(resourceSchema.definitions);
 const credentials = CONFIG;/* eslint no-undef : 0 */
-// const resourceTypes = ['bib', 'image', 'video', 'embed', 'webpage', 'table', 'glossary'];
 
 class ResourceForm extends Component {
 
@@ -95,8 +92,7 @@ class ResourceForm extends Component {
     const {
       props: {
         asNewResource = true,
-        // resource = {},
-        resourceType: propResourceType,
+        // resourceType: propResourceType,
         onCancel,
         onSubmit
       },
@@ -106,23 +102,12 @@ class ResourceForm extends Component {
       translate,
       generateDataForm
     } = this;
-    const {
-      metadata = {}
-    } = resource;
-    const {
-      type,
-      title = '',
-      source = '',
-      description = '',
-    } = metadata;
-    const resourceType = type || propResourceType;
 
-    const schema = resourceSchema.definitions[resourceType];
 
-    const handleSubmit = () => {
-      const dataSchema = resourceSchema.definitions[resourceType];
-      if (validate(resourceSchema, resource).valid && validate(dataSchema, resource.data).valid) {
-        onSubmit(resource);
+    const handleSubmit = (values) => {
+      const dataSchema = resourceSchema.definitions[values.metadata.type];
+      if (validate(resourceSchema, values).valid && validate(dataSchema, values.data).valid) {
+        onSubmit(values);
       }
     };
 
@@ -137,18 +122,18 @@ class ResourceForm extends Component {
         }
       });
     };
-    const onResourceTypeChange = thatType => updateTempResource('metadata', 'type', thatType);
-    const onResourceTitleChange = thatTitle => updateTempResource('metadata', 'title', thatTitle);
-    const onResourceSourceChange = thatSource => updateTempResource('metadata', 'source', thatSource);
-    const onResourceDescriptionChange = thatDescription => updateTempResource('metadata', 'description', thatDescription);
+    const onResourceTypeChange = (thatType, formApi) => {
+      console.log(thatType, formApi);
+      formApi.setValue('metadata.type', thatType);
+    };
 
     const onSubmitFailure = error => {
       console.log(error);/* eslint no-console : 0 */
     };
 
     const errorValidator = (values) => {
-      if (resourceType) {
-        const dataSchema = resourceSchema.definitions[resourceType];
+      if (values.metadata.type) {
+        const dataSchema = resourceSchema.definitions[values.metadata.type];
         const dataRequiredValues = dataSchema.requiredValues || [];
         return {
           ...dataRequiredValues.reduce((result, key) => ({
@@ -161,7 +146,7 @@ class ResourceForm extends Component {
 
     return (
       <Form
-        defaultValues={metadata}
+        defaultValues={resource}
         validateError={errorValidator}
         onSubmitFailure={onSubmitFailure}
         onSubmit={handleSubmit}>
@@ -181,9 +166,10 @@ class ResourceForm extends Component {
                   </Column>
                 </Columns>
               </Title>
-              {asNewResource && <BigSelect
-                activeOptionId={resourceType}
-                onChange={onResourceTypeChange}
+              {asNewResource &&
+              <BigSelect
+                activeOptionId={formApi.getValue('metadata.type')}
+                onChange={thatType => onResourceTypeChange(thatType, formApi)}
                 options={
                         resourceTypes.map(thatType => ({
                           id: thatType,
@@ -191,20 +177,20 @@ class ResourceForm extends Component {
                           iconUrl: icons[thatType].black.svg
                         }))
                       } />}
-              {resourceType && <Columns>
+              {formApi.getValue('metadata.type') && <Columns>
                 <Column>
-                  {generateDataForm(resourceType, resource, updateTempResource, formApi)}
+                  {generateDataForm(formApi.getValue('metadata.type'), resource, updateTempResource, formApi)}
                 </Column>
                 <Column>
                   <Title isSize={5}>
                     {translate('Preview')}
                   </Title>
                   <AssetPreview
-                    resource={resource} />
+                    resource={formApi.values} />
                 </Column>
               </Columns>}
               <Level />
-              {resourceType && schema.showMetadata && <Columns>
+              {formApi.getValue('metadata.type') && resourceSchema.definitions[formApi.getValue('metadata.type')].showMetadata && <Columns>
                 <Column>
                   <Field>
                     <Control>
@@ -218,9 +204,7 @@ class ResourceForm extends Component {
                         type="text"
                         id="metadata.title"
                         field="metadata.title"
-                        placeholder={translate('Resource title')}
-                        value={title}
-                        onChange={onResourceTitleChange} />
+                        placeholder={translate('Resource title')} />
                     </Control>
                   </Field>
                   <Field>
@@ -235,9 +219,7 @@ class ResourceForm extends Component {
                         type="text"
                         id="metadata.source"
                         field="metadata.source"
-                        placeholder={translate('Resource source')}
-                        value={source}
-                        onChange={onResourceSourceChange} />
+                        placeholder={translate('Resource source')} />
                     </Control>
                   </Field>
                 </Column>
@@ -254,19 +236,17 @@ class ResourceForm extends Component {
                         type="text"
                         field="metadata.description"
                         id="metadata.description"
-                        placeholder={translate('Resource description')}
-                        value={description}
-                        onChange={onResourceDescriptionChange} />
+                        placeholder={translate('Resource description')} />
                     </Control>
                   </Field>
                 </Column>
               </Columns>}
-              {resourceType &&
+              {formApi.getValue('metadata.type') &&
               <Level>
                 <Button
                   type="submit"
                   isFullWidth
-                  onClick={handleSubmit}
+                  onClick={formApi.submitForm}
                   isColor="success">
                   {asNewResource ? translate('Create resource') : translate('Save resource')}
                 </Button>
