@@ -148,7 +148,7 @@ const SectionViewLayout = ({
         storyId,
         userId,
         blockId: thatSectionId,
-        location: 'sections',
+        blockType: 'sections',
       });
     }
   };

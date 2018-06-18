@@ -103,7 +103,7 @@ class SectionViewContainer extends Component {
       blockId: sectionId,
       storyId,
       userId,
-      location: 'sections',
+      blockType: 'sections',
     });
   }
 
@@ -121,7 +121,7 @@ class SectionViewContainer extends Component {
       blockId: sectionId,
       storyId,
       userId,
-      location: 'sections',
+      blockType: 'sections',
     }, (err) => {
       if (err) {
         /**

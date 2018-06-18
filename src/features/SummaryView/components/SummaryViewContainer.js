@@ -56,7 +56,7 @@ class SummaryViewContainer extends Component {
       leaveBlock({
         storyId: id,
         userId,
-        location: 'storyMetadata',
+        blockType: 'storyMetadata',
       });
     }
   }

@@ -144,7 +144,8 @@ const SummaryViewLayout = ({
       leaveBlock({
         storyId,
         userId,
-        location: 'storyMetadata',
+        blockId: 'storyMetadata',
+        blockType: 'storyMetadata',
       });
     }
     else {
@@ -152,7 +153,8 @@ const SummaryViewLayout = ({
       enterBlock({
         storyId,
         userId,
-        location: 'storyMetadata',
+        blockId: 'storyMetadata',
+        blockType: 'storyMetadata',
       });
     }
   };
@@ -160,7 +162,8 @@ const SummaryViewLayout = ({
   const onMetadataSubmit = ({payload: {metadata}}) => {
     const payload = {
       storyId,
-      metadata
+      userId,
+      metadata,
     };
     updateStoryMetadata(payload);
     toggleMetadataEdition();
@@ -198,7 +201,7 @@ const SummaryViewLayout = ({
       storyId,
       userId,
       blockId: thatSectionId,
-      location: 'sections'
+      blockType: 'sections'
     });
   };
 
@@ -220,7 +223,7 @@ const SummaryViewLayout = ({
     // enterBlock({
     //   storyId,
     //   userId,
-    //   location: 'sectionsOrder',
+    //   blockType: 'sectionsOrder',
     // });
   };
 

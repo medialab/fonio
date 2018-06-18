@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-18\n"
-"PO-Revision-Date: Mon Jun 18 2018 13:10:35 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jun 18 2018 13:12:29 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1642,6 +1642,9 @@ msgstr "edited by {a}"
 
 msgid "Features.LibraryView.open to edition"
 msgstr "open to edition"
+
+msgid "Components.MetadataForm.Update settings"
+msgstr "Update settings"
 
 msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr ""

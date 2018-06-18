@@ -145,7 +145,7 @@ const MetadataForm = ({
             <Column>
               <Button isFullWidth type="submit" isColor="success">
                 {story.id ?
-                  <span>{translate('Update ettings')}</span> :
+                  <span>{translate('Update settings')}</span> :
                   <span>{translate('Create story')}</span>
                 }
               </Button>
