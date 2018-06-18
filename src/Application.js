@@ -133,7 +133,7 @@ export default class Application extends Component {
           </Switch>
             }
           <ReduxToastr
-            timeOut={3000}
+            timeOut={6000}
             newestOnTop={false}
             preventDuplicates
             position="top-right"
