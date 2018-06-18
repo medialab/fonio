@@ -254,7 +254,8 @@ function story(state = STORY_DEFAULT_STATE, action) {
             sections: {
               ...state.story.sections,
               [payload.sectionId]: {
-                ...payload.section
+                ...payload.section,
+                lastUpdateAt: payload.lastUpdateAt,
               }
             },
             sectionsOrder: [
@@ -273,7 +274,8 @@ function story(state = STORY_DEFAULT_STATE, action) {
             sections: {
               ...state.story.sections,
               [payload.sectionId]: {
-                ...payload.section
+                ...payload.section,
+                lastUpdateAt: payload.lastUpdateAt,
               }
             },
             lastUpdateAt: payload.lastUpdateAt,
@@ -314,7 +316,8 @@ function story(state = STORY_DEFAULT_STATE, action) {
             resources: {
               ...state.story.resources,
               [payload.resourceId]: {
-                ...payload.resource
+                ...payload.resource,
+                lastUpdateAt: payload.lastUpdateAt,
               }
             },
             lastUpdateAt: payload.lastUpdateAt,
@@ -328,6 +331,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
           resources: {
             ...state.resources,
             [payload.resourceId]: result.data,
+            lastUpdateAt: payload.lastUpdateAt,
           },
           lastUpdateAt: payload.lastUpdateAt,
         }
