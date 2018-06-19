@@ -133,8 +133,13 @@ const AsideSectionColumn = ({
               </Dropdown>
             </Level>
             <Level>
-              <Button isFullWidth onClick={() => setMainColumnMode('newresource')} isColor={mainColumnMode === 'newresource' ? 'primary' : 'info'}>
-                New resource
+              <Button 
+                isFullWidth 
+                onClick={() => setMainColumnMode('newresource')} 
+                isColor={mainColumnMode === 'newresource' ? 'primary' : 'info'}
+                isDisabled={userLockedResourceId !== undefined}
+              >
+                {translate('New resource')}
               </Button>
             </Level>
             {
