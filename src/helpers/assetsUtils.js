@@ -205,8 +205,7 @@ export function inferMetadata(data, assetType) {
       if (data.metadata) {
         return {...data.metadata};
       }
-      return {
-      };
+      return {};
     case 'data-presentation':
       return {...data.json.metadata};
     case 'image':
@@ -219,9 +218,9 @@ export function inferMetadata(data, assetType) {
       return {
         title,
         fileName: data && data.file && data.file.name && data.file.name,
-        mime: data && data.file && data.file.type
+        ext: data && data.file && data.file.name && data.file.name.split('.')[1],
+        mimeType: data && data.file && data.file.type
       };
-    case 'embed':
     default:
       return {};
   }
