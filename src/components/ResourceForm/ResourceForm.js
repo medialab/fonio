@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {Form, Text, TextArea} from 'react-form';
+import {Form, NestedField, Text, TextArea} from 'react-form';
 
 import resourceSchema from 'quinoa-schemas/resource';
 
@@ -17,6 +17,7 @@ import {
   Control,
   Delete,
   Field,
+  Help,
   HelpPin,
   Label,
   Level,
@@ -48,9 +49,141 @@ class ResourceForm extends Component {
     }
   }
 
-  generateDataForm = (resourceType, resource, formApi) => {
-    const {translate} = this;
-    switch (resourceType) {
+  // generateDataForm = (resourceType, resource, formApi) => {
+  //   const {translate} = this;
+  //   switch (resourceType) {
+  //     case 'video':
+  //       const onVideoUrlChange = (thatUrl) => {
+  //         retrieveMediaMetadata(thatUrl, credentials)
+  //           .then(({metadata}) => {
+  //             Object.keys(metadata)
+  //               .forEach(key => {
+  //                 formApi.setValue(`metadata.${key}`, metadata[key]);
+  //               });
+  //           });
+  //       };
+  //       return (
+  //         <Field>
+  //           <Control>
+  //             <Label>
+  //               {translate('Url of the video')}
+  //               <HelpPin place="right">
+  //                 {translate('Explanation about the video url')}
+  //               </HelpPin>
+  //             </Label>
+  //             <Text
+  //               field="url" id="url"
+  //               onChange={onVideoUrlChange}
+  //               type="text"
+  //               placeholder={translate('Video url')} />
+  //           </Control>
+  //         </Field>
+  //       );
+  //     case 'embed':
+  //       return (
+  //         <Field>
+  //           <Control>
+  //             <Label>
+  //               {translate('Embed code')}
+  //               <HelpPin place="right">
+  //                 {translate('Explanation about the embed')}
+  //               </HelpPin>
+  //             </Label>
+  //             <TextArea
+  //               field="html" id="html"
+  //               type="text"
+  //               placeholder={translate('Embed code')} />
+  //           </Control>
+  //         </Field>
+  //       );
+  //     case 'webpage':
+  //       return (
+  //         <Column>
+  //           <Field>
+  //             <Control>
+  //               <Label>
+  //                 {translate('Webpage name')}
+  //                 <HelpPin place="right">
+  //                   {translate('Explanation about the webpage')}
+  //                 </HelpPin>
+  //               </Label>
+  //               <Text
+  //                 field="name" id="name"
+  //                 type="text"
+  //                 placeholder={translate('name')} />
+  //             </Control>
+  //           </Field>
+  //           <Field>
+  //             <Control>
+  //               <Label>
+  //                 {translate('hyperlink')}
+  //                 <HelpPin place="right">
+  //                   {translate('Explanation about the hyperlink')}
+  //                 </HelpPin>
+  //               </Label>
+  //               <Text
+  //                 field="url" id="url"
+  //                 type="text"
+  //                 placeholder={translate('http://')} />
+  //             </Control>
+  //           </Field>
+  //         </Column>
+  //       );
+  //     case 'glossary':
+  //       return (
+  //         <Column>
+  //           <Field>
+  //             <Control>
+  //               <Label>
+  //                 {translate('Glossary name')}
+  //                 <HelpPin place="right">
+  //                   {translate('Explanation about the glossary')}
+  //                 </HelpPin>
+  //               </Label>
+  //               <Text
+  //                 field="name" id="name"
+  //                 type="text"
+  //                 placeholder={translate('glossary name')} />
+  //             </Control>
+  //           </Field>
+  //           <Field>
+  //             <Control>
+  //               <Label>
+  //                 {translate('Glossary description')}
+  //                 <HelpPin place="right">
+  //                   {translate('Explanation about the glossary description')}
+  //                 </HelpPin>
+  //               </Label>
+  //               <TextArea
+  //                 type="text"
+  //                 field="description"
+  //                 id="description"
+  //                 placeholder={translate('glossary description')} />
+  //             </Control>
+  //           </Field>
+  //         </Column>
+  //       );
+  //     default:
+  //       return null;
+  //   }
+  // };
+
+  render = () => {
+    const {
+      props: {
+        asNewResource = true,
+        // resourceType: propResourceType,
+        onCancel,
+        onSubmit
+      },
+      state: {
+        resource = {}
+      },
+      translate,
+    } = this;
+
+    const DataForm = ({resourceType, formApi}) => {
+      switch (resourceType) {
       case 'video':
         const onVideoUrlChange = (thatUrl) => {
           retrieveMediaMetadata(thatUrl, credentials)
@@ -71,7 +204,7 @@ class ResourceForm extends Component {
                 </HelpPin>
               </Label>
               <Text
-                field="data.url" id="data.url"
+                field="url" id="url"
                 onChange={onVideoUrlChange}
                 type="text"
                 placeholder={translate('Video url')} />
@@ -89,7 +222,7 @@ class ResourceForm extends Component {
                 </HelpPin>
               </Label>
               <TextArea
-                field="data.html" id="data.html"
+                field="html" id="html"
                 type="text"
                 placeholder={translate('Embed code')} />
             </Control>
@@ -107,7 +240,7 @@ class ResourceForm extends Component {
                   </HelpPin>
                 </Label>
                 <Text
-                  field="data.name" id="data.name"
+                  field="name" id="name"
                   type="text"
                   placeholder={translate('name')} />
               </Control>
@@ -121,10 +254,14 @@ class ResourceForm extends Component {
                   </HelpPin>
                 </Label>
                 <Text
-                  field="data.url" id="data.url"
+                  field="url" id="url"
                   type="text"
                   placeholder={translate('http://')} />
               </Control>
+              {
+                formApi.errors &&
+                  <Help isColor="danger">error</Help>
+              }
             </Field>
           </Column>
         );
@@ -140,7 +277,7 @@ class ResourceForm extends Component {
                   </HelpPin>
                 </Label>
                 <Text
-                  field="data.name" id="data.name"
+                  field="name" id="name"
                   type="text"
                   placeholder={translate('glossary name')} />
               </Control>
@@ -155,8 +292,8 @@ class ResourceForm extends Component {
                 </Label>
                 <TextArea
                   type="text"
-                  field="data.description"
-                  id="data.description"
+                  field="description"
+                  id="description"
                   placeholder={translate('glossary description')} />
               </Control>
             </Field>
@@ -164,25 +301,8 @@ class ResourceForm extends Component {
         );
       default:
         return null;
-    }
-  };
-
-  render = () => {
-    const {
-      props: {
-        asNewResource = true,
-        // resourceType: propResourceType,
-        onCancel,
-        onSubmit
-      },
-      state: {
-        resource = {}
-      },
-      translate,
-      generateDataForm
-    } = this;
-
-
+      }
+    };
     const handleSubmit = (values) => {
       const dataSchema = resourceSchema.definitions[values.metadata.type];
       if (validate(resourceSchema, values).valid && validate(dataSchema, values.data).valid) {
@@ -210,9 +330,10 @@ class ResourceForm extends Component {
     };
 
     const errorValidator = (values) => {
+      console.log(values);
       if (values.metadata.type) {
         const dataSchema = resourceSchema.definitions[values.metadata.type];
-        const dataRequiredValues = dataSchema.requiredValues || [];
+        const dataRequiredValues = dataSchema.requiredProperties || [];
         return {
           ...dataRequiredValues.reduce((result, key) => ({
             ...result,
@@ -225,7 +346,8 @@ class ResourceForm extends Component {
     return (
       <Form
         defaultValues={resource}
-        validateError={errorValidator}
+        validate={errorValidator}
+        validateOnSubmit={true}
         onSubmitFailure={onSubmitFailure}
         onSubmit={handleSubmit}>
         {
@@ -257,9 +379,13 @@ class ResourceForm extends Component {
                       } />}
               {formApi.getValue('metadata.type') && <Columns>
                 <Column>
-                  {generateDataForm(formApi.getValue('metadata.type'), resource, formApi)}
+                  <NestedField defaultValues={resource.data} field="data">
+                    <DataForm resourceType={formApi.getValue('metadata.type')} formApi={formApi} />
+                    {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
+                  </NestedField>
                 </Column>
                 {formApi.getValue('metadata.type') !== 'glossary' &&
+                  formApi.getValue('metadata.type') !== 'webpage' &&
                   <Column>
                     <Title isSize={5}>
                       {translate('Preview')}
