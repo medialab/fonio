@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-6-18\n"
-"PO-Revision-Date: Mon Jun 18 2018 18:59:42 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-6-19\n"
+"PO-Revision-Date: Tue Jun 19 2018 17:15:15 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1713,6 +1713,39 @@ msgid "Components.ResourceForm.Explanation about the hyperlink"
 msgstr "Explanation about the hyperlink"
 
 msgid "Features.LibraryView.untitled resource"
+msgstr "untitled resource"
+
+msgid "Components.ResourceForm.Image file"
+msgstr "Image file"
+
+msgid "Components.ResourceForm.Explanation about the image"
+msgstr "Explanation about the image"
+
+msgid "Components.ResourceForm.Drop an image file"
+msgstr "Drop an image file"
+
+msgid "Components.ResourceForm.Table"
+msgstr "Table"
+
+msgid "Components.ResourceForm.Explanation about the table"
+msgstr "Explanation about the table"
+
+msgid "Components.ResourceForm.Drop an table file(csv, tsv)"
+msgstr "Drop an table file(csv, tsv)"
+
+msgid "Components.ResourceForm.Bib file"
+msgstr "Bib file"
+
+msgid "Components.ResourceForm.Explanation about the bib"
+msgstr "Explanation about the bib"
+
+msgid "Components.ResourceForm.Drop an bib file"
+msgstr "Drop an bib file"
+
+msgid "Features.SectionView.New resource"
+msgstr "New resource"
+
+msgid "Features.SectionView.untitled resource"
 msgstr "untitled resource"
 
 msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."

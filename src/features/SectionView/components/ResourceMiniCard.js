@@ -1,9 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ReactTooltip from 'react-tooltip';
+
+import resourceSchema from 'quinoa-schemas/resource';
+
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
-import ReactTooltip from 'react-tooltip';
+import {Bibliography} from 'react-citeproc';
+import english from 'raw-loader!../../../sharedAssets/bibAssets/english-locale.xml';
+import apa from 'raw-loader!../../../sharedAssets/bibAssets/apa.csl';
+
 
 import {
   Button,
@@ -17,13 +24,26 @@ import {
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 const ResourceMiniCard = ({
-  resource,
+  resource = {},
   lockData,
   isActive,
   onEdit,
   onDelete,
 }, {t}) => {
+
+  const {
+    data,
+    metadata = {}
+  } = resource;
+
+  const {
+    type,
+    title,
+  } = metadata;
+
   const translate = translateNameSpacer(t, 'Features.SectionView');
+
+  const specificSchema = resourceSchema.definitions[type];
 
   let lockStatus;
   let lockMessage;
@@ -31,29 +51,43 @@ const ResourceMiniCard = ({
     lockStatus = 'active';
     lockMessage = translate('edited by you');
   }
- else if (lockData) {
+  else if (lockData) {
     lockStatus = 'locked';
     lockMessage = translate('edited by {a}', {a: lockData.name});
   }
- else {
+  else {
     lockStatus = 'open';
     lockMessage = translate('open to edition');
   }
 
+  let resourceTitle;
+  if (specificSchema.showMetadata && title) {
+    resourceTitle = title;
+  }
+ else if (type === 'glossary' && data && data.name) {
+    resourceTitle = data.name;
+  }
+ else if (type === 'bib' && data && data[0]) {
+    const bibData = {
+      [data[0].id]: data[0]
+    };
+    resourceTitle = <Bibliography items={bibData} style={apa} locale={english} />;
+  }
+ else resourceTitle = translate('untitled resource');
+
   return (
     <Card
-      key={resource.id}
       bodyContent={
         <div>
           <Columns>
             <Column isSize={2}>
               <Icon isSize="medium" isAlign="left">
-                <img src={icons[resource.metadata.type].black.svg} />
+                <img src={icons[type].black.svg} />
               </Icon>
             </Column>
 
             <Column isSize={8}>
-              {resource.metadata.title}
+              {resourceTitle}
             </Column>
 
             <Column isSize={2}>
@@ -83,7 +117,7 @@ const ResourceMiniCard = ({
                   <img src={icons.remove.black.svg} />
                 </Icon>
               </Button>
-              {resource.metadata.type === 'image' &&
+              {type === 'image' &&
                 <Button data-for="card-action" data-tip={translate('use as cover image')}>
                   <Icon isSize="small" isAlign="left">
                     <img src={icons.cover.black.svg} />

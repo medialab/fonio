@@ -269,7 +269,7 @@ const LibraryViewLayout = ({
     if (mainColumnMode === 'new') {
       setMainColumnMode('list');
     }
- else setMainColumnMode('new');
+    else setMainColumnMode('new');
   };
 
   return (
@@ -283,7 +283,9 @@ const LibraryViewLayout = ({
             </Content>
           </Level>
           <Level>
-            <Button isFullWidth onClick={handleNewResourceClick} isColor={mainColumnMode === 'new' ? 'primary' : 'info'}>
+            <Button
+              isDisabled={userLockedResourceId !== undefined} isFullWidth onClick={handleNewResourceClick}
+              isColor={mainColumnMode === 'new' ? 'primary' : 'info'}>
               {translate('New resource')}
             </Button>
           </Level>
