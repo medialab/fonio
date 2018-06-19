@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 
 import resourceSchema from 'quinoa-schemas/resource';
 
+import {Bibliography} from 'react-citeproc';
+import english from 'raw-loader!../../../sharedAssets/bibAssets/english-locale.xml';
+import apa from 'raw-loader!../../../sharedAssets/bibAssets/apa.csl';
+
 import {
   Column,
   Columns,
@@ -48,12 +52,19 @@ const ResourceCard = ({
   };
 
   let resourceTitle;
-  if (specificSchema.showMetadata) {
-    resourceTitle = title ? title : translate('untitled resource');
+  if (specificSchema.showMetadata && title) {
+    resourceTitle = title;
   }
-  else {
-    resourceTitle = (data && data.name) ? data.name : translate('untitled resource');
+ else if (type === 'glossary' && data && data.name) {
+    resourceTitle = data.name;
   }
+ else if (type === 'bib' && data && data[0]) {
+    const bibData = {
+      [data[0].id]: data[0]
+    };
+    resourceTitle = <Bibliography items={bibData} style={apa} locale={english} />;
+  }
+ else resourceTitle = translate('untitled resource');
 
   return (
     <Card

@@ -10,7 +10,7 @@ import {Form, NestedField, Text, TextArea} from 'react-form';
 import resourceSchema from 'quinoa-schemas/resource';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
-import {retrieveMediaMetadata, loadImage} from '../../helpers/assetsUtils';
+import {retrieveMediaMetadata, loadImage, parseBibTeXToCSLJSON} from '../../helpers/assetsUtils';
 import {getFileAsText} from '../../helpers/fileLoader';
 
 import {validate, createDefaultResource} from '../../helpers/schemaUtils';
@@ -75,7 +75,7 @@ class ResourceForm extends Component {
           switch (type) {
             case 'bib':
               return getFileAsText(file)
-                .then(text => resolve({text}))
+                .then(text => resolve(parseBibTeXToCSLJSON(text)))
                 .catch(e => reject(e));
             case 'image':
               return loadImage(file)
@@ -285,11 +285,31 @@ class ResourceForm extends Component {
         return null;
       }
     };
-    const handleSubmit = (values) => {
-      console.log(values);
-      const dataSchema = resourceSchema.definitions[values.metadata.type];
-      if (validate(resourceSchema, values).valid && validate(dataSchema, values.data).valid) {
-        onSubmit(values);
+
+    const validateAndSubmit = candidate => {
+      const dataSchema = resourceSchema.definitions[candidate.metadata.type];
+      if (validate(resourceSchema, candidate).valid && validate(dataSchema, candidate.data).valid) {
+        onSubmit(candidate);
+      }
+ else {
+        /**
+         * @todo handle validation errors here
+         */
+        console.error(validate(resourceSchema, candidate));/* eslint no-console : 0 */
+      }
+    };
+    const handleSubmit = (candidates) => {
+      if (candidates.metadata.type === 'bib') {
+        candidates.data.forEach(datum => {
+          validateAndSubmit({
+            ...createDefaultResource(),
+            metadata: {...candidates.metadata},
+            data: [datum]
+          });
+        });
+      }
+ else {
+        validateAndSubmit(candidates);
       }
     };
 

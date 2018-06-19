@@ -283,7 +283,9 @@ const LibraryViewLayout = ({
             </Content>
           </Level>
           <Level>
-            <Button isDisabled={userLockedResourceId !== undefined} isFullWidth onClick={handleNewResourceClick} isColor={mainColumnMode === 'new' ? 'primary' : 'info'}>
+            <Button
+              isDisabled={userLockedResourceId !== undefined} isFullWidth onClick={handleNewResourceClick}
+              isColor={mainColumnMode === 'new' ? 'primary' : 'info'}>
               {translate('New resource')}
             </Button>
           </Level>
