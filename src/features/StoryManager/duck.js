@@ -8,7 +8,7 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
-import {get, post, put, del} from 'axios';
+import {get, post, put, delete as del} from 'axios';
 
 import {updateEditionHistoryMap, loadStoryToken} from '../../helpers/localStorageUtils';
 
@@ -130,6 +130,7 @@ export const uploadResource = (payload, mode) => ({
   payload,
   promise: () => {
     const token = loadStoryToken(payload.storyId);
+    const lastUpdateAt = new Date().getTime();
     const options = {
       headers: {
         'x-access-token': token,
@@ -137,10 +138,10 @@ export const uploadResource = (payload, mode) => ({
     };
     let serverRequestUrl;
     if (mode === 'create') {
-      serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}?userId=${payload.userId}&lastUpdateAt=${payload.lastUpdateAt}`;
+      serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
       return post(serverRequestUrl, payload.resource, options);
     }
-    serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${payload.lastUpdateAt}`;
+    serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
     return put(serverRequestUrl, payload.resource, options);
   },
 });
@@ -150,12 +151,13 @@ export const deleteUploadedResource = payload => ({
   payload,
   promise: () => {
     const token = loadStoryToken(payload.storyId);
+    const lastUpdateAt = new Date().getTime();
     const options = {
       headers: {
         'x-access-token': token,
       },
     };
-    const serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${payload.lastUpdateAt}`;
+    const serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
     return del(serverRequestUrl, options);
   },
 });
@@ -330,8 +332,10 @@ function story(state = STORY_DEFAULT_STATE, action) {
           ...state.story,
           resources: {
             ...state.resources,
-            [payload.resourceId]: result.data,
-            lastUpdateAt: payload.lastUpdateAt,
+            [payload.resourceId]: {
+              ...result.data,
+              lastUpdateAt: payload.lastUpdateAt,
+            },
           },
           lastUpdateAt: payload.lastUpdateAt,
         }

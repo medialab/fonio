@@ -66,6 +66,8 @@ const LibraryViewLayout = ({
     createResource,
     updateResource,
     deleteResource,
+    uploadResource,
+    deleteUploadedResource,
   }
 }, {t}) => {
 
@@ -73,7 +75,6 @@ const LibraryViewLayout = ({
     resources = {},
     id: storyId
   } = story;
-
 
   const activeFilters = Object.keys(filterValues).filter(key => filterValues[key]);
   const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
@@ -96,7 +97,7 @@ const LibraryViewLayout = ({
             return 1;
           case 'title':
           default:
-            if (a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim()) {
+            if ((a.metadata.title && b.metadata.title) && a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim()) {
               return 1;
             }
             return -1;
@@ -116,12 +117,18 @@ const LibraryViewLayout = ({
     if (userLockedResourceId) {
       const handleSubmit = resource => {
         const {id: resourceId} = resource;
-        updateResource({
+        const payload = {
           resourceId,
           resource,
           storyId,
           userId
-        });
+        };
+        if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
+          uploadResource(payload, 'update');
+        }
+        else {
+          updateResource(payload);
+        }
         leaveBlock({
           storyId,
           userId,
@@ -146,7 +153,7 @@ const LibraryViewLayout = ({
       case 'new':
         const handleSubmit = resource => {
         const resourceId = genId();
-        createResource({
+        const payload = {
           resourceId,
           resource: {
             ...resource,
@@ -154,7 +161,13 @@ const LibraryViewLayout = ({
           },
           storyId,
           userId,
-        });
+        };
+        if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
+          uploadResource(payload, 'create');
+        }
+        else {
+          createResource(payload);
+        }
         setMainColumnMode('list');
       };
         return (
@@ -242,11 +255,17 @@ const LibraryViewLayout = ({
                         });
                       };
                       const handleDelete = () => {
-                        deleteResource({
+                        const payload = {
                           storyId,
                           userId,
                           resourceId: resource.id
-                        });
+                        };
+                        if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
+                          deleteUploadedResource(payload);
+                        }
+                        else {
+                          deleteResource(payload);
+                        }
                       };
                       return (
                         <ResourceCard
