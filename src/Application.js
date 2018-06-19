@@ -118,7 +118,7 @@ export default class Application extends Component {
       }
     } = this;
     return (
-      <Router basename={CONFIG.urlPrefix || '/' /* eslint no-undef : 0 */}>
+      <Router basename={CONFIG.urlPrefix || '/'}>
         <div id="wrapper" className="fonio">
           {userId &&
           <Switch>
@@ -133,7 +133,7 @@ export default class Application extends Component {
           </Switch>
             }
           <ReduxToastr
-            timeOut={3000}
+            timeOut={6000}
             newestOnTop={false}
             preventDuplicates
             position="top-right"

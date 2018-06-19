@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import resourceSchema from 'quinoa-schemas/resource';
+
 import {
   Button,
   Checkbox,
@@ -22,6 +24,9 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 import ResourceMiniCard from './ResourceMiniCard';
 import SortableMiniSectionsList from './SortableMiniSectionsList';
 
+const resourceTypes = Object.keys(resourceSchema.definitions);
+
+
 const AsideSectionColumn = ({
   asideTabCollapsed,
   asideTabMode,
@@ -31,11 +36,28 @@ const AsideSectionColumn = ({
   story,
   sections,
 
+  userId,
+
+  reverseResourcesLockMap,
+  userLockedResourceId,
+
   setAsideTabCollapsed,
   setAsideTabMode,
   setResourceSortVisible,
   setResourceFilterVisible,
   setMainColumnMode,
+
+  visibleResources,
+  resourceSearchString,
+  setResourceSearchString,
+  resourceFilterValues,
+  setResourceFilterValues,
+  resourceSortValue,
+  setResourceSortValue,
+
+  onResourceEditAttempt,
+
+  deleteResource,
 
   onDeleteSection,
   onOpenSectionSettings,
@@ -43,6 +65,13 @@ const AsideSectionColumn = ({
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Features.SectionView');
   const {id: storyId} = story;
+
+  const toggleResourceFilter = type => {
+    setResourceFilterValues({
+      ...resourceFilterValues,
+      [type]: resourceFilterValues[type] ? false : true
+    });
+  };
 
   const renderAside = () => {
     if (asideTabCollapsed) {
@@ -54,7 +83,7 @@ const AsideSectionColumn = ({
           <Column>
             <Field hasAddons>
               <Control>
-                <Input placeholder={translate('find a resource')} />
+                <Input value={resourceSearchString} onChange={e => setResourceSearchString(e.target.value)} placeholder={translate('find a resource')} />
               </Control>
               <Control>
                 <Button>{translate('search')}</Button>
@@ -66,56 +95,41 @@ const AsideSectionColumn = ({
                   setResourceSortVisible(!resourceSortVisible);
                   setResourceFilterVisible(false);
                 }}
-                onChange={id => console.log('set resource sorting mode to ', id)/* eslint no-console : 0 */}
+                onChange={setResourceSortValue}
                 isActive={resourceSortVisible}
-                value={{id: 'lastmod', label: 'last modification'}}
+                value={{id: resourceSortValue, label: translate(resourceSortValue)}}
                 options={[
                   {
-                    id: 'lastmod',
-                    label: 'last modification'
-                  },
-                  {
-                    id: 'creation',
-                    label: 'creation'
+                    id: 'edited recently',
+                    label: translate('edited recently')
                   },
                   {
                     id: 'title',
-                    label: 'title'
+                    label: translate('title')
                   },
                 ]}>
-                {translate('sort resources')}
+                {translate('Sort resources')}
               </Dropdown>
               <Dropdown
                 onToggle={() => {
-                  setResourceSortVisible(false);
                   setResourceFilterVisible(!resourceFilterVisible);
+                  setResourceSortVisible(false);
                 }}
-                onChange={id => console.log('set resource filtering mode to ', id)/* eslint no-console : 0 */}
                 isActive={resourceFilterVisible}
-                value={{id: '1', label: '1 rem'}}
-                options={[
-                    {
-                      id: 'images',
-                      label: <Field>
-                        <Control>
-                          <Checkbox checked>Images</Checkbox>
-                        </Control>
-                      </Field>
-                    },
-                    {
-                      id: 'videos',
-                      label: <Field>
-                        <Control>
-                          <Checkbox>Videos</Checkbox>
-                        </Control>
-                      </Field>
-                    },
-                    {
-                      id: 'all',
-                      label: 'Select all'
-                    }
-                  ]}>
-                {translate('filter')}
+                value={{id: 1, label: '1 rem'}}
+                onChange={toggleResourceFilter}
+                options={
+                  resourceTypes.map(type => ({
+                    id: type,
+                    label: <Field>
+                      <Control>
+                        <Checkbox
+                          checked={resourceFilterValues[type]}>{translate(type)}</Checkbox>
+                      </Control>
+                    </Field>
+                  }))
+                  }>
+                {translate('Filter resources')}
               </Dropdown>
             </Level>
             <Level>
@@ -124,14 +138,26 @@ const AsideSectionColumn = ({
               </Button>
             </Level>
             {
-                Object.keys(story.resources)
-                .map(id => story.resources[id])
+                visibleResources
                 .map(resource => {
+                  const handleDelete = () => {
+                    deleteResource({
+                      storyId,
+                      userId,
+                      resourceId: resource.id
+                    });
+                  };
+                  const handleEdit = () => {
+                    onResourceEditAttempt(resource.id);
+                  };
                   return (
                     <Column style={{margin: '0 0 1rem 0', padding: 0}} key={resource.id}>
                       <ResourceMiniCard
                         resource={resource}
-                        onEdit={() => setMainColumnMode('editresource')} />
+                        onDelete={handleDelete}
+                        lockData={reverseResourcesLockMap[resource.id]}
+                        isActive={userLockedResourceId}
+                        onEdit={handleEdit} />
                     </Column>
                   );
                 })

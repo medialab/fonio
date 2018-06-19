@@ -1,0 +1,8 @@
+{
+  "serverUrl": "http://localhost:3001/api",
+  "apiUrl": "http://localhost:3001/api",
+  "youtubeAPIKey": "my youtube api key",
+  "maxSectionLevel": 6,
+  "sessionName": "My super classroom name",
+  "urlPrefix": ""
+}

@@ -3,7 +3,7 @@
  * @module fonio/helpers/serverAuth
  */
 import {put, post} from 'axios';
-const {apiUrl} = CONFIG;/* eslint no-undef : 0 */
+const {apiUrl} = CONFIG;
 
 /**
  * @param {object} story - the story to register to server

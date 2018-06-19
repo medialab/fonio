@@ -17,6 +17,8 @@ import {createDefaultSection} from '../../../helpers/schemaUtils';
 import {
   getReverseSectionsLockMap,
   checkIfUserHasLockOnSection,
+  getReverseResourcesLockMap,
+  getUserResourceLockId,
 } from '../../../helpers/lockUtils';
 
 import AsideSectionColumn from './AsideSectionColumn';
@@ -31,6 +33,10 @@ const SectionViewLayout = ({
   mainColumnMode,
   resourceSortVisible,
   resourceFilterVisible,
+  resourceFilterValues,
+  resourceSortValue,
+  resourceSearchString,
+
   lockingMap = {},
   activeUsers,
   userId,
@@ -48,6 +54,10 @@ const SectionViewLayout = ({
     setMainColumnMode,
     setResourceSortVisible,
     setResourceFilterVisible,
+    setResourceFilterValues,
+    setResourceSortValue,
+    setResourceSearchString,
+
     setPromptedToDeleteSectionId,
 
     updateSection,
@@ -57,6 +67,10 @@ const SectionViewLayout = ({
     promptAssetEmbed,
     unpromptAssetEmbed,
     setEditorFocus,
+
+    enterBlock,
+    leaveBlock,
+
 
     createContextualization,
     createContextualizer,
@@ -69,6 +83,7 @@ const SectionViewLayout = ({
     updateResource,
     deleteContextualization,
     deleteContextualizer,
+    deleteResource,
 
     setAssetRequestContentId,
     startNewResourceConfiguration,
@@ -80,12 +95,14 @@ const SectionViewLayout = ({
   t
 }) => {
   const translate = translateNameSpacer(t, 'Features.SectionView');
-  const {id: storyId} = story;
+  const {id: storyId, resources} = story;
   const {id: sectionId} = section;
   const defaultSection = createDefaultSection();
 
   const reverseSectionLockMap = getReverseSectionsLockMap(lockingMap, activeUsers, storyId);
   const hasLockOnSection = checkIfUserHasLockOnSection(lockingMap, userId, storyId, sectionId);
+  const userLockedResourceId = getUserResourceLockId(lockingMap, userId, storyId);
+  const reverseResourcesLockMap = getReverseResourcesLockMap(lockingMap, activeUsers, storyId);
 
   const sectionsList = story.sectionsOrder
   .map(thatSectionId => {
@@ -107,6 +124,34 @@ const SectionViewLayout = ({
       lockStatus
     };
   });
+
+  const activeFilters = Object.keys(resourceFilterValues).filter(key => resourceFilterValues[key]);
+  const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
+  const visibleResources = resourcesList
+    .filter(resource => {
+      if (activeFilters.indexOf(resource.metadata.type) > -1) {
+        if (resourceSearchString.length) {
+         return JSON.stringify(resource).toLowerCase().indexOf(resourceSearchString.toLowerCase()) > -1;
+        }
+        return true;
+      }
+      return false;
+    })
+    .sort((a, b) => {
+        switch (resourceSortValue) {
+          case 'edited recently':
+            if (a.lastUpdateAt > b.lastUpdateAt) {
+              return -1;
+            }
+            return 1;
+          case 'title':
+          default:
+            if (a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim()) {
+              return 1;
+            }
+            return -1;
+        }
+      });
 
   const onNewSectionSubmit = (metadata) => {
     const newSection = {
@@ -174,7 +219,7 @@ const SectionViewLayout = ({
   };
 
   const onUpdateSection = thatSection => {
-    if (thatSection && reverseSectionLockMap[thatSection.id] === userId) {
+    if (thatSection && reverseSectionLockMap[thatSection.id] && reverseSectionLockMap[thatSection.id].userId === userId) {
       updateSection({
         sectionId,
         storyId,
@@ -183,6 +228,15 @@ const SectionViewLayout = ({
         section: thatSection,
       });
     }
+  };
+
+  const onResourceEditAttempt = resourceId => {
+     enterBlock({
+      storyId,
+      userId,
+      blockType: 'resources',
+      blockId: resourceId
+    });
   };
 
   return (
@@ -197,6 +251,22 @@ const SectionViewLayout = ({
           story={story}
           sections={sectionsList}
 
+          userId={userId}
+          reverseResourcesLockMap={reverseResourcesLockMap}
+          userLockedResourceId={userLockedResourceId}
+
+          visibleResources={visibleResources}
+          resourceSearchString={resourceSearchString}
+          setResourceSearchString={setResourceSearchString}
+          resourceFilterValues={resourceFilterValues}
+          setResourceFilterValues={setResourceFilterValues}
+          resourceSortValue={resourceSortValue}
+          setResourceSortValue={setResourceSortValue}
+
+          deleteResource={deleteResource}
+
+          onResourceEditAttempt={onResourceEditAttempt}
+
           onOpenSectionSettings={onOpenSectionSettings}
           setResourceSortVisible={setResourceSortVisible}
           setResourceFilterVisible={setResourceFilterVisible}
@@ -208,6 +278,7 @@ const SectionViewLayout = ({
           onDeleteSection={onDeleteSection} />
         {hasLockOnSection ?
           <MainSectionColumn
+            userLockedResourceId={userLockedResourceId}
             mainColumnMode={mainColumnMode}
             setMainColumnMode={setMainColumnMode}
             section={section}
@@ -229,6 +300,9 @@ const SectionViewLayout = ({
             createContextualization={createContextualization}
             createContextualizer={createContextualizer}
             createResource={createResource}
+
+            enterBlock={enterBlock}
+            leaveBlock={leaveBlock}
 
             updateDraftEditorState={updateDraftEditorState}
             updateDraftEditorsStates={updateDraftEditorsStates}

@@ -157,5 +157,5 @@ export const selector = createStructuredSelector({
   filterVisible,
   searchString,
   filterValues,
-  sortValue,
+  sortValue
 });

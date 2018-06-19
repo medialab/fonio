@@ -10,6 +10,8 @@ import {createStructuredSelector} from 'reselect';
 
 import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 
+import resourceSchema from 'quinoa-schemas/resource';
+
 /**
  * ===================================================
  * ACTION NAMES
@@ -23,6 +25,10 @@ const SET_ASIDE_TAB_COLLAPSED = 'SET_ASIDE_TAB_COLLAPSED';
 const SET_MAIN_COLUMN_MODE = 'SET_MAIN_COLUMN_MODE';
 const SET_RESOURCE_SORT_VISIBLE = 'SET_RESOURCE_SORT_VISIBLE';
 const SET_RESOURCE_FILTER_VISIBLE = 'SET_RESOURCE_FILTER_VISIBLE';
+const SET_RESOURCE_FILTER_VALUES = 'SET_RESOURCE_FILTER_VALUES';
+const SET_RESOURCE_SORT_VALUE = 'SET_RESOURCE_SORT_VALUE';
+const SET_RESOURCE_SEARCH_STRING = 'SET_RESOURCE_SEARCH_STRING';
+
 
 /*
  * actions related to section edition
@@ -74,6 +80,21 @@ export const setResourceFilterVisible = payload => ({
 
 export const setResourceSortVisible = payload => ({
   type: SET_RESOURCE_SORT_VISIBLE,
+  payload
+});
+
+export const setResourceFilterValues = payload => ({
+  type: SET_RESOURCE_FILTER_VALUES,
+  payload
+});
+
+export const setResourceSortValue = payload => ({
+  type: SET_RESOURCE_SORT_VALUE,
+  payload
+});
+
+export const setResourceSearchString = payload => ({
+  type: SET_RESOURCE_SEARCH_STRING,
   payload
 });
 
@@ -247,6 +268,11 @@ export const deleteContextualization = (storyId, contextualizationId) => ({
  * ===================================================
  */
 
+const defaultResourceFilterValues = Object.keys(resourceSchema.definitions)
+  .reduce((result, type) => ({
+    ...result,
+    [type]: true
+  }), {});
 
 const UI_DEFAULT_STATE = {
   asideTabMode: 'library',
@@ -254,6 +280,9 @@ const UI_DEFAULT_STATE = {
   mainColumnMode: 'edition',
   resourceSortVisible: false,
   resourceFilterVisible: false,
+  resourceSearchString: '',
+  resourceFilterValues: defaultResourceFilterValues,
+  resourceSortValue: 'title'
 };
 
 /**
@@ -270,6 +299,9 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_MAIN_COLUMN_MODE:
     case SET_RESOURCE_SORT_VISIBLE:
     case SET_RESOURCE_FILTER_VISIBLE:
+    case SET_RESOURCE_FILTER_VALUES:
+    case SET_RESOURCE_SORT_VALUE:
+    case SET_RESOURCE_SEARCH_STRING:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -437,6 +469,9 @@ const asideTabCollapsed = state => state.ui.asideTabCollapsed;
 const mainColumnMode = state => state.ui.mainColumnMode;
 const resourceSortVisible = state => state.ui.resourceSortVisible;
 const resourceFilterVisible = state => state.ui.resourceFilterVisible;
+const resourceFilterValues = state => state.ui.resourceFilterValues;
+const resourceSortValue = state => state.ui.resourceSortValue;
+const resourceSearchString = state => state.ui.resourceSearchString;
 
 const editorStates = state => state.editorstates;
 const assetRequestState = state => state.assetRequeststate;
@@ -455,6 +490,9 @@ export const selector = createStructuredSelector({
 
   resourceSortVisible,
   resourceFilterVisible,
+  resourceFilterValues,
+  resourceSortValue,
+  resourceSearchString,
 
   editorStates,
   assetRequestState,

@@ -74,10 +74,19 @@ const LibraryViewLayout = ({
     id: storyId
   } = story;
 
+
   const activeFilters = Object.keys(filterValues).filter(key => filterValues[key]);
   const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
   const visibleResources = resourcesList
-    .filter(resource => activeFilters.indexOf(resource.metadata.type) > -1 && JSON.stringify(resource).toLowerCase().indexOf(searchString.toLowerCase()) > -1)
+    .filter(resource => {
+      if (activeFilters.indexOf(resource.metadata.type) > -1) {
+        if (searchString.length) {
+         return JSON.stringify(resource).toLowerCase().indexOf(searchString.toLowerCase()) > -1;
+        }
+        return true;
+      }
+      return false;
+    })
     .sort((a, b) => {
         switch (sortValue) {
           case 'edited recently':
@@ -143,7 +152,8 @@ const LibraryViewLayout = ({
             ...resource,
             id: resourceId
           },
-          storyId
+          storyId,
+          userId,
         });
         setMainColumnMode('list');
       };

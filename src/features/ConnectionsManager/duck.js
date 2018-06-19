@@ -95,7 +95,7 @@ export const loginStory = payload => ({
   type: LOGIN_STORY,
   storyId: payload.storyId,
   promise: () => {
-    const serverRequestUrl = `${CONFIG.apiUrl /* eslint no-undef : 0 */}/auth/login`;
+    const serverRequestUrl = `${CONFIG.apiUrl }/auth/login`;
     return post(serverRequestUrl, payload);
   },
 });

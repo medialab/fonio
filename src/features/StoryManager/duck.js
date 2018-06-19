@@ -8,7 +8,7 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
-import {get} from 'axios';
+import {get, post, put, del} from 'axios';
 
 import {updateEditionHistoryMap, loadStoryToken} from '../../helpers/localStorageUtils';
 
@@ -50,7 +50,7 @@ export const activateStory = payload => ({
   payload,
   promise: () => {
     const {storyId, userId, token} = payload;
-    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${storyId}?userId=${userId}&edit=true`;/* eslint no-undef : 0 */
+    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${storyId}?userId=${userId}&edit=true`;
     const options = {
       headers: {
         'x-access-token': token,
@@ -137,7 +137,7 @@ export const uploadResource = (payload, mode) => ({
     };
     let serverRequestUrl;
     if (mode === 'create') {
-      serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}?userId=${payload.userId}&lastUpdateAt=${payload.lastUpdateAt}`;/* eslint no-undef : 0 */
+      serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}?userId=${payload.userId}&lastUpdateAt=${payload.lastUpdateAt}`;
       return post(serverRequestUrl, payload.resource, options);
     }
     serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${payload.lastUpdateAt}`;
