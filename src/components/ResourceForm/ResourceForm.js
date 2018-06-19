@@ -3,13 +3,16 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {isEmpty} from 'lodash';
 
 import {Form, NestedField, Text, TextArea} from 'react-form';
 
 import resourceSchema from 'quinoa-schemas/resource';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
-import {retrieveMediaMetadata} from '../../helpers/assetsUtils';
+import {retrieveMediaMetadata, loadImage} from '../../helpers/assetsUtils';
+import {getFileAsText} from '../../helpers/fileLoader';
+
 import {validate, createDefaultResource} from '../../helpers/schemaUtils';
 import {
   BigSelect,
@@ -18,6 +21,7 @@ import {
   Columns,
   Control,
   Delete,
+  DropZone,
   Field,
   Help,
   HelpPin,
@@ -65,8 +69,91 @@ class ResourceForm extends Component {
       translate,
     } = this;
 
+
+    const loadResourceData = (type, file) =>
+      new Promise((resolve, reject) => {
+          switch (type) {
+            case 'bib':
+              return getFileAsText(file)
+                .then(text => resolve({text}))
+                .catch(e => reject(e));
+            case 'image':
+              return loadImage(file)
+                .then(base64 => resolve({base64}))
+                .catch(e => reject(e));
+            case 'table':
+              return getFileAsText(file)
+                .then(json => resolve({json}))
+                .catch(e => reject(e));
+            default:
+              return reject();
+          }
+        });
+
     const DataForm = ({resourceType, formApi}) => {
+      const dataSchema = resourceSchema.definitions[resourceType];
+      const acceptedFiles = dataSchema.accept_mimetypes;
+      const onDropFiles = (files) => {
+        loadResourceData(resourceType, files[0])
+        .then((data) => {
+          formApi.setValue('data', data);
+        });
+      };
       switch (resourceType) {
+      case 'image':
+        return (
+          <Field>
+            <Control>
+              <Label>
+                {translate('Image file')}
+                <HelpPin place="right">
+                  {translate('Explanation about the image')}
+                </HelpPin>
+              </Label>
+              <DropZone
+                accept={acceptedFiles}
+                onDrop={onDropFiles}>
+                {translate('Drop an image file')}
+              </DropZone>
+            </Control>
+          </Field>
+        );
+      case 'table':
+        return (
+          <Field>
+            <Control>
+              <Label>
+                {translate('Table')}
+                <HelpPin place="right">
+                  {translate('Explanation about the table')}
+                </HelpPin>
+              </Label>
+              <DropZone
+                accept=".csv,.tsv"
+                onDrop={onDropFiles}>
+                {translate('Drop an table file(csv, tsv)')}
+              </DropZone>
+            </Control>
+          </Field>
+        );
+      case 'bib':
+        return (
+          <Field>
+            <Control>
+              <Label>
+                {translate('Bib file')}
+                <HelpPin place="right">
+                  {translate('Explanation about the bib')}
+                </HelpPin>
+              </Label>
+              <DropZone
+                accept=".bib,.txt"
+                onDrop={onDropFiles}>
+                {translate('Drop an bib file')}
+              </DropZone>
+            </Control>
+          </Field>
+        );
       case 'video':
         const onVideoUrlChange = (thatUrl) => {
           retrieveMediaMetadata(thatUrl, credentials)
@@ -199,6 +286,7 @@ class ResourceForm extends Component {
       }
     };
     const handleSubmit = (values) => {
+      console.log(values);
       const dataSchema = resourceSchema.definitions[values.metadata.type];
       if (validate(resourceSchema, values).valid && validate(dataSchema, values.data).valid) {
         onSubmit(values);
@@ -236,6 +324,11 @@ class ResourceForm extends Component {
         };
       }
     };
+
+    // const showSubmitField = (resourceType, data) => {
+    //   const dataSchema = resourceSchema.definitions[values.metadata.type];
+    //   const dataRequiredValues = dataSchema.requiredProperties || [];
+    // }
 
     return (
       <Form
@@ -278,8 +371,9 @@ class ResourceForm extends Component {
                     {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
                   </NestedField>
                 </Column>
-                {formApi.getValue('metadata.type') !== 'glossary' &&
-                  formApi.getValue('metadata.type') !== 'webpage' &&
+                {(formApi.getValue('metadata.type') !== 'glossary' &&
+                  formApi.getValue('metadata.type') !== 'webpage') &&
+                  !isEmpty(formApi.getValue('data')) &&
                   <Column>
                     <Title isSize={5}>
                       {translate('Preview')}
@@ -342,21 +436,22 @@ class ResourceForm extends Component {
                 </Column>
               </Columns>}
               {formApi.getValue('metadata.type') &&
-              <Level>
-                <Button
-                  type="submit"
-                  isFullWidth
-                  onClick={formApi.submitForm}
-                  isColor="success">
-                  {asNewResource ? translate('Create resource') : translate('Save resource')}
-                </Button>
-                <Button
-                  isFullWidth
-                  isColor="danger"
-                  onClick={onCancel}>
-                  {translate('Cancel')}
-                </Button>
-              </Level>
+                !isEmpty(formApi.getValue('data')) &&
+                <Level>
+                  <Button
+                    type="submit"
+                    isFullWidth
+                    onClick={formApi.submitForm}
+                    isColor="success">
+                    {asNewResource ? translate('Create resource') : translate('Save resource')}
+                  </Button>
+                  <Button
+                    isFullWidth
+                    isColor="danger"
+                    onClick={onCancel}>
+                    {translate('Cancel')}
+                  </Button>
+                </Level>
                 }
             </form>
           )
