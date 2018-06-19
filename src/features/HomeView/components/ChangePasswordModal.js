@@ -37,7 +37,7 @@ const ChangePasswordModal = ({
   };
 
   return (
-    <Form onSubmit={onSumitForm} validateError={errorValidator}>
+    <Form onSubmit={onSumitForm} validate={errorValidator}>
       {
         formApi => (
           <form onSubmit={formApi.submitForm} id="login-form" className="fonio-form">
@@ -63,7 +63,7 @@ const ChangePasswordModal = ({
                     </Icon>
                   </Control>
                   {
-                    formApi.touched.oldPassword && formApi.errors.oldPassword &&
+                    formApi.touched.oldPassword && formApi.errors && formApi.errors.oldPassword &&
                       <Help isColor="danger">{formApi.errors.oldPassword}</Help>
                   }
                   <Label>
@@ -79,7 +79,7 @@ const ChangePasswordModal = ({
                     </Icon>
                   </Control>
                   {
-                    formApi.touched.newPassword && formApi.errors.newPassword &&
+                    formApi.touched.newPassword && formApi.errors && formApi.errors.newPassword &&
                       <Help isColor="danger">{formApi.errors.newPassword}</Help>
                   }
                   <Label>
@@ -95,7 +95,7 @@ const ChangePasswordModal = ({
                     </Icon>
                   </Control>
                   {
-                    formApi.touched.confirmPassword && formApi.errors.confirmPassword &&
+                    formApi.touched.confirmPassword && formApi.errors && formApi.errors.confirmPassword &&
                       <Help isColor="danger">{formApi.errors.confirmPassword}</Help>
                   }
                   {changePasswordStatus === 'processing' && <Help>{translate('Submitting password')}</Help>}

@@ -64,7 +64,7 @@ class TitleForm extends Component {
     return title ? (
       <Form
         defaultValues={{title}}
-        validateError={errorValidator}
+        validate={errorValidator}
         onSubmitFailure={onSubmitFailure}
         onSubmit={onSubmitData}>
         {formApi => (
@@ -94,7 +94,7 @@ class TitleForm extends Component {
               </Control>
             </Field>
             {
-              formApi.errors.title &&
+              formApi.errors && formApi.errors.title &&
               <Help
                 isColor="danger">
                 {formApi.errors.title}

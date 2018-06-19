@@ -48,7 +48,7 @@ const NewSectionForm = ({
   return (
     <Form
       defaultValues={metadata}
-      validateError={errorValidator}
+      validate={errorValidator}
       onSubmitFailure={onSubmitFailure}
       onSubmit={onSubmitMetadata}>
       {formApi => (
@@ -67,7 +67,7 @@ const NewSectionForm = ({
             </Control>
           </Field>
           {
-            formApi.errors.title &&
+            formApi.errors && formApi.errors.title &&
             <Help
               isColor="danger">
               {formApi.errors.title}

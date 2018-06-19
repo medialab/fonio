@@ -1,4 +1,6 @@
 /* eslint react/no-set-state : 0 */
+/* eslint react/jsx-boolean-value : 0 */
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
@@ -49,125 +51,6 @@ class ResourceForm extends Component {
     }
   }
 
-  // generateDataForm = (resourceType, resource, formApi) => {
-  //   const {translate} = this;
-  //   switch (resourceType) {
-  //     case 'video':
-  //       const onVideoUrlChange = (thatUrl) => {
-  //         retrieveMediaMetadata(thatUrl, credentials)
-  //           .then(({metadata}) => {
-  //             Object.keys(metadata)
-  //               .forEach(key => {
-  //                 formApi.setValue(`metadata.${key}`, metadata[key]);
-  //               });
-  //           });
-  //       };
-  //       return (
-  //         <Field>
-  //           <Control>
-  //             <Label>
-  //               {translate('Url of the video')}
-  //               <HelpPin place="right">
-  //                 {translate('Explanation about the video url')}
-  //               </HelpPin>
-  //             </Label>
-  //             <Text
-  //               field="url" id="url"
-  //               onChange={onVideoUrlChange}
-  //               type="text"
-  //               placeholder={translate('Video url')} />
-  //           </Control>
-  //         </Field>
-  //       );
-  //     case 'embed':
-  //       return (
-  //         <Field>
-  //           <Control>
-  //             <Label>
-  //               {translate('Embed code')}
-  //               <HelpPin place="right">
-  //                 {translate('Explanation about the embed')}
-  //               </HelpPin>
-  //             </Label>
-  //             <TextArea
-  //               field="html" id="html"
-  //               type="text"
-  //               placeholder={translate('Embed code')} />
-  //           </Control>
-  //         </Field>
-  //       );
-  //     case 'webpage':
-  //       return (
-  //         <Column>
-  //           <Field>
-  //             <Control>
-  //               <Label>
-  //                 {translate('Webpage name')}
-  //                 <HelpPin place="right">
-  //                   {translate('Explanation about the webpage')}
-  //                 </HelpPin>
-  //               </Label>
-  //               <Text
-  //                 field="name" id="name"
-  //                 type="text"
-  //                 placeholder={translate('name')} />
-  //             </Control>
-  //           </Field>
-  //           <Field>
-  //             <Control>
-  //               <Label>
-  //                 {translate('hyperlink')}
-  //                 <HelpPin place="right">
-  //                   {translate('Explanation about the hyperlink')}
-  //                 </HelpPin>
-  //               </Label>
-  //               <Text
-  //                 field="url" id="url"
-  //                 type="text"
-  //                 placeholder={translate('http://')} />
-  //             </Control>
-  //           </Field>
-  //         </Column>
-  //       );
-  //     case 'glossary':
-  //       return (
-  //         <Column>
-  //           <Field>
-  //             <Control>
-  //               <Label>
-  //                 {translate('Glossary name')}
-  //                 <HelpPin place="right">
-  //                   {translate('Explanation about the glossary')}
-  //                 </HelpPin>
-  //               </Label>
-  //               <Text
-  //                 field="name" id="name"
-  //                 type="text"
-  //                 placeholder={translate('glossary name')} />
-  //             </Control>
-  //           </Field>
-  //           <Field>
-  //             <Control>
-  //               <Label>
-  //                 {translate('Glossary description')}
-  //                 <HelpPin place="right">
-  //                   {translate('Explanation about the glossary description')}
-  //                 </HelpPin>
-  //               </Label>
-  //               <TextArea
-  //                 type="text"
-  //                 field="description"
-  //                 id="description"
-  //                 placeholder={translate('glossary description')} />
-  //             </Control>
-  //           </Field>
-  //         </Column>
-  //       );
-  //     default:
-  //       return null;
-  //   }
-  // };
-
   render = () => {
     const {
       props: {
@@ -209,6 +92,10 @@ class ResourceForm extends Component {
                 type="text"
                 placeholder={translate('Video url')} />
             </Control>
+            {
+              formApi.errors && formApi.errors.url &&
+                <Help isColor="danger">{formApi.errors.url}</Help>
+            }
           </Field>
         );
       case 'embed':
@@ -226,6 +113,10 @@ class ResourceForm extends Component {
                 type="text"
                 placeholder={translate('Embed code')} />
             </Control>
+            {
+              formApi.errors && formApi.errors.html &&
+                <Help isColor="danger">{formApi.errors.html}</Help>
+            }
           </Field>
         );
       case 'webpage':
@@ -259,8 +150,8 @@ class ResourceForm extends Component {
                   placeholder={translate('http://')} />
               </Control>
               {
-                formApi.errors &&
-                  <Help isColor="danger">error</Help>
+                formApi.errors && formApi.errors.url &&
+                  <Help isColor="danger">{formApi.errors.url}</Help>
               }
             </Field>
           </Column>
@@ -281,6 +172,10 @@ class ResourceForm extends Component {
                   type="text"
                   placeholder={translate('glossary name')} />
               </Control>
+              {
+                formApi.errors && formApi.errors.name &&
+                  <Help isColor="danger">{formApi.errors.name}</Help>
+              }
             </Field>
             <Field>
               <Control>
@@ -330,7 +225,6 @@ class ResourceForm extends Component {
     };
 
     const errorValidator = (values) => {
-      console.log(values);
       if (values.metadata.type) {
         const dataSchema = resourceSchema.definitions[values.metadata.type];
         const dataRequiredValues = dataSchema.requiredProperties || [];

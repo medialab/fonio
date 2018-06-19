@@ -58,7 +58,7 @@ const MetadataForm = ({
   return (
     <Form
       defaultValues={story.metadata}
-      validateError={errorValidator}
+      validate={errorValidator}
       onSubmit={onSubmitForm}>
       {formApi => (
         <form onSubmit={formApi.submitForm}>
@@ -76,7 +76,7 @@ const MetadataForm = ({
               {/*<Input type="text" placeholder="Story title" />*/}
             </Control>
             {
-              formApi.touched.title && formApi.errors.title &&
+              formApi.touched.title && formApi.errors && formApi.errors.title &&
                 <Help isColor="danger">{formApi.errors.title}</Help>
             }
           </Field>
@@ -119,7 +119,7 @@ const MetadataForm = ({
                   </Icon>
                 </Control>
                 {
-                  formApi.touched.password && formApi.errors.password &&
+                  formApi.touched.password && formApi.errors && formApi.errors.password &&
                     <Help isColor="danger">{formApi.errors.password}</Help>
                 }
               </Field>
