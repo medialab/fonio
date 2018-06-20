@@ -69,7 +69,8 @@ const LibraryViewLayout = ({
     deleteResource,
     uploadResource,
     deleteUploadedResource,
-  }
+  },
+  submitMultiResources,
 }, {t}) => {
 
   const {
@@ -319,7 +320,7 @@ const LibraryViewLayout = ({
             </Button>
           </Level>
           <Level>
-            <DropZone>
+            <DropZone onDrop={submitMultiResources}>
               {translate('Drop files to include new resources in your library (images, tables, bibliographies)')}
             </DropZone>
           </Level>

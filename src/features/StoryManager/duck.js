@@ -331,7 +331,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
         story: {
           ...state.story,
           resources: {
-            ...state.resources,
+            ...state.story.resources,
             [payload.resourceId]: {
               ...result.data,
               lastUpdateAt: payload.lastUpdateAt,
