@@ -14,7 +14,7 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 import {retrieveMediaMetadata, loadImage, inferMetadata, parseBibTeXToCSLJSON} from '../../helpers/assetsUtils';
 import {getFileAsText} from '../../helpers/fileLoader';
 
-import {validate, createDefaultResource} from '../../helpers/schemaUtils';
+import {createDefaultResource, validateResource} from '../../helpers/schemaUtils';
 import {
   BigSelect,
   Button,
@@ -120,7 +120,7 @@ class ResourceForm extends Component {
                 </HelpPin>
               </Label>
               <DropZone
-                accept=".jpg,.png,.gif"
+                accept=".jpg,.jpeg,.png,.gif"
                 onDrop={onDropFiles}>
                 {translate('Drop an image file')}
               </DropZone>
@@ -296,15 +296,14 @@ class ResourceForm extends Component {
     };
 
     const validateAndSubmit = candidate => {
-      const dataSchema = resourceSchema.definitions[candidate.metadata.type];
-      if (validate(resourceSchema, candidate).valid && validate(dataSchema, candidate.data).valid) {
+      if (validateResource(candidate).valid) {
         onSubmit(candidate);
       }
       else {
         /**
          * @todo handle validation errors here
          */
-        console.error(validate(resourceSchema, candidate));/* eslint no-console : 0 */
+        console.error(validateResource(candidate).errors);/* eslint no-console : 0 */
       }
     };
     const handleSubmit = (candidates) => {

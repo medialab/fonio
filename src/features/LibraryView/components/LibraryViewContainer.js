@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import {csvParse} from 'd3-dsv';
 import {v4 as genId} from 'uuid';
 
+import resourceSchema from 'quinoa-schemas/resource';
+
 import LibraryViewLayout from './LibraryViewLayout';
 
 import * as duck from '../duck';
@@ -11,7 +13,7 @@ import * as editedStoryDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
 
-import {validate, createDefaultResource} from '../../../helpers/schemaUtils';
+import {validateResource, createDefaultResource} from '../../../helpers/schemaUtils';
 import {loadImage, inferMetadata, parseBibTeXToCSLJSON} from '../../../helpers/assetsUtils';
 import {getFileAsText} from '../../../helpers/fileLoader';
 
@@ -101,6 +103,7 @@ class LibraryViewContainer extends Component {
               data = {base64};
               metadata = inferMetadata({...data, file}, type);
               resource = {
+                ...createDefaultResource(),
                 id,
                 metadata: {
                   ...metadata,
@@ -114,10 +117,13 @@ class LibraryViewContainer extends Component {
                 storyId,
                 userId,
               };
-              return this.props.actions.uploadResource(payload, 'create');
+              if (validateResource(resource).valid) {
+                this.props.actions.uploadResource(payload, 'create');
+              }
+              else resolve({id, success: false, error: validateResource(resource).errors});
             })
             .then(() => resolve({id, success: true}))
-            .catch(() => resolve({id, success: false}));
+            .catch((error) => resolve({id, success: false, error}));
         case 'csv':
         case 'tsv':
           type = 'table';
@@ -126,6 +132,7 @@ class LibraryViewContainer extends Component {
               data = {json: csvParse(text)};
               metadata = inferMetadata({...data, file}, type);
               resource = {
+                ...createDefaultResource(),
                 id,
                 metadata: {
                   ...metadata,
@@ -139,10 +146,13 @@ class LibraryViewContainer extends Component {
                 storyId,
                 userId,
               };
-              return this.props.actions.uploadResource(payload, 'create');
+              if (validateResource(resource).valid) {
+                this.props.actions.uploadResource(payload, 'create');
+              }
+              else resolve({id, success: false, error: validateResource(resource).errors});
             })
             .then(() => resolve({id, success: true}))
-            .catch(() => resolve({id, success: false}));
+            .catch((error) => resolve({id, success: false, error}));
         default:
           return getFileAsText(file)
             .then((text) => {
@@ -164,11 +174,14 @@ class LibraryViewContainer extends Component {
                   storyId,
                   userId,
                 };
-                return this.props.actions.createResource(payload);
+                if (validateResource(resource).valid) {
+                  this.props.actions.createResource(payload);
+                }
+                else resolve({id, success: false, error: validateResource(resource).errors});
               });
             })
             .then(() => resolve({id, success: true}))
-            .catch(() => resolve({id, success: false}));
+            .catch((error) => resolve({id, success: false, error}));
       }
     });
 
@@ -191,11 +204,17 @@ class LibraryViewContainer extends Component {
     }, Promise.resolve())
     .then(() => {
       if (errors.length > 0) {
-        console.log(errors);
+        console.error(errors);
+        /**
+         * @todo handle errors
+         */
         console.log("resource fail to upload");
       }
     })
-    .catch((err) => {
+    .catch(() => {
+      /**
+       * @todo handle errors
+       */
       console.log("resources fail to upload");
     });
   }
