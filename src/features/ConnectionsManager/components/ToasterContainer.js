@@ -42,6 +42,9 @@ class ToasterContainer extends Component {
           case 'sections':
             title = translate('You could not edit a section');
             break;
+          case 'resources':
+            title = translate('You could not edit the resource');
+            break;
           case 'storyMetadata':
             title = translate('You could not edit story metadata');
             break;
@@ -73,8 +76,8 @@ class ToasterContainer extends Component {
       if (nextProps.editedStory) {
         const lockedUsers = nextProps.lockingMap[nextProps.editedStory.id].locks;
         const lockedUserId = Object.keys(lockedUsers).find(
-            thatUserId => lockedUsers[thatUserId].sections &&
-                          lockedUsers[thatUserId].sections.blockId === nextProps.lastLockFail.blockId
+            thatUserId => lockedUsers[thatUserId][nextProps.lastLockFail.blockType] &&
+                          lockedUsers[thatUserId][nextProps.lastLockFail.blockType].blockId === nextProps.lastLockFail.blockId
           );
         const lockedUser = lockedUserId && nextProps.activeUsers[lockedUserId];
         if (lockedUser) {

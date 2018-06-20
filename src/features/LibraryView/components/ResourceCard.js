@@ -121,12 +121,14 @@ const ResourceCard = ({
           {
             id: 'edit',
             isColor: 'info',
-            label: 'edit'
+            label: 'edit',
+            isDisabled: lockData,
           },
           {
             id: 'delete',
             isColor: 'danger',
-            label: 'delete'
+            label: 'delete',
+            isDisabled: lockData
           }
         ]}
       onAction={action => {
