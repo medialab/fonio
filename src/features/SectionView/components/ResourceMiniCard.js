@@ -197,6 +197,12 @@ class ResourceCard extends Component {
       });
      };
 
+     const handleDelete = () => {
+      if (lockStatus === 'open') {
+        onDelete();
+      }
+     };
+
       return connectDragSource(
         <div
           // draggable
@@ -238,7 +244,7 @@ class ResourceCard extends Component {
                       </Icon>
                     </Button>
                     <Button
-                      onClick={onDelete} isDisabled={isActive || lockStatus === 'locked'} data-for="card-action"
+                      onClick={handleDelete} isDisabled={isActive || lockStatus === 'locked'} data-for="card-action"
                       data-tip={translate('delete this resource')}>
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.remove.black.svg} />

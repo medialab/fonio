@@ -4,13 +4,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {isEmpty} from 'lodash';
+import {csvParse} from 'd3-dsv';
 
 import {Form, NestedField, Text, TextArea} from 'react-form';
 
 import resourceSchema from 'quinoa-schemas/resource';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
-import {retrieveMediaMetadata, loadImage, parseBibTeXToCSLJSON} from '../../helpers/assetsUtils';
+import {retrieveMediaMetadata, loadImage, inferMetadata, parseBibTeXToCSLJSON} from '../../helpers/assetsUtils';
 import {getFileAsText} from '../../helpers/fileLoader';
 
 import {validate, createDefaultResource} from '../../helpers/schemaUtils';
@@ -83,7 +84,7 @@ class ResourceForm extends Component {
                 .catch(e => reject(e));
             case 'table':
               return getFileAsText(file)
-                .then(json => resolve({json}))
+                .then(text => resolve({json: csvParse(text)}))
                 .catch(e => reject(e));
             default:
               return reject();
@@ -91,11 +92,19 @@ class ResourceForm extends Component {
         });
 
     const DataForm = ({resourceType, formApi}) => {
-      const dataSchema = resourceSchema.definitions[resourceType];
-      const acceptedFiles = dataSchema.accept_mimetypes;
+      // const dataSchema = resourceSchema.definitions[resourceType];
+      // const acceptedFiles = dataSchema.accept_mimetypes && dataSchema.accept_mimetypes.join(',');
       const onDropFiles = (files) => {
         loadResourceData(resourceType, files[0])
         .then((data) => {
+          const inferedMetadata = inferMetadata({...data, file: files[0]}, resourceType);
+          const prevMetadata = formApi.getValue('metadata');
+          const metadata = {
+            ...prevMetadata,
+            ...inferedMetadata,
+            title: prevMetadata.title ? prevMetadata.title : inferedMetadata.title
+          };
+          formApi.setValue('metadata', metadata);
           formApi.setValue('data', data);
         });
       };
@@ -111,7 +120,7 @@ class ResourceForm extends Component {
                 </HelpPin>
               </Label>
               <DropZone
-                accept={acceptedFiles}
+                accept=".jpg,.png,.gif"
                 onDrop={onDropFiles}>
                 {translate('Drop an image file')}
               </DropZone>
@@ -291,7 +300,7 @@ class ResourceForm extends Component {
       if (validate(resourceSchema, candidate).valid && validate(dataSchema, candidate.data).valid) {
         onSubmit(candidate);
       }
- else {
+      else {
         /**
          * @todo handle validation errors here
          */
@@ -310,23 +319,14 @@ class ResourceForm extends Component {
           });
         });
       }
-       else {
+      else {
         validateAndSubmit(candidates);
       }
     };
 
-    // const updateTempResource = (key, subKey, value) => {
-    //   this.setState({
-    //     resource: {
-    //       ...resource,
-    //       [key]: {
-    //         ...(resource[key] : {}),
-    //         [subKey]: value
-    //       }
-    //     }
-    //   });
-    // };
     const onResourceTypeChange = (thatType, formApi) => {
+      const defaultResource = createDefaultResource();
+      formApi.setAllValues(defaultResource);
       formApi.setValue('metadata.type', thatType);
     };
 
@@ -346,11 +346,6 @@ class ResourceForm extends Component {
         };
       }
     };
-
-    // const showSubmitField = (resourceType, data) => {
-    //   const dataSchema = resourceSchema.definitions[values.metadata.type];
-    //   const dataRequiredValues = dataSchema.requiredProperties || [];
-    // }
 
     return (
       <Form

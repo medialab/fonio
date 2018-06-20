@@ -24,6 +24,7 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 const ResourceCard = ({
   resource,
   lockData,
+  getTitle,
   onEdit,
   onDelete
 }, {t}) => {
@@ -35,7 +36,6 @@ const ResourceCard = ({
 
   const {
     type,
-    title,
     description,
     source,
   } = metadata;
@@ -52,19 +52,13 @@ const ResourceCard = ({
   };
 
   let resourceTitle;
-  if (specificSchema.showMetadata && title) {
-    resourceTitle = title;
-  }
- else if (type === 'glossary' && data && data.name) {
-    resourceTitle = data.name;
-  }
- else if (type === 'bib' && data && data[0]) {
+  if (type === 'bib' && data && data[0]) {
     const bibData = {
       [data[0].id]: data[0]
     };
     resourceTitle = <Bibliography items={bibData} style={apa} locale={english} />;
   }
- else resourceTitle = translate('untitled resource');
+  else resourceTitle = getTitle(resource) || translate('untitled resource');
 
   return (
     <Card
@@ -121,19 +115,21 @@ const ResourceCard = ({
           {
             id: 'edit',
             isColor: 'info',
-            label: 'edit'
+            label: 'edit',
+            isDisabled: lockData,
           },
           {
             id: 'delete',
             isColor: 'danger',
-            label: 'delete'
+            label: 'delete',
+            isDisabled: lockData
           }
         ]}
       onAction={action => {
-        if (action === 'edit') {
+        if (action === 'edit' && !lockData) {
           onEdit();
         }
-        else if (action === 'delete') {
+        else if (action === 'delete' && !lockData) {
           onDelete();
         }
       }} />

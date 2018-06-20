@@ -113,6 +113,7 @@
   "Features.AuthManager.Read": "Read",
   "Features.AuthManager.Back to home": "Back to home",
   "Features.ToasterContainer.You could not edit a section": "You could not edit a section",
+  "Features.ToasterContainer.You could not edit the resource": "You could not edit the resource",
   "Features.ToasterContainer.You could not edit story metadata": "You could not edit story metadata",
   "Features.ToasterContainer.You could not edit the order of sections": "You could not edit the order of sections",
   "Features.ToasterContainer.You could not edit the story design": "You could not edit the story design",

@@ -5,6 +5,10 @@ import {v4 as genId} from 'uuid';
 
 import {arrayMove} from 'react-sortable-hoc';
 
+import objectPath from 'object-path';
+
+import resourceSchema from 'quinoa-schemas/resource';
+
 import {
   Columns,
   Button,
@@ -127,6 +131,13 @@ const SectionViewLayout = ({
 
   const activeFilters = Object.keys(resourceFilterValues).filter(key => resourceFilterValues[key]);
   const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
+
+  const getResourceTitle = (resource) => {
+    const titlePath = objectPath.get(resourceSchema, ['definitions', resource.metadata.type, 'title_path']);
+    const title = titlePath ? objectPath.get(resource, titlePath) : resource.metadata.title;
+    return title;
+  };
+
   const visibleResources = resourcesList
     .filter(resource => {
       if (activeFilters.indexOf(resource.metadata.type) > -1) {
@@ -146,7 +157,9 @@ const SectionViewLayout = ({
             return 1;
           case 'title':
           default:
-            if (a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim()) {
+            const aTitle = getResourceTitle(a);
+            const bTitle = getResourceTitle(b);
+            if ((aTitle && bTitle) && aTitle.toLowerCase().trim() > bTitle.toLowerCase().trim()) {
               return 1;
             }
             return -1;

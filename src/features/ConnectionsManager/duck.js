@@ -4,7 +4,7 @@ import {post} from 'axios';
 
 import {updateEditionHistoryMap} from '../../helpers/localStorageUtils';
 
-import {ACTIVATE_STORY, DELETE_SECTION, DELETE_RESOURCE} from '../StoryManager/duck';
+import {ACTIVATE_STORY, DELETE_SECTION, DELETE_RESOURCE, DELETE_UPLOADED_RESOURCE} from '../StoryManager/duck';
 
 const SET_SOCKET_ID = 'SET_SOCKET_ID';
 export const ENTER_STORY = 'ENTER_STORY';
@@ -308,6 +308,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
         },
       };
     case `${DELETE_RESOURCE}_FAIL`:
+    case `${DELETE_UPLOADED_RESOURCE}_FAIL`:
       return {
         ...state,
         lastLockFail: {

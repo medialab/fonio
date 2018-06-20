@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {v4 as genId} from 'uuid';
+import objectPath from 'object-path';
 
 import resourceSchema from 'quinoa-schemas/resource';
 
@@ -66,6 +67,8 @@ const LibraryViewLayout = ({
     createResource,
     updateResource,
     deleteResource,
+    uploadResource,
+    deleteUploadedResource,
   }
 }, {t}) => {
 
@@ -74,9 +77,14 @@ const LibraryViewLayout = ({
     id: storyId
   } = story;
 
-
   const activeFilters = Object.keys(filterValues).filter(key => filterValues[key]);
   const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
+
+  const getResourceTitle = (resource) => {
+    const titlePath = objectPath.get(resourceSchema, ['definitions', resource.metadata.type, 'title_path']);
+    const title = titlePath ? objectPath.get(resource, titlePath) : resource.metadata.title;
+    return title;
+  };
   const visibleResources = resourcesList
     .filter(resource => {
       if (activeFilters.indexOf(resource.metadata.type) > -1) {
@@ -96,7 +104,9 @@ const LibraryViewLayout = ({
             return 1;
           case 'title':
           default:
-            if (a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim()) {
+            const aTitle = getResourceTitle(a);
+            const bTitle = getResourceTitle(b);
+            if ((aTitle && bTitle) && aTitle.toLowerCase().trim() > bTitle.toLowerCase().trim()) {
               return 1;
             }
             return -1;
@@ -116,12 +126,18 @@ const LibraryViewLayout = ({
     if (userLockedResourceId) {
       const handleSubmit = resource => {
         const {id: resourceId} = resource;
-        updateResource({
+        const payload = {
           resourceId,
           resource,
           storyId,
           userId
-        });
+        };
+        if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
+          uploadResource(payload, 'update');
+        }
+        else {
+          updateResource(payload);
+        }
         leaveBlock({
           storyId,
           userId,
@@ -146,7 +162,7 @@ const LibraryViewLayout = ({
       case 'new':
         const handleSubmit = resource => {
         const resourceId = genId();
-        createResource({
+        const payload = {
           resourceId,
           resource: {
             ...resource,
@@ -154,7 +170,13 @@ const LibraryViewLayout = ({
           },
           storyId,
           userId,
-        });
+        };
+        if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
+          uploadResource(payload, 'create');
+        }
+        else {
+          createResource(payload);
+        }
         setMainColumnMode('list');
       };
         return (
@@ -242,17 +264,24 @@ const LibraryViewLayout = ({
                         });
                       };
                       const handleDelete = () => {
-                        deleteResource({
+                        const payload = {
                           storyId,
                           userId,
                           resourceId: resource.id
-                        });
+                        };
+                        if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
+                          deleteUploadedResource(payload);
+                        }
+                        else {
+                          deleteResource(payload);
+                        }
                       };
                       return (
                         <ResourceCard
                           onEdit={handleEdit}
                           onDelete={handleDelete}
                           resource={resource}
+                          getTitle={getResourceTitle}
                           lockData={reverseResourcesLockMap[resource.id]}
                           key={resource.id} />
                       );
