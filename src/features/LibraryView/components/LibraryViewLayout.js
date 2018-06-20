@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {v4 as genId} from 'uuid';
+import objectPath from 'object-path';
 
 import resourceSchema from 'quinoa-schemas/resource';
 
@@ -78,6 +79,12 @@ const LibraryViewLayout = ({
 
   const activeFilters = Object.keys(filterValues).filter(key => filterValues[key]);
   const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
+
+  const getResourceTitle = (resource) => {
+    const titlePath = objectPath.get(resourceSchema, ['definitions', resource.metadata.type, 'title_path']);
+    const title = titlePath ? objectPath.get(resource, titlePath) : resource.metadata.title;
+    return title;
+  };
   const visibleResources = resourcesList
     .filter(resource => {
       if (activeFilters.indexOf(resource.metadata.type) > -1) {
@@ -97,7 +104,9 @@ const LibraryViewLayout = ({
             return 1;
           case 'title':
           default:
-            if ((a.metadata.title && b.metadata.title) && a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim()) {
+            const aTitle = getResourceTitle(a);
+            const bTitle = getResourceTitle(b);
+            if ((aTitle && bTitle) && aTitle.toLowerCase().trim() > bTitle.toLowerCase().trim()) {
               return 1;
             }
             return -1;
@@ -272,6 +281,7 @@ const LibraryViewLayout = ({
                           onEdit={handleEdit}
                           onDelete={handleDelete}
                           resource={resource}
+                          getTitle={getResourceTitle}
                           lockData={reverseResourcesLockMap[resource.id]}
                           key={resource.id} />
                       );
