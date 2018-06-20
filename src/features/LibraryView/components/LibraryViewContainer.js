@@ -83,7 +83,7 @@ class LibraryViewContainer extends Component {
       const {
         id: storyId
       } = story;
-      const id = genId();
+      let id = genId();
       const extension = file.name.split('.').pop();
       let metadata;
       let data;
@@ -148,9 +148,10 @@ class LibraryViewContainer extends Component {
             .then((text) => {
               data = parseBibTeXToCSLJSON(text);
               data.forEach(datum => {
+                id = genId();
                 resource = {
                   ...createDefaultResource(),
-                  id: genId(),
+                  id,
                   metadata: {
                     ...createDefaultResource().metadata,
                     type: 'bib',

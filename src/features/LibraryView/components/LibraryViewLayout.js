@@ -162,24 +162,24 @@ const LibraryViewLayout = ({
     switch (mainColumnMode) {
       case 'new':
         const handleSubmit = resource => {
-        const resourceId = genId();
-        const payload = {
-          resourceId,
-          resource: {
-            ...resource,
-            id: resourceId
-          },
-          storyId,
-          userId,
+          const resourceId = genId();
+          const payload = {
+            resourceId,
+            resource: {
+              ...resource,
+              id: resourceId
+            },
+            storyId,
+            userId,
+          };
+          if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
+            uploadResource(payload, 'create');
+          }
+          else {
+            createResource(payload);
+          }
+          setMainColumnMode('list');
         };
-        if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
-          uploadResource(payload, 'create');
-        }
-        else {
-          createResource(payload);
-        }
-        setMainColumnMode('list');
-      };
         return (
           <ResourceForm
             onCancel={() => setMainColumnMode('list')}
