@@ -8,7 +8,7 @@ export default class SectionEditorWrapper extends Component {
   static childContextTypes = {
     startExistingResourceConfiguration: PropTypes.func,
     startNewResourceConfiguration: PropTypes.func,
-    deleteContextualization: PropTypes.func
+    deleteContextualizationFromId: PropTypes.func
   }
 
   constructor(props) {
@@ -18,7 +18,7 @@ export default class SectionEditorWrapper extends Component {
   getChildContext = () => ({
     startExistingResourceConfiguration: this.props.startExistingResourceConfiguration,
     startNewResourceConfiguration: this.props.startNewResourceConfiguration,
-    deleteContextualization: this.props.deleteContextualization
+    deleteContextualizationFromId: this.props.deleteContextualizationFromId
   })
 
   render = () => {
