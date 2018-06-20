@@ -40,14 +40,6 @@ export const PROMPT_ASSET_EMBED = 'PROMPT_ASSET_EMBED';
 export const UNPROMPT_ASSET_EMBED = 'UNPROMPT_ASSET_EMBED';
 export const SET_ASSET_REQUEST_CONTENT_ID = 'SET_ASSET_REQUEST_CONTENT_ID';
 
-export const CREATE_CONTEXTUALIZER = 'CREATE_CONTEXTUALIZER';
-export const UPDATE_CONTEXTUALIZER = 'UPDATE_CONTEXTUALIZER';
-export const DELETE_CONTEXTUALIZER = 'DELETE_CONTEXTUALIZER';
-
-export const CREATE_CONTEXTUALIZATION = 'CREATE_CONTEXTUALIZATION';
-export const UPDATE_CONTEXTUALIZATION = 'UPDATE_CONTEXTUALIZATION';
-export const DELETE_CONTEXTUALIZATION = 'DELETE_CONTEXTUALIZATION';
-
 export const SET_EDITOR_FOCUS = 'SET_EDITOR_FOCUS';
 /**
  * data
@@ -168,98 +160,6 @@ export const setEditorFocus = (editorFocus) => ({
   payload: {
     editorFocus,
   },
-});
-
-/**
- * Creates a contextualizer
- * @param {string} storyId  - id of the story to update
- * @param {string} contextualizerId  - id of the contextualizer to update
- * @param {object} contextualizer  - new contextualizer data
- * @return {object} action - the redux action to dispatch
- */
-export const createContextualizer = (storyId, contextualizerId, contextualizer) => ({
-  type: CREATE_CONTEXTUALIZER,
-  payload: {
-    storyId,
-    contextualizerId,
-    contextualizer,
-  },
-});
-
-/**
- * Updates a contextualizer
- * @param {string} storyId  - id of the story to update
- * @param {string} contextualizerId  - id of the contextualizer to update
- * @param {object} contextualizer  - new contextualizer data
- * @return {object} action - the redux action to dispatch
- */
-export const updateContextualizer = (storyId, contextualizerId, contextualizer) => ({
-  type: UPDATE_CONTEXTUALIZER,
-  payload: {
-    storyId,
-    contextualizerId,
-    contextualizer,
-  },
-});
-
-/**
- * Deletes a contextualizer
- * @param {string} storyId  - id of the story to update
- * @param {string} contextualizerId  - id of the contextualizer to update
- * @return {object} action - the redux action to dispatch
- */
-export const deleteContextualizer = (storyId, contextualizerId) => ({
-  type: DELETE_CONTEXTUALIZER,
-  payload: {
-    storyId,
-    contextualizerId,
-  },
-});
-
-/**
- * Creates a contextualization
- * @param {string} storyId  - id of the story to update
- * @param {string} contextualizationId  - id of the contextualization to update
- * @param {object} contextualization  - new contextualization data
- * @return {object} action - the redux action to dispatch
- */
-export const createContextualization = (storyId, contextualizationId, contextualization) => ({
-  type: CREATE_CONTEXTUALIZATION,
-  payload: {
-    storyId,
-    contextualizationId,
-    contextualization,
-  },
-});
-
-/**
- * Updates a contextualization
- * @param {string} storyId  - id of the story to update
- * @param {string} contextualizationId  - id of the contextualization to update
- * @param {object} contextualization  - new contextualization data
- * @return {object} action - the redux action to dispatch
- */
-export const updateContextualization = (storyId, contextualizationId, contextualization) => ({
-  type: UPDATE_CONTEXTUALIZATION,
-  payload: {
-    storyId,
-    contextualizationId,
-    contextualization,
-  },
-});
-
-/**
- * Deletes a contextualization
- * @param {string} storyId  - id of the story to update
- * @param {string} contextualizationId  - id of the contextualization to update
- * @return {object} action - the redux action to dispatch
- */
-export const deleteContextualization = (storyId, contextualizationId) => ({
-  type: DELETE_CONTEXTUALIZATION,
-  payload: {
-    storyId,
-    contextualizationId
-  }
 });
 
 /**

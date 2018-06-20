@@ -44,9 +44,10 @@ export const updateContextualizationsFromEditor = props => {
       editorStates,
       deleteContextualization,
       // sectionId,
-      activeStoryId,
-      story
+      story,
+      userId
     } = props;
+    const activeStoryId = story.id;
     const activeSectionId = activeSection.id;
     // regroup all eligible editorStates
     const notesEditorStates = activeSection.notesOrder.reduce((result, noteId) => {
@@ -78,6 +79,6 @@ export const updateContextualizationsFromEditor = props => {
     const unusedAssets = Object.keys(sectionContextualizations).filter(id => used.indexOf(id) === -1);
     // delete contextualizations
     unusedAssets.forEach(id => {
-      deleteContextualization(activeStoryId, id);
+      deleteContextualization({storyId: activeStoryId, contextualizationId: id, userId});
     });
   };

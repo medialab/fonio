@@ -240,6 +240,7 @@
   "Features.SectionView.edited by you": "edited by you",
   "Features.SectionView.edited by {a}": "edited by {a}",
   "Features.SectionView.open to edition": "open to edition",
+  "Features.SectionView.untitled resource": "untitled resource",
   "Features.SectionView.drag this card to the editor": "drag this card to the editor",
   "Features.SectionView.delete this resource": "delete this resource",
   "Features.SectionView.use as cover image": "use as cover image",

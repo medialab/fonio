@@ -239,12 +239,20 @@ export function inferMetadata(data, assetType) {
    */
   export const summonAsset = (contentId, resourceId, props) => {
     const {
-      activeStoryId,
-      activeStory,
-      activeSectionId,
+      editedStory: story,
       editorStates,
       actions,
+      match: {
+        params: {
+          sectionId,
+        },
+      },
+      userId,
     } = props;
+
+    const {
+      id: storyId
+    } = story;
 
     const {
       createContextualizer,
@@ -254,11 +262,10 @@ export function inferMetadata(data, assetType) {
       setEditorFocus,
     } = actions;
 
-    const activeSection = activeStory.sections[activeSectionId];
+    const activeSection = story.sections[sectionId];
+    const resource = story.resources[resourceId];
 
-    const resource = activeStory.resources[resourceId];
-
-    const editorStateId = contentId === 'main' ? activeSectionId : contentId;
+    const editorStateId = contentId === 'main' ? sectionId : contentId;
     const editorState = editorStates[editorStateId];
 
     // choose if inline or block
@@ -271,7 +278,7 @@ export function inferMetadata(data, assetType) {
     // could be an academic-like short citation of this reference)
 
 
-    // todo: choose that from resource model
+    // @todo: choose that from resource model
     const insertionType = ['bib', 'glossary', 'webpage'].indexOf(resource.metadata.type) > -1 ? 'inline' : 'block';
     const hasAlias = resource.metadata.type === 'glossary' || resource.metadata.type === 'webpage';
 
@@ -293,7 +300,7 @@ export function inferMetadata(data, assetType) {
       type: resource.metadata.type,
       alias: hasAlias ? selectedText : undefined
     };
-    createContextualizer(activeStoryId, contextualizerId, contextualizer);
+    createContextualizer({storyId, contextualizerId, contextualizer, userId});
 
 
     // 2. create contextualization
@@ -302,10 +309,10 @@ export function inferMetadata(data, assetType) {
       id: contextualizationId,
       resourceId,
       contextualizerId,
-      sectionId: activeSectionId
+      sectionId
     };
 
-    createContextualization(activeStoryId, contextualizationId, contextualization);
+    createContextualization({storyId, contextualizationId, contextualization, userId});
 
     // 3. update the proper editor state
 
@@ -347,7 +354,7 @@ export function inferMetadata(data, assetType) {
         }
       };
     }
-    updateSection(activeStoryId, activeSectionId, newSection);
+    updateSection({storyId, sectionId, section: newSection, userId});
     setEditorFocus(undefined);
     setTimeout(() => setEditorFocus(contentId));
   };

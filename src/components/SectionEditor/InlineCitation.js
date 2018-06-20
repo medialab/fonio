@@ -172,7 +172,7 @@ class InlineCitation extends Component {
           <button
             className="more-options-btn"
             onClick={onMoreOptionsClick}>
-            <img style={{transform: 'rotate(45deg)'}} src={icons.close.black.svg} />
+            <img style={{transform: 'rotate(45deg)'}} src={icons.remove.black.svg} />
           </button>
           {this.state.optionsVisible &&
           <span className="more-options-container">
