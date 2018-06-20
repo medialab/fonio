@@ -11,7 +11,7 @@ import * as editedStoryDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
 
-import {validate, createDefaultResource} from '../../../helpers/schemaUtils';
+import {createDefaultResource} from '../../../helpers/schemaUtils';
 import {loadImage, inferMetadata, parseBibTeXToCSLJSON} from '../../../helpers/assetsUtils';
 import {getFileAsText} from '../../../helpers/fileLoader';
 
@@ -75,7 +75,7 @@ class LibraryViewContainer extends Component {
   }
 
   createResourceData = (file) =>
-    new Promise((resolve, reject) => {
+    new Promise((resolve) => {
       const {
         userId,
         editedStory: story,
@@ -190,12 +190,12 @@ class LibraryViewContainer extends Component {
     }, Promise.resolve())
     .then(() => {
       if (errors.length > 0) {
-        console.log(errors);
-        console.log("resource fail to upload");
+        console.log(errors);/* eslint no-console: 0 */
+        console.log('resource fail to upload');/* eslint no-console: 0 */
       }
     })
     .catch((err) => {
-      console.log("resources fail to upload");
+      console.log('resources fail to upload', err);/* eslint no-console: 0 */
     });
   }
 
