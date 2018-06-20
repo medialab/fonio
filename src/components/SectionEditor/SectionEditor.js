@@ -173,7 +173,7 @@ class SectionEditor extends Component {
   getChildContext = () => ({
     startExistingResourceConfiguration: this.props.startExistingResourceConfiguration,
     startNewResourceConfiguration: this.props.startNewResourceConfiguration,
-    deleteContextualization: this.props.deleteContextualization,
+    deleteContextualizationFromId: this.props.deleteContextualizationFromId,
   })
 
 
@@ -905,7 +905,7 @@ SectionEditor.propTypes = {
 SectionEditor.childContextTypes = {
   startExistingResourceConfiguration: PropTypes.func,
   startNewResourceConfiguration: PropTypes.func,
-  deleteContextualization: PropTypes.func
+  deleteContextualizationFromId: PropTypes.func
 };
 
 export default SectionEditor;

@@ -47,7 +47,7 @@ class BlockContainer extends Component {
 
     const {
       startExistingResourceConfiguration,
-      deleteContextualization
+      deleteContextualizationFromId
     } = this.context;
 
     const {
@@ -57,13 +57,13 @@ class BlockContainer extends Component {
 
     const onEditRequest = () => {
       if (typeof startExistingResourceConfiguration === 'function') {
-        startExistingResourceConfiguration(resource.metadata.id, resource);
+        startExistingResourceConfiguration(resource.id);
       }
     };
 
     const onDeleteRequest = () => {
       if (typeof startExistingResourceConfiguration === 'function') {
-        deleteContextualization(undefined, id);
+        deleteContextualizationFromId(id);
       }
     };
 
@@ -103,6 +103,6 @@ BlockContainer.contextTypes = {
    */
   startExistingResourceConfiguration: PropTypes.func,
 
-  deleteContextualization: PropTypes.func
+  deleteContextualizationFromId: PropTypes.func
 };
 export default BlockContainer;

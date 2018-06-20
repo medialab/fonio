@@ -58,6 +58,7 @@ const MainSectionColumn = ({
   updateResource,
   deleteContextualization,
   deleteContextualizer,
+  deleteContextualizationFromId,
 
   setAssetRequestContentId,
   startNewResourceConfiguration,
@@ -261,6 +262,7 @@ const MainSectionColumn = ({
               updateResource={updateResource}
 
               deleteContextualization={deleteContextualization}
+              deleteContextualizationFromId={deleteContextualizationFromId}
               deleteContextualizer={deleteContextualizer}
 
               requestAsset={promptAssetEmbed}

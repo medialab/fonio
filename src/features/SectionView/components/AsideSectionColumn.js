@@ -33,6 +33,8 @@ const AsideSectionColumn = ({
   resourceFilterVisible,
   mainColumnMode,
   story,
+
+  getResourceTitle,
   sections,
 
   userId,
@@ -147,6 +149,7 @@ const AsideSectionColumn = ({
               userId={userId}
               onResourceEditAttempt={onResourceEditAttempt}
               reverseResourcesLockMap={reverseResourcesLockMap}
+              getResourceTitle={getResourceTitle}
               userLockedResourceId={userLockedResourceId} />
             {
                 /*visibleResources

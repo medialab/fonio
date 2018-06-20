@@ -63,13 +63,13 @@ export const handleCopy = function(event) {
       editorFocus,
       activeSection,
       editorStates,
-      activeStory,
+      story,
     } = props;
     const {
       contextualizations,
       contextualizers,
       // resources
-    } = activeStory;
+    } = story;
 
     // first step is to retrieve draft-made clipboard ImmutableRecord
     // and proper editor state (wether copy event comes from a note or the main content)
@@ -213,7 +213,7 @@ export const handleCopy = function(event) {
     }
 
     const {
-      activeStoryId,
+      story,
       editorFocus,
       activeSection,
       editorStates,
@@ -224,13 +224,16 @@ export const handleCopy = function(event) {
       updateDraftEditorState,
       updateSection,
       setEditorFocus,
+      userId,
     } = props;
 
-    const {
-      notes
-    } = activeSection;
+    const {id: storyId} = story;
 
-    const activeSectionId = activeSection.id;
+
+    const {
+      notes,
+      id: activeSectionId
+    } = activeSection;
 
     const {
       // clipboard, // blockMap of the data copied to clipboard
@@ -279,7 +282,7 @@ export const handleCopy = function(event) {
                 resId = linksMap[url];
                 shouldCreateResource = false;
               }
- else {
+              else {
                 linksMap[url] = resId;
                 shouldCreateResource = true;
               }
@@ -292,9 +295,11 @@ export const handleCopy = function(event) {
                   createdAt: new Date().getTime(),
                   lastModifiedAt: new Date().getTime(),
                   title: text,
-                  id: resId,
                 },
-                data: url
+                data: {
+                  url,
+                  name: text
+                }
               };
               const contextualizer = {
                 id: contextualizerId,
@@ -310,10 +315,10 @@ export const handleCopy = function(event) {
                 title: text
               };
               if (shouldCreateResource) {
-                createResource(activeStoryId, resId, resource);
+                createResource({storyId, resourceId: resId, resource, userId});
               }
-              createContextualizer(activeStoryId, contextualizerId, contextualizer);
-              createContextualization(activeStoryId, contextualizationId, contextualization);
+              createContextualizer({storyId, contextualizerId, contextualizer, userId});
+              createContextualization({storyId, contextualizationId, contextualization, userId});
               mods.push({
                 from,
                 to,
@@ -389,7 +394,7 @@ export const handleCopy = function(event) {
           }
         };
       }
-      updateSection(activeStoryId, activeSectionId, newSection);
+      updateSection({storyId, sectionId: activeSectionId, section: newSection, userId});
 
 
       return;
@@ -436,13 +441,13 @@ export const handleCopy = function(event) {
         // past assets/contextualizations (attributing them a new id)
         if (data.copiedContextualizations) {
           data.copiedContextualizations.forEach(contextualization => {
-            createContextualization(activeStoryId, contextualization.id, contextualization);
+            createContextualization({storyId, contextualizationId: contextualization.id, contextualization, userId});
           });
         }
         // paste contextualizers (attributing them a new id)
         if (data.copiedContextualizers) {
           data.copiedContextualizers.forEach(contextualizer => {
-            createContextualizer(activeStoryId, contextualizer.id, contextualizer);
+            createContextualizer({storyId, contextualizerId: contextualizer.id, contextualizer, userId});
           });
         }
         // paste notes (attributing them a new id to duplicate them if in situation of copy/paste)
@@ -738,7 +743,7 @@ export const handleCopy = function(event) {
             }, {})
       }
     };
-    updateSection(activeStoryId, activeSectionId, newSection);
+    updateSection({storyId, sectionId: activeSectionId, section: newSection, userId});
     setEditorFocus(undefined);
     setTimeout(() => setEditorFocus(editorFocus));
     event.preventDefault();

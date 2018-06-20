@@ -91,7 +91,6 @@ const SectionViewLayout = ({
 
     setAssetRequestContentId,
     startNewResourceConfiguration,
-    startExistingResourceConfiguration,
   },
   goToSection,
   summonAsset
@@ -252,6 +251,17 @@ const SectionViewLayout = ({
     });
   };
 
+  const startExistingResourceConfiguration = resourceId => onResourceEditAttempt(resourceId);
+
+  const deleteContextualizationFromId = contextualizationId => {
+    deleteContextualization({
+      contextualizationId,
+      storyId,
+      userId,
+    });
+    // console.log('delete contextualization from id', contextualizationId);
+  };
+
   return (
     <div>
       <Columns isFullHeight>
@@ -263,6 +273,8 @@ const SectionViewLayout = ({
           resourceFilterVisible={resourceFilterVisible}
           story={story}
           sections={sectionsList}
+
+          getResourceTitle={getResourceTitle}
 
           userId={userId}
           reverseResourcesLockMap={reverseResourcesLockMap}
@@ -324,6 +336,7 @@ const SectionViewLayout = ({
             updateResource={updateResource}
             deleteContextualization={deleteContextualization}
             deleteContextualizer={deleteContextualizer}
+            deleteContextualizationFromId={deleteContextualizationFromId}
 
             setAssetRequestContentId={setAssetRequestContentId}
             startNewResourceConfiguration={startNewResourceConfiguration}

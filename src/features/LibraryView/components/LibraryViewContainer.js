@@ -4,8 +4,6 @@ import {connect} from 'react-redux';
 import {csvParse} from 'd3-dsv';
 import {v4 as genId} from 'uuid';
 
-import resourceSchema from 'quinoa-schemas/resource';
-
 import LibraryViewLayout from './LibraryViewLayout';
 
 import * as duck from '../duck';
@@ -77,7 +75,7 @@ class LibraryViewContainer extends Component {
   }
 
   createResourceData = (file) =>
-    new Promise((resolve, reject) => {
+    new Promise((resolve) => {
       const {
         userId,
         editedStory: story,
@@ -211,11 +209,11 @@ class LibraryViewContainer extends Component {
         console.log("resource fail to upload");
       }
     })
-    .catch(() => {
+    .catch((err) => {
       /**
        * @todo handle errors
        */
-      console.log("resources fail to upload");
+      console.log('resources fail to upload', err);
     });
   }
 

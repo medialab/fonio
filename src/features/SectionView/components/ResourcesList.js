@@ -29,6 +29,7 @@ export default class ResourcesList extends Component {
       onResourceEditAttempt,
       reverseResourcesLockMap,
       userLockedResourceId,
+      getResourceTitle,
     } = this.props;
     return (
       <div>
@@ -51,6 +52,7 @@ export default class ResourcesList extends Component {
               <ResourceMiniCard
                 resource={resource}
                 onDelete={handleDelete}
+                getTitle={getResourceTitle}
                 lockData={reverseResourcesLockMap[resource.id]}
                 isActive={userLockedResourceId}
                 onEdit={handleEdit} />

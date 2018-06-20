@@ -6,8 +6,6 @@ import ReactTooltip from 'react-tooltip';
 
 import {DragSource} from 'react-dnd';
 
-import resourceSchema from 'quinoa-schemas/resource';
-
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import {Bibliography} from 'react-citeproc';
@@ -114,6 +112,7 @@ class ResourceCard extends Component {
       isActive,
       onEdit,
       onDelete,
+      getTitle,
       // onSetCoverImage,
       selectMode,
 
@@ -129,12 +128,10 @@ class ResourceCard extends Component {
 
       const {
         type,
-        title,
       } = metadata;
 
       const translate = translateNameSpacer(t, 'Features.SectionView');
 
-      const specificSchema = resourceSchema.definitions[type];
 
       let lockStatus;
       let lockMessage;
@@ -152,20 +149,13 @@ class ResourceCard extends Component {
       }
 
       let resourceTitle;
-      if (specificSchema.showMetadata && title) {
-        resourceTitle = title;
-      }
-     else if (type === 'glossary' && data && data.name) {
-        resourceTitle = data.name;
-      }
-     else if (type === 'bib' && data && data[0]) {
+      if (type === 'bib' && data && data[0]) {
         const bibData = {
           [data[0].id]: data[0]
         };
         resourceTitle = <Bibliography items={bibData} style={apa} locale={english} />;
       }
-     else resourceTitle = translate('untitled resource');
-
+      else resourceTitle = getTitle(resource) || translate('untitled resource');
 
     /**
      * component's callbacks
@@ -270,76 +260,5 @@ class ResourceCard extends Component {
   }
 }
 
-/**
- * Component's properties types
- */
-ResourceCard.propTypes = {
-
-  /**
-   * data of the card
-   */
-  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.string]),
-
-  /**
-   * metadata of the card
-   */
-  metadata: PropTypes.object,
-
-  /**
-   * Callbacks when the card is asked to be deleted
-   */
-  onDelete: PropTypes.func,
-
-  /**
-   * Callbacks when the card is asking to be configured
-   */
-  onConfigure: PropTypes.func,
-
-  /**
-   * whether the resource is currently asking user whether to delete it
-   */
-  // promptedToDelete: PropTypes.bool,
-
-  /**
-   * callbacks when user asks for resource deletion
-   */
-  onRequestDeletePrompt: PropTypes.func,
-
-  /**
-   * callbacks when user dismisses the section deletion prompt
-   */
-  onAbortDeletePrompt: PropTypes.func,
-
-
-  /**
-   * Whether the card is in select mode
-   */
-  selectMode: PropTypes.bool,
-
-  /**
-   * Callbacks when the card is selected
-   */
-  onSelect: PropTypes.func,
-
-  /**
-   * Map of actions to execute when the card is started dragged
-   */
-  connectDragSource: PropTypes.object,
-
-  /**
-   * Map of actions to execute when the card has to be previewed
-   */
-  connectDragPreview: PropTypes.object,
-
-  /**
-   * Map of actions to execute when the card is dropped
-   */
-  connectDropTarget: PropTypes.object,
-
-  /**
-   * Callbacks when the card is pressed
-   */
-  onMouseDown: PropTypes.func,
-};
 
 export default ResourceCard;
