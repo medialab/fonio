@@ -38,6 +38,15 @@ export const CREATE_RESOURCE = 'CREATE_RESOURCE';
 export const UPDATE_RESOURCE = 'UPDATE_RESOURCE';
 export const DELETE_RESOURCE = 'DELETE_RESOURCE';
 
+export const CREATE_CONTEXTUALIZER = 'CREATE_CONTEXTUALIZER';
+export const UPDATE_CONTEXTUALIZER = 'UPDATE_CONTEXTUALIZER';
+export const DELETE_CONTEXTUALIZER = 'DELETE_CONTEXTUALIZER';
+
+export const CREATE_CONTEXTUALIZATION = 'CREATE_CONTEXTUALIZATION';
+export const UPDATE_CONTEXTUALIZATION = 'UPDATE_CONTEXTUALIZATION';
+export const DELETE_CONTEXTUALIZATION = 'DELETE_CONTEXTUALIZATION';
+
+
 export const UPLOAD_RESOURCE = 'UPLOAD_RESOURCE';
 export const DELETE_UPLOADED_RESOURCE = 'DELETE_UPLOADED_RESOURCE';
 /**
@@ -115,12 +124,22 @@ export const updateStory = (TYPE, payload, callback) => {
 export const updateStoryMetadata = payload => updateStory(UPDATE_STORY_METADATA, payload);
 export const updateStorySettings = payload => updateStory(UPDATE_STORY_SETTINGS, payload);
 export const updateSectionsOrder = payload => updateStory(UPDATE_SECTIONS_ORDER, payload);
+
 export const createSection = payload => updateStory(CREATE_SECTION, payload);
 export const updateSection = payload => updateStory(UPDATE_SECTION, payload);
 export const deleteSection = (payload, callback) => updateStory(DELETE_SECTION, payload, callback);
+
 export const createResource = payload => updateStory(CREATE_RESOURCE, payload);
 export const updateResource = payload => updateStory(UPDATE_RESOURCE, payload);
 export const deleteResource = (payload, callback) => updateStory(DELETE_RESOURCE, payload, callback);
+
+export const createContextualizer = payload => updateStory(CREATE_CONTEXTUALIZER, payload);
+export const updateContextualizer = payload => updateStory(UPDATE_CONTEXTUALIZER, payload);
+export const deleteContextualizer = payload => updateStory(DELETE_CONTEXTUALIZER, payload);
+
+export const createContextualization = payload => updateStory(CREATE_CONTEXTUALIZATION, payload);
+export const updateContextualization = payload => updateStory(UPDATE_CONTEXTUALIZATION, payload);
+export const deleteContextualization = payload => updateStory(DELETE_CONTEXTUALIZATION, payload);
 
 /**
  * Action creators related to resource upload request
@@ -179,6 +198,7 @@ const STORY_DEFAULT_STATE = {
  */
 function story(state = STORY_DEFAULT_STATE, action) {
   const {result, payload} = action;
+  let contextualizers;
   switch (action.type) {
     case `${ACTIVATE_STORY}_SUCCESS`:
       return {
@@ -359,6 +379,75 @@ function story(state = STORY_DEFAULT_STATE, action) {
               }, {}),
             lastUpdateAt: payload.lastUpdateAt,
           }
+      };
+
+    /**
+     * CONTEXTUALIZATION RELATED
+     */
+    // contextualizations CUD
+    case UPDATE_CONTEXTUALIZATION:
+    case `${UPDATE_CONTEXTUALIZATION}_BROADCAST`:
+    case CREATE_CONTEXTUALIZATION:
+    case `${CREATE_CONTEXTUALIZATION}_BROADCAST`:
+      const {
+        contextualizationId,
+        contextualization
+      } = payload;
+      return {
+        ...state,
+        story: {
+          ...state.story,
+          contextualizations: {
+            ...state.story.contextualizations,
+            [contextualizationId]: contextualization
+          }
+        }
+      };
+    case DELETE_CONTEXTUALIZATION:
+    case `${DELETE_CONTEXTUALIZATION}_BROADCAST`:
+      const contextualizations = {...state.story.contextualizations};
+      delete contextualizations[payload.contextualizationId];
+      return {
+        ...state,
+        story: {
+          ...state.story,
+          contextualizations
+        }
+      };
+
+    /**
+     * CONTEXTUALIZER RELATED
+     */
+    // contextualizers CUD
+    case UPDATE_CONTEXTUALIZER:
+    case `${UPDATE_CONTEXTUALIZER}_BROADCAST`:
+    case CREATE_CONTEXTUALIZER:
+    case `${CREATE_CONTEXTUALIZER}_BROADCAST`:
+      // storyId = action.storyId;
+      const {
+        contextualizerId,
+        contextualizer
+      } = payload;
+      return {
+        ...state,
+        story: {
+          ...state.story,
+          contextualizers: {
+            ...state.story.contextualizers,
+            [contextualizerId]: contextualizer
+          }
+        }
+      };
+    case DELETE_CONTEXTUALIZER:
+    case `${DELETE_CONTEXTUALIZER}_BROADCAST`:
+      contextualizers = {...state.story.contextualizers};
+      delete contextualizers[payload.contextualizerId];
+      return {
+        ...state,
+        story: {
+          ...state.story,
+          contextualizers
+        }
       };
 
     default:

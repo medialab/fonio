@@ -312,7 +312,9 @@ class ResourceForm extends Component {
         candidates.data.forEach(datum => {
           validateAndSubmit({
             ...createDefaultResource(),
-            metadata: {...candidates.metadata},
+            metadata: {
+              ...candidates.metadata,
+            },
             data: [datum]
           });
         });

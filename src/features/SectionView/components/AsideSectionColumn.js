@@ -21,11 +21,10 @@ import {
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
-import ResourceMiniCard from './ResourceMiniCard';
+import ResourcesList from './ResourcesList';
 import SortableMiniSectionsList from './SortableMiniSectionsList';
 
 const resourceTypes = Object.keys(resourceSchema.definitions);
-
 
 const AsideSectionColumn = ({
   asideTabCollapsed,
@@ -141,8 +140,16 @@ const AsideSectionColumn = ({
                 {translate('New resource')}
               </Button>
             </Level>
+            <ResourcesList
+              resources={visibleResources}
+              deleteResource={deleteResource}
+              storyId={storyId}
+              userId={userId}
+              onResourceEditAttempt={onResourceEditAttempt}
+              reverseResourcesLockMap={reverseResourcesLockMap}
+              userLockedResourceId={userLockedResourceId} />
             {
-                visibleResources
+                /*visibleResources
                 .map(resource => {
                   const handleDelete = () => {
                     deleteResource({
@@ -164,7 +171,7 @@ const AsideSectionColumn = ({
                         onEdit={handleEdit} />
                     </Column>
                   );
-                })
+                })*/
               }
             <Level>
               <DropZone>

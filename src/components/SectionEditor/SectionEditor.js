@@ -657,7 +657,7 @@ class SectionEditor extends Component {
 
     // used callbacks
     const onAssetChoice = (option, contentId) => {
-      const {id} = option.metadata;
+      const {id} = option;
       let targetedEditorId = contentId;
       if (!targetedEditorId) {
         targetedEditorId = this.props.editorFocus;
@@ -695,7 +695,7 @@ class SectionEditor extends Component {
           focusOffset: selection.getEndOffset() - payload.length
         });
         updateDraftEditorState(editorId, EditorState.forceSelection(editorState, rightSelectionState));
-        onAssetChoice({metadata: {id}}, contentId);
+        onAssetChoice({id}, contentId);
       }
     };
 

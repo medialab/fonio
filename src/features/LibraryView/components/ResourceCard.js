@@ -126,10 +126,10 @@ const ResourceCard = ({
           }
         ]}
       onAction={action => {
-        if (action === 'edit') {
+        if (action === 'edit' && !lockData) {
           onEdit();
         }
-        else if (action === 'delete') {
+        else if (action === 'delete' && !lockData) {
           onDelete();
         }
       }} />

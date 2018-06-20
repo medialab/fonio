@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-6-19\n"
-"PO-Revision-Date: Tue Jun 19 2018 17:15:15 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-6-20\n"
+"PO-Revision-Date: Wed Jun 20 2018 13:00:36 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1747,6 +1747,9 @@ msgstr "New resource"
 
 msgid "Features.SectionView.untitled resource"
 msgstr "untitled resource"
+
+msgid "Features.ToasterContainer.You could not edit the resource"
+msgstr "You could not edit the resource"
 
 msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr ""
