@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-21\n"
-"PO-Revision-Date: Thu Jun 21 2018 12:13:04 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jun 21 2018 12:29:24 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1780,6 +1780,9 @@ msgstr "enable"
 
 msgid "Features.DesignView.disable"
 msgstr "disable"
+
+msgid "Features.DesignView.Edit css (advanced)"
+msgstr "Edit css (advanced)"
 
 msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr ""

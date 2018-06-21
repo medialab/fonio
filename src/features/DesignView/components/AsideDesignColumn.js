@@ -177,7 +177,7 @@ const AsideDesignColumn = ({
               isFullWidth
               isColor={stylesMode === 'gui' ? '' : 'primary'}
               onClick={() => console.log('set styles mode to', {stylesMode: stylesMode === 'gui' ? 'code' : 'gui'}) /* eslint no-console :  0 */}>
-              Edit css (advanced)
+              {translate('Edit css (advanced)')}
             </Button>
             {stylesMode === 'code' && <Level />}
             <Collapsable isCollapsed={stylesMode !== 'code'}>
@@ -212,7 +212,7 @@ const AsideDesignColumn = ({
           <Tab onClick={() => setAsideTabCollapsed(!asideTabCollapsed)} isActive={asideTabCollapsed}><TabLink>{asideTabCollapsed ? '▶' : '◀'}</TabLink></Tab>
         </TabList>
       </Tabs>
-      {renderAsideContent()}
+      {!asideTabCollapsed && renderAsideContent()}
     </Column>
   );
 };
