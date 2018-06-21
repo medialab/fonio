@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {v4 as genId} from 'uuid';
+import {isEmpty} from 'lodash';
 
 import {arrayMove} from 'react-sortable-hoc';
 
@@ -21,6 +22,7 @@ import {
   checkIfUserHasLockOnSection,
   getReverseResourcesLockMap,
   getUserResourceLockId,
+  getCitedSections,
 } from '../../../helpers/lockUtils';
 
 import AsideSectionColumn from './AsideSectionColumn';
@@ -102,7 +104,7 @@ const SectionViewLayout = ({
 }) => {
 
   const translate = translateNameSpacer(t, 'Features.SectionView');
-  const {id: storyId, resources} = story;
+  const {id: storyId, resources, contextualizations} = story;
   const {id: sectionId} = section;
   const defaultSection = createDefaultSection();
 
@@ -131,6 +133,24 @@ const SectionViewLayout = ({
       lockStatus
     };
   });
+
+  const reverseResourcesSectionsMap =
+    Object.keys(contextualizations)
+    .reduce((result, contextId) => {
+      const context = contextualizations[contextId];
+      const activeCitedSections =
+        getCitedSections(contextualizations, context.resourceId)
+          .filter(id => {
+            return (reverseSectionLockMap[id] && reverseSectionLockMap[id].userId !== userId);
+          });
+      if (activeCitedSections.length > 0) {
+        return {
+          ...result,
+          [context.resourceId]: {name: `other ${activeCitedSections.length} sections`}
+        };
+      }
+      return result;
+    }, {});
 
   const activeFilters = Object.keys(resourceFilterValues).filter(key => resourceFilterValues[key]);
   const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
@@ -300,7 +320,7 @@ const SectionViewLayout = ({
           getResourceTitle={getResourceTitle}
 
           userId={userId}
-          reverseResourcesLockMap={reverseResourcesLockMap}
+          reverseResourcesLockMap={isEmpty(reverseResourcesLockMap) ? reverseResourcesSectionsMap : reverseResourcesLockMap}
           userLockedResourceId={userLockedResourceId}
 
           visibleResources={visibleResources}

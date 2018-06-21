@@ -28,7 +28,9 @@ const ConfirmToDeleteModal = ({
     const title = titlePath ? objectPath.get(resource, titlePath) : resource.metadata.title;
     return title;
   };
+
   let message;
+  let citedContext;
   if (deleteType === 'section') {
     message = (story && story.sections[id]) ? translate(
       'Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery.',
@@ -38,6 +40,11 @@ const ConfirmToDeleteModal = ({
     ) : translate('Are you sure you want to delete this section ?');
   }
   else {
+    const {contextualizations} = story;
+    citedContext = Object.keys(contextualizations)
+                  .map(contextId => contextualizations[contextId])
+                  .filter(d => d.resourceId === id);
+
     message = (story && story.resources[id]) ? translate(
       'Are you sure you want to delete the resource "{s}" ?',
       {
@@ -51,7 +58,11 @@ const ConfirmToDeleteModal = ({
       headerContent={deleteType === 'section' ? translate('Delete Section') : translate('Delete Resource')}
       onClose={onClose}
       mainContent={
-        <div>{message}</div>
+        <div>
+          {deleteType === 'resource' && citedContext.length > 0 &&
+            <div>{`This resource is cited ${citedContext.length} places of in your story,`}</div>}
+          <div>{message}</div>
+        </div>
       }
       footerContent={[
         <Button
