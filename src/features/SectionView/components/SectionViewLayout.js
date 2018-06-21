@@ -93,7 +93,8 @@ const SectionViewLayout = ({
     startNewResourceConfiguration,
   },
   goToSection,
-  summonAsset
+  summonAsset,
+  submitMultiResources,
 }, {
   t
 }) => {
@@ -289,6 +290,7 @@ const SectionViewLayout = ({
           setResourceSortValue={setResourceSortValue}
 
           deleteResource={deleteResource}
+          submitMultiResources={submitMultiResources}
 
           onResourceEditAttempt={onResourceEditAttempt}
 

@@ -59,6 +59,7 @@ const AsideSectionColumn = ({
   onResourceEditAttempt,
 
   deleteResource,
+  submitMultiResources,
 
   onDeleteSection,
   onOpenSectionSettings,
@@ -177,7 +178,7 @@ const AsideSectionColumn = ({
                 })*/
               }
             <Level>
-              <DropZone>
+              <DropZone onDrop={submitMultiResources}>
                 {translate('Drop files to include new resources in your library (images, tables, bibliographies)')}
               </DropZone>
             </Level>
