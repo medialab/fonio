@@ -73,7 +73,7 @@ class LinkContextualization extends Component {
     const {
       contextualizer = {},
       contextualizerId,
-      resource,
+      resource = {},
     } = asset;
 
     const {
