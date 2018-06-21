@@ -19,7 +19,6 @@ import {
   Level,
   LevelItem,
   LevelLeft,
-  ModalCard,
   StatusMarker,
   Title,
 } from 'quinoa-design-library/components/';
@@ -27,6 +26,7 @@ import {
 
 import MetadataForm from '../../../components/MetadataForm';
 import NewSectionForm from '../../../components/NewSectionForm';
+import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 
 import SortableSectionsList from './SortableSectionsList';
 
@@ -357,35 +357,14 @@ const SummaryViewLayout = ({
         }
 
       </Columns>
-
-      {
-          promptedToDeleteSectionId &&
-          <ModalCard
-            isActive
-            headerContent={translate('Delete a section')}
-            mainContent={
-              <div>
-                {(story && story.sections[promptedToDeleteSectionId]) ? translate(
-                    'Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery.',
-                    {
-                      s: story.sections[promptedToDeleteSectionId].metadata.title
-                    }
-                  ) : translate('Are you sure you want to delete this section ?')}
-              </div>
-            }
-            footerContent={[
-              <Button
-                type="submit"
-                isFullWidth
-                key={0}
-                onClick={onDeleteSectionConfirm}
-                isDisabled={reverseSectionLockMap[promptedToDeleteSectionId]}
-                isColor="success">{translate('Delete the section')}</Button>,
-              <Button
-                onClick={() => setPromptedToDeleteSectionId(undefined)} isFullWidth key={1}
-                isColor="warning">{translate('Cancel')}</Button>,
-            ]} />
-        }
+      <ConfirmToDeleteModal
+        isActive={promptedToDeleteSectionId}
+        isDisabled={reverseSectionLockMap[promptedToDeleteSectionId]}
+        deleteType={'section'}
+        story={story}
+        id={promptedToDeleteSectionId}
+        onClose={() => setPromptedToDeleteSectionId(undefined)}
+        onDeleteConfirm={onDeleteSectionConfirm} />
     </Container>
     );
 };

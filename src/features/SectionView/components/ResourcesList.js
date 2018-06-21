@@ -23,9 +23,7 @@ export default class ResourcesList extends Component {
   render = () => {
     const {
       resources,
-      deleteResource,
-      storyId,
-      userId,
+      onDeleteResource,
       onResourceEditAttempt,
       reverseResourcesLockMap,
       userLockedResourceId,
@@ -38,11 +36,7 @@ export default class ResourcesList extends Component {
         resources
         .map(resource => {
           const handleDelete = () => {
-            deleteResource({
-              storyId,
-              userId,
-              resourceId: resource.id
-            });
+            onDeleteResource(resource.id);
           };
           const handleEdit = () => {
             onResourceEditAttempt(resource.id);

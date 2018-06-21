@@ -16,6 +16,7 @@ import * as duck from '../duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as storyDuck from '../../StoryManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
+import * as libarayViewDuck from '../../LibraryView/duck';
 
 import SectionViewLayout from './SectionViewLayout';
 
@@ -27,12 +28,14 @@ import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapper
     ...connectionsDuck.selector(state.connections),
     ...storyDuck.selector(state.editedStory),
     ...sectionsManagementDuck.selector(state.sectionsManagement),
+    ...libarayViewDuck.selector(state.library),
   }),
   dispatch => ({
     actions: bindActionCreators({
       ...connectionsDuck,
       ...storyDuck,
       ...sectionsManagementDuck,
+      ...libarayViewDuck,
       ...duck,
     }, dispatch)
   })

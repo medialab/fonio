@@ -34,6 +34,7 @@ import {
   getUserResourceLockId,
 } from '../../../helpers/lockUtils';
 
+import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 import ResourceForm from '../../../components/ResourceForm';
 
 import ResourceCard from './ResourceCard';
@@ -53,6 +54,7 @@ const LibraryViewLayout = ({
   filterValues,
   sortValue,
   searchString,
+  promptedToDeleteResourceId,
   actions: {
     setSortVisible,
     setFilterVisible,
@@ -60,6 +62,7 @@ const LibraryViewLayout = ({
     setSearchString,
     setFilterValues,
     setSortValue,
+    setPromptedToDeleteResourceId,
 
     enterBlock,
     leaveBlock,
@@ -123,6 +126,23 @@ const LibraryViewLayout = ({
       [type]: filterValues[type] ? false : true
     });
   };
+
+  const onDeleteResourceConfirm = () => {
+    const resource = resources[promptedToDeleteResourceId];
+    const payload = {
+      storyId,
+      userId,
+      resourceId: resource.id
+    };
+    if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
+      deleteUploadedResource(payload);
+    }
+    else {
+      deleteResource(payload);
+    }
+    setPromptedToDeleteResourceId(undefined);
+  };
+
   const renderMainColumn = () => {
     if (userLockedResourceId) {
       const handleSubmit = resource => {
@@ -265,17 +285,7 @@ const LibraryViewLayout = ({
                         });
                       };
                       const handleDelete = () => {
-                        const payload = {
-                          storyId,
-                          userId,
-                          resourceId: resource.id
-                        };
-                        if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
-                          deleteUploadedResource(payload);
-                        }
-                        else {
-                          deleteResource(payload);
-                        }
+                        setPromptedToDeleteResourceId(resource.id);
                       };
                       return (
                         <ResourceCard
@@ -290,6 +300,13 @@ const LibraryViewLayout = ({
                   }
               </Grid>
             </div>
+            <ConfirmToDeleteModal
+              isActive={promptedToDeleteResourceId}
+              deleteType={'resource'}
+              story={story}
+              id={promptedToDeleteResourceId}
+              onClose={() => setPromptedToDeleteResourceId(undefined)}
+              onDeleteConfirm={onDeleteResourceConfirm} />
           </div>
       );
     }
