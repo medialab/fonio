@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {csvParse} from 'd3-dsv';
-import {v4 as genId} from 'uuid';
 
 import LibraryViewLayout from './LibraryViewLayout';
 
@@ -11,9 +9,7 @@ import * as editedStoryDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
 
-import {validateResource, createDefaultResource} from '../../../helpers/schemaUtils';
-import {loadImage, inferMetadata, parseBibTeXToCSLJSON} from '../../../helpers/assetsUtils';
-import {getFileAsText} from '../../../helpers/fileLoader';
+import {createResourceData} from '../../../helpers/resourcesUtils';
 
 import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
 
@@ -74,116 +70,6 @@ class LibraryViewContainer extends Component {
     }
   }
 
-  createResourceData = (file) =>
-    new Promise((resolve) => {
-      const {
-        userId,
-        editedStory: story,
-      } = this.props;
-      const {
-        id: storyId
-      } = story;
-      let id = genId();
-      const extension = file.name.split('.').pop();
-      let metadata;
-      let data;
-      let type;
-      let resource;
-      let payload;
-      switch (extension) {
-        case 'png':
-        case 'jpg':
-        case 'jpeg':
-        case 'gif':
-          type = 'image';
-          return loadImage(file)
-            .then((base64) => {
-              data = {base64};
-              metadata = inferMetadata({...data, file}, type);
-              resource = {
-                ...createDefaultResource(),
-                id,
-                metadata: {
-                  ...metadata,
-                  type,
-                },
-                data,
-              };
-              payload = {
-                resourceId: id,
-                resource,
-                storyId,
-                userId,
-              };
-              if (validateResource(resource).valid) {
-                this.props.actions.uploadResource(payload, 'create');
-              }
-              else resolve({id, success: false, error: validateResource(resource).errors});
-            })
-            .then(() => resolve({id, success: true}))
-            .catch((error) => resolve({id, success: false, error}));
-        case 'csv':
-        case 'tsv':
-          type = 'table';
-          return getFileAsText(file)
-            .then((text) => {
-              data = {json: csvParse(text)};
-              metadata = inferMetadata({...data, file}, type);
-              resource = {
-                ...createDefaultResource(),
-                id,
-                metadata: {
-                  ...metadata,
-                  type,
-                },
-                data,
-              };
-              payload = {
-                resourceId: id,
-                resource,
-                storyId,
-                userId,
-              };
-              if (validateResource(resource).valid) {
-                this.props.actions.uploadResource(payload, 'create');
-              }
-              else resolve({id, success: false, error: validateResource(resource).errors});
-            })
-            .then(() => resolve({id, success: true}))
-            .catch((error) => resolve({id, success: false, error}));
-        default:
-          return getFileAsText(file)
-            .then((text) => {
-              data = parseBibTeXToCSLJSON(text);
-              data.forEach(datum => {
-                id = genId();
-                resource = {
-                  ...createDefaultResource(),
-                  id,
-                  metadata: {
-                    ...createDefaultResource().metadata,
-                    type: 'bib',
-                  },
-                  data: [datum],
-                };
-                payload = {
-                  resourceId: id,
-                  resource,
-                  storyId,
-                  userId,
-                };
-                if (validateResource(resource).valid) {
-                  this.props.actions.createResource(payload);
-                }
-                else resolve({id, success: false, error: validateResource(resource).errors});
-              });
-            })
-            .then(() => resolve({id, success: true}))
-            .catch((error) => resolve({id, success: false, error}));
-      }
-    });
-
-
   submitMultiResources = (files) => {
     // return new Promise((resolve, reject) => {
     //   const resourcesPromise = files.map(file => this.submitUploadResourceData(file));
@@ -194,7 +80,7 @@ class LibraryViewContainer extends Component {
     const errors = [];
     files.reduce((curr, next) => {
       return curr.then(() =>
-        this.createResourceData(next)
+        createResourceData(next, this.props)
         .then((res) => {
           if (res && !res.success) errors.push(res);
         })
@@ -206,7 +92,7 @@ class LibraryViewContainer extends Component {
         /**
          * @todo handle errors
          */
-        console.log("resource fail to upload");
+        console.log('resource fail to upload');
       }
     })
     .catch((err) => {

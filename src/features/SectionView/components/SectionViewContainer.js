@@ -9,7 +9,7 @@ import {
 import {
   summonAsset
 } from '../../../helpers/assetsUtils';
-
+import {createResourceData} from '../../../helpers/resourcesUtils';
 
 import * as duck from '../duck';
 
@@ -148,6 +148,39 @@ class SectionViewContainer extends Component {
     this.props.history.push(`/story/${id}/section/${sectionId}`);
   }
 
+  submitMultiResources = (files) => {
+    // return new Promise((resolve, reject) => {
+    //   const resourcesPromise = files.map(file => this.submitUploadResourceData(file));
+    //   return Promise.all(resourcesPromise.map(p => p.catch(e => e)))
+    //     .then(res => resolve(res.filter(result => !result.success)))
+    //     .catch(err => reject(err));
+    // });
+    const errors = [];
+    files.reduce((curr, next) => {
+      return curr.then(() =>
+        createResourceData(next, this.props)
+        .then((res) => {
+          if (res && !res.success) errors.push(res);
+        })
+      );
+    }, Promise.resolve())
+    .then(() => {
+      if (errors.length > 0) {
+        console.error(errors);
+        /**
+         * @todo handle errors
+         */
+        console.log('resource fail to upload');
+      }
+    })
+    .catch((err) => {
+      /**
+       * @todo handle errors
+       */
+      console.log('resources fail to upload', err);
+    });
+  }
+
   onSummonAsset = (contentId, resourceId) => summonAsset(contentId, resourceId, this.props);
 
   render() {
@@ -161,7 +194,8 @@ class SectionViewContainer extends Component {
         },
       },
       goToSection,
-      onSummonAsset
+      onSummonAsset,
+      submitMultiResources,
     } = this;
     if (editedStory) {
       const section = editedStory.sections[sectionId];
@@ -173,6 +207,7 @@ class SectionViewContainer extends Component {
               goToSection={goToSection}
               story={this.props.editedStory}
               summonAsset={onSummonAsset}
+              submitMultiResources={submitMultiResources}
               {...this.props} />
           </EditionUiWrapper>
         );
