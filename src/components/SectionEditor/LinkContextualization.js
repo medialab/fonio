@@ -12,6 +12,11 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+import {
+  Image,
+  Button
+} from 'quinoa-design-library/components';
+
 
 /**
  * LinkContextualization class for building react component instances
@@ -82,7 +87,7 @@ class LinkContextualization extends Component {
 
     const onEditRequest = () => {
       if (typeof startExistingResourceConfiguration === 'function') {
-        startExistingResourceConfiguration(resource.metadata.id, resource);
+        startExistingResourceConfiguration(resource.id, resource);
       }
     };
 
@@ -124,16 +129,14 @@ class LinkContextualization extends Component {
             onClick={onInputClick}
             onFocus={onAssetFocus}
             onBlur={onAliasBlur} />
-          <a
+          <Button
             href={data} target="_blank" alt="href"
             rel="noopener" onClick={onLinkClick}>
-            <img src={icons.webpage.black.svg} />
-          </a>
-          <button
-            className="more-options-btn"
-            onClick={onEditRequest}>
-            <img src={icons.edit.black.svg} />
-          </button>
+            <Image isSize={'16x16'} src={icons.webpage.black.svg} />
+          </Button>
+          <Button onClick={onEditRequest}>
+            <Image isSize={'16x16'} src={icons.edit.black.svg} />
+          </Button>
           {children}
         </span>
       </span>

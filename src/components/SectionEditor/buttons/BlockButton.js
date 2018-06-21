@@ -2,6 +2,12 @@ import React, {Component} from 'react';
 import {RichUtils} from 'draft-js';
 import PropTypes from 'prop-types';
 
+
+import {
+  Button
+} from 'quinoa-design-library/components';
+
+
 class BlockButton extends Component {
 
   static propTypes = {
@@ -47,12 +53,13 @@ class BlockButton extends Component {
       blockType,
       children,
       updateEditorState,
+      tooltip,
       // iconMap,
       // ...otherProps
     } = this.props;
 
     const selected = this.isSelected(editorState, blockType);
-    const className = `scholar-draft-BlockButton${selected ? ' active' : ''}`;
+    // const className = `scholar-draft-BlockButton${selected ? ' active' : ''}`;
 
     const onMouseDown = (event) => {
       event.preventDefault();
@@ -60,16 +67,18 @@ class BlockButton extends Component {
     };
 
     return (
-      <div
+      <Button
         onMouseDown={onMouseDown}
-        className={className}>
+        isColor={selected ? 'info' : ''}
+        data-tip={tooltip}
+        data-for="style-button">
         {React.Children.map(
           children,
           child => React.cloneElement(child, {
             selected
           })
         )}
-      </div>
+      </Button>
     );
   }
 }

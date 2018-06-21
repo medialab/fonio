@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-21\n"
-"PO-Revision-Date: Thu Jun 21 2018 14:55:38 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jun 21 2018 18:26:07 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1790,11 +1790,77 @@ msgstr "Story not found"
 msgid "Features.ReadOnly.Loading"
 msgstr "Loading"
 
-msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "
 msgstr ""
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete this section ?"
+msgstr "Are you sure you want to delete this section ?"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "
+msgstr "Are you sure you want to delete the resource \"{s}\" ?"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete this resource ?"
+msgstr "Are you sure you want to delete this resource ?"
+
+msgid "Components.ConfirmToDeleteModal.Delete Section"
+msgstr "Delete Section"
+
+msgid "Components.ConfirmToDeleteModal.Delete Resource"
+msgstr "Delete Resource"
+
+msgid "Components.ConfirmToDeleteModal.Delete"
+msgstr "Delete"
+
+msgid "Components.ConfirmToDeleteModal.Cancel"
+msgstr "Cancel"
+
+msgid "Components.AssetPreview.delete contextualization"
+msgstr "delete contextualization"
+
+msgid "Components.AssetPreview.edit resource"
+msgstr "edit resource"
+
+msgid "Components.AssetPreview.Description"
+msgstr "Description"
+
+msgid "Components.AssetPreview.Source"
+msgstr "Source"
+
+msgid "Features.HomeView.New Story"
+msgstr "New Story"
+
+msgid "Component.LinkButton.add link"
+msgstr "add link"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr ""
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
+msgstr "Are you sure you want to delete the resource \"{s}\" ?"
+
+msgid "Components.References.References"
+msgstr "References"
+
+msgid "Components.Footer.bold text"
+msgstr "bold text"
+
+msgid "Components.Footer.italic text"
+msgstr "italic text"
+
+msgid "Components.Footer.quote"
+msgstr "quote"
+
+msgid "Components.Footer.big title"
+msgstr "big title"
+
+msgid "Components.Footer.small title"
+msgstr "small title"
+
+msgid "Components.Footer.ordered list"
+msgstr "ordered list"
+
+msgid "Components.Footer.unordered list"
+msgstr "unordered list"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} is working on section \"{t}\""
-
-msgid "Features.SummaryView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
-msgstr ""

@@ -42,16 +42,24 @@ class ResourceForm extends Component {
 
   constructor(props, context) {
     super(props);
+    const resource = props.resource || createDefaultResource();
+    if (props.resourceType) {
+      resource.metadata.type = props.resourceType;
+    }
     this.state = {
-      resource: props.resource || createDefaultResource()
+      resource
     };
     this.translate = translateNameSpacer(context.t, 'Components.ResourceForm');
   }
 
   componentWillReceiveProps = nextProps => {
     if (this.props.resource !== nextProps.resource) {
+      const resource = nextProps.resource || createDefaultResource();
+      if (nextProps.resourceType) {
+        resource.metadata.type = nextProps.resourceType;
+      }
       this.setState({
-        resource: nextProps.resource || createDefaultResource()
+        resource
       });
     }
   }
@@ -62,7 +70,8 @@ class ResourceForm extends Component {
         asNewResource = true,
         // resourceType: propResourceType,
         onCancel,
-        onSubmit
+        onSubmit,
+        resourceType,
       },
       state: {
         resource = {}
@@ -91,7 +100,7 @@ class ResourceForm extends Component {
           }
         });
 
-    const DataForm = ({resourceType, formApi}) => {
+    const DataForm = ({resourceType, formApi}) => {/* eslint no-shadow : 0 */
       // const dataSchema = resourceSchema.definitions[resourceType];
       // const acceptedFiles = dataSchema.accept_mimetypes && dataSchema.accept_mimetypes.join(',');
       const onDropFiles = (files) => {
@@ -369,7 +378,7 @@ class ResourceForm extends Component {
                   </Column>
                 </Columns>
               </Title>
-              {asNewResource &&
+              {asNewResource && !resourceType &&
               <BigSelect
                 activeOptionId={formApi.getValue('metadata.type')}
                 onChange={thatType => onResourceTypeChange(thatType, formApi)}

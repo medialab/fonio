@@ -6,6 +6,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  Button,
+  Delete,
+  Image
+} from 'quinoa-design-library/components';
+
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
@@ -93,7 +99,7 @@ class InlineCitation extends Component {
 
     const onEditRequest = () => {
       if (typeof startExistingResourceConfiguration === 'function') {
-        startExistingResourceConfiguration(resource.metadata.id, resource);
+        startExistingResourceConfiguration(resource.id, resource);
       }
     };
 
@@ -162,18 +168,13 @@ class InlineCitation extends Component {
           <span onClick={onMoreOptionsClick}>
             {representation && representation.Component}
           </span>
-
-          <button
+          <Button
             className="more-options-btn"
             onClick={onEditRequest}>
-            <img src={icons.bib.black.svg} />
-            <img src={icons.edit.black.svg} />
-          </button>
-          <button
-            className="more-options-btn"
-            onClick={onMoreOptionsClick}>
-            <img style={{transform: 'rotate(45deg)'}} src={icons.remove.black.svg} />
-          </button>
+            <Image isSize={'16x16'} src={icons.bib.black.svg} />
+            <Image isSize={'16x16'} src={icons.edit.black.svg} />
+          </Button>
+          <Delete onClick={onMoreOptionsClick} />
           {this.state.optionsVisible &&
           <span className="more-options-container">
             {translate('prefix-label')}:

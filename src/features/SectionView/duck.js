@@ -17,6 +17,8 @@ import resourceSchema from 'quinoa-schemas/resource';
  * ACTION NAMES
  * ===================================================
  */
+
+import {CREATE_RESOURCE} from '../StoryManager/duck';
 /**
  * UI
  */
@@ -29,6 +31,11 @@ const SET_RESOURCE_FILTER_VALUES = 'SET_RESOURCE_FILTER_VALUES';
 const SET_RESOURCE_SORT_VALUE = 'SET_RESOURCE_SORT_VALUE';
 const SET_RESOURCE_SEARCH_STRING = 'SET_RESOURCE_SEARCH_STRING';
 
+/**
+ * actions related to resources edition parameters
+ */
+const SET_NEW_RESOURCE_TYPE = 'SET_NEW_RESOURCE_TYPE';
+const SET_EMBED_RESOURCE_AFTER_CREATION = 'SET_EMBED_RESOURCE_AFTER_CREATION';
 
 /*
  * actions related to section edition
@@ -87,6 +94,16 @@ export const setResourceSortValue = payload => ({
 
 export const setResourceSearchString = payload => ({
   type: SET_RESOURCE_SEARCH_STRING,
+  payload
+});
+
+export const setNewResourceType = payload => ({
+  type: SET_NEW_RESOURCE_TYPE,
+  payload
+});
+
+export const setEmbedResourceAfterCreation = payload => ({
+  type: SET_EMBED_RESOURCE_AFTER_CREATION,
   payload
 });
 
@@ -207,6 +224,41 @@ function ui(state = UI_DEFAULT_STATE, action) {
         ...state,
         [propName]: payload
       };
+    default:
+      return state;
+  }
+}
+
+const RESOURCES_EMBED_SETTINGS_DEFAULT_STATE = {
+  embedResourceAfterCreation: false,
+  newResourceType: undefined
+};
+/**
+ * In-editor resources management
+ */
+function resourcesEmbedSettings(state = RESOURCES_EMBED_SETTINGS_DEFAULT_STATE, action) {
+  const {payload, type} = action;
+  switch (type) {
+    case SET_EMBED_RESOURCE_AFTER_CREATION:
+    case SET_NEW_RESOURCE_TYPE:
+      const propName = getStatePropFromActionSet(action.type);
+      return {
+        ...state,
+        [propName]: payload
+      };
+    case `${CREATE_RESOURCE}`:
+      return {
+        ...state,
+        ...RESOURCES_EMBED_SETTINGS_DEFAULT_STATE
+      };
+    case SET_MAIN_COLUMN_MODE:
+      if (payload === 'edition') {
+        return {
+          ...state,
+          ...RESOURCES_EMBED_SETTINGS_DEFAULT_STATE
+        };
+      }
+      return state;
     default:
       return state;
   }
@@ -356,6 +408,7 @@ export default combineReducers({
   assetRequeststate,
   editorstates,
   editorFocusState,
+  resourcesEmbedSettings,
 });
 
 /**
@@ -379,6 +432,10 @@ const assetRequested = state => state.assetRequested;
 const editorFocus = state => state.editorFocusState.editorFocus;
 const previousEditorFocus = state => state.editorFocusState.previousEditorFocus;
 
+
+const embedResourceAfterCreation = state => state.resourcesEmbedSettings.embedResourceAfterCreation;
+const newResourceType = state => state.resourcesEmbedSettings.newResourceType;
+
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
@@ -399,4 +456,7 @@ export const selector = createStructuredSelector({
   assetRequested,
   editorFocus,
   previousEditorFocus,
+
+  embedResourceAfterCreation,
+  newResourceType,
 });

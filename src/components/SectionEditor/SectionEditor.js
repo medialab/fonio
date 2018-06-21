@@ -8,12 +8,18 @@ import {debounce} from 'lodash';
 import {ReferencesManager} from 'react-citeproc';
 import {v4 as generateId} from 'uuid';
 
+import ReactTooltip from 'react-tooltip';
+
 import {
   EditorState,
   convertToRaw,
   convertFromRaw,
   SelectionState
 } from 'draft-js';
+
+import {
+  Content
+} from 'quinoa-design-library/components';
 
 const timers = {
   short: 100
@@ -81,18 +87,6 @@ import OrderedListItemButton from './buttons/OrderedListItemButton';
 import UnorderedListItemButton from './buttons/UnorderedListItemButton';
 import LinkButton from './buttons/LinkButton';
 
-const inlineButtons = [
-  <BoldButton key={1} />,
-  <ItalicButton key={2} />,
-  <BlockQuoteButton key={3} />,
-  <HeaderOneButton key={4} />,
-  <HeaderTwoButton key={5} />,
-  <OrderedListItemButton key={6} />,
-  <UnorderedListItemButton key={7} />,
-  <LinkButton key={8} />,
-  /*<CodeBlockButton />,*/
-];
-
 
 /**
  * We have to provide scholar-draft the components
@@ -146,7 +140,7 @@ class SectionEditor extends Component {
    * constructor
    * @param {object} props - properties given to instance at instanciation
    */
-  constructor(props) {
+  constructor(props, context) {
     super(props);
     this.state = {
       hydrated: false,
@@ -162,6 +156,8 @@ class SectionEditor extends Component {
 
     this.handleCopy = handleCopy.bind(this);
     this.handlePaste = handlePaste.bind(this);
+
+    this.translate = translateNameSpacer(context.t, 'Components.Footer').bind(this);
 
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
@@ -574,6 +570,19 @@ class SectionEditor extends Component {
     }
 
 
+  inlineButtons = () => [
+    <BoldButton tooltip={this.translate('bold text')} key={1} />,
+    <ItalicButton tooltip={this.translate('italic text')} key={2} />,
+    <BlockQuoteButton tooltip={this.translate('quote')} key={3} />,
+    <HeaderOneButton tooltip={this.translate('big title')} key={4} />,
+    <HeaderTwoButton tooltip={this.translate('small title')} key={5} />,
+    <OrderedListItemButton tooltip={this.translate('ordered list')} key={6} />,
+    <UnorderedListItemButton tooltip={this.translate('unordered list')} key={7} />,
+    <LinkButton key={8} />,
+    /*<CodeBlockButton />,*/
+  ]
+
+
   /**
    * Renders the component
    * @return {ReactElement} component - the component
@@ -628,7 +637,6 @@ class SectionEditor extends Component {
       id: sectionId,
     } = activeSection;
 
-    const translate = translateNameSpacer(this.context.t, 'Components.Footer');
     const mainEditorState = editorStates[sectionId]; // || this.editor.generateEmptyEditor();
     // replacing notes with dynamic non-serializable editor states
     const notes = inputNotes ? Object.keys(inputNotes).reduce((no, id) => ({
@@ -758,7 +766,7 @@ class SectionEditor extends Component {
         strategy: this.findDraftDropPlaceholder,
         component: ({children}) =>
           (<span className="contextualization-loading-placeholder">
-            {translate('loading')}
+            {this.translate('loading')}
             <span style={{display: 'none'}}>{children}</span>
           </span>)
       },
@@ -770,7 +778,7 @@ class SectionEditor extends Component {
               <span>{children}</span>
               <span className="pin-container">
                 <HelpPin>
-                  {translate('native link to {u}', {u: url})}
+                  {this.translate('native link to {u}', {u: url})}
                 </HelpPin>
               </span>
             </span>
@@ -779,8 +787,10 @@ class SectionEditor extends Component {
       }
     ];
 
+    const inlineButtons = this.inlineButtons();
+
     return (
-      <div style={componentStyle} className="fonio-SectionEditor">
+      <Content style={componentStyle} className="fonio-SectionEditor">
         <div className="editor-wrapper" onScroll={onScroll}>
           <ReferencesManager
             style={style}
@@ -794,9 +804,9 @@ class SectionEditor extends Component {
               assets={assets}
 
               messages={{
-                addNote: translate('add-note'),
-                summonAsset: translate('summon-asset'),
-                cancel: translate('cancel'),
+                addNote: this.translate('add-note'),
+                summonAsset: this.translate('summon-asset'),
+                cancel: this.translate('cancel'),
               }}
 
               BibliographyComponent={Object.keys(citationItems).length > 0 ? () => <Bibliography /> : null}
@@ -837,7 +847,11 @@ class SectionEditor extends Component {
 
           </ReferencesManager>
         </div>
-      </div>
+        <ReactTooltip
+          id="style-button"
+          place="top"
+          effect="solid" />
+      </Content>
     );
   }
 }

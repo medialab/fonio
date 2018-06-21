@@ -24,11 +24,11 @@ import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapper
 
 @connect(
   state => ({
-    ...duck.selector(state.section),
     ...connectionsDuck.selector(state.connections),
     ...storyDuck.selector(state.editedStory),
     ...sectionsManagementDuck.selector(state.sectionsManagement),
     ...libarayViewDuck.selector(state.library),
+    ...duck.selector(state.section),
   }),
   dispatch => ({
     actions: bindActionCreators({
@@ -85,6 +85,8 @@ class SectionViewContainer extends Component {
     if (prevSectionId !== nextSectionId || prevStoryId !== nextStoryId) {
       this.unlockOnSection(this.props);
       this.requireLockOnSection(nextProps);
+      this.props.actions.setEmbedResourceAfterCreation(false);
+      this.props.actions.setNewResourceType(undefined);
     }
   }
 
@@ -169,22 +171,38 @@ class SectionViewContainer extends Component {
     }, Promise.resolve())
     .then(() => {
       if (errors.length > 0) {
-        console.error(errors);
+        console.error(errors);/* eslint no-console: 0 */
         /**
          * @todo handle errors
          */
-        console.log('resource fail to upload');
+        console.log('resource fail to upload');/* eslint no-console: 0 */
       }
     })
     .catch((err) => {
       /**
        * @todo handle errors
        */
-      console.log('resources fail to upload', err);
+      console.log('resources fail to upload', err);/* eslint no-console: 0 */
     });
   }
 
   onSummonAsset = (contentId, resourceId) => summonAsset(contentId, resourceId, this.props);
+
+  embedLastResource = () => {
+    const resources = this.props.editedStory.resources;
+    const resourcesMap = Object.keys(resources).map(id => resources[id]);
+    const lastResource = resourcesMap.sort((a, b) => {
+      if (a.metadata.lastUpdateAt > b.metadata.lastUpdateAt) {
+        return -1;
+      }
+      else {
+        return 1;
+      }
+    })[0];
+    if (lastResource) {
+      this.onSummonAsset(this.props.assetRequestState.editorId, lastResource.id);
+    }
+  }
 
   render() {
     const {
@@ -199,6 +217,7 @@ class SectionViewContainer extends Component {
       goToSection,
       onSummonAsset,
       submitMultiResources,
+      embedLastResource
     } = this;
     if (editedStory) {
       const section = editedStory.sections[sectionId];
@@ -209,6 +228,7 @@ class SectionViewContainer extends Component {
               section={section}
               goToSection={goToSection}
               story={this.props.editedStory}
+              embedLastResource={embedLastResource}
               summonAsset={onSummonAsset}
               submitMultiResources={submitMultiResources}
               {...this.props} />

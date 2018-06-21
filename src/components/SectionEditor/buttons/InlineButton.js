@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 
 import './ButtonStyles.scss';
 
+import {
+  Button
+} from 'quinoa-design-library/components';
+
 class InlineButton extends Component {
 
   static propTypes = {
@@ -60,12 +64,13 @@ class InlineButton extends Component {
       editorState,
       updateEditorState,
       inlineStyleType,
+      tooltip,
       iconMap, /* eslint  no-unused-vars:0 */
       ...otherProps
     } = this.props;
 
     const selected = this.isSelected(editorState, inlineStyleType);
-    const className = `scholar-draft-InlineButton${selected ? ' active' : ''} `;
+    // const className = `scholar-draft-InlineButton${selected ? ' active' : ''} `;
 
     const onMouseDown = (event) => {
       event.preventDefault();
@@ -73,9 +78,12 @@ class InlineButton extends Component {
     };
 
     return (
-      <div
+      <Button
         onMouseDown={onMouseDown}
-        className={className}
+        isColor={selected ? 'info' : ''}
+        // className={className}
+        data-tip={tooltip}
+        data-for="style-button"
         {...otherProps}>
         {React.Children.map(
           this.props.children,
@@ -83,7 +91,7 @@ class InlineButton extends Component {
             selected
           })
         )}
-      </div>
+      </Button>
     );
   };
 }

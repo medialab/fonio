@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {v4 as genId} from 'uuid';
 
@@ -14,7 +13,6 @@ import {
 } from 'quinoa-design-library/components/';
 
 
-import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultSection} from '../../../helpers/schemaUtils';
 import {
   getReverseSectionsLockMap,
@@ -52,6 +50,9 @@ const SectionViewLayout = ({
 
   story,
   section,
+
+  embedResourceAfterCreation,
+  newResourceType,
   actions: {
     setAsideTabMode,
     setAsideTabCollapsed,
@@ -92,16 +93,16 @@ const SectionViewLayout = ({
     deleteUploadedResource,
 
     setAssetRequestContentId,
-    startNewResourceConfiguration,
+
+    setNewResourceType,
+    setEmbedResourceAfterCreation,
   },
   goToSection,
   summonAsset,
   submitMultiResources,
-}, {
-  t
+  embedLastResource,
 }) => {
 
-  const translate = translateNameSpacer(t, 'Features.SectionView');
   const {id: storyId, resources} = story;
   const {id: sectionId} = section;
   const defaultSection = createDefaultSection();
@@ -275,6 +276,11 @@ const SectionViewLayout = ({
   };
 
   const startExistingResourceConfiguration = resourceId => onResourceEditAttempt(resourceId);
+  const startNewResourceConfiguration = (toEmbedResourceAfterCreation, resourceType) => {
+    setEmbedResourceAfterCreation(toEmbedResourceAfterCreation);
+    setNewResourceType(resourceType);
+    setMainColumnMode('newresource');
+  };
 
   const deleteContextualizationFromId = contextualizationId => {
     deleteContextualization({
@@ -283,6 +289,15 @@ const SectionViewLayout = ({
       userId,
     });
     // console.log('delete contextualization from id', contextualizationId);
+  };
+
+  const onCreateResource = payload => {
+    createResource(payload);
+    if (embedResourceAfterCreation) {
+      setTimeout(() => {
+          embedLastResource();
+        });
+    }
   };
 
   return (
@@ -346,9 +361,11 @@ const SectionViewLayout = ({
             unpromptAssetEmbed={unpromptAssetEmbed}
             setEditorFocus={setEditorFocus}
 
+            newResourceType={newResourceType}
+
             createContextualization={createContextualization}
             createContextualizer={createContextualizer}
-            createResource={createResource}
+            createResource={onCreateResource}
 
             enterBlock={enterBlock}
             leaveBlock={leaveBlock}
@@ -392,10 +409,6 @@ const SectionViewLayout = ({
       </Columns>
     </div>
   );
-};
-
-SectionViewLayout.contextTypes = {
-  t: PropTypes.func,
 };
 
 export default SectionViewLayout;

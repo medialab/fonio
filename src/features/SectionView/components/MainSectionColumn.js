@@ -35,6 +35,8 @@ const MainSectionColumn = ({
   editorFocus,
   assetRequestState,
 
+  newResourceType,
+
   updateSection,
 
   setMainColumnMode,
@@ -148,11 +150,12 @@ const MainSectionColumn = ({
               storyId,
               userId
             });
-            setMainColumnMode('list');
+            setMainColumnMode('edition');
           };
           return (
             <ResourceForm
-              onCancel={() => setMainColumnMode('list')}
+              resourceType={newResourceType}
+              onCancel={() => setMainColumnMode('edition')}
               onSubmit={handleSubmit}
               asNewResource />
           );
@@ -167,7 +170,7 @@ const MainSectionColumn = ({
                 </Column>
                 <Column>
                   <Delete onClick={
-                    () => setMainColumnMode('list')
+                    () => setMainColumnMode('edition')
                   } />
                 </Column>
               </Columns>
@@ -184,7 +187,7 @@ const MainSectionColumn = ({
                   {translate('New section')}
                 </Column>
                 <Column isSize={2}>
-                  <Delete onClick={() => setMainColumnMode('edit')} />
+                  <Delete onClick={() => setMainColumnMode('edition')} />
                 </Column>
               </Columns>
             </Title>
@@ -192,7 +195,7 @@ const MainSectionColumn = ({
               <NewSectionForm
                 metadata={{...defaultSectionMetadata}}
                 onSubmit={onNewSectionSubmit}
-                onCancel={() => setMainColumnMode('main')} />
+                onCancel={() => setMainColumnMode('edition')} />
             </Level>
           </Column>
         );
@@ -205,7 +208,7 @@ const MainSectionColumn = ({
                   {translate('Edit section metadata')}
                 </Column>
                 <Column isSize={2}>
-                  <Delete onClick={() => setMainColumnMode('edit')} />
+                  <Delete onClick={() => setMainColumnMode('edition')} />
                 </Column>
               </Columns>
             </Title>
@@ -214,32 +217,36 @@ const MainSectionColumn = ({
                 submitMessage={translate('Save changes')}
                 metadata={{...section.metadata}}
                 onSubmit={onUpdateMetadata}
-                onCancel={() => setMainColumnMode('main')} />
+                onCancel={() => setMainColumnMode('edition')} />
             </Level>
           </Column>
         );
-      case 'edit':
       default:
-        return (
-          <div style={{display: 'flex', flexFlow: 'column nowrap', height: '100%', justifyContent: 'stretch'}}>
-            <div style={{padding: '0 10rem 0 10rem'}}>
-              <Level>
-                <TitleForm
-                  onSubmit={onUpdateTitle}
-                  title={section.metadata.title} />
-              </Level>
-              <Level>
-                <Control>
-                  <Label>
-                    {translate('Section content')}
-                    <HelpPin place="right">
-                      {translate('Explanation about the section title')}
-                    </HelpPin>
-                  </Label>
-                </Control>
-              </Level>
-              <Level />
-            </div>
+        return null;
+    }
+  };
+
+  return (
+    <Column isSize={'fullwidth'}>
+      <Columns style={{height: '100%'}}>
+        <Column style={{height: '100%'}} isSize={mainColumnMode === 'edition' && !userLockedResourceId ? 12 : 6}>
+          <div style={{display: 'flex', flexFlow: 'column nowrap', height: '100%', justifyContent: 'stretch', paddingLeft: '3rem', paddingRight: '3rem'}}>
+            <Level>
+              <TitleForm
+                onSubmit={onUpdateTitle}
+                title={section.metadata.title} />
+            </Level>
+            <Level>
+              <Control>
+                <Label>
+                  {translate('Section content')}
+                  <HelpPin place="right">
+                    {translate('Explanation about the section title')}
+                  </HelpPin>
+                </Label>
+              </Control>
+            </Level>
+            <Level />
             <SectionEditor
               style={{flex: 1}}
               story={story}
@@ -278,13 +285,11 @@ const MainSectionColumn = ({
 
               setEditorFocus={setEditorFocus} />
           </div>
-        );
-    }
-  };
-
-  return (
-    <Column isSize={'fullwidth'}>
-      {renderMain()}
+        </Column>
+        <Column isSize={mainColumnMode === 'edition' && !userLockedResourceId ? 0 : 6}>
+          {renderMain()}
+        </Column>
+      </Columns>
     </Column>
   );
 };

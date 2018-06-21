@@ -3,6 +3,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  Button,
+  Image,
+  Columns,
+  Column
+} from 'quinoa-design-library/components';
+
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 
@@ -19,12 +26,16 @@ const LinkButton = (props, {
     startNewResourceConfiguration(true, 'webpage');
   };
   return (
-    <button onMouseDown={onClick} className="fonio-LinkButton">
-      <span className="button-content">
-        <img src={icons.webpage.black.svg} />
-        <span>{translate('add-link')}</span>
-      </span>
-    </button>
+    <Button onMouseDown={onClick}>
+      <Columns>
+        <Column isSize={1}>
+          <Image isSize={'24x24'} src={icons.webpage.black.svg} />
+        </Column>
+        <Column isSize={12}>
+          {translate('add link')}
+        </Column>
+      </Columns>
+    </Button>
   );
 };
 

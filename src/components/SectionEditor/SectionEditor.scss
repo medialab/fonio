@@ -50,19 +50,7 @@
             content: close-quote;
         }
     }
-    .editable-title
-    {
-        padding-right: 10rem;
-        padding-left: 10rem;
-    }
-    .editable-title
-    {
-        // @extend .flex-stretched-row;
-        input
-        {
-            flex: 1;
-        }
-    }
+
     .editor-wrapper
     {
         position: relative;
@@ -84,7 +72,8 @@
             .notes-container,
             .editor-bibliography
             {
-                padding-left: 10rem;
+                // padding-left: 3rem;
+                // padding-right: 3rem;
             }
             .csl-entry
             {

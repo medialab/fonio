@@ -13,6 +13,17 @@ import 'react-table/react-table.css';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+import {
+  Box,
+  Button,
+  Content,
+  Columns,
+  Column,
+  Image,
+  Level,
+  Title,
+} from 'quinoa-design-library/components';
+
 
 import QuinoaPresentationPlayer from 'quinoa-presentation-player';
 import BibliographicPreview from './BibliographicPreview';
@@ -169,10 +180,10 @@ class AssetPreview extends Component {
             presentation={data.json || this.state.data} />
         );
       case 'webpage':
-        return (<iframe src={data} />);
+        return (<iframe src={data.url} />);
       case 'embed':
         return (
-          <EmbedContainer html={data} />
+          <EmbedContainer html={data.html} />
         );
       case 'bib':
         const items = data.reduce((result, item) => ({
@@ -208,48 +219,63 @@ class AssetPreview extends Component {
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
     const {data, metadata, showPannel} = this.props;
     return (
-      <div className="fonio-AssetPreview">
+      <Box className="fonio-AssetPreview">
         <div className="preview-container">
           {data && this.renderPreview()}
         </div>
-        {showPannel && <div onClick={this.onClickEdit} className="asset-metadata">
-          <div className="column">
-            <h5>
-              <img className="type-icon" src={icons[metadata.type].black.svg} />
-              <span>
-                {metadata.title || translate('Unnamed resource')}
-              </span>
-              {/*<button onClick={this.onClickEdit}>{translate('edit-resource')}</button>*/}
-              {/*<button onClick={this.onClickDelete}>{translate('delete-contextualization')}</button>*/}
-            </h5>
-            <div className="line-buttons-container displaced">
-              {/*<button onClick={this.onClickEdit}>
-                  <img className="fonio-icon-image" src={require(`../../sharedAssets/edit-black.svg`)} />
-                </button>*/}
-              <button onClick={this.onClickDelete}>
-                <img className="fonio-icon-image" src={icons.remove.white.svg} />
-                {translate('delete-contextualization')}
-              </button>
-            </div>
-
-            {metadata.description &&
-              <div className="displaced">
-                <h6>{translate('description')}</h6>
-                <p>{metadata.description}</p>
-              </div>
+        {showPannel &&
+          <div>
+            <Level />
+            <Level>
+              <Columns>
+                <Column>
+                  <Image isSize={'24x24'} className="type-icon" src={icons[metadata.type].black.svg} />
+                </Column>
+                <Column isSize={11}>
+                  <Title isSize={4}>{metadata.title || translate('Unnamed resource')}</Title>
+                </Column>
+              </Columns>
+            </Level>
+            <Level>
+              <Columns>
+                <Column>
+                  <Button onClick={this.onClickDelete}>
+                    {translate('delete contextualization')}
+                  </Button>
+                </Column>
+                <Column>
+                  <Button onClick={this.onClickEdit}>
+                    {translate('edit resource')}
+                  </Button>
+                </Column>
+              </Columns>
+            </Level>
+            {(metadata.description || metadata.source) &&
+              <Level>
+                <Columns>
+                  <Column>
+                    {metadata.description &&
+                      <div>
+                        <Title isSize={5}>{translate('Description')}</Title>
+                        <Content>{metadata.description}</Content>
+                      </div>
+                    }
+                  </Column>
+                  {metadata.source &&
+                    <Column>
+                      <div>
+                        <Title isSize={5}>{translate('Source')}</Title>
+                        <Content>{metadata.source}</Content>
+                      </div>
+                    </Column>
+                  }
+                </Columns>
+              </Level>
             }
 
           </div>
-          {metadata.source &&
-            <div className="column">
-              <div>
-                <h6>{translate('source')}</h6>
-                <p>{metadata.source}</p>
-              </div>
-            </div>
-          }
-        </div>}
-      </div>);
+        }
+      </Box>);
   }
 }
 

@@ -19,10 +19,10 @@ const Bib = (unusedProps, {
   bibliography,
   t
 }) => {
-  const translate = translateNameSpacer(t, 'Components.Bibliography');
+  const translate = translateNameSpacer(t, 'Components.References');
   return (
     <section className="editor-bibliography">
-      <h2>{translate('bibliography-title')}</h2>
+      <h2>{translate('References')}</h2>
       <div>{bibliography}</div>
     </section>
   );

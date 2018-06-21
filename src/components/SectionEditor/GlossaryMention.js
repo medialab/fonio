@@ -8,6 +8,11 @@ import PropTypes from 'prop-types';
 
 import Input from 'react-input-autosize';
 
+import {
+  Button,
+  Image
+} from 'quinoa-design-library/components';
+
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
@@ -79,7 +84,7 @@ class GlossaryMention extends Component {
 
     const onEditRequest = () => {
       if (typeof startExistingResourceConfiguration === 'function') {
-        startExistingResourceConfiguration(resource.metadata.id, resource);
+        startExistingResourceConfiguration(resource.id, resource);
       }
     };
 
@@ -103,7 +108,7 @@ class GlossaryMention extends Component {
       onAssetBlur(e);
     };
     const translate = translateNameSpacer(context.t, 'Components.GlossaryMention');
-    return (
+    return resource ? (
       <span
         className="fonio-GlossaryMention">
         <span className="items-container">
@@ -115,16 +120,16 @@ class GlossaryMention extends Component {
             onFocus={onAssetFocus}
             onBlur={onAliasBlur} />
 
-          <button
+          <Button
             className="more-options-btn"
             onClick={onEditRequest}>
-            <img src={icons.glossary.black.svg} />
-            <img src={icons.edit.black.svg} />
-          </button>
+            <Image isSize={'16x16'} src={icons.glossary.black.svg} />
+            <Image isSize={'16x16'} src={icons.edit.black.svg} />
+          </Button>
           {children}
         </span>
       </span>
-    );
+    ) : null;
   }
 }
 

@@ -12,9 +12,14 @@ const timers = {
   medium: 500
 };
 
+import {
+  Input,
+  Button,
+} from 'quinoa-design-library/components';
+
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
-import icons from 'quinoa-design-library/src/themes/millet/icons';
+// import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 /**
  * ResourceSearchWidget class for building react component instances
@@ -163,8 +168,8 @@ class ResourceSearchWidget extends Component {
     return (
       <div className="fonio-ResourceSearchWidget">
         <form className="search-form" onSubmit={this.onSubmit}>
-          <span className="arobase">@</span>
-          <input
+          {/* <span className="arobase">@</span>*/}
+          <Input
             ref={bindRef}
             value={this.state.searchTerm}
             onBlur={this.onBlur}
@@ -177,7 +182,7 @@ class ResourceSearchWidget extends Component {
           options.filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
           .length > 0 ?
 
-            <ul className="choice-options-container">
+            <div className="choice-options-container" style={{maxHeight: '10rem', overflow: 'auto'}}>
               {
             options
             .filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
@@ -197,23 +202,24 @@ class ResourceSearchWidget extends Component {
               else {
                 optionName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
               }
-              return (<li
-                className={'choice-option' + (index === this.state.selectedItemIndex ? ' active' : '')}
-                key={index}
-                onClick={onC}>{optionName}</li>
+              return (
+                <Button
+                  isFullWidth
+                  isColor={index === this.state.selectedItemIndex ? 'info' : ''}
+                  key={index}
+                  onClick={onC}>
+                  {optionName}
+                </Button>
               );
             })
           }
-            </ul> : null
+            </div> : null
       }
-        <li className="choice-option new-option" onClick={onAddNewClick}>
-          <span className="fonio-icon">
-            <img
-              src={icons.remove.white.svg}
-              style={{transform: 'rotate(45deg)'}} />
-          </span>
-          <span>{translate('new-resource')}</span>
-        </li>
+        <Button
+          isFullWidth isColor={'primary'} className="choice-option new-option"
+          onClick={onAddNewClick}>
+          {translate('new-resource')}
+        </Button>
       </div>
     );
   }
