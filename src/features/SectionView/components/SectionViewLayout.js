@@ -11,8 +11,6 @@ import resourceSchema from 'quinoa-schemas/resource';
 
 import {
   Columns,
-  Button,
-  ModalCard
 } from 'quinoa-design-library/components/';
 
 
@@ -28,6 +26,7 @@ import {
 import AsideSectionColumn from './AsideSectionColumn';
 import MainSectionColumn from './MainSectionColumn';
 
+import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 import LoadingScreen from '../../../components/LoadingScreen';
 
 
@@ -45,6 +44,7 @@ const SectionViewLayout = ({
   activeUsers,
   userId,
   promptedToDeleteSectionId,
+  promptedToDeleteResourceId,
 
   editorStates,
   editorFocus,
@@ -63,6 +63,7 @@ const SectionViewLayout = ({
     setResourceSearchString,
 
     setPromptedToDeleteSectionId,
+    setPromptedToDeleteResourceId,
 
     updateSection,
     createSection,
@@ -88,6 +89,7 @@ const SectionViewLayout = ({
     deleteContextualization,
     deleteContextualizer,
     deleteResource,
+    deleteUploadedResource,
 
     setAssetRequestContentId,
     startNewResourceConfiguration,
@@ -98,6 +100,7 @@ const SectionViewLayout = ({
 }, {
   t
 }) => {
+
   const translate = translateNameSpacer(t, 'Features.SectionView');
   const {id: storyId, resources} = story;
   const {id: sectionId} = section;
@@ -197,6 +200,9 @@ const SectionViewLayout = ({
     setPromptedToDeleteSectionId(thatSectionId);
   };
 
+  const onDeleteResource = thatResourceId => {
+    setPromptedToDeleteResourceId(thatResourceId);
+  };
   const actuallyDeleteSection = thatSectionId => {
     // make sure that section is not edited by another user to prevent bugs and inconsistencies
     // (in UI delete button should be disabled when section is edited, this is a supplementary safety check)
@@ -214,6 +220,22 @@ const SectionViewLayout = ({
   const onDeleteSectionConfirm = () => {
     actuallyDeleteSection(promptedToDeleteSectionId);
     setPromptedToDeleteSectionId(undefined);
+  };
+
+  const onDeleteResourceConfirm = () => {
+    const resource = resources[promptedToDeleteResourceId];
+    const payload = {
+      storyId,
+      userId,
+      resourceId: resource.id
+    };
+    if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
+      deleteUploadedResource(payload);
+    }
+    else {
+      deleteResource(payload);
+    }
+    setPromptedToDeleteResourceId(undefined);
   };
 
   const onOpenSectionSettings = () => {
@@ -289,7 +311,7 @@ const SectionViewLayout = ({
           resourceSortValue={resourceSortValue}
           setResourceSortValue={setResourceSortValue}
 
-          deleteResource={deleteResource}
+          onDeleteResource={onDeleteResource}
           submitMultiResources={submitMultiResources}
 
           onResourceEditAttempt={onResourceEditAttempt}
@@ -349,30 +371,23 @@ const SectionViewLayout = ({
         {
           promptedToDeleteSectionId &&
           !reverseSectionLockMap[promptedToDeleteSectionId] &&
-          <ModalCard
-            isActive
-            headerContent={translate('Delete a section')}
-            mainContent={
-              <div>
-                {(story && story.sections[promptedToDeleteSectionId]) ? translate(
-                    'Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery.',
-                    {
-                      s: story.sections[promptedToDeleteSectionId].metadata.title
-                    }
-                  ) : translate('Are you sure you want to delete this section ?')}
-              </div>
-            }
-            footerContent={[
-              <Button
-                type="submit"
-                isFullWidth
-                key={0}
-                onClick={onDeleteSectionConfirm}
-                isColor="success">{translate('Delete the section')}</Button>,
-              <Button
-                onClick={() => setPromptedToDeleteSectionId(undefined)} isFullWidth key={1}
-                isColor="warning">{translate('Cancel')}</Button>,
-            ]} />
+          <ConfirmToDeleteModal
+            isActive={promptedToDeleteSectionId}
+            deleteType={'section'}
+            story={story}
+            id={promptedToDeleteSectionId}
+            onClose={() => setPromptedToDeleteSectionId(undefined)}
+            onDeleteConfirm={onDeleteSectionConfirm} />
+        }
+        {
+          promptedToDeleteResourceId &&
+          <ConfirmToDeleteModal
+            isActive={promptedToDeleteResourceId}
+            deleteType={'resource'}
+            story={story}
+            id={promptedToDeleteResourceId}
+            onClose={() => setPromptedToDeleteResourceId(undefined)}
+            onDeleteConfirm={onDeleteResourceConfirm} />
         }
       </Columns>
     </div>

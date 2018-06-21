@@ -27,6 +27,8 @@ const SET_FILTER_VISIBLE = 'SET_FILTER_VISIBLE';
 const SET_FILTER_VALUES = 'SET_FILTER_VALUES';
 const SET_SORT_VALUE = 'SET_SORT_VALUE';
 const SET_SEARCH_STRING = 'SET_SEARCH_STRING';
+const SET_PROMPTED_TO_DELETE_RESOURCE_ID = 'SET_PROMPTED_TO_DELETE_RESOURCE_ID';
+
 /**
  * lock system
  */
@@ -62,6 +64,10 @@ export const setSortValue = payload => ({
   type: SET_SORT_VALUE,
   payload
 });
+export const setPromptedToDeleteResourceId = payload => ({
+  type: SET_PROMPTED_TO_DELETE_RESOURCE_ID,
+  payload
+});
 /**
  * ===================================================
  * REDUCERS
@@ -83,7 +89,8 @@ const UI_DEFAULT_STATE = {
   filterVisible: false,
   searchString: '',
   filterValues: defaultFilterValues,
-  sortValue: 'title'
+  sortValue: 'title',
+  promptedToDeleteResourceId: undefined,
 };
 
 /**
@@ -103,6 +110,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_SEARCH_STRING:
     case SET_FILTER_VALUES:
     case SET_SORT_VALUE:
+    case SET_PROMPTED_TO_DELETE_RESOURCE_ID:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -146,6 +154,7 @@ const filterVisible = state => state.ui.filterVisible;
 const searchString = state => state.ui.searchString;
 const filterValues = state => state.ui.filterValues;
 const sortValue = state => state.ui.sortValue;
+const promptedToDeleteResourceId = state => state.ui.promptedToDeleteResourceId;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -157,5 +166,6 @@ export const selector = createStructuredSelector({
   filterVisible,
   searchString,
   filterValues,
-  sortValue
+  sortValue,
+  promptedToDeleteResourceId,
 });

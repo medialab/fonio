@@ -58,7 +58,7 @@ const AsideSectionColumn = ({
 
   onResourceEditAttempt,
 
-  deleteResource,
+  onDeleteResource,
   submitMultiResources,
 
   onDeleteSection,
@@ -145,7 +145,7 @@ const AsideSectionColumn = ({
             </Level>
             <ResourcesList
               resources={visibleResources}
-              deleteResource={deleteResource}
+              onDeleteResource={onDeleteResource}
               storyId={storyId}
               userId={userId}
               onResourceEditAttempt={onResourceEditAttempt}
