@@ -19,10 +19,12 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 const EditionUiWrapperLayout = ({
   userId,
   userInfo,
+  activeUsers,
   userInfoTemp,
   userInfoModalOpen,
   exportModalOpen,
   editedStory = {},
+  lockingMap,
   sectionId,
   navLocation,
   navbarOpen,
@@ -42,6 +44,24 @@ const EditionUiWrapperLayout = ({
   const translate = translateNameSpacer(t, 'Features.EditionUiWrapper');
 
   const storyId = editedStory.id;
+
+  const lockMap = lockingMap[storyId].locks;
+  const userLockedOnDesignId = Object.keys(lockMap).find(thatUserId => lockMap[thatUserId].design);
+  let designStatus;
+  let designMessage;
+  if (userLockedOnDesignId === userId) {
+    designStatus = 'active';
+    designMessage = translate('edited by you');
+  }
+ else if (userLockedOnDesignId) {
+    const userLockedOnDesignInfo = activeUsers[userLockedOnDesignId];
+    designStatus = 'locked';
+    designMessage = translate('edited by {n}', {n: userLockedOnDesignInfo.name});
+  }
+ else {
+    designStatus = 'open';
+    designMessage = translate('open to edition');
+  }
 
   const onSubmitUserInfo = () => {
     createUser({
@@ -121,8 +141,8 @@ const EditionUiWrapperLayout = ({
               href: `/story/${storyId}/design`,
               isActive: navLocation === 'design',
               content: translate('Design'),
-              lockStatus: 'open',
-              statusMessage: translate('open to edition')
+              lockStatus: designStatus,
+              statusMessage: designMessage
 
               // lockStatus: 'locked',
               // statusMessage: 'Edited by fred'

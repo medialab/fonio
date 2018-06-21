@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-6-20\n"
-"PO-Revision-Date: Wed Jun 20 2018 17:44:19 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-6-21\n"
+"PO-Revision-Date: Thu Jun 21 2018 12:29:24 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1750,6 +1750,39 @@ msgstr "untitled resource"
 
 msgid "Features.ToasterContainer.You could not edit the resource"
 msgstr "You could not edit the resource"
+
+msgid "Features.DesignView.Settings"
+msgstr "Settings"
+
+msgid "Features.DesignView.Styles"
+msgstr "Styles"
+
+msgid "Features.EditionUiWrapper.edited by you"
+msgstr "edited by you"
+
+msgid "Features.EditionUiWrapper.edited by {n}"
+msgstr "edited by {n}"
+
+msgid "Features.DesignView.Notes position"
+msgstr "Notes position"
+
+msgid "Features.DesignView.side notes"
+msgstr "side notes"
+
+msgid "Features.DesignView.foot notes"
+msgstr "foot notes"
+
+msgid "Features.DesignView.Enable comments through disqus service"
+msgstr "Enable comments through disqus service"
+
+msgid "Features.DesignView.enable"
+msgstr "enable"
+
+msgid "Features.DesignView.disable"
+msgstr "disable"
+
+msgid "Features.DesignView.Edit css (advanced)"
+msgstr "Edit css (advanced)"
 
 msgid "Features.SectionView.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr ""
