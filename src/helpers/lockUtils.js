@@ -36,6 +36,13 @@ export const getReverseResourcesLockMap = (lockingMap = {}, activeUsers = {}, st
   return {};
 };
 
+export const getCitedSections = (contextualizations, resourceId) => {
+  const sections = Object.keys(contextualizations).map(id => contextualizations[id])
+                  .filter(d => d.resourceId === resourceId)
+                  .map(d => d.sectionId);
+  return [...new Set(sections)];
+};
+
 export const getStoryActiveUsersIds = (lockingMap, storyId) => {
   if (lockingMap[storyId] && lockingMap[storyId].locks) {
     return Object.keys(lockingMap[storyId].locks);

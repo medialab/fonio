@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {v4 as genId} from 'uuid';
+import {isEmpty} from 'lodash';
 import objectPath from 'object-path';
 
 import resourceSchema from 'quinoa-schemas/resource';
@@ -31,6 +32,8 @@ import {
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {
   getReverseResourcesLockMap,
+  getReverseSectionsLockMap,
+  getCitedSections,
   getUserResourceLockId,
 } from '../../../helpers/lockUtils';
 
@@ -78,9 +81,11 @@ const LibraryViewLayout = ({
 
   const {
     resources = {},
+    contextualizations = {},
     id: storyId
   } = story;
 
+  const translate = translateNameSpacer(t, 'Features.LibraryView');
   const activeFilters = Object.keys(filterValues).filter(key => filterValues[key]);
   const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
 
@@ -116,10 +121,30 @@ const LibraryViewLayout = ({
             return -1;
         }
       });
+
   const userLockedResourceId = getUserResourceLockId(lockingMap, userId, storyId);
   const reverseResourcesLockMap = getReverseResourcesLockMap(lockingMap, activeUsers, storyId);
-  const translate = translateNameSpacer(t, 'Features.LibraryView');
+  const reverseSectionLockMap = getReverseSectionsLockMap(lockingMap, activeUsers, storyId);
 
+  const reverseResourcesSectionsMap =
+    Object.keys(contextualizations)
+    .reduce((result, contextId) => {
+      const context = contextualizations[contextId];
+      const activeCitedSections =
+        getCitedSections(contextualizations, context.resourceId)
+          .filter(id => {
+            return (reverseSectionLockMap[id] && reverseSectionLockMap[id].userId !== userId);
+          });
+      if (activeCitedSections.length > 0) {
+        return {
+          ...result,
+          [context.resourceId]: {name: `other ${activeCitedSections.length} sections`}
+        };
+      }
+      return result;
+    }, {});
+
+  const resourcesLockMap = isEmpty(reverseResourcesLockMap) ? reverseResourcesSectionsMap : reverseResourcesLockMap;
   const toggleFilter = type => {
     setFilterValues({
       ...filterValues,
@@ -293,7 +318,7 @@ const LibraryViewLayout = ({
                           onDelete={handleDelete}
                           resource={resource}
                           getTitle={getResourceTitle}
-                          lockData={reverseResourcesLockMap[resource.id]}
+                          lockData={resourcesLockMap[resource.id]}
                           key={resource.id} />
                       );
                     })
@@ -302,6 +327,7 @@ const LibraryViewLayout = ({
             </div>
             <ConfirmToDeleteModal
               isActive={promptedToDeleteResourceId}
+              isDisabled={resourcesLockMap[promptedToDeleteResourceId]}
               deleteType={'resource'}
               story={story}
               id={promptedToDeleteResourceId}

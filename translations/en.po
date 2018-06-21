@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-21\n"
-"PO-Revision-Date: Thu Jun 21 2018 18:26:07 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jun 21 2018 18:29:25 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1832,12 +1832,6 @@ msgstr "New Story"
 msgid "Component.LinkButton.add link"
 msgstr "add link"
 
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
-msgstr ""
-
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
-msgstr "Are you sure you want to delete the resource \"{s}\" ?"
-
 msgid "Components.References.References"
 msgstr "References"
 
@@ -1861,6 +1855,12 @@ msgstr "ordered list"
 
 msgid "Components.Footer.unordered list"
 msgstr "unordered list"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr ""
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
+msgstr "Are you sure you want to delete the resource \"{s}\" ?"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} is working on section \"{t}\""
