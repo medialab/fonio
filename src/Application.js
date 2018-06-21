@@ -26,6 +26,7 @@ import ReduxToastr from 'react-redux-toastr';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 
 import Home from './features/HomeView/components/HomeViewContainer';
+import ReadStory from './features/ReadStoryView/components/ReadStoryViewContainer';
 import Summary from './features/SummaryView/components/SummaryViewContainer';
 import Section from './features/SectionView/components/SectionViewContainer';
 import Library from './features/LibraryView/components/LibraryViewContainer';
@@ -127,6 +128,7 @@ export default class Application extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/story/:storyId" component={ProtectedRoutes} />
+            <Route exact path={'/read/:storyId'} component={ReadStory} />
             <Route render={(props) => (
                   // TODO: render proper loading/error page
               <h2>
