@@ -99,7 +99,6 @@ class HomeViewLayout extends Component {
           stories,
           newStory,
           newStoryOpen,
-          storyInfoVisible,
           newStoryTabMode,
           userInfo,
           sortingMode,
@@ -143,6 +142,7 @@ class HomeViewLayout extends Component {
             setOverrideStoryMode,
           }
         } = this.props;
+        const {translate} = this;
 
         const storiesList = Object.keys(stories).map(id => ({id, ...stories[id]}));
         const searchStringLower = searchString.toLowerCase();
@@ -265,7 +265,7 @@ class HomeViewLayout extends Component {
         return (
           <Container>
             <Columns>
-              <Column isHidden={storyInfoVisible} isSize={storyInfoVisible ? 0 : '1/3'}>
+              <Column isSize={'1/3'}>
                 <Title isSize={2}>
                   {CONFIG.sessionName /* eslint no-undef: 0 */}
                 </Title>
@@ -330,9 +330,9 @@ class HomeViewLayout extends Component {
                 </div>
                 <Level />
               </Column>
-              <Column isHidden={newStoryOpen} isSize={storyInfoVisible ? '1/2' : '2/3'}>
+              <Column isHidden={newStoryOpen} isSize={'2/3'}>
                 <Column>
-                  <Level isDisplay={storyInfoVisible ? 'block' : 'flex'}>
+                  <Level isDisplay={'flex'}>
                     <LevelLeft>
                       <Field hasAddons>
                         <Control>
@@ -395,6 +395,11 @@ class HomeViewLayout extends Component {
                                         pathname: `/story/${story.id}`
                                       });
                                       break;
+                                    case 'read':
+                                      history.push({
+                                        pathname: `/read/${story.id}`
+                                      });
+                                      break;
                                     case 'duplicate':
                                       duplicateStory({storyId: story.id})
                                       .then((res) => {
@@ -433,97 +438,71 @@ class HomeViewLayout extends Component {
                 }
               </Column>
               {
-                      newStoryOpen || storyInfoVisible ?
+                      newStoryOpen ?
                         <Column isSize={newStoryOpen ? '2/3' : '1/2'}>
                           {
-                              storyInfoVisible ?
-                                <Column>
-                                  <Title isSize={2}>
-                                    <Columns>
-                                      <Column isSize={11}>
-                                        Story title
-                                      </Column>
-                                      <Column>
-                                        <Delete onClick={
+                            <Column>
+                              <Title isSize={2}>
+                                <Columns>
+                                  <Column isSize={11}>
+                                    {translate('New Story')}
+                                  </Column>
+                                  <Column>
+                                    <Delete onClick={
                                           () => setNewStoryOpen(false)
                                         } />
-                                      </Column>
-                                    </Columns>
-                                  </Title>
-                                  <Image src="https://inra-dam-front-resources-cdn.brainsonic.com/ressources/afile/224020-77d3e-picture_client_link_1-ouverture-dossier-controverse.JPG" />
-                                  <Title isSize={4}>
-                                    <i>Authors</i>
-                                  </Title>
-                                  <Content>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vestibulum sodales massa, non malesuada neque. Duis congue non ipsum at posuere. Morbi sit amet sodales est.
-                                  </Content>
-                                  <Button isColor="primary" isFullWidth>
-                                    Read this story
-                                  </Button>
-                                </Column>
-                              :
-                                <Column>
-                                  <Title isSize={2}>
-                                    <Columns>
-                                      <Column isSize={11}>
-                                        New Story
-                                      </Column>
-                                      <Column>
-                                        <Delete onClick={
-                                          () => setNewStoryOpen(false)
-                                        } />
-                                      </Column>
-                                    </Columns>
-                                  </Title>
-                                  <Tabs isBoxed isFullWidth>
-                                    <Container>
-                                      <TabList>
-                                        <Tab onClick={() => setNewStoryTabMode('form')} isActive={newStoryTabMode === 'form'}><TabLink>{this.translate('Create a story')}</TabLink></Tab>
-                                        <Tab onClick={() => setNewStoryTabMode('file')} isActive={newStoryTabMode === 'file'}><TabLink>{this.translate('Import an existing story')}</TabLink></Tab>
-                                      </TabList>
-                                    </Container>
-                                  </Tabs>
-                                  {newStoryTabMode === 'form' ?
-                                    <MetadataForm
-                                      story={newStory}
-                                      status={createStoryStatus}
-                                      onSubmit={onCreateNewStory}
-                                      onCancel={() => setNewStoryOpen(false)} />
+                                  </Column>
+                                </Columns>
+                              </Title>
+                              <Tabs isBoxed isFullWidth>
+                                <Container>
+                                  <TabList>
+                                    <Tab onClick={() => setNewStoryTabMode('form')} isActive={newStoryTabMode === 'form'}><TabLink>{this.translate('Create a story')}</TabLink></Tab>
+                                    <Tab onClick={() => setNewStoryTabMode('file')} isActive={newStoryTabMode === 'file'}><TabLink>{this.translate('Import an existing story')}</TabLink></Tab>
+                                  </TabList>
+                                </Container>
+                              </Tabs>
+                              {newStoryTabMode === 'form' ?
+                                <MetadataForm
+                                  story={newStory}
+                                  status={createStoryStatus}
+                                  onSubmit={onCreateNewStory}
+                                  onCancel={() => setNewStoryOpen(false)} />
                                     :
-                                    <Column>
-                                      <DropZone
-                                        accept="application/json"
-                                        onDrop={onDropFiles}>
-                                        {this.translate('Drop a fonio file')}
-                                      </DropZone>
-                                      {importStoryStatus === 'fail' && <Help isColor="danger">{this.translate('Story is not valid')}</Help>}
-                                      <ModalCard
-                                        isActive={overrideImport}
-                                        headerContent={this.translate('Override story')}
-                                        onClose={() => setOverrideImport(false)}
-                                        mainContent={
-                                          <Help isColor="danger">{this.translate('story is exist, do you want to override it?')}
-                                          </Help>}
-                                        footerContent={[
-                                          <Button
-                                            isFullWidth key={0}
-                                            onClick={() => confirmImport('override')}
-                                            isColor="danger">{this.translate('Override exist story')}
-                                          </Button>,
-                                          <Button
-                                            isFullWidth key={1}
-                                            onClick={() => confirmImport('create')}
-                                            isColor="warning">{this.translate('Create new story')}
-                                          </Button>,
-                                          <Button
-                                            isFullWidth key={2}
-                                            onClick={() => setOverrideImport(false)} >
-                                            {this.translate('Cancel')}
-                                          </Button>
+                                <Column>
+                                  <DropZone
+                                    accept="application/json"
+                                    onDrop={onDropFiles}>
+                                    {this.translate('Drop a fonio file')}
+                                  </DropZone>
+                                  {importStoryStatus === 'fail' && <Help isColor="danger">{this.translate('Story is not valid')}</Help>}
+                                  <ModalCard
+                                    isActive={overrideImport}
+                                    headerContent={this.translate('Override story')}
+                                    onClose={() => setOverrideImport(false)}
+                                    mainContent={
+                                      <Help isColor="danger">{this.translate('story is exist, do you want to override it?')}
+                                      </Help>}
+                                    footerContent={[
+                                      <Button
+                                        isFullWidth key={0}
+                                        onClick={() => confirmImport('override')}
+                                        isColor="danger">{this.translate('Override exist story')}
+                                      </Button>,
+                                      <Button
+                                        isFullWidth key={1}
+                                        onClick={() => confirmImport('create')}
+                                        isColor="warning">{this.translate('Create new story')}
+                                      </Button>,
+                                      <Button
+                                        isFullWidth key={2}
+                                        onClick={() => setOverrideImport(false)} >
+                                        {this.translate('Cancel')}
+                                      </Button>
                                         ]} />
-                                    </Column>
-                                }
                                 </Column>
+                                }
+                            </Column>
                             }
 
                         </Column>

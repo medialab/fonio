@@ -65,8 +65,8 @@ const StoryCard = ({
           id: 'duplicate',
         },
         {
-          label: 'info',
-          id: 'info',
+          label: translate('read'),
+          id: 'read',
         },
         {
           label: <span>{translate('delete')}</span>,
