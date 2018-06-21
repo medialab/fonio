@@ -88,18 +88,18 @@ class LibraryViewContainer extends Component {
     }, Promise.resolve())
     .then(() => {
       if (errors.length > 0) {
-        console.error(errors);
+        console.error(errors);/* eslint no-console: 0 */
         /**
          * @todo handle errors
          */
-        console.log('resource fail to upload');
+        console.log('resource fail to upload');/* eslint no-console: 0 */
       }
     })
     .catch((err) => {
       /**
        * @todo handle errors
        */
-      console.log('resources fail to upload', err);
+      console.log('resources fail to upload', err);/* eslint no-console: 0 */
     });
   }
 
