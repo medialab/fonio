@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {get} from 'axios';
 
 import {
   Button,
@@ -14,7 +15,10 @@ import IdentificationModal from '../../../components/IdentificationModal';
 import ExportModal from '../../../components/ExportModal';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
-
+import downloadFile from '../../../helpers/fileDownloader';
+import {
+  bundleProjectAsJSON,
+} from '../../../helpers/projectBundler';
 
 const EditionUiWrapperLayout = ({
   userId,
@@ -53,12 +57,12 @@ const EditionUiWrapperLayout = ({
     designStatus = 'active';
     designMessage = translate('edited by you');
   }
- else if (userLockedOnDesignId) {
+  else if (userLockedOnDesignId) {
     const userLockedOnDesignInfo = activeUsers[userLockedOnDesignId];
     designStatus = 'locked';
     designMessage = translate('edited by {n}', {n: userLockedOnDesignInfo.name});
   }
- else {
+  else {
     designStatus = 'open';
     designMessage = translate('open to edition');
   }
@@ -78,6 +82,34 @@ const EditionUiWrapperLayout = ({
                 : editedStory.metadata.title;
     }
     else return translate('Unnamed story');
+  };
+  const exportToFile = (type) => {
+    const title = editedStory.metadata.title;
+    switch (type) {
+      case 'json':
+        get(`${CONFIG.apiUrl}/stories/${storyId}?edit=false&&format=json`)
+        .then(({data}) => {
+          if (data) {
+            const JSONbundle = bundleProjectAsJSON(data);
+            downloadFile(JSONbundle, 'json', title);
+            setExportModalOpen(false);
+          }
+          // TODO: handle failure error
+        });
+        break;
+      case 'html':
+        get(`${CONFIG.apiUrl}/stories/${storyId}?edit=false&&format=html`)
+        .then(({data}) => {
+          if (data) {
+            downloadFile(data, 'html', title);
+            setExportModalOpen(false);
+          }
+          // TODO: handle failure error
+        });
+        break;
+      default:
+        break;
+    }
   };
   return (
     <div>
@@ -175,7 +207,7 @@ const EditionUiWrapperLayout = ({
       <ExportModal
         isActive={exportModalOpen}
         onClose={() => setExportModalOpen(false)}
-        onChange={() => console.log('on change export mode') /* eslint no-console : 0 */} />
+        onChange={exportToFile} />
     </div>
   );
 };
