@@ -18,7 +18,13 @@ import {
 } from 'draft-js';
 
 import {
-  Content
+  Content,
+  Level,
+  Title,
+  Button,
+  Columns,
+  Column,
+  HelpPin,
 } from 'quinoa-design-library/components';
 
 const timers = {
@@ -34,11 +40,6 @@ const timers = {
 import Editor, {
   utils,
 } from 'scholar-draft';
-
-
-import {
-  HelpPin,
-} from 'quinoa-design-library/components/';
 
 
 const {
@@ -86,6 +87,9 @@ import ItalicButton from './buttons/ItalicButton';
 import OrderedListItemButton from './buttons/OrderedListItemButton';
 import UnorderedListItemButton from './buttons/UnorderedListItemButton';
 import LinkButton from './buttons/LinkButton';
+import NotePointer from './NotePointer';
+import AssetButtonComponent from './AssetButton';
+import NoteButtonComponent from './NoteButton';
 
 
 /**
@@ -188,7 +192,6 @@ class SectionEditor extends Component {
     document.addEventListener('copy', this.onCopy);
     document.addEventListener('cut', this.onCopy);
     document.addEventListener('paste', this.onPaste);
-
 
 
     this.updateStateFromProps(this.props);
@@ -612,7 +615,7 @@ class SectionEditor extends Component {
       assetRequestPosition,
       cancelAssetRequest,
       summonAsset,
-      style: componentStyle = {}
+      style: componentStyle = {},
     } = props;
 
     const {
@@ -841,6 +844,37 @@ class SectionEditor extends Component {
 
               assetRequestPosition={assetRequestPosition}
               assetChoiceProps={assetChoiceProps}
+              NoteLayout={({
+                children,
+                note,
+                onHeaderClick,
+                onDelete,
+                onClickToRetroLink,
+                id,
+              }) => (
+                <Column id={id}>
+                  <Level onClick={onHeaderClick}>
+                    <Columns>
+                      <Column>
+                        <Button onClick={onDelete}>x</Button>
+                      </Column>
+                      <Column isSize={11}>
+                        <Title isSize={3}>Note {note.order}</Title>
+                      </Column>
+                      <Column>
+                        <Button onClick={onClickToRetroLink}>↑</Button>
+                      </Column>
+                    </Columns>
+                  </Level>
+                  <Column>
+                    {children}
+                  </Column>
+                </Column>
+              )}
+
+              NotePointerComponent={NotePointer}
+              AssetButtonComponent={AssetButtonComponent}
+              NoteButtonComponent={NoteButtonComponent}
 
               inlineAssetComponents={inlineAssetComponents}
               blockAssetComponents={blockAssetComponents}

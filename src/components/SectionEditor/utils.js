@@ -201,7 +201,7 @@ export const computeAssets = (props) => {
         }
       };
     }
-    return {...ass}
+    return {...ass};
   }, {});
 
   return assets;
