@@ -189,15 +189,19 @@ export const computeAssets = (props) => {
   .reduce((ass, id) => {
     const contextualization = contextualizations[id];
     const contextualizer = contextualizers[contextualization.contextualizerId];
-    return {
-      ...ass,
-      [id]: {
-        ...contextualization,
-        resource: resources[contextualization.resourceId],
-        contextualizer,
-        type: contextualizer ? contextualizer.type : INLINE_ASSET
-      }
-    };
+    const resource = resources[contextualization.resourceId];
+    if (contextualizer && resource) {
+      return {
+        ...ass,
+        [id]: {
+          ...contextualization,
+          resource,
+          contextualizer,
+          type: contextualizer ? contextualizer.type : INLINE_ASSET
+        }
+      };
+    }
+    return {...ass}
   }, {});
 
   return assets;
