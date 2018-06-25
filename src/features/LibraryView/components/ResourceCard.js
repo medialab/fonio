@@ -15,7 +15,7 @@ import {
 } from 'quinoa-design-library/components';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
-
+import './ResourceCard.scss';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 const ResourceCard = ({
@@ -54,7 +54,7 @@ const ResourceCard = ({
     //   [data[0].id]: data[0]
     // };
     // resourceTitle = <Bibliography items={bibData} style={apa} locale={english} />;
-    resourceTitle = <div dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} />;
+    resourceTitle = <div className="bib-wrapper" dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} />;
   }
   else resourceTitle = getTitle(resource) || translate('untitled resource');
 
@@ -79,34 +79,32 @@ const ResourceCard = ({
                 statusMessage={lockData ? translate('edited by {a}', {a: lockData.name}) : translate('open to edition')} />
             </Column>
           </Columns>
-          <Column>
-            {
-              specificSchema.showMetadata &&
-              <div>
-                {
-                  source &&
-                  <p>
-                    {translate('Source: ')} : {shorten(source, 30)}
-                  </p>
-                }
-                {
-                  description &&
-                  <p>
-                    <i>{shorten(description, 40)}</i>
-                  </p>
-                }
-              </div>
-            }
-            {
-              type === 'glossary' &&
-              data && data.description &&
-              <div>
+          {
+            specificSchema.showMetadata &&
+            <div>
+              {
+                source &&
                 <p>
-                  <i>{shorten(data.description, 40)}</i>
+                  {translate('Source: ')} : {shorten(source, 30)}
                 </p>
-              </div>
-            }
-          </Column>
+              }
+              {
+                description &&
+                <p>
+                  <i>{shorten(description, 40)}</i>
+                </p>
+              }
+            </div>
+          }
+          {
+            type === 'glossary' &&
+            data && data.description &&
+            <div>
+              <p>
+                <i>{shorten(data.description, 40)}</i>
+              </p>
+            </div>
+          }
         </div>
         }
       footerActions={[
