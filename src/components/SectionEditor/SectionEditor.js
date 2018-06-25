@@ -189,6 +189,8 @@ class SectionEditor extends Component {
     document.addEventListener('cut', this.onCopy);
     document.addEventListener('paste', this.onPaste);
 
+
+
     this.updateStateFromProps(this.props);
   }
 
