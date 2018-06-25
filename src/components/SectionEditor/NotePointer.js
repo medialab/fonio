@@ -92,7 +92,7 @@ class NotePointer extends Component {
         onMouseOut={onMouseOut}
         onBlur={onMouseOut}
         onClick={onMouseClick}>
-        <Button isRounded style={{position: 'absolute'}}>{(note && note.order) || '*'}{children}</Button>
+        <Button isRounded >{(note && note.order) || '*'}{children}</Button>
       </sup>
     );
   }

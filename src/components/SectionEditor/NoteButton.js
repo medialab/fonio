@@ -11,11 +11,13 @@ const NoteButton = ({
   active
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Component.SectionEditor');
+  const onMouseDown = event => event.preventDefault();
   return (
     <Button
       isRounded
       isColor={active && 'info'}
       onClick={onClick}
+      onMouseDown={onMouseDown}
       data-tip={translate('add a footnote')}>
       Note
     </Button>

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-6-25\n"
-"PO-Revision-Date: Mon Jun 25 2018 14:42:47 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jun 25 2018 16:11:56 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1856,17 +1856,17 @@ msgstr "ordered list"
 msgid "Components.Footer.unordered list"
 msgstr "unordered list"
 
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
-msgstr ""
-
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
-msgstr "Are you sure you want to delete the resource \"{s}\" ?"
-
 msgid "Component.SectionEditor.add an element from your library"
 msgstr "add an element from your library"
 
 msgid "Component.SectionEditor.add a footnote"
 msgstr "add a footnote"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr ""
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
+msgstr "Are you sure you want to delete the resource \"{s}\" ?"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} is working on section \"{t}\""
