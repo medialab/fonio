@@ -20,6 +20,7 @@ import {
 } from 'quinoa-design-library/components/';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
+import './ResourceMiniCard.scss';
 
 
 /**
@@ -147,7 +148,7 @@ class ResourceCard extends Component {
 
       let resourceTitle;
       if (type === 'bib' && data && data[0]) {
-        resourceTitle = <div dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} />;
+        resourceTitle = <div className="bib-wrapper-mini" dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} />;
       }
       else resourceTitle = getTitle(resource) || translate('untitled resource');
 
