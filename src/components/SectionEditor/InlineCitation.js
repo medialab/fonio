@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 
 import {
   Button,
-  Delete,
   Image
 } from 'quinoa-design-library/components';
 
@@ -59,6 +58,7 @@ class InlineCitation extends Component {
       || this.state.prefix !== nextState.prefix
       || this.state.suffix !== nextState.suffix
       || this.state.optionsVisible !== nextState.optionsVisible
+      || this.props.customContext !== nextProps.customContext
     );
   }
 
@@ -172,9 +172,10 @@ class InlineCitation extends Component {
             className="more-options-btn"
             onClick={onEditRequest}>
             <Image isSize={'16x16'} src={icons.bib.black.svg} />
+          </Button>
+          <Button onClick={onMoreOptionsClick}>
             <Image isSize={'16x16'} src={icons.edit.black.svg} />
           </Button>
-          <Delete onClick={onMoreOptionsClick} />
           {this.state.optionsVisible &&
           <span className="more-options-container">
             {translate('prefix-label')}:

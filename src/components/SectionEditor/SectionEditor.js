@@ -229,10 +229,10 @@ class SectionEditor extends Component {
     }
   }
 
-  // componentWillUpdate() {
-  //   // benchmarking component performance
-  //   console.time('editor update time');
-  // }
+  componentWillUpdate() {
+    // benchmarking component performance
+    console.time('editor update time');/* eslint no-console: 0 */
+  }
 
 
   /**
@@ -242,7 +242,7 @@ class SectionEditor extends Component {
     if (this.props.editorStates[this.props.activeSection.id] !== prevProps.editorStates[this.props.activeSection.id]) {
       this.debouncedCleanStuffFromEditorInspection(this.props.activeSection.id);
     }
-    // console.timeEnd('editor update time');
+    console.timeEnd('editor update time');/* eslint no-console: 0 */
   }
 
 
@@ -282,10 +282,12 @@ class SectionEditor extends Component {
 
   updateStateFromProps = props => {
     const assets = computeAssets(props);
+    const citations = buildCitations(assets, props);
+
     this.setState({/* eslint react/no-set-state : 0 */
       assets,
       assetChoiceProps: computeAssetChoiceProps(props),
-      citations: buildCitations(assets, props),
+      citations,
     });
   }
 
@@ -408,11 +410,12 @@ class SectionEditor extends Component {
     this.props.updateDraftEditorsStates(newEditors);
     // update focus
     // focus on new note
-    this.props.setEditorFocus(undefined);
-    setTimeout(() => {
-      this.props.setEditorFocus(id);
-      // this.editor.focus(id);
-    });
+    this.props.setEditorFocus(id);
+    // this.props.setEditorFocus(undefined);
+    // setTimeout(() => {
+    //   this.props.setEditorFocus(id);
+    //   // this.editor.focus(id);
+    // });
   }
 
 
@@ -804,6 +807,7 @@ class SectionEditor extends Component {
             citations={citationData}>
             <Editor
               mainEditorState={mainEditorState}
+              customContext={{citationItems, citationData}}
               notes={notes}
               notesOrder={notesOrder}
               assets={assets}

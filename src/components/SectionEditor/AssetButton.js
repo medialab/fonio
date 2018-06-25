@@ -11,10 +11,13 @@ const AssetButton = ({
   active
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Component.SectionEditor');
+  const onMouseDown = event => event.preventDefault();
+
   return (
     <Button
       isRounded
       isColor={active && 'info'}
+      onMouseDown={onMouseDown}
       onClick={onClick}
       data-tip={translate('add an element from your library')}>
       Asset
