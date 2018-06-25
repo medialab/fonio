@@ -3,9 +3,14 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {renderToStaticMarkup} from 'react-dom/server';
+
+import {Bibliography} from 'react-citeproc';
+import english from 'raw-loader!../../sharedAssets/bibAssets/english-locale.xml';
+import apa from 'raw-loader!../../sharedAssets/bibAssets/apa.csl';
+
 import {isEmpty} from 'lodash';
 import {csvParse} from 'd3-dsv';
-
 import {Form, NestedField, Text, TextArea} from 'react-form';
 
 import resourceSchema from 'quinoa-schemas/resource';
@@ -318,12 +323,16 @@ class ResourceForm extends Component {
     const handleSubmit = (candidates) => {
       if (candidates.metadata.type === 'bib') {
         candidates.data.forEach(datum => {
+          const bibData = {
+            [datum.id]: datum
+          };
+          const htmlPreview = renderToStaticMarkup(<Bibliography items={bibData} style={apa} locale={english} />);
           validateAndSubmit({
             ...createDefaultResource(),
             metadata: {
               ...candidates.metadata,
             },
-            data: [datum]
+            data: [{...datum, htmlPreview}]
           });
         });
       }

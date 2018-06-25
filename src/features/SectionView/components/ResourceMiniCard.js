@@ -1,4 +1,6 @@
 /* eslint react/no-set-state : 0 */
+/* eslint react/no-danger : 0 */
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
@@ -7,11 +9,6 @@ import ReactTooltip from 'react-tooltip';
 import {DragSource} from 'react-dnd';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
-
-import {Bibliography} from 'react-citeproc';
-import english from 'raw-loader!../../../sharedAssets/bibAssets/english-locale.xml';
-import apa from 'raw-loader!../../../sharedAssets/bibAssets/apa.csl';
-
 
 import {
   Button,
@@ -150,10 +147,7 @@ class ResourceCard extends Component {
 
       let resourceTitle;
       if (type === 'bib' && data && data[0]) {
-        const bibData = {
-          [data[0].id]: data[0]
-        };
-        resourceTitle = <Bibliography items={bibData} style={apa} locale={english} />;
+        resourceTitle = <div dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} />;
       }
       else resourceTitle = getTitle(resource) || translate('untitled resource');
 
