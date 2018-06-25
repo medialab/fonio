@@ -335,6 +335,8 @@ const SectionViewLayout = ({
           getResourceTitle={getResourceTitle}
 
           userId={userId}
+          lockingMap={lockingMap}
+          activeUsers={activeUsers}
           reverseResourcesLockMap={isEmpty(reverseResourcesLockMap) ? reverseResourcesSectionsMap : reverseResourcesLockMap}
           userLockedResourceId={userLockedResourceId}
 

@@ -34,6 +34,7 @@ class EditionUiWrapperContainer extends Component {
   constructor(props) {
     super(props);
   }
+
   getNavLocation = path => {
     switch (path) {
       case '/story/:storyId/library':
