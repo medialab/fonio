@@ -6,6 +6,13 @@
 import {get} from 'axios';
 import {csvParse} from 'd3-dsv';
 import {v4 as genId} from 'uuid';
+import React from 'react';
+
+import {renderToStaticMarkup} from 'react-dom/server';
+
+import {Bibliography} from 'react-citeproc';
+import english from 'raw-loader!../sharedAssets/bibAssets/english-locale.xml';
+import apa from 'raw-loader!../sharedAssets/bibAssets/apa.csl';
 
 import {validateResource, createDefaultResource} from './schemaUtils';
 import {loadImage, inferMetadata, parseBibTeXToCSLJSON} from './assetsUtils';
@@ -136,6 +143,10 @@ export const createResourceData = (file, props) =>
             data = parseBibTeXToCSLJSON(text);
             data.forEach(datum => {
               id = genId();
+              const bibData = {
+                [datum.id]: datum
+              };
+              const htmlPreview = renderToStaticMarkup(<Bibliography items={bibData} style={apa} locale={english} />);
               resource = {
                 ...createDefaultResource(),
                 id,
@@ -143,7 +154,7 @@ export const createResourceData = (file, props) =>
                   ...createDefaultResource().metadata,
                   type: 'bib',
                 },
-                data: [datum],
+                data: [{...datum, htmlPreview}],
               };
               payload = {
                 resourceId: id,
