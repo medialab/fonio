@@ -38,6 +38,7 @@ import {
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+import BibRefsEditor from '../BibRefsEditor';
 import AssetPreview from '../AssetPreview';
 
 const resourceTypes = Object.keys(resourceSchema.definitions);
@@ -122,6 +123,9 @@ class ResourceForm extends Component {
           formApi.setValue('data', data);
         });
       };
+      const onEditBib = (value) => {
+        formApi.setValue('data', value);
+      };
       switch (resourceType) {
       case 'image':
         return (
@@ -169,11 +173,15 @@ class ResourceForm extends Component {
                   {translate('Explanation about the bib')}
                 </HelpPin>
               </Label>
-              <DropZone
-                accept=".bib,.txt"
-                onDrop={onDropFiles}>
-                {translate('Drop an bib file')}
-              </DropZone>
+              {
+                asNewResource ?
+                  <DropZone
+                    accept=".bib,.txt"
+                    onDrop={onDropFiles}>
+                    {translate('Drop an bib file')}
+                  </DropZone> :
+                  <BibRefsEditor data={formApi.getValue('data')} onChange={onEditBib} />
+              }
             </Control>
           </Field>
         );
