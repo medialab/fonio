@@ -124,7 +124,15 @@ class ResourceForm extends Component {
         });
       };
       const onEditBib = (value) => {
-        formApi.setValue('data', value);
+        const bibData = parseBibTeXToCSLJSON(value);
+        if (bibData.length === 1) {
+          formApi.setValue('data', bibData);
+          formApi.setError('data', undefined);
+        }
+        else if (bibData.length > 1) {
+          formApi.setError('data', translate('Please enter only one bibtex'));
+        }
+        else formApi.setError('data', translate('Invalid bibtext resource'));
       };
       switch (resourceType) {
       case 'image':
@@ -183,6 +191,10 @@ class ResourceForm extends Component {
                   <BibRefsEditor data={formApi.getValue('data')} onChange={onEditBib} />
               }
             </Control>
+            {
+              formApi.errors && formApi.errors.data &&
+                <Help isColor="danger">{formApi.errors.data}</Help>
+            }
           </Field>
         );
       case 'video':
