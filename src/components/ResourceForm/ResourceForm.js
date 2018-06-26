@@ -349,6 +349,7 @@ class ResourceForm extends Component {
           const htmlPreview = renderToStaticMarkup(<Bibliography items={bibData} style={apa} locale={english} />);
           validateAndSubmit({
             ...createDefaultResource(),
+            ...candidates,
             metadata: {
               ...candidates.metadata,
             },
