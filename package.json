@@ -44,7 +44,7 @@
   "dependencies": {
     "ajv": "^6.1.1",
     "axios": "^0.18.0",
-    "citation-js": "^0.3.4",
+    "citation-js": "^0.4.0-6",
     "codemirror": "^5.35.0",
     "config": "^1.30.0",
     "d3-dsv": "^1.0.5",
