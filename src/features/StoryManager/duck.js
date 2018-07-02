@@ -12,7 +12,7 @@ import {get, post, put, delete as del} from 'axios';
 import Ajv from 'ajv';
 
 import storySchema from 'quinoa-schemas/story';
-// import resourceSchema from 'quinoa-schemas/resource';
+import resourceSchema from 'quinoa-schemas/resource';
 
 import {updateEditionHistoryMap, loadStoryToken} from '../../helpers/localStorageUtils';
 
@@ -97,7 +97,6 @@ export const updateStory = (TYPE, payload, callback) => {
 
   let payloadSchema = DEFAULT_PAYLOAD_SCHEMA;
   const sectionSchema = storySchema.properties.sections.patternProperties['[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'];
-  const resourceSchema = storySchema.definitions.resource;
 
   switch (TYPE) {
     case UPDATE_STORY_METADATA:
@@ -208,8 +207,12 @@ export const updateStory = (TYPE, payload, callback) => {
         properties: {
           ...DEFAULT_PAYLOAD_SCHEMA.properties,
           resourceId: resourceSchema.properties.id,
-          resource: resourceSchema.properties
-        }
+          resource: {
+            type: resourceSchema.type,
+            properties: resourceSchema.properties,
+          }
+        },
+        definitions: resourceSchema.definitions,
       };
       break;
     case UPDATE_RESOURCE:
@@ -220,8 +223,12 @@ export const updateStory = (TYPE, payload, callback) => {
         properties: {
           ...DEFAULT_PAYLOAD_SCHEMA.properties,
           resourceId: resourceSchema.properties.id,
-          resource: resourceSchema.properties
-        }
+          resource: {
+            type: resourceSchema.type,
+            properties: resourceSchema.properties,
+          }
+        },
+        definitions: resourceSchema.definitions,
       };
       break;
     case DELETE_RESOURCE:
