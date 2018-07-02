@@ -134,18 +134,18 @@ class NoteLayout extends Component {/* eslint react/prefer-stateless-function : 
       id,
     } = this.props;
     return (
-      <Column id={id}>
+      <div id={id}>
         <Box>
           <Column onClick={onHeaderClick}>
             <Columns>
               <Column>
-                <Button onClick={onDelete}>x</Button>
+                <Button isRounded onClick={onDelete}>x</Button>
               </Column>
               <Column isSize={10}>
                 <Title isSize={3}>Note {note.order}</Title>
               </Column>
               <Column>
-                <Button onClick={onClickToRetroLink}>↑</Button>
+                <Button isRounded onClick={onClickToRetroLink}>↑</Button>
               </Column>
             </Columns>
           </Column>
@@ -153,7 +153,7 @@ class NoteLayout extends Component {/* eslint react/prefer-stateless-function : 
             {children}
           </Column>
         </Box>
-      </Column>
+      </div>
     );
   }
 }
