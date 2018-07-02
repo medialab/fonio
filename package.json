@@ -91,6 +91,7 @@
     "redux": "^3.6.0",
     "redux-i18n": "^1.1.4",
     "redux-pouchdb": "^0.1.1",
+    "redux-validator": "^0.2.3",
     "reselect": "^3.0.0",
     "scholar-draft": "^0.2.27",
     "socket.io-client": "^2.1.1",

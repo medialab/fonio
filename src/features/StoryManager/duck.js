@@ -9,6 +9,10 @@ import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
 import {get, post, put, delete as del} from 'axios';
+import Ajv from 'ajv';
+
+import storySchema from 'quinoa-schemas/story';
+// import resourceSchema from 'quinoa-schemas/resource';
 
 import {updateEditionHistoryMap, loadStoryToken} from '../../helpers/localStorageUtils';
 
@@ -49,6 +53,20 @@ export const DELETE_CONTEXTUALIZATION = 'DELETE_CONTEXTUALIZATION';
 
 export const UPLOAD_RESOURCE = 'UPLOAD_RESOURCE';
 export const DELETE_UPLOADED_RESOURCE = 'DELETE_UPLOADED_RESOURCE';
+
+/**
+ * ===================================================
+ * ACTION PAYLOAD SCHEMA
+ * ===================================================
+ */
+const ajv = new Ajv();
+
+const DEFAULT_PAYLOAD_SCHEMA = {
+  type: 'object',
+  properties: {
+    storyId: storySchema.properties.id
+  }
+};
 /**
  * ===================================================
  * ACTION CREATORS
@@ -76,28 +94,151 @@ export const updateStory = (TYPE, payload, callback) => {
   updateEditionHistoryMap(payload.storyId);
   let blockType;
   let blockId;
+
+  let payloadSchema = DEFAULT_PAYLOAD_SCHEMA;
+  const sectionSchema = storySchema.properties.sections.patternProperties['[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'];
+  const resourceSchema = storySchema.definitions.resource;
+
   switch (TYPE) {
     case UPDATE_STORY_METADATA:
       blockType = 'storyMetadata';
       blockId = 'storyMetadata';
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          metadata: storySchema.definitions.metadata,
+        }
+      };
       break;
     case UPDATE_STORY_SETTINGS:
       blockType = 'settings';
       blockId = 'settings';
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          settings: storySchema.properties.settings
+        }
+      };
       break;
-    case DELETE_SECTION:
+    case UPDATE_SECTIONS_ORDER:
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          sectionsOrder: storySchema.properties.sectionsOrder,
+        }
+      };
+      break;
+    case CREATE_SECTION:
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          sectionId: sectionSchema.properties.id,
+          section: sectionSchema.properties
+        }
+      };
+      break;
     case UPDATE_SECTION:
       blockType = 'sections';
       blockId = payload.sectionId;
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          sectionId: sectionSchema.properties.id,
+          section: sectionSchema.properties
+        }
+      };
       break;
-    case DELETE_RESOURCE:
+    case DELETE_SECTION:
+      blockType = 'sections';
+      blockId = payload.sectionId;
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          sectionId: sectionSchema.properties.id,
+        }
+      };
+      break;
+    case CREATE_CONTEXTUALIZATION:
+    case UPDATE_CONTEXTUALIZATION:
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          contextualization: storySchema.definitions.contextualization
+        }
+      };
+      break;
+    case DELETE_CONTEXTUALIZATION:
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          contextualizationId: storySchema.definitions.contextualization.properties.id
+        }
+      };
+      break;
+    case CREATE_CONTEXTUALIZER:
+    case UPDATE_CONTEXTUALIZER:
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          contextualizer: storySchema.definitions.contextualizer
+        }
+      };
+      break;
+    case DELETE_CONTEXTUALIZER:
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          contextualizerId: storySchema.definitions.contextualizer.properties.id
+        }
+      };
+      break;
+    case CREATE_RESOURCE:
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          resourceId: resourceSchema.properties.id,
+          resource: resourceSchema.properties
+        }
+      };
+      break;
     case UPDATE_RESOURCE:
       blockType = 'resources';
       blockId = payload.resourceId;
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          resourceId: resourceSchema.properties.id,
+          resource: resourceSchema.properties
+        }
+      };
+      break;
+    case DELETE_RESOURCE:
+      blockType = 'resources';
+      blockId = payload.resourceId;
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          resourceId: resourceSchema.properties.id
+        }
+      };
       break;
     default:
       blockType = undefined;
       blockId = undefined;
+      payloadSchema = DEFAULT_PAYLOAD_SCHEMA;
       break;
   }
   return {
@@ -114,6 +255,15 @@ export const updateStory = (TYPE, payload, callback) => {
       userId: payload.userId,
       blockType,
       blockId,
+      validator: {
+        payload: {
+          func: () => {
+            const val = ajv.compile(payloadSchema);
+            return val(payload);
+          },
+          msg: 'payload is not valid',
+        },
+      },
     },
   };
 };
@@ -400,7 +550,8 @@ function story(state = STORY_DEFAULT_STATE, action) {
           contextualizations: {
             ...state.story.contextualizations,
             [contextualizationId]: contextualization
-          }
+          },
+          lastUpdateAt: payload.lastUpdateAt,
         }
       };
     case DELETE_CONTEXTUALIZATION:
@@ -411,7 +562,8 @@ function story(state = STORY_DEFAULT_STATE, action) {
         ...state,
         story: {
           ...state.story,
-          contextualizations
+          contextualizations,
+          lastUpdateAt: payload.lastUpdateAt,
         }
       };
 
@@ -435,7 +587,8 @@ function story(state = STORY_DEFAULT_STATE, action) {
           contextualizers: {
             ...state.story.contextualizers,
             [contextualizerId]: contextualizer
-          }
+          },
+          lastUpdateAt: payload.lastUpdateAt,
         }
       };
     case DELETE_CONTEXTUALIZER:
@@ -446,7 +599,8 @@ function story(state = STORY_DEFAULT_STATE, action) {
         ...state,
         story: {
           ...state.story,
-          contextualizers
+          contextualizers,
+          lastUpdateAt: payload.lastUpdateAt,
         }
       };
 
