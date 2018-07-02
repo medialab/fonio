@@ -18,8 +18,9 @@ import {
 } from 'draft-js';
 
 import {
+  Box,
   Content,
-  Level,
+  // Level,
   Title,
   Button,
   Columns,
@@ -120,6 +121,42 @@ const blockAssetComponents = {
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './SectionEditor.scss';
+
+
+class NoteLayout extends Component {/* eslint react/prefer-stateless-function : 0 */
+  render = () => {
+    const {
+      children,
+      note,
+      onHeaderClick,
+      onDelete,
+      onClickToRetroLink,
+      id,
+    } = this.props;
+    return (
+      <div id={id}>
+        <Box>
+          <Column onClick={onHeaderClick}>
+            <Columns>
+              <Column>
+                <Button isRounded onClick={onDelete}>x</Button>
+              </Column>
+              <Column isSize={10}>
+                <Title isSize={3}>Note {note.order}</Title>
+              </Column>
+              <Column>
+                <Button isRounded onClick={onClickToRetroLink}>↑</Button>
+              </Column>
+            </Columns>
+          </Column>
+          <Column>
+            {children}
+          </Column>
+        </Box>
+      </div>
+    );
+  }
+}
 
 
 /**
@@ -225,6 +262,9 @@ class SectionEditor extends Component {
       ) {
       setTimeout(() => {
         this.updateStateFromProps(this.props);
+        setTimeout(() => {
+          this.updateStateFromProps(this.props);
+        }, 500);
       });
     }
   }
@@ -331,18 +371,19 @@ class SectionEditor extends Component {
     deleteNoteFromEditor(mainEditorState, id, newEditorState => {
       // remove note
       // const notes = activeSection.notes;
-      // delete notes[id];
+      // delete notes[id]; // commented for keeping it for undo-redo purposes
       // update section
       updateSection({
         ...activeSection,
         contents: convertToRaw(newEditorState.getCurrentContent()),
+        notesOrder: activeSection.notesOrder.filter(thatNoteId => thatNoteId !== id)
         // notes
       });
       // update editor
       updateDraftEditorState(sectionId, newEditorState);
       updateDraftEditorState(id, undefined);
       // focus on main editor
-      setEditorFocus(sectionId);
+      setEditorFocus('main');
     });
     // this.editor.focus('main');
   }
@@ -410,12 +451,12 @@ class SectionEditor extends Component {
     this.props.updateDraftEditorsStates(newEditors);
     // update focus
     // focus on new note
-    this.props.setEditorFocus(id);
+    // this.props.setEditorFocus(id);
     // this.props.setEditorFocus(undefined);
-    // setTimeout(() => {
-    //   this.props.setEditorFocus(id);
-    //   // this.editor.focus(id);
-    // });
+    setTimeout(() => {
+      this.props.setEditorFocus(id);
+      // this.editor.focus(id);
+    }, 500);
   }
 
 
@@ -629,12 +670,13 @@ class SectionEditor extends Component {
       clipboard,
       assets = {},
       assetChoiceProps = {},
-      citations: {
-        citationItems,
-        citationData
-      }
+      citations
     } = state;
 
+    const {
+        citationItems,
+        citationData
+      } = citations;
     if (!story || !activeSection) {
       return null;
     }
@@ -688,6 +730,7 @@ class SectionEditor extends Component {
 
     const onEditorChange = (editorId, editor) => {
       const editorStateId = editorId === 'main' ? sectionId : editorId;
+      // console.log('on update', editorStateId, editor.getSelection().getStartOffset());
       // update active immutable editor state
       updateDraftEditorState(editorStateId, editor);
       // ("debouncily") update serialized content
@@ -725,8 +768,9 @@ class SectionEditor extends Component {
         if (this.props.assetRequestState) {
           this.props.setAssetRequestContentId(contentId);
         }
-        setEditorFocus(undefined);
-        setTimeout(() => setEditorFocus(contentId));
+        setEditorFocus(contentId);
+        // setEditorFocus(undefined);
+        // setTimeout(() => setEditorFocus(contentId));
       }
     };
 
@@ -765,6 +809,10 @@ class SectionEditor extends Component {
       }, timers.short);
     };
 
+    const onNotePointerMouseClick = (noteId) => {
+      setTimeout(() => setEditorFocus(noteId));
+    };
+
     // define citation style and locales, falling back on defaults if needed
     const {style, locale} = getCitationModels(story);
 
@@ -797,6 +845,8 @@ class SectionEditor extends Component {
 
     const inlineButtons = this.inlineButtons();
 
+    // notesOrder.map(noteId => console.log('offset for note', noteId, notes[noteId].editorState && notes[noteId].editorState.getSelection().getStartOffset()))
+    // console.log('focused editor', focusedEditorId);
     return (
       <Content style={componentStyle} className="fonio-SectionEditor">
         <div className="editor-wrapper" onScroll={onScroll}>
@@ -807,7 +857,7 @@ class SectionEditor extends Component {
             citations={citationData}>
             <Editor
               mainEditorState={mainEditorState}
-              customContext={{citationItems, citationData}}
+              customContext={citations}
               notes={notes}
               notesOrder={notesOrder}
               assets={assets}
@@ -840,6 +890,7 @@ class SectionEditor extends Component {
               onAssetChange={onDataChange}
               onAssetRequestCancel={onAssetRequestCancel}
               onAssetChoice={onAssetChoice}
+              onNotePointerMouseClick={onNotePointerMouseClick}
 
               onNoteAdd={addNote}
               onNoteDelete={deleteNote}
@@ -848,33 +899,7 @@ class SectionEditor extends Component {
 
               assetRequestPosition={assetRequestPosition}
               assetChoiceProps={assetChoiceProps}
-              NoteLayout={({
-                children,
-                note,
-                onHeaderClick,
-                onDelete,
-                onClickToRetroLink,
-                id,
-              }) => (
-                <Column id={id}>
-                  <Level onClick={onHeaderClick}>
-                    <Columns>
-                      <Column>
-                        <Button onClick={onDelete}>x</Button>
-                      </Column>
-                      <Column isSize={11}>
-                        <Title isSize={3}>Note {note.order}</Title>
-                      </Column>
-                      <Column>
-                        <Button onClick={onClickToRetroLink}>↑</Button>
-                      </Column>
-                    </Columns>
-                  </Level>
-                  <Column>
-                    {children}
-                  </Column>
-                </Column>
-              )}
+              NoteLayout={NoteLayout}
 
               NotePointerComponent={NotePointer}
               AssetButtonComponent={AssetButtonComponent}
@@ -884,7 +909,6 @@ class SectionEditor extends Component {
               blockAssetComponents={blockAssetComponents}
               AssetChoiceComponent={ResourceSearchWidget}
               inlineEntities={additionalInlineEntities} />
-
           </ReferencesManager>
         </div>
         <ReactTooltip

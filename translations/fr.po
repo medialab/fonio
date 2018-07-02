@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-6-25\n"
-"PO-Revision-Date: Mon Jun 25 2018 17:05:52 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-7-2\n"
+"PO-Revision-Date: Mon Jul 02 2018 16:09:22 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1867,6 +1867,12 @@ msgstr ""
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the resource \"{s}\" ?"
+
+msgid "Components.ResourceForm.Please enter only one bibtex"
+msgstr "Please enter only one bibtex"
+
+msgid "Components.ResourceForm.Invalid bibtext resource"
+msgstr "Invalid bibtext resource"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} is working on section \"{t}\""
