@@ -11,6 +11,7 @@ import {
 import rootReducer from './rootReducer';
 import promiseMiddleware from './promiseMiddleware';
 import {loadingBarMiddleware} from 'react-redux-loading-bar';
+import Validator from 'redux-validator';
 
 import io from 'socket.io-client';
 import createSocketIoMiddleware from './socketIoMiddleware';
@@ -23,6 +24,11 @@ const socket = io(CONFIG.serverUrl);
 const socketIoMiddleware = createSocketIoMiddleware(socket);
 
 /**
+ * redux action validator middleware
+ */
+const validatorMiddleware = Validator();
+
+/**
  * Configures store with a possible inherited state and appropriate reducers
  * @param initialState - the state to use to bootstrap the reducer
  * @return {object} store - the configured store
@@ -30,6 +36,7 @@ const socketIoMiddleware = createSocketIoMiddleware(socket);
 export default function configureStore (initialState = {}) {
   // Compose final middleware with thunk and promises handling
   const middleware = applyMiddleware(
+    validatorMiddleware,
     socketIoMiddleware,
     promiseMiddleware(),
     loadingBarMiddleware({
