@@ -20,6 +20,7 @@ export const validate = (schema, data) => {
 };
 
 export const validateStory = story => validate(storySchema, story);
+
 export const validateResource = resource => {
   const dataSchema = resourceSchema.definitions[resource.metadata.type];
   const valid = validate(resourceSchema, resource).valid && validate(dataSchema, resource.data).valid;
@@ -28,8 +29,8 @@ export const validateResource = resource => {
   if (validate(resourceSchema, resource).errors || validate(dataSchema, resource.data).errors) {
     errors = validate(resourceSchema, resource).errors.length > 0 ?
       validate(resourceSchema, resource).errors : validate(dataSchema, resource.data).errors;
-  }
-  return {valid, errors};
+
+  return validation;
 };
 
 export const defaults = schema => def(schema);
