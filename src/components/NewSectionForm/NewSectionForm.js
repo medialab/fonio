@@ -61,7 +61,7 @@ const NewSectionForm = ({
                   {translate('Explanation about the section title')}
                 </HelpPin>
               </Label>
-              <Text
+              <Text className="input"
                 field="title" id="title" type="text"
                 placeholder={translate('Section title')} />
             </Control>

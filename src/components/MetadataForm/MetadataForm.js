@@ -70,7 +70,7 @@ const MetadataForm = ({
                   {translate('Explanation about the story title')}
                 </HelpPin>
               </Label>
-              <Text
+              <Text className="input"
                 field="title" id="title" type="text"
                 placeholder={translate('title')} />
               {/*<Input type="text" placeholder="Story title" />*/}
@@ -88,7 +88,7 @@ const MetadataForm = ({
                   {translate('Explanation about the story subtitle')}
                 </HelpPin>
               </Label>
-              <Text
+              <Text className="input"
                 field="subtitle" id="subtitle" type="text"
                 placeholder={translate('subtitle')} />
               {/*<Input type="text" placeholder="A song of ice and fire" />*/}
@@ -104,7 +104,7 @@ const MetadataForm = ({
                   </HelpPin>
                 </Label>
                 <Control hasIcons>
-                  <Text
+                  <Text className="input"
                     field="password"
                     id="password"
                     autoComplete="new-password"
@@ -132,7 +132,7 @@ const MetadataForm = ({
           <Field>
             <Label>{translate('Story Abstract')}</Label>
             <Control hasIcons>
-              <TextArea
+              <TextArea className="textarea"
                 field="abstract"
                 id="abstract"
                 type="text"

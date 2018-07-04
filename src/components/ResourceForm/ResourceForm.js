@@ -216,7 +216,7 @@ class ResourceForm extends Component {
                   {translate('Explanation about the video url')}
                 </HelpPin>
               </Label>
-              <Text
+              <Text className="input"
                 field="url" id="url"
                 onChange={onVideoUrlChange}
                 type="text"
@@ -238,7 +238,7 @@ class ResourceForm extends Component {
                   {translate('Explanation about the embed')}
                 </HelpPin>
               </Label>
-              <TextArea
+              <TextArea className="textarea"
                 field="html" id="html"
                 type="text"
                 placeholder={translate('Embed code')} />
@@ -260,7 +260,7 @@ class ResourceForm extends Component {
                     {translate('Explanation about the webpage')}
                   </HelpPin>
                 </Label>
-                <Text
+                <Text className="input"
                   field="name" id="name"
                   type="text"
                   placeholder={translate('name')} />
@@ -274,7 +274,7 @@ class ResourceForm extends Component {
                     {translate('Explanation about the hyperlink')}
                   </HelpPin>
                 </Label>
-                <Text
+                <Text className="input"
                   field="url" id="url"
                   type="text"
                   placeholder={translate('http://')} />
@@ -297,7 +297,7 @@ class ResourceForm extends Component {
                     {translate('Explanation about the glossary')}
                   </HelpPin>
                 </Label>
-                <Text
+                <Text className="input"
                   field="name" id="name"
                   type="text"
                   placeholder={translate('glossary name')} />
@@ -315,7 +315,7 @@ class ResourceForm extends Component {
                     {translate('Explanation about the glossary description')}
                   </HelpPin>
                 </Label>
-                <TextArea
+                <TextArea className="textarea"
                   type="text"
                   field="description"
                   id="description"
@@ -449,7 +449,7 @@ class ResourceForm extends Component {
                           {translate('Explanation about the resource title')}
                         </HelpPin>
                       </Label>
-                      <Text
+                      <Text className="input"
                         type="text"
                         id="metadata.title"
                         field="metadata.title"
@@ -464,7 +464,7 @@ class ResourceForm extends Component {
                           {translate('Explanation about the resource source')}
                         </HelpPin>
                       </Label>
-                      <Text
+                      <Text className="input"
                         type="text"
                         id="metadata.source"
                         field="metadata.source"
@@ -481,7 +481,7 @@ class ResourceForm extends Component {
                           {translate('Explanation about the resource description')}
                         </HelpPin>
                       </Label>
-                      <TextArea
+                      <TextArea className="textarea"
                         type="text"
                         field="metadata.description"
                         id="metadata.description"

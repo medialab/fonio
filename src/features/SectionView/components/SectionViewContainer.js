@@ -104,6 +104,7 @@ class SectionViewContainer extends Component {
       },
       userId
     } = props;
+    console.log('unlock on section');
     this.props.actions.leaveBlock({
       blockId: sectionId,
       storyId,

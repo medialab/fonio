@@ -291,7 +291,7 @@ export const handleCopy = function(event) {
                 resId = linksMap[url];
                 shouldCreateResource = false;
               }
- else if (matchingResourceId) {
+              else if (matchingResourceId) {
                 resId = matchingResourceId;
                 shouldCreateResource = false;
               }

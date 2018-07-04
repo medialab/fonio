@@ -121,6 +121,7 @@
   "Components.Footer.small title": "small title",
   "Components.Footer.ordered list": "ordered list",
   "Components.Footer.unordered list": "unordered list",
+  "Components.Footer.remove formatting for selection": "remove formatting for selection",
   "Components.Footer.loading": "loading",
   "Components.Footer.native link to {u}": "native link to {u}",
   "Components.Footer.add-note": "add-note",
