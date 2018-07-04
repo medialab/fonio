@@ -518,7 +518,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
           lastUpdateAt: payload.lastUpdateAt,
         }
       };
-    case `${DELETE_RESOURCE}`:
+    case `${DELETE_RESOURCE}_SUCCESS`:
     case `${DELETE_RESOURCE}_BROADCAST`:
     case `${DELETE_UPLOADED_RESOURCE}_SUCCESS`:
       contextualizations = {...state.story.contextualizations};

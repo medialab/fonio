@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {toastr} from 'react-redux-toastr';
 
@@ -10,18 +9,19 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 import * as duck from '../duck';
 import * as storyDuck from '../../StoryManager/duck';
 
+
 @connect(
   state => ({
-    ...duck.selector(state.connections),
+    ...duck.selector(state.errorMessage),
     ...storyDuck.selector(state.editedStory),
   }),
-  dispatch => ({
-    actions: bindActionCreators({
-      ...duck,
-    }, dispatch)
-  })
+  // dispatch => ({
+  //   actions: bindActionCreators({
+  //     ...duck,
+  //   }, dispatch)
+  // })
 )
-class ToasterContainer extends Component {
+class ErrorMessageContainer extends Component {
 
   static contextTypes = {
     t: PropTypes.func,
@@ -33,8 +33,11 @@ class ToasterContainer extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
+    const translate = translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer');
+    if (nextProps.requestFail !== this.props.requestFail)
+      toastr.error(nextProps.requestFail);
+
     if (this.props.lastLockFail !== nextProps.lastLockFail) {
-      const translate = translateNameSpacer(this.context.t, 'Features.ToasterContainer');
 
       let title;
       if (nextProps.lastLockFail.mode === 'enter') {
@@ -72,19 +75,20 @@ class ToasterContainer extends Component {
             break;
         }
       }
+      toastr.error(title);
 
-      if (nextProps.editedStory) {
-        const lockedUsers = nextProps.lockingMap[nextProps.editedStory.id].locks;
-        const lockedUserId = Object.keys(lockedUsers).find(
-            thatUserId => lockedUsers[thatUserId][nextProps.lastLockFail.blockType] &&
-                          lockedUsers[thatUserId][nextProps.lastLockFail.blockType].blockId === nextProps.lastLockFail.blockId
-          );
-        const lockedUser = lockedUserId && nextProps.activeUsers[lockedUserId];
-        if (lockedUser) {
-          const message = translate('It is edited by {a}', {a: lockedUser && lockedUser.name});
-          toastr.error(title, message);
-        }
-      }
+      // if (nextProps.editedStory) {
+      //   const lockedUsers = nextProps.lockingMap[nextProps.editedStory.id].locks;
+      //   const lockedUserId = Object.keys(lockedUsers).find(
+      //       thatUserId => lockedUsers[thatUserId][nextProps.lastLockFail.blockType] &&
+      //                     lockedUsers[thatUserId][nextProps.lastLockFail.blockType].blockId === nextProps.lastLockFail.blockId
+      //     );
+      //   const lockedUser = lockedUserId && nextProps.activeUsers[lockedUserId];
+      //   if (lockedUser) {
+      //     const message = translate('It is edited by {a}', {a: lockedUser && lockedUser.name});
+      //     toastr.error(title, message);
+      //   }
+      // }
     }
   }
 
@@ -102,4 +106,4 @@ class ToasterContainer extends Component {
   }
 }
 
-export default ToasterContainer;
+export default ErrorMessageContainer;

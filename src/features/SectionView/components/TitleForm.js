@@ -79,7 +79,8 @@ class TitleForm extends Component {
                 </Label>
                 <Columns>
                   <Column>
-                    <Text className="input"
+                    <Text
+                      className="input"
                       field="title" id="title" type="text"
                       placeholder={translate('Section title')} />
                   </Column>

@@ -32,8 +32,7 @@ import Section from './features/SectionView/components/SectionViewContainer';
 import Library from './features/LibraryView/components/LibraryViewContainer';
 import Design from './features/DesignView/components/DesignViewContainer';
 import AuthWrapper from './features/AuthManager/components/AuthManagerContainer';
-import ToasterContainer from './features/ConnectionsManager/components/ToasterContainer';
-
+import ErrorMessageContainer from './features/ErrorMessageManager/components/ErrorMessageContainer';
 
 import * as connectionsDuck from './features/ConnectionsManager/duck';
 import * as userInfoDuck from './features/UserInfoManager/duck';
@@ -46,12 +45,10 @@ import './Application.scss';
 const ProtectedRoutes = ({match}) => {
   return (
     <AuthWrapper>
-      <ToasterContainer>
-        <Route exact path={match.path} component={Summary} />
-        <Route exact path={`${match.path}/section/:sectionId`} component={Section} />
-        <Route exact path={`${match.path}/library`} component={Library} />
-        <Route exact path={`${match.path}/design`} component={Design} />
-      </ToasterContainer>
+      <Route exact path={match.path} component={Summary} />
+      <Route exact path={`${match.path}/section/:sectionId`} component={Section} />
+      <Route exact path={`${match.path}/library`} component={Library} />
+      <Route exact path={`${match.path}/design`} component={Design} />
     </AuthWrapper>
   );
 };
@@ -126,15 +123,17 @@ export default class Application extends Component {
         <div id="wrapper" className="fonio">
           {userId &&
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/story/:storyId" component={ProtectedRoutes} />
-            <Route exact path={'/read/:storyId'} component={ReadStory} />
-            <Route render={(props) => (
-                  // TODO: render proper loading/error page
-              <h2>
-                    No match for {props.location.pathname}, go back to <Link to="/">Home page</Link>
-              </h2>
-                )} />
+            <ErrorMessageContainer>
+              <Route exact path="/" component={Home} />
+              <Route path="/story/:storyId" component={ProtectedRoutes} />
+              <Route exact path={'/read/:storyId'} component={ReadStory} />
+              <Route render={(props) => (
+                    // TODO: render proper loading/error page
+                <h2>
+                      No match for {props.location.pathname}, go back to <Link to="/">Home page</Link>
+                </h2>
+                  )} />
+            </ErrorMessageContainer>
           </Switch>
             }
           <ReduxToastr

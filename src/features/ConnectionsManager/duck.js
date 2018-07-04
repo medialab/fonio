@@ -4,7 +4,7 @@ import {post} from 'axios';
 
 import {updateEditionHistoryMap} from '../../helpers/localStorageUtils';
 
-import {ACTIVATE_STORY, DELETE_SECTION, DELETE_RESOURCE, DELETE_UPLOADED_RESOURCE} from '../StoryManager/duck';
+import {ACTIVATE_STORY} from '../StoryManager/duck';
 
 const SET_SOCKET_ID = 'SET_SOCKET_ID';
 export const ENTER_STORY = 'ENTER_STORY';
@@ -290,63 +290,19 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
   }
 }
 
-const FAIL_DEFAULT_STATE = {
-  lastLockFail: undefined,
-};
-const fails = (state = FAIL_DEFAULT_STATE, action) => {
-  const {payload} = action;
-  switch (action.type) {
-    /**
-     * Errors and failures management
-     */
-    case `${ENTER_BLOCK}_FAIL`:
-      return {
-        ...state,
-        lastLockFail: {
-          ...payload,
-          mode: 'enter',
-        },
-      };
-    case `${DELETE_RESOURCE}_FAIL`:
-    case `${DELETE_UPLOADED_RESOURCE}_FAIL`:
-      return {
-        ...state,
-        lastLockFail: {
-          ...payload,
-          mode: 'delete',
-          blockType: 'resources'
-        },
-      };
-    case `${DELETE_SECTION}_FAIL`:
-      return {
-        ...state,
-        lastLockFail: {
-          ...payload,
-          mode: 'delete',
-          blockType: 'sections'
-        },
-      };
-    default:
-      return state;
-  }
-};
-
 export default combineReducers({
   locking,
   users,
-  fails,
 });
 
 const userId = state => state.users.userId;
 const activeUsers = state => state.users.users;
 const usersNumber = state => state.users.count;
 const lockingMap = state => state.locking;
-const lastLockFail = state => state.fails.lastLockFail;
 
 export const selector = createStructuredSelector({
   userId,
   usersNumber,
   lockingMap,
   activeUsers,
-  lastLockFail,
 });

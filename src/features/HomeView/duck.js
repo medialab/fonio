@@ -39,12 +39,12 @@ const SET_PASSWORD_MODAL_OPEN = 'SET_PASSWORD_MODAL_OPEN';
 const SET_OVERRIDE_IMPORT = 'SET_OVERRIDE_IMPORT';
 const SET_OVERRIDE_STORY_MODE = 'SET_OVERRIDE_STORY_MODE';
 
-const FETCH_STORIES = 'FETCH_STORIES';
-const CREATE_STORY = 'CREATE_STORY';
-const OVERRIDE_STORY = 'OVERRIDE_STORY';
-const DUPLICATE_STORY = 'DUPLICATE_STORY';
-const DELETE_STORY = 'DELETE_STORY';
-const IMPORT_STORY = 'IMPORT_STORY';
+export const FETCH_STORIES = 'FETCH_STORIES';
+export const CREATE_STORY = 'CREATE_STORY';
+export const OVERRIDE_STORY = 'OVERRIDE_STORY';
+export const DUPLICATE_STORY = 'DUPLICATE_STORY';
+export const DELETE_STORY = 'DELETE_STORY';
+export const IMPORT_STORY = 'IMPORT_STORY';
 
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 
@@ -184,7 +184,7 @@ export const duplicateStory = payload => ({
   payload,
   promise: () => {
     const {storyId} = payload;
-    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${storyId}`;
+    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${storyId}?edit=false&&format=json`;
     return get(serverRequestUrl);
   },
 });

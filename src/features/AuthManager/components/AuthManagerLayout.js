@@ -73,7 +73,9 @@ const AuthManagerLayout = ({
                     </HelpPin>
                   </Label>
                   <Control hasIcons>
-                    <Text className="input" field="password" id="password" type="password" />
+                    <Text
+                      className="input" field="password" id="password"
+                      type="password" />
                     {/*<Input
                       isColor="success" placeholder="Text Input" value="bloomer"
                       type="password" />*/}

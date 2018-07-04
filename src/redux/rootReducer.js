@@ -25,6 +25,7 @@ import auth from '../features/AuthManager/duck';
 import editionUiWrapper from '../features/EditionUiWrapper/duck';
 import editedStory from '../features/StoryManager/duck';
 import sectionsManagement from '../features/SectionsManager/duck';
+import errorMessage from '../features/ErrorMessageManager/duck';
 
 const saveLang = (state = {}, action) => {
   if (action.type === 'REDUX_I18N_SET_LANGUAGE') {
@@ -47,7 +48,7 @@ export default combineReducers({
   editionUiWrapper,
   editedStory,
   sectionsManagement,
-
+  errorMessage,
 
   home,
   summary,
