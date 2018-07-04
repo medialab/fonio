@@ -20,9 +20,9 @@ import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapper
 
 @connect(
   state => ({
-    ...duck.selector(state.design),
     ...connectionsDuck.selector(state.connections),
     ...storyDuck.selector(state.editedStory),
+    ...duck.selector(state.design),
   }),
   dispatch => ({
     actions: bindActionCreators({

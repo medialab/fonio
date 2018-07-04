@@ -73,8 +73,8 @@ class IdentificationModal extends Component {
         headerContent={translate('Who is this?')}
         mainContent={
           <form onSubmit={e => {
-e.preventDefault(); onSubmit();
-}}>
+            e.preventDefault(); onSubmit();
+            }}>
             <Columns>
               <Column isSize={'1/3'}>
                 <Dropdown
@@ -109,8 +109,12 @@ e.preventDefault(); onSubmit();
           </form>
             }
         footerContent={[
-          <Button key={0} onClick={onSubmit} isColor="success">{translate('Submit new information')}</Button>,
-          <Button onClick={onClose} key={1} isColor="warning">{translate('Cancel')}</Button>
+          <Button
+            isFullWidth key={0} onClick={onSubmit}
+            isColor="success">{translate('Submit new information')}</Button>,
+          <Button
+            isFullWidth onClick={onClose} key={1}
+            isColor="warning">{translate('Cancel')}</Button>
             ]} />
     ) : null;
 

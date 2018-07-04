@@ -13,17 +13,14 @@ import {
   Content,
   Container,
   Level,
-  Title,
 
   DropZone,
   Dropdown,
-  DropdownItem,
 
   Field,
   Control,
   Input,
   Button,
-  Checkbox,
 
   LevelLeft,
   LevelRight,

@@ -5,7 +5,6 @@ import resourceSchema from 'quinoa-schemas/resource';
 
 import {
   Button,
-  Checkbox,
   Column,
   Control,
   Dropdown,

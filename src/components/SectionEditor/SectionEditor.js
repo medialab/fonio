@@ -309,7 +309,7 @@ class SectionEditor extends Component {
           [noteId]: prevSection.notes[noteId]
         }), {})
       };
-    // delete unused contextualizations
+      // delete unused contextualizations
       updateContextualizationsFromEditor(this.props);
       this.props.updateSection(newSection);
 
@@ -636,7 +636,7 @@ class SectionEditor extends Component {
    * Renders the component
    * @return {ReactElement} component - the component
    */
-  render() {
+  render = () => {
     const {
       addNote,
       deleteNote,
@@ -845,8 +845,6 @@ class SectionEditor extends Component {
 
     const inlineButtons = this.inlineButtons();
 
-    // notesOrder.map(noteId => console.log('offset for note', noteId, notes[noteId].editorState && notes[noteId].editorState.getSelection().getStartOffset()))
-    // console.log('focused editor', focusedEditorId);
     return (
       <Content style={componentStyle} className="fonio-SectionEditor">
         <div className="editor-wrapper" onScroll={onScroll}>

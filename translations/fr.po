@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-7-2\n"
-"PO-Revision-Date: Mon Jul 02 2018 16:09:22 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-7-4\n"
+"PO-Revision-Date: Wed Jul 04 2018 09:54:06 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1862,17 +1862,41 @@ msgstr "add an element from your library"
 msgid "Component.SectionEditor.add a footnote"
 msgstr "add a footnote"
 
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
-msgstr ""
-
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
-msgstr "Are you sure you want to delete the resource \"{s}\" ?"
-
 msgid "Components.ResourceForm.Please enter only one bibtex"
 msgstr "Please enter only one bibtex"
 
 msgid "Components.ResourceForm.Invalid bibtext resource"
 msgstr "Invalid bibtext resource"
+
+msgid "Features.LibraryView.title2"
+msgstr "title2"
+
+msgid "Features.LibraryView.Options"
+msgstr "Options"
+
+msgid "Features.LibraryView.Sort by"
+msgstr "Sort by"
+
+msgid "Features.LibraryView.Filter by"
+msgstr "Filter by"
+
+msgid "Features.SectionView.Sort by"
+msgstr "Sort by"
+
+msgid "Features.SectionView.Filter by"
+msgstr "Filter by"
+
+msgid "Features.SectionView.Options"
+msgstr "Options"
+
+msgid "Features.SectionView.Explanation about the section content"
+msgstr "Explanation about the section content"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr ""
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
+msgstr "Are you sure you want to delete the resource \"{s}\" ?"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} is working on section \"{t}\""
