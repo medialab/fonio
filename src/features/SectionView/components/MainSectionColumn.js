@@ -256,6 +256,7 @@ const MainSectionColumn = ({
               updateDraftEditorState={updateDraftEditorState}
               updateDraftEditorsStates={updateDraftEditorsStates}
               editorFocus={editorFocus}
+              userId={userId}
 
               updateSection={newSection => onUpdateSection(newSection)}
 
