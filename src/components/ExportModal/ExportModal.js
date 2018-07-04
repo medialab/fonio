@@ -36,12 +36,12 @@ const ExportModal = ({
               options={[
                 {
                   id: 'html',
-                  label: translate('Export as an html page'),
+                  label: translate('Export your story to publish it (HTML format)'),
                   iconUrl: activeOptionId === 'html' ? icons.takeAway.white.svg : icons.takeAway.black.svg
                 },
                 {
                   id: 'json',
-                  label: translate('Export as a json workfile'),
+                  label: translate('Export your story to backup and edit it later in Fonio (fonio JSON format)'),
                   iconUrl: activeOptionId === 'json' ? icons.takeAway.white.svg : icons.takeAway.black.svg
                 }
               ]} />
