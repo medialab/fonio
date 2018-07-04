@@ -13,9 +13,11 @@ import {
   Content,
   Container,
   Level,
+  Title,
 
   DropZone,
   Dropdown,
+  DropdownItem,
 
   Field,
   Control,
@@ -52,15 +54,13 @@ const LibraryViewLayout = ({
   activeUsers,
 
   mainColumnMode,
-  sortVisible,
-  filterVisible,
+  optionsVisible,
   filterValues,
   sortValue,
   searchString,
   promptedToDeleteResourceId,
   actions: {
-    setSortVisible,
-    setFilterVisible,
+    setOptionsVisible,
     setMainColumnMode,
     setSearchString,
     setFilterValues,
@@ -233,6 +233,14 @@ const LibraryViewLayout = ({
         );
       case 'list':
       default:
+        const setOption = (option, optionDomain) => {
+          if (optionDomain === 'filter') {
+            toggleFilter(option);
+          }
+ else if (optionDomain === 'sort') {
+            setSortValue(option);
+          }
+        };
         return (
           <div>
 
@@ -243,13 +251,54 @@ const LibraryViewLayout = ({
                     <Control>
                       <Input value={searchString} onChange={e => setSearchString(e.target.value)} placeholder={translate('Find a resource')} />
                     </Control>
-                    <Control>
-                      <Button>{translate('Search')}</Button>
-                    </Control>
                   </Field>
+                  <LevelItem>
+                    <Dropdown
+                      closeOnChange={false}
+                      onToggle={() => {
+                        setOptionsVisible(!optionsVisible);
+                      }}
+                      onChange={setOption}
+                      isActive={optionsVisible}
+                      value={{
+                        sort: {
+                          value: sortValue,
+                        },
+                        filter: {
+                          value: Object.keys(filterValues).filter(f => filterValues[f]),
+                        }
+                      }}
+                      options={[
+                        {
+                          label: translate('Sort by'),
+                          id: 'sort',
+                          options: [
+                            {
+                              id: 'edited recently',
+                              label: translate('edited recently')
+                            },
+                            {
+                              id: 'title',
+                              label: translate('title')
+                            },
+                          ]
+                        },
+                        {
+                          label: translate('Filter by'),
+                          id: 'filter',
+                          options: resourceTypes.map(type => ({
+                            id: type,
+                            label: translate(type)
+                          })),
+                        }
+                      ]}>
+                      {translate('Options')}
+                    </Dropdown>
+                  </LevelItem>
                 </LevelLeft>
                 <LevelRight>
-                  <LevelItem>
+
+                  {/*<LevelItem>
                     <Dropdown
                       onToggle={() => {
                         setSortVisible(!sortVisible);
@@ -293,7 +342,7 @@ const LibraryViewLayout = ({
                         }>
                       {translate('Filter')}
                     </Dropdown>
-                  </LevelItem>
+                  </LevelItem>*/}
                 </LevelRight>
               </Level>
             </Column>

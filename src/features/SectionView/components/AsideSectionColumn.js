@@ -32,12 +32,12 @@ class AsideSectionColumn extends Component {
     const changingProps = [
       'asideTabCollapsed',
       'asideTabMode',
-      'resourceSortVisible',
-      'resourceFilterVisible',
+      'resourceOptionsVisible',
       'mainColumnMode',
       'activeUsers',
       'lockMap',
       'userLockedResourceId',
+      'sections',
 
       'resourceSearchString',
       'resourceFilterValues',
@@ -65,8 +65,7 @@ class AsideSectionColumn extends Component {
     const {
       asideTabCollapsed,
       asideTabMode,
-      resourceSortVisible,
-      resourceFilterVisible,
+      resourceOptionsVisible,
       mainColumnMode,
       story,
 
@@ -80,8 +79,7 @@ class AsideSectionColumn extends Component {
 
       setAsideTabCollapsed,
       setAsideTabMode,
-      setResourceSortVisible,
-      setResourceFilterVisible,
+      setResourceOptionsVisible,
       setMainColumnMode,
 
       visibleResources,
@@ -118,6 +116,14 @@ class AsideSectionColumn extends Component {
       }
       switch (asideTabMode) {
         case 'library':
+          const setOption = (option, optionDomain) => {
+            if (optionDomain === 'filter') {
+              toggleResourceFilter(option);
+            }
+            else if (optionDomain === 'sort') {
+              setResourceSortValue(option);
+            }
+          };
           return (
             <Column>
               <Field hasAddons>
@@ -125,10 +131,52 @@ class AsideSectionColumn extends Component {
                   <Input value={resourceSearchString} onChange={e => setResourceSearchString(e.target.value)} placeholder={translate('find a resource')} />
                 </Control>
                 <Control>
-                  <Button>{translate('search')}</Button>
+                  <Dropdown
+                    closeOnChange={false}
+                    menuAlign={'right'}
+                    onToggle={() => {
+                      setResourceOptionsVisible(!resourceOptionsVisible);
+                    }}
+                    onChange={setOption}
+                    isActive={resourceOptionsVisible}
+                    value={{
+                      sort: {
+                        value: resourceSortValue,
+                      },
+                      filter: {
+                        value: Object.keys(resourceFilterValues).filter(f => resourceFilterValues[f]),
+                      }
+                    }}
+                    options={[
+                      {
+                        label: translate('Sort by'),
+                        id: 'sort',
+                        options: [
+                          {
+                            id: 'edited recently',
+                            label: translate('edited recently')
+                          },
+                          {
+                            id: 'title',
+                            label: translate('title')
+                          },
+                        ]
+                      },
+                      {
+                        label: translate('Filter by'),
+                        id: 'filter',
+                        options: resourceTypes.map(type => ({
+                          id: type,
+                          label: translate(type)
+                        })),
+                      }
+                    ]}>
+                    {translate('Options')}
+                  </Dropdown>
+                  {/*<Button>{translate('search')}</Button>*/}
                 </Control>
               </Field>
-              <Level>
+              {/*<Level>
                 <Dropdown
                   onToggle={() => {
                     setResourceSortVisible(!resourceSortVisible);
@@ -170,7 +218,7 @@ class AsideSectionColumn extends Component {
                     }>
                   {translate('Filter resources')}
                 </Dropdown>
-              </Level>
+              </Level>*/}
               <Level>
                 <Button
                   isFullWidth

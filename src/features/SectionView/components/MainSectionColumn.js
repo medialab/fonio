@@ -241,7 +241,7 @@ const MainSectionColumn = ({
                 <Label>
                   {translate('Section content')}
                   <HelpPin place="right">
-                    {translate('Explanation about the section title')}
+                    {translate('Explanation about the section content')}
                   </HelpPin>
                 </Label>
               </Control>

@@ -22,8 +22,7 @@ import resourceSchema from 'quinoa-schemas/resource';
  * ui
  */
 const SET_MAIN_COLUMN_MODE = 'SET_MAIN_COLUMN_MODE';
-const SET_SORT_VISIBLE = 'SET_SORT_VISIBLE';
-const SET_FILTER_VISIBLE = 'SET_FILTER_VISIBLE';
+const SET_OPTIONS_VISIBLE = 'SET_OPTIONS_VISIBLE';
 const SET_FILTER_VALUES = 'SET_FILTER_VALUES';
 const SET_SORT_VALUE = 'SET_SORT_VALUE';
 const SET_SEARCH_STRING = 'SET_SEARCH_STRING';
@@ -44,12 +43,8 @@ export const setMainColumnMode = payload => ({
   type: SET_MAIN_COLUMN_MODE,
   payload
 });
-export const setSortVisible = payload => ({
-  type: SET_SORT_VISIBLE,
-  payload
-});
-export const setFilterVisible = payload => ({
-  type: SET_FILTER_VISIBLE,
+export const setOptionsVisible = payload => ({
+  type: SET_OPTIONS_VISIBLE,
   payload
 });
 export const setSearchString = payload => ({
@@ -105,8 +100,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case LEAVE_STORY:
       return UI_DEFAULT_STATE;
     case SET_MAIN_COLUMN_MODE:
-    case SET_SORT_VISIBLE:
-    case SET_FILTER_VISIBLE:
+    case SET_OPTIONS_VISIBLE:
     case SET_SEARCH_STRING:
     case SET_FILTER_VALUES:
     case SET_SORT_VALUE:
@@ -149,8 +143,7 @@ export default combineReducers({
  * ===================================================
  */
 const mainColumnMode = state => state.ui.mainColumnMode;
-const sortVisible = state => state.ui.sortVisible;
-const filterVisible = state => state.ui.filterVisible;
+const optionsVisible = state => state.ui.optionsVisible;
 const searchString = state => state.ui.searchString;
 const filterValues = state => state.ui.filterValues;
 const sortValue = state => state.ui.sortValue;
@@ -162,8 +155,7 @@ const promptedToDeleteResourceId = state => state.ui.promptedToDeleteResourceId;
  */
 export const selector = createStructuredSelector({
   mainColumnMode,
-  sortVisible,
-  filterVisible,
+  optionsVisible,
   searchString,
   filterValues,
   sortValue,

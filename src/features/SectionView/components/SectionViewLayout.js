@@ -34,8 +34,7 @@ const SectionViewLayout = ({
   asideTabMode,
   asideTabCollapsed,
   mainColumnMode,
-  resourceSortVisible,
-  resourceFilterVisible,
+  resourceOptionsVisible,
   resourceFilterValues,
   resourceSortValue,
   resourceSearchString,
@@ -59,8 +58,7 @@ const SectionViewLayout = ({
     setAsideTabMode,
     setAsideTabCollapsed,
     setMainColumnMode,
-    setResourceSortVisible,
-    setResourceFilterVisible,
+    setResourceOptionsVisible,
     setResourceFilterValues,
     setResourceSortValue,
     setResourceSearchString,
@@ -327,8 +325,7 @@ const SectionViewLayout = ({
           asideTabCollapsed={asideTabCollapsed}
           asideTabMode={asideTabMode}
           mainColumnMode={mainColumnMode}
-          resourceSortVisible={resourceSortVisible}
-          resourceFilterVisible={resourceFilterVisible}
+          resourceOptionsVisible={resourceOptionsVisible}
           story={story}
           sections={sectionsList}
 
@@ -354,8 +351,7 @@ const SectionViewLayout = ({
           onResourceEditAttempt={onResourceEditAttempt}
 
           onOpenSectionSettings={onOpenSectionSettings}
-          setResourceSortVisible={setResourceSortVisible}
-          setResourceFilterVisible={setResourceFilterVisible}
+          setResourceOptionsVisible={setResourceOptionsVisible}
           setAsideTabMode={setAsideTabMode}
           setAsideTabCollapsed={setAsideTabCollapsed}
           setMainColumnMode={setMainColumnMode}

@@ -25,9 +25,8 @@ import {CREATE_RESOURCE} from '../StoryManager/duck';
 const SET_ASIDE_TAB_MODE = 'SET_ASIDE_TAB_MODE';
 const SET_ASIDE_TAB_COLLAPSED = 'SET_ASIDE_TAB_COLLAPSED';
 const SET_MAIN_COLUMN_MODE = 'SET_MAIN_COLUMN_MODE';
-const SET_RESOURCE_SORT_VISIBLE = 'SET_RESOURCE_SORT_VISIBLE';
-const SET_RESOURCE_FILTER_VISIBLE = 'SET_RESOURCE_FILTER_VISIBLE';
 const SET_RESOURCE_FILTER_VALUES = 'SET_RESOURCE_FILTER_VALUES';
+const SET_RESOURCE_OPTIONS_VISIBLE = 'SET_RESOURCE_OPTIONS_VISIBLE';
 const SET_RESOURCE_SORT_VALUE = 'SET_RESOURCE_SORT_VALUE';
 const SET_RESOURCE_SEARCH_STRING = 'SET_RESOURCE_SEARCH_STRING';
 
@@ -72,16 +71,10 @@ export const setMainColumnMode = payload => ({
   payload,
 });
 
-export const setResourceFilterVisible = payload => ({
-  type: SET_RESOURCE_FILTER_VISIBLE,
+export const setResourceOptionsVisible = payload => ({
+  type: SET_RESOURCE_OPTIONS_VISIBLE,
   payload
 });
-
-export const setResourceSortVisible = payload => ({
-  type: SET_RESOURCE_SORT_VISIBLE,
-  payload
-});
-
 export const setResourceFilterValues = payload => ({
   type: SET_RESOURCE_FILTER_VALUES,
   payload
@@ -195,11 +188,10 @@ const UI_DEFAULT_STATE = {
   asideTabMode: 'library',
   asideTabCollapsed: false,
   mainColumnMode: 'edition',
-  resourceSortVisible: false,
-  resourceFilterVisible: false,
+  resourceOptionsVisible: false,
   resourceSearchString: '',
   resourceFilterValues: defaultResourceFilterValues,
-  resourceSortValue: 'title'
+  resourceSortValue: 'title',
 };
 
 /**
@@ -214,8 +206,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_ASIDE_TAB_MODE:
     case SET_ASIDE_TAB_COLLAPSED:
     case SET_MAIN_COLUMN_MODE:
-    case SET_RESOURCE_SORT_VISIBLE:
-    case SET_RESOURCE_FILTER_VISIBLE:
+    case SET_RESOURCE_OPTIONS_VISIBLE:
     case SET_RESOURCE_FILTER_VALUES:
     case SET_RESOURCE_SORT_VALUE:
     case SET_RESOURCE_SEARCH_STRING:
@@ -420,8 +411,7 @@ export default combineReducers({
 const asideTabMode = state => state.ui.asideTabMode;
 const asideTabCollapsed = state => state.ui.asideTabCollapsed;
 const mainColumnMode = state => state.ui.mainColumnMode;
-const resourceSortVisible = state => state.ui.resourceSortVisible;
-const resourceFilterVisible = state => state.ui.resourceFilterVisible;
+const resourceOptionsVisible = state => state.ui.resourceOptionsVisible;
 const resourceFilterValues = state => state.ui.resourceFilterValues;
 const resourceSortValue = state => state.ui.resourceSortValue;
 const resourceSearchString = state => state.ui.resourceSearchString;
@@ -445,8 +435,7 @@ export const selector = createStructuredSelector({
   asideTabCollapsed,
   mainColumnMode,
 
-  resourceSortVisible,
-  resourceFilterVisible,
+  resourceOptionsVisible,
   resourceFilterValues,
   resourceSortValue,
   resourceSearchString,
