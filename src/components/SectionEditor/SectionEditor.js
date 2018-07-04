@@ -14,7 +14,8 @@ import {
   EditorState,
   convertToRaw,
   convertFromRaw,
-  SelectionState
+  SelectionState,
+  Modifier
 } from 'draft-js';
 
 import {
@@ -88,6 +89,7 @@ import ItalicButton from './buttons/ItalicButton';
 import OrderedListItemButton from './buttons/OrderedListItemButton';
 import UnorderedListItemButton from './buttons/UnorderedListItemButton';
 import LinkButton from './buttons/LinkButton';
+import RemoveFormattingButton from './buttons/RemoveFormattingButton';
 import NotePointer from './NotePointer';
 import AssetButtonComponent from './AssetButton';
 import NoteButtonComponent from './NoteButton';
@@ -211,6 +213,7 @@ class SectionEditor extends Component {
     startExistingResourceConfiguration: this.props.startExistingResourceConfiguration,
     startNewResourceConfiguration: this.props.startNewResourceConfiguration,
     deleteContextualizationFromId: this.props.deleteContextualizationFromId,
+    removeFormattingForSelection: this.removeFormattingForSelection,
   })
 
 
@@ -570,6 +573,24 @@ class SectionEditor extends Component {
     });
   }
 
+  removeFormattingForSelection = () => {
+    const {editorFocus, editorStates, activeSection} = this.props;
+    const {id: sectionId} = activeSection;
+    const editorState = editorFocus === 'main' ? editorStates[sectionId] : activeSection.notes[editorFocus].contents;
+    const styles = editorState.getCurrentInlineStyle().toList().toJS();
+    let newEditorState = editorState;
+    styles.forEach(style => {
+      newEditorState = EditorState.push(
+        newEditorState,
+        Modifier.removeInlineStyle(newEditorState.getCurrentContent(), newEditorState.getSelection(), style),
+        'remove-inline-style'
+      );
+    });
+
+    this.onEditorChange(editorFocus, newEditorState);
+
+  }
+
   /**
    * Util for Draft.js strategies building
    */
@@ -627,9 +648,21 @@ class SectionEditor extends Component {
     <HeaderTwoButton tooltip={this.translate('small title')} key={5} />,
     <OrderedListItemButton tooltip={this.translate('ordered list')} key={6} />,
     <UnorderedListItemButton tooltip={this.translate('unordered list')} key={7} />,
+    <RemoveFormattingButton tooltip={this.translate('remove formatting for selection')} key={9} />,
     <LinkButton key={8} />,
     /*<CodeBlockButton />,*/
   ]
+
+  onEditorChange = (editorId, editor) => {
+    const {activeSection: {id: sectionId}, story: {id: activeStoryId}, updateDraftEditorState} = this.props;
+    const {updateSectionRawContentDebounced} = this;
+    const editorStateId = editorId === 'main' ? sectionId : editorId;
+    // console.log('on update', editorStateId, editor.getSelection().getStartOffset());
+    // update active immutable editor state
+    updateDraftEditorState(editorStateId, editor);
+    // ("debouncily") update serialized content
+    updateSectionRawContentDebounced(editorId, activeStoryId, sectionId);
+  };
 
 
   /**
@@ -640,11 +673,11 @@ class SectionEditor extends Component {
     const {
       addNote,
       deleteNote,
-      updateSectionRawContentDebounced,
       onAssetRequest,
       onDataChange,
       state,
-      props
+      props,
+      onEditorChange,
     } = this;
     const {
       story,
@@ -661,10 +694,6 @@ class SectionEditor extends Component {
       summonAsset,
       style: componentStyle = {},
     } = props;
-
-    const {
-      id: activeStoryId
-    } = story;
 
     const {
       clipboard,
@@ -726,15 +755,6 @@ class SectionEditor extends Component {
       setTimeout(() => {
         setEditorFocus(targetedEditorId);
       }, timers.short);
-    };
-
-    const onEditorChange = (editorId, editor) => {
-      const editorStateId = editorId === 'main' ? sectionId : editorId;
-      // console.log('on update', editorStateId, editor.getSelection().getStartOffset());
-      // update active immutable editor state
-      updateDraftEditorState(editorStateId, editor);
-      // ("debouncily") update serialized content
-      updateSectionRawContentDebounced(editorId, activeStoryId, sectionId);
     };
 
     const onDrop = (contentId, payload, selection) => {
@@ -981,7 +1001,8 @@ SectionEditor.propTypes = {
 SectionEditor.childContextTypes = {
   startExistingResourceConfiguration: PropTypes.func,
   startNewResourceConfiguration: PropTypes.func,
-  deleteContextualizationFromId: PropTypes.func
+  deleteContextualizationFromId: PropTypes.func,
+  removeFormattingForSelection: PropTypes.func,
 };
 
 export default SectionEditor;
