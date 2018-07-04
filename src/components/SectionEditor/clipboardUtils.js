@@ -305,7 +305,7 @@ export const handleCopy = function(event) {
                 id: contextualizerId,
                 type: 'webpage',
                 alias: text,
-                insertionType: INLINE_ASSET
+                insertionType: 'inline'
               };
               const contextualization = {
                 id: contextualizationId,
@@ -382,7 +382,7 @@ export const handleCopy = function(event) {
           contents: convertToRaw(activeEditorState.getCurrentContent()),
         };
       }
- else {
+      else {
         newSection = {
           ...activeSection,
           notes: {
