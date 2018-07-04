@@ -227,7 +227,10 @@ export const handleCopy = function(event) {
       userId,
     } = props;
 
-    const {id: storyId} = story;
+    const {
+      id: storyId,
+      resources
+    } = story;
 
 
     const {
@@ -278,8 +281,18 @@ export const handleCopy = function(event) {
               const blockKey = contentBlock.getKey();
               let resId = generateId();
               let shouldCreateResource;
+              const matchingResourceId = Object.keys(resources)
+                .find(resourceId => resources[resourceId].metadata.type === 'webpage' && resources[resourceId].data.url === url);
+
+              /**
+               * avoiding to create duplicate resources
+               */
               if (linksMap[url]) {
                 resId = linksMap[url];
+                shouldCreateResource = false;
+              }
+ else if (matchingResourceId) {
+                resId = matchingResourceId;
                 shouldCreateResource = false;
               }
               else {
