@@ -71,7 +71,7 @@ const ConfirmToDeleteModal = ({
           key={0}
           onClick={onDeleteConfirm}
           isDisabled={isDisabled}
-          isColor="success">{translate('Delete')}</Button>,
+          isColor="danger">{translate('Delete')}</Button>,
         <Button
           onClick={onClose} isFullWidth key={1}
           isColor="warning">{translate('Cancel')}</Button>,
