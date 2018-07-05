@@ -1,23 +1,6 @@
 FROM nginx:stable-alpine
 
-# Warning: Don't publish Docker image builded with private token
-ARG API_URL="http://localhost:3001"
-ARG YOUTUBE_API_KEY=""
-ARG SESSION_NAME="Session Name"
-ARG URL_PREFIX=""
-
-ARG PORT=3000
-ARG HOST=localhost
-
 ENV NODE_ENV production
-
-ENV API_URL=${API_URL}
-ENV YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
-ENV SESSION_NAME=${SESSION_NAME}
-ENV URL_PREFIX=${URL_PREFIX}
-
-ENV PORT=${PORT}
-ENV HOST=${HOST}
 
 ADD . /fonio
 WORKDIR /fonio
@@ -31,4 +14,4 @@ RUN apk add --no-cache --virtual .build-deps git nodejs=8.9.3-r1 build-base pyth
 RUN rm /etc/nginx/conf.d/default.conf
 COPY docker-nginx.conf /etc/nginx/conf.d/docker.template
 
-CMD /bin/sh -c "envsubst < /etc/nginx/conf.d/docker.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+CMD /bin/sh -c "envsubst < /fonio/index.prod.html.template > /fonio/index.html && envsubst < /etc/nginx/conf.d/docker.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
