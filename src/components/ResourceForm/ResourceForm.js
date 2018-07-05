@@ -409,8 +409,8 @@ class ResourceForm extends Component {
                 <StretchedLayoutItem>
                   <Title isSize={2}>
                     <Columns>
-                      <Column isSize={11}>
-                        {asNewResource ? translate('Create a new resource') : translate('Edit resource')}
+                      <Column isSize={10}>
+                        {asNewResource ? translate('Add item to the library') : translate(`Edit ${resource && resource.metadata.type}`)}
                       </Column>
                       <Column>
                         <Delete onClick={
@@ -419,6 +419,7 @@ class ResourceForm extends Component {
                       </Column>
                     </Columns>
                   </Title>
+                  <Level />
                 </StretchedLayoutItem>
                 <StretchedLayoutItem isFlowing isFlex={1}>
                   {asNewResource && !resourceType &&
@@ -432,7 +433,7 @@ class ResourceForm extends Component {
                               iconUrl: icons[thatType].black.svg
                             }))
                           } />}
-                  {formApi.getValue('metadata.type') && <Columns>
+                  {formApi.getValue('metadata.type') && <Column>
                     <Column>
                       <NestedField defaultValues={resource.data} field="data">
                         <DataForm resourceType={formApi.getValue('metadata.type')} formApi={formApi} />
@@ -450,7 +451,7 @@ class ResourceForm extends Component {
                           resource={formApi.values} />
                       </Column>
                     }
-                  </Columns>}
+                  </Column>}
                   <Level />
                   {formApi.getValue('metadata.type') && resourceSchema.definitions[formApi.getValue('metadata.type')].showMetadata && <Columns>
                     <Column>
@@ -519,7 +520,7 @@ class ResourceForm extends Component {
                             onClick={formApi.submitForm}
                             isDisabled={!formApi.getValue('metadata.type') || isEmpty(formApi.getValue('data'))}
                             isColor="success">
-                            {asNewResource ? translate('Create resource') : translate('Save resource')}
+                            {asNewResource ? translate(`Add ${formApi.getValue('metadata.type') || 'item'} to library`) : translate(`Update ${(resource && resource.metadata.type) || 'item'}`)}
                           </Button>
                         </StretchedLayoutItem>
                         <StretchedLayoutItem isFlex={1}>

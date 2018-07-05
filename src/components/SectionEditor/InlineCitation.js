@@ -8,7 +8,8 @@ import PropTypes from 'prop-types';
 
 import {
   Button,
-  Image
+  Image,
+  Tag,
 } from 'quinoa-design-library/components';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -162,21 +163,26 @@ class InlineCitation extends Component {
     const translate = translateNameSpacer(context.t, 'Components.InlineCitation');
     const representation = asset && context.citations && context.citations[asset.id];
     return (
-      <span
-        className="fonio-InlineCitation">
+      <Tag
+        isColor="dark"
+        className="is-rounded">
         <span className="items-container">
           <span onClick={onMoreOptionsClick}>
             {representation && representation.Component}
           </span>
-          <Button
-            className="more-options-btn"
+          <Tag
+            isSize="small" className="is-clickable is-rounded" isColor={'dark'}
             onClick={onEditRequest}>
             <Image isSize={'16x16'} src={icons.bib.black.svg} />
-          </Button>
-          <Button onClick={onMoreOptionsClick}>
-            <Image isSize={'16x16'} src={icons.edit.black.svg} />
-          </Button>
-          {this.state.optionsVisible &&
+          </Tag>
+          <Tag
+            isSize="small" className="is-clickable is-rounded" isColor={'dark'}
+            onClick={onMoreOptionsClick}>
+            <Image isSize={'16x16'} src={icons.edit.white.svg} />
+          </Tag>
+          {
+            // todo replace by modal
+            /*this.state.optionsVisible &&
           <span className="more-options-container">
             {translate('prefix-label')}:
             <input
@@ -206,10 +212,10 @@ class InlineCitation extends Component {
               onClick={onInputClick}
               onFocus={onAssetFocus}
               onBlur={onSuffixBlur} />
-          </span>}
+          </span>*/}
           {children}
         </span>
-      </span>
+      </Tag>
     );
   }
 }

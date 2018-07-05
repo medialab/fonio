@@ -15,6 +15,7 @@ import {
   Column,
   Columns,
   Delete,
+  DropZone,
   Title,
   StretchedLayoutContainer,
   StretchedLayoutItem,
@@ -67,6 +68,8 @@ const MainSectionColumn = ({
   setAssetRequestContentId,
   startNewResourceConfiguration,
   startExistingResourceConfiguration,
+
+  submitMultiResources,
 
   onOpenSectionSettings,
 
@@ -169,6 +172,13 @@ const MainSectionColumn = ({
                       asNewResource />
                   </Column>
                 </StretchedLayoutItem>
+                <StretchedLayoutItem>
+                  <Column>
+                    <DropZone onDrop={submitMultiResources}>
+                      {translate('Drop files here to include new items in your library (images, tables, bibliographies)')}
+                    </DropZone>
+                  </Column>
+                </StretchedLayoutItem>
               </StretchedLayoutContainer>
             </Column>
           );
@@ -180,7 +190,7 @@ const MainSectionColumn = ({
                 <Column>
                   <Title isSize={2}>
                     <Columns>
-                      <Column isSize={11}>
+                      <Column isSize={10}>
                         {translate('New section')}
                       </Column>
                       <Column isSize={2}>
@@ -208,7 +218,7 @@ const MainSectionColumn = ({
               <Column>
                 <Title isSize={2}>
                   <Columns>
-                    <Column isSize={11}>
+                    <Column isSize={10}>
                       {translate('Edit section metadata')}
                     </Column>
                     <Column isSize={2}>
@@ -246,6 +256,10 @@ const MainSectionColumn = ({
   return (
     <Column isSize={'fullwidth'} isWrapper>
       <StretchedLayoutContainer isFluid isAbsolute isDirection="horizontal">
+
+        <StretchedLayoutItem isFlex={mainColumnMode === 'edition' && !userLockedResourceId ? 0 : 6}>
+          {renderMain()}
+        </StretchedLayoutItem>
         <StretchedLayoutItem isFlex={mainColumnMode === 'edition' && !userLockedResourceId ? 12 : 6}>
           <Column
             isWrapper isSize={{
@@ -337,9 +351,6 @@ const MainSectionColumn = ({
               </Level>*/}
           {/*<Level />*/}
 
-        </StretchedLayoutItem>
-        <StretchedLayoutItem isFlex={mainColumnMode === 'edition' && !userLockedResourceId ? 0 : 6}>
-          {renderMain()}
         </StretchedLayoutItem>
       </StretchedLayoutContainer>
     </Column>

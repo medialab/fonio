@@ -15,6 +15,13 @@ const timers = {
 import {
   Input,
   Button,
+  DropdownItem,
+  DropdownDivider,
+  DropdownContent,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
+  Column,
+  Level,
 } from 'quinoa-design-library/components';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
@@ -166,61 +173,72 @@ class ResourceSearchWidget extends Component {
     };
     const translate = translateNameSpacer(context.t, 'Components.ResourceSearchWidget');
     return (
-      <div className="fonio-ResourceSearchWidget">
-        <form className="search-form" onSubmit={this.onSubmit}>
-          {/* <span className="arobase">@</span>*/}
-          <Input
-            ref={bindRef}
-            value={this.state.searchTerm}
-            onBlur={this.onBlur}
-            onChange={this.onTermChange}
-            onKeyUp={this.onKeyUp}
-            onClick={this.onInputClick}
-            placeholder={translate('search-a-resource')} />
-        </form>
-        {
-          options.filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
-          .length > 0 ?
+      <DropdownContent style={{paddingLeft: '1rem'}} className="fonio-ResourceSearchWidget">
+        <StretchedLayoutContainer>
+          <StretchedLayoutItem>
+            <form className="search-form" onSubmit={this.onSubmit}>
+              {/* <span className="arobase">@</span>*/}
+              <Input
+                ref={bindRef}
+                value={this.state.searchTerm}
+                onBlur={this.onBlur}
+                onChange={this.onTermChange}
+                onKeyUp={this.onKeyUp}
+                onClick={this.onInputClick}
+                placeholder={translate('search-a-resource')} />
+            </form>
+          </StretchedLayoutItem>
+          <StretchedLayoutItem isFlex={1}>
+            <Level />
+            {
+              options.filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
+              .length > 0 ?
 
-            <div className="choice-options-container" style={{maxHeight: '10rem', overflow: 'auto'}}>
-              {
-            options
-            .filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
-            .map((option, index) => {
-              const onC = () => onOptionClick(option);
-              let optionName;
-              const {
-                data,
-                metadata
-              } = option;
-              if (metadata.type === 'bib') {
-                optionName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
+                <div className="choice-options-container" style={{maxHeight: '10rem', overflowX: 'hidden', overflowY: 'auto'}}>
+                  {
+                options
+                .filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
+                .map((option, index) => {
+                  const onC = () => onOptionClick(option);
+                  let optionName;
+                  const {
+                    data,
+                    metadata
+                  } = option;
+                  if (metadata.type === 'bib') {
+                    optionName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
+                  }
+                  else if (metadata.type === 'glossary') {
+                    optionName = data.name && data.name.length ? data.name : translate('untitled-asset');
+                  }
+                  else {
+                    optionName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
+                  }
+                  return (
+                    <DropdownItem
+                      isFullWidth
+                      href="#"
+                      isActive={index === this.state.selectedItemIndex}
+                      key={index}
+                      onClick={onC}>
+                      {optionName}
+                    </DropdownItem>
+                  );
+                })
               }
-              else if (metadata.type === 'glossary') {
-                optionName = data.name && data.name.length ? data.name : translate('untitled-asset');
-              }
-              else {
-                optionName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
-              }
-              return (
-                <Button
-                  isFullWidth
-                  isColor={index === this.state.selectedItemIndex ? 'info' : ''}
-                  key={index}
-                  onClick={onC}>
-                  {optionName}
-                </Button>
-              );
-            })
+                </div> : null
           }
-            </div> : null
-      }
-        <Button
-          isFullWidth isColor={'primary'} className="choice-option new-option"
-          onClick={onAddNewClick}>
-          {translate('new-resource')}
-        </Button>
-      </div>
+          </StretchedLayoutItem>
+          <StretchedLayoutItem>
+            <Level />
+            <Button
+              isFullWidth isColor={'primary'} className="choice-option new-option"
+              onClick={onAddNewClick}>
+              {translate('add new item')}
+            </Button>
+          </StretchedLayoutItem>
+        </StretchedLayoutContainer>
+      </DropdownContent>
     );
   }
 }

@@ -8,11 +8,12 @@ import {
   Column,
   Control,
   Dropdown,
-  DropZone,
+  // DropZone,
   Field,
   Input,
   HelpPin,
   Level,
+  Image,
   Tab,
   TabLink,
   TabList,
@@ -20,6 +21,8 @@ import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
+
+import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -95,7 +98,7 @@ class AsideSectionColumn extends Component {
       onResourceEditAttempt,
 
       onDeleteResource,
-      submitMultiResources,
+      // submitMultiResources,
 
       onDeleteSection,
       onOpenSectionSettings,
@@ -154,7 +157,7 @@ class AsideSectionColumn extends Component {
                         }}
                           options={[
                           {
-                            label: translate('Sort by'),
+                            label: translate('Sort items by'),
                             id: 'sort',
                             options: [
                               {
@@ -172,7 +175,7 @@ class AsideSectionColumn extends Component {
                             id: 'filter',
                             options: resourceTypes.map(type => ({
                               id: type,
-                              label: translate(type)
+                              label: <span><Image style={{display: 'inline-block'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
                             })),
                           }
                         ]}>
@@ -195,11 +198,11 @@ class AsideSectionColumn extends Component {
                     getResourceTitle={getResourceTitle}
                     userLockedResourceId={userLockedResourceId} />
                 </Column>
-                <Level>
+                {/*<Level>
                   <DropZone onDrop={submitMultiResources}>
                     {translate('Drop files to include new resources in your library (images, tables, bibliographies)')}
                   </DropZone>
-                </Level>
+                </Level>*/}
               </StretchedLayoutItem>
               <StretchedLayoutItem>
                 <Level>
@@ -209,7 +212,7 @@ class AsideSectionColumn extends Component {
                       onClick={() => setMainColumnMode(mainColumnMode === 'newresource' ? 'edition' : 'newresource')}
                       isColor={mainColumnMode === 'newresource' ? 'primary' : 'info'}
                       isDisabled={userLockedResourceId !== undefined}>
-                      <span style={{paddingRight: '1rem'}}>{translate('New resource')}</span> <HelpPin place="right">
+                      <span style={{paddingRight: '1rem'}}>{translate('Add items to library')}</span> <HelpPin place="right">
                         {translate('Add new images, references, videos, ... to your story')}
                       </HelpPin>
                     </Button>

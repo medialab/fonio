@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-5\n"
-"PO-Revision-Date: Thu Jul 05 2018 14:58:20 GMT+0200 (GMT+02:00)\n"
+"PO-Revision-Date: Thu Jul 05 2018 11:55:38 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1942,6 +1942,33 @@ msgstr "You could not delete a block"
 
 msgid "Features.ErrorMessageContainer.It is edited by {a}"
 msgstr "It is edited by {a}"
+
+msgid "Features.SectionView.Add to library"
+msgstr "Add to library"
+
+msgid "Features.SectionView.You can drop files to include new resources in your library (images, tables, bibliographies)"
+msgstr "You can drop files to include new resources in your library (images, tables, bibliographies)"
+
+msgid "Components.ResourceForm.Add item to the library"
+msgstr "Add item to the library"
+
+msgid "Components.ResourceForm.metadata.type"
+msgstr "type"
+
+msgid "Components.ResourceForm.item"
+msgstr "item"
+
+msgid "Features.SectionView.Add items to library"
+msgstr "Add items to library"
+
+msgid "Features.SectionView.Drop files here to include new items in your library (images, tables, bibliographies)"
+msgstr "Drop files here to include new items in your library (images, tables, bibliographies)"
+
+msgid "Features.LibraryView.Sort items by"
+msgstr "Sort items by"
+
+msgid "Features.SectionView.Sort items by"
+msgstr "Sort items by"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr ""

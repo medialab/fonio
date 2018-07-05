@@ -9,6 +9,7 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+import IconBtn from '../IconBtn';
 
 const NoteButton = ({
   onClick,
@@ -17,14 +18,12 @@ const NoteButton = ({
   const translate = translateNameSpacer(t, 'Component.SectionEditor');
   const onMouseDown = event => event.preventDefault();
   return (
-    <Button
-      isRounded
+    <IconBtn
       isColor={active && 'info'}
       onClick={onClick}
       onMouseDown={onMouseDown}
-      data-tip={translate('add a footnote')}>
-      <Image isSize={'16x16'} src={icons.note.black.svg} />
-    </Button>
+      dataTip={translate('add a footnote')}
+      src={icons.note.black.svg} />
   );
 };
 

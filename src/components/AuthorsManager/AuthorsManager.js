@@ -65,7 +65,7 @@ const AuthorsManager = ({
                 <Icon isSize="small" isAlign="left">
                   <span className="fa fa-user" aria-hidden="true" />
                 </Icon>
-                <Icon isSize="small" isAlign="right" style={{pointerEvents: 'auto'}}>
+                <Icon isSize="small" isAlign="right" className="is-clickable">
                   <Delete onClick={onRemoveAuthor} />
                 </Icon>
               </Control>
@@ -73,6 +73,7 @@ const AuthorsManager = ({
           );
         })
       }
+      <Level />
       <Level>
         <Button isFullWidth onClick={onAddAuthor}>
           {translate('Add an author')}
