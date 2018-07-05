@@ -5,7 +5,6 @@ import {Form, Text} from 'react-form';
 import {
   Button,
   Column,
-  Columns,
   Control,
   Field,
   HelpPin,
@@ -14,6 +13,8 @@ import {
   // Level,
   // Input,
   // TextArea,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
   Help,
 } from 'quinoa-design-library/components/';
 
@@ -25,7 +26,8 @@ const NewSectionForm = ({
   metadata,
   onSubmit,
   onCancel,
-  submitMessage
+  submitMessage,
+  style = {},
 }, {t}) => {
 
   const translate = translateNameSpacer(t, 'Components.NewSectionForm');
@@ -52,46 +54,62 @@ const NewSectionForm = ({
       onSubmitFailure={onSubmitFailure}
       onSubmit={onSubmitMetadata}>
       {formApi => (
-        <form onSubmit={formApi.submitForm}>
-          <Field>
-            <Control>
-              <Label>
-                {translate('Section title')}
-                <HelpPin place="right">
-                  {translate('Explanation about the section title')}
-                </HelpPin>
-              </Label>
-              <Text className="input"
-                field="title" id="title" type="text"
-                placeholder={translate('Section title')} />
-            </Control>
-          </Field>
-          {
-            formApi.errors && formApi.errors.title &&
-            <Help
-              isColor="danger">
-              {formApi.errors.title}
-            </Help>
-          }
-          <AuthorsManager
-            field="authors"
-            id="authors"
-            onChange={(authors) => formApi.setValue('authors', authors)}
-            authors={formApi.getValue('authors')} />
+        <form
+          style={style}
+          onSubmit={formApi.submitForm}>
+          <StretchedLayoutContainer isAbsolute>
+            <StretchedLayoutItem isFlex={1} isFlowing>
+              <Column>
+                <Field>
+                  <Control>
+                    <Label>
+                      {translate('Section title')}
+                      <HelpPin place="right">
+                        {translate('Explanation about the section title')}
+                      </HelpPin>
+                    </Label>
+                    <Text
+                      className="input"
+                      field="title" id="title" type="text"
+                      placeholder={translate('Section title')} />
+                  </Control>
+                </Field>
+                {
+                  formApi.errors && formApi.errors.title &&
+                  <Help
+                    isColor="danger">
+                    {formApi.errors.title}
+                  </Help>
+                }
+                <AuthorsManager
+                  field="authors"
+                  id="authors"
+                  onChange={(authors) => formApi.setValue('authors', authors)}
+                  authors={formApi.getValue('authors')} />
+              </Column>
+            </StretchedLayoutItem>
+            <StretchedLayoutItem>
+              <StretchedLayoutContainer isDirection="horizontal">
+                <StretchedLayoutItem isFlex={1}>
+                  <Column>
+                    <Button
+                      isDisabled={!formApi.getValue('title').length} isFullWidth type="submit"
+                      isColor="success">
+                      {submitMessage || translate('Create and start editing')}
+                    </Button>
+                  </Column>
+                </StretchedLayoutItem>
 
-          <Columns>
-            <Column>
-              <Button isFullWidth type="submit" isColor="success">
-                {submitMessage || translate('Create and start editing')}
-              </Button>
-            </Column>
-
-            <Column>
-              <Button onClick={onCancel} isFullWidth isColor="danger">
-                {translate('Cancel')}
-              </Button>
-            </Column>
-          </Columns>
+                <StretchedLayoutItem isFlex={1}>
+                  <Column>
+                    <Button onClick={onCancel} isFullWidth isColor="danger">
+                      {translate('Cancel')}
+                    </Button>
+                  </Column>
+                </StretchedLayoutItem>
+              </StretchedLayoutContainer>
+            </StretchedLayoutItem>
+          </StretchedLayoutContainer>
         </form>
       )}
     </Form>

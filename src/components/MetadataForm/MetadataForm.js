@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import {Form, Text, TextArea} from 'react-form';
 import {
   Button,
-  Column,
-  Columns,
   Control,
   Field,
   HelpPin,
@@ -13,6 +11,8 @@ import {
   Label,
   // Input,
   // TextArea,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
   Help,
 } from 'quinoa-design-library/components/';
 
@@ -70,7 +70,8 @@ const MetadataForm = ({
                   {translate('Explanation about the story title')}
                 </HelpPin>
               </Label>
-              <Text className="input"
+              <Text
+                className="input"
                 field="title" id="title" type="text"
                 placeholder={translate('title')} />
               {/*<Input type="text" placeholder="Story title" />*/}
@@ -88,7 +89,8 @@ const MetadataForm = ({
                   {translate('Explanation about the story subtitle')}
                 </HelpPin>
               </Label>
-              <Text className="input"
+              <Text
+                className="input"
                 field="subtitle" id="subtitle" type="text"
                 placeholder={translate('subtitle')} />
               {/*<Input type="text" placeholder="A song of ice and fire" />*/}
@@ -104,7 +106,8 @@ const MetadataForm = ({
                   </HelpPin>
                 </Label>
                 <Control hasIcons>
-                  <Text className="input"
+                  <Text
+                    className="input"
                     field="password"
                     id="password"
                     autoComplete="new-password"
@@ -132,7 +135,8 @@ const MetadataForm = ({
           <Field>
             <Label>{translate('Story Abstract')}</Label>
             <Control hasIcons>
-              <TextArea className="textarea"
+              <TextArea
+                className="textarea"
                 field="abstract"
                 id="abstract"
                 type="text"
@@ -141,21 +145,21 @@ const MetadataForm = ({
           </Field>
           {!story.id && status === 'processing' && <Help>{translate('Creating story')}</Help>}
           {!story.id && status === 'fail' && <Help isColor="danger">{translate('Story could not be created')}</Help>}
-          <Columns>
-            <Column>
+          <StretchedLayoutContainer isDirection="horizontal">
+            <StretchedLayoutItem isFlex={1}>
               <Button isFullWidth type="submit" isColor="success">
                 {story.id ?
                   <span>{translate('Update settings')}</span> :
                   <span>{translate('Create story')}</span>
                 }
               </Button>
-            </Column>
-            <Column>
+            </StretchedLayoutItem>
+            <StretchedLayoutItem isFlex={1}>
               <Button onClick={onCancel} isFullWidth isColor="danger">
                 {translate('Cancel')}
               </Button>
-            </Column>
-          </Columns>
+            </StretchedLayoutItem>
+          </StretchedLayoutContainer>
         </form>
       )}
     </Form>

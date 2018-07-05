@@ -34,6 +34,8 @@ import {
   Label,
   Level,
   Title,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -216,7 +218,8 @@ class ResourceForm extends Component {
                   {translate('Explanation about the video url')}
                 </HelpPin>
               </Label>
-              <Text className="input"
+              <Text
+                className="input"
                 field="url" id="url"
                 onChange={onVideoUrlChange}
                 type="text"
@@ -238,7 +241,8 @@ class ResourceForm extends Component {
                   {translate('Explanation about the embed')}
                 </HelpPin>
               </Label>
-              <TextArea className="textarea"
+              <TextArea
+                className="textarea"
                 field="html" id="html"
                 type="text"
                 placeholder={translate('Embed code')} />
@@ -260,7 +264,8 @@ class ResourceForm extends Component {
                     {translate('Explanation about the webpage')}
                   </HelpPin>
                 </Label>
-                <Text className="input"
+                <Text
+                  className="input"
                   field="name" id="name"
                   type="text"
                   placeholder={translate('name')} />
@@ -274,7 +279,8 @@ class ResourceForm extends Component {
                     {translate('Explanation about the hyperlink')}
                   </HelpPin>
                 </Label>
-                <Text className="input"
+                <Text
+                  className="input"
                   field="url" id="url"
                   type="text"
                   placeholder={translate('http://')} />
@@ -297,7 +303,8 @@ class ResourceForm extends Component {
                     {translate('Explanation about the glossary')}
                   </HelpPin>
                 </Label>
-                <Text className="input"
+                <Text
+                  className="input"
                   field="name" id="name"
                   type="text"
                   placeholder={translate('glossary name')} />
@@ -315,7 +322,8 @@ class ResourceForm extends Component {
                     {translate('Explanation about the glossary description')}
                   </HelpPin>
                 </Label>
-                <TextArea className="textarea"
+                <TextArea
+                  className="textarea"
                   type="text"
                   field="description"
                   id="description"
@@ -394,120 +402,137 @@ class ResourceForm extends Component {
         onSubmit={handleSubmit}>
         {
           formApi => (
-            <form onSubmit={formApi.submitForm}>
-              <Level />
-              <Title isSize={2}>
-                <Columns>
-                  <Column isSize={11}>
-                    {asNewResource ? translate('Create a new resource') : translate('Edit resource')}
-                  </Column>
-                  <Column>
-                    <Delete onClick={
-                      () => onCancel()
-                    } />
-                  </Column>
-                </Columns>
-              </Title>
-              {asNewResource && !resourceType &&
-              <BigSelect
-                activeOptionId={formApi.getValue('metadata.type')}
-                onChange={thatType => onResourceTypeChange(thatType, formApi)}
-                options={
-                        resourceTypes.map(thatType => ({
-                          id: thatType,
-                          label: thatType,
-                          iconUrl: icons[thatType].black.svg
-                        }))
-                      } />}
-              {formApi.getValue('metadata.type') && <Columns>
-                <Column>
-                  <NestedField defaultValues={resource.data} field="data">
-                    <DataForm resourceType={formApi.getValue('metadata.type')} formApi={formApi} />
-                    {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
-                  </NestedField>
-                </Column>
-                {(formApi.getValue('metadata.type') !== 'glossary' &&
-                  formApi.getValue('metadata.type') !== 'webpage') &&
-                  !isEmpty(formApi.getValue('data')) &&
-                  <Column>
-                    <Title isSize={5}>
-                      {translate('Preview')}
-                    </Title>
-                    <AssetPreview
-                      resource={formApi.values} />
-                  </Column>
-                }
-              </Columns>}
-              <Level />
-              {formApi.getValue('metadata.type') && resourceSchema.definitions[formApi.getValue('metadata.type')].showMetadata && <Columns>
-                <Column>
-                  <Field>
-                    <Control>
-                      <Label>
-                        {translate('Title of the resource')}
-                        <HelpPin place="right">
-                          {translate('Explanation about the resource title')}
-                        </HelpPin>
-                      </Label>
-                      <Text className="input"
-                        type="text"
-                        id="metadata.title"
-                        field="metadata.title"
-                        placeholder={translate('Resource title')} />
-                    </Control>
-                  </Field>
-                  <Field>
-                    <Control>
-                      <Label>
-                        {translate('Source of the resource')}
-                        <HelpPin place="right">
-                          {translate('Explanation about the resource source')}
-                        </HelpPin>
-                      </Label>
-                      <Text className="input"
-                        type="text"
-                        id="metadata.source"
-                        field="metadata.source"
-                        placeholder={translate('Resource source')} />
-                    </Control>
-                  </Field>
-                </Column>
-                <Column>
-                  <Field>
-                    <Control>
-                      <Label>
-                        {translate('Description of the resource')}
-                        <HelpPin place="right">
-                          {translate('Explanation about the resource description')}
-                        </HelpPin>
-                      </Label>
-                      <TextArea className="textarea"
-                        type="text"
-                        field="metadata.description"
-                        id="metadata.description"
-                        placeholder={translate('Resource description')} />
-                    </Control>
-                  </Field>
-                </Column>
-              </Columns>}
-              {formApi.getValue('metadata.type') &&
-                !isEmpty(formApi.getValue('data')) &&
-                <Level>
-                  <Button
-                    type="submit"
-                    isFullWidth
-                    onClick={formApi.submitForm}
-                    isColor="success">
-                    {asNewResource ? translate('Create resource') : translate('Save resource')}
-                  </Button>
-                  <Button
-                    isFullWidth
-                    isColor="danger"
-                    onClick={onCancel}>
-                    {translate('Cancel')}
-                  </Button>
-                </Level>
-                }
+            <form className="is-wrapper" onSubmit={formApi.submitForm}>
+              <StretchedLayoutContainer isAbsolute>
+                <StretchedLayoutItem>
+                  <Title isSize={2}>
+                    <Columns>
+                      <Column isSize={11}>
+                        {asNewResource ? translate('Create a new resource') : translate('Edit resource')}
+                      </Column>
+                      <Column>
+                        <Delete onClick={
+                          () => onCancel()
+                        } />
+                      </Column>
+                    </Columns>
+                  </Title>
+                </StretchedLayoutItem>
+                <StretchedLayoutItem isFlowing isFlex={1}>
+                  {asNewResource && !resourceType &&
+                  <BigSelect
+                    activeOptionId={formApi.getValue('metadata.type')}
+                    onChange={thatType => onResourceTypeChange(thatType, formApi)}
+                    options={
+                            resourceTypes.map(thatType => ({
+                              id: thatType,
+                              label: thatType,
+                              iconUrl: icons[thatType].black.svg
+                            }))
+                          } />}
+                  {formApi.getValue('metadata.type') && <Columns>
+                    <Column>
+                      <NestedField defaultValues={resource.data} field="data">
+                        <DataForm resourceType={formApi.getValue('metadata.type')} formApi={formApi} />
+                        {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
+                      </NestedField>
+                    </Column>
+                    {(formApi.getValue('metadata.type') !== 'glossary' &&
+                      formApi.getValue('metadata.type') !== 'webpage') &&
+                      !isEmpty(formApi.getValue('data')) &&
+                      <Column>
+                        <Title isSize={5}>
+                          {translate('Preview')}
+                        </Title>
+                        <AssetPreview
+                          resource={formApi.values} />
+                      </Column>
+                    }
+                  </Columns>}
+                  <Level />
+                  {formApi.getValue('metadata.type') && resourceSchema.definitions[formApi.getValue('metadata.type')].showMetadata && <Columns>
+                    <Column>
+                      <Field>
+                        <Control>
+                          <Label>
+                            {translate('Title of the resource')}
+                            <HelpPin place="right">
+                              {translate('Explanation about the resource title')}
+                            </HelpPin>
+                          </Label>
+                          <Text
+                            className="input"
+                            type="text"
+                            id="metadata.title"
+                            field="metadata.title"
+                            placeholder={translate('Resource title')} />
+                        </Control>
+                      </Field>
+                      <Field>
+                        <Control>
+                          <Label>
+                            {translate('Source of the resource')}
+                            <HelpPin place="right">
+                              {translate('Explanation about the resource source')}
+                            </HelpPin>
+                          </Label>
+                          <Text
+                            className="input"
+                            type="text"
+                            id="metadata.source"
+                            field="metadata.source"
+                            placeholder={translate('Resource source')} />
+                        </Control>
+                      </Field>
+                    </Column>
+                    <Column>
+                      <Field>
+                        <Control>
+                          <Label>
+                            {translate('Description of the resource')}
+                            <HelpPin place="right">
+                              {translate('Explanation about the resource description')}
+                            </HelpPin>
+                          </Label>
+                          <TextArea
+                            className="textarea"
+                            type="text"
+                            field="metadata.description"
+                            id="metadata.description"
+                            placeholder={translate('Resource description')} />
+                        </Control>
+                      </Field>
+                    </Column>
+                  </Columns>}
+                </StretchedLayoutItem>
+                <StretchedLayoutItem>
+                  {/*formApi.getValue('metadata.type') &&
+                    !isEmpty(formApi.getValue('data')) &&*/
+                    <StretchedLayoutItem>
+                      <StretchedLayoutContainer isDirection="horizontal">
+                        <StretchedLayoutItem isFlex={1}>
+                          <Button
+                            type="submit"
+                            isFullWidth
+                            onClick={formApi.submitForm}
+                            isDisabled={!formApi.getValue('metadata.type') || isEmpty(formApi.getValue('data'))}
+                            isColor="success">
+                            {asNewResource ? translate('Create resource') : translate('Save resource')}
+                          </Button>
+                        </StretchedLayoutItem>
+                        <StretchedLayoutItem isFlex={1}>
+                          <Button
+                            isFullWidth
+                            isColor="danger"
+                            onClick={onCancel}>
+                            {translate('Cancel')}
+                          </Button>
+                        </StretchedLayoutItem>
+                      </StretchedLayoutContainer>
+                    </StretchedLayoutItem>
+                    }
+                </StretchedLayoutItem>
+              </StretchedLayoutContainer>
             </form>
           )
         }
