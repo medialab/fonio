@@ -202,7 +202,7 @@ const SectionViewLayout = ({
       storyId,
       userId
     });
-    setMainColumnMode('edit');
+    setMainColumnMode('edition');
     goToSection(newSection.id);
   };
 

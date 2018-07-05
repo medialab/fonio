@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-5\n"
-"PO-Revision-Date: Thu Jul 05 2018 11:55:38 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jul 05 2018 16:47:37 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1975,6 +1975,69 @@ msgstr ""
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the resource \"{s}\" ?"
+
+msgid "Components.AssetPreview.delete mention"
+msgstr "delete mention"
+
+msgid "Components.AssetPreview.primary"
+msgstr "primary"
+
+msgid "Components.AssetPreview.show info"
+msgstr "show info"
+
+msgid "Components.ResourceSearchWidget.no items matching search"
+msgstr "no items matching search"
+
+msgid "Components.ResourceSearchWidget.add items to your library in order to embed them"
+msgstr "add items to your library in order to embed them"
+
+msgid "Components.ResourceSearchWidget.add new item"
+msgstr "add new item"
+
+msgid "Components.SectionEditor.Go to note"
+msgstr "Go to note"
+
+msgid "Components.SectionEditor.Delete note"
+msgstr "Delete note"
+
+msgid "Components.SectionEditor.bold text"
+msgstr "bold text"
+
+msgid "Components.SectionEditor.italic text"
+msgstr "italic text"
+
+msgid "Components.SectionEditor.quote"
+msgstr "quote"
+
+msgid "Components.SectionEditor.big title"
+msgstr "big title"
+
+msgid "Components.SectionEditor.small title"
+msgstr "small title"
+
+msgid "Components.SectionEditor.ordered list"
+msgstr "ordered list"
+
+msgid "Components.SectionEditor.unordered list"
+msgstr "unordered list"
+
+msgid "Components.SectionEditor.remove formatting for selection"
+msgstr "remove formatting for selection"
+
+msgid "Components.SectionEditor.loading"
+msgstr "loading"
+
+msgid "Components.SectionEditor.native link to {u}"
+msgstr "native link to {u}"
+
+msgid "Components.SectionEditor.add-note"
+msgstr "add-note"
+
+msgid "Components.SectionEditor.summon-asset"
+msgstr "summon-asset"
+
+msgid "Components.SectionEditor.cancel"
+msgstr "cancel"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} is working on section \"{t}\""

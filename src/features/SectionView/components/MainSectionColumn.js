@@ -98,7 +98,7 @@ const MainSectionColumn = ({
         ...metadata
       }
     });
-    setMainColumnMode('edit');
+    setMainColumnMode('edition');
   };
 
 
@@ -174,7 +174,7 @@ const MainSectionColumn = ({
                 </StretchedLayoutItem>
                 <StretchedLayoutItem>
                   <Column>
-                    <DropZone onDrop={submitMultiResources}>
+                    <DropZone style={{height: '5rem'}} onDrop={submitMultiResources}>
                       {translate('Drop files here to include new items in your library (images, tables, bibliographies)')}
                     </DropZone>
                   </Column>
@@ -263,14 +263,14 @@ const MainSectionColumn = ({
         <StretchedLayoutItem isFlex={mainColumnMode === 'edition' && !userLockedResourceId ? 12 : 6}>
           <Column
             isWrapper isSize={{
-                mobile: mainColumnMode === 'edition' ? 10 : 12,
-                tablet: mainColumnMode === 'edition' ? 8 : 12,
-                widescreen: mainColumnMode === 'edition' ? 6 : 12
+                mobile: mainColumnMode === 'edition' && !userLockedResourceId ? 10 : 12,
+                tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 8 : 12,
+                widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 6 : 12
               }}
             isOffset={{
-                mobile: mainColumnMode === 'edition' ? 1 : 0,
-                tablet: mainColumnMode === 'edition' ? 2 : 0,
-                widescreen: mainColumnMode === 'edition' ? 3 : 0
+                mobile: mainColumnMode === 'edition' && !userLockedResourceId ? 1 : 0,
+                tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 2 : 0,
+                widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 3 : 0
               }}>
             <StretchedLayoutContainer isAbsolute isDirection="vertical">
               <StretchedLayoutItem>
@@ -284,6 +284,7 @@ const MainSectionColumn = ({
                     </StretchedLayoutItem>
                     <StretchedLayoutItem>
                       <Button
+                        isDisabled={userLockedResourceId || (mainColumnMode !== 'edition' && mainColumnMode !== 'editmetadata')}
                         isColor={mainColumnMode === 'editmetadata' ? 'primary' : ''}
                         onClick={onEditMetadataClick}>
                         {translate('Edit section metadata')}
