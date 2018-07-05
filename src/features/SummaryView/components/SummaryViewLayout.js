@@ -20,6 +20,8 @@ import {
   LevelItem,
   LevelLeft,
   StatusMarker,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
   Title,
 } from 'quinoa-design-library/components/';
 
@@ -228,143 +230,166 @@ const SummaryViewLayout = ({
   };
 
   return (
-    <Container>
-      <Columns>
-        <Column isSize={'1/3'}>
-          <Level>
-            <Collapsable isCollapsed={metadataOpen}>
-              <Title isSize={2}>
-                {title}
-              </Title>
-              {subtitle && <Title isSize={5}>
-                <i>{subtitle}</i>
-                </Title>}
-              {
-                  authors.map((author, index) => (
-                    <Level key={index}>
-                      <LevelLeft>
-                        <LevelItem>
-                          <Icon isSize="small" isAlign="left">
-                            <span className="fa fa-user" aria-hidden="true" />
-                          </Icon>
-                        </LevelItem>
-                        <LevelItem>
-                          {author}
-                        </LevelItem>
-                      </LevelLeft>
-                    </Level>
-                  ))
-                }
-              <Content>
-                <i>{abstract}</i>
-              </Content>
-            </Collapsable>
-          </Level>
+    <Container style={{position: 'relative', height: '100%'}}>
+      <StretchedLayoutContainer isFluid isDirection="horizontal" isAbsolute>
+        <StretchedLayoutItem isFluid isFlex={1} isFlowing>
+          <Column>
 
-          <Level isFullWidth>
-            <Button
-              isColor={metadataOpen ? 'primary' : 'info'}
-              disabled={metadataLockStatus === 'locked'}
-              onClick={toggleMetadataEdition}>
-              <StatusMarker
-                lockStatus={metadataLockStatus}
-                statusMessage={metadataLockMessage} />
-              {metadataOpen ?
-                <Columns>
-                  <Column>{translate('Close story settings')}</Column>
-                  <Column><Delete onClick={toggleMetadataEdition} /></Column>
-                </Columns>
-                : translate('Edit story settings')
-              }
-            </Button>
-          </Level>
-          <Collapsable isCollapsed={!metadataOpen}>
-            {metadataOpen && <MetadataForm
-              story={story}
-              onSubmit={onMetadataSubmit}
-              onCancel={toggleMetadataEdition} />}
-          </Collapsable>
-          <Level />
-          <Level />
-          <Level />
-          {
-            activeAuthors.length > 1 &&
-              <Title isSize={4}>
-                {translate('What are other authors doing ?')}
-              </Title>
-          }
-          {
-                activeAuthors
-                .filter(a => a.userId !== userId)
-                .map((author, authorIndex) => {
-                  return (
-                    <Level key={authorIndex}>
-                      <LevelLeft>
-                        <LevelItem>
-                          <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${author.avatar}`)} />
-                        </LevelItem>
-                        <LevelItem>
-                          <Help>
-                            {buildAuthorMessage(author)}
-                          </Help>
-                        </LevelItem>
-                      </LevelLeft>
-                    </Level>
-                  );
-                })
-              }
-        </Column>
+            <Level>
+              <Collapsable isCollapsed={metadataOpen}>
+                <Title isSize={2}>
+                  {title}
+                </Title>
+                {subtitle && <Title isSize={5}>
+                  <i>{subtitle}</i>
+                  </Title>}
+                {
+                    authors.map((author, index) => (
+                      <Level key={index}>
+                        <LevelLeft>
+                          <LevelItem>
+                            <Icon isSize="small" isAlign="left">
+                              <span className="fa fa-user" aria-hidden="true" />
+                            </Icon>
+                          </LevelItem>
+                          <LevelItem>
+                            {author}
+                          </LevelItem>
+                        </LevelLeft>
+                      </Level>
+                    ))
+                  }
+                <Content>
+                  <i>{abstract}</i>
+                </Content>
+              </Collapsable>
+            </Level>
+
+            <Level isFullWidth>
+              <Button
+                isFullWidth
+                isColor={metadataOpen ? 'primary' : 'info'}
+                disabled={metadataLockStatus === 'locked'}
+                onClick={toggleMetadataEdition}>
+
+                {metadataOpen ?
+                  <StretchedLayoutContainer isAbsolute style={{alignItems: 'center', justifyContent: 'center'}} isDirection="horizontal">
+                    <StretchedLayoutItem>
+                      <StatusMarker
+                        lockStatus={metadataLockStatus}
+                        statusMessage={metadataLockMessage} />
+                    </StretchedLayoutItem>
+                    <StretchedLayoutItem>{translate('Close story settings')}</StretchedLayoutItem>
+                    <StretchedLayoutItem><Delete onClick={toggleMetadataEdition} /></StretchedLayoutItem>
+                  </StretchedLayoutContainer>
+                  : <StretchedLayoutContainer isAbsolute style={{alignItems: 'center', justifyContent: 'center'}} isDirection="horizontal">
+                    <StretchedLayoutItem>
+                      <StatusMarker
+                        lockStatus={metadataLockStatus}
+                        statusMessage={metadataLockMessage} />
+                    </StretchedLayoutItem>
+                    <StretchedLayoutItem>
+                      {translate('Edit story settings')}
+                    </StretchedLayoutItem>
+                  </StretchedLayoutContainer>
+                }
+              </Button>
+            </Level>
+            <Collapsable isCollapsed={!metadataOpen}>
+              {metadataOpen && <MetadataForm
+                story={story}
+                onSubmit={onMetadataSubmit}
+                onCancel={toggleMetadataEdition} />}
+            </Collapsable>
+            <Level />
+            <Level />
+            <Level />
+            {
+              activeAuthors.length > 1 &&
+                <Title isSize={4}>
+                  {translate('What are other authors doing ?')}
+                </Title>
+            }
+            {
+                  activeAuthors
+                  .filter(a => a.userId !== userId)
+                  .map((author, authorIndex) => {
+                    return (
+                      <Level key={authorIndex}>
+                        <LevelLeft>
+                          <LevelItem>
+                            <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${author.avatar}`)} />
+                          </LevelItem>
+                          <LevelItem>
+                            <Help>
+                              {buildAuthorMessage(author)}
+                            </Help>
+                          </LevelItem>
+                        </LevelLeft>
+                      </Level>
+                    );
+                  })
+                }
+          </Column>
+        </StretchedLayoutItem>
         {
           newSectionOpen ?
-            <Column isSize={'2/3'}>
-              <Title isSize={2}>
-                <Columns>
-                  <Column isSize={12}>
-                    {translate('New section')}
-                  </Column>
-                  <Column>
-                    <Delete onClick={() => setNewSectionOpen(false)} />
-                  </Column>
-                </Columns>
-              </Title>
-              <Level>
-                <NewSectionForm
-                  metadata={{...defaultSectionMetadata}}
-                  onSubmit={onNewSectionSubmit}
-                  onCancel={() => setNewSectionOpen(false)} />
-              </Level>
-            </Column>
+            <StretchedLayoutItem isFluid isFlex={2}isFlowing>
+              <Column>
+                <Title isSize={2}>
+                  <Columns>
+                    <Column isSize={11}>
+                      {translate('New section')}
+                    </Column>
+                    <Column>
+                      <Delete onClick={() => setNewSectionOpen(false)} />
+                    </Column>
+                  </Columns>
+                </Title>
+                <Level>
+                  <NewSectionForm
+                    style={{width: '100%'}}
+                    metadata={{...defaultSectionMetadata}}
+                    onSubmit={onNewSectionSubmit}
+                    onCancel={() => setNewSectionOpen(false)} />
+                </Level>
+              </Column>
+            </StretchedLayoutItem>
             :
-            <Column isSize={'2/3'}>
-              <Title isSize={2}>
-                {translate('Summary')}
-              </Title>
-              <Level>
+            <StretchedLayoutItem isFluid isFlex={2} isFlowing>
+              <Column>
                 <Column>
-                  <Button onClick={() => setNewSectionOpen(true)} isFullWidth isColor="primary">
-                    {translate('New section')}
-                  </Button>
+                  <Title isSize={2}>
+                    {translate('Summary')}
+                  </Title>
                 </Column>
-              </Level>
-              <SortableSectionsList
-                items={sectionsList}
-                onSortEnd={onSortEnd}
-                goToSection={goToSection}
-                onDelete={onDeleteSection}
-                useDragHandle
-                reverseSectionLockMap={reverseSectionLockMap} />
-            </Column>
+                <Level>
+                  <Column>
+                    <Button onClick={() => setNewSectionOpen(true)} isFullWidth isColor="primary">
+                      {translate('New section')}
+                    </Button>
+                  </Column>
+                </Level>
+                <SortableSectionsList
+                  items={sectionsList}
+                  onSortEnd={onSortEnd}
+                  goToSection={goToSection}
+                  onDelete={onDeleteSection}
+                  useDragHandle
+                  reverseSectionLockMap={reverseSectionLockMap} />
+              </Column>
+            </StretchedLayoutItem>
         }
 
-      </Columns>
-      <ConfirmToDeleteModal
-        isActive={promptedToDeleteSectionId}
-        isDisabled={reverseSectionLockMap[promptedToDeleteSectionId]}
-        deleteType={'section'}
-        story={story}
-        id={promptedToDeleteSectionId}
-        onClose={() => setPromptedToDeleteSectionId(undefined)}
-        onDeleteConfirm={onDeleteSectionConfirm} />
+        <ConfirmToDeleteModal
+          isActive={promptedToDeleteSectionId}
+          isDisabled={reverseSectionLockMap[promptedToDeleteSectionId]}
+          deleteType={'section'}
+          story={story}
+          id={promptedToDeleteSectionId}
+          onClose={() => setPromptedToDeleteSectionId(undefined)}
+          onDeleteConfirm={onDeleteSectionConfirm} />
+      </StretchedLayoutContainer>
     </Container>
     );
 };

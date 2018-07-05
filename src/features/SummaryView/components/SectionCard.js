@@ -74,10 +74,10 @@ const SectionCard = ({
           isDisabled: lockData
         },
 
-        {
-          label: translate('duplicate'),
-          id: 'duplicate'
-        }
+        // {
+        //   label: translate('duplicate'),
+        //   id: 'duplicate'
+        // }
       ]} />
   );
 };
