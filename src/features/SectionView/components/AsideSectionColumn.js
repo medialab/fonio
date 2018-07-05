@@ -13,6 +13,7 @@ import {
   Input,
   HelpPin,
   Level,
+  Image,
   Tab,
   TabLink,
   TabList,
@@ -20,6 +21,8 @@ import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
+
+import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -154,7 +157,7 @@ class AsideSectionColumn extends Component {
                         }}
                           options={[
                           {
-                            label: translate('Sort by'),
+                            label: translate('Sort items by'),
                             id: 'sort',
                             options: [
                               {
@@ -172,7 +175,7 @@ class AsideSectionColumn extends Component {
                             id: 'filter',
                             options: resourceTypes.map(type => ({
                               id: type,
-                              label: translate(type)
+                              label: <span><Image style={{display: 'inline-block'}} isSize={'16x16'} src={icons[type].black.svg}></Image><span>{translate(type)}</span></span>
                             })),
                           }
                         ]}>

@@ -190,7 +190,7 @@ const MainSectionColumn = ({
                 <Column>
                   <Title isSize={2}>
                     <Columns>
-                      <Column isSize={11}>
+                      <Column isSize={10}>
                         {translate('New section')}
                       </Column>
                       <Column isSize={2}>
@@ -218,7 +218,7 @@ const MainSectionColumn = ({
               <Column>
                 <Title isSize={2}>
                   <Columns>
-                    <Column isSize={11}>
+                    <Column isSize={10}>
                       {translate('Edit section metadata')}
                     </Column>
                     <Column isSize={2}>
