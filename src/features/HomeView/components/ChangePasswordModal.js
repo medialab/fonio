@@ -54,7 +54,9 @@ const ChangePasswordModal = ({
                     </HelpPin>
                   </Label>
                   <Control hasIcons>
-                    <Text className="input" field="oldPassword" id="oldPassword" type="password" />
+                    <Text
+                      className="input" field="oldPassword" id="oldPassword"
+                      type="password" />
                     <Icon isSize="small" isAlign="left">
                       <span className="fa fa-lock" aria-hidden="true" />
                     </Icon>
@@ -70,7 +72,9 @@ const ChangePasswordModal = ({
                     {translate('New password')}
                   </Label>
                   <Control hasIcons>
-                    <Text className="input" field="newPassword" id="newPassword" type="password" />
+                    <Text
+                      className="input" field="newPassword" id="newPassword"
+                      type="password" />
                     <Icon isSize="small" isAlign="left">
                       <span className="fa fa-lock" aria-hidden="true" />
                     </Icon>
@@ -86,7 +90,9 @@ const ChangePasswordModal = ({
                     {translate('Confirm password')}
                   </Label>
                   <Control hasIcons>
-                    <Text className="input" field="confirmPassword" id="confirmPassword" type="password" />
+                    <Text
+                      className="input" field="confirmPassword" id="confirmPassword"
+                      type="password" />
                     <Icon isSize="small" isAlign="left">
                       <span className="fa fa-lock" aria-hidden="true" />
                     </Icon>

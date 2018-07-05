@@ -28,8 +28,9 @@ import {
   Level,
   LevelItem,
   LevelLeft,
-  LevelRight,
   ModalCard,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
   Navbar,
   Tab,
   Delete,
@@ -266,36 +267,38 @@ class HomeViewLayout extends Component {
           <Container>
             <Columns>
               <Column isSize={'1/3'}>
-                <Title isSize={2}>
-                  {CONFIG.sessionName /* eslint no-undef: 0 */}
-                </Title>
 
-                <div>
-                  <Title isSize={5}>
-                    {this.translate('Your profile')} <HelpPin>{this.translate('choose how you will be identified by other writers')}</HelpPin>
+                <Column>
+                  <Title isSize={2}>
+                    {CONFIG.sessionName /* eslint no-undef: 0 */}
                   </Title>
-                  <Level isMobile>
-                    {userInfo && <LevelLeft>
-                      <LevelItem>
-                        <Image isRounded isSize="64x64" src={require(`../../../sharedAssets/avatars/${userInfo.avatar}`)} />
-                      </LevelItem>
-                      <LevelItem>
-                        {userInfo.name}
-                      </LevelItem>
-                      <LevelItem>
-                        <Button onClick={() => setIdentificationModalSwitch(true)}>
-                          {this.translate('edit')}
-                        </Button>
-                      </LevelItem>
-                    </LevelLeft>}
-                  </Level>
-                </div>
-                <Level />
-                <div>
-                  <Title isSize={5}>
-                    {this.translate('Who else is online ?')} <HelpPin>{this.translate('writers connected to this classroom right now')}</HelpPin>
-                  </Title>
-                  {activeUsers &&
+
+                  <div>
+                    <Title isSize={5}>
+                      {this.translate('Your profile')} <HelpPin>{this.translate('choose how you will be identified by other writers')}</HelpPin>
+                    </Title>
+                    <Level isMobile>
+                      {userInfo && <LevelLeft>
+                        <LevelItem>
+                          <Image isRounded isSize="64x64" src={require(`../../../sharedAssets/avatars/${userInfo.avatar}`)} />
+                        </LevelItem>
+                        <LevelItem>
+                          {userInfo.name}
+                        </LevelItem>
+                        <LevelItem>
+                          <Button onClick={() => setIdentificationModalSwitch(true)}>
+                            {this.translate('edit')}
+                          </Button>
+                        </LevelItem>
+                      </LevelLeft>}
+                    </Level>
+                  </div>
+                  <Level />
+                  <div>
+                    <Title isSize={5}>
+                      {this.translate('Who else is online ?')} <HelpPin>{this.translate('writers connected to this classroom right now')}</HelpPin>
+                    </Title>
+                    {activeUsers &&
                     Object.keys(activeUsers)
                     .filter(thatUserId => userId !== thatUserId)
                     .map(thatUserId => ({userId, ...activeUsers[thatUserId]}))
@@ -316,61 +319,63 @@ class HomeViewLayout extends Component {
                       );
                     })
                   }
-                </div>
+                  </div>
 
-                <Level />
-                <Content>
-                  {this.translate('intro short title')}
-                </Content>
+                  <Level />
+                  <Content>
+                    {this.translate('intro short title')}
+                  </Content>
 
-                <div>
-                  <Button isFullWidth onClick={() => setNewStoryOpen(!newStoryOpen)} isColor={newStoryOpen ? 'primary' : 'info'}>
-                    {this.translate('New story')}
-                  </Button>
-                </div>
-                <Level />
+                  <div>
+                    <Button isFullWidth onClick={() => setNewStoryOpen(!newStoryOpen)} isColor={newStoryOpen ? 'primary' : 'info'}>
+                      {this.translate('New story')}
+                    </Button>
+                  </div>
+                  <Level />
+                </Column>
               </Column>
               <Column isHidden={newStoryOpen} isSize={'2/3'}>
                 <Column>
-                  <Level isDisplay={'flex'}>
-                    <LevelLeft>
+                  <StretchedLayoutContainer isFluid isDirection="horizontal">
+                    <StretchedLayoutItem isFluid isFlex={1}>
                       <Field hasAddons>
                         <Control>
                           <Input value={searchString} onChange={e => setSearchString(e.target.value)} placeholder={this.translate('find a story')} />
                         </Control>
-                        <Control>
-                          <Button>{this.translate('search')}</Button>
-                        </Control>
                       </Field>
-                    </LevelLeft>
-                    <LevelRight>
-                      <LevelItem><i>{this.translate('sort by:')}</i></LevelItem>
-                      <LevelItem onClick={() => setSortingMode('edited by me')}>
-                        <a>{
-                          sortingMode === 'edited by me' ?
-                            <strong>{this.translate('edited by me')}</strong>
-                            :
-                            this.translate('edited by me')
-                        }</a>
-                      </LevelItem>
-                      <LevelItem onClick={() => setSortingMode('edited recently')}>
-                        <a>{
-                          sortingMode === 'edited recently' ?
-                            <strong>{this.translate('edited recently')}</strong>
-                            :
-                            this.translate('edited recently')
-                        }</a>
-                      </LevelItem>
-                      <LevelItem onClick={() => setSortingMode('title')}>
-                        <a>{
-                          sortingMode === 'title' ?
-                            <strong>{this.translate('title')}</strong>
-                            :
-                            this.translate('title')
-                        }</a>
-                      </LevelItem>
-                    </LevelRight>
-                  </Level>
+                    </StretchedLayoutItem>
+                    <StretchedLayoutItem isFluid>
+                      <Column>
+                        <StretchedLayoutContainer isDirection="horizontal" isFluid>
+                          <StretchedLayoutItem><i>{this.translate('sort by')}</i></StretchedLayoutItem>
+                          <StretchedLayoutItem>
+                            / <a onClick={() => setSortingMode('edited by me')}>{
+                              sortingMode === 'edited by me' ?
+                                <strong>{this.translate('edited by me')}</strong>
+                                :
+                                this.translate('edited by me')
+                            }</a>
+                          </StretchedLayoutItem>
+                          <StretchedLayoutItem>
+                            / <a onClick={() => setSortingMode('edited recently')}>{
+                              sortingMode === 'edited recently' ?
+                                <strong>{this.translate('edited recently')}</strong>
+                                :
+                                this.translate('edited recently')
+                            }</a>
+                          </StretchedLayoutItem>
+                          <StretchedLayoutItem>
+                            / <a onClick={() => setSortingMode('title')}>{
+                              sortingMode === 'title' ?
+                                <strong>{this.translate('title')}</strong>
+                                :
+                                this.translate('title')
+                            }</a>
+                          </StretchedLayoutItem>
+                        </StretchedLayoutContainer>
+                      </Column>
+                    </StretchedLayoutItem>
+                  </StretchedLayoutContainer>
                 </Column>
                 {
                         visibleStoriesList.map((story, index) => (
