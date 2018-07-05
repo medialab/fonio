@@ -3,7 +3,10 @@
  * @module fonio/helpers/serverAuth
  */
 import {put, post} from 'axios';
-const {apiUrl} = CONFIG;
+
+import config from '../config';
+
+const {restUrl} = config;
 
 /**
  * @param {object} story - the story to register to server
@@ -11,7 +14,7 @@ const {apiUrl} = CONFIG;
  * @return {promise} actionPromise - a promise handling the attempt to register to server
  */
 export function resetPasswordServer (id, oldPassword, newPassword) {
-  const serverRequestUrl = apiUrl + '/auth/credential/' + id;
+  const serverRequestUrl = restUrl + '/auth/credential/' + id;
   return put(serverRequestUrl, {id, oldPassword, newPassword});
 }
 
@@ -21,6 +24,6 @@ export function resetPasswordServer (id, oldPassword, newPassword) {
  * @return {promise} actionPromise - a promise handling the attempt to register to server
  */
 export function loginToServer (id, password) {
-  const serverRequestUrl = apiUrl + '/auth/login';
+  const serverRequestUrl = restUrl + '/auth/login';
   return post(serverRequestUrl, {id, password});
 }

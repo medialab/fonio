@@ -25,6 +25,8 @@ import ReduxToastr from 'react-redux-toastr';
 
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 
+import config from './config';
+
 import Home from './features/HomeView/components/HomeViewContainer';
 import ReadStory from './features/ReadStoryView/components/ReadStoryViewContainer';
 import Summary from './features/SummaryView/components/SummaryViewContainer';
@@ -120,7 +122,7 @@ export default class Application extends Component {
     } = this;
     return (
       <ErrorMessageContainer>
-        <Router basename={CONFIG.urlPrefix || '/'}>
+        <Router basename={config.urlPrefix || '/'}>
           <div id="wrapper" className="fonio">
             {userId &&
               <Switch>

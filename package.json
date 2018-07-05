@@ -5,11 +5,11 @@
   "main": "dist/entry.js",
   "scripts": {
     "dev": "kotatsu serve --config ./webpack.config.dev.js --progress --babel --index ./index.html --public ./ ./src/main.js",
-    "build": "kotatsu build client ./src/main.js -o build --progress --config ./webpack.config.prod.js --babel; node buildProdIndex",
+    "build": "kotatsu build client ./src/main.js -o build --progress --config ./webpack.config.prod.js --babel",
     "lint": "eslint --fix src",
     "analyze": "webpack-bundle-analyzer build/stats.json",
     "comb": "csscomb src",
-    "test": "mocha --compilers js:babel-core/register -R spec --recursive $(find src -name '*.spec.js')",
+    "test": "mocha --require babel-core/register -R spec --recursive $(find src -name '*.spec.js')",
     "deploy": "npm run build && surge ./",
     "translations:backfill": "node translationScripts/backfillTranslations --locales ../src/translations/locales",
     "translations:discover": "node translationScripts/discoverTranslations --locales ../src/translations/locales --src ../src --namespacer translateNameSpacer --translatorFn translate",
@@ -156,7 +156,7 @@
       "react/jsx-no-bind": 0
     },
     "globals": {
-      "CONFIG": true
+      "FONIO_CONFIG": true
     }
   }
 }

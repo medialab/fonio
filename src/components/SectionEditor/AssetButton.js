@@ -24,8 +24,7 @@ const AssetButton = ({
       onMouseDown={onMouseDown}
       onClick={onClick}
       dataTip={translate('add an element from your library')}
-      src={icons.asset.black.svg} 
-    />
+      src={icons.asset.black.svg} />
   );
 };
 

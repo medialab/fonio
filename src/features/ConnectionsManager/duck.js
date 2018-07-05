@@ -2,6 +2,8 @@ import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {post} from 'axios';
 
+import config from '../../config';
+
 import {updateEditionHistoryMap} from '../../helpers/localStorageUtils';
 
 import {ACTIVATE_STORY} from '../StoryManager/duck';
@@ -95,7 +97,7 @@ export const loginStory = payload => ({
   type: LOGIN_STORY,
   storyId: payload.storyId,
   promise: () => {
-    const serverRequestUrl = `${CONFIG.apiUrl }/auth/login`;
+    const serverRequestUrl = `${config.restUrl }/auth/login`;
     return post(serverRequestUrl, payload);
   },
 });

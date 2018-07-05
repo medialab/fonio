@@ -150,29 +150,30 @@ class NoteLayout extends Component {/* eslint react/prefer-stateless-function : 
     const translate = translateNameSpacer(this.context.t, 'Components.SectionEditor');
     return (
       <div id={id}>
-          <Column onClick={onHeaderClick}>
-            <StretchedLayoutContainer isDirection="horizontal">
-              <StretchedLayoutItem isFlex={1}>
-                <Button data-tip={translate('Go to note')} isColor={'info'} isRounded onClick={onClickToRetroLink}>↑</Button>
-              </StretchedLayoutItem>
+        <Column onClick={onHeaderClick}>
+          <StretchedLayoutContainer isDirection="horizontal">
+            <StretchedLayoutItem isFlex={1}>
+              <Button
+                data-tip={translate('Go to note')} isColor={'info'} isRounded
+                onClick={onClickToRetroLink}>↑</Button>
+            </StretchedLayoutItem>
 
-              <StretchedLayoutItem isFlex={10}>
-                <Title isSize={3}>Note {note.order}</Title>
-              </StretchedLayoutItem>
-              
-              <StretchedLayoutItem>
-                <IconBtn
-                  data-tip={translate('Delete note')}
-                  isColor={'danger'}
-                  onClick={onDelete}
-                  src={icons.remove.white.svg}
-                />
-              </StretchedLayoutItem>
-            </StretchedLayoutContainer>
-          </Column>
-          <Column>
-            {children}
-          </Column>
+            <StretchedLayoutItem isFlex={10}>
+              <Title isSize={3}>Note {note.order}</Title>
+            </StretchedLayoutItem>
+
+            <StretchedLayoutItem>
+              <IconBtn
+                data-tip={translate('Delete note')}
+                isColor={'danger'}
+                onClick={onDelete}
+                src={icons.remove.white.svg} />
+            </StretchedLayoutItem>
+          </StretchedLayoutContainer>
+        </Column>
+        <Column>
+          {children}
+        </Column>
       </div>
     );
   }

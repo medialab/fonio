@@ -23,8 +23,7 @@ const NoteButton = ({
       onClick={onClick}
       onMouseDown={onMouseDown}
       dataTip={translate('add a footnote')}
-      src={icons.note.black.svg} 
-    />
+      src={icons.note.black.svg} />
   );
 };
 

@@ -13,14 +13,17 @@ export default ({
   dataTip,
   ...otherProps
 }) => (
-  <Button data-tip={dataTip} isColor={isColor} isRounded onClick={onClick} {...otherProps}>
-      <span style={{opacity: 0}}>o</span>
-      <Image style={{
+  <Button
+    data-tip={dataTip} isColor={isColor} isRounded
+    onClick={onClick} {...otherProps}>
+    <span style={{opacity: 0}}>o</span>
+    <Image
+      style={{
         margin: 0,
         display: 'flex',
         flexFlow: 'column nowrap',
         justifyContent: 'center',
         position: 'absolute'
       }} isSize={'16x16'} src={src} />
-    </Button>
-  )
+  </Button>
+  );

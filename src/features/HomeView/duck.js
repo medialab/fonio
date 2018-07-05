@@ -10,6 +10,8 @@ import {createStructuredSelector} from 'reselect';
 
 import {get, post, put, delete as del} from 'axios';
 
+import config from '../../config';
+
 import {createDefaultStory, validateStory} from '../../helpers/schemaUtils';
 
 import {getFileAsText} from '../../helpers/fileLoader';
@@ -123,7 +125,7 @@ export const setOverrideStoryMode = payload => ({
 export const fetchStories = () => ({
   type: FETCH_STORIES,
   promise: () => {
-    const serverRequestUrl = `${CONFIG.apiUrl}/stories/`;/* eslint no-undef: 0 */
+    const serverRequestUrl = `${config.restUrl}/stories/`;/* eslint no-undef: 0 */
     return get(serverRequestUrl);
   },
 });
@@ -133,7 +135,7 @@ export const createStory = ({payload, password}) => ({
   type: CREATE_STORY,
   payload,
   promise: () => {
-    const serverRequestUrl = `${CONFIG.apiUrl}/stories/`;/* eslint no-undef: 0 */
+    const serverRequestUrl = `${config.restUrl}/stories/`;/* eslint no-undef: 0 */
     return post(serverRequestUrl, {payload, password});
   },
 });
@@ -147,7 +149,7 @@ export const overrideStory = ({payload, token}) => ({
         'x-access-token': token,
       },
     };
-    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${payload.id}`;/* eslint no-undef: 0 */
+    const serverRequestUrl = `${config.restUrl}/stories/${payload.id}`;/* eslint no-undef: 0 */
     return put(serverRequestUrl, payload, options);
   },
 });
@@ -184,7 +186,7 @@ export const duplicateStory = payload => ({
   payload,
   promise: () => {
     const {storyId} = payload;
-    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${storyId}?edit=false&&format=json`;
+    const serverRequestUrl = `${config.restUrl}/stories/${storyId}?edit=false&&format=json`;
     return get(serverRequestUrl);
   },
 });
@@ -199,7 +201,7 @@ export const deleteStory = payload => ({
         'x-access-token': token,
       },
     };
-    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${storyId}`;
+    const serverRequestUrl = `${config.restUrl}/stories/${storyId}`;
     return del(serverRequestUrl, options);
   },
 });
@@ -208,7 +210,7 @@ export const changePassword = payload => ({
   type: CHANGE_PASSWORD,
   payload,
   promise: () => {
-    const serverRequestUrl = `${CONFIG.apiUrl}` + '/auth/resetPassword/';
+    const serverRequestUrl = `${config.restUrl}` + '/auth/resetPassword/';
     return post(serverRequestUrl, payload);
   }
 });

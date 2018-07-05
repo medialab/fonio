@@ -7,6 +7,8 @@ import {get} from 'axios';
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 import StoryPlayer from 'quinoa-story-player';
 
+import config from '../../../config';
+
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 
@@ -57,7 +59,7 @@ class ReadStoryViewContainer extends Component {
       },
     } = this.props;
 
-    get(`${CONFIG.apiUrl}/stories/${storyId}?edit=false`)
+    get(`${config.restUrl}/stories/${storyId}?edit=false`)
       .then(({data}) => {
         this.setState({
           story: data,

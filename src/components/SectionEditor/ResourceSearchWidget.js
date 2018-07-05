@@ -176,20 +176,20 @@ class ResourceSearchWidget extends Component {
       <DropdownContent style={{paddingLeft: '1rem'}} className="fonio-ResourceSearchWidget">
         <StretchedLayoutContainer>
           <StretchedLayoutItem>
-              <form className="search-form" onSubmit={this.onSubmit}>
-                {/* <span className="arobase">@</span>*/}
-                <Input
-                  ref={bindRef}
-                  value={this.state.searchTerm}
-                  onBlur={this.onBlur}
-                  onChange={this.onTermChange}
-                  onKeyUp={this.onKeyUp}
-                  onClick={this.onInputClick}
-                  placeholder={translate('search-a-resource')} />
-              </form>
+            <form className="search-form" onSubmit={this.onSubmit}>
+              {/* <span className="arobase">@</span>*/}
+              <Input
+                ref={bindRef}
+                value={this.state.searchTerm}
+                onBlur={this.onBlur}
+                onChange={this.onTermChange}
+                onKeyUp={this.onKeyUp}
+                onClick={this.onInputClick}
+                placeholder={translate('search-a-resource')} />
+            </form>
           </StretchedLayoutItem>
           <StretchedLayoutItem isFlex={1}>
-            <Level/>
+            <Level />
             {
               options.filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
               .length > 0 ?
@@ -230,7 +230,7 @@ class ResourceSearchWidget extends Component {
           }
           </StretchedLayoutItem>
           <StretchedLayoutItem>
-            <Level/>
+            <Level />
             <Button
               isFullWidth isColor={'primary'} className="choice-option new-option"
               onClick={onAddNewClick}>

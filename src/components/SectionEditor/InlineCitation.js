@@ -177,11 +177,14 @@ class InlineCitation extends Component {
           <span onClick={onMoreOptionsClick}>
             {representation && representation.Component}
           </span>
-          <Tag isSize='small'  className="is-clickable is-rounded" isColor={'dark'}
+          <Tag
+            isSize="small" className="is-clickable is-rounded" isColor={'dark'}
             onClick={onEditRequest}>
             <Image isSize={'16x16'} src={icons.bib.black.svg} />
           </Tag>
-          <Tag isSize='small' className="is-clickable is-rounded" isColor={'dark'} onClick={onMoreOptionsClick}>
+          <Tag
+            isSize="small" className="is-clickable is-rounded" isColor={'dark'}
+            onClick={onMoreOptionsClick}>
             <Image isSize={'16x16'} src={icons.edit.white.svg} />
           </Tag>
           {
