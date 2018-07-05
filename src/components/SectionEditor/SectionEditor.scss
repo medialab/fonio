@@ -68,6 +68,10 @@
             width: 100%;
             height: 100%;
 
+            .editor-bibliography{
+                display: none;
+            }
+
             .main-container-editor,
             .notes-container,
             .editor-bibliography
@@ -82,10 +86,12 @@
             .scholar-draft-BasicEditor
             {
                 // background: $color-very-light;
-                &.active
+                &:not(.active)
                 {
                     .public-DraftEditor-content
                     {
+                        background: rgb(240,240,240);
+                        padding: 1rem;
                         // background: $color-sec-stroke;
                     }
                 }

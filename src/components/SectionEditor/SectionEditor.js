@@ -27,7 +27,13 @@ import {
   Columns,
   Column,
   HelpPin,
+  Image,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
+  Tag,
 } from 'quinoa-design-library/components';
+
+import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 const timers = {
   short: 100
@@ -94,6 +100,8 @@ import NotePointer from './NotePointer';
 import AssetButtonComponent from './AssetButton';
 import NoteButtonComponent from './NoteButton';
 
+import IconBtn from '../IconBtn';
+
 
 /**
  * We have to provide scholar-draft the components
@@ -126,6 +134,9 @@ import './SectionEditor.scss';
 
 
 class NoteLayout extends Component {/* eslint react/prefer-stateless-function : 0 */
+  static contextTypes = {
+    t: PropTypes.func,
+  }
   render = () => {
     const {
       children,
@@ -135,26 +146,33 @@ class NoteLayout extends Component {/* eslint react/prefer-stateless-function : 
       onClickToRetroLink,
       id,
     } = this.props;
+
+    const translate = translateNameSpacer(this.context.t, 'Components.SectionEditor');
     return (
       <div id={id}>
-        <Box>
           <Column onClick={onHeaderClick}>
-            <Columns>
-              <Column>
-                <Button isRounded onClick={onDelete}>x</Button>
-              </Column>
-              <Column isSize={10}>
+            <StretchedLayoutContainer isDirection="horizontal">
+              <StretchedLayoutItem isFlex={1}>
+                <Button data-tip={translate('Go to note')} isColor={'info'} isRounded onClick={onClickToRetroLink}>↑</Button>
+              </StretchedLayoutItem>
+
+              <StretchedLayoutItem isFlex={10}>
                 <Title isSize={3}>Note {note.order}</Title>
-              </Column>
-              <Column>
-                <Button isRounded onClick={onClickToRetroLink}>↑</Button>
-              </Column>
-            </Columns>
+              </StretchedLayoutItem>
+              
+              <StretchedLayoutItem>
+                <IconBtn
+                  data-tip={translate('Delete note')}
+                  isColor={'danger'}
+                  onClick={onDelete}
+                  src={icons.remove.white.svg}
+                />
+              </StretchedLayoutItem>
+            </StretchedLayoutContainer>
           </Column>
           <Column>
             {children}
           </Column>
-        </Box>
       </div>
     );
   }
@@ -200,7 +218,7 @@ class SectionEditor extends Component {
     this.handleCopy = handleCopy.bind(this);
     this.handlePaste = handlePaste.bind(this);
 
-    this.translate = translateNameSpacer(context.t, 'Components.Footer').bind(this);
+    this.translate = translateNameSpacer(context.t, 'Components.SectionEditor').bind(this);
 
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
@@ -841,10 +859,10 @@ class SectionEditor extends Component {
       {
         strategy: this.findDraftDropPlaceholder,
         component: ({children}) =>
-          (<span className="contextualization-loading-placeholder">
+          (<Tag className="is-rounded" isColor={'dark'}>
             {this.translate('loading')}
             <span style={{display: 'none'}}>{children}</span>
-          </span>)
+          </Tag>)
       },
       {
         strategy: this.findLink,

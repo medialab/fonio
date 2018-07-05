@@ -73,6 +73,7 @@ const AuthorsManager = ({
           );
         })
       }
+      <Level />
       <Level>
         <Button isFullWidth onClick={onAddAuthor}>
           {translate('Add an author')}

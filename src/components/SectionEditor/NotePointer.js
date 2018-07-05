@@ -2,7 +2,7 @@
 /* eslint react/no-set-state : 0 */
 
 import {
-  Button
+  Tag
 } from 'quinoa-design-library/components';
 
 import React, {Component} from 'react';
@@ -92,7 +92,7 @@ class NotePointer extends Component {
         onMouseOut={onMouseOut}
         onBlur={onMouseOut}
         onClick={onMouseClick}>
-        <Button isRounded >{(note && note.order) || '*'}{children}</Button>
+        <Tag className="is-clickable is-rounded" isColor={'dark'} >{(note && note.order) || '*'}{children}</Tag>
       </sup>
     );
   }

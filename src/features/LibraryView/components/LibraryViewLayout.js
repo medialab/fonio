@@ -19,6 +19,7 @@ import {
   Field,
   Control,
   Input,
+  Image,
   Button,
 
   LevelLeft,
@@ -27,6 +28,9 @@ import {
   StretchedLayoutItem,
   Grid,
 } from 'quinoa-design-library/components';
+
+import icons from 'quinoa-design-library/src/themes/millet/icons';
+
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {
@@ -268,7 +272,7 @@ const LibraryViewLayout = ({
                         }}
                         options={[
                           {
-                            label: translate('Sort by'),
+                            label: translate('Sort items by'),
                             id: 'sort',
                             options: [
                               {
@@ -286,7 +290,7 @@ const LibraryViewLayout = ({
                             id: 'filter',
                             options: resourceTypes.map(type => ({
                               id: type,
-                              label: translate(type)
+                              label: <span><Image style={{display: 'inline-block'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
                             })),
                           }
                         ]}>
@@ -373,7 +377,7 @@ const LibraryViewLayout = ({
           </Column>
         </StretchedLayoutItem>
         <StretchedLayoutItem isFlex={'3'}>
-          <Column>
+          <Column isWrapper>
             {renderMainColumn()}
           </Column>
         </StretchedLayoutItem>
