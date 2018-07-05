@@ -119,32 +119,32 @@ export default class Application extends Component {
       }
     } = this;
     return (
-      <Router basename={CONFIG.urlPrefix || '/'}>
-        <div id="wrapper" className="fonio">
-          {userId &&
-          <Switch>
-            <ErrorMessageContainer>
-              <Route exact path="/" component={Home} />
-              <Route path="/story/:storyId" component={ProtectedRoutes} />
-              <Route exact path={'/read/:storyId'} component={ReadStory} />
-              <Route render={(props) => (
-                    // TODO: render proper loading/error page
-                <h2>
-                      No match for {props.location.pathname}, go back to <Link to="/">Home page</Link>
-                </h2>
-                  )} />
-            </ErrorMessageContainer>
-          </Switch>
-            }
-          <ReduxToastr
-            timeOut={6000}
-            newestOnTop={false}
-            preventDuplicates
-            position="top-right"
-            transitionIn="fadeIn"
-            transitionOut="fadeOut" />
-        </div>
-      </Router>
+      <ErrorMessageContainer>
+        <Router basename={CONFIG.urlPrefix || '/'}>
+          <div id="wrapper" className="fonio">
+            {userId &&
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route path="/story/:storyId" component={ProtectedRoutes} />
+                <Route exact path={'/read/:storyId'} component={ReadStory} />
+                <Route render={(props) => (
+                      // TODO: render proper loading/error page
+                  <h2>
+                        No match for {props.location.pathname}, go back to <Link to="/">Home page</Link>
+                  </h2>
+                    )} />
+              </Switch>
+              }
+            <ReduxToastr
+              timeOut={6000}
+              newestOnTop={false}
+              preventDuplicates
+              position="top-right"
+              transitionIn="fadeIn"
+              transitionOut="fadeOut" />
+          </div>
+        </Router>
+      </ErrorMessageContainer>
     );
   }
 }
