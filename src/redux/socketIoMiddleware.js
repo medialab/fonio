@@ -1,5 +1,8 @@
 export default (socket) => {
   const eventName = 'action';
+  /**
+   * @todo: fire reload on socket disconnect event
+   */
   return (store) => {
     socket.on(eventName, store.dispatch);
     return next => (action) => {

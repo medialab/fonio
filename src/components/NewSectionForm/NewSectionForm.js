@@ -99,7 +99,6 @@ const NewSectionForm = ({
                     </Button>
                   </Column>
                 </StretchedLayoutItem>
-
                 <StretchedLayoutItem isFlex={1}>
                   <Column>
                     <Button onClick={onCancel} isFullWidth isColor="danger">
