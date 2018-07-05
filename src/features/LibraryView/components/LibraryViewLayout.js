@@ -9,7 +9,6 @@ import resourceSchema from 'quinoa-schemas/resource';
 
 import {
   Column,
-  Columns,
   Content,
   Container,
   Level,
@@ -23,8 +22,9 @@ import {
   Button,
 
   LevelLeft,
-  LevelRight,
   LevelItem,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
   Grid,
 } from 'quinoa-design-library/components';
 
@@ -234,143 +234,99 @@ const LibraryViewLayout = ({
           if (optionDomain === 'filter') {
             toggleFilter(option);
           }
- else if (optionDomain === 'sort') {
+          else if (optionDomain === 'sort') {
             setSortValue(option);
           }
         };
         return (
-          <div>
-
-            <Column>
-              <Level isMobile>
-                <LevelLeft>
-                  <Field hasAddons>
-                    <Control>
-                      <Input value={searchString} onChange={e => setSearchString(e.target.value)} placeholder={translate('Find a resource')} />
-                    </Control>
-                  </Field>
-                  <LevelItem>
-                    <Dropdown
-                      closeOnChange={false}
-                      onToggle={() => {
-                        setOptionsVisible(!optionsVisible);
-                      }}
-                      onChange={setOption}
-                      isActive={optionsVisible}
-                      value={{
-                        sort: {
-                          value: sortValue,
-                        },
-                        filter: {
-                          value: Object.keys(filterValues).filter(f => filterValues[f]),
-                        }
-                      }}
-                      options={[
-                        {
-                          label: translate('Sort by'),
-                          id: 'sort',
-                          options: [
-                            {
-                              id: 'edited recently',
-                              label: translate('edited recently')
-                            },
-                            {
-                              id: 'title',
-                              label: translate('title')
-                            },
-                          ]
-                        },
-                        {
-                          label: translate('Filter by'),
-                          id: 'filter',
-                          options: resourceTypes.map(type => ({
-                            id: type,
-                            label: translate(type)
-                          })),
-                        }
-                      ]}>
-                      {translate('Options')}
-                    </Dropdown>
-                  </LevelItem>
-                </LevelLeft>
-                <LevelRight>
-
-                  {/*<LevelItem>
-                    <Dropdown
-                      onToggle={() => {
-                        setSortVisible(!sortVisible);
-                        setFilterVisible(false);
-                      }}
-                      onChange={setSortValue}
-                      isActive={sortVisible}
-                      value={{id: sortValue, label: translate(sortValue)}}
-                      options={[
-                        {
-                          id: 'edited recently',
-                          label: translate('edited recently')
-                        },
-                        {
-                          id: 'title',
-                          label: translate('title')
-                        },
-                      ]}>
-                      {translate('Sort')}
-                    </Dropdown>
-                  </LevelItem>
-                  <LevelItem>
-                    <Dropdown
-                      onToggle={() => {
-                        setFilterVisible(!filterVisible);
-                        setSortVisible(false);
-                      }}
-                      isActive={filterVisible}
-                      value={{id: 1, label: '1 rem'}}
-                      onChange={toggleFilter}
-                      options={
-                        resourceTypes.map(type => ({
-                          id: type,
-                          label: <Field>
-                            <Control>
-                              <Checkbox
-                                checked={filterValues[type]}>{translate(type)}</Checkbox>
-                            </Control>
-                          </Field>
-                        }))
-                        }>
-                      {translate('Filter')}
-                    </Dropdown>
-                  </LevelItem>*/}
-                </LevelRight>
-              </Level>
-            </Column>
-            <div>
-              <Grid columns={3}>
-                {
-                    visibleResources.map(resource => {
-                      const handleEdit = () => {
-                        enterBlock({
-                          storyId,
-                          userId,
-                          blockType: 'resources',
-                          blockId: resource.id
-                        });
-                      };
-                      const handleDelete = () => {
-                        setPromptedToDeleteResourceId(resource.id);
-                      };
-                      return (
-                        <ResourceCard
-                          onEdit={handleEdit}
-                          onDelete={handleDelete}
-                          resource={resource}
-                          getTitle={getResourceTitle}
-                          lockData={resourcesLockMap[resource.id]}
-                          key={resource.id} />
-                      );
-                    })
-                  }
-              </Grid>
-            </div>
+          <StretchedLayoutContainer isAbsolute>
+            <StretchedLayoutItem>
+              <Column>
+                <Level isMobile>
+                  <LevelLeft>
+                    <Field hasAddons>
+                      <Control>
+                        <Input value={searchString} onChange={e => setSearchString(e.target.value)} placeholder={translate('Find a resource')} />
+                      </Control>
+                    </Field>
+                    <LevelItem>
+                      <Dropdown
+                        closeOnChange={false}
+                        menuAlign="right"
+                        onToggle={() => {
+                          setOptionsVisible(!optionsVisible);
+                        }}
+                        onChange={setOption}
+                        isActive={optionsVisible}
+                        value={{
+                          sort: {
+                            value: sortValue,
+                          },
+                          filter: {
+                            value: Object.keys(filterValues).filter(f => filterValues[f]),
+                          }
+                        }}
+                        options={[
+                          {
+                            label: translate('Sort by'),
+                            id: 'sort',
+                            options: [
+                              {
+                                id: 'edited recently',
+                                label: translate('edited recently')
+                              },
+                              {
+                                id: 'title',
+                                label: translate('title')
+                              },
+                            ]
+                          },
+                          {
+                            label: translate('Filter by'),
+                            id: 'filter',
+                            options: resourceTypes.map(type => ({
+                              id: type,
+                              label: translate(type)
+                            })),
+                          }
+                        ]}>
+                        {translate('Options')}
+                      </Dropdown>
+                    </LevelItem>
+                  </LevelLeft>
+                </Level>
+              </Column>
+            </StretchedLayoutItem>
+            <StretchedLayoutItem isFlex={1} isFlowing>
+              <Column>
+                <Grid columns={3}>
+                  {
+                      visibleResources.map(resource => {
+                        const handleEdit = () => {
+                          enterBlock({
+                            storyId,
+                            userId,
+                            blockType: 'resources',
+                            blockId: resource.id
+                          });
+                        };
+                        const handleDelete = () => {
+                          setPromptedToDeleteResourceId(resource.id);
+                        };
+                        return (
+                          <ResourceCard
+                            onEdit={handleEdit}
+                            onDelete={handleDelete}
+                            resource={resource}
+                            getTitle={getResourceTitle}
+                            lockData={resourcesLockMap[resource.id]}
+                            key={resource.id} />
+                        );
+                      })
+                    }
+                </Grid>
+              </Column>
+            </StretchedLayoutItem>
             <ConfirmToDeleteModal
               isActive={promptedToDeleteResourceId}
               isDisabled={resourcesLockMap[promptedToDeleteResourceId]}
@@ -379,7 +335,7 @@ const LibraryViewLayout = ({
               id={promptedToDeleteResourceId}
               onClose={() => setPromptedToDeleteResourceId(undefined)}
               onDeleteConfirm={onDeleteResourceConfirm} />
-          </div>
+          </StretchedLayoutContainer>
       );
     }
   };
@@ -392,32 +348,36 @@ const LibraryViewLayout = ({
   };
 
   return (
-    <Container isFluid>
-      <Columns isFullHeight>
-        <Column isSize={'1/4'}>
-          <Level />
-          <Level>
-            <Content>
-              {translate('Your library contains all the resources (references, images, visualizations...) that can be used within the story.')}
-            </Content>
-          </Level>
-          <Level>
-            <Button
-              isDisabled={userLockedResourceId !== undefined} isFullWidth onClick={handleNewResourceClick}
-              isColor={mainColumnMode === 'new' ? 'primary' : 'info'}>
-              {translate('New resource')}
-            </Button>
-          </Level>
-          <Level>
-            <DropZone onDrop={submitMultiResources}>
-              {translate('Drop files to include new resources in your library (images, tables, bibliographies)')}
-            </DropZone>
-          </Level>
-        </Column>
-        <Column isSize={'3/4'}>
-          {renderMainColumn()}
-        </Column>
-      </Columns>
+    <Container style={{position: 'relative', height: '100%'}}>
+      <StretchedLayoutContainer isFluid isDirection="horizontal" isAbsolute>
+        <StretchedLayoutItem className="is-hidden-mobile" isFlex={'1'}>
+          <Column>
+            <Level />
+            <Level>
+              <Content>
+                {translate('Your library contains all the resources (references, images, visualizations...) that can be used within the story.')}
+              </Content>
+            </Level>
+            <Level>
+              <Button
+                isDisabled={userLockedResourceId !== undefined} isFullWidth onClick={handleNewResourceClick}
+                isColor={mainColumnMode === 'new' ? 'primary' : 'info'}>
+                {translate('New resource')}
+              </Button>
+            </Level>
+            <Level>
+              <DropZone onDrop={submitMultiResources}>
+                {translate('Drop files to include new resources in your library (images, tables, bibliographies)')}
+              </DropZone>
+            </Level>
+          </Column>
+        </StretchedLayoutItem>
+        <StretchedLayoutItem isFlex={'3'}>
+          <Column>
+            {renderMainColumn()}
+          </Column>
+        </StretchedLayoutItem>
+      </StretchedLayoutContainer>
     </Container>
     );
 };
