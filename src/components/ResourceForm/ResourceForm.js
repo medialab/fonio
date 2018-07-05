@@ -417,7 +417,7 @@ class ResourceForm extends Component {
                       </Column>
                     </Columns>
                   </Title>
-                  <Level/>
+                  <Level />
                 </StretchedLayoutItem>
                 <StretchedLayoutItem isFlowing isFlex={1}>
                   {asNewResource && !resourceType &&

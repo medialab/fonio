@@ -256,7 +256,7 @@ const MainSectionColumn = ({
   return (
     <Column isSize={'fullwidth'} isWrapper>
       <StretchedLayoutContainer isFluid isAbsolute isDirection="horizontal">
-        
+
         <StretchedLayoutItem isFlex={mainColumnMode === 'edition' && !userLockedResourceId ? 0 : 6}>
           {renderMain()}
         </StretchedLayoutItem>

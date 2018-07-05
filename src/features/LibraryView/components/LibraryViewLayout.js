@@ -290,7 +290,7 @@ const LibraryViewLayout = ({
                             id: 'filter',
                             options: resourceTypes.map(type => ({
                               id: type,
-                              label: <span><Image style={{display: 'inline-block'}} isSize={'16x16'} src={icons[type].black.svg}></Image><span>{translate(type)}</span></span>
+                              label: <span><Image style={{display: 'inline-block'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
                             })),
                           }
                         ]}>

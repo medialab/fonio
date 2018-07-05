@@ -357,7 +357,7 @@ const SummaryViewLayout = ({
                         onCancel={() => setNewSectionOpen(false)} />
                     </StretchedLayoutItem>
                   </StretchedLayoutContainer>
-                  </Column>
+                </Column>
               </Column>
             </StretchedLayoutItem>
             :
