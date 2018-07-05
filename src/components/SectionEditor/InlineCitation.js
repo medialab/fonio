@@ -7,14 +7,13 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Button,
   Image,
   Tag,
 } from 'quinoa-design-library/components';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
-import {translateNameSpacer} from '../../helpers/translateUtils';
+// import {translateNameSpacer} from '../../helpers/translateUtils';
 
 
 /**
@@ -82,9 +81,9 @@ class InlineCitation extends Component {
     const {
       children,
       asset,
-      onAssetChange,
-      onAssetBlur,
-      onAssetFocus,
+      // onAssetChange,
+      // onAssetBlur,
+      // onAssetFocus,
     } = this.props;
     const context = this.context;
 
@@ -93,8 +92,8 @@ class InlineCitation extends Component {
     } = context;
 
     const {
-      contextualizer = {},
-      contextualizerId,
+      // contextualizer = {},
+      // contextualizerId,
       resource,
     } = asset;
 
@@ -104,76 +103,74 @@ class InlineCitation extends Component {
       }
     };
 
-    const onLocatorChange = (e) => {
-      this.setState({
-        locator: e.target.value
-      });
-    };
-    const onPrefixChange = (e) => {
-      this.setState({
-        prefix: e.target.value
-      });
-    };
-    const onSuffixChange = (e) => {
-      this.setState({
-        suffix: e.target.value
-      });
-    };
+    // const onLocatorChange = (e) => {
+    //   this.setState({
+    //     locator: e.target.value
+    //   });
+    // };
+    // const onPrefixChange = (e) => {
+    //   this.setState({
+    //     prefix: e.target.value
+    //   });
+    // };
+    // const onSuffixChange = (e) => {
+    //   this.setState({
+    //     suffix: e.target.value
+    //   });
+    // };
 
-    const onInputClick = e => {
-      onAssetFocus(e);
-    };
+    // const onInputClick = e => {
+    //   onAssetFocus(e);
+    // };
 
     const onMoreOptionsClick = e => {
       e.stopPropagation();
       this.toggleMoreOptions();
     };
 
-    const onLocatorBlur = e => {
-      const locator = this.state.locator;
-      const newContextualizer = {
-        ...contextualizer,
-        locator
-      };
-      onAssetChange('contextualizer', contextualizerId, newContextualizer);
-      this.toggleMoreOptions();
-      onAssetBlur(e);
-    };
+    // const onLocatorBlur = e => {
+    //   const locator = this.state.locator;
+    //   const newContextualizer = {
+    //     ...contextualizer,
+    //     locator
+    //   };
+    //   onAssetChange('contextualizer', contextualizerId, newContextualizer);
+    //   this.toggleMoreOptions();
+    //   onAssetBlur(e);
+    // };
 
-    const onPrefixBlur = e => {
-      const prefix = this.state.prefix;
-      const newContextualizer = {
-        ...contextualizer,
-        prefix
-      };
-      onAssetChange('contextualizer', contextualizerId, newContextualizer);
-      this.toggleMoreOptions();
-      onAssetBlur(e);
-    };
-    const onSuffixBlur = e => {
-      const suffix = this.state.suffix;
-      const newContextualizer = {
-        ...contextualizer,
-        suffix
-      };
-      onAssetChange('contextualizer', contextualizerId, newContextualizer);
-      this.toggleMoreOptions();
-      onAssetBlur(e);
-    };
-    const translate = translateNameSpacer(context.t, 'Components.InlineCitation');
+    // const onPrefixBlur = e => {
+    //   const prefix = this.state.prefix;
+    //   const newContextualizer = {
+    //     ...contextualizer,
+    //     prefix
+    //   };
+    //   onAssetChange('contextualizer', contextualizerId, newContextualizer);
+    //   this.toggleMoreOptions();
+    //   onAssetBlur(e);
+    // };
+    // const onSuffixBlur = e => {
+    //   const suffix = this.state.suffix;
+    //   const newContextualizer = {
+    //     ...contextualizer,
+    //     suffix
+    //   };
+    //   onAssetChange('contextualizer', contextualizerId, newContextualizer);
+    //   this.toggleMoreOptions();
+    //   onAssetBlur(e);
+    // };
+    // const translate = translateNameSpacer(context.t, 'Components.InlineCitation');
     const representation = asset && context.citations && context.citations[asset.id];
     return (
       <Tag
         isColor="dark"
-        className="is-rounded"
-        >
-        <span 
+        className="is-rounded">
+        <span
           className="items-container"
           style={{
                 display: 'flex',
                 alignItems: 'center',
-          }}
-        >
+          }}>
           <span onClick={onMoreOptionsClick}>
             {representation && representation.Component}
           </span>

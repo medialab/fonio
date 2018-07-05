@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 import Input from 'react-input-autosize';
 
 import {
-  Button,
-  Image
+  Image,
+  Tag,
 } from 'quinoa-design-library/components';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -109,27 +109,23 @@ class GlossaryMention extends Component {
     };
     const translate = translateNameSpacer(context.t, 'Components.GlossaryMention');
     return resource ? (
-      <span
-        className="fonio-GlossaryMention">
+      <Tag isColor="dark" className="is-rounded">
         <span className="items-container">
           <Input
-            className="input"
             placeholder={translate('alias-placeholder')}
             value={this.state.alias && this.state.alias.length ? this.state.alias : resource.data.name}
             onChange={onAliasChange}
             onClick={onInputClick}
             onFocus={onAssetFocus}
             onBlur={onAliasBlur} />
-
-          <Button
-            className="more-options-btn"
+          <Tag
+            isSize="small" className="is-clickable is-rounded" isColor={'dark'}
             onClick={onEditRequest}>
             <Image isSize={'16x16'} src={icons.glossary.black.svg} />
-            <Image isSize={'16x16'} src={icons.edit.black.svg} />
-          </Button>
+          </Tag>
           {children}
         </span>
-      </span>
+      </Tag>
     ) : null;
   }
 }

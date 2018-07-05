@@ -1,9 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  Image
-} from 'quinoa-design-library/components';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
 

@@ -16,11 +16,9 @@ import {
   Input,
   Button,
   DropdownItem,
-  DropdownDivider,
   DropdownContent,
   StretchedLayoutContainer,
   StretchedLayoutItem,
-  Column,
   Level,
 } from 'quinoa-design-library/components';
 
@@ -226,7 +224,10 @@ class ResourceSearchWidget extends Component {
                   );
                 })
               }
-                </div> : null
+                </div> :
+                <DropdownItem>
+                  {options.length ? translate('no items matching search') : translate('add items to your library in order to embed them')}
+                </DropdownItem>
           }
           </StretchedLayoutItem>
           <StretchedLayoutItem>

@@ -14,7 +14,7 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {
   Image,
-  Button
+  Tag
 } from 'quinoa-design-library/components';
 
 
@@ -81,9 +81,9 @@ class LinkContextualization extends Component {
       resource = {},
     } = asset;
 
-    const {
-      data
-    } = resource;
+    // const {
+    //   data
+    // } = resource;
 
     const onEditRequest = () => {
       if (typeof startExistingResourceConfiguration === 'function') {
@@ -111,16 +111,17 @@ class LinkContextualization extends Component {
       onAssetBlur(e);
     };
 
-    const onLinkClick = e => {
-      e.preventDefault();
-      e.stopPropagation();
-      window.open(resource.data, '_newtab');
-    };
+    // const onLinkClick = e => {
+    //   e.preventDefault();
+    //   e.stopPropagation();
+    //   window.open(resource.data, '_newtab');
+    // };
 
     const translate = translateNameSpacer(context.t, 'Components.LinkContextualization');
     return (
-      <span
-        className="fonio-LinkContextualization">
+      <Tag
+        isColor="dark"
+        className="is-rounded">
         <span className="items-container">
           <Input
             placeholder={translate('alias-placeholder')}
@@ -129,18 +130,14 @@ class LinkContextualization extends Component {
             onClick={onInputClick}
             onFocus={onAssetFocus}
             onBlur={onAliasBlur} />
-          <Button
-            href={data} target="_blank" alt="href"
-            className="input"
-            rel="noopener" onClick={onLinkClick}>
+          <Tag
+            isSize="small" className="is-clickable is-rounded" isColor={'dark'}
+            onClick={onEditRequest}>
             <Image isSize={'16x16'} src={icons.webpage.black.svg} />
-          </Button>
-          <Button onClick={onEditRequest}>
-            <Image isSize={'16x16'} src={icons.edit.black.svg} />
-          </Button>
+          </Tag>
           {children}
         </span>
-      </span>
+      </Tag>
     );
   }
 }

@@ -19,15 +19,12 @@ import {
 } from 'draft-js';
 
 import {
-  Box,
   Content,
   // Level,
   Title,
   Button,
-  Columns,
   Column,
   HelpPin,
-  Image,
   StretchedLayoutContainer,
   StretchedLayoutItem,
   Tag,

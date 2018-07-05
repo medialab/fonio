@@ -85,13 +85,15 @@
             }
             .scholar-draft-BasicEditor
             {
+                .public-DraftEditor-content{
+                    padding: 1rem;
+                }
                 // background: $color-very-light;
                 &:not(.active)
                 {
                     .public-DraftEditor-content
                     {
                         background: rgb(240,240,240);
-                        padding: 1rem;
                         // background: $color-sec-stroke;
                     }
                 }
@@ -101,6 +103,7 @@
             {
                 // font-family: $editable-font-stack;
                 line-height: 2em;
+                padding: 1rem;
 
                 // padding: $gutter-medium;
 
@@ -261,5 +264,21 @@
             }
         }
             
+    }
+
+    .items-container{
+        display: flex;
+        align-items: center;
+        font-size: inherit;
+        font-style: inherit;
+        input{
+          color: inherit;
+          background: inherit;
+          display: inline;
+          border: transparent;
+          font-size: inherit;
+          font-style: inherit;
+          outline: none;
+        }
     }
 }

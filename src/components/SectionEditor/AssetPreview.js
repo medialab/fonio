@@ -21,6 +21,7 @@ import {
   Column,
   Image,
   Level,
+  HelpPin,
   Title,
 } from 'quinoa-design-library/components';
 
@@ -29,6 +30,7 @@ import QuinoaPresentationPlayer from 'quinoa-presentation-player';
 import BibliographicPreview from './BibliographicPreview';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 import {loadResourceData} from '../../helpers/assetsUtils';
+import {abbrevString} from '../../helpers/misc';
 
 
 /**
@@ -97,7 +99,8 @@ class AssetPreview extends Component {
     this.state = {
       data: undefined,
       loading: false,
-      columns: []
+      columns: [],
+      isInfoShown: false
     };
     this.onClickEdit = this.onClickEdit.bind(this);
     this.onClickDelete = this.onClickDelete.bind(this);
@@ -218,8 +221,9 @@ class AssetPreview extends Component {
   render() {
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
     const {data, metadata, showPannel} = this.props;
+    const {isInfoShown} = this.state;
     return (
-      <Box className="fonio-AssetPreview">
+      <Box style={{background: 'rgb(240,240,240)'}} className="fonio-AssetPreview">
         <div className="preview-container">
           {data && this.renderPreview()}
         </div>
@@ -239,25 +243,33 @@ class AssetPreview extends Component {
             <Level>
               <Columns>
                 <Column>
-                  <Button onClick={this.onClickDelete}>
-                    {translate('delete contextualization')}
+                  <Button isColor="warning" onClick={this.onClickDelete}>
+                    <span>{translate('delete mention')}</span>
+                    <HelpPin>
+                      {translate(`The ${metadata.type} will not be delete from the library`)}
+                    </HelpPin>
                   </Button>
                 </Column>
                 <Column>
-                  <Button onClick={this.onClickEdit}>
-                    {translate('edit resource')}
+                  <Button isColor="primary" onClick={this.onClickEdit}>
+                    {translate(`edit ${metadata.type}`)}
+                  </Button>
+                </Column>
+                <Column>
+                  <Button isColor={isInfoShown ? 'primary' : 'info'} onClick={() => this.setState({isInfoShown: !isInfoShown})}>
+                    {translate('show info')}
                   </Button>
                 </Column>
               </Columns>
             </Level>
-            {(metadata.description || metadata.source) &&
+            {(metadata.description || metadata.source) && isInfoShown &&
               <Level>
                 <Columns>
                   <Column>
                     {metadata.description &&
                       <div>
                         <Title isSize={5}>{translate('Description')}</Title>
-                        <Content>{metadata.description}</Content>
+                        <Content>{abbrevString(metadata.description, 500)}</Content>
                       </div>
                     }
                   </Column>
@@ -265,7 +277,7 @@ class AssetPreview extends Component {
                     <Column>
                       <div>
                         <Title isSize={5}>{translate('Source')}</Title>
-                        <Content>{metadata.source}</Content>
+                        <Content>{abbrevString(metadata.source, 500)}</Content>
                       </div>
                     </Column>
                   }
