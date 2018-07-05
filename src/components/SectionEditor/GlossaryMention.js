@@ -113,6 +113,7 @@ class GlossaryMention extends Component {
         className="fonio-GlossaryMention">
         <span className="items-container">
           <Input
+            className="input"
             placeholder={translate('alias-placeholder')}
             value={this.state.alias && this.state.alias.length ? this.state.alias : resource.data.name}
             onChange={onAliasChange}

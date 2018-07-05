@@ -5,6 +5,7 @@ import {
   Button,
   Control,
   Field,
+  Level,
   HelpPin,
   Icon,
   Label,
@@ -72,9 +73,11 @@ const AuthorsManager = ({
           );
         })
       }
-      <Button onClick={onAddAuthor}>
-        {translate('Add an author')}
-      </Button>
+      <Level>
+        <Button isFullWidth onClick={onAddAuthor}>
+          {translate('Add an author')}
+        </Button>
+      </Level>
     </Field>
   );
 };

@@ -44,7 +44,9 @@ class BibRefsEditor extends Component {
       onChange(value);
     };
     return (
-      <TextArea className="textarea" value={refsInput} type="text" onChange={onBibTeXInputChange} />
+      <TextArea
+        className="textarea" value={refsInput} type="text"
+        onChange={onBibTeXInputChange} />
     );
   }
 }

@@ -131,6 +131,7 @@ class LinkContextualization extends Component {
             onBlur={onAliasBlur} />
           <Button
             href={data} target="_blank" alt="href"
+            className="input"
             rel="noopener" onClick={onLinkClick}>
             <Image isSize={'16x16'} src={icons.webpage.black.svg} />
           </Button>

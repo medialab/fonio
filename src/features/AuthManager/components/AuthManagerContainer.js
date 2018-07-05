@@ -82,7 +82,6 @@ class AuthManagerContainer extends Component {
      */
     const {userId} = this.props;
     const {storyId} = this.props.match.params;
-    console.log('should leave story');
     this.props.actions.leaveStory({storyId, userId});
   }
 
