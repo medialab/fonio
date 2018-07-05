@@ -7,6 +7,8 @@ import {
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
+import IconBtn from '../IconBtn';
+
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 const AssetButton = ({
@@ -17,14 +19,13 @@ const AssetButton = ({
   const onMouseDown = event => event.preventDefault();
 
   return (
-    <Button
-      isRounded
-      isColor={active && 'info'}
+    <IconBtn
+      isColor={active && 'warning'}
       onMouseDown={onMouseDown}
       onClick={onClick}
-      data-tip={translate('add an element from your library')}>
-      <Image isSize={'16x16'} src={icons.asset.black.svg} />
-    </Button>
+      dataTip={translate('add an element from your library')}
+      src={icons.asset.black.svg} 
+    />
   );
 };
 
