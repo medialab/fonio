@@ -24,6 +24,8 @@ import {
   TabLink,
   TabList,
   Tabs,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
   // Title,
 } from 'quinoa-design-library/components/';
 
@@ -191,28 +193,36 @@ const AsideDesignColumn = ({
   };
 
   return (
-    <Column isSize={asideTabCollapsed ? 1 : '1/4'}>
-      <Tabs isBoxed isFullWidth>
-        <TabList>
-          {
-            !asideTabCollapsed &&
-            <Tab onClick={() => setAsideTabMode('settings')} isActive={asideTabMode === 'settings'}>
-              <TabLink>{translate('Settings')}</TabLink>
-            </Tab>
-          }
-          {
-            !asideTabCollapsed &&
-            'collapse' &&
-            <Tab onClick={() => setAsideTabMode('styles')} isActive={asideTabMode === 'styles'}>
-              <TabLink>
-                {translate('Styles')}
-              </TabLink>
-            </Tab>
-          }
-          <Tab onClick={() => setAsideTabCollapsed(!asideTabCollapsed)} isActive={asideTabCollapsed}><TabLink>{asideTabCollapsed ? '▶' : '◀'}</TabLink></Tab>
-        </TabList>
-      </Tabs>
-      {!asideTabCollapsed && renderAsideContent()}
+    <Column className="is-hidden-mobile" isSize={asideTabCollapsed ? 1 : '1/4'} isWrapper>
+      <StretchedLayoutContainer isDirection="vertical" isAbsolute>
+        <StretchedLayoutItem>
+          <Column>
+            <Tabs isBoxed isFullWidth style={{overflow: 'hidden'}}>
+              <TabList>
+                {
+                  !asideTabCollapsed &&
+                  <Tab onClick={() => setAsideTabMode('settings')} isActive={asideTabMode === 'settings'}>
+                    <TabLink>{translate('Settings')}</TabLink>
+                  </Tab>
+                }
+                {
+                  !asideTabCollapsed &&
+                  'collapse' &&
+                  <Tab onClick={() => setAsideTabMode('styles')} isActive={asideTabMode === 'styles'}>
+                    <TabLink>
+                      {translate('Styles')}
+                    </TabLink>
+                  </Tab>
+                }
+                <Tab className="is-hidden-mobile" onClick={() => setAsideTabCollapsed(!asideTabCollapsed)} isActive={asideTabCollapsed}><TabLink>{asideTabCollapsed ? '▶' : '◀'}</TabLink></Tab>
+              </TabList>
+            </Tabs>
+          </Column>
+        </StretchedLayoutItem>
+        <StretchedLayoutItem isFlex={1} isFlowing>
+          {!asideTabCollapsed && renderAsideContent()}
+        </StretchedLayoutItem>
+      </StretchedLayoutContainer>
     </Column>
   );
 };

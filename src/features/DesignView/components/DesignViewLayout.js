@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  Columns
+  StretchedLayoutContainer,
 } from 'quinoa-design-library/components';
 
 import AsideDesignColumn from './AsideDesignColumn';
@@ -18,8 +18,8 @@ const DesignViewLayout = ({
   onUpdateCss,
   onUpdateSettings,
 }) => {
-  return (<div>
-    <Columns isFullHeight>
+  return (
+    <StretchedLayoutContainer isDirection="horizontal" isAbsolute>
       <AsideDesignColumn
         story={story}
         asideTabCollapsed={asideTabCollapsed}
@@ -32,8 +32,6 @@ const DesignViewLayout = ({
 
       <MainDesignColumn
         story={story} />
-        }
-    </Columns>
-  </div>);
+    </StretchedLayoutContainer>);
 };
 export default DesignViewLayout;
