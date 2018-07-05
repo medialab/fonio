@@ -5,7 +5,8 @@ import {get} from 'axios';
 import {
   Button,
   Navbar,
-  Level,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -19,6 +20,9 @@ import downloadFile from '../../../helpers/fileDownloader';
 import {
   bundleProjectAsJSON,
 } from '../../../helpers/projectBundler';
+import {
+  abbrevString
+} from '../../../helpers/misc';
 
 const EditionUiWrapperLayout = ({
   userId,
@@ -77,9 +81,7 @@ const EditionUiWrapperLayout = ({
   };
   const computeTitle = () => {
     if (editedStory && editedStory.metadata && editedStory.metadata.title) {
-      return editedStory.metadata.title.length > 10 ?
-                editedStory.metadata.title.substr(0, 10) + '...'
-                : editedStory.metadata.title;
+      return abbrevString(editedStory.metadata.title);
     }
     else return translate('Unnamed story');
   };
@@ -112,13 +114,12 @@ const EditionUiWrapperLayout = ({
     }
   };
   return (
-    <div>
+    <StretchedLayoutContainer isAbsolute>
       <Navbar
         brandImage={icons.fonioBrand.svg}
         brandUrl={'/'}
         isOpen={navbarOpen === true}
         onToggle={toggleNavbarOpen}
-        isFixed
 
         locationBreadCrumbs={[
             // {
@@ -192,10 +193,9 @@ const EditionUiWrapperLayout = ({
             imageUri: userInfo && require(`../../../sharedAssets/avatars/${userInfo.avatar}`),
             nickName: userInfo && userInfo.name
           }} />
-      <Level />
-      <Level />
-      <Level />
-      {children}
+      <StretchedLayoutItem isFlex={1} isFlowing>
+        {children}
+      </StretchedLayoutItem>
       <IdentificationModal
         isActive={userInfoModalOpen}
 
@@ -208,7 +208,7 @@ const EditionUiWrapperLayout = ({
         isActive={exportModalOpen}
         onClose={() => setExportModalOpen(false)}
         onChange={exportToFile} />
-    </div>
+    </StretchedLayoutContainer>
   );
 };
 
