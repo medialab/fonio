@@ -14,6 +14,8 @@ import Ajv from 'ajv';
 import storySchema from 'quinoa-schemas/story';
 import resourceSchema from 'quinoa-schemas/resource';
 
+import config from '../../config';
+
 import {updateEditionHistoryMap, loadStoryToken} from '../../helpers/localStorageUtils';
 
 /**
@@ -77,7 +79,7 @@ export const activateStory = payload => ({
   payload,
   promise: () => {
     const {storyId, userId, token} = payload;
-    const serverRequestUrl = `${CONFIG.apiUrl}/stories/${storyId}?userId=${userId}&edit=true`;
+    const serverRequestUrl = `${config.restUrl}/stories/${storyId}?userId=${userId}&edit=true`;
     const options = {
       headers: {
         'x-access-token': token,
@@ -314,10 +316,10 @@ export const uploadResource = (payload, mode) => ({
     };
     let serverRequestUrl;
     if (mode === 'create') {
-      serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
+      serverRequestUrl = `${config.restUrl}/resources/${payload.storyId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
       return post(serverRequestUrl, payload.resource, options);
     }
-    serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
+    serverRequestUrl = `${config.restUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
     return put(serverRequestUrl, payload.resource, options);
   },
 });
@@ -333,7 +335,7 @@ export const deleteUploadedResource = payload => ({
         'x-access-token': token,
       },
     };
-    const serverRequestUrl = `${CONFIG.apiUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
+    const serverRequestUrl = `${config.restUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
     return del(serverRequestUrl, options);
   },
 });

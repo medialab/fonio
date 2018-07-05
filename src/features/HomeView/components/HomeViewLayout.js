@@ -43,6 +43,8 @@ import {
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 import {saveStoryToken, deleteStoryToken} from '../../../helpers/localStorageUtils';
 
+import config from '../../../config';
+
 import LanguageToggler from '../../../components/LanguageToggler';
 import IdentificationModal from '../../../components/IdentificationModal';
 import MetadataForm from '../../../components/MetadataForm';
@@ -270,7 +272,7 @@ class HomeViewLayout extends Component {
 
                 <Column>
                   <Title isSize={2}>
-                    {CONFIG.sessionName /* eslint no-undef: 0 */}
+                    {config.sessionName /* eslint no-undef: 0 */}
                   </Title>
 
                   <div>
@@ -575,7 +577,7 @@ class HomeViewLayout extends Component {
               locationBreadCrumbs={[
               {
                 href: '/',
-                content: <strong>{CONFIG.sessionName /* eslint no-undef: 0 */}</strong>,
+                content: <strong>{config.sessionName /* eslint no-undef: 0 */}</strong>,
                 isActive: true
               },
             ]}
@@ -589,7 +591,7 @@ class HomeViewLayout extends Component {
 
           <HeroBody>
             <Container hasTextAlign="centered">
-              <Title>{CONFIG.sessionName /* eslint no-undef: 0 */}</Title>
+              <Title>{config.sessionName /* eslint no-undef: 0 */}</Title>
             </Container>
           </HeroBody>
 

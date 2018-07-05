@@ -14,18 +14,20 @@ import {Bibliography} from 'react-citeproc';
 import english from 'raw-loader!../sharedAssets/bibAssets/english-locale.xml';
 import apa from 'raw-loader!../sharedAssets/bibAssets/apa.csl';
 
+import config from '../config';
+
 import {validateResource, createDefaultResource} from './schemaUtils';
 import {loadImage, inferMetadata, parseBibTeXToCSLJSON} from './assetsUtils';
 import {getFileAsText} from './fileLoader';
 
-const {apiUrl} = CONFIG;
+const {restUrl} = config;
 
 /**
  * Returns from server a list of all csl citation styles available in a light form
  * @return {Promise} resolver - promise wrapping the request
  */
 export const getCitationStylesListFromServer = () => {
-  const endPoint = apiUrl + '/citation-styles/';
+  const endPoint = restUrl + '/citation-styles/';
   return get(endPoint);
 };
 
@@ -34,7 +36,7 @@ export const getCitationStylesListFromServer = () => {
  * @return {Promise} resolver - promise wrapping the request
  */
 export const getCitationStyleFromServer = (styleId) => {
-  const endPoint = apiUrl + '/citation-styles/' + styleId;
+  const endPoint = restUrl + '/citation-styles/' + styleId;
   return get(endPoint);
 };
 
@@ -43,7 +45,7 @@ export const getCitationStyleFromServer = (styleId) => {
  * @return {Promise} resolver - promise wrapping the request
  */
 export const getCitationLocalesListFromServer = () => {
-  const endPoint = apiUrl + '/citation-locales/';
+  const endPoint = restUrl + '/citation-locales/';
   return get(endPoint);
 };
 
@@ -53,7 +55,7 @@ export const getCitationLocalesListFromServer = () => {
  * @return {Promise} resolver - promise wrapping the request
  */
 export const getCitationLocaleFromServer = (localeId) => {
-  const endPoint = apiUrl + '/citation-locales/' + localeId;
+  const endPoint = restUrl + '/citation-locales/' + localeId;
   return get(endPoint);
 };
 

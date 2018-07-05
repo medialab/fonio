@@ -11,6 +11,8 @@ import {
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+import config from '../../../config';
+
 import LanguageToggler from '../../../components/LanguageToggler';
 import IdentificationModal from '../../../components/IdentificationModal';
 import ExportModal from '../../../components/ExportModal';
@@ -89,7 +91,7 @@ const EditionUiWrapperLayout = ({
     const title = editedStory.metadata.title;
     switch (type) {
       case 'json':
-        get(`${CONFIG.apiUrl}/stories/${storyId}?edit=false&&format=json`)
+        get(`${config.restUrl}/stories/${storyId}?edit=false&&format=json`)
         .then(({data}) => {
           if (data) {
             const JSONbundle = bundleProjectAsJSON(data);
@@ -100,7 +102,7 @@ const EditionUiWrapperLayout = ({
         });
         break;
       case 'html':
-        get(`${CONFIG.apiUrl}/stories/${storyId}?edit=false&&format=html`)
+        get(`${config.restUrl}/stories/${storyId}?edit=false&&format=html`)
         .then(({data}) => {
           if (data) {
             downloadFile(data, 'html', title);
@@ -124,7 +126,7 @@ const EditionUiWrapperLayout = ({
         locationBreadCrumbs={[
             // {
             //   href: '/',
-            //   content: CONFIG.sessionName /* eslint no-undef:0 */,
+            //   content: config.sessionName /* eslint no-undef:0 */,
             // },
             {
               href: `/story/${storyId}`,

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-5\n"
-"PO-Revision-Date: Thu Jul 05 2018 10:28:59 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jul 05 2018 14:58:20 GMT+0200 (GMT+02:00)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1901,12 +1901,6 @@ msgstr "Export your story to backup and edit it later in Fonio (fonio JSON forma
 msgid "Components.Footer.remove formatting for selection"
 msgstr "remove formatting for selection"
 
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
-msgstr ""
-
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
-msgstr "Are you sure you want to delete the resource \"{s}\" ?"
-
 msgid "Features.HomeView.sort by"
 msgstr "sort by"
 
@@ -1918,6 +1912,42 @@ msgstr " to your story"
 
 msgid "Features.SectionView.Add a new section or chapter to your story"
 msgstr "Add a new section or chapter to your story"
+
+msgid "Features.ErrorMessageContainer.You could not edit a section"
+msgstr "You could not edit a section"
+
+msgid "Features.ErrorMessageContainer.You could not edit the resource"
+msgstr "You could not edit the resource"
+
+msgid "Features.ErrorMessageContainer.You could not edit story metadata"
+msgstr "You could not edit story metadata"
+
+msgid "Features.ErrorMessageContainer.You could not edit the order of sections"
+msgstr "You could not edit the order of sections"
+
+msgid "Features.ErrorMessageContainer.You could not edit the story design"
+msgstr "You could not edit the story design"
+
+msgid "Features.ErrorMessageContainer.You could not edit a block"
+msgstr "You could not edit a block"
+
+msgid "Features.ErrorMessageContainer.You could not delete a section"
+msgstr "You could not delete a section"
+
+msgid "Features.ErrorMessageContainer.You could not delete a resource"
+msgstr "You could not delete a resource"
+
+msgid "Features.ErrorMessageContainer.You could not delete a block"
+msgstr "You could not delete a block"
+
+msgid "Features.ErrorMessageContainer.It is edited by {a}"
+msgstr "It is edited by {a}"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr ""
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
+msgstr "Are you sure you want to delete the resource \"{s}\" ?"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} is working on section \"{t}\""

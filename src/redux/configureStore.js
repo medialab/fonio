@@ -13,13 +13,15 @@ import promiseMiddleware from './promiseMiddleware';
 import {loadingBarMiddleware} from 'react-redux-loading-bar';
 import Validator from 'redux-validator';
 
+import config from '../config';
+
 import io from 'socket.io-client';
 import createSocketIoMiddleware from './socketIoMiddleware';
 
 /**
  * @todo: fetch that from config
  */
-const socket = io(CONFIG.serverUrl);
+const socket = io(config.apiUrl, {path: '/sockets'});
 
 const socketIoMiddleware = createSocketIoMiddleware(socket);
 

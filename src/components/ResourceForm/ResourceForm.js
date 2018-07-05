@@ -15,6 +15,8 @@ import {Form, NestedField, Text, TextArea} from 'react-form';
 
 import resourceSchema from 'quinoa-schemas/resource';
 
+import config from '../../config';
+
 import {translateNameSpacer} from '../../helpers/translateUtils';
 import {retrieveMediaMetadata, loadImage, inferMetadata, parseBibTeXToCSLJSON} from '../../helpers/assetsUtils';
 import {getFileAsText} from '../../helpers/fileLoader';
@@ -44,7 +46,7 @@ import BibRefsEditor from '../BibRefsEditor';
 import AssetPreview from '../AssetPreview';
 
 const resourceTypes = Object.keys(resourceSchema.definitions);
-const credentials = CONFIG;
+const credentials = {youtubeAPIKey: config.youtubeAPIKey};
 
 class ResourceForm extends Component {
 

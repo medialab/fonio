@@ -39,7 +39,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      CONFIG: JSON.stringify(config)
+      FONIO_CONFIG: JSON.stringify(config)
     })
   ]
 };
