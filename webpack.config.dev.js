@@ -3,13 +3,17 @@
  * in development mode (standard)
  */
 var webpack = require('webpack');
+var config = require('config');
 var sharedConfig = require('./webpack.config.shared');
 
 module.exports = {
   module: sharedConfig.module,
-  plugins: sharedConfig.plugins.concat(new webpack.DefinePlugin({
+  plugins: sharedConfig.plugins.concat([
+    new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development')
-      }
-    }))
+      },
+      'FONIO_CONFIG': JSON.stringify(config)
+    })
+  ])
 };

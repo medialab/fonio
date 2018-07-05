@@ -129,6 +129,7 @@ class ResourceForm extends Component {
       };
       const onEditBib = (value) => {
         const bibData = parseBibTeXToCSLJSON(value);
+        // TODO: citation-js parse fail in silence, wait error handling feature
         if (bibData.length === 1) {
           formApi.setValue('data', bibData);
           formApi.setError('data', undefined);
@@ -192,7 +193,7 @@ class ResourceForm extends Component {
                     onDrop={onDropFiles}>
                     {translate('Drop an bib file')}
                   </DropZone> :
-                  <BibRefsEditor data={formApi.getValue('data')} onChange={onEditBib} />
+                  <BibRefsEditor data={resource.data} onChange={onEditBib} />
               }
             </Control>
             {
