@@ -14,6 +14,12 @@ import {
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 
+import {
+  EditorState,
+  convertToRaw,
+  Modifier
+} from 'draft-js';
+
 
 import {createDefaultSection} from '../../../helpers/schemaUtils';
 import {
@@ -301,13 +307,97 @@ const SectionViewLayout = ({
     setMainColumnMode('newresource');
   };
 
-  const deleteContextualizationFromId = contextualizationId => {
-    deleteContextualization({
-      contextualizationId,
-      storyId,
-      userId,
-    });
-    // console.log('delete contextualization from id', contextualizationId);
+  /**
+   * Delete all mentions of a contextualization
+   * (and do not delete the contextualization itself to avoid inconsistencies
+   * and breaking undo/redo stack)
+   */
+  const deleteContextualizationFromId = (contextualizationId) => {
+    const contextualization = story.contextualizations[contextualizationId];
+    const {id} = contextualization;
+    let entityKey;
+    let entity;
+    let eData;
+    let newEditorState;
+    let contentId;
+    // we dont know in advance for sure which editor is target by the contextualization
+    // so we iterate through main editor state + notes editor states
+    // (we could guess it but this is more safe)
+    Object.keys(editorStates)
+      .find(key => {
+        const editorState = editorStates[key];
+        let found;
+        const contentState = editorState.getCurrentContent();
+        // we need to iterate through all blocks
+        // find = stop when found (even if we do not care about the returned value)
+        contentState.getBlockMap().find(thatBlock => {
+          // iterate through each character
+          return thatBlock.getCharacterList().find(char => {
+            // if there is an entity
+            if (char.entity) {
+              entityKey = char.entity;
+              entity = contentState.getEntity(entityKey);
+              eData = entity.toJS();
+              // and if the entity is the right one
+              if (eData.data && eData.data.asset && eData.data.asset.id === id) {
+                found = true;
+                // then find total entity range
+                thatBlock.findEntityRanges(
+                  metadata => {
+                    return metadata.getEntity() === entityKey;
+                  },
+                  // ounce found
+                  (start, end) => {
+                    // delimitate its selection
+                    const selectionState = editorState.getSelection().merge({
+                      anchorKey: thatBlock.getKey(),
+                      focusKey: thatBlock.getKey(),
+                      anchorOffset: start,
+                      focusOffset: end,
+                    });
+                    // and remove entity from this range
+                    newEditorState = EditorState.push(
+                      editorState,
+                      Modifier.applyEntity(
+                        contentState,
+                        selectionState,
+                        null
+                      ),
+                      'remove-entity'
+                    );
+                    // then update
+                    contentId = key;
+                    if (newEditorState && contentId) {
+                      // apply change
+                      const newSection = contentId === 'main' ? {
+                        ...section,
+                        contents: convertToRaw(newEditorState.getCurrentContent())
+                      } : {
+                        ...section,
+                        notes: {
+                          ...section.notes,
+                          [contentId]: {
+                            ...section.notes[contentId],
+                            contents: convertToRaw(newEditorState.getCurrentContent())
+                          }
+                        }
+                      };
+                      // update section
+                      onUpdateSection(newSection);
+                      // update real time editor state
+                      updateDraftEditorState(contentId, newEditorState);
+                    }
+                  }
+                );
+
+                return true;
+              }
+            }
+
+          });
+        });
+        return found;
+      });
   };
 
   const onCreateResource = payload => {
