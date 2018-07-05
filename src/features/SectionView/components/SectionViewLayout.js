@@ -10,7 +10,8 @@ import objectPath from 'object-path';
 import resourceSchema from 'quinoa-schemas/resource';
 
 import {
-  Columns,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 
 
@@ -319,8 +320,8 @@ const SectionViewLayout = ({
   };
 
   return (
-    <div>
-      <Columns isFullHeight>
+    <StretchedLayoutContainer isAbsolute isFluid isDirection="horizontal">
+      <StretchedLayoutItem className="is-hidden-mobile" isFlex={1}>
         <AsideSectionColumn
           asideTabCollapsed={asideTabCollapsed}
           asideTabMode={asideTabMode}
@@ -358,6 +359,8 @@ const SectionViewLayout = ({
           onSortEnd={onSectionsSortEnd}
 
           onDeleteSection={onDeleteSection} />
+      </StretchedLayoutItem>
+      <StretchedLayoutItem isFlex={asideTabCollapsed ? 11 : 3}>
         {hasLockOnSection ?
           <MainSectionColumn
             userLockedResourceId={userLockedResourceId}
@@ -397,13 +400,17 @@ const SectionViewLayout = ({
             deleteContextualizer={deleteContextualizer}
             deleteContextualizationFromId={deleteContextualizationFromId}
 
+            onOpenSectionSettings={onOpenSectionSettings}
+
             setAssetRequestContentId={setAssetRequestContentId}
             startNewResourceConfiguration={startNewResourceConfiguration}
             startExistingResourceConfiguration={startExistingResourceConfiguration}
             summonAsset={summonAsset} />
             : <LoadingScreen />
         }
-        {
+      </StretchedLayoutItem>
+
+      {
           promptedToDeleteSectionId &&
           !reverseSectionLockMap[promptedToDeleteSectionId] &&
           <ConfirmToDeleteModal
@@ -414,7 +421,7 @@ const SectionViewLayout = ({
             onClose={() => setPromptedToDeleteSectionId(undefined)}
             onDeleteConfirm={onDeleteSectionConfirm} />
         }
-        {
+      {
           promptedToDeleteResourceId &&
           <ConfirmToDeleteModal
             isActive={promptedToDeleteResourceId}
@@ -424,8 +431,7 @@ const SectionViewLayout = ({
             onClose={() => setPromptedToDeleteResourceId(undefined)}
             onDeleteConfirm={onDeleteResourceConfirm} />
         }
-      </Columns>
-    </div>
+    </StretchedLayoutContainer>
   );
 };
 

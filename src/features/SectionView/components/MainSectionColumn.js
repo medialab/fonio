@@ -7,20 +7,22 @@ import SectionEditor from '../../../components/SectionEditor';
 import NewSectionForm from '../../../components/NewSectionForm';
 import ResourceForm from '../../../components/ResourceForm';
 
-import TitleForm from './TitleForm';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import {
+  Button,
   Column,
   Columns,
-  Control,
-  Label,
-  HelpPin,
   Delete,
-  Level,
   Title,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
+
+import {
+  abbrevString
+} from '../../../helpers/misc';
 
 
 const MainSectionColumn = ({
@@ -66,6 +68,8 @@ const MainSectionColumn = ({
   startNewResourceConfiguration,
   startExistingResourceConfiguration,
 
+  onOpenSectionSettings,
+
   summonAsset,
 }, {
   t
@@ -81,16 +85,6 @@ const MainSectionColumn = ({
 
   const onUpdateSection = newSection => {
     updateSection(newSection);
-  };
-
-  const onUpdateTitle = title => {
-    onUpdateSection({
-      ...section,
-      metadata: {
-        ...section.metadata,
-        title
-      }
-    });
   };
 
   const onUpdateMetadata = metadata => {
@@ -130,12 +124,23 @@ const MainSectionColumn = ({
           blockId: userLockedResourceId
         });
       };
-      return (<ResourceForm
-        onCancel={handleCancel}
-        onSubmit={handleSubmit}
-        resource={resources[userLockedResourceId]}
-        asNewResource={false} />);
+      return (
+        <Column style={{position: 'relative', height: '100%', width: '100%'}}>
+          <StretchedLayoutContainer isAbsolute>
+            <StretchedLayoutItem isFlex={1}>
+              <Column style={{position: 'relative', height: '100%', width: '100%'}}>
+                <ResourceForm
+                  onCancel={handleCancel}
+                  onSubmit={handleSubmit}
+                  resource={resources[userLockedResourceId]}
+                  asNewResource={false} />
+              </Column>
+            </StretchedLayoutItem>
+          </StretchedLayoutContainer>
+        </Column>
+      );
     }
+
     switch (mainColumnMode) {
       case 'newresource':
           const handleSubmit = resource => {
@@ -153,144 +158,190 @@ const MainSectionColumn = ({
             setMainColumnMode('edition');
           };
           return (
-            <ResourceForm
-              resourceType={newResourceType}
-              onCancel={() => setMainColumnMode('edition')}
-              onSubmit={handleSubmit}
-              asNewResource />
+            <Column isWrapper>
+              <StretchedLayoutContainer isAbsolute>
+                <StretchedLayoutItem isFlex={1}>
+                  <Column isWrapper>
+                    <ResourceForm
+                      resourceType={newResourceType}
+                      onCancel={() => setMainColumnMode('edition')}
+                      onSubmit={handleSubmit}
+                      asNewResource />
+                  </Column>
+                </StretchedLayoutItem>
+              </StretchedLayoutContainer>
+            </Column>
           );
-      case 'editresource':
-        return (
-          <div>
-            <Level />
-            <Title isSize={2}>
-              <Columns>
-                <Column isSize={11}>
-                  Edit video
-                </Column>
-                <Column>
-                  <Delete onClick={
-                    () => setMainColumnMode('edition')
-                  } />
-                </Column>
-              </Columns>
-            </Title>
-            <ResourceForm asNewResource={false} />
-          </div>
-        );
       case 'newsection':
         return (
-          <Column>
-            <Title isSize={2}>
-              <Columns>
-                <Column isSize={10}>
-                  {translate('New section')}
+          <Column isWrapper>
+            <StretchedLayoutContainer isAbsolute>
+              <StretchedLayoutItem>
+                <Column>
+                  <Title isSize={2}>
+                    <Columns>
+                      <Column isSize={11}>
+                        {translate('New section')}
+                      </Column>
+                      <Column isSize={2}>
+                        <Delete onClick={() => setMainColumnMode('edition')} />
+                      </Column>
+                    </Columns>
+                  </Title>
                 </Column>
-                <Column isSize={2}>
-                  <Delete onClick={() => setMainColumnMode('edition')} />
+              </StretchedLayoutItem>
+              <StretchedLayoutItem isFlowing isFlex={1}>
+                <Column>
+                  <NewSectionForm
+                    metadata={{...defaultSectionMetadata}}
+                    onSubmit={onNewSectionSubmit}
+                    onCancel={() => setMainColumnMode('edition')} />
                 </Column>
-              </Columns>
-            </Title>
-            <Level>
-              <NewSectionForm
-                metadata={{...defaultSectionMetadata}}
-                onSubmit={onNewSectionSubmit}
-                onCancel={() => setMainColumnMode('edition')} />
-            </Level>
+              </StretchedLayoutItem>
+            </StretchedLayoutContainer>
           </Column>
         );
       case 'editmetadata':
-        return (
-          <Column>
-            <Title isSize={2}>
-              <Columns>
-                <Column isSize={10}>
-                  {translate('Edit section metadata')}
-                </Column>
-                <Column isSize={2}>
-                  <Delete onClick={() => setMainColumnMode('edition')} />
-                </Column>
-              </Columns>
-            </Title>
-            <Level>
-              <NewSectionForm
-                submitMessage={translate('Save changes')}
-                metadata={{...section.metadata}}
-                onSubmit={onUpdateMetadata}
-                onCancel={() => setMainColumnMode('edition')} />
-            </Level>
-          </Column>
-        );
+        return (<Column isWrapper>
+          <StretchedLayoutContainer isAbsolute>
+            <StretchedLayoutItem>
+              <Column>
+                <Title isSize={2}>
+                  <Columns>
+                    <Column isSize={11}>
+                      {translate('Edit section metadata')}
+                    </Column>
+                    <Column isSize={2}>
+                      <Delete onClick={() => setMainColumnMode('edition')} />
+                    </Column>
+                  </Columns>
+                </Title>
+              </Column>
+            </StretchedLayoutItem>
+            <StretchedLayoutItem isFlowing isFlex={1}>
+              <Column>
+                <NewSectionForm
+                  submitMessage={translate('Save changes')}
+                  metadata={{...section.metadata}}
+                  onSubmit={onUpdateMetadata}
+                  onCancel={() => setMainColumnMode('edition')} />
+              </Column>
+            </StretchedLayoutItem>
+          </StretchedLayoutContainer>
+        </Column>);
       default:
         return null;
     }
   };
 
+  const onEditMetadataClick = () => {
+    if (mainColumnMode !== 'editmetadata') {
+      onOpenSectionSettings(section.id);
+    }
+ else {
+      setMainColumnMode('edition');
+    }
+  };
+
   return (
-    <Column isSize={'fullwidth'}>
-      <Columns style={{height: '100%'}}>
-        <Column style={{height: '100%'}} isSize={mainColumnMode === 'edition' && !userLockedResourceId ? 12 : 6}>
-          <div style={{display: 'flex', flexFlow: 'column nowrap', height: '100%', justifyContent: 'stretch', paddingLeft: '3rem', paddingRight: '3rem'}}>
-            <Level>
-              <TitleForm
-                onSubmit={onUpdateTitle}
-                title={section.metadata.title} />
-            </Level>
-            <Level>
-              <Control>
-                <Label>
-                  {translate('Section content')}
-                  <HelpPin place="right">
-                    {translate('Explanation about the section content')}
-                  </HelpPin>
-                </Label>
-              </Control>
-            </Level>
-            <Level />
-            <SectionEditor
-              style={{flex: 1}}
-              story={story}
-              activeSection={section}
-              sectionId={section.id}
-              editorStates={editorStates}
-              updateDraftEditorState={updateDraftEditorState}
-              updateDraftEditorsStates={updateDraftEditorsStates}
-              editorFocus={editorFocus}
-              userId={userId}
+    <Column isSize={'fullwidth'} isWrapper>
+      <StretchedLayoutContainer isFluid isAbsolute isDirection="horizontal">
+        <StretchedLayoutItem isFlex={mainColumnMode === 'edition' && !userLockedResourceId ? 12 : 6}>
+          <Column
+            isWrapper isSize={{
+                mobile: mainColumnMode === 'edition' ? 10 : 12,
+                tablet: mainColumnMode === 'edition' ? 8 : 12,
+                widescreen: mainColumnMode === 'edition' ? 6 : 12
+              }}
+            isOffset={{
+                mobile: mainColumnMode === 'edition' ? 1 : 0,
+                tablet: mainColumnMode === 'edition' ? 2 : 0,
+                widescreen: mainColumnMode === 'edition' ? 3 : 0
+              }}>
+            <StretchedLayoutContainer isAbsolute isDirection="vertical">
+              <StretchedLayoutItem>
+                <Column isWrapper>
+                  {/* editor header*/}
+                  <StretchedLayoutContainer isFluid isDirection={mainColumnMode !== 'edition' ? 'vertical' : 'horizontal'}>
+                    <StretchedLayoutItem isFlex={1}>
+                      <Title isSize={2}>
+                        {abbrevString(section.metadata.title, 20)}
+                      </Title>
+                    </StretchedLayoutItem>
+                    <StretchedLayoutItem>
+                      <Button
+                        isColor={mainColumnMode === 'editmetadata' ? 'primary' : ''}
+                        onClick={onEditMetadataClick}>
+                        {translate('Edit section metadata')}
+                      </Button>
+                    </StretchedLayoutItem>
+                  </StretchedLayoutContainer>
+                </Column>
+              </StretchedLayoutItem>
+              {/*editor*/}
+              <StretchedLayoutItem isFlex={1}>
+                <Column isWrapper>
+                  <SectionEditor
+                    style={{height: '100%'}}
+                    story={story}
+                    activeSection={section}
+                    sectionId={section.id}
+                    editorStates={editorStates}
+                    updateDraftEditorState={updateDraftEditorState}
+                    updateDraftEditorsStates={updateDraftEditorsStates}
+                    editorFocus={editorFocus}
+                    userId={userId}
 
-              updateSection={newSection => onUpdateSection(newSection)}
+                    updateSection={newSection => onUpdateSection(newSection)}
 
-              summonAsset={summonAsset}
+                    summonAsset={summonAsset}
 
-              createContextualization={createContextualization}
-              createContextualizer={createContextualizer}
-              createResource={createResource}
+                    createContextualization={createContextualization}
+                    createContextualizer={createContextualizer}
+                    createResource={createResource}
 
-              updateContextualizer={updateContextualizer}
-              updateResource={updateResource}
+                    updateContextualizer={updateContextualizer}
+                    updateResource={updateResource}
 
-              deleteContextualization={deleteContextualization}
-              deleteContextualizationFromId={deleteContextualizationFromId}
-              deleteContextualizer={deleteContextualizer}
+                    deleteContextualization={deleteContextualization}
+                    deleteContextualizationFromId={deleteContextualizationFromId}
+                    deleteContextualizer={deleteContextualizer}
 
-              requestAsset={promptAssetEmbed}
-              cancelAssetRequest={unpromptAssetEmbed}
+                    requestAsset={promptAssetEmbed}
+                    cancelAssetRequest={unpromptAssetEmbed}
 
-              assetRequestState={assetRequestState}
-              setAssetRequestContentId={setAssetRequestContentId}
-              assetRequestPosition={assetRequestState.selection}
-              assetRequestContentId={assetRequestState.editorId}
+                    assetRequestState={assetRequestState}
+                    setAssetRequestContentId={setAssetRequestContentId}
+                    assetRequestPosition={assetRequestState.selection}
+                    assetRequestContentId={assetRequestState.editorId}
 
-              startNewResourceConfiguration={startNewResourceConfiguration}
-              startExistingResourceConfiguration={startExistingResourceConfiguration}
+                    startNewResourceConfiguration={startNewResourceConfiguration}
+                    startExistingResourceConfiguration={startExistingResourceConfiguration}
 
-              setEditorFocus={setEditorFocus} />
-          </div>
-        </Column>
-        <Column isSize={mainColumnMode === 'edition' && !userLockedResourceId ? 0 : 6}>
+                    setEditorFocus={setEditorFocus} />
+                </Column>
+              </StretchedLayoutItem>
+            </StretchedLayoutContainer>
+          </Column>
+
+
+          {/*<Level>
+                <Control>
+                  <Label>
+                    {translate('Section content')}
+                    <HelpPin place="right">
+                      {translate('Explanation about the section content')}
+                    </HelpPin>
+                  </Label>
+                </Control>
+              </Level>*/}
+          {/*<Level />*/}
+
+        </StretchedLayoutItem>
+        <StretchedLayoutItem isFlex={mainColumnMode === 'edition' && !userLockedResourceId ? 0 : 6}>
           {renderMain()}
-        </Column>
-      </Columns>
+        </StretchedLayoutItem>
+      </StretchedLayoutContainer>
     </Column>
   );
 };
