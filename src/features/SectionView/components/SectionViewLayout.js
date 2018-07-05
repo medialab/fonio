@@ -401,6 +401,7 @@ const SectionViewLayout = ({
             deleteContextualizationFromId={deleteContextualizationFromId}
 
             onOpenSectionSettings={onOpenSectionSettings}
+            submitMultiResources={submitMultiResources}
 
             setAssetRequestContentId={setAssetRequestContentId}
             startNewResourceConfiguration={startNewResourceConfiguration}

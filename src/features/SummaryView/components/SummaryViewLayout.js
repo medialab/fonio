@@ -335,24 +335,29 @@ const SummaryViewLayout = ({
         {
           newSectionOpen ?
             <StretchedLayoutItem isFluid isFlex={2}isFlowing>
-              <Column>
-                <Title isSize={2}>
-                  <Columns>
-                    <Column isSize={11}>
-                      {translate('New section')}
-                    </Column>
-                    <Column>
-                      <Delete onClick={() => setNewSectionOpen(false)} />
-                    </Column>
-                  </Columns>
-                </Title>
-                <Level>
-                  <NewSectionForm
-                    style={{width: '100%'}}
-                    metadata={{...defaultSectionMetadata}}
-                    onSubmit={onNewSectionSubmit}
-                    onCancel={() => setNewSectionOpen(false)} />
-                </Level>
+              <Column isWrapper>
+                <Column isWrapper>
+                  <StretchedLayoutContainer isAbsolute isDirection="vertical">
+                    <StretchedLayoutItem>
+                      <Title isSize={2}>
+                        <Columns>
+                          <Column isSize={11}>
+                            {translate('New section')}
+                          </Column>
+                          <Column>
+                            <Delete onClick={() => setNewSectionOpen(false)} />
+                          </Column>
+                        </Columns>
+                      </Title>
+                    </StretchedLayoutItem>
+                    <StretchedLayoutItem isFlex={1}>
+                      <NewSectionForm
+                        metadata={{...defaultSectionMetadata}}
+                        onSubmit={onNewSectionSubmit}
+                        onCancel={() => setNewSectionOpen(false)} />
+                    </StretchedLayoutItem>
+                  </StretchedLayoutContainer>
+                  </Column>
               </Column>
             </StretchedLayoutItem>
             :

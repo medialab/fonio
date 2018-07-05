@@ -373,7 +373,7 @@ const LibraryViewLayout = ({
           </Column>
         </StretchedLayoutItem>
         <StretchedLayoutItem isFlex={'3'}>
-          <Column>
+          <Column isWrapper>
             {renderMainColumn()}
           </Column>
         </StretchedLayoutItem>
