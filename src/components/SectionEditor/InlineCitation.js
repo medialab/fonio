@@ -167,7 +167,13 @@ class InlineCitation extends Component {
         isColor="dark"
         className="is-rounded"
         >
-        <span className="items-container">
+        <span 
+          className="items-container"
+          style={{
+                display: 'flex',
+                alignItems: 'center',
+          }}
+        >
           <span onClick={onMoreOptionsClick}>
             {representation && representation.Component}
           </span>
