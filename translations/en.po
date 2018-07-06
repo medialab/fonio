@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-7-5\n"
-"PO-Revision-Date: Thu Jul 05 2018 17:51:49 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-7-6\n"
+"PO-Revision-Date: Fri Jul 06 2018 12:10:40 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2032,6 +2032,21 @@ msgstr "summon-asset"
 
 msgid "Components.SectionEditor.cancel"
 msgstr "cancel"
+
+msgid "Components.ResourceForm.reset type"
+msgstr "reset type"
+
+msgid "Features.SectionView.Add items to the library"
+msgstr "Add items to the library"
+
+msgid "Features.SectionView.Manually"
+msgstr "Manually"
+
+msgid "Features.SectionView.From files drop"
+msgstr "From files drop"
+
+msgid "Features.SectionView.All changes saved"
+msgstr "All changes saved"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr ""
