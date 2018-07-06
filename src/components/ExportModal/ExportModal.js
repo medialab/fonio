@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 
 import {
   ModalCard,
-  Column,
   BigSelect,
-  Notification
+  Notification,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -28,8 +29,8 @@ const ExportModal = ({
       headerContent={translate('Export story')}
       onClose={onClose}
       mainContent={
-        <div>
-          <Column>
+        <StretchedLayoutContainer isDirection="vertical">
+          <StretchedLayoutItem isFlex={1}>
             <BigSelect
               activeOptionId={activeOptionId}
               onChange={onChange}
@@ -45,13 +46,13 @@ const ExportModal = ({
                   iconUrl: activeOptionId === 'json' ? icons.takeAway.white.svg : icons.takeAway.black.svg
                 }
               ]} />
-          </Column>
-          {status === 'success' && <Column>
+          </StretchedLayoutItem>
+          {status === 'success' && <StretchedLayoutItem>
             <Notification isColor="success">
               {translate('Story was bundled successfully')}
             </Notification>
-          </Column>}
-        </div>
+          </StretchedLayoutItem>}
+        </StretchedLayoutContainer>
       } />
   );
 };
