@@ -18,21 +18,21 @@ import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 /**
  * UI
  */
-const SET_ASIDE_TAB_MODE = 'SET_ASIDE_TAB_MODE';
-const SET_ASIDE_TAB_COLLAPSED = 'SET_ASIDE_TAB_COLLAPSED';
+const SET_DESIGN_ASIDE_TAB_MODE = 'SET_DESIGN_ASIDE_TAB_MODE';
+const SET_DESIGN_ASIDE_TAB_COLLAPSED = 'SET_DESIGN_ASIDE_TAB_COLLAPSED';
 
 /**
  * ===================================================
  * ACTION CREATORS
  * ===================================================
  */
-export const setAsideTabMode = payload => ({
-  type: SET_ASIDE_TAB_MODE,
+export const setDesignAsideTabMode = payload => ({
+  type: SET_DESIGN_ASIDE_TAB_MODE,
   payload,
 });
 
-export const setAsideTabCollapsed = payload => ({
-  type: SET_ASIDE_TAB_COLLAPSED,
+export const setDesignAsideTabCollapsed = payload => ({
+  type: SET_DESIGN_ASIDE_TAB_COLLAPSED,
   payload,
 });
 
@@ -44,8 +44,8 @@ export const setAsideTabCollapsed = payload => ({
 
 
 const UI_DEFAULT_STATE = {
-  asideTabMode: 'settings',
-  asideTabCollapsed: false,
+  designAsideTabMode: 'settings',
+  designAsideTabCollapsed: false,
 };
 
 /**
@@ -57,8 +57,8 @@ const UI_DEFAULT_STATE = {
 function ui(state = UI_DEFAULT_STATE, action) {
   const {payload} = action;
   switch (action.type) {
-    case SET_ASIDE_TAB_MODE:
-    case SET_ASIDE_TAB_COLLAPSED:
+    case SET_DESIGN_ASIDE_TAB_MODE:
+    case SET_DESIGN_ASIDE_TAB_COLLAPSED:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -82,14 +82,14 @@ export default combineReducers({
  * ===================================================
  */
 
-const asideTabMode = state => state.ui.asideTabMode;
-const asideTabCollapsed = state => state.ui.asideTabCollapsed;
+const designAsideTabMode = state => state.ui.designAsideTabMode;
+const designAsideTabCollapsed = state => state.ui.designAsideTabCollapsed;
 
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
  */
 export const selector = createStructuredSelector({
-  asideTabMode,
-  asideTabCollapsed,
+  designAsideTabMode,
+  designAsideTabCollapsed,
 });

@@ -8,12 +8,12 @@ import AsideDesignColumn from './AsideDesignColumn';
 import MainDesignColumn from './MainDesignColumn';
 
 const DesignViewLayout = ({
-  asideTabMode,
-  asideTabCollapsed,
+  designAsideTabMode,
+  designAsideTabCollapsed,
   editedStory: story,
   actions: {
-    setAsideTabMode,
-    setAsideTabCollapsed,
+    setDesignAsideTabMode,
+    setDesignAsideTabCollapsed,
   },
   onUpdateCss,
   onUpdateSettings,
@@ -22,11 +22,11 @@ const DesignViewLayout = ({
     <StretchedLayoutContainer isDirection="horizontal" isAbsolute>
       <AsideDesignColumn
         story={story}
-        asideTabCollapsed={asideTabCollapsed}
-        asideTabMode={asideTabMode}
+        designAsideTabCollapsed={designAsideTabCollapsed}
+        designAsideTabMode={designAsideTabMode}
 
-        setAsideTabMode={setAsideTabMode}
-        setAsideTabCollapsed={setAsideTabCollapsed}
+        setDesignAsideTabMode={setDesignAsideTabMode}
+        setDesignAsideTabCollapsed={setDesignAsideTabCollapsed}
         onUpdateCss={onUpdateCss}
         onUpdateSettings={onUpdateSettings} />
 
