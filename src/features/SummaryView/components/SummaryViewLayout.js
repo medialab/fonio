@@ -8,7 +8,6 @@ import {v4 as genId} from 'uuid';
 import {
   Button,
   Column,
-  Columns,
   Delete,
   Container,
   Content,
@@ -272,25 +271,19 @@ const SummaryViewLayout = ({
                 disabled={metadataLockStatus === 'locked'}
                 onClick={toggleMetadataEdition}>
 
-                {metadataOpen ?
-                  <StretchedLayoutContainer isAbsolute style={{alignItems: 'center', justifyContent: 'center'}} isDirection="horizontal">
-                    <StretchedLayoutItem>
-                      <StatusMarker
-                        lockStatus={metadataLockStatus}
-                        statusMessage={metadataLockMessage} />
-                    </StretchedLayoutItem>
-                    <StretchedLayoutItem>{translate('Close story settings')}</StretchedLayoutItem>
-                    <StretchedLayoutItem><Delete onClick={toggleMetadataEdition} /></StretchedLayoutItem>
-                  </StretchedLayoutContainer>
-                  : <StretchedLayoutContainer isAbsolute style={{alignItems: 'center', justifyContent: 'center'}} isDirection="horizontal">
+                {
+                  <StretchedLayoutContainer isAbsolute style={{alignItems: 'center', justifyContent: metadataOpen ? 'space-around' : 'center'}} isDirection="horizontal">
                     <StretchedLayoutItem>
                       <StatusMarker
                         lockStatus={metadataLockStatus}
                         statusMessage={metadataLockMessage} />
                     </StretchedLayoutItem>
                     <StretchedLayoutItem>
-                      {translate('Edit story settings')}
+                      {metadataOpen ? translate('Close story settings') : translate('Edit story settings')}
                     </StretchedLayoutItem>
+                    {metadataOpen && <StretchedLayoutItem>
+                      <Delete isSize="medium" />
+                    </StretchedLayoutItem>}
                   </StretchedLayoutContainer>
                 }
               </Button>
@@ -340,15 +333,16 @@ const SummaryViewLayout = ({
                   <StretchedLayoutContainer isAbsolute isDirection="vertical">
                     <StretchedLayoutItem>
                       <Title isSize={2}>
-                        <Columns>
-                          <Column isSize={11}>
+                        <StretchedLayoutContainer isDirection={'horizontal'}>
+                          <StretchedLayoutItem isFlex={11}>
                             {translate('New section')}
-                          </Column>
-                          <Column>
+                          </StretchedLayoutItem>
+                          <StretchedLayoutItem>
                             <Delete onClick={() => setNewSectionOpen(false)} />
-                          </Column>
-                        </Columns>
+                          </StretchedLayoutItem>
+                        </StretchedLayoutContainer>
                       </Title>
+                      <Level />
                     </StretchedLayoutItem>
                     <StretchedLayoutItem isFlex={1}>
                       <NewSectionForm
