@@ -122,6 +122,7 @@ const EditionUiWrapperLayout = ({
         brandUrl={'/'}
         isOpen={navbarOpen === true}
         onToggle={toggleNavbarOpen}
+        style={{zIndex: 2000}}
 
         locationBreadCrumbs={[
             // {
