@@ -18,10 +18,15 @@ import config from '../config';
 import io from 'socket.io-client';
 import createSocketIoMiddleware from './socketIoMiddleware';
 
+import {splitPathnameForSockets} from '../helpers/misc';
+
 /**
  * @todo: fetch that from config
  */
-const socket = io(config.apiUrl, {path: '/sockets'});
+const [apiOrigin, apiPathname] = splitPathnameForSockets(config.apiUrl);
+const path = '/' + apiPathname.concat('sockets').join('/');
+
+const socket = io(apiOrigin, {path});
 
 const socketIoMiddleware = createSocketIoMiddleware(socket);
 

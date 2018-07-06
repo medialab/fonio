@@ -1,7 +1,7 @@
 node_modules
 .DS_Store
 npm-debug.log
-config/default.json
+config/local.json
 build/
 data/
 index.prod.html
