@@ -41,6 +41,7 @@ const SectionViewLayout = ({
   asideTabMode,
   asideTabCollapsed,
   mainColumnMode,
+  newResourceMode,
   resourceOptionsVisible,
   resourceFilterValues,
   resourceSortValue,
@@ -69,6 +70,7 @@ const SectionViewLayout = ({
     setResourceFilterValues,
     setResourceSortValue,
     setResourceSearchString,
+    setNewResourceMode,
 
     setPromptedToDeleteSectionId,
     setPromptedToDeleteResourceId,
@@ -464,6 +466,8 @@ const SectionViewLayout = ({
             editorFocus={editorFocus}
             assetRequestState={assetRequestState}
 
+            newResourceMode={newResourceMode}
+
             onNewSectionSubmit={onNewSectionSubmit}
 
             updateSection={onUpdateSection}
@@ -471,6 +475,8 @@ const SectionViewLayout = ({
             promptAssetEmbed={promptAssetEmbed}
             unpromptAssetEmbed={unpromptAssetEmbed}
             setEditorFocus={setEditorFocus}
+
+            setNewResourceMode={setNewResourceMode}
 
             newResourceType={newResourceType}
 

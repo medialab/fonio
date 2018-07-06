@@ -178,6 +178,7 @@ class SectionViewContainer extends Component {
          */
         console.log('resource fail to upload');/* eslint no-console: 0 */
       }
+      this.props.actions.setMainColumnMode('edition');
     })
     .catch((err) => {
       /**

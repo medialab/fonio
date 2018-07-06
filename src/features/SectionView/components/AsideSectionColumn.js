@@ -258,7 +258,7 @@ class AsideSectionColumn extends Component {
         <StretchedLayoutContainer isFluid isAbsolute>
           <StretchedLayoutItem>
             <Column>
-              <Tabs style={{overflow: 'hidden'}} isBoxed isFullWidth>
+              <Tabs isBoxed isFullWidth>
                 <Column>
                   <TabList>
                     {

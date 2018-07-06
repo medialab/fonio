@@ -26,7 +26,6 @@ import {
   BigSelect,
   Button,
   Column,
-  Columns,
   Control,
   Delete,
   DropZone,
@@ -82,6 +81,7 @@ class ResourceForm extends Component {
         onCancel,
         onSubmit,
         resourceType,
+        showTitle = true
       },
       state: {
         resource = {}
@@ -407,54 +407,51 @@ class ResourceForm extends Component {
           formApi => (
             <form className="is-wrapper" onSubmit={formApi.submitForm}>
               <StretchedLayoutContainer isAbsolute>
-                <StretchedLayoutItem>
-                  <Title isSize={2}>
-                    <Columns>
-                      <Column isSize={10}>
-                        {asNewResource ? translate('Add item to the library') : translate(`Edit ${resource && resource.metadata.type}`)}
-                      </Column>
-                      <Column>
-                        <Delete onClick={
+                {showTitle && <StretchedLayoutItem>
+                  <Column>
+                    <Title isSize={2}>
+                      <StretchedLayoutContainer isDirection="horizontal">
+                        <StretchedLayoutItem isFlex={1}>
+                          {asNewResource ? translate('Add item to the library') : translate(`Edit ${resource && resource.metadata.type}`)}
+                        </StretchedLayoutItem>
+                        <StretchedLayoutItem>
+                          <Delete onClick={
                           () => onCancel()
                         } />
-                      </Column>
-                    </Columns>
-                  </Title>
-                  <Level />
-                </StretchedLayoutItem>
+                        </StretchedLayoutItem>
+                      </StretchedLayoutContainer>
+                    </Title>
+                    <Level />
+                  </Column>
+                </StretchedLayoutItem>}
                 <StretchedLayoutItem isFlowing isFlex={1}>
                   {asNewResource && !resourceType &&
                   <BigSelect
                     activeOptionId={formApi.getValue('metadata.type')}
                     onChange={thatType => onResourceTypeChange(thatType, formApi)}
                     options={
+                      formApi.getValue('metadata.type') ?
+
+                            [{
+                              id: formApi.getValue('metadata.type'),
+                              label: translate(formApi.getValue('metadata.type')),
+                              iconUrl: icons[formApi.getValue('metadata.type')].black.svg
+                            },
+                            {
+                              id: undefined,
+                              label: translate('reset type'),
+                              iconUrl: icons.remove.black.svg
+                            }]
+                            :
                             resourceTypes.map(thatType => ({
                               id: thatType,
-                              label: thatType,
+                              label: translate(thatType),
                               iconUrl: icons[thatType].black.svg
                             }))
                           } />}
-                  {formApi.getValue('metadata.type') && <Column>
-                    <Column>
-                      <NestedField defaultValues={resource.data} field="data">
-                        <DataForm resourceType={formApi.getValue('metadata.type')} formApi={formApi} />
-                        {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
-                      </NestedField>
-                    </Column>
-                    {(formApi.getValue('metadata.type') !== 'glossary' &&
-                      formApi.getValue('metadata.type') !== 'webpage') &&
-                      !isEmpty(formApi.getValue('data')) &&
-                      <Column>
-                        <Title isSize={5}>
-                          {translate('Preview')}
-                        </Title>
-                        <AssetPreview
-                          resource={formApi.values} />
-                      </Column>
-                    }
-                  </Column>}
-                  <Level />
-                  {formApi.getValue('metadata.type') && resourceSchema.definitions[formApi.getValue('metadata.type')].showMetadata && <Columns>
+                  {formApi.getValue('metadata.type') &&
+                  resourceSchema.definitions[formApi.getValue('metadata.type')].showMetadata &&
+                  <Column>
                     <Column>
                       <Field>
                         <Control>
@@ -507,7 +504,28 @@ class ResourceForm extends Component {
                         </Control>
                       </Field>
                     </Column>
-                  </Columns>}
+                  </Column>}
+                  {formApi.getValue('metadata.type') && <Column>
+                    <Column>
+                      <NestedField defaultValues={resource.data} field="data">
+                        <DataForm resourceType={formApi.getValue('metadata.type')} formApi={formApi} />
+                        {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
+                      </NestedField>
+                    </Column>
+                    {(formApi.getValue('metadata.type') !== 'glossary' &&
+                      formApi.getValue('metadata.type') !== 'webpage') &&
+                      !isEmpty(formApi.getValue('data')) &&
+                      <Column>
+                        <Title isSize={5}>
+                          {translate('Preview')}
+                        </Title>
+                        <AssetPreview
+                          resource={formApi.values} />
+                      </Column>
+                    }
+                  </Column>}
+                  <Level />
+
                 </StretchedLayoutItem>
                 <StretchedLayoutItem>
                   {/*formApi.getValue('metadata.type') &&
