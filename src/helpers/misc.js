@@ -13,6 +13,6 @@ export const splitPathnameForSockets = (url) => {
 
   return [
     (h.length > 1 ? (h[0] + '//') : '') + p[0],
-    p.slice(1)
+    p.slice(1).filter(i => i)
   ];
 };
