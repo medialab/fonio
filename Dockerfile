@@ -2,6 +2,10 @@ FROM nginx:stable-alpine
 
 ENV NODE_ENV production
 
+ENV MAX_SECTION_LEVEL 6
+ENV URL_PREFIX http://localhost:3000
+ENV API_URL ${URL_PREFIX}/api
+
 ADD . /fonio
 WORKDIR /fonio
 
