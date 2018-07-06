@@ -80,7 +80,7 @@ import InlineCitation from './InlineCitation';
 import GlossaryMention from './GlossaryMention';
 import LinkContextualization from './LinkContextualization';
 
-import Bibliography from './Bibliography';
+// import Bibliography from './Bibliography';
 
 
 import BlockQuoteButton from './buttons/BlockQuoteButton';
@@ -128,6 +128,36 @@ const blockAssetComponents = {
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './SectionEditor.scss';
+
+
+class ElementLayout extends Component {
+
+  static PropTypes = {
+    isSize: PropTypes.number,
+    isOffset: PropTypes.number,
+    children: PropTypes.array,
+    style: PropTypes.string,
+  }
+  render = () => {
+
+    const {
+      isSize = 12,
+      isOffset = 0,
+      children,
+      className = '',
+      style = {}
+    } = this.props;
+    return (
+      <Column
+        isSize={isSize}
+        isOffset={isOffset}
+        className={className}
+        style={style}>
+        {children}
+      </Column>
+    );
+  }
+}
 
 
 class NoteLayout extends Component {/* eslint react/prefer-stateless-function : 0 */
@@ -349,6 +379,8 @@ class SectionEditor extends Component {
       citations,
     });
   }
+
+  ElementLayoutComponent = ({children}) => <ElementLayout isSize={this.props.editorWidth} isOffset={this.props.editorOffset}>{children}</ElementLayout>
 
 
   /**
@@ -708,6 +740,8 @@ class SectionEditor extends Component {
       assetRequestPosition,
       cancelAssetRequest,
       summonAsset,
+      // editorWidth,
+      // editorOffset,
       style: componentStyle = {},
     } = props;
 
@@ -883,7 +917,9 @@ class SectionEditor extends Component {
 
     return (
       <Content style={componentStyle} className="fonio-SectionEditor">
-        <div className="editor-wrapper" onScroll={onScroll}>
+        <div
+          className="editor-wrapper"
+          onScroll={onScroll}>
           <ReferencesManager
             style={style}
             locale={locale}
@@ -902,7 +938,7 @@ class SectionEditor extends Component {
                 cancel: this.translate('cancel'),
               }}
 
-              BibliographyComponent={Object.keys(citationItems).length > 0 ? () => <Bibliography /> : null}
+              BibliographyComponent={null/*Object.keys(citationItems).length > 0 ? () => <Bibliography /> : null*/}
 
               clipboard={clipboard}
 
@@ -938,6 +974,7 @@ class SectionEditor extends Component {
               NotePointerComponent={NotePointer}
               AssetButtonComponent={AssetButtonComponent}
               NoteButtonComponent={NoteButtonComponent}
+              ElementLayoutComponent={this.ElementLayoutComponent}
 
               inlineAssetComponents={inlineAssetComponents}
               blockAssetComponents={blockAssetComponents}

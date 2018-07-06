@@ -58,7 +58,7 @@
         overflow: auto;
         flex: 1;
 
-        padding-bottom: 10rem;// todo: parametrize that
+        // padding-bottom: 10rem;// todo: parametrize that
         .scholar-draft-Editor
         {
             position: absolute;
@@ -88,12 +88,15 @@
                 .public-DraftEditor-content{
                     padding: 1rem;
                 }
+                background: rgb(249,249,249);
+
                 // background: $color-very-light;
                 &:not(.active)
                 {
                     .public-DraftEditor-content
                     {
                         background: rgb(240,240,240);
+                        cursor: text;
                         // background: $color-sec-stroke;
                     }
                 }
@@ -266,6 +269,17 @@
             
     }
 
+    .scholar-draft-SideToolbar{
+        &:not(:hover){
+            button:not(.is-primary){
+                opacity: .5;
+            }
+        }
+    }
+
+    /**
+     * Inline contextualizations containing an input
+     */
     .items-container{
         display: flex;
         align-items: center;
