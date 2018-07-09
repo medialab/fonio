@@ -89,6 +89,7 @@ const SectionViewLayout = ({
     createContextualization,
     createContextualizer,
     createResource,
+    uploadResource,
 
     updateDraftEditorState,
     updateDraftEditorsStates,
@@ -447,6 +448,7 @@ const SectionViewLayout = ({
             createContextualization={createContextualization}
             createContextualizer={createContextualizer}
             createResource={onCreateResource}
+            uploadResource={uploadResource}
 
             enterBlock={enterBlock}
             leaveBlock={leaveBlock}

@@ -58,6 +58,7 @@ const MainSectionColumn = ({
   createContextualization,
   createContextualizer,
   createResource,
+  uploadResource,
 
   leaveBlock,
 
@@ -112,12 +113,18 @@ const MainSectionColumn = ({
     if (userLockedResourceId) {
       const handleSubmit = resource => {
         const {id: resourceId} = resource;
-        updateResource({
+        const payload = {
           resourceId,
           resource,
           storyId,
           userId
-        });
+        };
+        if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
+          uploadResource(payload, 'update');
+        }
+        else {
+          updateResource(payload);
+        }
         leaveBlock({
           storyId,
           userId,
@@ -152,76 +159,81 @@ const MainSectionColumn = ({
 
     switch (mainColumnMode) {
       case 'newresource':
-          const handleSubmit = resource => {
-            const resourceId = genId();
-
-            createResource({
-              resourceId,
-              resource: {
-                ...resource,
-                id: resourceId
-              },
-              storyId,
-              userId
-            });
-            setMainColumnMode('edition');
+        const handleSubmit = resource => {
+          const resourceId = genId();
+          const payload = {
+            resourceId,
+            resource: {
+              ...resource,
+              id: resourceId
+            },
+            storyId,
+            userId,
           };
-          return (
-            <Column isWrapper style={{background: 'white', zIndex: 1000}}>
-              <StretchedLayoutContainer isAbsolute>
+          if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
+            uploadResource(payload, 'create');
+          }
+          else {
+            createResource(payload);
+          }
+          setMainColumnMode('edition');
+        };
+        return (
+          <Column isWrapper style={{background: 'white', zIndex: 1000}}>
+            <StretchedLayoutContainer isAbsolute>
+              <StretchedLayoutItem>
                 <StretchedLayoutItem>
-                  <StretchedLayoutItem>
-                    <Title isSize={2}>
-                      <StretchedLayoutContainer isDirection="horizontal">
-                        <StretchedLayoutItem isFlex={10}>
-                          {translate('Add items to the library')}
-                        </StretchedLayoutItem>
-                        <StretchedLayoutItem>
-                          <Delete onClick={
-                            () => setMainColumnMode('edition')
-                          } />
-                        </StretchedLayoutItem>
-                      </StretchedLayoutContainer>
-                    </Title>
-                    <Level />
-                  </StretchedLayoutItem>
+                  <Title isSize={2}>
+                    <StretchedLayoutContainer isDirection="horizontal">
+                      <StretchedLayoutItem isFlex={10}>
+                        {translate('Add items to the library')}
+                      </StretchedLayoutItem>
+                      <StretchedLayoutItem>
+                        <Delete onClick={
+                          () => setMainColumnMode('edition')
+                        } />
+                      </StretchedLayoutItem>
+                    </StretchedLayoutContainer>
+                  </Title>
+                  <Level />
                 </StretchedLayoutItem>
-                <StretchedLayoutItem>
-                  <Tabs isBoxed>
-                    <TabList>
-                      <Tab onClick={() => setNewResourceMode('manually')} isActive={newResourceMode === 'manually'}>
-                        <TabLink>
-                          {translate('Manually')}
-                        </TabLink>
-                      </Tab>
-                      <Tab onClick={() => setNewResourceMode('drop')} isActive={newResourceMode === 'drop'}>
-                        <TabLink>
-                          {translate('From files drop')}
-                        </TabLink>
-                      </Tab>
-                    </TabList>
-                  </Tabs>
-                </StretchedLayoutItem>
-                {newResourceMode === 'manually' && <StretchedLayoutItem isFlex={1}>
-                  <Column isWrapper>
-                    <ResourceForm
-                      showTitle={false}
-                      resourceType={newResourceType}
-                      onCancel={() => setMainColumnMode('edition')}
-                      onSubmit={handleSubmit}
-                      asNewResource />
-                  </Column>
-                </StretchedLayoutItem>}
-                {newResourceMode === 'drop' && <StretchedLayoutItem>
-                  <Column>
-                    <DropZone style={{height: '5rem'}} onDrop={submitMultiResources}>
-                      {translate('Drop files here to include new items in your library (images, tables, bibliographies)')}
-                    </DropZone>
-                  </Column>
-                </StretchedLayoutItem>}
-              </StretchedLayoutContainer>
-            </Column>
-          );
+              </StretchedLayoutItem>
+              <StretchedLayoutItem>
+                <Tabs isBoxed>
+                  <TabList>
+                    <Tab onClick={() => setNewResourceMode('manually')} isActive={newResourceMode === 'manually'}>
+                      <TabLink>
+                        {translate('Manually')}
+                      </TabLink>
+                    </Tab>
+                    <Tab onClick={() => setNewResourceMode('drop')} isActive={newResourceMode === 'drop'}>
+                      <TabLink>
+                        {translate('From files drop')}
+                      </TabLink>
+                    </Tab>
+                  </TabList>
+                </Tabs>
+              </StretchedLayoutItem>
+              {newResourceMode === 'manually' && <StretchedLayoutItem isFlex={1}>
+                <Column isWrapper>
+                  <ResourceForm
+                    showTitle={false}
+                    resourceType={newResourceType}
+                    onCancel={() => setMainColumnMode('edition')}
+                    onSubmit={handleSubmit}
+                    asNewResource />
+                </Column>
+              </StretchedLayoutItem>}
+              {newResourceMode === 'drop' && <StretchedLayoutItem>
+                <Column>
+                  <DropZone style={{height: '5rem'}} onDrop={submitMultiResources}>
+                    {translate('Drop files here to include new items in your library (images, tables, bibliographies)')}
+                  </DropZone>
+                </Column>
+              </StretchedLayoutItem>}
+            </StretchedLayoutContainer>
+          </Column>
+        );
       case 'newsection':
         return (
           <Column isWrapper style={{background: 'white', zIndex: 1000}}>

@@ -80,7 +80,8 @@ export const updateContextualizationsFromEditor = props => {
     const unusedAssets = Object.keys(sectionContextualizations).filter(id => used.indexOf(id) === -1);
     // delete contextualizations
     unusedAssets.forEach(id => {
+      const {contextualizerId} = sectionContextualizations[id];
       deleteContextualization({storyId: activeStoryId, contextualizationId: id, userId});
-      deleteContextualizer({storyId: activeStoryId, contextualizationId: id, userId});
+      deleteContextualizer({storyId: activeStoryId, contextualizerId, userId});
     });
   };

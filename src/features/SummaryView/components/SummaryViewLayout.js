@@ -288,7 +288,7 @@ const SummaryViewLayout = ({
                 }
               </Button>
             </Level>
-            <Collapsable isCollapsed={!metadataOpen}>
+            <Collapsable isCollapsed={!metadataOpen} maxHeight={1000}>
               {metadataOpen && <MetadataForm
                 story={story}
                 onSubmit={onMetadataSubmit}
