@@ -36,16 +36,16 @@
         &:before
         {
             position: absolute;
-            // top: $gutter-small;
-            // left: $gutter-small;
+            top: $gutter-small;
+            left: $gutter-small;
 
             content: open-quote;
         }
         &:after
         {
             position: absolute;
-            // right: $gutter-small;
-            // bottom: $gutter-small;
+            right: $gutter-small;
+            bottom: $gutter-small;
 
             content: close-quote;
         }
