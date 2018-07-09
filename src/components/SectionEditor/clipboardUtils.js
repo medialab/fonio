@@ -268,25 +268,28 @@ export const handleCopy = function(event) {
         .getBlocksAsArray()
         .map(contentBlock => {
           let url;
-          let src;
-          let alt;
+          // let src;
+          // let alt;
           let entityKey;
+          let type;
           contentBlock.findEntityRanges(
             (character) => {
               entityKey = character.getEntity();
+              if (entityKey === null) {
+                return false;
+              }
+              type = contentState.getEntity(entityKey).getType();
               if (
-                entityKey !== null &&
-                contentState.getEntity(entityKey).getType() === 'LINK'
+                type === 'LINK'
               ) {
                 url = contentState.getEntity(entityKey).getData().url;
                 return true;
               }
               else if (
-                entityKey !== null &&
-                contentState.getEntity(entityKey).getType() === 'IMAGE'
+                type === 'IMAGE'
                 ) {
-                 src = contentState.getEntity(entityKey).getData().src;
-                 alt = contentState.getEntity(entityKey).getData().alt;
+                 // src = contentState.getEntity(entityKey).getData().src;
+                 // alt = contentState.getEntity(entityKey).getData().alt;
                  return true;
               }
             },
@@ -297,7 +300,7 @@ export const handleCopy = function(event) {
               let shouldCreateResource;
               let matchingResourceId;
               // case LINK entity
-              if (url) {
+              if (type === 'LINK') {
                 matchingResourceId = Object.keys(resources)
                   .find(resourceId => resources[resourceId].metadata.type === 'webpage' && resources[resourceId].data.url === url);
 
@@ -318,7 +321,7 @@ export const handleCopy = function(event) {
                 }
               }
               // case IMAGE entity
-              else if (src) {
+              else if (type === 'IMAGE') {
                 const selectionState = activeEditorState.getSelection().merge({
                   anchorKey: blockKey,
                   focusKey: blockKey,
@@ -327,11 +330,21 @@ export const handleCopy = function(event) {
                 });
 
                 // we remove the IMAGE entity
-                contentState = Modifier.applyEntity(
-                  contentState,
-                  selectionState,
-                  null
-                );
+                try {
+                  // it sometimes fails
+                  // why ? draft-js mystery ...
+                  // @todo investigate why it fails in some cases
+                  contentState = Modifier.applyEntity(
+                    contentState,
+                    selectionState,
+                    null
+                  );
+                }
+                catch (e) {
+                  console.warn('An error occured while trying to remove an image from pasted contents:');/* eslint no-console: 0 */
+                  console.error(e);/* eslint no-console: 0 */
+                }
+
                 // we remove the corresponding text
                 contentState = Modifier.removeRange(
                   contentState,
@@ -402,8 +415,7 @@ export const handleCopy = function(event) {
                   resourceId: resId,
                   contextualizerId,
                   sectionId: activeSectionId,
-                  type: 'image',
-                  title: alt
+                  type: 'webpage',
                 };
               }
 
