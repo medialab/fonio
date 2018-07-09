@@ -27,6 +27,7 @@ class ResourceCardWrapper extends Component {
       getResourceTitle,
       reverseResourcesLockMap,
       userLockedResourceId,
+      onSetCoverImage,
       handleEdit
     } = this.props;
     return (<Column style={{margin: '0 0 1rem 0', padding: 0}} key={resource.id}>
@@ -34,6 +35,7 @@ class ResourceCardWrapper extends Component {
         resource={resource}
         onDelete={handleDelete}
         getTitle={getResourceTitle}
+        onSetCoverImage={onSetCoverImage}
         lockData={reverseResourcesLockMap[resource.id]}
         isActive={userLockedResourceId}
         onEdit={handleEdit} />
@@ -54,6 +56,7 @@ export default class ResourcesList extends Component {
       resources,
       onDeleteResource,
       onResourceEditAttempt,
+      onSetCoverImage,
       reverseResourcesLockMap,
       userLockedResourceId,
       getResourceTitle,
@@ -69,6 +72,9 @@ export default class ResourcesList extends Component {
           const handleEdit = () => {
             onResourceEditAttempt(resource.id);
           };
+          const handleSetCover = () => {
+            onSetCoverImage(resource.id);
+          };
           return (
             <ResourceCardWrapper
               key={resource.id}
@@ -76,6 +82,7 @@ export default class ResourcesList extends Component {
               handleDelete={handleDelete}
               getResourceTitle={getResourceTitle}
               reverseResourcesLockMap={reverseResourcesLockMap}
+              onSetCoverImage={handleSetCover}
               userLockedResourceId={userLockedResourceId}
               handleEdit={handleEdit} />
           );

@@ -90,6 +90,7 @@ const SectionViewLayout = ({
     createContextualizer,
     createResource,
     uploadResource,
+    setCoverImage,
 
     updateDraftEditorState,
     updateDraftEditorsStates,
@@ -345,6 +346,14 @@ const SectionViewLayout = ({
     });
   };
 
+  const onSetCoverImage = resourceId => {
+    setCoverImage({
+      storyId,
+      resourceId,
+      userId
+    });
+  };
+
   const startExistingResourceConfiguration = resourceId => onResourceEditAttempt(resourceId);
   const startNewResourceConfiguration = (toEmbedResourceAfterCreation, resourceType) => {
     setEmbedResourceAfterCreation(toEmbedResourceAfterCreation);
@@ -407,6 +416,7 @@ const SectionViewLayout = ({
           submitMultiResources={submitMultiResources}
 
           onResourceEditAttempt={onResourceEditAttempt}
+          onSetCoverImage={onSetCoverImage}
 
           onOpenSectionSettings={onOpenSectionSettings}
           setResourceOptionsVisible={setResourceOptionsVisible}

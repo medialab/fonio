@@ -98,6 +98,7 @@ class AsideSectionColumn extends Component {
       onResourceEditAttempt,
 
       onDeleteResource,
+      onSetCoverImage,
       // submitMultiResources,
 
       onDeleteSection,
@@ -191,6 +192,7 @@ class AsideSectionColumn extends Component {
                   <ResourcesList
                     resources={visibleResources}
                     onDeleteResource={onDeleteResource}
+                    onSetCoverImage={onSetCoverImage}
                     storyId={storyId}
                     userId={userId}
                     onResourceEditAttempt={onResourceEditAttempt}

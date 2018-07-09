@@ -52,6 +52,7 @@ export const CREATE_CONTEXTUALIZATION = 'CREATE_CONTEXTUALIZATION';
 export const UPDATE_CONTEXTUALIZATION = 'UPDATE_CONTEXTUALIZATION';
 export const DELETE_CONTEXTUALIZATION = 'DELETE_CONTEXTUALIZATION';
 
+export const SET_COVER_IMAGE = 'SET_COVER_IMAGE';
 
 export const UPLOAD_RESOURCE = 'UPLOAD_RESOURCE';
 export const DELETE_UPLOADED_RESOURCE = 'DELETE_UPLOADED_RESOURCE';
@@ -300,6 +301,7 @@ export const createContextualization = payload => updateStory(CREATE_CONTEXTUALI
 export const updateContextualization = payload => updateStory(UPDATE_CONTEXTUALIZATION, payload);
 export const deleteContextualization = payload => updateStory(DELETE_CONTEXTUALIZATION, payload);
 
+export const setCoverImage = payload => updateStory(SET_COVER_IMAGE, payload);
 /**
  * Action creators related to resource upload request
  */
@@ -644,6 +646,22 @@ function story(state = STORY_DEFAULT_STATE, action) {
         }
       };
 
+    case SET_COVER_IMAGE:
+    case `${SET_COVER_IMAGE}_BROADCAST`:
+      const {resourceId} = payload;
+      return {
+        ...state,
+        story: {
+          ...state.story,
+          metadata: {
+            ...state.story.metadata,
+            coverImage: {
+              resourceId
+            }
+          },
+          lastUpdateAt: payload.lastUpdateAt,
+        }
+      };
     default:
       return state;
   }
