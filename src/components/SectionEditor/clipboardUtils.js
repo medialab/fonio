@@ -14,6 +14,7 @@ import {
 } from 'draftjs-utils';
 
 import {stateToHTML} from 'draft-js-export-html';
+import {createDefaultResource} from '../../helpers/schemaUtils';
 
 import {
   utils,
@@ -377,6 +378,7 @@ export const handleCopy = function(event) {
               // case LINK entity
               else */ if (url) {
                 resource = {
+                  ...createDefaultResource(),
                   id: resId,
                   metadata: {
                     type: 'webpage',
@@ -399,6 +401,7 @@ export const handleCopy = function(event) {
                   id: contextualizationId,
                   resourceId: resId,
                   contextualizerId,
+                  sectionId: activeSectionId,
                   type: 'image',
                   title: alt
                 };
