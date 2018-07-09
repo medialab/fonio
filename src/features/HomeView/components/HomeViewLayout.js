@@ -1,4 +1,5 @@
 /* eslint react/jsx-no-bind:0 */
+/* eslint react/prefer-stateless-function : 0 */
 
 /**
  * This module exports a stateless component rendering the layout of the editor feature interface
@@ -6,6 +7,8 @@
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+
+import FlipMove from 'react-flip-move';
 
 import {createDefaultSection} from '../../../helpers/schemaUtils';
 import {v4 as genId} from 'uuid';
@@ -57,6 +60,27 @@ import ChangePasswordModal from './ChangePasswordModal';
 import EnterPasswordModal from './EnterPasswordModal';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
+
+
+class StoryCardWrapper extends Component {
+  render = () => {
+    const {
+      story,
+      users,
+      onAction
+    } = this.props;
+    return (
+      <Level>
+        <Column>
+          <StoryCard
+            story={story}
+            users={users}
+            onAction={onAction} />
+        </Column>
+      </Level>
+    );
+  }
+}
 
 
 /**
@@ -412,57 +436,59 @@ class HomeViewLayout extends Component {
                     </StretchedLayoutItem>
                   </StretchedLayoutContainer>
                 </Column>
-                {
-                        visibleStoriesList.map((story, index) => (
-                          <Level key={index}>
-                            <Column>
-                              <StoryCard
-                                story={story}
-                                users={
-                                  lockingMap[story.id] ?
-                                    Object.keys(lockingMap[story.id].locks)
-                                      .map(thatUserId => {
-                                        return {
-                                          ...activeUsers[thatUserId]
-                                        };
-                                      })
-                                  : []
-                                }
-                                onAction={(id) => {
-                                  switch (id) {
-                                    case 'open':
-                                      history.push({
-                                        pathname: `/story/${story.id}`
-                                      });
-                                      break;
-                                    case 'read':
-                                      history.push({
-                                        pathname: `/read/${story.id}`
-                                      });
-                                      break;
-                                    case 'duplicate':
-                                      duplicateStory({storyId: story.id})
-                                      .then((res) => {
-                                        if (res.result) {
-                                          setPasswordModalOpen(true);
-                                          setOverrideStoryMode('create');
-                                        }
-                                      });
-                                      break;
-                                    case 'delete':
-                                      setStoryDeleteId(story.id);
-                                      break;
-                                    case 'change password':
-                                      setChangePasswordId(story.id);
-                                      break;
-                                    default:
-                                      break;
+                <FlipMove>
+
+                  {
+                        visibleStoriesList.map((story) => {
+                          const onAction = (id) => {
+                            switch (id) {
+                              case 'open':
+                                history.push({
+                                  pathname: `/story/${story.id}`
+                                });
+                                break;
+                              case 'read':
+                                history.push({
+                                  pathname: `/read/${story.id}`
+                                });
+                                break;
+                              case 'duplicate':
+                                duplicateStory({storyId: story.id})
+                                .then((res) => {
+                                  if (res.result) {
+                                    setPasswordModalOpen(true);
+                                    setOverrideStoryMode('create');
                                   }
-                                }} />
-                            </Column>
-                          </Level>
-                        ))
+                                });
+                                break;
+                              case 'delete':
+                                setStoryDeleteId(story.id);
+                                break;
+                              case 'change password':
+                                setChangePasswordId(story.id);
+                                break;
+                              default:
+                                break;
+                            }
+                          };
+                          const users = lockingMap[story.id] ?
+                            Object.keys(lockingMap[story.id].locks)
+                              .map(thatUserId => {
+                                return {
+                                  ...activeUsers[thatUserId]
+                                };
+                              })
+                          : [];
+                          return (
+                            <StoryCardWrapper
+                              key={story.id}
+                              story={story}
+                              users={users}
+                              onAction={onAction} />
+                          );
+                        })
                       }
+                </FlipMove>
                 {storyDeleteId &&
                   <DeleteStoryModal
                     loginStatus={loginStatus}

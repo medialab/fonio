@@ -5,6 +5,8 @@ import {v4 as genId} from 'uuid';
 import {isEmpty} from 'lodash';
 import objectPath from 'object-path';
 
+import FlipMove from 'react-flip-move';
+
 import resourceSchema from 'quinoa-schemas/resource';
 
 import {
@@ -26,7 +28,6 @@ import {
   LevelItem,
   StretchedLayoutContainer,
   StretchedLayoutItem,
-  Grid,
 } from 'quinoa-design-library/components';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -353,7 +354,7 @@ const LibraryViewLayout = ({
             </StretchedLayoutItem>
             <StretchedLayoutItem isFlex={1} isFlowing>
               <Column>
-                <Grid columns={3}>
+                <FlipMove style={{display: 'flex', flexFlow: 'row wrap'}}>
                   {
                       visibleResources.map(resource => {
                         const handleEdit = () => {
@@ -378,7 +379,7 @@ const LibraryViewLayout = ({
                         );
                       })
                     }
-                </Grid>
+                </FlipMove>
               </Column>
             </StretchedLayoutItem>
             <ConfirmToDeleteModal

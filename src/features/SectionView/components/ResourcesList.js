@@ -1,7 +1,10 @@
+/* eslint react/prefer-stateless-function : 0 */
 import React, {Component} from 'react';
 
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import FlipMove from 'react-flip-move';
+
 
 // import DragLayer from './DragLayer';
 
@@ -11,6 +14,32 @@ import {
 } from 'quinoa-design-library/components/';
 
 import ResourceMiniCard from './ResourceMiniCard';
+
+class ResourceCardWrapper extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render = () => {
+    const {
+      resource,
+      handleDelete,
+      getResourceTitle,
+      reverseResourcesLockMap,
+      userLockedResourceId,
+      handleEdit
+    } = this.props;
+    return (<Column style={{margin: '0 0 1rem 0', padding: 0}} key={resource.id}>
+      <ResourceMiniCard
+        resource={resource}
+        onDelete={handleDelete}
+        getTitle={getResourceTitle}
+        lockData={reverseResourcesLockMap[resource.id]}
+        isActive={userLockedResourceId}
+        onEdit={handleEdit} />
+    </Column>);
+  }
+}
 
 @DragDropContext(HTML5Backend)
 export default class ResourcesList extends Component {
@@ -30,8 +59,7 @@ export default class ResourcesList extends Component {
       getResourceTitle,
     } = this.props;
     return (
-      <div>
-
+      <FlipMove>
         {
         resources
         .map(resource => {
@@ -42,19 +70,18 @@ export default class ResourcesList extends Component {
             onResourceEditAttempt(resource.id);
           };
           return (
-            <Column style={{margin: '0 0 1rem 0', padding: 0}} key={resource.id}>
-              <ResourceMiniCard
-                resource={resource}
-                onDelete={handleDelete}
-                getTitle={getResourceTitle}
-                lockData={reverseResourcesLockMap[resource.id]}
-                isActive={userLockedResourceId}
-                onEdit={handleEdit} />
-            </Column>
+            <ResourceCardWrapper
+              key={resource.id}
+              resource={resource}
+              handleDelete={handleDelete}
+              getResourceTitle={getResourceTitle}
+              reverseResourcesLockMap={reverseResourcesLockMap}
+              userLockedResourceId={userLockedResourceId}
+              handleEdit={handleEdit} />
           );
         })
       }
-      </div>
+      </FlipMove>
     );
   }
 }

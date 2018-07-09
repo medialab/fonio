@@ -183,18 +183,20 @@ const MainSectionColumn = ({
             <StretchedLayoutContainer isAbsolute>
               <StretchedLayoutItem>
                 <StretchedLayoutItem>
-                  <Title isSize={2}>
-                    <StretchedLayoutContainer isDirection="horizontal">
-                      <StretchedLayoutItem isFlex={10}>
-                        {translate('Add items to the library')}
-                      </StretchedLayoutItem>
-                      <StretchedLayoutItem>
-                        <Delete onClick={
-                          () => setMainColumnMode('edition')
-                        } />
-                      </StretchedLayoutItem>
-                    </StretchedLayoutContainer>
-                  </Title>
+                  <Column>
+                    <Title isSize={2}>
+                      <StretchedLayoutContainer isDirection="horizontal">
+                        <StretchedLayoutItem isFlex={10}>
+                          {translate('Add items to the library')}
+                        </StretchedLayoutItem>
+                        <StretchedLayoutItem>
+                          <Delete onClick={
+                            () => setMainColumnMode('edition')
+                          } />
+                        </StretchedLayoutItem>
+                      </StretchedLayoutContainer>
+                    </Title>
+                  </Column>
                   <Level />
                 </StretchedLayoutItem>
               </StretchedLayoutItem>

@@ -132,12 +132,12 @@ import './SectionEditor.scss';
 
 class ElementLayout extends Component {
 
-  static propTypes = {
-    isSize: PropTypes.number,
-    isOffset: PropTypes.number,
-    children: PropTypes.array,
-    style: PropTypes.string,
-  }
+  // static propTypes = {
+  //   isSize: PropTypes.number,
+  //   isOffset: PropTypes.number,
+  //   children: PropTypes.array,
+  //   style: PropTypes.string,
+  // }
   render = () => {
 
     const {
