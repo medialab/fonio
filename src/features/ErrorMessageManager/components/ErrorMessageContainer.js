@@ -8,12 +8,14 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import * as duck from '../duck';
 import * as storyDuck from '../../StoryManager/duck';
+import * as connectionsDuck from '../../ConnectionsManager/duck';
 
 
 @connect(
   state => ({
     ...duck.selector(state.errorMessage),
     ...storyDuck.selector(state.editedStory),
+    ...connectionsDuck.selector(state.connections),
   }),
   // dispatch => ({
   //   actions: bindActionCreators({
@@ -75,20 +77,19 @@ class ErrorMessageContainer extends Component {
             break;
         }
       }
-      toastr.error(title);
-
-      // if (nextProps.editedStory) {
-      //   const lockedUsers = nextProps.lockingMap[nextProps.editedStory.id].locks;
-      //   const lockedUserId = Object.keys(lockedUsers).find(
-      //       thatUserId => lockedUsers[thatUserId][nextProps.lastLockFail.blockType] &&
-      //                     lockedUsers[thatUserId][nextProps.lastLockFail.blockType].blockId === nextProps.lastLockFail.blockId
-      //     );
-      //   const lockedUser = lockedUserId && nextProps.activeUsers[lockedUserId];
-      //   if (lockedUser) {
-      //     const message = translate('It is edited by {a}', {a: lockedUser && lockedUser.name});
-      //     toastr.error(title, message);
-      //   }
-      // }
+      // toastr.error(title);
+      if (nextProps.editedStory && nextProps.lockingMap[nextProps.editedStory.id]) {
+        const lockedUsers = nextProps.lockingMap[nextProps.editedStory.id].locks;
+        const lockedUserId = Object.keys(lockedUsers).find(
+            thatUserId => lockedUsers[thatUserId][nextProps.lastLockFail.blockType] &&
+                          lockedUsers[thatUserId][nextProps.lastLockFail.blockType].blockId === nextProps.lastLockFail.blockId
+          );
+        const lockedUser = lockedUserId && nextProps.activeUsers[lockedUserId];
+        if (lockedUser) {
+          const message = translate('It is edited by {a}', {a: lockedUser && lockedUser.name});
+          toastr.error(title, message);
+        }
+      }
     }
   }
 
