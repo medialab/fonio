@@ -111,10 +111,11 @@
                 // padding: $gutter-medium;
 
                 // @extend .animated;
-                // .public-DraftStyleDefault-block
-                // {
-                    // margin-bottom: $gutter-medium;
-                // }
+                .public-DraftStyleDefault-block
+                {
+                    line-height: 1.75rem;
+                    margin-bottom: 1.5rem;
+                }
             }
             .scholar-draft-NoteContainer
             {
