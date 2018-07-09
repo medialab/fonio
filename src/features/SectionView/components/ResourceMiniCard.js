@@ -111,7 +111,7 @@ class ResourceCard extends Component {
       onEdit,
       onDelete,
       getTitle,
-      // onSetCoverImage,
+      onSetCoverImage,
       selectMode,
 
       connectDragSource,
@@ -236,7 +236,9 @@ class ResourceCard extends Component {
                       </Icon>
                     </Button>
                     {type === 'image' &&
-                      <Button data-for="card-action" data-tip={translate('use as cover image')}>
+                      <Button
+                        onClick={onSetCoverImage}
+                        data-for="card-action" data-tip={translate('use as cover image')}>
                         <Icon isSize="small" isAlign="left">
                           <img src={icons.cover.black.svg} />
                         </Icon>

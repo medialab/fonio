@@ -25,6 +25,7 @@ export default class ResourcesList extends Component {
       resources,
       onDeleteResource,
       onResourceEditAttempt,
+      onSetCoverImage,
       reverseResourcesLockMap,
       userLockedResourceId,
       getResourceTitle,
@@ -41,11 +42,15 @@ export default class ResourcesList extends Component {
           const handleEdit = () => {
             onResourceEditAttempt(resource.id);
           };
+          const handleSetCover = () => {
+            onSetCoverImage(resource.id);
+          };
           return (
             <Column style={{margin: '0 0 1rem 0', padding: 0}} key={resource.id}>
               <ResourceMiniCard
                 resource={resource}
                 onDelete={handleDelete}
+                onSetCoverImage={handleSetCover}
                 getTitle={getResourceTitle}
                 lockData={reverseResourcesLockMap[resource.id]}
                 isActive={userLockedResourceId}
