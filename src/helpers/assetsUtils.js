@@ -12,7 +12,7 @@ import Cite from 'citation-js';
 import {
   convertToRaw,
   Modifier,
-  EditorState
+  EditorState,
 } from 'draft-js';
 
 import {
@@ -20,6 +20,14 @@ import {
   insertBlockContextualization,
   getTextSelection
 } from './draftUtils';
+
+import {
+  constants
+} from 'scholar-draft';
+const {
+  BLOCK_ASSET,
+  INLINE_ASSET
+} = constants;
 
 /**
  * Checks whether a file is an image that can be loaded in base64 later on
@@ -357,3 +365,125 @@ export function inferMetadata(data, assetType) {
     setEditorFocus(undefined);
     setTimeout(() => setEditorFocus(contentId));
   };
+
+export const deleteContextualizationFromId = ({
+  contextualization,
+  editorStates,
+  updateDraftEditorState,
+  updateSection,
+  section,
+}) => {
+    const {id} = contextualization;
+    let entityKey;
+    let entity;
+    let eData;
+    let newEditorState;
+    let contentId;
+    // we dont know in advance for sure which editor is target by the contextualization
+    // so we iterate through main editor state + notes editor states
+    // (we could guess it but this is more safe)
+    Object.keys(editorStates)
+      .find(key => {
+        const editorState = editorStates[key];
+        let found;
+        const contentState = editorState.getCurrentContent();
+        // we need to iterate through all blocks
+        // find = stop when found (even if we do not care about the returned value)
+        contentState.getBlockMap().find(thatBlock => {
+          // iterate through each character
+          return thatBlock.getCharacterList().find(char => {
+            // if there is an entity
+            if (char.entity) {
+              entityKey = char.entity;
+              entity = contentState.getEntity(entityKey);
+              eData = entity.toJS();
+              // and if the entity is the right one
+              if (eData.data && eData.data.asset && eData.data.asset.id === id) {
+                found = true;
+                // then find total entity range
+                thatBlock.findEntityRanges(
+                  metadata => {
+                    return metadata.getEntity() === entityKey;
+                  },
+                  // ounce found
+                  (start, end) => {
+                    // delimitate its selection
+                    const selectionState = editorState.getSelection().merge({
+                      anchorKey: thatBlock.getKey(),
+                      focusKey: thatBlock.getKey(),
+                      anchorOffset: start,
+                      focusOffset: end,
+                    });
+                    // and remove entity from this range
+                    newEditorState = EditorState.push(
+                      editorState,
+                      Modifier.applyEntity(
+                        contentState,
+                        selectionState,
+                        null
+                      ),
+                      'remove-entity'
+                    );
+                    // then update
+                    contentId = key;
+                    if (newEditorState && contentId) {
+                      // apply change
+                      const newSection = contentId === 'main' ? {
+                        ...section,
+                        contents: convertToRaw(newEditorState.getCurrentContent())
+                      } : {
+                        ...section,
+                        notes: {
+                          ...section.notes,
+                          [contentId]: {
+                            ...section.notes[contentId],
+                            contents: convertToRaw(newEditorState.getCurrentContent())
+                          }
+                        }
+                      };
+                      // update section
+                      updateSection(newSection);
+                      if (typeof updateDraftEditorState === 'function') {
+                        // update real time editor state
+                        updateDraftEditorState(contentId, newEditorState);
+                      }
+                    }
+                  }
+                );
+
+                return true;
+              }
+            }
+
+          });
+        });
+        return found;
+      });
+  };
+
+
+  export const removeContextualizationReferenceFromRawContents = (contents, contId) => {
+      const result = {...contents};
+      let changed;
+      Object.keys(contents.entityMap).forEach(key => {
+        const entity = contents.entityMap[key];
+        if ((entity.type === BLOCK_ASSET || entity.type === INLINE_ASSET) && entity.data && entity.data.asset && entity.data.asset.id === contId) {
+          result.blocks = result.blocks.map(block => {
+            // if block is atomic we delete it
+            if (block.type === 'atomic') {
+              return undefined;
+            }
+            return {
+              ...block,
+              entityRanges: block.entityRanges.filter(range => range.key !== key)
+            };
+          })
+          // just keep defined blocks
+          .filter(b => b);
+          // delete entity from entity map
+          delete result.entityMap[key];
+          changed = true;
+        }
+      });
+      return {result, changed};
+    };

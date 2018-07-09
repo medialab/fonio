@@ -31,6 +31,9 @@ import {
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+import {
+  removeContextualizationReferenceFromRawContents
+} from '../../../helpers/assetsUtils';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {
@@ -76,6 +79,7 @@ const LibraryViewLayout = ({
     deleteResource,
     uploadResource,
     deleteUploadedResource,
+    updateSection,
   },
   submitMultiResources,
 }, {t}) => {
@@ -160,6 +164,52 @@ const LibraryViewLayout = ({
       userId,
       resourceId: resource.id
     };
+    // deleting entities in content states
+    const relatedContextualizationsIds = Object.keys(story.contextualizations).map(c => story.contextualizations[c])
+      .filter(contextualization => {
+        return contextualization.resourceId === promptedToDeleteResourceId;
+      }).map(c => c.id);
+
+    if (relatedContextualizationsIds.length) {
+      Object.keys(story.sections).forEach(key => {
+        const section = story.sections[key];
+        let sectionChanged;
+
+        const newSection = {
+          ...section,
+          contents: relatedContextualizationsIds.reduce((temp, contId) => {
+            const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
+            if (changed && !sectionChanged) {
+              sectionChanged = true;
+            }
+            return result;
+          }, section.contents),
+          notes: Object.keys(section.notes).reduce((temp1, noteId) => ({
+            ...temp1,
+            [noteId]: {
+              ...section.notes[noteId],
+              contents: relatedContextualizationsIds.reduce((temp, contId) => {
+                const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
+                if (changed && !sectionChanged) {
+                  sectionChanged = true;
+                }
+                return result;
+              }, section.notes[noteId].contents)
+            }
+          }), {})
+        };
+        if (sectionChanged) {
+          updateSection({
+            sectionId: section.id,
+            storyId: story.id,
+            userId,
+            section: newSection,
+          });
+        }
+      });
+    }
+
+    // deleting the resource
     if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
       deleteUploadedResource(payload);
     }
