@@ -378,7 +378,7 @@ const SectionViewLayout = ({
 
   return (
     <StretchedLayoutContainer isAbsolute isFluid isDirection="horizontal">
-      <StretchedLayoutItem className="is-hidden-mobile" isFlex={1}>
+      <StretchedLayoutItem className="is-hidden-mobile" isFlex={1} style={{minWidth: asideTabCollapsed ? undefined : '30%'}}>
         <AsideSectionColumn
           asideTabCollapsed={asideTabCollapsed}
           asideTabMode={asideTabMode}

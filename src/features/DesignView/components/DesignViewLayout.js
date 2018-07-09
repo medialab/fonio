@@ -24,6 +24,7 @@ const DesignViewLayout = ({
         story={story}
         designAsideTabCollapsed={designAsideTabCollapsed}
         designAsideTabMode={designAsideTabMode}
+        style={{minWidth: designAsideTabCollapsed ? undefined : '30%'}}
 
         setDesignAsideTabMode={setDesignAsideTabMode}
         setDesignAsideTabCollapsed={setDesignAsideTabCollapsed}

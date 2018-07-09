@@ -352,7 +352,7 @@
   "Components.ResourceForm.Update webpage": "Update hyperlink",
   "Components.ResourceForm.Update glossary": "Update glossary entry",
   "Components.NewSectionForm.Authors": "Auteurs",
-  "Components.ConfirmToDeleteModal.This resource is cited in {n} places of in your story,": "This item is cited in {n} places of in your story,",
+  "Components.ConfirmToDeleteModal.This resource is cited in {n} places of in your story,": "This item is cited in {n} places in your story,",
   "Features.SectionView.Add new images to your story": "Add new images to your story",
   "Components.GlossaryMention.alias-placeholder": "taper du texte ici",
   "Features.LibraryView.Your library contains all the resources (references, images, visualizations...) that can be used within the story.": "La bibliothèque contient tous les items (références, images, visualisations,...) pouvant être utilisés dans le récit.",
