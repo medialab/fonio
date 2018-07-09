@@ -7,6 +7,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {createDefaultSection} from '../../../helpers/schemaUtils';
+import {v4 as genId} from 'uuid';
+
 import {
   Button,
   Column,
@@ -227,23 +230,49 @@ class HomeViewLayout extends Component {
         };
 
         const onCreateNewStory = payload => {
-          createStory(payload)
+          const startingSectionId = genId();
+          const defaultSection = createDefaultSection();
+          const startingSection = {
+            ...defaultSection,
+            id: startingSectionId,
+            metadata: {
+              ...defaultSection.metadata,
+              title: 'Introduction'
+            }
+          };
+          const story = {
+            ...payload.payload,
+            sections: {
+              [startingSectionId]: startingSection,
+            },
+            sectionsOrder: [startingSectionId]
+          };
+
+          createStory({...payload, payload: story})
           .then((res) => {
             if (res.result) {
-              const {story, token} = res.result.data;
-              saveStoryToken(story.id, token);
+              const {story: thatStory, token} = res.result.data;
+              saveStoryToken(thatStory.id, token);
               setNewStoryOpen(false);
+              history.push({
+                pathname: `/story/${thatStory.id}/section/${startingSectionId}`,
+              });
             }
           });
         };
 
         const OnCreateExistStory = (password) => {
           createStory({
-            payload: newStory, password})
+            payload: newStory, password
+          })
           .then((res) => {
             if (res.result) {
               setPasswordModalOpen(false);
+              saveStoryToken(res.result.data.story.id, res.result.data.token);
               setNewStoryOpen(false);
+              history.push({
+                pathname: `/story/${res.result.data.story.id}/`,
+              });
             }
           });
         };
@@ -258,7 +287,11 @@ class HomeViewLayout extends Component {
               .then((resp) => {
                 if (resp.result) {
                   setPasswordModalOpen(false);
+                  saveStoryToken(res.result.data.story.id, res.result.data.token);
                   setNewStoryOpen(false);
+                  history.push({
+                    pathname: `/story/${res.result.data.story.id}/`,
+                  });
                 }
               });
             }
