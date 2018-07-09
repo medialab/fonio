@@ -258,16 +258,21 @@ export const handleCopy = function(event) {
     if (!hasScript) {
       // replacing pasted links with resources/contextualizers/contextualizations
       let contentState = activeEditorState.getCurrentContent();
+      // console.log(convertToRaw(contentState))
       const mods = [];
       // trying not to duplicate same links
       const linksMap = {};
+      // const imagesMap = {};
       contentState
         .getBlocksAsArray()
         .map(contentBlock => {
           let url;
+          let src;
+          let alt;
+          let entityKey;
           contentBlock.findEntityRanges(
             (character) => {
-              const entityKey = character.getEntity();
+              entityKey = character.getEntity();
               if (
                 entityKey !== null &&
                 contentState.getEntity(entityKey).getType() === 'LINK'
@@ -275,58 +280,130 @@ export const handleCopy = function(event) {
                 url = contentState.getEntity(entityKey).getData().url;
                 return true;
               }
+              else if (
+                entityKey !== null &&
+                contentState.getEntity(entityKey).getType() === 'IMAGE'
+                ) {
+                 src = contentState.getEntity(entityKey).getData().src;
+                 alt = contentState.getEntity(entityKey).getData().alt;
+                 return true;
+              }
             },
             (from, to) => {
               const text = contentBlock.getText().substring(from, to);
               const blockKey = contentBlock.getKey();
               let resId = generateId();
               let shouldCreateResource;
-              const matchingResourceId = Object.keys(resources)
-                .find(resourceId => resources[resourceId].metadata.type === 'webpage' && resources[resourceId].data.url === url);
+              let matchingResourceId;
+              // case LINK entity
+              if (url) {
+                matchingResourceId = Object.keys(resources)
+                  .find(resourceId => resources[resourceId].metadata.type === 'webpage' && resources[resourceId].data.url === url);
 
-              /**
-               * avoiding to create duplicate resources
-               */
-              if (linksMap[url]) {
-                resId = linksMap[url];
-                shouldCreateResource = false;
+                /**
+                 * avoiding to create duplicate resources
+                 */
+                if (linksMap[url]) {
+                  resId = linksMap[url];
+                  shouldCreateResource = false;
+                }
+                else if (matchingResourceId) {
+                  resId = matchingResourceId;
+                  shouldCreateResource = false;
+                }
+                else {
+                  linksMap[url] = resId;
+                  shouldCreateResource = true;
+                }
               }
-              else if (matchingResourceId) {
-                resId = matchingResourceId;
-                shouldCreateResource = false;
+              // case IMAGE entity
+              else if (src) {
+                const selectionState = activeEditorState.getSelection().merge({
+                  anchorKey: blockKey,
+                  focusKey: blockKey,
+                  anchorOffset: from,
+                  focusOffset: to,
+                });
+
+                // we remove the IMAGE entity
+                contentState = Modifier.applyEntity(
+                  contentState,
+                  selectionState,
+                  null
+                );
+                // we remove the corresponding text
+                contentState = Modifier.removeRange(
+                  contentState,
+                  selectionState
+                );
+                return;
+                // shouldCreateResource = true;
+                // imagesMap[src] = {src, alt};
               }
-              else {
-                linksMap[url] = resId;
-                shouldCreateResource = true;
-              }
+
               const contextualizationId = generateId();
               const contextualizerId = generateId();
-              const resource = {
-                id: resId,
-                metadata: {
+              let resource;
+              let contextualizer;
+              let contextualization;
+              // case IMAGE entity
+              /*if (src) {
+                resource = {
+                  id: resId,
+                  metadata: {
+                    type: 'image',
+                    createdAt: new Date().getTime(),
+                    lastModifiedAt: new Date().getTime(),
+                    title: alt,
+                    ext: src.split('.').pop() || 'jpeg'
+                  },
+                  data: {
+                    url: src,
+                  }
+                };
+                contextualizer = {
+                  id: contextualizerId,
+                  type: 'image',
+                  insertionType: 'block'
+                };
+                contextualization = {
+                  id: contextualizationId,
+                  resourceId: resId,
+                  contextualizerId,
+                  type: 'image',
+                  title: alt
+                };
+              }
+              // case LINK entity
+              else */ if (url) {
+                resource = {
+                  id: resId,
+                  metadata: {
+                    type: 'webpage',
+                    createdAt: new Date().getTime(),
+                    lastModifiedAt: new Date().getTime(),
+                    title: text,
+                  },
+                  data: {
+                    url,
+                    name: text
+                  }
+                };
+                contextualizer = {
+                  id: contextualizerId,
                   type: 'webpage',
-                  createdAt: new Date().getTime(),
-                  lastModifiedAt: new Date().getTime(),
-                  title: text,
-                },
-                data: {
-                  url,
-                  name: text
-                }
-              };
-              const contextualizer = {
-                id: contextualizerId,
-                type: 'webpage',
-                alias: text,
-                insertionType: 'inline'
-              };
-              const contextualization = {
-                id: contextualizationId,
-                resourceId: resId,
-                contextualizerId,
-                type: 'webpage',
-                title: text
-              };
+                  alias: text,
+                  insertionType: 'inline'
+                };
+                contextualization = {
+                  id: contextualizationId,
+                  resourceId: resId,
+                  contextualizerId,
+                  type: 'image',
+                  title: alt
+                };
+              }
+
               if (shouldCreateResource) {
                 createResource({storyId, resourceId: resId, resource, userId});
               }
@@ -389,6 +466,7 @@ export const handleCopy = function(event) {
       );
       // ...then update the section with editorStates convert to serializable raw objects
       let newSection;
+      // console.log(convertToRaw(activeEditorState.getCurrentContent()));
       if (editorFocus === 'main') {
         newSection = {
           ...activeSection,
