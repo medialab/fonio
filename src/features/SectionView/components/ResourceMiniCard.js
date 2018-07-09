@@ -223,14 +223,14 @@ class ResourceCard extends Component {
                     </Button>
                     <Button
                       onClick={onEdit} isDisabled={isActive || lockStatus === 'locked'} data-for="card-action"
-                      data-tip={'settings'}>
+                      data-tip={translate('settings')}>
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.settings.black.svg} />
                       </Icon>
                     </Button>
                     <Button
                       onClick={handleDelete} isDisabled={isActive || lockStatus === 'locked'} data-for="card-action"
-                      data-tip={translate('delete this resource')}>
+                      data-tip={translate(`delete this ${type}`)}>
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.remove.black.svg} />
                       </Icon>
