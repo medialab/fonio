@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-9\n"
-"PO-Revision-Date: Mon Jul 09 2018 16:07:58 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jul 09 2018 16:21:09 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1797,7 +1797,7 @@ msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete this sect
 msgstr "Are you sure you want to delete this section ?"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "
-msgstr "Êtes-vous sûr·e de vouloir supprimer la ressource \"{s}\" ?"
+msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  \"{s}\" ?"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete this resource ?"
 msgstr "Are you sure you want to delete this resource ?"
@@ -4073,12 +4073,6 @@ msgstr "This resource is cited in {n} places of in your story,"
 msgid "Features.SectionView.Add new images to your story"
 msgstr "Add new images to your story"
 
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
-msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
-
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
-msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  \"{s}\" ?"
-
 msgid "Features.SectionView.delete this image"
 msgstr "supprimer cette image"
 
@@ -4103,8 +4097,14 @@ msgstr "supprimer cette entrée de glossaire"
 msgid "Features.SectionView.settings"
 msgstr "éditer"
 
-msgid "Features.SummaryView.{a} is working on section "{t}""
-msgstr "{a} travaille sur la section \"{t}\""
-
 msgid "Features.LibraryView.Your library contains all the items (references, images, visualizations...) that can be used within the story."
 msgstr "Your library contains all the items (references, images, visualizations...) that can be used within the story."
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
+msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  \"{s}\" ?"
+
+msgid "Features.SummaryView.{a} is working on section "{t}""
+msgstr "{a} travaille sur la section \"{t}\""

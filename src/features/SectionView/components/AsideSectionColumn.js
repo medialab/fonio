@@ -132,10 +132,10 @@ class AsideSectionColumn extends Component {
           return (
             <StretchedLayoutContainer isFluid isAbsolute>
               <StretchedLayoutItem>
-                <Column>
+                <div>
                   <Column>
                     <Field hasAddons>
-                      <Control>
+                      <Control style={{flex: 1}}>
                         <Input value={resourceSearchString} onChange={e => setResourceSearchString(e.target.value)} placeholder={translate('find a resource')} />
                       </Control>
                       <Control>
@@ -184,7 +184,7 @@ class AsideSectionColumn extends Component {
                       </Control>
                     </Field>
                   </Column>
-                </Column>
+                </div>
               </StretchedLayoutItem>
               <StretchedLayoutItem isFlex={1} isFlowing>
                 <Column>
@@ -258,7 +258,7 @@ class AsideSectionColumn extends Component {
         <StretchedLayoutContainer isFluid isAbsolute>
           <StretchedLayoutItem>
             <Column>
-              <Tabs isBoxed isFullWidth>
+              <Tabs isBoxed isFullWidth style={{overflow: 'hidden'}}>
                 <Column>
                   <TabList>
                     {
