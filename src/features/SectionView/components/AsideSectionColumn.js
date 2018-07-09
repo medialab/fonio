@@ -213,7 +213,7 @@ class AsideSectionColumn extends Component {
                       isColor={mainColumnMode === 'newresource' ? 'primary' : 'info'}
                       isDisabled={userLockedResourceId !== undefined}>
                       <span style={{paddingRight: '1rem'}}>{translate('Add items to library')}</span> <HelpPin place="right">
-                        {translate('Add new images, references, videos, ... to your story')}
+                        {translate('Add new images to your story')}
                       </HelpPin>
                     </Button>
                   </Column>

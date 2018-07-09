@@ -412,7 +412,7 @@ class ResourceForm extends Component {
                     <Title isSize={2}>
                       <StretchedLayoutContainer isDirection="horizontal">
                         <StretchedLayoutItem isFlex={1}>
-                          {asNewResource ? translate('Add item to the library') : translate(`Edit ${resource && resource.metadata.type}`)}
+                          {asNewResource ? translate(`Add ${(resource && resource.metadata.type) || 'item'} to the library`) : translate(`Edit ${resource && resource.metadata.type}`)}
                         </StretchedLayoutItem>
                         <StretchedLayoutItem>
                           <Delete onClick={

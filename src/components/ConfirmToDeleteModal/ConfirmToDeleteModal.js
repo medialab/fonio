@@ -60,7 +60,7 @@ const ConfirmToDeleteModal = ({
       mainContent={
         <div>
           {deleteType === 'resource' && citedContext.length > 0 &&
-            <div>{`This resource is cited ${citedContext.length} places of in your story,`}</div>}
+            <div>{translate('This resource is cited in {n} places of in your story,', {c: citedContext.length})}</div>}
           <div>{message}</div>
         </div>
       }

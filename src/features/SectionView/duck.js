@@ -191,7 +191,7 @@ const defaultResourceFilterValues = Object.keys(resourceSchema.definitions)
   }), {});
 
 const UI_DEFAULT_STATE = {
-  asideTabMode: 'library',
+  asideTabMode: 'summary',
   asideTabCollapsed: false,
   mainColumnMode: 'edition',
   resourceOptionsVisible: false,

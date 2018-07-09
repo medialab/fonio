@@ -241,7 +241,7 @@ class AssetPreview extends Component {
               </Columns>
             </Level>
             <Level>
-              <Columns>
+              <Column>
                 <Column>
                   <Button isColor="warning" onClick={this.onClickDelete}>
                     <span>{translate('delete mention')}</span>
@@ -260,7 +260,7 @@ class AssetPreview extends Component {
                     {translate('show info')}
                   </Button>
                 </Column>}
-              </Columns>
+              </Column>
             </Level>
             {(metadata.description || metadata.source) && isInfoShown &&
               <Level>

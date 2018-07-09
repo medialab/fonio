@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-9\n"
-"PO-Revision-Date: Mon Jul 09 2018 13:25:12 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jul 09 2018 15:12:42 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2048,11 +2048,2036 @@ msgstr "From files drop"
 msgid "Features.SectionView.All changes saved"
 msgstr "All changes saved"
 
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgid "acustom"
+msgstr "test"
+
+msgid "fileName"
+msgstr "fr.json"
+
+msgid "translations.Components.AssetPreview.table-previous"
+msgstr "table-previous"
+
+msgid "translations.Components.AssetPreview.table-next"
+msgstr "table-next"
+
+msgid "translations.Components.AssetPreview.table-loading"
+msgstr "table-loading"
+
+msgid "translations.Components.AssetPreview.table-no-rows-found"
+msgstr "table-no-rows-found"
+
+msgid "translations.Components.AssetPreview.table-page"
+msgstr "table-page"
+
+msgid "translations.Components.AssetPreview.table-of"
+msgstr "table-of"
+
+msgid "translations.Components.AssetPreview.table-row"
+msgstr "table-row"
+
+msgid "translations.Components.AssetPreview.Unnamed resource"
+msgstr "Unnamed resource"
+
+msgid "translations.Components.AssetPreview.edit-resource"
+msgstr "edit-resource"
+
+msgid "translations.Components.AssetPreview.delete-contextualization"
+msgstr "delete-contextualization"
+
+msgid "translations.Components.AssetPreview.description"
+msgstr "description"
+
+msgid "translations.Components.AssetPreview.source"
+msgstr "source"
+
+msgid "translations.Components.AuthorsManager.New auhthor"
+msgstr "New auhthor"
+
+msgid "translations.Components.AuthorsManager.Add an author"
+msgstr "Add an author"
+
+msgid "translations.Components.ConfirmToDeleteModal.Are you sure you want to delete the section "
 msgstr ""
 
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
+msgid "translations.Components.ConfirmToDeleteModal.Are you sure you want to delete this section ?"
+msgstr "Are you sure you want to delete this section ?"
+
+msgid "translations.Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "
 msgstr "Are you sure you want to delete the resource \"{s}\" ?"
 
-msgid "Features.SummaryView.{a} is working on section "{t}""
+msgid "translations.Components.ConfirmToDeleteModal.Are you sure you want to delete this resource ?"
+msgstr "Are you sure you want to delete this resource ?"
+
+msgid "translations.Components.ConfirmToDeleteModal.Delete Section"
+msgstr "Delete Section"
+
+msgid "translations.Components.ConfirmToDeleteModal.Delete Resource"
+msgstr "Delete Resource"
+
+msgid "translations.Components.ConfirmToDeleteModal.Delete"
+msgstr "Delete"
+
+msgid "translations.Components.ConfirmToDeleteModal.Cancel"
+msgstr "Cancel"
+
+msgid "translations.Components.ExportModal.Export story"
+msgstr "Export story"
+
+msgid "translations.Components.ExportModal.Export your story to publish it (HTML format)"
+msgstr "Export your story to publish it (HTML format)"
+
+msgid "translations.Components.ExportModal.Export your story to backup and edit it later in Fonio (fonio JSON format)"
+msgstr "Export your story to backup and edit it later in Fonio (fonio JSON format)"
+
+msgid "translations.Components.ExportModal.Story was bundled successfully"
+msgstr "Story was bundled successfully"
+
+msgid "translations.Components.IdentificationModal.Who is this?"
+msgstr "Who is this?"
+
+msgid "translations.Components.IdentificationModal.Enter a nickname"
+msgstr "Enter a nickname"
+
+msgid "translations.Components.IdentificationModal.Submit new information"
+msgstr "Submit new information"
+
+msgid "translations.Components.IdentificationModal.Cancel"
+msgstr "Cancel"
+
+msgid "translations.Components.LoadingScreen.loading..."
+msgstr ""
+
+msgid "translations.Components.MetadataForm.Story title is required"
+msgstr "Story title is required"
+
+msgid "translations.Components.MetadataForm.Password should be at least 6 characters"
+msgstr "Password should be at least 6 characters"
+
+msgid "translations.Components.MetadataForm.Story title"
+msgstr "Story title"
+
+msgid "translations.Components.MetadataForm.Explanation about the story title"
+msgstr "Explanation about the story title"
+
+msgid "translations.Components.MetadataForm.title"
+msgstr "title"
+
+msgid "translations.Components.MetadataForm.Story subtitle"
+msgstr "Story subtitle"
+
+msgid "translations.Components.MetadataForm.Explanation about the story subtitle"
+msgstr "Explanation about the story subtitle"
+
+msgid "translations.Components.MetadataForm.subtitle"
+msgstr "subtitle"
+
+msgid "translations.Components.MetadataForm.Story password"
+msgstr "Story password"
+
+msgid "translations.Components.MetadataForm.Explanation about the story password"
+msgstr "Explanation about the story password"
+
+msgid "translations.Components.MetadataForm.Story Abstract"
+msgstr "Story Abstract"
+
+msgid "translations.Components.MetadataForm.abstract"
+msgstr "abstract"
+
+msgid "translations.Components.MetadataForm.Creating story"
+msgstr "Creating story"
+
+msgid "translations.Components.MetadataForm.Story could not be created"
+msgstr "Story could not be created"
+
+msgid "translations.Components.MetadataForm.Update settings"
+msgstr "Update settings"
+
+msgid "translations.Components.MetadataForm.Create story"
+msgstr "Create story"
+
+msgid "translations.Components.MetadataForm.Cancel"
+msgstr "Cancel"
+
+msgid "translations.Components.NewSectionForm.section-title-is-required"
+msgstr "section-title-is-required"
+
+msgid "translations.Components.NewSectionForm.Section title"
+msgstr "Section title"
+
+msgid "translations.Components.NewSectionForm.Explanation about the section title"
+msgstr "Explanation about the section title"
+
+msgid "translations.Components.NewSectionForm.Create and start editing"
+msgstr "Create and start editing"
+
+msgid "translations.Components.NewSectionForm.Cancel"
+msgstr "Cancel"
+
+msgid "translations.Components.ResourceForm.Please enter only one bibtex"
+msgstr "Please enter only one bibtex"
+
+msgid "translations.Components.ResourceForm.Invalid bibtext resource"
+msgstr "Invalid bibtext resource"
+
+msgid "translations.Components.ResourceForm.Image file"
+msgstr "Image file"
+
+msgid "translations.Components.ResourceForm.Explanation about the image"
+msgstr "Explanation about the image"
+
+msgid "translations.Components.ResourceForm.Drop an image file"
+msgstr "Drop an image file"
+
+msgid "translations.Components.ResourceForm.Table"
+msgstr "Table"
+
+msgid "translations.Components.ResourceForm.Explanation about the table"
+msgstr "Explanation about the table"
+
+msgid "translations.Components.ResourceForm.Drop an table file(csv, tsv)"
+msgstr "Drop an table file(csv, tsv)"
+
+msgid "translations.Components.ResourceForm.Bib file"
+msgstr "Bib file"
+
+msgid "translations.Components.ResourceForm.Explanation about the bib"
+msgstr "Explanation about the bib"
+
+msgid "translations.Components.ResourceForm.Drop an bib file"
+msgstr "Drop an bib file"
+
+msgid "translations.Components.ResourceForm.Url of the video"
+msgstr "Url of the video"
+
+msgid "translations.Components.ResourceForm.Explanation about the video url"
+msgstr "Explanation about the video url"
+
+msgid "translations.Components.ResourceForm.Video url"
+msgstr "Video url"
+
+msgid "translations.Components.ResourceForm.Embed code"
+msgstr "Embed code"
+
+msgid "translations.Components.ResourceForm.Explanation about the embed"
+msgstr "Explanation about the embed"
+
+msgid "translations.Components.ResourceForm.Webpage name"
+msgstr "Webpage name"
+
+msgid "translations.Components.ResourceForm.Explanation about the webpage"
+msgstr "Explanation about the webpage"
+
+msgid "translations.Components.ResourceForm.name"
+msgstr "name"
+
+msgid "translations.Components.ResourceForm.hyperlink"
+msgstr "hyperlink"
+
+msgid "translations.Components.ResourceForm.Explanation about the hyperlink"
+msgstr "Explanation about the hyperlink"
+
+msgid "translations.Components.ResourceForm.http://"
+msgstr "http://"
+
+msgid "translations.Components.ResourceForm.Glossary name"
+msgstr "Glossary name"
+
+msgid "translations.Components.ResourceForm.Explanation about the glossary"
+msgstr "Explanation about the glossary"
+
+msgid "translations.Components.ResourceForm.glossary name"
+msgstr "glossary name"
+
+msgid "translations.Components.ResourceForm.Glossary description"
+msgstr "Glossary description"
+
+msgid "translations.Components.ResourceForm.Explanation about the glossary description"
+msgstr "Explanation about the glossary description"
+
+msgid "translations.Components.ResourceForm.glossary description"
+msgstr "glossary description"
+
+msgid "translations.Components.ResourceForm.this field is required"
+msgstr "this field is required"
+
+msgid "translations.Components.ResourceForm.Add item to the library"
+msgstr "Add item to the library"
+
+msgid "translations.Components.ResourceForm.metadata.type"
+msgstr "type"
+
+msgid "translations.Components.ResourceForm.reset type"
+msgstr "reset type"
+
+msgid "translations.Components.ResourceForm.Title of the resource"
+msgstr "Title of the resource"
+
+msgid "translations.Components.ResourceForm.Explanation about the resource title"
+msgstr "Explanation about the resource title"
+
+msgid "translations.Components.ResourceForm.Resource title"
+msgstr "Resource title"
+
+msgid "translations.Components.ResourceForm.Source of the resource"
+msgstr "Source of the resource"
+
+msgid "translations.Components.ResourceForm.Explanation about the resource source"
+msgstr "Explanation about the resource source"
+
+msgid "translations.Components.ResourceForm.Resource source"
+msgstr "Resource source"
+
+msgid "translations.Components.ResourceForm.Description of the resource"
+msgstr "Description of the resource"
+
+msgid "translations.Components.ResourceForm.Explanation about the resource description"
+msgstr "Explanation about the resource description"
+
+msgid "translations.Components.ResourceForm.Resource description"
+msgstr "Resource description"
+
+msgid "translations.Components.ResourceForm.Preview"
+msgstr "Preview"
+
+msgid "translations.Components.ResourceForm.item"
+msgstr "item"
+
+msgid "translations.Components.ResourceForm.Cancel"
+msgstr "Cancel"
+
+msgid "translations.Component.SectionEditor.add an element from your library"
+msgstr "add an element from your library"
+
+msgid "translations.Components.AssetPreview.delete mention"
+msgstr "delete mention"
+
+msgid "translations.Components.AssetPreview.primary"
+msgstr "primary"
+
+msgid "translations.Components.AssetPreview.show info"
+msgstr "show info"
+
+msgid "translations.Components.AssetPreview.Description"
+msgstr "Description"
+
+msgid "translations.Components.AssetPreview.Source"
+msgstr "Source"
+
+msgid "translations.Components.References.References"
+msgstr "References"
+
+msgid "translations.Components.GlossaryMention.alias-placeholder"
+msgstr "alias-placeholder"
+
+msgid "translations.Components.InlineCitation.prefix-label"
+msgstr "prefix-label"
+
+msgid "translations.Components.InlineCitation.prefix-placeholder"
+msgstr "prefix-placeholder"
+
+msgid "translations.Components.InlineCitation.locator-label"
+msgstr "locator-label"
+
+msgid "translations.Components.InlineCitation.locator-placeholder"
+msgstr "locator-placeholder"
+
+msgid "translations.Components.InlineCitation.suffix-label"
+msgstr "suffix-label"
+
+msgid "translations.Components.InlineCitation.suffix-placeholder"
+msgstr "suffix-placeholder"
+
+msgid "translations.Components.LinkContextualization.alias-placeholder"
+msgstr "alias-placeholder"
+
+msgid "translations.Component.SectionEditor.add a footnote"
+msgstr "add a footnote"
+
+msgid "translations.Components.ResourceSearchWidget.search-a-resource"
+msgstr "search-a-resource"
+
+msgid "translations.Components.ResourceSearchWidget.untitled-asset"
+msgstr "untitled-asset"
+
+msgid "translations.Components.ResourceSearchWidget.no items matching search"
+msgstr "no items matching search"
+
+msgid "translations.Components.ResourceSearchWidget.add items to your library in order to embed them"
+msgstr "add items to your library in order to embed them"
+
+msgid "translations.Components.ResourceSearchWidget.add new item"
+msgstr "add new item"
+
+msgid "translations.Components.SectionEditor.Go to note"
+msgstr "Go to note"
+
+msgid "translations.Components.SectionEditor.Delete note"
+msgstr "Delete note"
+
+msgid "translations.Components.SectionEditor.bold text"
+msgstr "bold text"
+
+msgid "translations.Components.SectionEditor.italic text"
+msgstr "italic text"
+
+msgid "translations.Components.SectionEditor.quote"
+msgstr "quote"
+
+msgid "translations.Components.SectionEditor.big title"
+msgstr "big title"
+
+msgid "translations.Components.SectionEditor.small title"
+msgstr "small title"
+
+msgid "translations.Components.SectionEditor.ordered list"
+msgstr "ordered list"
+
+msgid "translations.Components.SectionEditor.unordered list"
+msgstr "unordered list"
+
+msgid "translations.Components.SectionEditor.remove formatting for selection"
+msgstr "remove formatting for selection"
+
+msgid "translations.Components.SectionEditor.loading"
+msgstr "loading"
+
+msgid "translations.Components.SectionEditor.native link to {u}"
+msgstr "native link to {u}"
+
+msgid "translations.Components.SectionEditor.add-note"
+msgstr "add-note"
+
+msgid "translations.Components.SectionEditor.summon-asset"
+msgstr "summon-asset"
+
+msgid "translations.Components.SectionEditor.cancel"
+msgstr "cancel"
+
+msgid "translations.Component.LinkButton.add link"
+msgstr "add link"
+
+msgid "translations.Features.AuthManager.Connect to a story"
+msgstr "Connect to a story"
+
+msgid "translations.Features.AuthManager.Enter your password"
+msgstr "Enter your password"
+
+msgid "translations.Features.AuthManager.Explanation about the password"
+msgstr "Explanation about the password"
+
+msgid "translations.Features.AuthManager.Submitting password"
+msgstr "Submitting password"
+
+msgid "translations.Features.AuthManager.Password is not valid"
+msgstr "Password is not valid"
+
+msgid "translations.Features.AuthManager.Enter"
+msgstr "Enter"
+
+msgid "translations.Features.AuthManager.Read"
+msgstr "Read"
+
+msgid "translations.Features.AuthManager.Back to home"
+msgstr "Back to home"
+
+msgid "translations.Features.DesignView.Notes position"
+msgstr "Notes position"
+
+msgid "translations.Features.DesignView.side notes"
+msgstr "side notes"
+
+msgid "translations.Features.DesignView.foot notes"
+msgstr "foot notes"
+
+msgid "translations.Features.DesignView.Enable comments through disqus service"
+msgstr "Enable comments through disqus service"
+
+msgid "translations.Features.DesignView.enable"
+msgstr "enable"
+
+msgid "translations.Features.DesignView.disable"
+msgstr "disable"
+
+msgid "translations.Features.DesignView.Edit css (advanced)"
+msgstr "Edit css (advanced)"
+
+msgid "translations.Features.DesignView.Settings"
+msgstr "Settings"
+
+msgid "translations.Features.DesignView.Styles"
+msgstr "Styles"
+
+msgid "translations.Features.EditionUiWrapper.edited by you"
+msgstr "edited by you"
+
+msgid "translations.Features.EditionUiWrapper.edited by {n}"
+msgstr "edited by {n}"
+
+msgid "translations.Features.EditionUiWrapper.open to edition"
+msgstr "open to edition"
+
+msgid "translations.Features.EditionUiWrapper.Unnamed story"
+msgstr "Unnamed story"
+
+msgid "translations.Features.EditionUiWrapper.Summary"
+msgstr "Summary"
+
+msgid "translations.Features.EditionUiWrapper.Library"
+msgstr "Library"
+
+msgid "translations.Features.EditionUiWrapper.Design"
+msgstr "Design"
+
+msgid "translations.Features.EditionUiWrapper.Export"
+msgstr "Export"
+
+msgid "translations.Features.ErrorMessageContainer.You could not edit a section"
+msgstr "You could not edit a section"
+
+msgid "translations.Features.ErrorMessageContainer.You could not edit the resource"
+msgstr "You could not edit the resource"
+
+msgid "translations.Features.ErrorMessageContainer.You could not edit story metadata"
+msgstr "You could not edit story metadata"
+
+msgid "translations.Features.ErrorMessageContainer.You could not edit the order of sections"
+msgstr "You could not edit the order of sections"
+
+msgid "translations.Features.ErrorMessageContainer.You could not edit the story design"
+msgstr "You could not edit the story design"
+
+msgid "translations.Features.ErrorMessageContainer.You could not edit a block"
+msgstr "You could not edit a block"
+
+msgid "translations.Features.ErrorMessageContainer.You could not delete a section"
+msgstr "You could not delete a section"
+
+msgid "translations.Features.ErrorMessageContainer.You could not delete a resource"
+msgstr "You could not delete a resource"
+
+msgid "translations.Features.ErrorMessageContainer.You could not delete a block"
+msgstr "You could not delete a block"
+
+msgid "translations.Features.ErrorMessageContainer.It is edited by {a}"
+msgstr "It is edited by {a}"
+
+msgid "translations.Components.ChangePasswordModal.Old password is required"
+msgstr "Old password is required"
+
+msgid "translations.Components.ChangePasswordModal.Password should be at least 6 characters"
+msgstr "Password should be at least 6 characters"
+
+msgid "translations.Components.ChangePasswordModal.password does not match"
+msgstr "password does not match"
+
+msgid "translations.Components.ChangePasswordModal.Change password"
+msgstr "Change password"
+
+msgid "translations.Components.ChangePasswordModal.Old password"
+msgstr "Old password"
+
+msgid "translations.Components.ChangePasswordModal.Explanation about the password"
+msgstr "Explanation about the password"
+
+msgid "translations.Components.ChangePasswordModal.New password"
+msgstr "New password"
+
+msgid "translations.Components.ChangePasswordModal.Confirm password"
+msgstr "Confirm password"
+
+msgid "translations.Components.ChangePasswordModal.Submitting password"
+msgstr "Submitting password"
+
+msgid "translations.Components.ChangePasswordModal.Old password is not valid"
+msgstr "Old password is not valid"
+
+msgid "translations.Components.ChangePasswordModal.Change Password"
+msgstr "Change Password"
+
+msgid "translations.Components.ChangePasswordModal.Cancel"
+msgstr "Cancel"
+
+msgid "translations.Components.DeleteStoryModal.Delete a story"
+msgstr "Delete a story"
+
+msgid "translations.Components.DeleteStoryModal.Enter password of the story"
+msgstr "Enter password of the story"
+
+msgid "translations.Components.DeleteStoryModal.Explanation about the password"
+msgstr "Explanation about the password"
+
+msgid "translations.Components.DeleteStoryModal.Submitting password"
+msgstr "Submitting password"
+
+msgid "translations.Components.DeleteStoryModal.Password is not valid"
+msgstr "Password is not valid"
+
+msgid "translations.Components.DeleteStoryModal.Deleting Story"
+msgstr "Deleting Story"
+
+msgid "translations.Components.DeleteStoryModal.Story could not be deleted"
+msgstr "Story could not be deleted"
+
+msgid "translations.Components.DeleteStoryModal.Delete"
+msgstr "Delete"
+
+msgid "translations.Components.DeleteStoryModal.Cancel"
+msgstr "Cancel"
+
+msgid "translations.Components.EnterPasswordModal.Create story"
+msgstr "Create story"
+
+msgid "translations.Components.EnterPasswordModal.Override story"
+msgstr "Override story"
+
+msgid "translations.Components.EnterPasswordModal.Create a story password"
+msgstr "Create a story password"
+
+msgid "translations.Components.EnterPasswordModal.Enter password of the story"
+msgstr "Enter password of the story"
+
+msgid "translations.Components.EnterPasswordModal.Explanation about the password"
+msgstr "Explanation about the password"
+
+msgid "translations.Components.EnterPasswordModal.Password is not valid"
+msgstr "Password is not valid"
+
+msgid "translations.Components.EnterPasswordModal.Story could not be created"
+msgstr "Story could not be created"
+
+msgid "translations.Components.EnterPasswordModal.Story could not be overrided"
+msgstr "Story could not be overrided"
+
+msgid "translations.Components.EnterPasswordModal.Create"
+msgstr "Create"
+
+msgid "translations.Components.EnterPasswordModal.Override"
+msgstr "Override"
+
+msgid "translations.Components.EnterPasswordModal.Cancel"
+msgstr "Cancel"
+
+msgid "translations.Features.HomeView.Learn fonio"
+msgstr "Learn fonio"
+
+msgid "translations.Features.HomeView.learn fonio detail"
+msgstr "learn fonio detail"
+
+msgid "translations.Features.HomeView.About fonio"
+msgstr "About fonio"
+
+msgid "translations.Features.HomeView.about fonio details"
+msgstr "about fonio details"
+
+msgid "translations.Features.HomeView.Your profile"
+msgstr "Your profile"
+
+msgid "translations.Features.HomeView.choose how you will be identified by other writers"
+msgstr "choose how you will be identified by other writers"
+
+msgid "translations.Features.HomeView.edit"
+msgstr "edit"
+
+msgid "translations.Features.HomeView.Who else is online ?"
+msgstr "Who else is online ?"
+
+msgid "translations.Features.HomeView.writers connected to this classroom right now"
+msgstr "writers connected to this classroom right now"
+
+msgid "translations.Features.HomeView.intro short title"
+msgstr "intro short title"
+
+msgid "translations.Features.HomeView.New story"
+msgstr "New story"
+
+msgid "translations.Features.HomeView.find a story"
+msgstr "find a story"
+
+msgid "translations.Features.HomeView.sort by"
+msgstr "sort by"
+
+msgid "translations.Features.HomeView.edited by me"
+msgstr "edited by me"
+
+msgid "translations.Features.HomeView.edited recently"
+msgstr "edited recently"
+
+msgid "translations.Features.HomeView.title"
+msgstr "title"
+
+msgid "translations.Features.HomeView.New Story"
+msgstr "New Story"
+
+msgid "translations.Features.HomeView.Create a story"
+msgstr "Create a story"
+
+msgid "translations.Features.HomeView.Import an existing story"
+msgstr "Import an existing story"
+
+msgid "translations.Features.HomeView.Drop a fonio file"
+msgstr "Drop a fonio file"
+
+msgid "translations.Features.HomeView.Story is not valid"
+msgstr "Story is not valid"
+
+msgid "translations.Features.HomeView.Override story"
+msgstr "Override story"
+
+msgid "translations.Features.HomeView.story is exist, do you want to override it?"
+msgstr "story is exist, do you want to override it?"
+
+msgid "translations.Features.HomeView.Override exist story"
+msgstr "Override exist story"
+
+msgid "translations.Features.HomeView.Create new story"
+msgstr "Create new story"
+
+msgid "translations.Features.HomeView.Cancel"
+msgstr "Cancel"
+
+msgid "translations.Features.HomeView.Stories"
+msgstr "Stories"
+
+msgid "translations.Features.HomeView.Learn"
+msgstr "Learn"
+
+msgid "translations.Features.HomeView.About"
+msgstr "About"
+
+msgid "translations.Features.HomeView.Provided thanks to the FORCCAST program"
+msgstr "Provided thanks to the FORCCAST program"
+
+msgid "translations.Features.HomeView.Made by médialab Sciences Po"
+msgstr "Made by médialab Sciences Po"
+
+msgid "translations.Features.HomeView.The source code is licensed under "
+msgstr "The source code is licensed under "
+
+msgid "translations.Components.StoryCard.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "translations.Components.StoryCard.change password"
+msgstr "change password"
+
+msgid "translations.Components.StoryCard.open"
+msgstr "open"
+
+msgid "translations.Components.StoryCard.duplicate"
+msgstr "duplicate"
+
+msgid "translations.Components.StoryCard.read"
+msgstr "read"
+
+msgid "translations.Components.StoryCard.delete"
+msgstr "delete"
+
+msgid "translations.Features.LibraryView.Find a resource"
+msgstr "Find a resource"
+
+msgid "translations.Features.LibraryView.Sort items by"
+msgstr "Sort items by"
+
+msgid "translations.Features.LibraryView.edited recently"
+msgstr "edited recently"
+
+msgid "translations.Features.LibraryView.title"
+msgstr "title"
+
+msgid "translations.Features.LibraryView.Filter by"
+msgstr "Filter by"
+
+msgid "translations.Features.LibraryView.Options"
+msgstr "Options"
+
+msgid "translations.Features.LibraryView.Your library contains all the resources (references, images, visualizations...) that can be used within the story."
+msgstr ""
+
+msgid "translations.Features.LibraryView.New resource"
+msgstr "New resource"
+
+msgid "translations.Features.LibraryView.Drop files to include new resources in your library (images, tables, bibliographies)"
+msgstr "Drop files to include new resources in your library (images, tables, bibliographies)"
+
+msgid "translations.Features.LibraryView.untitled resource"
+msgstr "untitled resource"
+
+msgid "translations.Features.LibraryView.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "translations.Features.LibraryView.open to edition"
+msgstr "open to edition"
+
+msgid "translations.Features.LibraryView.Source: "
+msgstr "Source: "
+
+msgid "translations.Features.ReadOnly.Story not found"
+msgstr "Story not found"
+
+msgid "translations.Features.ReadOnly.Loading"
+msgstr "Loading"
+
+msgid "translations.Features.SectionView.find a resource"
+msgstr "find a resource"
+
+msgid "translations.Features.SectionView.Sort items by"
+msgstr "Sort items by"
+
+msgid "translations.Features.SectionView.edited recently"
+msgstr "edited recently"
+
+msgid "translations.Features.SectionView.title"
+msgstr "title"
+
+msgid "translations.Features.SectionView.Show ..."
+msgstr ""
+
+msgid "translations.Features.SectionView.Options"
+msgstr "Options"
+
+msgid "translations.Features.SectionView.Drop files to include new resources in your library (images, tables, bibliographies)"
+msgstr "Drop files to include new resources in your library (images, tables, bibliographies)"
+
+msgid "translations.Features.SectionView.Add items to library"
+msgstr "Add items to library"
+
+msgid "translations.Features.SectionView.Add new images, references, videos, ... to your story"
+msgstr " to your story"
+
+msgid "translations.Features.SectionView.New section"
+msgstr "New section"
+
+msgid "translations.Features.SectionView.Add a new section or chapter to your story"
+msgstr "Add a new section or chapter to your story"
+
+msgid "translations.Features.SectionView.Library"
+msgstr "Library"
+
+msgid "translations.Features.SectionView.Summary"
+msgstr "Summary"
+
+msgid "translations.Features.SectionView.Add items to the library"
+msgstr "Add items to the library"
+
+msgid "translations.Features.SectionView.Manually"
+msgstr "Manually"
+
+msgid "translations.Features.SectionView.From files drop"
+msgstr "From files drop"
+
+msgid "translations.Features.SectionView.Drop files here to include new items in your library (images, tables, bibliographies)"
+msgstr "Drop files here to include new items in your library (images, tables, bibliographies)"
+
+msgid "translations.Features.SectionView.Edit section metadata"
+msgstr "Edit section metadata"
+
+msgid "translations.Features.SectionView.Save changes"
+msgstr "Save changes"
+
+msgid "translations.Features.SectionView.All changes saved"
+msgstr "All changes saved"
+
+msgid "translations.Features.SectionView.Section content"
+msgstr "Section content"
+
+msgid "translations.Features.SectionView.Explanation about the section content"
+msgstr "Explanation about the section content"
+
+msgid "translations.Features.SectionView.edited by you"
+msgstr "edited by you"
+
+msgid "translations.Features.SectionView.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "translations.Features.SectionView.open to edition"
+msgstr "open to edition"
+
+msgid "translations.Features.SectionView.untitled resource"
+msgstr "untitled resource"
+
+msgid "translations.Features.SectionView.drag this card to the editor"
+msgstr "drag this card to the editor"
+
+msgid "translations.Features.SectionView.delete this resource"
+msgstr "delete this resource"
+
+msgid "translations.Features.SectionView.use as cover image"
+msgstr "use as cover image"
+
+msgid "translations.Features.SectionView.drag to change section order"
+msgstr "drag to change section order"
+
+msgid "translations.Features.SectionView.section settings"
+msgstr "section settings"
+
+msgid "translations.Features.SectionView.delete this section"
+msgstr "delete this section"
+
+msgid "translations.Components.SectionCard.edited by {n}"
+msgstr "edited by {n}"
+
+msgid "translations.Components.SectionCard.open for edition"
+msgstr "open for edition"
+
+msgid "translations.Components.SectionCard.edit"
+msgstr "edit"
+
+msgid "translations.Components.SectionCard.move"
+msgstr "move"
+
+msgid "translations.Components.SectionCard.delete"
+msgstr "delete"
+
+msgid "translations.Components.SectionCard.duplicate"
+msgstr "duplicate"
+
+msgid "translations.Features.SummaryView.{a} is here on the summary"
+msgstr "{a} is here on the summary"
+
+msgid "translations.Features.SummaryView.{a} is working on section "
 msgstr "{a} is working on section \"{t}\""
+
+msgid "translations.Features.SummaryView.{a} is working on a section"
+msgstr "{a} is working on a section"
+
+msgid "translations.Features.SummaryView.{a} is editing story settings"
+msgstr "{a} is editing story settings"
+
+msgid "translations.Features.SummaryView.{a} is working on {l}"
+msgstr "{a} is working on {l}"
+
+msgid "translations.Features.SummaryView.{a} is working on {l} and {n}"
+msgstr "{a} is working on {l} and {n}"
+
+msgid "translations.Features.SummaryView.{a} is nowhere, alone in the dark"
+msgstr "{a} is nowhere, alone in the dark"
+
+msgid "translations.Features.SummaryView.edited by you"
+msgstr "edited by you"
+
+msgid "translations.Features.SummaryView.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "translations.Features.SummaryView.open to edition"
+msgstr "open to edition"
+
+msgid "translations.Features.SummaryView.Close story settings"
+msgstr "Close story settings"
+
+msgid "translations.Features.SummaryView.Edit story settings"
+msgstr "Edit story settings"
+
+msgid "translations.Features.SummaryView.What are other authors doing ?"
+msgstr "What are other authors doing ?"
+
+msgid "translations.Features.SummaryView.New section"
+msgstr "New section"
+
+msgid "translations.Features.SummaryView.Summary"
+msgstr "Summary"
+
+msgid "translations.acustom"
+msgstr "test"
+
+msgid "translations.fileName"
+msgstr "en.json"
+
+msgid "translations.translations.Components.AssetPreview.table-previous"
+msgstr "table-previous"
+
+msgid "translations.translations.Components.AssetPreview.table-next"
+msgstr "table-next"
+
+msgid "translations.translations.Components.AssetPreview.table-loading"
+msgstr "table-loading"
+
+msgid "translations.translations.Components.AssetPreview.table-no-rows-found"
+msgstr "table-no-rows-found"
+
+msgid "translations.translations.Components.AssetPreview.table-page"
+msgstr "table-page"
+
+msgid "translations.translations.Components.AssetPreview.table-of"
+msgstr "table-of"
+
+msgid "translations.translations.Components.AssetPreview.table-row"
+msgstr "table-row"
+
+msgid "translations.translations.Components.AssetPreview.Unnamed resource"
+msgstr "Unnamed resource"
+
+msgid "translations.translations.Components.AssetPreview.edit-resource"
+msgstr "edit-resource"
+
+msgid "translations.translations.Components.AssetPreview.delete-contextualization"
+msgstr "delete-contextualization"
+
+msgid "translations.translations.Components.AssetPreview.description"
+msgstr "description"
+
+msgid "translations.translations.Components.AssetPreview.source"
+msgstr "source"
+
+msgid "translations.translations.Components.AuthorsManager.New auhthor"
+msgstr "New auhthor"
+
+msgid "translations.translations.Components.AuthorsManager.Add an author"
+msgstr "Add an author"
+
+msgid "translations.translations.Components.ConfirmToDeleteModal.Are you sure you want to delete the section "
+msgstr ""
+
+msgid "translations.translations.Components.ConfirmToDeleteModal.Are you sure you want to delete this section ?"
+msgstr "Are you sure you want to delete this section ?"
+
+msgid "translations.translations.Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "
+msgstr "Are you sure you want to delete the resource \"{s}\" ?"
+
+msgid "translations.translations.Components.ConfirmToDeleteModal.Are you sure you want to delete this resource ?"
+msgstr "Are you sure you want to delete this resource ?"
+
+msgid "translations.translations.Components.ConfirmToDeleteModal.Delete Section"
+msgstr "Delete Section"
+
+msgid "translations.translations.Components.ConfirmToDeleteModal.Delete Resource"
+msgstr "Delete Resource"
+
+msgid "translations.translations.Components.ConfirmToDeleteModal.Delete"
+msgstr "Delete"
+
+msgid "translations.translations.Components.ConfirmToDeleteModal.Cancel"
+msgstr "Cancel"
+
+msgid "translations.translations.Components.ExportModal.Export story"
+msgstr "Export story"
+
+msgid "translations.translations.Components.ExportModal.Export your story to publish it (HTML format)"
+msgstr "Export your story to publish it (HTML format)"
+
+msgid "translations.translations.Components.ExportModal.Export your story to backup and edit it later in Fonio (fonio JSON format)"
+msgstr "Export your story to backup and edit it later in Fonio (fonio JSON format)"
+
+msgid "translations.translations.Components.ExportModal.Story was bundled successfully"
+msgstr "Story was bundled successfully"
+
+msgid "translations.translations.Components.IdentificationModal.Who is this?"
+msgstr "Who is this?"
+
+msgid "translations.translations.Components.IdentificationModal.Enter a nickname"
+msgstr "Enter a nickname"
+
+msgid "translations.translations.Components.IdentificationModal.Submit new information"
+msgstr "Submit new information"
+
+msgid "translations.translations.Components.IdentificationModal.Cancel"
+msgstr "Cancel"
+
+msgid "translations.translations.Components.LoadingScreen.loading..."
+msgstr ""
+
+msgid "translations.translations.Components.MetadataForm.Story title is required"
+msgstr "Story title is required"
+
+msgid "translations.translations.Components.MetadataForm.Password should be at least 6 characters"
+msgstr "Password should be at least 6 characters"
+
+msgid "translations.translations.Components.MetadataForm.Story title"
+msgstr "Story title"
+
+msgid "translations.translations.Components.MetadataForm.Explanation about the story title"
+msgstr "Explanation about the story title"
+
+msgid "translations.translations.Components.MetadataForm.title"
+msgstr "title"
+
+msgid "translations.translations.Components.MetadataForm.Story subtitle"
+msgstr "Story subtitle"
+
+msgid "translations.translations.Components.MetadataForm.Explanation about the story subtitle"
+msgstr "Explanation about the story subtitle"
+
+msgid "translations.translations.Components.MetadataForm.subtitle"
+msgstr "subtitle"
+
+msgid "translations.translations.Components.MetadataForm.Story password"
+msgstr "Story password"
+
+msgid "translations.translations.Components.MetadataForm.Explanation about the story password"
+msgstr "Explanation about the story password"
+
+msgid "translations.translations.Components.MetadataForm.Story Abstract"
+msgstr "Story Abstract"
+
+msgid "translations.translations.Components.MetadataForm.abstract"
+msgstr "abstract"
+
+msgid "translations.translations.Components.MetadataForm.Creating story"
+msgstr "Creating story"
+
+msgid "translations.translations.Components.MetadataForm.Story could not be created"
+msgstr "Story could not be created"
+
+msgid "translations.translations.Components.MetadataForm.Update settings"
+msgstr "Update settings"
+
+msgid "translations.translations.Components.MetadataForm.Create story"
+msgstr "Create story"
+
+msgid "translations.translations.Components.MetadataForm.Cancel"
+msgstr "Cancel"
+
+msgid "translations.translations.Components.NewSectionForm.section-title-is-required"
+msgstr "section-title-is-required"
+
+msgid "translations.translations.Components.NewSectionForm.Section title"
+msgstr "Section title"
+
+msgid "translations.translations.Components.NewSectionForm.Explanation about the section title"
+msgstr "Explanation about the section title"
+
+msgid "translations.translations.Components.NewSectionForm.Create and start editing"
+msgstr "Create and start editing"
+
+msgid "translations.translations.Components.NewSectionForm.Cancel"
+msgstr "Cancel"
+
+msgid "translations.translations.Components.ResourceForm.Please enter only one bibtex"
+msgstr "Please enter only one bibtex"
+
+msgid "translations.translations.Components.ResourceForm.Invalid bibtext resource"
+msgstr "Invalid bibtext resource"
+
+msgid "translations.translations.Components.ResourceForm.Image file"
+msgstr "Image file"
+
+msgid "translations.translations.Components.ResourceForm.Explanation about the image"
+msgstr "Explanation about the image"
+
+msgid "translations.translations.Components.ResourceForm.Drop an image file"
+msgstr "Drop an image file"
+
+msgid "translations.translations.Components.ResourceForm.Table"
+msgstr "Table"
+
+msgid "translations.translations.Components.ResourceForm.Explanation about the table"
+msgstr "Explanation about the table"
+
+msgid "translations.translations.Components.ResourceForm.Drop an table file(csv, tsv)"
+msgstr "Drop an table file(csv, tsv)"
+
+msgid "translations.translations.Components.ResourceForm.Bib file"
+msgstr "Bib file"
+
+msgid "translations.translations.Components.ResourceForm.Explanation about the bib"
+msgstr "Explanation about the bib"
+
+msgid "translations.translations.Components.ResourceForm.Drop an bib file"
+msgstr "Drop an bib file"
+
+msgid "translations.translations.Components.ResourceForm.Url of the video"
+msgstr "Url of the video"
+
+msgid "translations.translations.Components.ResourceForm.Explanation about the video url"
+msgstr "Explanation about the video url"
+
+msgid "translations.translations.Components.ResourceForm.Video url"
+msgstr "Video url"
+
+msgid "translations.translations.Components.ResourceForm.Embed code"
+msgstr "Embed code"
+
+msgid "translations.translations.Components.ResourceForm.Explanation about the embed"
+msgstr "Explanation about the embed"
+
+msgid "translations.translations.Components.ResourceForm.Webpage name"
+msgstr "Webpage name"
+
+msgid "translations.translations.Components.ResourceForm.Explanation about the webpage"
+msgstr "Explanation about the webpage"
+
+msgid "translations.translations.Components.ResourceForm.name"
+msgstr "name"
+
+msgid "translations.translations.Components.ResourceForm.hyperlink"
+msgstr "hyperlink"
+
+msgid "translations.translations.Components.ResourceForm.Explanation about the hyperlink"
+msgstr "Explanation about the hyperlink"
+
+msgid "translations.translations.Components.ResourceForm.http://"
+msgstr "http://"
+
+msgid "translations.translations.Components.ResourceForm.Glossary name"
+msgstr "Glossary name"
+
+msgid "translations.translations.Components.ResourceForm.Explanation about the glossary"
+msgstr "Explanation about the glossary"
+
+msgid "translations.translations.Components.ResourceForm.glossary name"
+msgstr "glossary name"
+
+msgid "translations.translations.Components.ResourceForm.Glossary description"
+msgstr "Glossary description"
+
+msgid "translations.translations.Components.ResourceForm.Explanation about the glossary description"
+msgstr "Explanation about the glossary description"
+
+msgid "translations.translations.Components.ResourceForm.glossary description"
+msgstr "glossary description"
+
+msgid "translations.translations.Components.ResourceForm.this field is required"
+msgstr "this field is required"
+
+msgid "translations.translations.Components.ResourceForm.Add item to the library"
+msgstr "Add item to the library"
+
+msgid "translations.translations.Components.ResourceForm.metadata.type"
+msgstr "type"
+
+msgid "translations.translations.Components.ResourceForm.reset type"
+msgstr "reset type"
+
+msgid "translations.translations.Components.ResourceForm.Title of the resource"
+msgstr "Title of the resource"
+
+msgid "translations.translations.Components.ResourceForm.Explanation about the resource title"
+msgstr "Explanation about the resource title"
+
+msgid "translations.translations.Components.ResourceForm.Resource title"
+msgstr "Resource title"
+
+msgid "translations.translations.Components.ResourceForm.Source of the resource"
+msgstr "Source of the resource"
+
+msgid "translations.translations.Components.ResourceForm.Explanation about the resource source"
+msgstr "Explanation about the resource source"
+
+msgid "translations.translations.Components.ResourceForm.Resource source"
+msgstr "Resource source"
+
+msgid "translations.translations.Components.ResourceForm.Description of the resource"
+msgstr "Description of the resource"
+
+msgid "translations.translations.Components.ResourceForm.Explanation about the resource description"
+msgstr "Explanation about the resource description"
+
+msgid "translations.translations.Components.ResourceForm.Resource description"
+msgstr "Resource description"
+
+msgid "translations.translations.Components.ResourceForm.Preview"
+msgstr "Preview"
+
+msgid "translations.translations.Components.ResourceForm.item"
+msgstr "item"
+
+msgid "translations.translations.Components.ResourceForm.Cancel"
+msgstr "Cancel"
+
+msgid "translations.translations.Component.SectionEditor.add an element from your library"
+msgstr "add an element from your library"
+
+msgid "translations.translations.Components.AssetPreview.delete mention"
+msgstr "delete mention"
+
+msgid "translations.translations.Components.AssetPreview.primary"
+msgstr "primary"
+
+msgid "translations.translations.Components.AssetPreview.show info"
+msgstr "show info"
+
+msgid "translations.translations.Components.AssetPreview.Description"
+msgstr "Description"
+
+msgid "translations.translations.Components.AssetPreview.Source"
+msgstr "Source"
+
+msgid "translations.translations.Components.References.References"
+msgstr "References"
+
+msgid "translations.translations.Components.GlossaryMention.alias-placeholder"
+msgstr "alias-placeholder"
+
+msgid "translations.translations.Components.InlineCitation.prefix-label"
+msgstr "prefix-label"
+
+msgid "translations.translations.Components.InlineCitation.prefix-placeholder"
+msgstr "prefix-placeholder"
+
+msgid "translations.translations.Components.InlineCitation.locator-label"
+msgstr "locator-label"
+
+msgid "translations.translations.Components.InlineCitation.locator-placeholder"
+msgstr "locator-placeholder"
+
+msgid "translations.translations.Components.InlineCitation.suffix-label"
+msgstr "suffix-label"
+
+msgid "translations.translations.Components.InlineCitation.suffix-placeholder"
+msgstr "suffix-placeholder"
+
+msgid "translations.translations.Components.LinkContextualization.alias-placeholder"
+msgstr "alias-placeholder"
+
+msgid "translations.translations.Component.SectionEditor.add a footnote"
+msgstr "add a footnote"
+
+msgid "translations.translations.Components.ResourceSearchWidget.search-a-resource"
+msgstr "search-a-resource"
+
+msgid "translations.translations.Components.ResourceSearchWidget.untitled-asset"
+msgstr "untitled-asset"
+
+msgid "translations.translations.Components.ResourceSearchWidget.no items matching search"
+msgstr "no items matching search"
+
+msgid "translations.translations.Components.ResourceSearchWidget.add items to your library in order to embed them"
+msgstr "add items to your library in order to embed them"
+
+msgid "translations.translations.Components.ResourceSearchWidget.add new item"
+msgstr "add new item"
+
+msgid "translations.translations.Components.SectionEditor.Go to note"
+msgstr "Go to note"
+
+msgid "translations.translations.Components.SectionEditor.Delete note"
+msgstr "Delete note"
+
+msgid "translations.translations.Components.SectionEditor.bold text"
+msgstr "bold text"
+
+msgid "translations.translations.Components.SectionEditor.italic text"
+msgstr "italic text"
+
+msgid "translations.translations.Components.SectionEditor.quote"
+msgstr "quote"
+
+msgid "translations.translations.Components.SectionEditor.big title"
+msgstr "big title"
+
+msgid "translations.translations.Components.SectionEditor.small title"
+msgstr "small title"
+
+msgid "translations.translations.Components.SectionEditor.ordered list"
+msgstr "ordered list"
+
+msgid "translations.translations.Components.SectionEditor.unordered list"
+msgstr "unordered list"
+
+msgid "translations.translations.Components.SectionEditor.remove formatting for selection"
+msgstr "remove formatting for selection"
+
+msgid "translations.translations.Components.SectionEditor.loading"
+msgstr "loading"
+
+msgid "translations.translations.Components.SectionEditor.native link to {u}"
+msgstr "native link to {u}"
+
+msgid "translations.translations.Components.SectionEditor.add-note"
+msgstr "add-note"
+
+msgid "translations.translations.Components.SectionEditor.summon-asset"
+msgstr "summon-asset"
+
+msgid "translations.translations.Components.SectionEditor.cancel"
+msgstr "cancel"
+
+msgid "translations.translations.Component.LinkButton.add link"
+msgstr "add link"
+
+msgid "translations.translations.Features.AuthManager.Connect to a story"
+msgstr "Connect to a story"
+
+msgid "translations.translations.Features.AuthManager.Enter your password"
+msgstr "Enter your password"
+
+msgid "translations.translations.Features.AuthManager.Explanation about the password"
+msgstr "Explanation about the password"
+
+msgid "translations.translations.Features.AuthManager.Submitting password"
+msgstr "Submitting password"
+
+msgid "translations.translations.Features.AuthManager.Password is not valid"
+msgstr "Password is not valid"
+
+msgid "translations.translations.Features.AuthManager.Enter"
+msgstr "Enter"
+
+msgid "translations.translations.Features.AuthManager.Read"
+msgstr "Read"
+
+msgid "translations.translations.Features.AuthManager.Back to home"
+msgstr "Back to home"
+
+msgid "translations.translations.Features.DesignView.Notes position"
+msgstr "Notes position"
+
+msgid "translations.translations.Features.DesignView.side notes"
+msgstr "side notes"
+
+msgid "translations.translations.Features.DesignView.foot notes"
+msgstr "foot notes"
+
+msgid "translations.translations.Features.DesignView.Enable comments through disqus service"
+msgstr "Enable comments through disqus service"
+
+msgid "translations.translations.Features.DesignView.enable"
+msgstr "enable"
+
+msgid "translations.translations.Features.DesignView.disable"
+msgstr "disable"
+
+msgid "translations.translations.Features.DesignView.Edit css (advanced)"
+msgstr "Edit css (advanced)"
+
+msgid "translations.translations.Features.DesignView.Settings"
+msgstr "Settings"
+
+msgid "translations.translations.Features.DesignView.Styles"
+msgstr "Styles"
+
+msgid "translations.translations.Features.EditionUiWrapper.edited by you"
+msgstr "edited by you"
+
+msgid "translations.translations.Features.EditionUiWrapper.edited by {n}"
+msgstr "edited by {n}"
+
+msgid "translations.translations.Features.EditionUiWrapper.open to edition"
+msgstr "open to edition"
+
+msgid "translations.translations.Features.EditionUiWrapper.Unnamed story"
+msgstr "Unnamed story"
+
+msgid "translations.translations.Features.EditionUiWrapper.Summary"
+msgstr "Summary"
+
+msgid "translations.translations.Features.EditionUiWrapper.Library"
+msgstr "Library"
+
+msgid "translations.translations.Features.EditionUiWrapper.Design"
+msgstr "Design"
+
+msgid "translations.translations.Features.EditionUiWrapper.Export"
+msgstr "Export"
+
+msgid "translations.translations.Features.ErrorMessageContainer.You could not edit a section"
+msgstr "You could not edit a section"
+
+msgid "translations.translations.Features.ErrorMessageContainer.You could not edit the resource"
+msgstr "You could not edit the resource"
+
+msgid "translations.translations.Features.ErrorMessageContainer.You could not edit story metadata"
+msgstr "You could not edit story metadata"
+
+msgid "translations.translations.Features.ErrorMessageContainer.You could not edit the order of sections"
+msgstr "You could not edit the order of sections"
+
+msgid "translations.translations.Features.ErrorMessageContainer.You could not edit the story design"
+msgstr "You could not edit the story design"
+
+msgid "translations.translations.Features.ErrorMessageContainer.You could not edit a block"
+msgstr "You could not edit a block"
+
+msgid "translations.translations.Features.ErrorMessageContainer.You could not delete a section"
+msgstr "You could not delete a section"
+
+msgid "translations.translations.Features.ErrorMessageContainer.You could not delete a resource"
+msgstr "You could not delete a resource"
+
+msgid "translations.translations.Features.ErrorMessageContainer.You could not delete a block"
+msgstr "You could not delete a block"
+
+msgid "translations.translations.Features.ErrorMessageContainer.It is edited by {a}"
+msgstr "It is edited by {a}"
+
+msgid "translations.translations.Components.ChangePasswordModal.Old password is required"
+msgstr "Old password is required"
+
+msgid "translations.translations.Components.ChangePasswordModal.Password should be at least 6 characters"
+msgstr "Password should be at least 6 characters"
+
+msgid "translations.translations.Components.ChangePasswordModal.password does not match"
+msgstr "password does not match"
+
+msgid "translations.translations.Components.ChangePasswordModal.Change password"
+msgstr "Change password"
+
+msgid "translations.translations.Components.ChangePasswordModal.Old password"
+msgstr "Old password"
+
+msgid "translations.translations.Components.ChangePasswordModal.Explanation about the password"
+msgstr "Explanation about the password"
+
+msgid "translations.translations.Components.ChangePasswordModal.New password"
+msgstr "New password"
+
+msgid "translations.translations.Components.ChangePasswordModal.Confirm password"
+msgstr "Confirm password"
+
+msgid "translations.translations.Components.ChangePasswordModal.Submitting password"
+msgstr "Submitting password"
+
+msgid "translations.translations.Components.ChangePasswordModal.Old password is not valid"
+msgstr "Old password is not valid"
+
+msgid "translations.translations.Components.ChangePasswordModal.Change Password"
+msgstr "Change Password"
+
+msgid "translations.translations.Components.ChangePasswordModal.Cancel"
+msgstr "Cancel"
+
+msgid "translations.translations.Components.DeleteStoryModal.Delete a story"
+msgstr "Delete a story"
+
+msgid "translations.translations.Components.DeleteStoryModal.Enter password of the story"
+msgstr "Enter password of the story"
+
+msgid "translations.translations.Components.DeleteStoryModal.Explanation about the password"
+msgstr "Explanation about the password"
+
+msgid "translations.translations.Components.DeleteStoryModal.Submitting password"
+msgstr "Submitting password"
+
+msgid "translations.translations.Components.DeleteStoryModal.Password is not valid"
+msgstr "Password is not valid"
+
+msgid "translations.translations.Components.DeleteStoryModal.Deleting Story"
+msgstr "Deleting Story"
+
+msgid "translations.translations.Components.DeleteStoryModal.Story could not be deleted"
+msgstr "Story could not be deleted"
+
+msgid "translations.translations.Components.DeleteStoryModal.Delete"
+msgstr "Delete"
+
+msgid "translations.translations.Components.DeleteStoryModal.Cancel"
+msgstr "Cancel"
+
+msgid "translations.translations.Components.EnterPasswordModal.Create story"
+msgstr "Create story"
+
+msgid "translations.translations.Components.EnterPasswordModal.Override story"
+msgstr "Override story"
+
+msgid "translations.translations.Components.EnterPasswordModal.Create a story password"
+msgstr "Create a story password"
+
+msgid "translations.translations.Components.EnterPasswordModal.Enter password of the story"
+msgstr "Enter password of the story"
+
+msgid "translations.translations.Components.EnterPasswordModal.Explanation about the password"
+msgstr "Explanation about the password"
+
+msgid "translations.translations.Components.EnterPasswordModal.Password is not valid"
+msgstr "Password is not valid"
+
+msgid "translations.translations.Components.EnterPasswordModal.Story could not be created"
+msgstr "Story could not be created"
+
+msgid "translations.translations.Components.EnterPasswordModal.Story could not be overrided"
+msgstr "Story could not be overrided"
+
+msgid "translations.translations.Components.EnterPasswordModal.Create"
+msgstr "Create"
+
+msgid "translations.translations.Components.EnterPasswordModal.Override"
+msgstr "Override"
+
+msgid "translations.translations.Components.EnterPasswordModal.Cancel"
+msgstr "Cancel"
+
+msgid "translations.translations.Features.HomeView.Learn fonio"
+msgstr "Learn fonio"
+
+msgid "translations.translations.Features.HomeView.learn fonio detail"
+msgstr "learn fonio detail"
+
+msgid "translations.translations.Features.HomeView.About fonio"
+msgstr "About fonio"
+
+msgid "translations.translations.Features.HomeView.about fonio details"
+msgstr "about fonio details"
+
+msgid "translations.translations.Features.HomeView.Your profile"
+msgstr "Your profile"
+
+msgid "translations.translations.Features.HomeView.choose how you will be identified by other writers"
+msgstr "choose how you will be identified by other writers"
+
+msgid "translations.translations.Features.HomeView.edit"
+msgstr "edit"
+
+msgid "translations.translations.Features.HomeView.Who else is online ?"
+msgstr "Who else is online ?"
+
+msgid "translations.translations.Features.HomeView.writers connected to this classroom right now"
+msgstr "writers connected to this classroom right now"
+
+msgid "translations.translations.Features.HomeView.intro short title"
+msgstr "intro short title"
+
+msgid "translations.translations.Features.HomeView.New story"
+msgstr "New story"
+
+msgid "translations.translations.Features.HomeView.find a story"
+msgstr "find a story"
+
+msgid "translations.translations.Features.HomeView.sort by"
+msgstr "sort by"
+
+msgid "translations.translations.Features.HomeView.edited by me"
+msgstr "edited by me"
+
+msgid "translations.translations.Features.HomeView.edited recently"
+msgstr "edited recently"
+
+msgid "translations.translations.Features.HomeView.title"
+msgstr "title"
+
+msgid "translations.translations.Features.HomeView.New Story"
+msgstr "New Story"
+
+msgid "translations.translations.Features.HomeView.Create a story"
+msgstr "Create a story"
+
+msgid "translations.translations.Features.HomeView.Import an existing story"
+msgstr "Import an existing story"
+
+msgid "translations.translations.Features.HomeView.Drop a fonio file"
+msgstr "Drop a fonio file"
+
+msgid "translations.translations.Features.HomeView.Story is not valid"
+msgstr "Story is not valid"
+
+msgid "translations.translations.Features.HomeView.Override story"
+msgstr "Override story"
+
+msgid "translations.translations.Features.HomeView.story is exist, do you want to override it?"
+msgstr "story is exist, do you want to override it?"
+
+msgid "translations.translations.Features.HomeView.Override exist story"
+msgstr "Override exist story"
+
+msgid "translations.translations.Features.HomeView.Create new story"
+msgstr "Create new story"
+
+msgid "translations.translations.Features.HomeView.Cancel"
+msgstr "Cancel"
+
+msgid "translations.translations.Features.HomeView.Stories"
+msgstr "Stories"
+
+msgid "translations.translations.Features.HomeView.Learn"
+msgstr "Learn"
+
+msgid "translations.translations.Features.HomeView.About"
+msgstr "About"
+
+msgid "translations.translations.Features.HomeView.Provided thanks to the FORCCAST program"
+msgstr "Provided thanks to the FORCCAST program"
+
+msgid "translations.translations.Features.HomeView.Made by médialab Sciences Po"
+msgstr "Made by médialab Sciences Po"
+
+msgid "translations.translations.Features.HomeView.The source code is licensed under "
+msgstr "The source code is licensed under "
+
+msgid "translations.translations.Components.StoryCard.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "translations.translations.Components.StoryCard.change password"
+msgstr "change password"
+
+msgid "translations.translations.Components.StoryCard.open"
+msgstr "open"
+
+msgid "translations.translations.Components.StoryCard.duplicate"
+msgstr "duplicate"
+
+msgid "translations.translations.Components.StoryCard.read"
+msgstr "read"
+
+msgid "translations.translations.Components.StoryCard.delete"
+msgstr "delete"
+
+msgid "translations.translations.Features.LibraryView.Find a resource"
+msgstr "Find a resource"
+
+msgid "translations.translations.Features.LibraryView.Sort items by"
+msgstr "Sort items by"
+
+msgid "translations.translations.Features.LibraryView.edited recently"
+msgstr "edited recently"
+
+msgid "translations.translations.Features.LibraryView.title"
+msgstr "title"
+
+msgid "translations.translations.Features.LibraryView.Filter by"
+msgstr "Filter by"
+
+msgid "translations.translations.Features.LibraryView.Options"
+msgstr "Options"
+
+msgid "translations.translations.Features.LibraryView.Your library contains all the resources (references, images, visualizations...) that can be used within the story."
+msgstr ""
+
+msgid "translations.translations.Features.LibraryView.New resource"
+msgstr "New resource"
+
+msgid "translations.translations.Features.LibraryView.Drop files to include new resources in your library (images, tables, bibliographies)"
+msgstr "Drop files to include new resources in your library (images, tables, bibliographies)"
+
+msgid "translations.translations.Features.LibraryView.untitled resource"
+msgstr "untitled resource"
+
+msgid "translations.translations.Features.LibraryView.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "translations.translations.Features.LibraryView.open to edition"
+msgstr "open to edition"
+
+msgid "translations.translations.Features.LibraryView.Source: "
+msgstr "Source: "
+
+msgid "translations.translations.Features.ReadOnly.Story not found"
+msgstr "Story not found"
+
+msgid "translations.translations.Features.ReadOnly.Loading"
+msgstr "Loading"
+
+msgid "translations.translations.Features.SectionView.find a resource"
+msgstr "find a resource"
+
+msgid "translations.translations.Features.SectionView.Sort items by"
+msgstr "Sort items by"
+
+msgid "translations.translations.Features.SectionView.edited recently"
+msgstr "edited recently"
+
+msgid "translations.translations.Features.SectionView.title"
+msgstr "title"
+
+msgid "translations.translations.Features.SectionView.Show ..."
+msgstr ""
+
+msgid "translations.translations.Features.SectionView.Options"
+msgstr "Options"
+
+msgid "translations.translations.Features.SectionView.Drop files to include new resources in your library (images, tables, bibliographies)"
+msgstr "Drop files to include new resources in your library (images, tables, bibliographies)"
+
+msgid "translations.translations.Features.SectionView.Add items to library"
+msgstr "Add items to library"
+
+msgid "translations.translations.Features.SectionView.Add new images, references, videos, ... to your story"
+msgstr " to your story"
+
+msgid "translations.translations.Features.SectionView.New section"
+msgstr "New section"
+
+msgid "translations.translations.Features.SectionView.Add a new section or chapter to your story"
+msgstr "Add a new section or chapter to your story"
+
+msgid "translations.translations.Features.SectionView.Library"
+msgstr "Library"
+
+msgid "translations.translations.Features.SectionView.Summary"
+msgstr "Summary"
+
+msgid "translations.translations.Features.SectionView.Add items to the library"
+msgstr "Add items to the library"
+
+msgid "translations.translations.Features.SectionView.Manually"
+msgstr "Manually"
+
+msgid "translations.translations.Features.SectionView.From files drop"
+msgstr "From files drop"
+
+msgid "translations.translations.Features.SectionView.Drop files here to include new items in your library (images, tables, bibliographies)"
+msgstr "Drop files here to include new items in your library (images, tables, bibliographies)"
+
+msgid "translations.translations.Features.SectionView.Edit section metadata"
+msgstr "Edit section metadata"
+
+msgid "translations.translations.Features.SectionView.Save changes"
+msgstr "Save changes"
+
+msgid "translations.translations.Features.SectionView.All changes saved"
+msgstr "All changes saved"
+
+msgid "translations.translations.Features.SectionView.Section content"
+msgstr "Section content"
+
+msgid "translations.translations.Features.SectionView.Explanation about the section content"
+msgstr "Explanation about the section content"
+
+msgid "translations.translations.Features.SectionView.edited by you"
+msgstr "edited by you"
+
+msgid "translations.translations.Features.SectionView.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "translations.translations.Features.SectionView.open to edition"
+msgstr "open to edition"
+
+msgid "translations.translations.Features.SectionView.untitled resource"
+msgstr "untitled resource"
+
+msgid "translations.translations.Features.SectionView.drag this card to the editor"
+msgstr "drag this card to the editor"
+
+msgid "translations.translations.Features.SectionView.delete this resource"
+msgstr "delete this resource"
+
+msgid "translations.translations.Features.SectionView.use as cover image"
+msgstr "use as cover image"
+
+msgid "translations.translations.Features.SectionView.drag to change section order"
+msgstr "drag to change section order"
+
+msgid "translations.translations.Features.SectionView.section settings"
+msgstr "section settings"
+
+msgid "translations.translations.Features.SectionView.delete this section"
+msgstr "delete this section"
+
+msgid "translations.translations.Components.SectionCard.edited by {n}"
+msgstr "edited by {n}"
+
+msgid "translations.translations.Components.SectionCard.open for edition"
+msgstr "open for edition"
+
+msgid "translations.translations.Components.SectionCard.edit"
+msgstr "edit"
+
+msgid "translations.translations.Components.SectionCard.move"
+msgstr "move"
+
+msgid "translations.translations.Components.SectionCard.delete"
+msgstr "delete"
+
+msgid "translations.translations.Components.SectionCard.duplicate"
+msgstr "duplicate"
+
+msgid "translations.translations.Features.SummaryView.{a} is here on the summary"
+msgstr "{a} is here on the summary"
+
+msgid "translations.translations.Features.SummaryView.{a} is working on section "
+msgstr "{a} is working on section \"{t}\""
+
+msgid "translations.translations.Features.SummaryView.{a} is working on a section"
+msgstr "{a} is working on a section"
+
+msgid "translations.translations.Features.SummaryView.{a} is editing story settings"
+msgstr "{a} is editing story settings"
+
+msgid "translations.translations.Features.SummaryView.{a} is working on {l}"
+msgstr "{a} is working on {l}"
+
+msgid "translations.translations.Features.SummaryView.{a} is working on {l} and {n}"
+msgstr "{a} is working on {l} and {n}"
+
+msgid "translations.translations.Features.SummaryView.{a} is nowhere, alone in the dark"
+msgstr "{a} is nowhere, alone in the dark"
+
+msgid "translations.translations.Features.SummaryView.edited by you"
+msgstr "edited by you"
+
+msgid "translations.translations.Features.SummaryView.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "translations.translations.Features.SummaryView.open to edition"
+msgstr "open to edition"
+
+msgid "translations.translations.Features.SummaryView.Close story settings"
+msgstr "Close story settings"
+
+msgid "translations.translations.Features.SummaryView.Edit story settings"
+msgstr "Edit story settings"
+
+msgid "translations.translations.Features.SummaryView.What are other authors doing ?"
+msgstr "What are other authors doing ?"
+
+msgid "translations.translations.Features.SummaryView.New section"
+msgstr "New section"
+
+msgid "translations.translations.Features.SummaryView.Summary"
+msgstr "Summary"
+
+msgid "translations.translations.acustom"
+msgstr "test"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
+msgstr "Êtes-vous sûr·e de vouloir supprimer la ressource \"{s}\" ?"
+
+msgid "Components.NewSectionForm.Authors"
+msgstr "Auteurs"
+
+msgid "Features.SummaryView.{a} is working on section "{t}""
+msgstr "{a} travaille sur la section \"{t}\""
+
+msgid "Features.LibraryView.image"
+msgstr "image"
+
+msgid "Features.LibraryView.table"
+msgstr "tableau"
+
+msgid "Features.LibraryView.video"
+msgstr "vidéo"
+
+msgid "Features.LibraryView.embed"
+msgstr "code"
+
+msgid "Features.LibraryView.bib"
+msgstr "référence"
+
+msgid "Features.LibraryView.webpage"
+msgstr "hyperlien"
+
+msgid "Features.LibraryView.glossary"
+msgstr "entrée de glossaire"
+
+msgid "Features.SectionView.image"
+msgstr "image"
+
+msgid "Features.SectionView.table"
+msgstr "tableau"
+
+msgid "Features.SectionView.video"
+msgstr "vidéo"
+
+msgid "Features.SectionView.embed"
+msgstr "code"
+
+msgid "Features.SectionView.bib"
+msgstr "référence"
+
+msgid "Features.SectionView.webpage"
+msgstr "hyperlien"
+
+msgid "Features.SectionView.glossary"
+msgstr "entrée glossaire"
+
+msgid "Components.ResourceForm.image"
+msgstr "image"
+
+msgid "Components.ResourceForm.table"
+msgstr "tableau"
+
+msgid "Components.ResourceForm.video"
+msgstr "vidéo"
+
+msgid "Components.ResourceForm.embed"
+msgstr "code"
+
+msgid "Components.ResourceForm.bib"
+msgstr "référence"
+
+msgid "Components.ResourceForm.webpage"
+msgstr "hyperlien"
+
+msgid "Components.ResourceForm.glossary"
+msgstr "glossaire"
+
+msgid "Components.ResourceForm.Add item to library"
+msgstr "ajouter l'item"
+
+msgid "Components.ResourceForm.Add image to library"
+msgstr "Ajouter l'image"
+
+msgid "Components.ResourceForm.Add table to library"
+msgstr "Ajouter le tableau"
+
+msgid "Components.ResourceForm.Add video to library"
+msgstr "Ajouter la vidéo"
+
+msgid "Components.ResourceForm.Add embed to library"
+msgstr "Ajouter le code"
+
+msgid "Components.ResourceForm.Add bib to library"
+msgstr "Ajouter les références"
+
+msgid "Components.ResourceForm.Add webpage to library"
+msgstr "Ajouter l'hyperlien"
+
+msgid "Components.ResourceForm.Add glossary to library"
+msgstr "Ajouter l'entrée de glossaire"
+
+msgid "Components.ResourceForm.Edit item"
+msgstr "Éditer"
+
+msgid "Components.ResourceForm.Edit image"
+msgstr "Éditer l'image"
+
+msgid "Components.ResourceForm.Edit table"
+msgstr "Éditer le tableau"
+
+msgid "Components.ResourceForm.Edit video"
+msgstr "Éditer la vidéo"
+
+msgid "Components.ResourceForm.Edit embed"
+msgstr "Éditer le code"
+
+msgid "Components.ResourceForm.Edit bib"
+msgstr "Éditer la référence"
+
+msgid "Components.ResourceForm.Edit webpage"
+msgstr "Éditer l'hyperlien"
+
+msgid "Components.ResourceForm.Edit glossary"
+msgstr "Éditer l'entrée de glossaire"
+
+msgid "Components.AssetPreview.edit item"
+msgstr "Éditer"
+
+msgid "Components.AssetPreview.edit image"
+msgstr "Éditer l'image"
+
+msgid "Components.AssetPreview.edit table"
+msgstr "Éditer le tableau"
+
+msgid "Components.AssetPreview.edit video"
+msgstr "Éditer la vidéo"
+
+msgid "Components.AssetPreview.edit embed"
+msgstr "Éditer le code"
+
+msgid "Components.AssetPreview.edit bib"
+msgstr "Éditer la référence"
+
+msgid "Components.AssetPreview.edit webpage"
+msgstr "Éditer l'hyperlien"
+
+msgid "Components.AssetPreview.edit glossary"
+msgstr "Éditer l'entrée de glossaire"
+
+msgid "Components.ResourceForm.Update item"
+msgstr "mettre à jour"
+
+msgid "Components.ResourceForm.Update image"
+msgstr "Mettre à jour l'image"
+
+msgid "Components.ResourceForm.Update table"
+msgstr "Mettre à jour le tableau"
+
+msgid "Components.ResourceForm.Update video"
+msgstr "Mettre à jour la vidéo"
+
+msgid "Components.ResourceForm.Update embed"
+msgstr "Mettre à jour le code"
+
+msgid "Components.ResourceForm.Update bib"
+msgstr "Mettre à jour la référence"
+
+msgid "Components.ResourceForm.Update webpage"
+msgstr "Mettre à jour l'hyperlien"
+
+msgid "Components.ResourceForm.Update glossary"
+msgstr "Mettre à jour l'entrée de glossaire"
+
+msgid "Components.ConfirmToDeleteModal.This resource is cited in {n} places of in your story,"
+msgstr "This resource is cited in {n} places of in your story,"
+
+msgid "Features.SectionView.Add new images to your story"
+msgstr "Add new images to your story"
