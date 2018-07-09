@@ -33,6 +33,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
     case `${UPLOAD_RESOURCE}_FAIL`:
     case `${DELETE_UPLOADED_RESOURCE}_FAIL`:
     case 'SAVE_STORY_FAIL':
+      console.error(action);
       return {
         ...state,
         requestFail: action.type

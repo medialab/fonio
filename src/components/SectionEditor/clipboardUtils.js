@@ -262,7 +262,7 @@ export const handleCopy = function(event) {
       const mods = [];
       // trying not to duplicate same links
       const linksMap = {};
-      const imagesMap = {};
+      // const imagesMap = {};
       contentState
         .getBlocksAsArray()
         .map(contentBlock => {
@@ -318,7 +318,6 @@ export const handleCopy = function(event) {
               }
               // case IMAGE entity
               else if (src) {
-                const blockKey = contentBlock.getKey();
                 const selectionState = activeEditorState.getSelection().merge({
                   anchorKey: blockKey,
                   focusKey: blockKey,
@@ -336,7 +335,7 @@ export const handleCopy = function(event) {
                 contentState = Modifier.removeRange(
                   contentState,
                   selectionState
-                )
+                );
                 return;
                 // shouldCreateResource = true;
                 // imagesMap[src] = {src, alt};
