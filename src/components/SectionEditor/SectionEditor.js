@@ -230,7 +230,7 @@ class SectionEditor extends Component {
    * @param {object} props - properties given to instance at instanciation
    */
   constructor(props, context) {
-    super(props);
+    super(props, context);
     this.state = {
       hydrated: false,
       citations: {
@@ -320,7 +320,7 @@ class SectionEditor extends Component {
 
   componentWillUpdate() {
     // benchmarking component performance
-    // console.time('editor update time');/* eslint no-console: 0 */
+    console.time('editor update time');/* eslint no-console: 0 */
   }
 
 
@@ -331,7 +331,7 @@ class SectionEditor extends Component {
     if (this.props.editorStates[this.props.activeSection.id] !== prevProps.editorStates[this.props.activeSection.id]) {
       this.debouncedCleanStuffFromEditorInspection(this.props.activeSection.id);
     }
-    // console.timeEnd('editor update time');/* eslint no-console: 0 */
+    console.timeEnd('editor update time');/* eslint no-console: 0 */
   }
 
 
@@ -616,9 +616,12 @@ class SectionEditor extends Component {
     }
 
     this.props.updateSection(newSection);
-    this.setState({
-      citations: buildCitations(this.state.assets, this.props)
-    });
+    // checking that component is mounted
+    if (this.component) {
+      this.setState({
+        citations: buildCitations(this.state.assets, this.props)
+      });
+    }
   }
 
   removeFormattingForSelection = () => {
@@ -915,9 +918,14 @@ class SectionEditor extends Component {
 
     const inlineButtons = this.inlineButtons();
 
+    const bindRef = component => {
+      this.component = component;
+    };
+
     return (
       <Content style={componentStyle} className="fonio-SectionEditor">
         <div
+          ref={bindRef}
           className="editor-wrapper"
           onScroll={onScroll}>
           <ReferencesManager
