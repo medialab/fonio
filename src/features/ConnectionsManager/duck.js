@@ -279,7 +279,7 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
           },
         };
       }
-      return state;
+      else return state;
     /**
      * update locking system by room manually (client)
      */
