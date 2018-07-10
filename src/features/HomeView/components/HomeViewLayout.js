@@ -354,9 +354,14 @@ class HomeViewLayout extends Component {
                   </div>
                   <Level />
                   <div>
-                    <Title isSize={5}>
-                      {this.translate('Who else is online ?')} <HelpPin>{this.translate('writers connected to this classroom right now')}</HelpPin>
-                    </Title>
+                    {
+                      activeUsers &&
+                      Object.keys(activeUsers)
+                      .filter(thatUserId => userId !== thatUserId).length > 0 &&
+                      <Title isSize={5}>
+                        {this.translate('Who else is online ?')} <HelpPin>{this.translate('writers connected to this classroom right now')}</HelpPin>
+                      </Title>
+                    }
                     {activeUsers &&
                     Object.keys(activeUsers)
                     .filter(thatUserId => userId !== thatUserId)
