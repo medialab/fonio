@@ -264,19 +264,22 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
     case LEAVE_BLOCK:
     case `${LEAVE_BLOCK}_BROADCAST`:
       locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
-      return {
-        ...state,
-        [payload.storyId]: {
-          ...state[payload.storyId],
-          locks: {
-            ...locks,
-            [payload.userId]: {
-              ...locks[payload.userId],
-              [payload.blockType]: undefined,
+      if (locks[payload.userId]) {
+        return {
+          ...state,
+          [payload.storyId]: {
+            ...state[payload.storyId],
+            locks: {
+              ...locks,
+              [payload.userId]: {
+                ...locks[payload.userId],
+                [payload.blockType]: undefined,
+              },
             },
           },
-        },
-      };
+        };
+      }
+      return state;
     /**
      * update locking system by room manually (client)
      */
