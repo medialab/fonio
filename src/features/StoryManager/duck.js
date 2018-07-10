@@ -14,6 +14,9 @@ import Ajv from 'ajv';
 import storySchema from 'quinoa-schemas/story';
 import resourceSchema from 'quinoa-schemas/resource';
 
+
+import {LEAVE_STORY} from '../ConnectionsManager/duck';
+
 import config from '../../config';
 
 import {updateEditionHistoryMap, loadStoryToken} from '../../helpers/localStorageUtils';
@@ -362,6 +365,11 @@ function story(state = STORY_DEFAULT_STATE, action) {
   let contextualizers;
   let contextualizations;
   switch (action.type) {
+    case LEAVE_STORY:
+      return {
+        ...state,
+        story: undefined,
+      };
     case `${ACTIVATE_STORY}_SUCCESS`:
       return {
         ...state,
@@ -372,6 +380,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
      */
     case `${UPDATE_STORY_METADATA}_SUCCESS`:
     case `${UPDATE_STORY_METADATA}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       return {
           ...state,
           story: {
@@ -385,6 +396,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
      */
     case `${UPDATE_STORY_SETTINGS}_SUCCESS`:
     case `${UPDATE_STORY_SETTINGS}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       return {
           ...state,
           story: {
@@ -398,6 +412,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
      */
     case `${UPDATE_SECTIONS_ORDER}`:
     case `${UPDATE_SECTIONS_ORDER}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       const oldSectionsOrder = [...state.story.sectionsOrder];
       const newSectionsOrder = [...payload.sectionsOrder];
       let resolvedSectionsOrder = [...payload.sectionsOrder];
@@ -431,6 +448,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
      */
     case `${CREATE_SECTION}`:
     case `${CREATE_SECTION}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       return {
           ...state,
           story: {
@@ -451,6 +471,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
       };
     case `${UPDATE_SECTION}_SUCCESS`:
     case `${UPDATE_SECTION}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       return {
           ...state,
           story: {
@@ -467,6 +490,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
       };
     case `${DELETE_SECTION}_SUCCESS`:
     case `${DELETE_SECTION}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       return {
           ...state,
           story: {
@@ -493,6 +519,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${CREATE_RESOURCE}_BROADCAST`:
     case `${UPDATE_RESOURCE}`:
     case `${UPDATE_RESOURCE}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       return {
           ...state,
           story: {
@@ -508,6 +537,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
           }
       };
     case `${UPLOAD_RESOURCE}_SUCCESS`:
+      if (!state.story) {
+        return state;
+      }
       return {
         ...state,
         story: {
@@ -525,6 +557,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${DELETE_RESOURCE}_SUCCESS`:
     case `${DELETE_RESOURCE}_BROADCAST`:
     case `${DELETE_UPLOADED_RESOURCE}_SUCCESS`:
+      if (!state.story) {
+        return state;
+      }
       contextualizations = {...state.story.contextualizations};
       contextualizers = {...state.story.contextualizers};
       // for now as the app does not allow to reuse the same contextualizer for several resources
@@ -581,6 +616,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${UPDATE_CONTEXTUALIZATION}_BROADCAST`:
     case CREATE_CONTEXTUALIZATION:
     case `${CREATE_CONTEXTUALIZATION}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       const {
         contextualizationId,
         contextualization
@@ -617,6 +655,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${UPDATE_CONTEXTUALIZER}_BROADCAST`:
     case CREATE_CONTEXTUALIZER:
     case `${CREATE_CONTEXTUALIZER}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       // storyId = action.storyId;
       const {
         contextualizerId,
@@ -635,6 +676,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
       };
     case DELETE_CONTEXTUALIZER:
     case `${DELETE_CONTEXTUALIZER}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       contextualizers = {...state.story.contextualizers};
       delete contextualizers[payload.contextualizerId];
       return {
@@ -648,6 +692,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
 
     case SET_COVER_IMAGE:
     case `${SET_COVER_IMAGE}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       const {resourceId} = payload;
       return {
         ...state,

@@ -339,7 +339,7 @@ class SectionEditor extends Component {
    * Executes code before component unmounts
    */
   componentWillUnmount = () => {
-    this.clearNotesAndContext();
+    // this.clearNotesAndContext();
     // remove all document-level event listeners
     // handled by the component
     document.removeEventListener('copy', this.onCopy);
