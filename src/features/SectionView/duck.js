@@ -30,6 +30,7 @@ const SET_RESOURCE_OPTIONS_VISIBLE = 'SET_RESOURCE_OPTIONS_VISIBLE';
 const SET_RESOURCE_SORT_VALUE = 'SET_RESOURCE_SORT_VALUE';
 const SET_RESOURCE_SEARCH_STRING = 'SET_RESOURCE_SEARCH_STRING';
 const SET_NEW_RESOURCE_MODE = 'SET_NEW_RESOURCE_MODE';
+const SET_EDITED_SECTION_ID = 'SET_EDITED_SECTION_ID';
 
 /**
  * actions related to resources edition parameters
@@ -103,6 +104,11 @@ export const setEmbedResourceAfterCreation = payload => ({
 
 export const setNewResourceMode = payload => ({
   type: SET_NEW_RESOURCE_MODE,
+  payload,
+});
+
+export const setEditedSectionId = payload => ({
+  type: SET_EDITED_SECTION_ID,
   payload,
 });
 
@@ -199,6 +205,7 @@ const UI_DEFAULT_STATE = {
   resourceFilterValues: defaultResourceFilterValues,
   resourceSortValue: 'title',
   newResourceMode: 'manually',
+  editedSectionId: undefined,
 };
 
 /**
@@ -218,6 +225,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_RESOURCE_SORT_VALUE:
     case SET_RESOURCE_SEARCH_STRING:
     case SET_NEW_RESOURCE_MODE:
+    case SET_EDITED_SECTION_ID:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -424,6 +432,7 @@ const resourceFilterValues = state => state.ui.resourceFilterValues;
 const resourceSortValue = state => state.ui.resourceSortValue;
 const resourceSearchString = state => state.ui.resourceSearchString;
 const newResourceMode = state => state.ui.newResourceMode;
+const editedSectionId = state => state.ui.editedSectionId;
 
 const editorStates = state => state.editorstates;
 const assetRequestState = state => state.assetRequeststate;
@@ -449,6 +458,7 @@ export const selector = createStructuredSelector({
   resourceSortValue,
   resourceSearchString,
   newResourceMode,
+  editedSectionId,
 
   editorStates,
   assetRequestState,

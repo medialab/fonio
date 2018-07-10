@@ -7,6 +7,10 @@ import {
 } from 'react-router';
 
 import {
+  convertToRaw
+} from 'draft-js';
+
+import {
   summonAsset
 } from '../../../helpers/assetsUtils';
 import {createResourceData} from '../../../helpers/resourcesUtils';
@@ -52,6 +56,7 @@ class SectionViewContainer extends Component {
     if (this.props.editedStory) {
       this.requireLockOnSection(this.props);
     }
+    this.props.actions.setEditedSectionId(this.props.match.params.sectionId);
   }
 
   componentWillReceiveProps = nextProps => {
@@ -64,7 +69,9 @@ class SectionViewContainer extends Component {
           sectionId: prevSectionId,
           storyId: prevStoryId
         }
-      }
+      },
+      editorStates,
+      userId,
     } = this.props;
     const {
       match: {
@@ -81,17 +88,40 @@ class SectionViewContainer extends Component {
     if (!this.props.editedStory && nextProps.editedStory) {
       this.requireLockOnSection(this.props);
     }
-
+    // changing section
     if (prevSectionId !== nextSectionId || prevStoryId !== nextStoryId) {
+      // updating active section id
+      this.props.actions.setEditedSectionId(nextSectionId);
+      // packing up : saving all last editor states
+      const section = this.props.editedStory.sections[prevSectionId];
+      const newSection = {
+        ...section,
+        contents: editorStates[prevSectionId] ? convertToRaw(editorStates[prevSectionId].getCurrentContent()) : section.contents,
+        notes: Object.keys(section.notes || {}).reduce((result, noteId) => ({
+          ...result,
+          [noteId]: {
+            ...section.notes[noteId],
+            contents: editorStates[noteId] ? convertToRaw(editorStates[noteId].getCurrentContent()) : section.notes[noteId].contents,
+          }
+        }), {})
+      };
+      this.props.actions.updateSection({
+        sectionId: prevSectionId,
+        storyId: prevStoryId,
+        userId,
+        section: newSection
+      });
       this.unlockOnSection(this.props);
       this.requireLockOnSection(nextProps);
       this.props.actions.setEmbedResourceAfterCreation(false);
       this.props.actions.setNewResourceType(undefined);
+      this.props.actions.setEditedSectionId(undefined);
     }
   }
 
   componentWillUnmount = () => {
     this.unlockOnSection(this.props);
+    this.props.actions.setEditedSectionId(undefined);
   }
 
   unlockOnSection = props => {
@@ -104,7 +134,6 @@ class SectionViewContainer extends Component {
       },
       userId
     } = props;
-    console.log('unlock on section');
     this.props.actions.leaveBlock({
       blockId: sectionId,
       storyId,

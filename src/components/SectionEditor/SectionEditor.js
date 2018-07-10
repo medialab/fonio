@@ -345,6 +345,8 @@ class SectionEditor extends Component {
     document.removeEventListener('copy', this.onCopy);
     document.removeEventListener('cut', this.onCopy);
     document.removeEventListener('paste', this.onPaste);
+    this.updateSectionRawContentDebounced.cancel();
+    this.debouncedCleanStuffFromEditorInspection.cancel();
   }
 
   clearNotesAndContext = () => {

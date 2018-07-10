@@ -4,10 +4,15 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 
+import {
+  convertToRaw
+} from 'draft-js';
+
 import {loadStoryToken, saveStoryToken} from '../../../helpers/localStorageUtils';
 
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as storyDuck from '../../StoryManager/duck';
+import * as sectionDuck from '../../SectionView/duck';
 import * as duck from '../duck';
 
 import AuthManagerLayout from './AuthManagerLayout';
@@ -15,8 +20,9 @@ import AuthManagerLayout from './AuthManagerLayout';
 @connect(
   state => ({
     ...connectionsDuck.selector(state.connections),
-    ...duck.selector(state.auth),
     ...storyDuck.selector(state.editedStory),
+    ...sectionDuck.selector(state.section),
+    ...duck.selector(state.auth),
   }),
   dispatch => ({
     actions: bindActionCreators({
@@ -77,11 +83,44 @@ class AuthManagerContainer extends Component {
   }
 
   componentWillUnmount() {
+    const {
+      editedStory,
+      editorStates,
+      editedSectionId,
+      userId,
+      match: {
+        params: {
+          storyId
+        }
+      },
+    } = this.props;
+    /**
+     * If some editor states pending, save the related section
+     */
+
+    if (editedSectionId) {
+      const section = editedStory.sections[editedSectionId];
+      const newSection = {
+        ...section,
+        contents: editorStates[editedSectionId] ? convertToRaw(editorStates[editedSectionId].getCurrentContent()) : section.contents,
+        notes: Object.keys(section.notes || {}).reduce((result, noteId) => ({
+          ...result,
+          [noteId]: {
+            ...section.notes[noteId],
+            contents: editorStates[noteId] ? convertToRaw(editorStates[noteId].getCurrentContent()) : section.notes[noteId].contents
+          }
+        }), {})
+      };
+      this.props.actions.updateSection({
+        sectionId: editedSectionId,
+        storyId: editedStory.id,
+        userId,
+        section: newSection
+      });
+    }
     /**
      * Desactive story on unmount (giving the server the opportunity to unload story if no one else is editing it)
      */
-    const {userId} = this.props;
-    const {storyId} = this.props.match.params;
     this.props.actions.leaveStory({storyId, userId});
   }
 
