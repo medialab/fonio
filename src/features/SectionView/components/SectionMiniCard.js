@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {SortableHandle} from 'react-sortable-hoc';
 
 import ReactTooltip from 'react-tooltip';
 
@@ -19,18 +18,6 @@ import {
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {Link} from 'react-router-dom';
-
-
-const DragHandle = SortableHandle(({icon, tip}) =>
-  (<Button
-    data-for="card-action"
-    data-tip={tip}
-    style={{cursor: 'pointer'}}>
-    <Icon isSize="small" isAlign="left">
-      <img src={icon} />
-    </Icon>
-  </Button>)
-);
 
 
 const SectionMiniCard = ({
@@ -85,9 +72,14 @@ const SectionMiniCard = ({
           </Columns>
           <Columns>
             <Column isOffset={2} isSize={10}>
-              <DragHandle
-                icon={icons.move.black.svg}
-                tip={translate('drag to change section order')} />
+              <Button
+                data-for="card-action"
+                data-tip={translate('drag to change section order')}
+                style={{cursor: 'pointer', pointerEvents: 'none'}}>
+                <Icon isSize="small" isAlign="left">
+                  <img src={icons.move.black.svg} />
+                </Icon>
+              </Button>
               <Button
                 onClick={onOpenSettings}
                 isDisabled={section.lockStatus !== 'active'}
