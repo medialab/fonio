@@ -39,7 +39,9 @@ const SortableSectionsList = SortableContainer(({
       {items
         .map((section, index) => (
           <SortableItem
-            {...props} key={`item-${index}`} index={index}
+            {...props}
+            key={`item-${index}`}
+            index={index}
             value={section} />
       ))}
     </ul>

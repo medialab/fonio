@@ -237,7 +237,8 @@ class AsideSectionColumn extends Component {
                     items={sections}
                     onSortEnd={onSortEnd}
                     onOpenSettings={thatSection => onOpenSectionSettings(thatSection.id)}
-                    onDeleteSection={onDeleteSection} />
+                    onDeleteSection={onDeleteSection}
+                    pressDelay={150} />
                 </Column>
               </StretchedLayoutItem>
               <StretchedLayoutItem >
