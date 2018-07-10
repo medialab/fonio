@@ -55,7 +55,7 @@ const EditionUiWrapperLayout = ({
 
   const storyId = editedStory.id;
 
-  const lockMap = lockingMap[storyId].locks;
+  const lockMap = lockingMap[storyId] && lockingMap[storyId].locks;
   const userLockedOnDesignId = Object.keys(lockMap).find(thatUserId => lockMap[thatUserId].design);
   let designStatus;
   let designMessage;
