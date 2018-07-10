@@ -18,3 +18,20 @@
 *{
   transition: all .2s ease;
 }
+
+
+.aside-edition-container{
+  &:not(.is-collapsed){
+    min-width: 30%;
+
+  }
+}
+
+@media screen and (max-width: 1087px) {
+  .aside-edition-container{
+  &:not(.is-collapsed){
+      min-width: 40%;
+
+    }
+  }
+}
