@@ -31,8 +31,14 @@ const EnterPasswordModal = ({
     onSubmitPassword(values.password);
   };
 
+  const errorValidator = (values) => {
+    return {
+      password: (!values.password || values.password.length < 6) ? translate('Password should be at least 6 characters') : null,
+    };
+  };
+
   return (
-    <Form onSubmit={onSumitForm}>
+    <Form onSubmit={onSumitForm} validate={errorValidator}>
       {
         formApi => (
           <form onSubmit={formApi.submitForm} className="fonio-form">
@@ -62,6 +68,10 @@ const EnterPasswordModal = ({
                       <span className="fa fa-exclamation" aria-hidden="true" />
                     </Icon>
                   </Control>
+                  {
+                    formApi.touched.password && formApi.errors && formApi.errors.password &&
+                      <Help isColor="danger">{formApi.errors.password}</Help>
+                  }
                   {
                     mode === 'override' && loginStatus === 'fail' &&
                     <Help isColor="danger">{translate('Password is not valid')}</Help>
