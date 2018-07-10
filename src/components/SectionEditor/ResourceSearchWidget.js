@@ -22,6 +22,8 @@ import {
   Level,
 } from 'quinoa-design-library/components';
 
+import icons from 'quinoa-design-library/src/themes/millet/icons';
+
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 // import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -219,6 +221,7 @@ class ResourceSearchWidget extends Component {
                       isActive={index === this.state.selectedItemIndex}
                       key={index}
                       onClick={onC}>
+                      <img src={icons[metadata.type].black.svg} style={{width: '1em', display: 'inline', paddingRight: '1em'}} />
                       {optionName}
                     </DropdownItem>
                   );

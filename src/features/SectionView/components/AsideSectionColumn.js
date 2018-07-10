@@ -42,7 +42,7 @@ class AsideSectionColumn extends Component {
       'activeUsers',
       'lockMap',
       'userLockedResourceId',
-      'sections',
+      // 'sections',
 
       'resourceSearchString',
       'resourceFilterValues',
@@ -60,10 +60,13 @@ class AsideSectionColumn extends Component {
         sectionsOrder: nextSectionsOrder
       }
     } = nextProps;
+    const prevSectionsLocks = this.props.sections.map(s => s.lockStatus).join('-');
+    const nextSectionsLocks = nextProps.sections.map(s => s.lockStatus).join('-');
     return (
       changingProps.find(propName => this.props[propName] !== nextProps[propName]) !== undefined
       || prevResources !== nextResources
       || prevSectionsOrder !== nextSectionsOrder
+      || prevSectionsLocks !== nextSectionsLocks
     );
   }
   render = () => {
@@ -234,8 +237,7 @@ class AsideSectionColumn extends Component {
                     items={sections}
                     onSortEnd={onSortEnd}
                     onOpenSettings={thatSection => onOpenSectionSettings(thatSection.id)}
-                    onDeleteSection={onDeleteSection}
-                    useDragHandle />
+                    onDeleteSection={onDeleteSection} />
                 </Column>
               </StretchedLayoutItem>
               <StretchedLayoutItem >
