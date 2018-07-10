@@ -62,7 +62,7 @@
     "postcss": "^6.0.19",
     "postcss-prefix-selector": "^1.6.0",
     "pouchdb": "^6.3.4",
-    "quinoa-design-library": "0.0.9",
+    "quinoa-design-library": "0.0.10",
     "quinoa-presentation-player": "^0.2.6",
     "quinoa-schemas": "0.0.10",
     "quinoa-story-player": "^0.2.14",
@@ -95,7 +95,7 @@
     "redux-pouchdb": "^0.1.1",
     "redux-validator": "^0.2.3",
     "reselect": "^3.0.0",
-    "scholar-draft": "^0.2.30",
+    "scholar-draft": "^0.2.31",
     "socket.io-client": "^2.1.1",
     "uuid": "^3.0.1"
   },
