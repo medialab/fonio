@@ -102,15 +102,17 @@ class SectionViewContainer extends Component {
           storyId
         }
       },
-      userId
-    } = props;
-    console.log('unlock on section');
-    this.props.actions.leaveBlock({
-      blockId: sectionId,
-      storyId,
       userId,
-      blockType: 'sections',
-    });
+      lockingMap,
+    } = props;
+    if (lockingMap && lockingMap[storyId] && lockingMap[storyId].locks[userId]) {
+      this.props.actions.leaveBlock({
+        blockId: sectionId,
+        storyId,
+        userId,
+        blockType: 'sections',
+      });
+    }
   }
 
   requireLockOnSection = props => {

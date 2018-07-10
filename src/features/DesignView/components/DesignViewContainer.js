@@ -74,7 +74,6 @@ class DesignViewContainer extends Component {
     }
 
     if (prevStoryId !== nextStoryId) {
-      this.unlockOnSection(this.props);
       this.requireLockOnDesign(nextProps);
     }
   }
@@ -90,14 +89,17 @@ class DesignViewContainer extends Component {
           storyId
         }
       },
-      userId
-    } = props;
-    this.props.actions.leaveBlock({
-      storyId,
+      lockingMap,
       userId,
-      blockType: 'design',
-      blockId: 'design'
-    });
+    } = props;
+    if (lockingMap && lockingMap[storyId] && lockingMap[storyId].locks[userId]) {
+      this.props.actions.leaveBlock({
+        storyId,
+        userId,
+        blockType: 'design',
+        blockId: 'design'
+      });
+    }
   }
 
   requireLockOnDesign = props => {
