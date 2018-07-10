@@ -147,7 +147,7 @@ export const handleCopy = function(event) {
           }
         }
         // copying asset entities and related contextualization & contextualizer
-        // todo: question - should we store as well the resources being copied ?
+        // @todo: question - should we store as well the resources being copied ?
         // (in case the resource being copied is deleted by the time)
         else if (type === INLINE_ASSET || type === BLOCK_ASSET) {
           const assetId = entity.data.asset.id;
@@ -527,7 +527,7 @@ export const handleCopy = function(event) {
         }
         copiedData = JSON.parse(json);
       }
- catch (e) {
+       catch (e) {
         // console.log('e', e);
       }
     }
@@ -544,16 +544,31 @@ export const handleCopy = function(event) {
     // case: some non-textual data has been saved to the clipboard
     if (typeof copiedData === 'object') {
         const data = copiedData;
-        // past assets/contextualizations (attributing them a new id)
-        if (data.copiedContextualizations) {
-          data.copiedContextualizations.forEach(contextualization => {
-            createContextualization({storyId, contextualizationId: contextualization.id, contextualization, userId});
-          });
-        }
         // paste contextualizers (attributing them a new id)
         if (data.copiedContextualizers) {
           data.copiedContextualizers.forEach(contextualizer => {
-            createContextualizer({storyId, contextualizerId: contextualizer.id, contextualizer, userId});
+            const contextualizerId = generateId();
+            data.copiedContextualizations = data.copiedContextualizations.map(c => {
+              if (c.contextualizerId === contextualizer.id) {
+                return {
+                  ...c,
+                  contextualizerId
+                }
+              }
+              return c;
+            });
+            createContextualizer({storyId, contextualizerId, contextualizer: {...contextualizer, id: contextualizerId}, userId});
+          });
+        }
+        // past assets/contextualizations (attributing them a new id)
+        if (data.copiedContextualizations) {
+          data.copiedContextualizations.forEach(contextualization => {
+            const contextualizationId = generateId();
+            createContextualization({storyId, contextualizationId, contextualization: {
+              ...contextualization, 
+              id: contextualizationId,
+              sectionId: activeSection.id
+            }, userId});
           });
         }
         // paste notes (attributing them a new id to duplicate them if in situation of copy/paste)
