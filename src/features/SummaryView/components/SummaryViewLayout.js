@@ -90,12 +90,13 @@ const SummaryViewLayout = ({
     }
     else if (lockNames.length > 1) {
       const oLockNames = lockNames.filter(n => n !== 'summary');
-      if (oLockNames.length === 1) {
+      const hasSection = lockNames.find(n => n === 'sections') !== undefined;
+      if (oLockNames.length === 1 || hasSection) {
         const lockName = oLockNames[0];
-        if (lockName === 'sections') {
+        if (hasSection) {
           const lock = locks[lockName];
           if (lock) {
-            const sectionId = locks[lockName].blockId;
+            const sectionId = locks['sections'].blockId;
             const section = sections[sectionId];
             const sectionTitle = section.metadata.title;
             message = translate('{a} is working on section "{t}"', {a: name, t: sectionTitle});
