@@ -717,6 +717,16 @@ class SectionEditor extends Component {
     updateSectionRawContentDebounced(editorId, activeStoryId, sectionId);
   };
 
+  handleEditorPaste = (text, html) => {
+    if (html) {
+      // check whether the clipboard contains fonio data
+      const dataRegex = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>$/gm;
+      const hasScript = dataRegex.test(html);
+      return hasScript;
+    }
+    return false;
+  }
+
 
   /**
    * Renders the component
@@ -731,6 +741,7 @@ class SectionEditor extends Component {
       state,
       props,
       onEditorChange,
+      handleEditorPaste,
     } = this;
     const {
       story,
@@ -942,6 +953,8 @@ class SectionEditor extends Component {
               notesOrder={notesOrder}
               assets={assets}
 
+              handlePastedText={handleEditorPaste}
+
               messages={{
                 addNote: this.translate('add-note'),
                 summonAsset: this.translate('summon-asset'),
@@ -959,6 +972,8 @@ class SectionEditor extends Component {
               focusedEditorId={focusedEditorId}
 
               onEditorChange={onEditorChange}
+
+              editorPlaceholder={this.translate('start writing')}
 
               onDrop={onDrop}
               onDragOver={onDragOver}

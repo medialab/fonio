@@ -95,7 +95,7 @@
     "redux-pouchdb": "^0.1.1",
     "redux-validator": "^0.2.3",
     "reselect": "^3.0.0",
-    "scholar-draft": "^0.2.31",
+    "scholar-draft": "^0.2.33",
     "socket.io-client": "^2.1.1",
     "uuid": "^3.0.1"
   },
