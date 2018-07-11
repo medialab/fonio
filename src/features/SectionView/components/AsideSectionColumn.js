@@ -179,7 +179,7 @@ class AsideSectionColumn extends Component {
                             id: 'filter',
                             options: resourceTypes.map(type => ({
                               id: type,
-                              label: <span style={{display:'flex', flexFlow: 'row nowrap', alignItems: 'center'}}><Image style={{display: 'inline-block', marginRight: '1em'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
+                              label: <span style={{display: 'flex', flexFlow: 'row nowrap', alignItems: 'center'}}><Image style={{display: 'inline-block', marginRight: '1em'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
                             })),
                           }
                         ]}>

@@ -372,5 +372,6 @@
   "Components.InlineCitation.suffix-placeholder": "suffix-placeholder",
   "Components.LinkContextualization.alias-placeholder": "alias-placeholder",
   "Components.EnterPasswordModal.Password should be at least 6 characters": "Password should be at least 6 characters",
-  "Components.ExportModal.Export your story to backup it (fonio JSON format)": "Export your story to backup it (fonio JSON format)"
+  "Components.ExportModal.Export your story to backup it (fonio JSON format)": "Export your story to backup it (fonio JSON format)",
+  "Components.SectionEditor.start writing": "start writing"
 }

@@ -60,6 +60,7 @@ class SectionViewContainer extends Component {
     if (this.props.editedStory) {
       this.requireLockOnSection(this.props);
     }
+    this.props.actions.resetDraftEditorsStates();
     this.props.actions.setEditedSectionId(this.props.match.params.sectionId);
   }
 
@@ -117,6 +118,7 @@ class SectionViewContainer extends Component {
       });
       this.unlockOnSection(this.props);
       this.requireLockOnSection(nextProps);
+      this.props.actions.resetDraftEditorsStates();
       this.props.actions.setEmbedResourceAfterCreation(false);
       this.props.actions.setNewResourceType(undefined);
       this.props.actions.setEditedSectionId(undefined);
@@ -126,8 +128,10 @@ class SectionViewContainer extends Component {
   componentWillUnmount = () => {
     this.unlockOnSection(this.props);
     this.props.actions.setEditedSectionId(undefined);
+    this.props.actions.resetDraftEditorsStates();
   }
 
+  
   unlockOnSection = props => {
     const {
       match: {

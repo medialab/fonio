@@ -43,6 +43,7 @@ const SET_EMBED_RESOURCE_AFTER_CREATION = 'SET_EMBED_RESOURCE_AFTER_CREATION';
  */
 export const UPDATE_DRAFT_EDITOR_STATE = 'UPDATE_DRAFT_EDITOR_STATE';
 export const UPDATE_DRAFT_EDITORS_STATES = 'UPDATE_DRAFT_EDITORS_STATES';
+export const RESET_DRAFT_EDITORS_STATES = 'RESET_DRAFT_EDITORS_STATES';
 
 export const PROMPT_ASSET_EMBED = 'PROMPT_ASSET_EMBED';
 export const UNPROMPT_ASSET_EMBED = 'UNPROMPT_ASSET_EMBED';
@@ -140,6 +141,10 @@ export const updateDraftEditorsStates = (editorsStates) => ({
   payload: {
     editorsStates,
   },
+});
+
+export const resetDraftEditorsStates = () => ({
+  type: RESET_DRAFT_EDITORS_STATES,
 });
 
 /**
@@ -298,6 +303,8 @@ const editorstates = (state = {}, action) => {
       // reset editors data to optimize memory management
       // todo: this is a bit messy, it should be explicited for instance with two different actions 'MERGE_EDITORS'/'REPLACE_EDITORS'
       {} /* state */);
+    case RESET_DRAFT_EDITORS_STATES:
+      return {};
     default:
       return state;
   }
