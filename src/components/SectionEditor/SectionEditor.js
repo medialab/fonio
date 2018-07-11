@@ -274,6 +274,8 @@ class SectionEditor extends Component {
     if (sectionId && activeSection.contents && Object.keys(activeSection.contents).length) {
       this.hydrateEditorStates(activeSection);
       setTimeout(() => this.clearNotesAndContext());
+    } else if (sectionId) {
+      this.props.updateDraftEditorState(sectionId, this.editor.generateEmptyEditor());
     }
     document.addEventListener('copy', this.onCopy);
     document.addEventListener('cut', this.onCopy);
@@ -320,7 +322,7 @@ class SectionEditor extends Component {
 
   componentWillUpdate() {
     // benchmarking component performance
-    console.time('editor update time');/* eslint no-console: 0 */
+    // console.time('editor update time');/* eslint no-console: 0 */
   }
 
 
@@ -331,7 +333,7 @@ class SectionEditor extends Component {
     if (this.props.editorStates[this.props.activeSection.id] !== prevProps.editorStates[this.props.activeSection.id]) {
       this.debouncedCleanStuffFromEditorInspection(this.props.activeSection.id);
     }
-    console.timeEnd('editor update time');/* eslint no-console: 0 */
+    // console.timeEnd('editor update time');/* eslint no-console: 0 */
   }
 
 
