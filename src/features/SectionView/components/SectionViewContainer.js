@@ -10,10 +10,14 @@ import {
   convertToRaw
 } from 'draft-js';
 
+import config from '../../../../config';
+
 import {
   summonAsset
 } from '../../../helpers/assetsUtils';
 import {createResourceData} from '../../../helpers/resourcesUtils';
+
+import DataUrlProvider from '../../../components/DataUrlProvider';
 
 import * as duck from '../duck';
 
@@ -245,6 +249,7 @@ class SectionViewContainer extends Component {
         match: {
           params: {
             sectionId,
+            storyId,
           }
         },
       },
@@ -257,16 +262,18 @@ class SectionViewContainer extends Component {
       const section = editedStory.sections[sectionId];
       if (section) {
         return (
-          <EditionUiWrapper>
-            <SectionViewLayout
-              section={section}
-              goToSection={goToSection}
-              story={this.props.editedStory}
-              embedLastResource={embedLastResource}
-              summonAsset={onSummonAsset}
-              submitMultiResources={submitMultiResources}
-              {...this.props} />
-          </EditionUiWrapper>
+          <DataUrlProvider storyId={storyId} serverUrl={config.apiUrl} >
+            <EditionUiWrapper>
+              <SectionViewLayout
+                section={section}
+                goToSection={goToSection}
+                story={this.props.editedStory}
+                embedLastResource={embedLastResource}
+                summonAsset={onSummonAsset}
+                submitMultiResources={submitMultiResources}
+                {...this.props} />
+            </EditionUiWrapper>
+          </DataUrlProvider>
         );
       }
       else return <div>Section does not exist</div>;
