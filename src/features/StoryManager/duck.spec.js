@@ -21,7 +21,7 @@ describe('StoryManager duck', () => {
       payload: {},
     };
 
-    it('should successfully update sections order in normal cases', (done) => {
+    it('should successfully update sections order in normal cases', () => {
       const providedSectionsOrder = ['b', 'a', 'c', 'd'];
       const action = {
         ...baseAction,
@@ -31,9 +31,8 @@ describe('StoryManager duck', () => {
       };
       const result = reducer(mockState, action);
       expect(result.story.story.sectionsOrder).eql(providedSectionsOrder);
-      done();
     });
-    it('should successfully update sections order after a section was deleted', (done) => {
+    it('should successfully update sections order after a section was deleted', () => {
       const providedSectionsOrder = ['b', 'a', 'c', 'e', 'd'];
       const expectedSectionsOrder = ['b', 'a', 'c', 'd'];
       const action = {
@@ -44,9 +43,8 @@ describe('StoryManager duck', () => {
       };
       const result = reducer(mockState, action);
       expect(result.story.story.sectionsOrder).eql(expectedSectionsOrder);
-      done();
     });
-    it('should successfully update sections order after a section was added', (done) => {
+    it('should successfully update sections order after a section was added', () => {
       const providedSectionsOrder = ['b', 'a', 'c'];
       const expectedSectionsOrder = ['b', 'a', 'c', 'd'];
       const action = {
@@ -57,7 +55,6 @@ describe('StoryManager duck', () => {
       };
       const result = reducer(mockState, action);
       expect(result.story.story.sectionsOrder).eql(expectedSectionsOrder);
-      done();
     });
 
   });
