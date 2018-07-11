@@ -37,7 +37,7 @@ class DesignViewContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.onUpdteCss = debounce(this.onUpdateCss, 500);
+    this.onUpdateCss = debounce(this.onUpdateCss, 500);
   }
 
   componentDidMount = () => {
@@ -79,6 +79,7 @@ class DesignViewContainer extends Component {
   }
 
   componentWillUnmount = () => {
+    this.onUpdateCss.cancel();
     this.unlockOnDesign(this.props);
   }
 

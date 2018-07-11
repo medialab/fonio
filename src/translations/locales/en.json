@@ -370,5 +370,7 @@
   "Components.InlineCitation.locator-placeholder": "locator-placeholder",
   "Components.InlineCitation.suffix-label": "suffix-label",
   "Components.InlineCitation.suffix-placeholder": "suffix-placeholder",
-  "Components.LinkContextualization.alias-placeholder": "alias-placeholder"
+  "Components.LinkContextualization.alias-placeholder": "alias-placeholder",
+  "Components.EnterPasswordModal.Password should be at least 6 characters": "Password should be at least 6 characters",
+  "Components.ExportModal.Export your story to backup it (fonio JSON format)": "Export your story to backup it (fonio JSON format)"
 }

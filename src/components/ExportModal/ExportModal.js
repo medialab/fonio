@@ -42,7 +42,7 @@ const ExportModal = ({
                 },
                 {
                   id: 'json',
-                  label: translate('Export your story to backup and edit it later in Fonio (fonio JSON format)'),
+                  label: translate('Export your story to backup it (fonio JSON format)'),
                   iconUrl: activeOptionId === 'json' ? icons.takeAway.white.svg : icons.takeAway.black.svg
                 }
               ]} />

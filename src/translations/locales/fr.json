@@ -110,7 +110,7 @@
   "Components.ResourceSearchWidget.untitled-asset": "mention sans titre",
   "Components.ResourceSearchWidget.no items matching search": "aucun item correspondant à la recherche",
   "Components.ResourceSearchWidget.add items to your library in order to embed them": "ajouter des items à votre bibliothèque pour pouvoir les mentionner ici",
-  "Components.ResourceSearchWidget.add new item": "ajouter un novuel item",
+  "Components.ResourceSearchWidget.add new item": "ajouter un nouvel item",
   "Components.SectionEditor.Go to note": "Aller à la note",
   "Components.SectionEditor.Delete note": "Supprimer la note",
   "Components.SectionEditor.bold text": "texte en gras",
@@ -370,5 +370,7 @@
   "Components.LinkContextualization.alias-placeholder": "alias-placeholder",
   "Components.ConfirmToDeleteModal.This resource is cited in {n} places of in your story,": "Cet item est mentionné dans {n} endroits à l'intérieur de votre récit,",
   "Features.SectionView.Add new images to your story": "Add new images to your story",
-  "Features.LibraryView.Your library contains all the items (references, images, visualizations...) that can be used within the story.": "Your library contains all the items (references, images, visualizations...) that can be used within the story."
+  "Features.LibraryView.Your library contains all the items (references, images, visualizations...) that can be used within the story.": "Your library contains all the items (references, images, visualizations...) that can be used within the story.",
+  "Components.EnterPasswordModal.Password should be at least 6 characters": "Password should be at least 6 characters",
+  "Components.ExportModal.Export your story to backup it (fonio JSON format)": "Export your story to backup it (fonio JSON format)"
 }

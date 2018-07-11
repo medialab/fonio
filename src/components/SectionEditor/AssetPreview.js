@@ -243,8 +243,8 @@ class AssetPreview extends Component {
             <Level>
               <Column>
                 <Column>
-                  <Button isColor="warning" onClick={this.onClickDelete}>
-                    <span>{translate('delete mention')}</span>
+                  <Button style={{overflow: 'visible'}} isColor="warning" onClick={this.onClickDelete}>
+                    <span style={{marginRight: '1em'}}>{translate('delete mention')}</span>
                     <HelpPin>
                       {translate(`The ${metadata.type} will not be delete from the library`)}
                     </HelpPin>

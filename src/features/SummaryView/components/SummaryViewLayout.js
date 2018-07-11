@@ -96,7 +96,7 @@ const SummaryViewLayout = ({
         if (hasSection) {
           const lock = locks[lockName];
           if (lock) {
-            const sectionId = locks['sections'].blockId;
+            const sectionId = locks.sections.blockId;
             const section = sections[sectionId];
             const sectionTitle = section.metadata.title;
             message = translate('{a} is working on section "{t}"', {a: name, t: sectionTitle});

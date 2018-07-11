@@ -221,7 +221,7 @@ class ResourceSearchWidget extends Component {
                       isActive={index === this.state.selectedItemIndex}
                       key={index}
                       onClick={onC}>
-                      <img src={icons[metadata.type].black.svg} style={{width: '1em', display: 'inline', paddingRight: '1em'}} />
+                      <img src={icons[metadata.type].black.svg} style={{height: '1em', display: 'inline', paddingRight: '1em'}} />
                       {optionName}
                     </DropdownItem>
                   );

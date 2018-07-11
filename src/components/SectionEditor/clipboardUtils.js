@@ -553,7 +553,7 @@ export const handleCopy = function(event) {
                 return {
                   ...c,
                   contextualizerId
-                }
+                };
               }
               return c;
             });
@@ -565,7 +565,7 @@ export const handleCopy = function(event) {
           data.copiedContextualizations.forEach(contextualization => {
             const contextualizationId = generateId();
             createContextualization({storyId, contextualizationId, contextualization: {
-              ...contextualization, 
+              ...contextualization,
               id: contextualizationId,
               sectionId: activeSection.id
             }, userId});

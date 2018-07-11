@@ -195,7 +195,7 @@ const AsideDesignColumn = ({
 
   return (
     <Column
-      style={style} className="is-hidden-mobile" isSize={designAsideTabCollapsed ? 1 : '1/4'}
+      style={style} isSize={designAsideTabCollapsed ? 1 : '1/4'}
       isWrapper>
       <StretchedLayoutContainer isDirection="vertical" isAbsolute>
         <StretchedLayoutItem>

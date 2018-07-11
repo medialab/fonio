@@ -179,7 +179,7 @@ class AsideSectionColumn extends Component {
                             id: 'filter',
                             options: resourceTypes.map(type => ({
                               id: type,
-                              label: <span><Image style={{display: 'inline-block'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
+                              label: <span style={{display:'flex', flexFlow: 'row nowrap', alignItems: 'center'}}><Image style={{display: 'inline-block', marginRight: '1em'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
                             })),
                           }
                         ]}>
@@ -214,10 +214,11 @@ class AsideSectionColumn extends Component {
                   <Column>
                     <Button
                       isFullWidth
+                      style={{overflow: 'visible'}}
                       onClick={() => setMainColumnMode(mainColumnMode === 'newresource' ? 'edition' : 'newresource')}
                       isColor={mainColumnMode === 'newresource' ? 'primary' : 'info'}
                       isDisabled={userLockedResourceId !== undefined}>
-                      <span style={{paddingRight: '1rem'}}>{translate('Add items to library')}</span> <HelpPin place="right">
+                      <span style={{paddingRight: '1rem'}}>{translate('Add items to library')}</span> <HelpPin place="top">
                         {translate('Add new images to your story')}
                       </HelpPin>
                     </Button>
@@ -245,9 +246,10 @@ class AsideSectionColumn extends Component {
                 <Column>
                   <Column>
                     <Button
+                      style={{overflow: 'visible'}}
                       isDisabled={userLockedResourceId !== undefined && mainColumnMode === 'edition'}
                       onClick={() => setMainColumnMode('newsection')} isColor={'primary'} isFullWidth>
-                      <span style={{paddingRight: '1rem'}}>{translate('New section')}</span> <HelpPin place="right">
+                      <span style={{paddingRight: '1rem'}}>{translate('New section')}</span> <HelpPin place="top">
                         {translate('Add a new section or chapter to your story')}
                       </HelpPin>
                     </Button>
