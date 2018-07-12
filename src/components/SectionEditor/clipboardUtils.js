@@ -125,20 +125,28 @@ export const handleCopy = function(event) {
               id: noteId,
               contents: rawContent
             });
+            console.log('will parse note content', noteContent.toJS());
             // copying note's entities
             noteContent.getBlockMap().forEach(thatBlock => {
               thatBlock.getCharacterList().map(char => {
+                console.log('parsing char', char);
                 // copying note's entity and related contextualizations
                 if (char.entity) {
                   entityKey = char.entity;
                   entity = currentContent.getEntity(entityKey);
                   eData = entity.toJS();
+                  console.log('pushing', eData, ' to ', noteId);
                   copiedEntities[noteId].push({
                     key: entityKey,
                     entity: eData
                   });
+                  const contextualization = contextualizations[eData.data.asset.id];
                   copiedContextualizations.push({
-                    ...contextualizations[eData.data.asset.id]
+                    ...contextualization
+                  });
+                  copiedContextualizers.push({
+                    ...contextualizers[contextualization.contextualizerId],
+                    id: contextualization.contextualizerId
                   });
                 }
               });
@@ -190,6 +198,7 @@ export const handleCopy = function(event) {
     event.clipboardData.setData('text/plain', plainText);
     event.clipboardData.setData('text/html', clipboardHtml);
 
+
     // event.clipboardData.setData('text/plain', SCHOLAR_DRAFT_CLIPBOARD_CODE);
     stateDiff.copiedData = copiedData;
     setState(stateDiff);
@@ -224,7 +233,7 @@ export const handleCopy = function(event) {
       updateDraftEditorsStates,
       updateDraftEditorState,
       updateSection,
-      setEditorFocus,
+      // setEditorFocus,
       userId,
     } = props;
 
@@ -549,7 +558,7 @@ export const handleCopy = function(event) {
         const data = copiedData;
         // paste contextualizers (attributing them a new id)
         if (data.copiedContextualizers) {
-          data.copiedContextualizers.forEach(contextualizer => {
+          data.copiedContextualizers.forEach((contextualizer, index) => {
             const contextualizerId = generateId();
             data.copiedContextualizations = data.copiedContextualizations.map(c => {
               if (c.contextualizerId === contextualizer.id) {
@@ -561,17 +570,27 @@ export const handleCopy = function(event) {
               return c;
             });
             createContextualizer({storyId, contextualizerId, contextualizer: {...contextualizer, id: contextualizerId}, userId});
+            data.copiedContextualizers[index] = {
+              ...contextualizer,
+              oldId: contextualizer.id,
+              id: contextualizerId
+            };
           });
         }
         // past assets/contextualizations (attributing them a new id)
         if (data.copiedContextualizations) {
-          data.copiedContextualizations.forEach(contextualization => {
+          data.copiedContextualizations.forEach((contextualization, index) => {
             const contextualizationId = generateId();
             createContextualization({storyId, contextualizationId, contextualization: {
               ...contextualization,
               id: contextualizationId,
               sectionId: activeSection.id
             }, userId});
+            data.copiedContextualizations[index] = {
+              ...contextualization,
+              oldId: contextualization.id,
+              id: contextualizationId
+            };
           });
         }
         // paste notes (attributing them a new id to duplicate them if in situation of copy/paste)
@@ -689,12 +708,15 @@ export const handleCopy = function(event) {
                   }
                 }
                 // case: copying asset entity
-                else if (data.asset && data.asset.id) {
-                  const id = Object.keys(copiedData.copiedContextualizations).find(key => {
-                    if (copiedData.copiedContextualizations[key].oldId === data.asset.id) {
+                else if (thatData.asset && thatData.asset.id) {
+                  let id = Object.keys(copiedData.copiedContextualizations).find(key => {
+                    if (copiedData.copiedContextualizations[key].oldId === thatData.asset.id) {
                       return true;
                     }
                   });
+                  if (id) {
+                    id = copiedData.copiedContextualizations[id].id;
+                  }
                   if (id) {
                     return {
                       ...entity,
@@ -811,12 +833,10 @@ export const handleCopy = function(event) {
         }
     }
 
-    console.log('editor states', editorStates, activeSectionId);
     let mainEditorState = editorStates[activeSectionId];
     let notesOrder = activeSection.notesOrder;
     // case pasting target is the main editor
     if (editorFocus === 'main') {
-      console.log('main editor state', mainEditorState);
       mainEditorState = insertFragment(mainEditorState, newClipboard);
 
       const {newNotes: newNewNotes, notesOrder: newNotesOrder} = updateNotesFromEditor(mainEditorState, newNotes);

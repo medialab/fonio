@@ -373,5 +373,9 @@
   "Components.LinkContextualization.alias-placeholder": "alias-placeholder",
   "Components.EnterPasswordModal.Password should be at least 6 characters": "Password should be at least 6 characters",
   "Components.ExportModal.Export your story to backup it (fonio JSON format)": "Export your story to backup it (fonio JSON format)",
-  "Components.SectionEditor.start writing": "start writing"
+  "Components.SectionEditor.start writing": "start writing",
+  "Components.AuthorsManager.Authors": "Authors",
+  "Components.AuthorsManager.Explanation about the story authors": "Explanation about the story authors",
+  "Features.ErrorMessageContainer.Something went wrong": "Something went wrong",
+  "Features.ErrorMessageContainer.An error happened, sorry. Please reload this page to continue editing!": " Please reload this page to continue editing!"
 }
