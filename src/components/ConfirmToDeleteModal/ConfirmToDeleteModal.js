@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import objectPath from 'object-path';
-
-import resourceSchema from 'quinoa-schemas/resource';
 
 import {
   ModalCard,
   Button,
 } from 'quinoa-design-library/components/';
 
+import {getResourceTitle} from '../../helpers/resourcesUtils';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 
@@ -23,11 +21,6 @@ const ConfirmToDeleteModal = ({
 }, {t}) => {
 
   const translate = translateNameSpacer(t, 'Components.ConfirmToDeleteModal');
-  const getResourceTitle = (resource) => {
-    const titlePath = objectPath.get(resourceSchema, ['definitions', resource.metadata.type, 'title_path']);
-    const title = titlePath ? objectPath.get(resource, titlePath) : resource.metadata.title;
-    return title;
-  };
 
   let message;
   let citedContext;

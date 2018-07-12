@@ -6,6 +6,12 @@
 import {get} from 'axios';
 import {csvParse} from 'd3-dsv';
 import {v4 as genId} from 'uuid';
+import Fuse from 'fuse.js';
+
+import objectPath from 'object-path';
+
+import resourceSchema from 'quinoa-schemas/resource';
+
 import React from 'react';
 
 import {renderToStaticMarkup} from 'react-dom/server';
@@ -57,6 +63,28 @@ export const getCitationLocalesListFromServer = () => {
 export const getCitationLocaleFromServer = (localeId) => {
   const endPoint = restUrl + '/citation-locales/' + localeId;
   return get(endPoint);
+};
+
+/**
+ * Get title path for different resource by type from resource schema
+ */
+
+export const getResourceTitle = (resource) => {
+  const titlePath = objectPath.get(resourceSchema, ['definitions', resource.metadata.type, 'title_path']);
+  const title = titlePath ? objectPath.get(resource, titlePath) : resource.metadata.title;
+  return title;
+};
+
+
+/**
+ * fussy search resource object
+ */
+export const searchResources = (items, string) => {
+  const options = {
+    keys: ['metadata.title', 'data.name', 'data.title']
+  };
+  const fuse = new Fuse(items, options);
+  return fuse.search(string);
 };
 
 /**

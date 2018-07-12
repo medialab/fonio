@@ -5,10 +5,6 @@ import {isEmpty} from 'lodash';
 
 import {arrayMove} from 'react-sortable-hoc';
 
-import objectPath from 'object-path';
-
-import resourceSchema from 'quinoa-schemas/resource';
-
 import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
@@ -21,6 +17,8 @@ import {
 
 import {createDefaultSection} from '../../../helpers/schemaUtils';
 import {deleteContextualizationFromId} from '../../../helpers/assetsUtils';
+import {getResourceTitle, searchResources} from '../../../helpers/resourcesUtils';
+
 import {
   getReverseSectionsLockMap,
   checkIfUserHasLockOnSection,
@@ -164,21 +162,9 @@ const SectionViewLayout = ({
   const activeFilters = Object.keys(resourceFilterValues).filter(key => resourceFilterValues[key]);
   const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
 
-  const getResourceTitle = (resource) => {
-    const titlePath = objectPath.get(resourceSchema, ['definitions', resource.metadata.type, 'title_path']);
-    const title = titlePath ? objectPath.get(resource, titlePath) : resource.metadata.title;
-    return title;
-  };
-
-  const visibleResources = resourcesList
+  const visibleResources = searchResources(resourcesList, resourceSearchString)
     .filter(resource => {
-      if (activeFilters.indexOf(resource.metadata.type) > -1) {
-        if (resourceSearchString.length) {
-         return JSON.stringify(resource).toLowerCase().indexOf(resourceSearchString.toLowerCase()) > -1;
-        }
-        return true;
-      }
-      return false;
+      return activeFilters.indexOf(resource.metadata.type) > -1;
     })
     .sort((a, b) => {
         switch (resourceSortValue) {

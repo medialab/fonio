@@ -1,5 +1,8 @@
+/* eslint react/no-set-state : 0 */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+
+import {debounce} from 'lodash';
 
 import resourceSchema from 'quinoa-schemas/resource';
 
@@ -33,7 +36,22 @@ const resourceTypes = Object.keys(resourceSchema.definitions);
 
 class AsideSectionColumn extends Component {
 
-  shouldComponentUpdate = nextProps => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchString: ''
+    };
+    this.setResourceSearchString = debounce(this.setResourceSearchString, 500);
+  }
+
+  componentDidMount = () => {
+    const {resourceSearchString} = this.props;
+    this.setState({
+      searchString: resourceSearchString
+    });
+  }
+
+  shouldComponentUpdate = (nextProps, nextState) => {
     const changingProps = [
       'asideTabCollapsed',
       'asideTabMode',
@@ -67,8 +85,20 @@ class AsideSectionColumn extends Component {
       || prevResources !== nextResources
       || prevSectionsOrder !== nextSectionsOrder
       || prevSectionsLocks !== nextSectionsLocks
+      || this.state.searchString !== nextState.searchString
     );
   }
+
+  setResourceSearchString = (value) => this.props.setResourceSearchString(value)
+
+  setResourceSearchStringDebounce = (value) => {
+    // const {setResourceSearchString} = this.props;
+    this.setState({
+      searchString: value
+    });
+    this.setResourceSearchString(value);
+  }
+
   render = () => {
     const {
       asideTabCollapsed,
@@ -91,8 +121,8 @@ class AsideSectionColumn extends Component {
       setMainColumnMode,
 
       visibleResources,
-      resourceSearchString,
-      setResourceSearchString,
+      // resourceSearchString,
+      // setResourceSearchString,
       resourceFilterValues,
       setResourceFilterValues,
       resourceSortValue,
@@ -140,7 +170,8 @@ class AsideSectionColumn extends Component {
                   <Column>
                     <Field hasAddons>
                       <Control style={{flex: 1}}>
-                        <Input value={resourceSearchString} onChange={e => setResourceSearchString(e.target.value)} placeholder={translate('find a resource')} />
+                        <Input value={this.state.searchString} onChange={e => this.setResourceSearchStringDebounce(e.target.value)} placeholder={translate('find a resource')} />
+                        {/*<Input value={resourceSearchString} onChange={e => setResourceSearchString(e.target.value)} placeholder={translate('find a resource')} />*/}
                       </Control>
                       <Control>
                         <Dropdown
