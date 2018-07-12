@@ -10,6 +10,7 @@ import StoryPlayer from 'quinoa-story-player';
 import config from '../../../config';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
+import DataUrlProvider from '../../../components/DataUrlProvider';
 
 
 const Centered = ({children}) => (
@@ -86,7 +87,11 @@ class ReadStoryViewContainer extends Component {
     const translate = translateNameSpacer(this.context.t, 'Features.ReadOnly');
     switch (status) {
       case 'loaded':
-        return <StoryPlayer story={story} />;
+        return (
+          <DataUrlProvider storyId={story.id} serverUrl={config.apiUrl} >
+            <StoryPlayer story={story} />
+          </DataUrlProvider>
+          );
       case 'error':
         return <Centered>{translate('Story not found')}</Centered>;
       case 'loading':

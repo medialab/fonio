@@ -8,6 +8,7 @@ import {
   withRouter,
 } from 'react-router';
 
+import config from '../../../config';
 
 import * as duck from '../duck';
 
@@ -17,6 +18,7 @@ import * as storyDuck from '../../StoryManager/duck';
 import DesignViewLayout from './DesignViewLayout';
 
 import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
+import DataUrlProvider from '../../../components/DataUrlProvider';
 
 @connect(
   state => ({
@@ -177,13 +179,15 @@ class DesignViewContainer extends Component {
     } = this;
     if (editedStory) {
       return (
-        <EditionUiWrapper>
-          <DesignViewLayout
-            story={this.props.editedStory}
-            onUpdateCss={onUpdateCss}
-            onUpdateSettings={onUpdateSettings}
-            {...this.props} />
-        </EditionUiWrapper>
+        <DataUrlProvider storyId={editedStory.id} serverUrl={config.apiUrl}>
+          <EditionUiWrapper>
+            <DesignViewLayout
+              story={this.props.editedStory}
+              onUpdateCss={onUpdateCss}
+              onUpdateSettings={onUpdateSettings}
+              {...this.props} />
+          </EditionUiWrapper>
+        </DataUrlProvider>
       );
     }
     return null;

@@ -15,12 +15,11 @@ export default class DataUrlProvider extends Component {
     getResourceDataUrl: this.getResourceDataUrl
   })
 
-  getResourceDataUrl = (resource) => {
+  getResourceDataUrl = (data) => {
     const {
       serverUrl,
-      storyId,
     } = this.props;
-    return `${serverUrl}/static/${storyId}/resources/${resource.id}/${resource.id}.${resource.metadata.ext}`;
+    return `${serverUrl}/static/${data.filePath}`;
   }
 
   render = () => {
