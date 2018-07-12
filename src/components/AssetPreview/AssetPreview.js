@@ -105,11 +105,12 @@ class AssetPreview extends Component {
 
   updateResource() {
     const {resource = {}} = this.props;
-    const {data, metadata = {}} = resource;
+    const {metadata = {}} = resource;
     const {type} = metadata;
-    if (type === 'table' && data && data.url) {
+    const {getResourceDataUrl} = this.context;
+    if (type === 'table') {
       this.setState({loading: true});
-      loadResourceData(data.url)
+      loadResourceData(getResourceDataUrl(resource))
       .then((result) => {
         const columns = Object.keys(result[0]).map(key => ({
           Header: key,
@@ -123,8 +124,8 @@ class AssetPreview extends Component {
       });
     }
 
-    if (type === 'data-presentation' && data && data.url) {
-      loadResourceData(data.url)
+    if (type === 'data-presentation') {
+      loadResourceData(getResourceDataUrl(resource))
       .then((result) => {
         this.setState({
           data: result
@@ -137,6 +138,8 @@ class AssetPreview extends Component {
     const {resource = {}} = this.props;
     const {data, metadata = {}} = resource;
     const {type} = metadata;
+
+    const {getResourceDataUrl} = this.context;
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
     switch (type) {
       case 'table':
@@ -160,7 +163,7 @@ class AssetPreview extends Component {
           rowsText={translate('table-row')} />);
       case 'image':
         return (<div className="image-container">
-          <img key={metadata.lastUpdateAt} src={data.base64 || data.url} />
+          <img key={resource.lastUpdateAt} src={data.base64 ? data.base64 : getResourceDataUrl(resource)} />
         </div>);
       case 'video':
         return (
@@ -180,14 +183,17 @@ class AssetPreview extends Component {
           <EmbedContainer html={data.html} />
         );
       case 'bib':
-        const items = data.reduce((result, item) => ({
-          ...result,
-          [item.id]: item
-        }), {});
-        return (
-          <BibliographicPreview
-            items={items} />
-        );
+        if (data.length > 0) {
+          const items = data.reduce((result, item) => ({
+            ...result,
+            [item.id]: item
+          }), {});
+          return (
+            <BibliographicPreview
+              items={items} />
+          );
+        }
+        else return null;
       default:
         return null;
     }
@@ -306,6 +312,11 @@ AssetPreview.contextTypes = {
    * translation function
    */
   t: PropTypes.func.isRequired,
+  /**
+   * getResourceDataUrl in DataUrlProvider
+   */
+  getResourceDataUrl: PropTypes.func,
+
 };
 
 export default AssetPreview;

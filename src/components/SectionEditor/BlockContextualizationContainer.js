@@ -69,9 +69,7 @@ class BlockContainer extends Component {
 
     return (resource.data ?
       <AssetPreview
-        type={resource.metadata && resource.metadata.type}
-        data={resource.data}
-        metadata={resource.metadata}
+        resource={resource}
         onEditRequest={onEditRequest}
         onDeleteRequest={onDeleteRequest}
         showPannel /> : null
