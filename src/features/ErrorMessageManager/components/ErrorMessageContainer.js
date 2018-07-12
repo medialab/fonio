@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {bindActionCreators} from 'redux';
 
 import {connect} from 'react-redux';
 import {toastr} from 'react-redux-toastr';
+
+import {
+  ModalCard
+} from 'quinoa-design-library/components';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -17,11 +22,11 @@ import * as connectionsDuck from '../../ConnectionsManager/duck';
     ...storyDuck.selector(state.editedStory),
     ...connectionsDuck.selector(state.connections),
   }),
-  // dispatch => ({
-  //   actions: bindActionCreators({
-  //     ...duck,
-  //   }, dispatch)
-  // })
+  dispatch => ({
+    actions: bindActionCreators({
+      ...duck,
+    }, dispatch)
+  })
 )
 class ErrorMessageContainer extends Component {
 
@@ -93,15 +98,30 @@ class ErrorMessageContainer extends Component {
     }
   }
 
+  componentWillUnmount = () => {
+    this.props.actions.clearErrorMessages(false);
+  }
+
   render() {
     const {
       props: {
         children,
+        needsReload
       },
+      context: {t}
     } = this;
+    const translate = translateNameSpacer(t, 'Features.ErrorMessageContainer');
     return (
       <div>
         {children}
+        <ModalCard
+          isActive={needsReload}
+          headerContent={translate('Something went wrong')}
+          mainContent={
+            <p>
+              {translate('An error happened, sorry. Please reload this page to continue editing!')}
+            </p>
+          } />
       </div>
     );
   }
