@@ -18,7 +18,7 @@
   "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource \"{s}\" ?": "Êtes-vous sûr·e de vouloir supprimer l'item  \"{s}\" ?",
   "Components.ConfirmToDeleteModal.Are you sure you want to delete this resource ?": "Êtes-vous sûr·e de vouloir supprimer cet item ?",
   "Components.ConfirmToDeleteModal.Delete Section": "Supprimer la section",
-  "Components.ConfirmToDeleteModal.Delete Resource": "Supprimer la resource",
+  "Components.ConfirmToDeleteModal.Delete Resource": "Supprimer l'item",
   "Components.ConfirmToDeleteModal.Delete": "Supprimer",
   "Components.ConfirmToDeleteModal.Cancel": "Annuler",
   "Components.ExportModal.Export story": "Exporter le récit",
@@ -372,5 +372,6 @@
   "Features.SectionView.Add new images to your story": "Add new images to your story",
   "Features.LibraryView.Your library contains all the items (references, images, visualizations...) that can be used within the story.": "Your library contains all the items (references, images, visualizations...) that can be used within the story.",
   "Components.EnterPasswordModal.Password should be at least 6 characters": "Password should be at least 6 characters",
-  "Components.ExportModal.Export your story to backup it (fonio JSON format)": "Export your story to backup it (fonio JSON format)"
+  "Components.ExportModal.Export your story to backup it (fonio JSON format)": "Export your story to backup it (fonio JSON format)",
+  "Components.SectionEditor.start writing": "start writing"
 }

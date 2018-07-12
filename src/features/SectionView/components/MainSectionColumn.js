@@ -156,7 +156,7 @@ const MainSectionColumn = ({
         </Column>
       );
     }
-    
+
     switch (mainColumnMode) {
       case 'newresource':
         const handleSubmit = resource => {

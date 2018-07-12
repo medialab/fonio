@@ -233,6 +233,8 @@ export const handleCopy = function(event) {
       resources
     } = story;
 
+    if (!Object.keys(editorStates).length) return;
+
 
     const {
       notes,
@@ -500,12 +502,12 @@ export const handleCopy = function(event) {
           }
         };
       }
-      updateSection({storyId, sectionId: activeSectionId, section: newSection, userId});
+      updateSection(newSection);
 
 
       return;
     }
-    // case 2 : comes from inside
+    // case 2 : pasting comes from inside the editor
     else {
       // if contents comes from scholar-draft, prevent default
       // because we are going to handle the paste process manually
@@ -541,7 +543,8 @@ export const handleCopy = function(event) {
     // let newClipboard = clipboard;// clipboard entities will have to be updated
     let newClipboard = convertFromRaw(copiedData.clipboardContentState).getBlockMap();// clipboard entities will have to be updated
 
-    // case: some non-textual data has been saved to the clipboard
+
+    // case: some non-textual data (contextualizations, notes pointers, that kind of joys) has been saved to the clipboard
     if (typeof copiedData === 'object') {
         const data = copiedData;
         // paste contextualizers (attributing them a new id)
@@ -640,14 +643,28 @@ export const handleCopy = function(event) {
         }
 
         // integrate new draftjs entities in respective editorStates
-        // editorStates as stored as a map in which each keys corresponds
-        // to a category of content ('main' or uuids for each note)
+        // editorStates are stored as a map in which each keys corresponds
+        // to a category of content ('main' for main contents or uuids for each note)
         if (Object.keys(data.copiedEntities).length) {
           // update entities data with correct notes and contextualizations ids pointers
-          const copiedEntities = Object.keys(data.copiedEntities).reduce((result, contentId) => {
+          const copiedEntities = Object.keys(data.copiedEntities)
+          .reduce((result, contentId) => {
             return {
               ...result,
-              [contentId]: data.copiedEntities[contentId].map(inputEntity => {
+              [contentId]: data.copiedEntities[contentId]
+                // filter out incorrect entities
+                .filter(entity => {
+
+                  const thatData = entity.entity.data;
+                  // verifying that asset points to a contextualization that points to an existing resource
+                  // (to prevent corner case in which a resource pointed by copied contents has been deleted in the meantime)
+                  if (thatData.asset && thatData.asset.id) {
+                    const thatContextualization = copiedData.copiedContextualizations[thatData.asset.id];
+                    return thatContextualization && story.resources[thatContextualization.resourceId] !== undefined;
+                  }
+                  return true;
+                })
+                .map(inputEntity => {
                 const entity = {...inputEntity};
                 const thatData = entity.entity.data;
                 // case: copying note entity
@@ -709,6 +726,10 @@ export const handleCopy = function(event) {
               copiedEntities[contentId].forEach(entity => {
                 const editorState = editorStates[activeSectionId];
 
+                if (!editorState) {
+                  return;
+                }
+
                 newContentState = editorState.getCurrentContent();
                 newContentState = newContentState.createEntity(entity.entity.type, entity.entity.mutability, {...entity.entity.data});
                 // const newEditorState = EditorState.push(
@@ -721,9 +742,21 @@ export const handleCopy = function(event) {
                 newClipboard = newClipboard.map(block => {
                   const characters = block.getCharacterList();
                   const newCharacters = characters.map(char => {
-                    if (char.getEntity() && char.getEntity() === entity.key) {
-                      return CharacterMetadata.applyEntity(char, newEntityKey);
+                    if (char.getEntity()) {
+                      const thatEntityKey = char.getEntity();
+                      const thatEntity = newContentState.getEntity(thatEntityKey).toJS();
+                      if (entity.entity.type === NOTE_POINTER && thatEntity.type === NOTE_POINTER) {
+                        const entityNoteId = entity.entity.data.noteId;
+                        const newNoteOldId = newNotes[entityNoteId] && newNotes[entityNoteId].oldId;
+                        if (newNoteOldId === thatEntity.data.noteId) {
+                          return CharacterMetadata.applyEntity(char, newEntityKey);
+                        }
+                      }
+                      else if (thatEntityKey === entity.key) {
+                        return CharacterMetadata.applyEntity(char, newEntityKey);
+                      }
                     }
+
                     return char;
                   });
                   return block.set('characterList', newCharacters); // block;
@@ -778,13 +811,13 @@ export const handleCopy = function(event) {
         }
     }
 
-
+    console.log('editor states', editorStates, activeSectionId);
     let mainEditorState = editorStates[activeSectionId];
     let notesOrder = activeSection.notesOrder;
     // case pasting target is the main editor
     if (editorFocus === 'main') {
+      console.log('main editor state', mainEditorState);
       mainEditorState = insertFragment(mainEditorState, newClipboard);
-
 
       const {newNotes: newNewNotes, notesOrder: newNotesOrder} = updateNotesFromEditor(mainEditorState, newNotes);
       newNotes = newNewNotes;
@@ -820,6 +853,7 @@ export const handleCopy = function(event) {
         }
       };
     }
+
 
     newNotes = Object.keys(newNotes).reduce((result, noteId) => {
       const note = newNotes[noteId];
@@ -864,8 +898,9 @@ export const handleCopy = function(event) {
             }, {})
       }
     };
-    updateSection({storyId, sectionId: activeSectionId, section: newSection, userId});
-    setEditorFocus(undefined);
-    setTimeout(() => setEditorFocus(editorFocus));
+    updateSection(newSection);
+    // updateSection({storyId, sectionId: activeSectionId, section: newSection, userId});
+    // setEditorFocus(undefined);
+    // setTimeout(() => setEditorFocus(editorFocus));
     event.preventDefault();
   };

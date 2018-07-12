@@ -369,8 +369,8 @@ class HomeViewLayout extends Component {
                     .map((user, index) => {
                       return (
                         <Level key={index}>
-                          <Columns>
-                            <Column isSize={'1/3'}>
+                          <Columns style={{alignItems: 'center'}}>
+                            <Column style={{maxWidth: '3rem', minWidth: '3rem'}} isSize={'1/3'}>
                               <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
                             </Column>
                             <Column isSize={'2/3'}>

@@ -33,9 +33,9 @@ const AuthorsManager = ({
   return (
     <Field>
       <Label>
-          Authors
+        {translate('Authors')}
         <HelpPin place="right">
-          Explanation about the story authors
+          {translate('Explanation about the story authors')}
         </HelpPin>
       </Label>
       {

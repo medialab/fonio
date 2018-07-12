@@ -487,7 +487,7 @@ const SectionViewLayout = ({
           promptedToDeleteSectionId &&
           !reverseSectionLockMap[promptedToDeleteSectionId] &&
           <ConfirmToDeleteModal
-            isActive={promptedToDeleteSectionId}
+            isActive={promptedToDeleteSectionId !== undefined}
             deleteType={'section'}
             story={story}
             id={promptedToDeleteSectionId}
