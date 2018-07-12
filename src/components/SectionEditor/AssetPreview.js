@@ -119,10 +119,10 @@ class AssetPreview extends Component {
   updateResource() {
     const {resource} = this.props;
     const {getResourceDataUrl} = this.context;
-    const {metadata} = resource;
+    const {metadata, data} = resource;
     if (metadata.type === 'table') {
       this.setState({loading: true});
-      loadResourceData(getResourceDataUrl(resource))
+      loadResourceData(getResourceDataUrl(data))
       .then((result) => {
         const columns = Object.keys(result[0]).map(key => ({
           Header: key,
@@ -137,7 +137,7 @@ class AssetPreview extends Component {
     }
 
     if (metadata.type === 'data-presentation') {
-      loadResourceData(getResourceDataUrl(resource))
+      loadResourceData(getResourceDataUrl(data))
       .then((result) => {
         this.setState({
           data: result
@@ -173,7 +173,7 @@ class AssetPreview extends Component {
           rowsText={translate('table-row')} />);
       case 'image':
         return (<div className="image-container">
-          <img key={metadata.lastModifiedAt} src={data.base64 ? data.base64 : getResourceDataUrl(resource)} />
+          <img key={metadata.lastModifiedAt} src={data.base64 ? data.base64 : getResourceDataUrl(data)} />
         </div>);
       case 'video':
         return (

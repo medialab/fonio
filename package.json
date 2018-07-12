@@ -65,7 +65,7 @@
     "quinoa-design-library": "0.0.10",
     "quinoa-presentation-player": "^0.2.6",
     "quinoa-schemas": "0.0.11",
-    "quinoa-story-player": "^0.2.14",
+    "quinoa-story-player": "^0.2.15",
     "react": "^16.2.0",
     "react-codemirror2": "^4.0.0",
     "react-dnd": "^2.4.0",
