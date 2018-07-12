@@ -61,6 +61,7 @@ const SectionViewLayout = ({
   editorStates,
   editorFocus,
   assetRequestState,
+  draggedResourceId,
 
   story,
   section,
@@ -469,6 +470,7 @@ const SectionViewLayout = ({
             editorStates={editorStates}
             editorFocus={editorFocus}
             assetRequestState={assetRequestState}
+            draggedResourceId={draggedResourceId}
 
             newResourceMode={newResourceMode}
 

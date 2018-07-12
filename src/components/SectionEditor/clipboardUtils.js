@@ -788,7 +788,7 @@ export const handleCopy = function(event) {
 
           let newContentState;
 
-          const realEditorFocus = editorFocus === 'main' ? activeSectionId : editorFocus
+          const realEditorFocus = editorFocus === 'main' ? activeSectionId : editorFocus;
           newContentState = editorStates[realEditorFocus].getCurrentContent();
           // cleaning the clipboard of invalid entities
           newClipboard = newClipboard.map(block => {
@@ -909,7 +909,7 @@ export const handleCopy = function(event) {
                       const thatEntity = newContentState.getEntity(thatEntityKey).toJS();
                       if (thatEntity.type === BLOCK_ASSET || thatEntity.type === INLINE_ASSET) {
                         const targetId = thatEntity.data.asset.id;
-                        console.log(thatEntity, 'invalid ? ', invalidEntities.indexOf(targetId) > -1)
+                        console.log(thatEntity, 'invalid ? ', invalidEntities.indexOf(targetId) > -1);
                         if (invalidEntities.length > 0 && invalidEntities.indexOf(targetId) > -1) {
                           return CharacterMetadata.applyEntity(char, null);
                         }

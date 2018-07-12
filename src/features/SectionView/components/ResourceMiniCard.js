@@ -63,7 +63,8 @@ class ResourceCard extends Component {
     /**
      * Un-namespaced translate function
      */
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    setDraggedResourceId: PropTypes.func,
   }
 
 
@@ -102,7 +103,10 @@ class ResourceCard extends Component {
   render() {
     const {
       props,
-      context: {t}
+      context: {
+        t,
+        setDraggedResourceId
+      }
     } = this;
     const {
       resource = {},
@@ -173,7 +177,9 @@ class ResourceCard extends Component {
        icon.src = icons[type].black.svg;
        e.dataTransfer.setDragImage(icon, 0, 0);
        e.dataTransfer.dropEffect = 'move';
-       e.dataTransfer.setData('text', 'DRAFTJS_RESOURCE_ID:' + resource.id);
+       setDraggedResourceId(resource.id);
+       // e.dataTransfer.setData('text', 'DRAFTJS_RESOURCE_ID:' + resource.id);
+       e.dataTransfer.setData('text', ' ');
      };
 
      const endDrag = () => {

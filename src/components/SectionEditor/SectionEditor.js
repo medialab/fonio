@@ -759,6 +759,7 @@ class SectionEditor extends Component {
       assetRequestPosition,
       cancelAssetRequest,
       summonAsset,
+      draggedResourceId,
       // editorWidth,
       // editorOffset,
       style: componentStyle = {},
@@ -827,8 +828,7 @@ class SectionEditor extends Component {
     };
 
     const onDrop = (contentId, payload, selection) => {
-      if (payload && payload.indexOf('DRAFTJS_RESOURCE_ID:') > -1) {
-        const id = payload.split('DRAFTJS_RESOURCE_ID:')[1];
+      if (draggedResourceId) {
         let targetedEditorId = contentId;
         if (!targetedEditorId) {
           targetedEditorId = this.props.editorFocus;
@@ -843,7 +843,7 @@ class SectionEditor extends Component {
           focusOffset: selection.getEndOffset() - payload.length
         });
         updateDraftEditorState(editorId, EditorState.forceSelection(editorState, rightSelectionState));
-        onAssetChoice({id}, contentId);
+        onAssetChoice({id: draggedResourceId}, contentId);
       }
     };
 
