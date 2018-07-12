@@ -118,9 +118,14 @@ class ErrorMessageContainer extends Component {
           isActive={needsReload}
           headerContent={translate('Something went wrong')}
           mainContent={
-            <p>
-              {translate('An error happened, sorry. Please reload this page to continue editing!')}
-            </p>
+            <div>
+              <p>
+                {translate('An error happened, sorry. Please reload this page to continue editing!')}
+              </p>
+              <p>
+                {translate('Would you be kind enough to report what happened before this screen')}<a target="blank" href="https://github.com/medialab/fonio/issues/new?title=I+have+got+save+story+fail+modal">{translate('in this page')}</a> ?
+              </p>
+            </div>
           } />
       </div>
     );
