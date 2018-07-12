@@ -20,7 +20,7 @@ export default class DataUrlProvider extends Component {
       serverUrl,
       storyId,
     } = this.props;
-    return `${serverUrl}/static/${storyId}/resources/${resource.id}/${resource.metadata.ext}`;
+    return `${serverUrl}/static/${storyId}/resources/${resource.id}/${resource.id}.${resource.metadata.ext}`;
   }
 
   render = () => {

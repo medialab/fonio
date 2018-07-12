@@ -10,7 +10,7 @@ import {
   convertToRaw
 } from 'draft-js';
 
-import config from '../../../../config';
+import config from '../../../config';
 
 import {
   summonAsset

@@ -111,16 +111,18 @@ class AssetPreview extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((nextProps.data !== this.props.data) || nextProps.metadata.lastModifiedAt !== this.props.metadata.lastModifiedAt) {
+    if ((nextProps.resource.data !== this.props.resource.data) || nextProps.resource.metadata.lastModifiedAt !== this.props.resource.metadata.lastModifiedAt) {
       this.updateResource();
     }
   }
 
   updateResource() {
-    const {data, type} = this.props;
-    if (type === 'table' && data && data.url) {
+    const {resource} = this.props;
+    const {getResourceDataUrl} = this.context;
+    const {metadata} = resource;
+    if (metadata.type === 'table') {
       this.setState({loading: true});
-      loadResourceData(data.url)
+      loadResourceData(getResourceDataUrl(resource))
       .then((result) => {
         const columns = Object.keys(result[0]).map(key => ({
           Header: key,
@@ -134,8 +136,8 @@ class AssetPreview extends Component {
       });
     }
 
-    if (type === 'data-presentation' && data && data.url) {
-      loadResourceData(data.url)
+    if (metadata.type === 'data-presentation') {
+      loadResourceData(getResourceDataUrl(resource))
       .then((result) => {
         this.setState({
           data: result
@@ -145,9 +147,11 @@ class AssetPreview extends Component {
   }
 
   renderPreview() {
-    const {type, data, metadata} = this.props;
+    const {resource} = this.props;
+    const {data, metadata} = resource;
+    const {getResourceDataUrl} = this.context;
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
-    switch (type) {
+    switch (metadata.type) {
       case 'table':
         let columns;
         if (data.json && data.json[0]) {
@@ -169,7 +173,7 @@ class AssetPreview extends Component {
           rowsText={translate('table-row')} />);
       case 'image':
         return (<div className="image-container">
-          <img key={metadata.lastModifiedAt} src={data.base64 || data.url} />
+          <img key={metadata.lastModifiedAt} src={data.base64 ? data.base64 : getResourceDataUrl(resource)} />
         </div>);
       case 'video':
         return (
@@ -189,14 +193,17 @@ class AssetPreview extends Component {
           <EmbedContainer html={data.html} />
         );
       case 'bib':
-        const items = data.reduce((result, item) => ({
-          ...result,
-          [item.id]: item
-        }), {});
-        return (
-          <BibliographicPreview
-            items={items} />
-        );
+        if (data.length > 0) {
+          const items = data.reduce((result, item) => ({
+            ...result,
+            [item.id]: item
+          }), {});
+          return (
+            <BibliographicPreview
+              items={items} />
+          );
+        }
+        else return null;
       default:
         return null;
     }
@@ -220,7 +227,8 @@ class AssetPreview extends Component {
 
   render() {
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
-    const {data, metadata, showPannel} = this.props;
+    const {showPannel, resource} = this.props;
+    const {metadata, data} = resource;
     const {isInfoShown} = this.state;
     return (
       <Box style={{background: 'rgb(240,240,240)'}} className="fonio-AssetPreview">
@@ -332,6 +340,12 @@ AssetPreview.contextTypes = {
    * translation function
    */
   t: PropTypes.func.isRequired,
+
+  /**
+   * getResourceDataUrl in DataUrlProvider
+   */
+  getResourceDataUrl: PropTypes.func,
+
 };
 
 export default AssetPreview;

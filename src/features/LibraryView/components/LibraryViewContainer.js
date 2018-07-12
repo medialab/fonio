@@ -12,6 +12,9 @@ import * as sectionsManagementDuck from '../../SectionsManager/duck';
 import {createResourceData} from '../../../helpers/resourcesUtils';
 
 import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
+import DataUrlProvider from '../../../components/DataUrlProvider';
+
+import config from '../../../config';
 
 @connect(
   state => ({
@@ -106,11 +109,13 @@ class LibraryViewContainer extends Component {
   render() {
     return this.props.editedStory ?
           (
-            <EditionUiWrapper>
-              <LibraryViewLayout
-                {...this.props}
-                submitMultiResources={this.submitMultiResources} />
-            </EditionUiWrapper>
+            <DataUrlProvider storyId={this.props.editedStory.id} serverUrl={config.apiUrl} >
+              <EditionUiWrapper>
+                <LibraryViewLayout
+                  {...this.props}
+                  submitMultiResources={this.submitMultiResources} />
+              </EditionUiWrapper>
+            </DataUrlProvider>
           )
           : null;
   }
