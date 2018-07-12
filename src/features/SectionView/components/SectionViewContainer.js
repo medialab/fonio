@@ -131,7 +131,7 @@ class SectionViewContainer extends Component {
     this.props.actions.resetDraftEditorsStates();
   }
 
-  
+
   unlockOnSection = props => {
     const {
       match: {
