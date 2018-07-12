@@ -301,19 +301,19 @@ class AsideSectionColumn extends Component {
                   <TabList>
                     {
                     !asideTabCollapsed &&
-                    <Tab onClick={() => setAsideTabMode('library')} isActive={asideTabMode === 'library'}>
-                      <TabLink>{translate('Library')}</TabLink>
-                    </Tab>
-                  }
-                    {
-                    !asideTabCollapsed &&
                     'collapse' &&
                     <Tab onClick={() => setAsideTabMode('summary')} isActive={asideTabMode === 'summary'}>
                       <TabLink>
                         {translate('Summary')}
                       </TabLink>
                     </Tab>
-                  }
+                    }
+                    {
+                    !asideTabCollapsed &&
+                    <Tab onClick={() => setAsideTabMode('library')} isActive={asideTabMode === 'library'}>
+                      <TabLink>{translate('Library')}</TabLink>
+                    </Tab>
+                    }
                     <Tab onClick={() => setAsideTabCollapsed(!asideTabCollapsed)} isActive={asideTabCollapsed}><TabLink>{asideTabCollapsed ? '▶' : '◀'}</TabLink></Tab>
                   </TabList>
                 </Column>

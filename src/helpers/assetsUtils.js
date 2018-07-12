@@ -463,9 +463,13 @@ export const deleteContextualizationFromId = ({
 
 
   export const removeContextualizationReferenceFromRawContents = (contents, contId) => {
-      const result = {...contents};
+      const result = {
+        ...contents,
+        blocks: [...contents.blocks],
+        entityMap: {...contents.entityMap}
+      };
       let changed;
-      Object.keys(contents.entityMap).forEach(key => {
+      Object.keys(result.entityMap).forEach(key => {
         const entity = contents.entityMap[key];
         if ((entity.type === BLOCK_ASSET || entity.type === INLINE_ASSET) && entity.data && entity.data.asset && entity.data.asset.id === contId) {
           result.blocks = result.blocks.map(block => {

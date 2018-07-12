@@ -42,6 +42,7 @@ const MainSectionColumn = ({
   editorStates,
   editorFocus,
   assetRequestState,
+  draggedResourceId,
 
   newResourceType,
 
@@ -309,13 +310,13 @@ const MainSectionColumn = ({
 
   const editorWidth = {
     mobile: mainColumnMode === 'edition' && !userLockedResourceId ? 10 : 12,
-    tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 8 : 12,
-    widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 6 : 12
+    tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 10 : 12,
+    widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 8 : 12
   };
   const editorX = {
     mobile: mainColumnMode === 'edition' && !userLockedResourceId ? 1 : 0,
-    tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 2 : 0,
-    widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 3 : 0
+    tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 1 : 0,
+    widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 2 : 0
   };
 
   return (
@@ -367,6 +368,7 @@ const MainSectionColumn = ({
                     updateDraftEditorsStates={updateDraftEditorsStates}
                     editorFocus={editorFocus}
                     userId={userId}
+                    draggedResourceId={draggedResourceId}
 
                     updateSection={newSection => onUpdateSection(newSection)}
 

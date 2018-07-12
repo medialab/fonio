@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {
@@ -51,9 +51,18 @@ import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapper
 
 class SectionViewContainer extends Component {
 
+  static childContextTypes = {
+    setDraggedResourceId: PropTypes.func
+  }
+
   constructor(props) {
     super(props);
   }
+
+  getChildContext = () => ({
+    setDraggedResourceId: this.setDraggedResourceId
+  })
+
 
   componentDidMount = () => {
     // require lock if edited story is here
@@ -129,6 +138,10 @@ class SectionViewContainer extends Component {
     this.unlockOnSection(this.props);
     this.props.actions.setEditedSectionId(undefined);
     this.props.actions.resetDraftEditorsStates();
+  }
+
+  setDraggedResourceId = resourceId => {
+    this.props.actions.setDraggedResourceId(resourceId);
   }
 
 

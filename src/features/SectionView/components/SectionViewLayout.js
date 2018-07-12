@@ -6,6 +6,12 @@ import {isEmpty} from 'lodash';
 import {arrayMove} from 'react-sortable-hoc';
 
 import {
+  convertToRaw,
+  EditorState,
+  convertFromRaw,
+} from 'draft-js';
+
+import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
@@ -53,6 +59,7 @@ const SectionViewLayout = ({
   editorStates,
   editorFocus,
   assetRequestState,
+  draggedResourceId,
 
   story,
   section,
@@ -249,10 +256,17 @@ const SectionViewLayout = ({
         return contextualization.resourceId === promptedToDeleteResourceId;
       }).map(c => c.id);
 
+    const changedContentStates = {};
     if (relatedContextualizationsIds.length) {
       Object.keys(story.sections).forEach(key => {
         const thatSection = story.sections[key];
         let sectionChanged;
+        const sectionContents = editorStates[thatSection.id] ? {...convertToRaw(editorStates[thatSection.id].getCurrentContent())} : thatSection.contents;
+
+        const notesContents = Object.keys(thatSection.notes).reduce((res, noteId) => ({
+          ...res,
+          [noteId]: editorStates[noteId] ? convertToRaw(editorStates[noteId].getCurrentContent()) : thatSection.notes[noteId].contents
+        }), {});
 
         const newSection = {
           ...thatSection,
@@ -260,9 +274,10 @@ const SectionViewLayout = ({
             const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
             if (changed && !sectionChanged) {
               sectionChanged = true;
+              changedContentStates[key] = result;
             }
             return result;
-          }, thatSection.contents),
+          }, {...sectionContents}),
           notes: Object.keys(thatSection.notes).reduce((temp1, noteId) => ({
             ...temp1,
             [noteId]: {
@@ -271,9 +286,10 @@ const SectionViewLayout = ({
                 const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
                 if (changed && !sectionChanged) {
                   sectionChanged = true;
+                  changedContentStates[noteId] = result;
                 }
                 return result;
-              }, thatSection.notes[noteId].contents)
+              }, {...notesContents[noteId]})
             }
           }), {})
         };
@@ -287,6 +303,20 @@ const SectionViewLayout = ({
         }
       });
     }
+    // updating live editor states
+    const newEditorStates = Object.keys(editorStates || {})
+      .reduce((res, contentId) => ({
+        ...res,
+        [contentId]: changedContentStates[contentId] ?
+          EditorState.push(
+            editorStates[contentId],
+            convertFromRaw(changedContentStates[contentId]),
+            'remove-entity'
+          )
+           :
+          editorStates[contentId]
+      }), {});
+    updateDraftEditorsStates(newEditorStates);
     if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
       deleteUploadedResource(payload);
     }
@@ -426,6 +456,7 @@ const SectionViewLayout = ({
             editorStates={editorStates}
             editorFocus={editorFocus}
             assetRequestState={assetRequestState}
+            draggedResourceId={draggedResourceId}
 
             newResourceMode={newResourceMode}
 
@@ -483,7 +514,7 @@ const SectionViewLayout = ({
       {
           promptedToDeleteResourceId &&
           <ConfirmToDeleteModal
-            isActive={promptedToDeleteResourceId}
+            isActive={promptedToDeleteResourceId !== undefined}
             deleteType={'resource'}
             story={story}
             id={promptedToDeleteResourceId}

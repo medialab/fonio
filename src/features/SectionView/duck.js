@@ -31,6 +31,7 @@ const SET_RESOURCE_SORT_VALUE = 'SET_RESOURCE_SORT_VALUE';
 const SET_RESOURCE_SEARCH_STRING = 'SET_RESOURCE_SEARCH_STRING';
 const SET_NEW_RESOURCE_MODE = 'SET_NEW_RESOURCE_MODE';
 const SET_EDITED_SECTION_ID = 'SET_EDITED_SECTION_ID';
+const SET_DRAGGED_RESOURCE_ID = 'SET_DRAGGED_RESOURCE_ID';
 
 /**
  * actions related to resources edition parameters
@@ -189,6 +190,11 @@ export const setEditorFocus = (editorFocus) => ({
   },
 });
 
+export const setDraggedResourceId = payload => ({
+  type: SET_DRAGGED_RESOURCE_ID,
+  payload
+});
+
 /**
  * ===================================================
  * REDUCERS
@@ -203,7 +209,7 @@ const defaultResourceFilterValues = Object.keys(resourceSchema.definitions)
 
 const UI_DEFAULT_STATE = {
   asideTabMode: 'summary',
-  asideTabCollapsed: false,
+  asideTabCollapsed: true,
   mainColumnMode: 'edition',
   resourceOptionsVisible: false,
   resourceSearchString: '',
@@ -211,6 +217,7 @@ const UI_DEFAULT_STATE = {
   resourceSortValue: 'title',
   newResourceMode: 'manually',
   editedSectionId: undefined,
+  draggedResourceId: undefined
 };
 
 /**
@@ -231,6 +238,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_RESOURCE_SEARCH_STRING:
     case SET_NEW_RESOURCE_MODE:
     case SET_EDITED_SECTION_ID:
+    case SET_DRAGGED_RESOURCE_ID:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -440,6 +448,7 @@ const resourceSortValue = state => state.ui.resourceSortValue;
 const resourceSearchString = state => state.ui.resourceSearchString;
 const newResourceMode = state => state.ui.newResourceMode;
 const editedSectionId = state => state.ui.editedSectionId;
+const draggedResourceId = state => state.ui.draggedResourceId;
 
 const editorStates = state => state.editorstates;
 const assetRequestState = state => state.assetRequeststate;
@@ -466,6 +475,7 @@ export const selector = createStructuredSelector({
   resourceSearchString,
   newResourceMode,
   editedSectionId,
+  draggedResourceId,
 
   editorStates,
   assetRequestState,

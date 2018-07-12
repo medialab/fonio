@@ -125,17 +125,14 @@ export const handleCopy = function(event) {
               id: noteId,
               contents: rawContent
             });
-            console.log('will parse note content', noteContent.toJS());
             // copying note's entities
             noteContent.getBlockMap().forEach(thatBlock => {
               thatBlock.getCharacterList().map(char => {
-                console.log('parsing char', char);
                 // copying note's entity and related contextualizations
                 if (char.entity) {
                   entityKey = char.entity;
                   entity = currentContent.getEntity(entityKey);
                   eData = entity.toJS();
-                  console.log('pushing', eData, ' to ', noteId);
                   copiedEntities[noteId].push({
                     key: entityKey,
                     entity: eData
@@ -175,7 +172,8 @@ export const handleCopy = function(event) {
       copiedEntities,
       copiedContextualizations,
       copiedContextualizers,
-      copiedNotes
+      copiedNotes,
+      contentId: editorFocus
     };
 
     const tempEditorState = EditorState.createEmpty();
@@ -556,6 +554,49 @@ export const handleCopy = function(event) {
     // case: some non-textual data (contextualizations, notes pointers, that kind of joys) has been saved to the clipboard
     if (typeof copiedData === 'object') {
         const data = copiedData;
+        const invalidEntities = [];
+
+        // filter out contextualizations that point to a resource that has been deleted
+        data.copiedContextualizations = data.copiedContextualizations.filter(contextualization => {
+          const isValid = story.resources[contextualization.resourceId] !== undefined;
+          if (!isValid) {
+            data.copiedContextualizers = data.copiedContextualizers.filter(contextualizer => {
+              return contextualizer.id !== contextualization.contextualizerId;
+            });
+          }
+          return isValid;
+        });
+
+
+        // filter out entities that are related to incorrect contextualizations
+        data.copiedEntities = Object.keys(data.copiedEntities)
+        .reduce((result, contentId) => {
+          return {
+            ...result,
+            [contentId]: data.copiedEntities[contentId]
+              .filter(entity => {
+
+                const thatData = entity.entity.data;
+                // verifying that asset points to a contextualization
+                if (thatData.asset && thatData.asset.id) {
+                  const thatContextualization = data.copiedContextualizations.find(c => c.id === thatData.asset.id);
+                  const isValid = thatContextualization !== undefined;
+                  if (!isValid) {
+                    invalidEntities.push(thatData.asset.id);
+                  }
+                  return isValid;
+                }
+                return true;
+              })
+            };
+          }, {});
+        console.log('invalid entities', invalidEntities);
+        // retargeting main editor source
+        if (data.contentId !== editorFocus) {
+          data.copiedEntities[editorFocus] = data.copiedEntities[data.contentId];
+          delete data.copiedEntities[data.contentId];
+        }
+
         // paste contextualizers (attributing them a new id)
         if (data.copiedContextualizers) {
           data.copiedContextualizers.forEach((contextualizer, index) => {
@@ -616,6 +657,22 @@ export const handleCopy = function(event) {
               [id]: {
                 ...note,
                 oldId: note.id,
+                // filter out invalid entities in copied notes
+                contents: {
+                  ...note.contents,
+                  entityMap: Object.keys(note.contents.entityMap).reduce((res, entityKey) => {
+                    const entity = note.contents.entityMap[entityKey];
+                    const assetId = entity.data && entity.data.asset && entity.data.asset.id;
+                    console.log(entity, 'invalid', invalidEntities.indexOf(assetId) > -1);
+                    if (entity.type === NOTE_POINTER || !assetId || invalidEntities.length === 0 || invalidEntities.indexOf(assetId) > -1) {
+                      return {
+                        ...res,
+                        [entityKey]: note.contents.entityMap[entityKey]
+                      };
+                    }
+                    return res;
+                  }, {})
+                },
                 id
               }
             };
@@ -661,28 +718,18 @@ export const handleCopy = function(event) {
           newNotes = notes;
         }
 
+
         // integrate new draftjs entities in respective editorStates
         // editorStates are stored as a map in which each keys corresponds
         // to a category of content ('main' for main contents or uuids for each note)
         if (Object.keys(data.copiedEntities).length) {
+
           // update entities data with correct notes and contextualizations ids pointers
           const copiedEntities = Object.keys(data.copiedEntities)
           .reduce((result, contentId) => {
             return {
               ...result,
               [contentId]: data.copiedEntities[contentId]
-                // filter out incorrect entities
-                .filter(entity => {
-
-                  const thatData = entity.entity.data;
-                  // verifying that asset points to a contextualization that points to an existing resource
-                  // (to prevent corner case in which a resource pointed by copied contents has been deleted in the meantime)
-                  if (thatData.asset && thatData.asset.id) {
-                    const thatContextualization = copiedData.copiedContextualizations[thatData.asset.id];
-                    return thatContextualization && story.resources[thatContextualization.resourceId] !== undefined;
-                  }
-                  return true;
-                })
                 .map(inputEntity => {
                 const entity = {...inputEntity};
                 const thatData = entity.entity.data;
@@ -741,60 +788,95 @@ export const handleCopy = function(event) {
 
           let newContentState;
 
-          // iterating through all the entities and adding them to the new editor state
+          const realEditorFocus = editorFocus === 'main' ? activeSectionId : editorFocus;
+          newContentState = editorStates[realEditorFocus].getCurrentContent();
+          // cleaning the clipboard of invalid entities
+          newClipboard = newClipboard.map(block => {
+            const characters = block.getCharacterList();
+            const newCharacters = characters.map(char => {
+              if (char.getEntity()) {
+                const thatEntityKey = char.getEntity();
+                const thatEntity = newContentState.getEntity(thatEntityKey).toJS();
+                if (thatEntity.type === BLOCK_ASSET || thatEntity.type === INLINE_ASSET) {
+                  const targetId = thatEntity && thatEntity.data.asset.id;
+
+                  if (invalidEntities.length > 0 && invalidEntities.indexOf(targetId) > -1) {
+                    return CharacterMetadata.applyEntity(char, null);
+                  }
+                }
+              }
+              return char;
+            });
+            return block.set('characterList', newCharacters); // block;
+          });
+
+          // iterating through all the entities and adding them to the new editor states
           Object.keys(copiedEntities).forEach(contentId => {
-            if (contentId === 'main') {
+            // if (contentId === 'main') {
               // iterating through the main editor's copied entities
               copiedEntities[contentId].forEach(entity => {
-                const editorState = editorStates[activeSectionId];
+                // if (contentId === editorFocus) {
+                  const eId = contentId === 'main' ? activeSectionId : editorFocus;
+                  const editorState = editorStates[eId];
 
-                if (!editorState) {
-                  return;
-                }
+                  if (!editorState) {
+                    return;
+                  }
 
-                newContentState = editorState.getCurrentContent();
-                newContentState = newContentState.createEntity(entity.entity.type, entity.entity.mutability, {...entity.entity.data});
-                // const newEditorState = EditorState.push(
-                //   editor,
-                //   newContentState,
-                //   'create-entity'
-                // );
-                const newEntityKey = newContentState.getLastCreatedEntityKey();
-                // updating the related clipboard
-                newClipboard = newClipboard.map(block => {
-                  const characters = block.getCharacterList();
-                  const newCharacters = characters.map(char => {
-                    if (char.getEntity()) {
-                      const thatEntityKey = char.getEntity();
-                      const thatEntity = newContentState.getEntity(thatEntityKey).toJS();
-                      if (entity.entity.type === NOTE_POINTER && thatEntity.type === NOTE_POINTER) {
-                        const entityNoteId = entity.entity.data.noteId;
-                        const newNoteOldId = newNotes[entityNoteId] && newNotes[entityNoteId].oldId;
-                        if (newNoteOldId === thatEntity.data.noteId) {
-                          return CharacterMetadata.applyEntity(char, newEntityKey);
+                  newContentState = editorState.getCurrentContent();
+                  newContentState = newContentState.createEntity(entity.entity.type, entity.entity.mutability, {...entity.entity.data});
+                  // const newEditorState = EditorState.push(
+                  //   editor,
+                  //   newContentState,
+                  //   'create-entity'
+                  // );
+                  const newEntityKey = newContentState.getLastCreatedEntityKey();
+                  // updating the related clipboard
+                  newClipboard = newClipboard.map(block => {
+                    const characters = block.getCharacterList();
+                    const newCharacters = characters.map(char => {
+                      if (char.getEntity()) {
+                        const thatEntityKey = char.getEntity();
+                        const thatEntity = newContentState.getEntity(thatEntityKey).toJS();
+                        if (entity.entity.type === NOTE_POINTER && thatEntity.type === NOTE_POINTER) {
+                          if (contentId !== 'main') {
+                            return CharacterMetadata.applyEntity(char, null);
+                          }
+                          const entityNoteId = entity.entity.data.noteId;
+                          const newNoteOldId = newNotes[entityNoteId] && newNotes[entityNoteId].oldId;
+                          if (newNoteOldId === thatEntity.data.noteId) {
+                            return CharacterMetadata.applyEntity(char, newEntityKey);
+                          }
+                        }
+                        else if ((entity.entity.type === BLOCK_ASSET || entity.entity.type === INLINE_ASSET) && (thatEntity.type === BLOCK_ASSET || thatEntity.type === INLINE_ASSET)) {
+                          const targetId = thatEntity && thatEntity.data.asset.id;
+
+                          if (invalidEntities.length > 0 && invalidEntities.indexOf(targetId) > -1) {
+                            return CharacterMetadata.applyEntity(char, null);
+                          }
+                          else if (targetId === entity.entity.data.asset.id) {
+                            return CharacterMetadata.applyEntity(char, newEntityKey);
+                          }
                         }
                       }
-                      else if (thatEntityKey === entity.key) {
-                        return CharacterMetadata.applyEntity(char, newEntityKey);
-                      }
-                    }
 
-                    return char;
+                      return char;
+                    });
+                    return block.set('characterList', newCharacters); // block;
                   });
-                  return block.set('characterList', newCharacters); // block;
-                });
+                // }
               });
-            }
+            // }
             // iterating through a note's editor's copied entities
             // to update its entities and the clipboard
-            else if (newNotes[contentId]) {
+            if (newNotes[contentId]) {
               copiedEntities[contentId].forEach(entity => {
+                console.log('creating', entity);
                 const editorState = editorStates[contentId]
                   || EditorState.createWithContent(
                       convertFromRaw(newNotes[contentId].contents),
                       this.editor.mainEditor.createDecorator()
                     );
-
                 newContentState = editorState.getCurrentContent();
                 newContentState = newContentState.createEntity(entity.entity.type, entity.entity.mutability, {...entity.entity.data});
                 // update related entity in content
@@ -803,6 +885,7 @@ export const handleCopy = function(event) {
                     if (char.getEntity()) {
                       const ent = newContentState.getEntity(char.getEntity());
                       const eData = ent.getData();
+                      console.log('edata', eData);
                       if (eData.asset && eData.asset.id && entity.entity.data.asset && eData.asset.id === entity.entity.data.asset.oldId) {
                         newContentState = newContentState.mergeEntityData(char.getEntity(), {
                           ...entity.entity.data
@@ -820,8 +903,20 @@ export const handleCopy = function(event) {
                 newClipboard = newClipboard.map(block => {
                   const characters = block.getCharacterList();
                   const newCharacters = characters.map(char => {
-                    if (char.getEntity() && char.getEntity() === entity.key) {
-                      return CharacterMetadata.applyEntity(char, newEntityKey);
+                    const thatEntityKey = char.getEntity();
+                    console.log('in note', thatEntityKey);
+                    if (thatEntityKey) {
+                      const thatEntity = newContentState.getEntity(thatEntityKey).toJS();
+                      if (thatEntity.type === BLOCK_ASSET || thatEntity.type === INLINE_ASSET) {
+                        const targetId = thatEntity.data.asset.id;
+                        console.log(thatEntity, 'invalid ? ', invalidEntities.indexOf(targetId) > -1);
+                        if (invalidEntities.length > 0 && invalidEntities.indexOf(targetId) > -1) {
+                          return CharacterMetadata.applyEntity(char, null);
+                        }
+                        else if (thatEntityKey === entity.key) {
+                          return CharacterMetadata.applyEntity(char, newEntityKey);
+                        }
+                      }
                     }
                     return char;
                   });
