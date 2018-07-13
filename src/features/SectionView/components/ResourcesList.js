@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import FlipMove from 'react-flip-move';
+import {List, AutoSizer} from 'react-virtualized';
 
 
 // import DragLayer from './DragLayer';
@@ -50,7 +51,6 @@ export default class ResourcesList extends Component {
     super(props, context);
   }
 
-
   render = () => {
     const {
       resources,
@@ -61,34 +61,45 @@ export default class ResourcesList extends Component {
       userLockedResourceId,
       getResourceTitle,
     } = this.props;
+
+    const rowRenderer = ({
+      key,
+      index,
+    }) => {
+      const handleDelete = () => {
+        onDeleteResource(resources[index].id);
+      };
+      const handleEdit = () => {
+        onResourceEditAttempt(resources[index].id);
+      };
+      const handleSetCover = () => {
+        onSetCoverImage(resources[index].id);
+      };
+      return (
+        <FlipMove>
+          <ResourceCardWrapper
+            key={key}
+            resource={resources[index]}
+            handleDelete={handleDelete}
+            getResourceTitle={getResourceTitle}
+            reverseResourcesLockMap={reverseResourcesLockMap}
+            onSetCoverImage={handleSetCover}
+            userLockedResourceId={userLockedResourceId}
+            handleEdit={handleEdit} />
+        </FlipMove>
+      );
+    };
     return (
-      <FlipMove>
-        {
-        resources
-        .map(resource => {
-          const handleDelete = () => {
-            onDeleteResource(resource.id);
-          };
-          const handleEdit = () => {
-            onResourceEditAttempt(resource.id);
-          };
-          const handleSetCover = () => {
-            onSetCoverImage(resource.id);
-          };
-          return (
-            <ResourceCardWrapper
-              key={resource.id}
-              resource={resource}
-              handleDelete={handleDelete}
-              getResourceTitle={getResourceTitle}
-              reverseResourcesLockMap={reverseResourcesLockMap}
-              onSetCoverImage={handleSetCover}
-              userLockedResourceId={userLockedResourceId}
-              handleEdit={handleEdit} />
-          );
-        })
-      }
-      </FlipMove>
+        <AutoSizer>
+          {({width, height}) => (
+            <List
+              height={height}
+              rowCount={resources.length}
+              rowHeight={200}
+              rowRenderer={rowRenderer}
+              width={width} />
+          )}
+        </AutoSizer>
     );
   }
 }
