@@ -169,7 +169,8 @@ const SectionViewLayout = ({
   const activeFilters = Object.keys(resourceFilterValues).filter(key => resourceFilterValues[key]);
   const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
 
-  const visibleResources = searchResources(resourcesList, resourceSearchString)
+  let visibleResources = resourceSearchString.length === 0 ? resourcesList : searchResources(resourcesList, resourceSearchString);
+  visibleResources = visibleResources
     .filter(resource => {
       return activeFilters.indexOf(resource.metadata.type) > -1;
     })

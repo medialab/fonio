@@ -73,6 +73,10 @@ class ResourceForm extends Component {
     }
   }
 
+  componentWillUnmount = () => {
+    this.props.onCancel();
+  }
+
   render = () => {
     const {
       props: {

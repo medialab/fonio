@@ -122,8 +122,9 @@ class LibraryViewLayout extends Component {
     const translate = translateNameSpacer(t, 'Features.LibraryView');
     const activeFilters = Object.keys(filterValues).filter(key => filterValues[key]);
     const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
+    let visibleResources = searchString.length === 0 ? resourcesList : searchResources(resourcesList, searchString);
 
-    const visibleResources = searchResources(resourcesList, searchString)
+    visibleResources = visibleResources
       .filter(resource => {
         return activeFilters.indexOf(resource.metadata.type) > -1;
       })

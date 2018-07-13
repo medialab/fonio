@@ -77,7 +77,7 @@ export const getResourceTitle = (resource) => {
 
 
 /**
- * fussy search resource object
+ * fuzzy search resource object
  */
 export const searchResources = (items, string) => {
   const options = {
