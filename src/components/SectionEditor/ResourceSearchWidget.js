@@ -178,8 +178,9 @@ class ResourceSearchWidget extends Component {
           <StretchedLayoutItem>
             <form className="search-form" onSubmit={this.onSubmit}>
               {/* <span className="arobase">@</span>*/}
-              <Input
+              <input
                 ref={bindRef}
+                className="input"
                 value={this.state.searchTerm}
                 onBlur={this.onBlur}
                 onChange={this.onTermChange}
