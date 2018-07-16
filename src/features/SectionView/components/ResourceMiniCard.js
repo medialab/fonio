@@ -222,7 +222,7 @@ class ResourceCard extends Component {
                 </Columns>
                 <Columns>
                   <Column isOffset={2} isSize={10}>
-                    <Button data-for="card-action" data-tip={translate('drag this card to the editor')}>
+                    <Button style={{pointerEvents: 'none'}} data-for="card-action">
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.move.black.svg} />
                       </Icon>
