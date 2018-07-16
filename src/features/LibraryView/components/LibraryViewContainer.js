@@ -8,6 +8,7 @@ import * as duck from '../duck';
 import * as editedStoryDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
+import * as errorMessageDuck from '../../ErrorMessageManager/duck';
 
 import {createResourceData} from '../../../helpers/resourcesUtils';
 
@@ -28,6 +29,7 @@ import config from '../../../config';
       ...connectionsDuck,
       ...editedStoryDuck,
       ...sectionsManagementDuck,
+      ...errorMessageDuck,
       ...duck
     }, dispatch)
   })
@@ -80,6 +82,7 @@ class LibraryViewContainer extends Component {
     //     .then(res => resolve(res.filter(result => !result.success)))
     //     .catch(err => reject(err));
     // });
+    const {setErrorMessage} = this.props.actions;
     const errors = [];
     files.reduce((curr, next) => {
       return curr.then(() =>
@@ -91,18 +94,11 @@ class LibraryViewContainer extends Component {
     }, Promise.resolve())
     .then(() => {
       if (errors.length > 0) {
-        console.error(errors);/* eslint no-console: 0 */
-        /**
-         * @todo handle errors
-         */
-        console.log('resource fail to upload');/* eslint no-console: 0 */
+        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: errors});
       }
     })
-    .catch((err) => {
-      /**
-       * @todo handle errors
-       */
-      console.log('resources fail to upload', err);/* eslint no-console: 0 */
+    .catch((error) => {
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error});
     });
   }
 
