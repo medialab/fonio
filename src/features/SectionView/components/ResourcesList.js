@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import FlipMove from 'react-flip-move';
+// import FlipMove from 'react-flip-move';
 import {List, AutoSizer} from 'react-virtualized';
 
 
@@ -65,6 +65,7 @@ export default class ResourcesList extends Component {
     const rowRenderer = ({
       key,
       index,
+      style,
     }) => {
       const handleDelete = () => {
         onDeleteResource(resources[index].id);
@@ -76,9 +77,8 @@ export default class ResourcesList extends Component {
         onSetCoverImage(resources[index].id);
       };
       return (
-        <FlipMove>
+        <div key={key} style={style}>
           <ResourceCardWrapper
-            key={key}
             resource={resources[index]}
             handleDelete={handleDelete}
             getResourceTitle={getResourceTitle}
@@ -86,20 +86,20 @@ export default class ResourcesList extends Component {
             onSetCoverImage={handleSetCover}
             userLockedResourceId={userLockedResourceId}
             handleEdit={handleEdit} />
-        </FlipMove>
+        </div>
       );
     };
     return (
-        <AutoSizer>
-          {({width, height}) => (
-            <List
-              height={height}
-              rowCount={resources.length}
-              rowHeight={200}
-              rowRenderer={rowRenderer}
-              width={width} />
-          )}
-        </AutoSizer>
+      <AutoSizer>
+        {({width, height}) => (
+          <List
+            height={height}
+            rowCount={resources.length}
+            rowHeight={240}
+            rowRenderer={rowRenderer}
+            width={width} />
+        )}
+      </AutoSizer>
     );
   }
 }
