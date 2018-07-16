@@ -222,7 +222,7 @@ class AsideSectionColumn extends Component {
                 </div>
               </StretchedLayoutItem>
               <StretchedLayoutItem isFlex={1} isFlowing>
-                <Column>
+                <Column isWrapper>
                   <ResourcesList
                     resources={visibleResources}
                     onDeleteResource={onDeleteResource}
@@ -263,7 +263,7 @@ class AsideSectionColumn extends Component {
           return (
             <StretchedLayoutContainer isFluid isAbsolute>
               <StretchedLayoutItem isFlex={1} isFlowing>
-                <Column>
+                <Column isWrapper>
                   <SortableMiniSectionsList
                     storyId={storyId}
                     items={sections}

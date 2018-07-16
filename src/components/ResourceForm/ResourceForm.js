@@ -395,7 +395,9 @@ class ResourceForm extends Component {
           ...dataRequiredValues.reduce((result, key) => ({
             ...result,
             [key]: values.data[key] ? null : translate('this field is required')
-          }), {})
+          }), {
+            schemaVal: validateResource(values).valid ? null : translate('resource is not valid')
+          })
         };
       }
     };
@@ -528,6 +530,10 @@ class ResourceForm extends Component {
                       </Column>
                     }
                   </Column>}
+                  {
+                    formApi.errors && formApi.errors.schemaVal &&
+                      <Help isColor="danger">{translate('Resource is not valid')}</Help>
+                  }
                   <Level />
 
                 </StretchedLayoutItem>

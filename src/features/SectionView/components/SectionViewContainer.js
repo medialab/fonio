@@ -25,6 +25,7 @@ import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as storyDuck from '../../StoryManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
 import * as libarayViewDuck from '../../LibraryView/duck';
+import * as errorMessageDuck from '../../ErrorMessageManager/duck';
 
 import SectionViewLayout from './SectionViewLayout';
 
@@ -44,6 +45,7 @@ import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapper
       ...storyDuck,
       ...sectionsManagementDuck,
       ...libarayViewDuck,
+      ...errorMessageDuck,
       ...duck,
     }, dispatch)
   })
@@ -214,6 +216,8 @@ class SectionViewContainer extends Component {
     //     .then(res => resolve(res.filter(result => !result.success)))
     //     .catch(err => reject(err));
     // });
+    const {setErrorMessage} = this.props.actions;
+
     const errors = [];
     files.reduce((curr, next) => {
       return curr.then(() =>
@@ -225,19 +229,12 @@ class SectionViewContainer extends Component {
     }, Promise.resolve())
     .then(() => {
       if (errors.length > 0) {
-        console.error(errors);/* eslint no-console: 0 */
-        /**
-         * @todo handle errors
-         */
-        console.log('resource fail to upload');/* eslint no-console: 0 */
+        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: errors});
       }
       this.props.actions.setMainColumnMode('edition');
     })
-    .catch((err) => {
-      /**
-       * @todo handle errors
-       */
-      console.log('resources fail to upload', err);/* eslint no-console: 0 */
+    .catch((error) => {
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error});
     });
   }
 

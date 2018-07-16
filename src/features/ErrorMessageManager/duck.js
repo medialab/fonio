@@ -11,7 +11,14 @@ import {LOGIN_STORY, ENTER_BLOCK} from '../ConnectionsManager/duck';
 import {FETCH_STORIES, CREATE_STORY, OVERRIDE_STORY, IMPORT_STORY, DUPLICATE_STORY, DELETE_STORY, CHANGE_PASSWORD} from '../HomeView/duck';
 import {ACTIVATE_STORY, UPLOAD_RESOURCE, DELETE_UPLOADED_RESOURCE, DELETE_SECTION, DELETE_RESOURCE} from '../StoryManager/duck';
 
+export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
+
 const CLEAR_ERROR_MESSAGES = 'CLEAR_ERROR_MESSAGES';
+
+export const setErrorMessage = payload => ({
+  type: SET_ERROR_MESSAGE,
+  payload
+});
 
 export const clearErrorMessages = () => ({
   type: CLEAR_ERROR_MESSAGES
@@ -31,6 +38,12 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
     /**
      * Errors and failures management
      */
+    case SET_ERROR_MESSAGE:
+      return {
+        ...state,
+        requestFail: payload.type,
+        needsReload
+      };
     case 'SAVE_STORY_FAIL':
       needsReload = true; /* eslint no-fallthrough : 0 */
     case `${FETCH_STORIES}_FAIL`:

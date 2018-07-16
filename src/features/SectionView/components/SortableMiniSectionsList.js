@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import {List, AutoSizer} from 'react-virtualized';
 
 import {
   Level,
@@ -34,17 +35,31 @@ const SortableItem = SortableElement(({
 const SortableSectionsList = SortableContainer(({
   items, ...props
 }) => {
+  const rowRenderer = ({
+    key,
+    style,
+    index,
+  }) => {
+    return (
+      <div key={key} style={style}>
+        <SortableItem
+          {...props}
+          index={index}
+          value={items[index]} />
+      </div>
+    );
+  };
   return (
-    <ul>
-      {items
-        .map((section, index) => (
-          <SortableItem
-            {...props}
-            key={`item-${index}`}
-            index={index}
-            value={section} />
-      ))}
-    </ul>
+    <AutoSizer>
+      {({width, height}) => (
+        <List
+          height={height}
+          rowCount={items.length}
+          rowHeight={200}
+          rowRenderer={rowRenderer}
+          width={width} />
+      )}
+    </AutoSizer>
   );
 });
 
