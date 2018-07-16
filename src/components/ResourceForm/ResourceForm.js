@@ -46,6 +46,7 @@ import AssetPreview from '../AssetPreview';
 
 const resourceTypes = Object.keys(resourceSchema.definitions);
 const credentials = {youtubeAPIKey: config.youtubeAPIKey};
+const {maxFileSize} = config;
 
 class ResourceForm extends Component {
 
@@ -115,21 +116,25 @@ class ResourceForm extends Component {
         });
 
     const DataForm = ({resourceType, formApi}) => {/* eslint no-shadow : 0 */
-      // const dataSchema = resourceSchema.definitions[resourceType];
-      // const acceptedFiles = dataSchema.accept_mimetypes && dataSchema.accept_mimetypes.join(',');
       const onDropFiles = (files) => {
-        loadResourceData(resourceType, files[0])
-        .then((data) => {
-          const inferedMetadata = inferMetadata({...data, file: files[0]}, resourceType);
-          const prevMetadata = formApi.getValue('metadata');
-          const metadata = {
-            ...prevMetadata,
-            ...inferedMetadata,
-            title: prevMetadata.title ? prevMetadata.title : inferedMetadata.title
-          };
-          formApi.setValue('metadata', metadata);
-          formApi.setValue('data', data);
-        });
+        if (files[0].size > maxFileSize) {
+          formApi.setError('maxSize', translate('File is too large, please choose one under 5MB'));
+        }
+        else {
+          formApi.setError('maxSize', undefined);
+          loadResourceData(resourceType, files[0])
+          .then((data) => {
+            const inferedMetadata = inferMetadata({...data, file: files[0]}, resourceType);
+            const prevMetadata = formApi.getValue('metadata');
+            const metadata = {
+              ...prevMetadata,
+              ...inferedMetadata,
+              title: prevMetadata.title ? prevMetadata.title : inferedMetadata.title
+            };
+            formApi.setValue('metadata', metadata);
+            formApi.setValue('data', data);
+          });
+        }
       };
       const onEditBib = (value) => {
         const bibData = parseBibTeXToCSLJSON(value);
@@ -378,6 +383,10 @@ class ResourceForm extends Component {
     };
 
     const onResourceTypeChange = (thatType, formApi) => {
+      if (thatType === undefined) {
+        //"reset type" case
+        formApi.resetAll();
+      }
       const defaultResource = createDefaultResource();
       formApi.setAllValues(defaultResource);
       formApi.setValue('metadata.type', thatType);
@@ -521,6 +530,7 @@ class ResourceForm extends Component {
                     {(formApi.getValue('metadata.type') !== 'glossary' &&
                       formApi.getValue('metadata.type') !== 'webpage') &&
                       !isEmpty(formApi.getValue('data')) &&
+                      !(formApi.errors && formApi.errors.maxSize) &&
                       <Column>
                         <Title isSize={5}>
                           {translate('Preview')}
@@ -530,6 +540,10 @@ class ResourceForm extends Component {
                       </Column>
                     }
                   </Column>}
+                  {
+                    formApi.errors && formApi.errors.maxSize &&
+                      <Help isColor="danger">{formApi.errors.maxSize}</Help>
+                  }
                   {
                     formApi.errors && formApi.errors.schemaVal &&
                       <Help isColor="danger">{translate('Resource is not valid')}</Help>

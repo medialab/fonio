@@ -108,7 +108,7 @@ class AssetPreview extends Component {
     const {metadata = {}, data} = resource;
     const {type} = metadata;
     const {getResourceDataUrl} = this.context;
-    if (type === 'table') {
+    if (type === 'table' && data && data.filePath) {
       this.setState({loading: true});
       loadResourceData(getResourceDataUrl(data))
       .then((result) => {
@@ -124,7 +124,7 @@ class AssetPreview extends Component {
       });
     }
 
-    if (type === 'data-presentation') {
+    if (type === 'data-presentation' && data && data.filePath) {
       loadResourceData(getResourceDataUrl(data))
       .then((result) => {
         this.setState({

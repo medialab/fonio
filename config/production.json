@@ -2,6 +2,7 @@
   "apiUrl": "http://localhost:3001",
   "youtubeAPIKey": "my youtube api key",
   "maxSectionLevel": 6,
+  "maxFileSize": 5000000,
   "sessionName": "My super classroom name",
   "urlPrefix": ""
 }
