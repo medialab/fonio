@@ -377,5 +377,9 @@
   "Components.AuthorsManager.Authors": "Authors",
   "Components.AuthorsManager.Explanation about the story authors": "Explanation about the story authors",
   "Features.ErrorMessageContainer.Something went wrong": "Something went wrong",
-  "Features.ErrorMessageContainer.An error happened, sorry. Please reload this page to continue editing!": " Please reload this page to continue editing!"
+  "Features.ErrorMessageContainer.An error happened, sorry. Please reload this page to continue editing!": " Please reload this page to continue editing!",
+  "Components.ResourceForm.resource is not valid": "resource is not valid",
+  "Components.ResourceForm.Resource is not valid": "Resource is not valid",
+  "Features.ErrorMessageContainer.Would you be kind enough to report what happened before this screen": "Would you be kind enough to report what happened before this screen",
+  "Features.ErrorMessageContainer.in this page": "in this page"
 }

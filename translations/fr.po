@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-16\n"
-"PO-Revision-Date: Mon Jul 16 2018 15:12:16 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jul 16 2018 15:14:03 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4127,6 +4127,12 @@ msgstr "Would you be kind enough to report what happened before this screen"
 msgid "Features.ErrorMessageContainer.in this page"
 msgstr "in this page"
 
+msgid "Components.ResourceForm.resource is not valid"
+msgstr "resource is not valid"
+
+msgid "Components.ResourceForm.Resource is not valid"
+msgstr "Resource is not valid"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
 
@@ -4135,9 +4141,3 @@ msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  \"{s}\" ?"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} travaille sur la section \"{t}\""
-
-msgid "Components.ResourceForm.resource is not valid"
-msgstr "resource is not valid"
-
-msgid "Components.ResourceForm.Resource is not valid"
-msgstr "Resource is not valid"
