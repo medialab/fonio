@@ -244,7 +244,7 @@ class SectionViewContainer extends Component {
     const resources = this.props.editedStory.resources;
     const resourcesMap = Object.keys(resources).map(id => resources[id]);
     const lastResource = resourcesMap.sort((a, b) => {
-      if (a.metadata.lastUpdateAt > b.metadata.lastUpdateAt) {
+      if (a.lastUpdateAt > b.lastUpdateAt) {
         return -1;
       }
       else {
