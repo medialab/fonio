@@ -168,7 +168,7 @@ class InlineCitation extends Component {
                   <Label>
                     {translate('Additional comment')}
                     <HelpPin place="right">
-                      {translate('Additional comment to this citation (version, context, ...)')}
+                      {translate('Additional comment to this citation (version, context, etc.)')}
                     </HelpPin>
                   </Label>
                   <input

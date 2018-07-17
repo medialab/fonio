@@ -3,11 +3,11 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {renderToStaticMarkup} from 'react-dom/server';
+// import {renderToStaticMarkup} from 'react-dom/server';
 
-import {Bibliography} from 'react-citeproc';
-import english from 'raw-loader!../../sharedAssets/bibAssets/english-locale.xml';
-import apa from 'raw-loader!../../sharedAssets/bibAssets/apa.csl';
+// import {Bibliography} from 'react-citeproc';
+// import english from 'raw-loader!../../sharedAssets/bibAssets/english-locale.xml';
+// import apa from 'raw-loader!../../sharedAssets/bibAssets/apa.csl';
 
 import {isEmpty} from 'lodash';
 import {csvParse} from 'd3-dsv';

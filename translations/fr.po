@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-17\n"
-"PO-Revision-Date: Tue Jul 17 2018 11:39:17 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Tue Jul 17 2018 17:14:20 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4165,6 +4165,12 @@ msgstr ")"
 
 msgid "Components.InlineCitation.additionnal comment"
 msgstr "additionnal comment"
+
+msgid "Components.ResourceForm.File is too large, please choose one under 5MB"
+msgstr "File is too large, please choose one under 5MB"
+
+msgid "Components.InlineCitation.Additional comment to this citation (version, context, etc.)"
+msgstr ")"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
