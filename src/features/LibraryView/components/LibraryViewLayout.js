@@ -9,6 +9,7 @@ import FlipMove from 'react-flip-move';
 
 import resourceSchema from 'quinoa-schemas/resource';
 import {getResourceTitle, searchResources} from '../../../helpers/resourcesUtils';
+import {createBibData} from '../../../helpers/resourcesUtils';
 
 import {
   Column,
@@ -251,6 +252,9 @@ class LibraryViewLayout extends Component {
           if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
             uploadResource(payload, 'update');
           }
+          else if (resource.metadata.type === 'bib') {
+            createBibData(resource, this.props);
+          }
           else {
             updateResource(payload);
           }
@@ -289,6 +293,9 @@ class LibraryViewLayout extends Component {
             };
             if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
               uploadResource(payload, 'create');
+            }
+            else if (resource.metadata.type === 'bib') {
+              createBibData(resource, this.props);
             }
             else {
               createResource(payload);

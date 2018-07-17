@@ -75,7 +75,8 @@ class ResourceForm extends Component {
   }
 
   componentWillUnmount = () => {
-    this.props.onCancel();
+    const {asNewResource} = this.props;
+    if (!asNewResource) this.props.onCancel();
   }
 
   render = () => {
@@ -349,37 +350,8 @@ class ResourceForm extends Component {
       }
     };
 
-    const validateAndSubmit = candidate => {
-      if (validateResource(candidate).valid) {
-        onSubmit(candidate);
-      }
-      else {
-        /**
-         * @todo handle validation errors here
-         */
-        console.error(validateResource(candidate).errors);/* eslint no-console : 0 */
-      }
-    };
     const handleSubmit = (candidates) => {
-      if (candidates.metadata.type === 'bib') {
-        candidates.data.forEach(datum => {
-          const bibData = {
-            [datum.id]: datum
-          };
-          const htmlPreview = renderToStaticMarkup(<Bibliography items={bibData} style={apa} locale={english} />);
-          validateAndSubmit({
-            ...createDefaultResource(),
-            ...candidates,
-            metadata: {
-              ...candidates.metadata,
-            },
-            data: [{...datum, htmlPreview}]
-          });
-        });
-      }
-      else {
-        validateAndSubmit(candidates);
-      }
+      onSubmit(candidates);
     };
 
     const onResourceTypeChange = (thatType, formApi) => {
