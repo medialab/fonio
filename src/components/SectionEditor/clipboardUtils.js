@@ -2,7 +2,6 @@ import {
   EditorState,
   convertToRaw,
   convertFromRaw,
-  ContentState,
   CharacterMetadata,
   SelectionState,
   Modifier,
@@ -132,13 +131,27 @@ export const handleCopy = function(event) {
     const selectedBlocksList = getSelectedBlocksList(editorState);
 
     stateDiff.clipboard = clipboard;
+    const selection = editorState.getSelection().toJS();
 
     // we are going to parse draft-js ContentBlock objects
     // and store separately non-textual objects that needs to be remembered
     // (entities, notes, inline assets, block assets)
-    selectedBlocksList.forEach(contentBlock => {
+    selectedBlocksList.forEach((contentBlock, blockIndex) => {
       const block = contentBlock.toJS();
-      const entitiesIds = block.characterList.filter(char => char.entity).map(char => char.entity);
+      let charsToParse;
+      if (blockIndex === 0 && selectedBlocksList.length === 1) {
+        charsToParse = block.characterList.slice(selection.focusOffset, selection.anchorOffset);
+      }
+      else if (blockIndex === 0) {
+        charsToParse = block.characterList.slice(selection.focusOffset);
+      }
+ else if (blockIndex === selectedBlocksList.length - 1) {
+        charsToParse = block.characterList.slice(0, selection.anchorOffset);
+      }
+ else {
+        charsToParse = block.characterList;
+      }
+      const entitiesIds = charsToParse.filter(char => char.entity).map(char => char.entity);
       let entity;
       let eData;
       entitiesIds.forEach(entityKey => {
@@ -218,7 +231,7 @@ export const handleCopy = function(event) {
 
     const tempEditorState = EditorState.createEmpty();
 
-    const {locale: citationLocale, style: citationStyle}  = getCitationModels(story);
+    const {locale: citationLocale, style: citationStyle} = getCitationModels(story);
 
     /**
      * citeproc scaffolding
@@ -271,7 +284,7 @@ export const handleCopy = function(event) {
     copiedData.clipboardContentState = convertToRaw(clipboardContentState);
 
     /**
-     * convrerting bib references to string so that they 
+     * convrerting bib references to string so that they
      * can be pasted in another editor
      */
     const processor = new CSL.Engine(sys, citationStyle);
@@ -282,7 +295,7 @@ export const handleCopy = function(event) {
       .forEach(block => {
         const characters = block.getCharacterList();
         const blockKey = block.getKey();
-          const newCharacters = characters.map((char, index) => {
+          characters.forEach((char, index) => {
             if (char.getEntity()) {
               const thatEntityKey = char.getEntity();
               const thatEntity = clipboardContentState.getEntity(thatEntityKey).toJS();
@@ -290,7 +303,6 @@ export const handleCopy = function(event) {
                 const targetId = thatEntity && thatEntity.data.asset.id;
                 const contextualization = story.contextualizations[targetId];
                 const contextualizer = story.contextualizers[contextualization.contextualizerId];
-                const resource = story.resources[contextualization.resourceId];
                 if (contextualizer.type === 'bib' && reactCitations[contextualization.id]) {
                   const component = reactCitations[contextualization.id].Component;
                   const content = renderToString(component);
@@ -303,11 +315,10 @@ export const handleCopy = function(event) {
                       focusOffset: index + 1,
                     }),
                     content
-                  )
+                  );
                 }
               }
             }
-            return char;
           });
       });
 
@@ -702,13 +713,13 @@ export const handleCopy = function(event) {
 
     // let editorState;
     let newNotes;
-    // let newClipboard = clipboard;// clipboard entities will have to be updated
     let newClipboard = convertFromRaw(copiedData.clipboardContentState).getBlockMap();// clipboard entities will have to be updated
 
 
-    // case: some non-textual data (contextualizations, notes pointers, that kind of joys) has been saved to the clipboard
+    // case: some non-textual data (contextualizations, notes pointers, that kind of things) has been saved to the clipboard
     if (typeof copiedData === 'object') {
         const data = copiedData;
+
         const invalidEntities = [];
 
         // filter out contextualizations that point to a resource that has been deleted
@@ -722,35 +733,6 @@ export const handleCopy = function(event) {
           return isValid;
         });
 
-
-        // filter out entities that are related to incorrect contextualizations
-        data.copiedEntities = Object.keys(data.copiedEntities)
-        .reduce((result, contentId) => {
-          return {
-            ...result,
-            [contentId]: data.copiedEntities[contentId]
-              .filter(entity => {
-
-                const thatData = entity.entity.data;
-                // verifying that asset points to a contextualization
-                if (thatData.asset && thatData.asset.id) {
-                  const thatContextualization = data.copiedContextualizations.find(c => c.id === thatData.asset.id);
-                  const isValid = thatContextualization !== undefined;
-                  if (!isValid) {
-                    invalidEntities.push(thatData.asset.id);
-                  }
-                  return isValid;
-                }
-                return true;
-              })
-            };
-          }, {});
-        console.log('invalid entities', invalidEntities);
-        // retargeting main editor source
-        if (data.contentId !== editorFocus) {
-          data.copiedEntities[editorFocus] = data.copiedEntities[data.contentId];
-          delete data.copiedEntities[data.contentId];
-        }
 
         // paste contextualizers (attributing them a new id)
         if (data.copiedContextualizers) {
@@ -789,6 +771,35 @@ export const handleCopy = function(event) {
             };
           });
         }
+
+        // filter out entities that are related to incorrect contextualizations
+        data.copiedEntities = Object.keys(data.copiedEntities)
+        .reduce((result, contentId) => {
+          return {
+            ...result,
+            [contentId]: data.copiedEntities[contentId]
+              .filter(entity => {
+
+                const thatData = entity.entity.data;
+                // verifying that asset points to a contextualization
+                if (thatData.asset && thatData.asset.id) {
+                  const thatContextualization = data.copiedContextualizations.find(c => c.oldId === thatData.asset.id);
+                  const isValid = thatContextualization !== undefined;
+                  if (!isValid) {
+                    invalidEntities.push(thatData.asset.id);
+                  }
+                  return isValid;
+                }
+                return true;
+              })
+            };
+          }, {});
+        // retargeting main editor source
+        if (data.contentId !== editorFocus) {
+          data.copiedEntities[editorFocus] = data.copiedEntities[data.contentId];
+          delete data.copiedEntities[data.contentId];
+        }
+
         // paste notes (attributing them a new id to duplicate them if in situation of copy/paste)
         if (data.copiedNotes && editorFocus === 'main') {
           // we have to convert existing notes contents
@@ -818,7 +829,6 @@ export const handleCopy = function(event) {
                   entityMap: Object.keys(note.contents.entityMap).reduce((res, entityKey) => {
                     const entity = note.contents.entityMap[entityKey];
                     const assetId = entity.data && entity.data.asset && entity.data.asset.id;
-                    console.log(entity, 'invalid', invalidEntities.indexOf(assetId) > -1);
                     if (entity.type === NOTE_POINTER || !assetId || invalidEntities.length === 0 || invalidEntities.indexOf(assetId) > -1) {
                       return {
                         ...res,
@@ -1005,11 +1015,10 @@ export const handleCopy = function(event) {
                         }
                         else if ((entity.entity.type === BLOCK_ASSET || entity.entity.type === INLINE_ASSET) && (thatEntity.type === BLOCK_ASSET || thatEntity.type === INLINE_ASSET)) {
                           const targetId = thatEntity && thatEntity.data.asset.id;
-
                           if (invalidEntities.length > 0 && invalidEntities.indexOf(targetId) > -1) {
                             return CharacterMetadata.applyEntity(char, null);
                           }
-                          else if (targetId === entity.entity.data.asset.id) {
+                          else if (targetId === entity.entity.data.asset.oldId) {
                             return CharacterMetadata.applyEntity(char, newEntityKey);
                           }
                         }
@@ -1026,7 +1035,6 @@ export const handleCopy = function(event) {
             // to update its entities and the clipboard
             if (newNotes[contentId]) {
               copiedEntities[contentId].forEach(entity => {
-                console.log('creating', entity);
                 const editorState = editorStates[contentId]
                   || EditorState.createWithContent(
                       convertFromRaw(newNotes[contentId].contents),
@@ -1040,7 +1048,6 @@ export const handleCopy = function(event) {
                     if (char.getEntity()) {
                       const ent = newContentState.getEntity(char.getEntity());
                       const eData = ent.getData();
-                      console.log('edata', eData);
                       if (eData.asset && eData.asset.id && entity.entity.data.asset && eData.asset.id === entity.entity.data.asset.oldId) {
                         newContentState = newContentState.mergeEntityData(char.getEntity(), {
                           ...entity.entity.data
@@ -1059,12 +1066,11 @@ export const handleCopy = function(event) {
                   const characters = block.getCharacterList();
                   const newCharacters = characters.map(char => {
                     const thatEntityKey = char.getEntity();
-                    console.log('in note', thatEntityKey);
                     if (thatEntityKey) {
                       const thatEntity = newContentState.getEntity(thatEntityKey).toJS();
                       if (thatEntity.type === BLOCK_ASSET || thatEntity.type === INLINE_ASSET) {
                         const targetId = thatEntity.data.asset.id;
-                        console.log(thatEntity, 'invalid ? ', invalidEntities.indexOf(targetId) > -1);
+                        // console.log(thatEntity, 'invalid ? ', invalidEntities.indexOf(targetId) > -1);
                         if (invalidEntities.length > 0 && invalidEntities.indexOf(targetId) > -1) {
                           return CharacterMetadata.applyEntity(char, null);
                         }
