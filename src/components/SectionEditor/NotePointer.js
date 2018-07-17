@@ -87,6 +87,7 @@ class NotePointer extends Component {
     return (
       <sup
         id={id}
+        contentEditable={false}
         onMouseOver={onMouseOver}
         onFocus={onMouseOver}
         onMouseOut={onMouseOut}
