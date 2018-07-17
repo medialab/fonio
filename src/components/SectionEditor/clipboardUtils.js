@@ -12,7 +12,7 @@ import CSL from 'citeproc';
 import {Parser} from 'html-to-react';
 
 import {v4 as generateId} from 'uuid';
-import {renderToString} from 'react-dom/server';
+import {renderToStaticMarkup} from 'react-dom/server';
 
 import {
   getSelectedBlocksList
@@ -305,7 +305,7 @@ export const handleCopy = function(event) {
                 const contextualizer = story.contextualizers[contextualization.contextualizerId];
                 if (contextualizer.type === 'bib' && reactCitations[contextualization.id]) {
                   const component = reactCitations[contextualization.id].Component;
-                  const content = renderToString(component);
+                  const content = renderToStaticMarkup(component).replace(/<(?:.|\n)*?>/gm, '');
                   clipboardContentState = Modifier.replaceText(
                     clipboardContentState,
                     tempEditorState.getSelection().merge({
