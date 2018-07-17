@@ -99,22 +99,6 @@ const AsideDesignColumn = ({
                 </form>
               </Level>
             }
-            {
-              templateOptions.indexOf('allowDisqusComments') > -1 &&
-              <Level>
-                <form>
-                  <Field>
-                    <Label>{translate('Enable comments through disqus service')}</Label>
-                    <Control>
-                      <Select onChange={e => onOptionChange('allowDisqusComments', e.target.value)} value={options.allowDisqusComments}>
-                        <option value="yes">{translate('enable')}</option>
-                        <option value="no">{translate('disable')}</option>
-                      </Select>
-                    </Control>
-                  </Field>
-                </form>
-              </Level>
-            }
           </Column>
         );
       case 'styles':
