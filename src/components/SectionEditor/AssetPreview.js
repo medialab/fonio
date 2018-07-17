@@ -33,6 +33,7 @@ import {loadResourceData} from '../../helpers/assetsUtils';
 import {abbrevString} from '../../helpers/misc';
 
 
+
 /**
  * EmbedContainer class for building react component instances
  * that wrap an embed/iframe element
@@ -111,7 +112,7 @@ class AssetPreview extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((nextProps.resource.data !== this.props.resource.data) || nextProps.resource.metadata.lastModifiedAt !== this.props.resource.metadata.lastModifiedAt) {
+    if ((nextProps.resource.data !== this.props.resource.data) || nextProps.resource.metadata.lastUpdateAt !== this.props.resource.metadata.lastUpdateAt) {
       this.updateResource();
     }
   }
@@ -148,7 +149,7 @@ class AssetPreview extends Component {
 
   renderPreview() {
     const {resource} = this.props;
-    const {data, metadata} = resource;
+    const {data, metadata, lastUpdateAt} = resource;
     const {getResourceDataUrl} = this.context;
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
     switch (metadata.type) {
@@ -173,7 +174,7 @@ class AssetPreview extends Component {
           rowsText={translate('table-row')} />);
       case 'image':
         return (<div className="image-container">
-          <img key={metadata.lastModifiedAt} src={data.base64 ? data.base64 : getResourceDataUrl(data)} />
+          <img src={data.base64 ? data.base64 : `${getResourceDataUrl(data)}?${lastUpdateAt}`} />
         </div>);
       case 'video':
         return (

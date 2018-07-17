@@ -310,7 +310,10 @@ export const setCoverImage = payload => updateStory(SET_COVER_IMAGE, payload);
  */
 export const uploadResource = (payload, mode) => ({
   type: UPLOAD_RESOURCE,
-  payload,
+  payload: {
+    ...payload,
+    lastUpdateAt: new Date().getTime()
+  },
   promise: () => {
     const token = loadStoryToken(payload.storyId);
     const lastUpdateAt = new Date().getTime();

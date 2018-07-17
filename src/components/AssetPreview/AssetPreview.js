@@ -136,7 +136,7 @@ class AssetPreview extends Component {
 
   renderPreview() {
     const {resource = {}} = this.props;
-    const {data, metadata = {}} = resource;
+    const {data, metadata = {}, lastUpdateAt} = resource;
     const {type} = metadata;
 
     const {getResourceDataUrl} = this.context;
@@ -163,7 +163,7 @@ class AssetPreview extends Component {
           rowsText={translate('table-row')} />);
       case 'image':
         return (<div className="image-container">
-          <img key={resource.lastUpdateAt} src={data.base64 ? data.base64 : getResourceDataUrl(data)} />
+          <img key={resource.lastUpdateAt} src={data.base64 ? data.base64 : `${getResourceDataUrl(data)}?${lastUpdateAt}`} />
         </div>);
       case 'video':
         return (
