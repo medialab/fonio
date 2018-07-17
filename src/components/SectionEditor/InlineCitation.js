@@ -7,13 +7,16 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Image,
-  Tag,
+  ModalCard,
+  Button,
+  Field,
+  Label,
+  Column,
+  Control,
+  HelpPin,
 } from 'quinoa-design-library/components';
 
-import icons from 'quinoa-design-library/src/themes/millet/icons';
-
-// import {translateNameSpacer} from '../../helpers/translateUtils';
+import {translateNameSpacer} from '../../helpers/translateUtils';
 
 
 /**
@@ -37,11 +40,14 @@ class InlineCitation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      locator: props.asset.contextualizer && props.asset.contextualizer.locator,
-      prefix: props.asset.contextualizer && props.asset.contextualizer.prefix,
-      suffix: props.asset.contextualizer && props.asset.contextualizer.suffix,
-      optionsVisible: false
+      contextualizerOpen: false
     };
+    // this.state = {
+    //   locator: props.asset.contextualizer && props.asset.contextualizer.locator,
+    //   prefix: props.asset.contextualizer && props.asset.contextualizer.prefix,
+    //   suffix: props.asset.contextualizer && props.asset.contextualizer.suffix,
+    //   optionsVisible: false
+    // };
   }
 
 
@@ -54,24 +60,21 @@ class InlineCitation extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (
       this.props.asset !== nextProps.asset
-      || this.state.locator !== nextState.locator
-      || this.state.prefix !== nextState.prefix
-      || this.state.suffix !== nextState.suffix
-      || this.state.optionsVisible !== nextState.optionsVisible
       || this.props.customContext !== nextProps.customContext
+      || this.state.contextualizerOpen !== nextState.contextualizerOpen
     );
+  }
+
+  toggleContextualizer = () => {
+    this.setState({
+      contextualizerOpen: !this.state.contextualizerOpen
+    });
   }
 
 
   /**
    * Opens the contextualization's details definition ui
    */
-  toggleMoreOptions = () => {
-    this.setState({
-      optionsVisible: !this.state.optionsVisible
-    });
-  }
-
 
   /**
    * Renders the component
@@ -81,146 +84,117 @@ class InlineCitation extends Component {
     const {
       children,
       asset,
-      // onAssetChange,
-      // onAssetBlur,
-      // onAssetFocus,
+      onAssetChange,
+      onAssetFocus,
     } = this.props;
-    const context = this.context;
+    const {
+      contextualizerOpen
+    } = this.state;
+    const {
+      toggleContextualizer
+    } = this;
+    const {
+      t,
+      startExistingResourceConfiguration,
+      citations,
+    } = this.context;
 
     const {
-      startExistingResourceConfiguration
-    } = context;
-
-    const {
-      // contextualizer = {},
-      // contextualizerId,
       resource,
+      contextualizer,
     } = asset;
 
-    const onEditRequest = () => {
-      if (typeof startExistingResourceConfiguration === 'function') {
-        startExistingResourceConfiguration(resource.id, resource);
-      }
+    const onClickEdit = () => {
+      this.toggleContextualizer();
+      startExistingResourceConfiguration(resource.id);
     };
 
-    // const onLocatorChange = (e) => {
-    //   this.setState({
-    //     locator: e.target.value
-    //   });
-    // };
-    // const onPrefixChange = (e) => {
-    //   this.setState({
-    //     prefix: e.target.value
-    //   });
-    // };
-    // const onSuffixChange = (e) => {
-    //   this.setState({
-    //     suffix: e.target.value
-    //   });
-    // };
-
-    // const onInputClick = e => {
-    //   onAssetFocus(e);
-    // };
-
-    const onMoreOptionsClick = e => {
-      e.stopPropagation();
-      this.toggleMoreOptions();
+    const translate = translateNameSpacer(t, 'Components.InlineCitation');
+    const representation = asset && citations && citations[asset.id];
+    const onLocatorChange = ({target: {value: locator}}) => {
+      const newContextualizer = {
+        ...contextualizer,
+        locator
+      };
+      onAssetChange('contextualizer', contextualizer.id, newContextualizer);
+    };
+    const onSuffixChange = ({target: {value: suffix}}) => {
+      const newContextualizer = {
+        ...contextualizer,
+        suffix
+      };
+      onAssetChange('contextualizer', contextualizer.id, newContextualizer);
     };
 
-    // const onLocatorBlur = e => {
-    //   const locator = this.state.locator;
-    //   const newContextualizer = {
-    //     ...contextualizer,
-    //     locator
-    //   };
-    //   onAssetChange('contextualizer', contextualizerId, newContextualizer);
-    //   this.toggleMoreOptions();
-    //   onAssetBlur(e);
-    // };
-
-    // const onPrefixBlur = e => {
-    //   const prefix = this.state.prefix;
-    //   const newContextualizer = {
-    //     ...contextualizer,
-    //     prefix
-    //   };
-    //   onAssetChange('contextualizer', contextualizerId, newContextualizer);
-    //   this.toggleMoreOptions();
-    //   onAssetBlur(e);
-    // };
-    // const onSuffixBlur = e => {
-    //   const suffix = this.state.suffix;
-    //   const newContextualizer = {
-    //     ...contextualizer,
-    //     suffix
-    //   };
-    //   onAssetChange('contextualizer', contextualizerId, newContextualizer);
-    //   this.toggleMoreOptions();
-    //   onAssetBlur(e);
-    // };
-    // const translate = translateNameSpacer(context.t, 'Components.InlineCitation');
-    const representation = asset && context.citations && context.citations[asset.id];
-    return (
-      <Tag
-        isColor="dark"
-        className="is-rounded">
-        <span
-          className="items-container"
-          style={{
-                display: 'flex',
-                alignItems: 'center',
-          }}>
-          <span onClick={onMoreOptionsClick}>
-            {representation && representation.Component}
-          </span>
-          <Tag
-            isSize="small" className="is-clickable is-rounded" isColor={'dark'}
-            onClick={onEditRequest}>
-            <Image isSize={'16x16'} src={icons.bib.black.svg} />
-          </Tag>
-          <Tag
-            isSize="small" className="is-clickable is-rounded" isColor={'dark'}
-            onClick={onMoreOptionsClick}>
-            <Image isSize={'16x16'} src={icons.edit.white.svg} />
-          </Tag>
-          {
-            // todo replace by modal
-            /*this.state.optionsVisible &&
-          <span className="more-options-container">
-            {translate('prefix-label')}:
-            <input
-              className="input"
-              placeholder={translate('prefix-placeholder')}
-              value={this.state.prefix}
-              onChange={onPrefixChange}
-              onClick={onInputClick}
-              onFocus={onAssetFocus}
-              onBlur={onPrefixBlur} />
-            {translate('locator-label')}:
-            <input
-              className="input"
-              placeholder={translate('locator-placeholder')}
-              value={this.state.locator}
-              onChange={onLocatorChange}
-              onFocus={onAssetFocus}
-              onClick={onInputClick}
-              onBlur={onLocatorBlur} />
-
-            {translate('suffix-label')}:
-            <input
-              className="input"
-              placeholder={translate('suffix-placeholder')}
-              value={this.state.suffix}
-              onChange={onSuffixChange}
-              onClick={onInputClick}
-              onFocus={onAssetFocus}
-              onBlur={onSuffixBlur} />
-          </span>*/}
-          {children}
-        </span>
-      </Tag>
-    );
+    const onInputClick = e => {
+      onAssetFocus(e);
+    };
+    return [
+      <span
+        onClick={toggleContextualizer} contentEditable={false} style={{color: 'lightgreen'}}
+        key={0}>
+        {(representation && representation.Component) || translate('loading citation')}
+      </span>,
+      <span key={1} style={{display: 'none'}}>{children}</span>,
+      <ModalCard
+        key={2}
+        isActive={contextualizerOpen}
+        headerContent={
+          translate('Edit short citation')
+        }
+        onClose={toggleContextualizer}
+        mainContent={
+          <form onSubmit={toggleContextualizer}>
+            <Column>
+              <Field>
+                <Control>
+                  <Label>
+                    {translate('Citation location')}
+                    <HelpPin place="right">
+                      {translate('Page number, chapter, section...')}
+                    </HelpPin>
+                  </Label>
+                  <input
+                    className="input"
+                    onClick={onInputClick}
+                    value={contextualizer.locator || ''}
+                    field="locator" id="locator" type="text"
+                    onChange={onLocatorChange}
+                    placeholder={translate('citation location')} />
+                </Control>
+              </Field>
+              <Field>
+                <Control>
+                  <Label>
+                    {translate('Additional comment')}
+                    <HelpPin place="right">
+                      {translate('Additional comment to this citation (version, context, ...)')}
+                    </HelpPin>
+                  </Label>
+                  <input
+                    className="input"
+                    onClick={onInputClick}
+                    value={contextualizer.suffix || ''}
+                    field="suffix" id="suffix" type="text"
+                    onChange={onSuffixChange}
+                    placeholder={translate('additionnal comment')} />
+                </Control>
+              </Field>
+            </Column>
+          </form>
+        }
+        footerContent={[
+          <Button
+            type="submit"
+            isFullWidth
+            key={0}
+            onClick={onClickEdit}
+            isColor="primary">{translate('Edit reference')}</Button>,
+          <Button
+            onClick={toggleContextualizer} isFullWidth key={1}
+            isColor="warning">{translate('Close')}</Button>,
+        ]} />
+    ];
   }
 }
 

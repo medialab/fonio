@@ -287,11 +287,10 @@ export function inferMetadata(data, assetType) {
 
     // @todo: choose that from resource model
     const insertionType = ['bib', 'glossary', 'webpage'].indexOf(resource.metadata.type) > -1 ? 'inline' : 'block';
-    const hasAlias = resource.metadata.type === 'glossary' || resource.metadata.type === 'webpage';
+    // const hasAlias = resource.metadata.type === 'glossary' || resource.metadata.type === 'webpage';
 
     // get selected text
     const selectedText = getTextSelection(editorState.getCurrentContent(), editorState.getSelection());
-    console.log('selected text', selectedText);
     // 1. create contextualizer
     // question: why isn't the contextualizer
     // data directly embedded in the contextualization data ?
@@ -305,7 +304,7 @@ export function inferMetadata(data, assetType) {
     const contextualizer = {
       id: contextualizerId,
       type: resource.metadata.type,
-      alias: hasAlias ? selectedText : undefined
+      // alias: hasAlias ? selectedText : undefined
     };
     createContextualizer({storyId, contextualizerId, contextualizer, userId});
 
@@ -325,6 +324,37 @@ export function inferMetadata(data, assetType) {
 
     let newEditorState = editorState;
 
+    let isMutable = false;
+    if (selectedText.length === 0 && insertionType === 'inline') {
+      let placeholderText;
+      switch (resource.metadata.type) {
+        case 'glossary':
+          placeholderText = resource.data.name;
+          isMutable = true;
+          break;
+        case 'webpage':
+          placeholderText = resource.data.name;
+          isMutable = true;
+          break;
+        case 'bib':
+        default:
+          placeholderText = ' ';
+          break;
+      }
+      const newContentState = Modifier.replaceText(
+        newEditorState.getCurrentContent(),
+        editorState.getSelection(),
+        placeholderText
+      );
+      newEditorState = EditorState.push(newEditorState, newContentState, 'replace-text');
+      newEditorState = EditorState.forceSelection(
+        newEditorState,
+        newEditorState.getSelection().merge({
+          anchorOffset: newEditorState.getSelection().getStartOffset() - placeholderText.length
+        })
+      );
+    }
+
     // if alias remove text placeholder
     // if (hasAlias && selectedText.length) {
     //   const newContentState = Modifier.replaceText(
@@ -337,7 +367,7 @@ export function inferMetadata(data, assetType) {
     // update related editor state
     newEditorState = insertionType === 'block' ?
       insertBlockContextualization(newEditorState, contextualization, contextualizer, resource) :
-      insertInlineContextualization(newEditorState, contextualization, contextualizer, resource, true);
+      insertInlineContextualization(newEditorState, contextualization, contextualizer, resource, isMutable);
 
     // update immutable editor state
     updateDraftEditorState(editorStateId, newEditorState);

@@ -92,7 +92,7 @@ class NotePointer extends Component {
         onMouseOut={onMouseOut}
         onBlur={onMouseOut}
         onClick={onMouseClick}>
-        <Tag className="is-clickable is-rounded" isColor={'dark'} >{(note && note.order) || '*'}{children}</Tag>
+        <Tag style={{transform: 'scale(.7)'}} className="is-clickable is-rounded" isColor={'info'} >{(note && note.order) || '*'}{children}</Tag>
       </sup>
     );
   }

@@ -129,6 +129,10 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './SectionEditor.scss';
 
+const EmbedAssetComponent = ({
+  ...props
+}) => <AssetButtonComponent {...props} icon={icons.asset.black.svg} />;
+
 
 class ElementLayout extends Component {
 
@@ -247,6 +251,13 @@ class SectionEditor extends Component {
     this.handlePaste = handlePaste.bind(this);
 
     this.translate = translateNameSpacer(context.t, 'Components.SectionEditor').bind(this);
+
+    this.assetButtons = Object.keys(inlineAssetComponents).reduce((result, type) => ({
+      ...result,
+      [type]: ({
+              ...theseProps
+            }) => <AssetButtonComponent {...theseProps} icon={icons[type].black.svg} />
+    }), {});
 
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
@@ -525,17 +536,19 @@ class SectionEditor extends Component {
    */
   onDataChange = (dataType, dataId, data) => {
     const {
-      updateResource,
       updateContextualizer,
       story: {
-        id: activeStoryId,
+        id: storyId,
       },
+      userId
     } = this.props;
-    if (dataType === 'resource') {
-      updateResource(activeStoryId, dataId, data);
-    }
-    else if (dataType === 'contextualizer') {
-      updateContextualizer(activeStoryId, dataId, data);
+    if (dataType === 'contextualizer') {
+      updateContextualizer({
+        storyId,
+        userId,
+        contextualizerId: data.id,
+        contextualizer: data
+      });
     }
   }
 
@@ -547,14 +560,35 @@ class SectionEditor extends Component {
    */
   onAssetRequest = (contentId, inputSelection) => {
     const {
+      story,
       setEditorFocus,
       requestAsset,
       editorStates,
+      startExistingResourceConfiguration,
       // editorFocus,
     } = this.props;
 
     const editorId = contentId === 'main' ? this.props.activeSection.id : contentId;
     const selection = inputSelection || editorStates[editorId].getSelection();
+
+    const editedEditorState = editorStates[editorId];
+    if (editedEditorState) {
+      const thatSelection = editedEditorState.getSelection();
+      if (thatSelection.isCollapsed()) {
+        const content = editedEditorState.getCurrentContent();
+        const selectedBlockKey = thatSelection.getStartKey();
+        const selectedBlock = content.getBlockForKey(selectedBlockKey);
+        const entityKey = selectedBlock.getEntityAt(thatSelection.getStartOffset());
+        if (entityKey) {
+          const entityData = content.getEntity(entityKey).getData();
+          if (entityData.asset && entityData.asset.id) {
+            const contextualization = story.contextualizations[entityData.asset.id];
+            const resource = story.resources[contextualization.resourceId];
+            return startExistingResourceConfiguration(resource.id);
+          }
+        }
+      }
+    }
 
     setEditorFocus(undefined);
     setTimeout(() => setEditorFocus(contentId));
@@ -713,7 +747,7 @@ class SectionEditor extends Component {
     const {activeSection: {id: sectionId}, story: {id: activeStoryId}, updateDraftEditorState} = this.props;
     const {updateSectionRawContentDebounced} = this;
     const editorStateId = editorId === 'main' ? sectionId : editorId;
-    // console.log('on update', editorStateId, editor.getSelection().getStartOffset());
+    // console.log('on update', editorStateId, convertToRaw(editor.getCurrentContent()));
     // update active immutable editor state
     updateDraftEditorState(editorStateId, editor);
     // ("debouncily") update serialized content
@@ -796,8 +830,34 @@ class SectionEditor extends Component {
       }
     }), {}) : {};
 
+    let RealAssetComponent = EmbedAssetComponent;
+
     // let clipboard;
     const focusedEditorId = editorFocus;
+
+    const editorStateId = focusedEditorId === 'main' ? sectionId : focusedEditorId;
+
+
+    const editedEditorState = editorStates[editorStateId];
+    let resourceType;
+    if (editedEditorState) {
+      const selection = editedEditorState.getSelection();
+      if (selection.isCollapsed()) {
+        const content = editedEditorState.getCurrentContent();
+        const selectedBlockKey = selection.getStartKey();
+        const selectedBlock = content.getBlockForKey(selectedBlockKey);
+        const entityKey = selectedBlock.getEntityAt(selection.getStartOffset());
+        if (entityKey) {
+          const entityData = content.getEntity(entityKey).getData();
+          if (entityData.asset && entityData.asset.id) {
+            const contextualization = story.contextualizations[entityData.asset.id];
+            const resource = story.resources[contextualization.resourceId];
+            resourceType = resource.metadata.type;
+          }
+        }
+      }
+    }
+    RealAssetComponent = resourceType ? this.assetButtons[resourceType] : EmbedAssetComponent;
 
 
     /**
@@ -1000,7 +1060,7 @@ class SectionEditor extends Component {
               NoteLayout={NoteLayout}
 
               NotePointerComponent={NotePointer}
-              AssetButtonComponent={AssetButtonComponent}
+              AssetButtonComponent={RealAssetComponent}
               NoteButtonComponent={NoteButtonComponent}
               ElementLayoutComponent={this.ElementLayoutComponent}
 

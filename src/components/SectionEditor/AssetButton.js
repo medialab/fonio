@@ -9,7 +9,8 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 const AssetButton = ({
   onClick,
-  active
+  active,
+  icon
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Component.SectionEditor');
   const onMouseDown = event => event.preventDefault();
@@ -20,7 +21,7 @@ const AssetButton = ({
       onMouseDown={onMouseDown}
       onClick={onClick}
       dataTip={translate('add an element from your library')}
-      src={icons.asset.black.svg} />
+      src={icon || icons.asset.black.svg} />
   );
 };
 

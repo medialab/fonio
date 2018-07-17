@@ -18,8 +18,8 @@ const {
  * @param {object} contextualization - the contextualization to link the entity to
  * @return {EditorState} newEditorState - a new editor state
  */
-export const insertInlineContextualization = (editorState, contextualization) => {
-  const newEditorState = insertInlineAssetInEditor(editorState, {id: contextualization.id}, editorState.getSelection());
+export const insertInlineContextualization = (editorState, contextualization, mutable = false) => {
+  const newEditorState = insertInlineAssetInEditor(editorState, {id: contextualization.id}, editorState.getSelection(), mutable);
   return newEditorState ? newEditorState : editorState;
 };
 

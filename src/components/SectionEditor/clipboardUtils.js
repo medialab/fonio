@@ -187,8 +187,38 @@ export const handleCopy = function(event) {
 
     copiedData.clipboardContentState = convertToRaw(clipboardContentState);
 
+    const toHTMLOptions = {
+      entityStyleFn: entity => {
+        const data = entity.getData();
+        if (data.asset && data.asset.id) {
+          const contextualization = story.contextualizations[data.asset.id];
+          const contextualizer = story.contextualizers[contextualization.contextualizerId];
+          const resource = story.resources[contextualization.resourceId];
+          switch (contextualizer.type) {
+            case 'webpage':
+              return {
+                element: 'a',
+                attributes: {
+                  href: resource.data.url,
+                }
+              };
+            case 'glossary':
+              return {
+                element: 'cite',
+              };
+            case 'bib':
+            default:
+              return {
+                element: 'cite',
+              };
+          }
+        }
+        return null;
+      }
+    };
+
     const clipboardHtml = `
-      ${stateToHTML(clipboardContentState)}
+      ${stateToHTML(clipboardContentState, toHTMLOptions)}
       <script id="fonio-copied-data" type="application/json">
        ${JSON.stringify(copiedData)}
       </script>
@@ -438,14 +468,15 @@ export const handleCopy = function(event) {
                 to,
                 blockKey,
                 contextualizationId,
+                contextualizer,
               });
             }
           );
         });
       // reversing modifications to content state
       // to avoid messing with indexes
-      mods.reverse().forEach(({from, to, blockKey, contextualizationId}) => {
-        let textSelection = new SelectionState({
+      mods.reverse().forEach(({from, to, blockKey, contextualizationId, contextualizer}) => {
+        const textSelection = new SelectionState({
           anchorKey: blockKey,
           anchorOffset: from,
           focusKey: blockKey,
@@ -453,14 +484,14 @@ export const handleCopy = function(event) {
           collapsed: true
         });
 
-        contentState = Modifier.replaceText(
-          contentState,
-          textSelection,
-          ' ',
-        );
+        // contentState = Modifier.replaceText(
+        //   contentState,
+        //   textSelection,
+        //   ' ',
+        // );
         contentState = contentState.createEntity(
           INLINE_ASSET,
-          'MUTABLE',
+          contextualizer.type === 'bib' ? 'IMMUTABLE' : 'MUTABLE',
           {
             asset: {
               id: contextualizationId,
@@ -469,9 +500,9 @@ export const handleCopy = function(event) {
         );
         const entityKey = contentState.getLastCreatedEntityKey();
         // update selection
-        textSelection = textSelection.merge({
-          focusOffset: from + 1
-        });
+        // textSelection = textSelection.merge({
+        //   focusOffset: from + 1
+        // });
         contentState = Modifier.applyEntity(
           contentState,
           textSelection,

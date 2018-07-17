@@ -1,22 +1,11 @@
 /* eslint react/no-set-state: 0 */
+/* eslint  react/prefer-stateless-function : 0 */
 /**
  * This module provides a reusable inline glossary mention component
  * @module fonio/components/GlossaryMention
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-
-import Input from 'react-input-autosize';
-
-import {
-  Image,
-  Tag,
-} from 'quinoa-design-library/components';
-
-import icons from 'quinoa-design-library/src/themes/millet/icons';
-
-import {translateNameSpacer} from '../../helpers/translateUtils';
-
 
 /**
  * GlossaryMention class for building react component instances
@@ -28,8 +17,6 @@ class GlossaryMention extends Component {
    */
   static contextTypes = {
     t: PropTypes.func.isRequired,
-    citations: PropTypes.object,
-    startExistingResourceConfiguration: PropTypes.func
   }
 
   /**
@@ -38,23 +25,10 @@ class GlossaryMention extends Component {
    */
   constructor(props) {
     super(props);
-    this.state = {
-      alias: props.asset.contextualizer && props.asset.contextualizer.alias,
-    };
   }
 
-
-  /**
-   * Defines whether the component should re-render
-   * @param {object} nextProps - the props to come
-   * @param {object} nextState - the state to come
-   * @return {boolean} shouldUpdate - whether to update or not
-   */
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      this.props.asset !== nextProps.asset
-      || this.state.alias !== nextState.alias
-    );
+  shouldComponentUpdate = (nextProps) => {
+    return this.props.children !== nextProps.children;
   }
 
 
@@ -65,68 +39,8 @@ class GlossaryMention extends Component {
   render() {
     const {
       children,
-      asset,
-      onAssetChange,
-      onAssetBlur,
-      onAssetFocus,
     } = this.props;
-    const context = this.context;
-
-    const {
-      startExistingResourceConfiguration
-    } = context;
-
-    const {
-      contextualizer = {},
-      contextualizerId,
-      resource,
-    } = asset;
-
-    const onEditRequest = () => {
-      if (typeof startExistingResourceConfiguration === 'function') {
-        startExistingResourceConfiguration(resource.id, resource);
-      }
-    };
-
-    const onAliasChange = (e) => {
-      this.setState({
-        alias: e.target.value
-      });
-    };
-
-    const onInputClick = e => {
-      onAssetFocus(e);
-    };
-
-    const onAliasBlur = e => {
-      const alias = this.state.alias;
-      const newContextualizer = {
-        ...contextualizer,
-        alias
-      };
-      onAssetChange('contextualizer', contextualizerId, newContextualizer);
-      onAssetBlur(e);
-    };
-    const translate = translateNameSpacer(context.t, 'Components.GlossaryMention');
-    return resource ? (
-      <Tag isColor="dark" className="is-rounded">
-        <span className="items-container">
-          <Input
-            placeholder={translate('alias-placeholder')}
-            value={this.state.alias && this.state.alias.length ? this.state.alias : resource.data.name}
-            onChange={onAliasChange}
-            onClick={onInputClick}
-            onFocus={onAssetFocus}
-            onBlur={onAliasBlur} />
-          <Tag
-            isSize="small" className="is-clickable is-rounded" isColor={'dark'}
-            onClick={onEditRequest}>
-            <Image isSize={'16x16'} src={icons.glossary.black.svg} />
-          </Tag>
-          {children}
-        </span>
-      </Tag>
-    ) : null;
+    return <span style={{color: 'purple'}}>{children}</span>;
   }
 }
 
