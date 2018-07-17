@@ -2,12 +2,18 @@ import {
   EditorState,
   convertToRaw,
   convertFromRaw,
+  ContentState,
   CharacterMetadata,
   SelectionState,
   Modifier,
 } from 'draft-js';
 
+import CSL from 'citeproc';
+
+import {Parser} from 'html-to-react';
+
 import {v4 as generateId} from 'uuid';
+import {renderToString} from 'react-dom/server';
 
 import {
   getSelectedBlocksList
@@ -16,10 +22,18 @@ import {
 import {stateToHTML} from 'draft-js-export-html';
 import {createDefaultResource} from '../../helpers/schemaUtils';
 
+
+import {
+  getCitationModels,
+} from './citationUtils';
+
 import {
   utils,
   constants
 } from 'scholar-draft';
+
+
+const htmlToReactParser = new Parser();
 
 const {
   NOTE_POINTER,
@@ -33,6 +47,29 @@ const {
   insertFragment,
 } = utils;
 
+const makeReactCitations = (processor, cits) => {
+  return cits.reduce((inputCitations, citationData) => {
+    const citations = {...inputCitations};
+    const citation = citationData[0];
+    const citationsPre = citationData[1];
+    const citationsPost = citationData[2];
+    let citationObjects = processor.processCitationCluster(citation, citationsPre, citationsPost);
+    citationObjects = citationObjects[1];
+    citationObjects.forEach(cit => {
+      const order = cit[0];
+      const html = cit[1];
+      const ThatComponent = htmlToReactParser.parse(cit[1]);
+      const citationId = cit[2];
+      citations[citationId] = {
+        order,
+        html,
+        Component: ThatComponent
+      };
+    });
+    return citations;
+  }, {});
+};
+
 
 /**
  * Prepares data within component's state for later pasting
@@ -41,6 +78,9 @@ const {
 export const handleCopy = function(event) {
     const {
       props,
+      state: {
+        citations,
+      },
       editor
     } = this;
     const setState = this.setState.bind(this);
@@ -178,14 +218,98 @@ export const handleCopy = function(event) {
 
     const tempEditorState = EditorState.createEmpty();
 
-    const clipboardContentState = Modifier.replaceWithFragment(
+    const {locale: citationLocale, style: citationStyle}  = getCitationModels(story);
+
+    /**
+     * citeproc scaffolding
+     */
+    const sys = {
+      retrieveLocale: () => {
+        return citationLocale;
+      },
+      retrieveItem: (id) => {
+        return citations.citationItems[id];
+      },
+      variableWrapper: (params, prePunct, str, postPunct) => {
+        if (params.variableNames[0] === 'title'
+            && params.itemData.URL
+            && params.context === 'bibliography') {
+          return prePunct
+             + '<a href="'
+               + params.itemData.URL
+             + '" target="blank">'
+               + str
+             + '</a>'
+               + postPunct;
+        }
+        else if (params.variableNames[0] === 'URL') {
+          return prePunct
+             + '<a href="'
+               + str
+             + '" target="blank">'
+               + str
+             + '</a>'
+               + postPunct;
+        }
+        else {
+          return (prePunct + str + postPunct);
+        }
+      }
+    };
+
+    let clipboardContentState = Modifier.replaceWithFragment(
       tempEditorState.getCurrentContent(),
       tempEditorState.getSelection(),
       clipboard
     );
+
     const plainText = clipboardContentState.getPlainText();
 
+    /**
+     * This is the content state that will be parsed if content is pasted internally
+     */
     copiedData.clipboardContentState = convertToRaw(clipboardContentState);
+
+    /**
+     * convrerting bib references to string so that they 
+     * can be pasted in another editor
+     */
+    const processor = new CSL.Engine(sys, citationStyle);
+
+    const reactCitations = makeReactCitations(processor, citations.citationData);
+
+    clipboardContentState.getBlocksAsArray()
+      .forEach(block => {
+        const characters = block.getCharacterList();
+        const blockKey = block.getKey();
+          const newCharacters = characters.map((char, index) => {
+            if (char.getEntity()) {
+              const thatEntityKey = char.getEntity();
+              const thatEntity = clipboardContentState.getEntity(thatEntityKey).toJS();
+              if (thatEntity.type === INLINE_ASSET) {
+                const targetId = thatEntity && thatEntity.data.asset.id;
+                const contextualization = story.contextualizations[targetId];
+                const contextualizer = story.contextualizers[contextualization.contextualizerId];
+                const resource = story.resources[contextualization.resourceId];
+                if (contextualizer.type === 'bib' && reactCitations[contextualization.id]) {
+                  const component = reactCitations[contextualization.id].Component;
+                  const content = renderToString(component);
+                  clipboardContentState = Modifier.replaceText(
+                    clipboardContentState,
+                    tempEditorState.getSelection().merge({
+                      anchorKey: blockKey,
+                      focusKey: blockKey,
+                      anchorOffset: index,
+                      focusOffset: index + 1,
+                    }),
+                    content
+                  )
+                }
+              }
+            }
+            return char;
+          });
+      });
 
     const toHTMLOptions = {
       entityStyleFn: entity => {
