@@ -7,6 +7,8 @@ import {
   Modifier,
 } from 'draft-js';
 
+import {uniq} from 'lodash';
+
 import CSL from 'citeproc';
 
 import {Parser} from 'html-to-react';
@@ -145,13 +147,14 @@ export const handleCopy = function(event) {
       else if (blockIndex === 0) {
         charsToParse = block.characterList.slice(selection.focusOffset);
       }
- else if (blockIndex === selectedBlocksList.length - 1) {
+      else if (blockIndex === selectedBlocksList.length - 1) {
         charsToParse = block.characterList.slice(0, selection.anchorOffset);
       }
- else {
+      else {
         charsToParse = block.characterList;
       }
-      const entitiesIds = charsToParse.filter(char => char.entity).map(char => char.entity);
+      const entitiesIds = uniq(charsToParse.filter(char => char.entity).map(char => char.entity));
+      console.log('entitiesIds', entitiesIds);
       let entity;
       let eData;
       entitiesIds.forEach(entityKey => {
