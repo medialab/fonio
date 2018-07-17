@@ -6,7 +6,7 @@ import {v4 as genId} from 'uuid';
 import SectionEditor from '../../../components/SectionEditor';
 import NewSectionForm from '../../../components/NewSectionForm';
 import ResourceForm from '../../../components/ResourceForm';
-
+import {createBibData} from '../../../helpers/resourcesUtils';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -123,6 +123,16 @@ const MainSectionColumn = ({
         if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
           uploadResource(payload, 'update');
         }
+        else if (resource.metadata.type === 'bib') {
+          createBibData(resource, {
+            editedStory: story,
+            userId,
+            actions: {
+              createResource,
+              updateResource
+            },
+          });
+        }
         else {
           updateResource(payload);
         }
@@ -173,6 +183,16 @@ const MainSectionColumn = ({
           };
           if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
             uploadResource(payload, 'create');
+          }
+          else if (resource.metadata.type === 'bib') {
+            createBibData(resource, {
+              editedStory: story,
+              userId,
+              actions: {
+                createResource,
+                updateResource
+              },
+            });
           }
           else {
             createResource(payload);

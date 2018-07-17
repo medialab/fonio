@@ -88,7 +88,44 @@ export const searchResources = (items, string) => {
 };
 
 /**
- * Generate resource data from file and props
+ * Generate and submit bib resource
+ */
+export const createBibData = (resource, props) =>
+  new Promise((resolve) => {
+    const {
+      userId,
+      editedStory: story,
+    } = props;
+    const {
+      id: storyId
+    } = story;
+    resource.data.forEach(datum => {
+      const id = resource.id ? resource.id : genId();
+      const bibData = {
+        [datum.id]: datum
+      };
+      const htmlPreview = renderToStaticMarkup(<Bibliography items={bibData} style={apa} locale={english} />);
+      const item = {
+        ...resource,
+        id,
+        data: [{...datum, htmlPreview}],
+      };
+      const payload = {
+        resourceId: id,
+        resource: item,
+        storyId,
+        userId,
+      };
+      if (validateResource(item).valid) {
+        if (resource.id) props.actions.updateResource(payload);
+        else props.actions.createResource(payload);
+      }
+    });
+    return resolve();
+  });
+
+/**
+* Generate resource data from file and props
  */
 export const createResourceData = (file, props) =>
   new Promise((resolve) => {
@@ -167,6 +204,7 @@ export const createResourceData = (file, props) =>
           })
           .then(() => resolve({id, success: true}))
           .catch((error) => resolve({id, success: false, error}));
+      case 'bib':
       default:
         return getFileAsText(file)
           .then((text) => {

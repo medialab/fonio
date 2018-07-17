@@ -15,11 +15,6 @@
   background: white;
 }
 
-*{
-  transition: all .2s ease;
-}
-
-
 .aside-edition-container{
   &:not(.is-collapsed){
     min-width: 30%;

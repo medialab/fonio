@@ -2,6 +2,7 @@
   "apiUrl": "http://localhost:3001",
   "youtubeAPIKey": "AIzaSyARZnXNhr9FhbE8j0igfs9KjjVxT29-F8A",
   "maxSectionLevel": 6,
+  "maxFileSize": 5000000,
   "sessionName": "Scube 2019",
   "urlPrefix": ""
 }
