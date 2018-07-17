@@ -6,6 +6,8 @@ import HTML5Backend from 'react-dnd-html5-backend';
 // import FlipMove from 'react-flip-move';
 import {List, AutoSizer} from 'react-virtualized';
 
+// import {getResourceTitle} from '../../../helpers/resourcesUtils';
+
 
 // import DragLayer from './DragLayer';
 
@@ -95,7 +97,7 @@ export default class ResourcesList extends Component {
           <List
             height={height}
             rowCount={resources.length}
-            rowHeight={240}
+            rowHeight={210}
             rowRenderer={rowRenderer}
             width={width} />
         )}

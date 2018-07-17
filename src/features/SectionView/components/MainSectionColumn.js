@@ -336,7 +336,7 @@ const MainSectionColumn = ({
                   isSize={editorWidth}
                   isOffset={editorX} isWrapper>
                   {/* editor header*/}
-                  <StretchedLayoutContainer isFluid isDirection={/*mainColumnMode !== 'edition' ? 'vertical' : 'horizontal'*/'vertical'}>
+                  <StretchedLayoutContainer  style={{padding: '.5rem'}} isFluid isDirection={/*mainColumnMode !== 'edition' ? 'vertical' : 'horizontal'*/'vertical'}>
                     <StretchedLayoutItem isFlex={1}>
                       <Title isSize={2}>
                         {abbrevString(section.metadata.title, 20)}

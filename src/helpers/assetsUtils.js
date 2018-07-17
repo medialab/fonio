@@ -291,7 +291,7 @@ export function inferMetadata(data, assetType) {
 
     // get selected text
     const selectedText = getTextSelection(editorState.getCurrentContent(), editorState.getSelection());
-
+    console.log('selected text', selectedText);
     // 1. create contextualizer
     // question: why isn't the contextualizer
     // data directly embedded in the contextualization data ?
@@ -326,18 +326,18 @@ export function inferMetadata(data, assetType) {
     let newEditorState = editorState;
 
     // if alias remove text placeholder
-    if (hasAlias && selectedText.length) {
-      const newContentState = Modifier.replaceText(
-        newEditorState.getCurrentContent(),
-        editorState.getSelection(),
-        ''
-      );
-      newEditorState = EditorState.push(newEditorState, newContentState, 'replace-text');
-    }
+    // if (hasAlias && selectedText.length) {
+    //   const newContentState = Modifier.replaceText(
+    //     newEditorState.getCurrentContent(),
+    //     editorState.getSelection(),
+    //     ''
+    //   );
+    //   newEditorState = EditorState.push(newEditorState, newContentState, 'replace-text');
+    // }
     // update related editor state
     newEditorState = insertionType === 'block' ?
       insertBlockContextualization(newEditorState, contextualization, contextualizer, resource) :
-      insertInlineContextualization(newEditorState, contextualization, contextualizer, resource);
+      insertInlineContextualization(newEditorState, contextualization, contextualizer, resource, true);
 
     // update immutable editor state
     updateDraftEditorState(editorStateId, newEditorState);

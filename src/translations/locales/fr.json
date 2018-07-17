@@ -379,7 +379,18 @@
   "Features.ErrorMessageContainer.Something went wrong": "Something went wrong",
   "Features.ErrorMessageContainer.An error happened, sorry. Please reload this page to continue editing!": " Please reload this page to continue editing!",
   "Components.ResourceForm.resource is not valid": "resource is not valid",
-  "Components.ResourceForm.Resource is not valid": "Resource is not valid",
   "Features.ErrorMessageContainer.Would you be kind enough to report what happened before this screen": "Would you be kind enough to report what happened before this screen",
-  "Features.ErrorMessageContainer.in this page": "in this page"
+  "Features.ErrorMessageContainer.in this page": "in this page",
+  "Components.ResourceForm.Resource is not valid": "Resource is not valid",
+  "Components.InlineCitation.loading citation": "loading citation",
+  "Components.InlineCitation.edit short citation": "edit short citation",
+  "Components.InlineCitation.Edit reference": "Edit reference",
+  "Components.InlineCitation.Close": "Close",
+  "Components.InlineCitation.Edit short citation": "Edit short citation",
+  "Components.InlineCitation.Citation location": "Citation location",
+  "Components.InlineCitation.Page number, chapter, section...": "",
+  "Components.InlineCitation.citation location": "citation location",
+  "Components.InlineCitation.Additional comment": "Additional comment",
+  "Components.InlineCitation.Additional comment to this citation (version, context, ...)": ")",
+  "Components.InlineCitation.additionnal comment": "additionnal comment"
 }

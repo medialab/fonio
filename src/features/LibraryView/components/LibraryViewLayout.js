@@ -401,7 +401,7 @@ class LibraryViewLayout extends Component {
                 </Column>
               </StretchedLayoutItem>
               <ConfirmToDeleteModal
-                isActive={promptedToDeleteResourceId}
+                isActive={promptedToDeleteResourceId !== undefined}
                 isDisabled={resourcesLockMap[promptedToDeleteResourceId]}
                 deleteType={'resource'}
                 story={story}

@@ -460,7 +460,7 @@ export const handleCopy = function(event) {
         );
         contentState = contentState.createEntity(
           INLINE_ASSET,
-          'IMMUTABLE',
+          'MUTABLE',
           {
             asset: {
               id: contextualizationId,

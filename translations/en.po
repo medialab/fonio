@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-7-16\n"
-"PO-Revision-Date: Mon Jul 16 2018 15:14:03 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-7-17\n"
+"PO-Revision-Date: Tue Jul 17 2018 11:24:57 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4132,6 +4132,39 @@ msgstr "resource is not valid"
 
 msgid "Components.ResourceForm.Resource is not valid"
 msgstr "Resource is not valid"
+
+msgid "Components.InlineCitation.loading citation"
+msgstr "loading citation"
+
+msgid "Components.InlineCitation.edit short citation"
+msgstr "edit short citation"
+
+msgid "Components.InlineCitation.Edit reference"
+msgstr "Edit reference"
+
+msgid "Components.InlineCitation.Close"
+msgstr "Close"
+
+msgid "Components.InlineCitation.Edit short citation"
+msgstr "Edit short citation"
+
+msgid "Components.InlineCitation.Citation location"
+msgstr "Citation location"
+
+msgid "Components.InlineCitation.Page number, chapter, section..."
+msgstr ""
+
+msgid "Components.InlineCitation.citation location"
+msgstr "citation location"
+
+msgid "Components.InlineCitation.Additional comment"
+msgstr "Additional comment"
+
+msgid "Components.InlineCitation.Additional comment to this citation (version, context, ...)"
+msgstr ")"
+
+msgid "Components.InlineCitation.additionnal comment"
+msgstr "additionnal comment"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Are you sure you want to delete the section \"{s}\" ? All its content will be lost without possible recovery."

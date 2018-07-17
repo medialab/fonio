@@ -120,22 +120,23 @@ class LinkContextualization extends Component {
     const translate = translateNameSpacer(context.t, 'Components.LinkContextualization');
     return (
       <Tag
-        isColor="dark"
         className="is-rounded">
-        <span className="items-container">
-          <Input
+        <span>
+          {children}
+          {/*<Input
             placeholder={translate('alias-placeholder')}
             value={this.state.alias && this.state.alias.length ? this.state.alias : resource.metadata.title || ''}
             onChange={onAliasChange}
             onClick={onInputClick}
             onFocus={onAssetFocus}
-            onBlur={onAliasBlur} />
+            onBlur={onAliasBlur} />*/}
           <Tag
-            isSize="small" className="is-clickable is-rounded" isColor={'dark'}
+            isSize="small" className="is-clickable is-rounded" 
+            // isColor={'dark'}
             onClick={onEditRequest}>
             <Image isSize={'16x16'} src={icons.webpage.black.svg} />
           </Tag>
-          {children}
+          {/*children*/}
         </span>
       </Tag>
     );

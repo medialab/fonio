@@ -203,7 +203,7 @@ class ResourceCard extends Component {
           <Card
             bodyContent={
               <div>
-                <Columns>
+                <Columns style={{minHeight: '4em', maxHeight: '4em', overflow: 'hidden'}}>
                   <Column isSize={2}>
                     <Icon isSize="medium" isAlign="left">
                       <img src={icons[type].black.svg} />
