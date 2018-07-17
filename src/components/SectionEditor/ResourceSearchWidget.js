@@ -7,6 +7,7 @@
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {getResourceTitle, searchResources} from '../../helpers/resourcesUtils';
 
 const timers = {
   medium: 500
@@ -172,6 +173,8 @@ class ResourceSearchWidget extends Component {
       this.input = input;
     };
     const translate = translateNameSpacer(context.t, 'Components.ResourceSearchWidget');
+
+    const filteredOptions = this.state.searchTerm.length === 0 ? options : searchResources(options, this.state.searchTerm);
     return (
       <DropdownContent style={{paddingLeft: '1rem'}} className="fonio-ResourceSearchWidget">
         <StretchedLayoutContainer>
@@ -192,29 +195,27 @@ class ResourceSearchWidget extends Component {
           <StretchedLayoutItem isFlex={1}>
             <Level />
             {
-              options.filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
-              .length > 0 ?
+              filteredOptions.length > 0 ?
 
                 <div className="choice-options-container" style={{maxHeight: '10rem', overflowX: 'hidden', overflowY: 'auto'}}>
                   {
-                options
-                .filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
+                filteredOptions
                 .map((option, index) => {
                   const onC = () => onOptionClick(option);
-                  let optionName;
+                  let optionName = getResourceTitle(option);
                   const {
-                    data,
                     metadata
                   } = option;
-                  if (metadata.type === 'bib') {
-                    optionName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
-                  }
-                  else if (metadata.type === 'glossary') {
-                    optionName = data.name && data.name.length ? data.name : translate('untitled-asset');
-                  }
-                  else {
-                    optionName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
-                  }
+                  // if (metadata.type === 'bib') {
+                  //   optionName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
+                  // }
+                  // else if (metadata.type === 'glossary') {
+                  //   optionName = data.name && data.name.length ? data.name : translate('untitled-asset');
+                  // }
+                  // else {
+                  //   optionName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
+                  // }
+                  optionName = optionName.length ? optionName : translate('untitled-asset');
                   return (
                     <DropdownItem
                       isFullWidth
