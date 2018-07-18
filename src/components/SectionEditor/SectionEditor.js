@@ -334,7 +334,7 @@ class SectionEditor extends Component {
 
   componentWillUpdate() {
     // benchmarking component performance
-    // console.time('editor update time');/* eslint no-console: 0 */
+    console.time('editor update time');/* eslint no-console: 0 */
   }
 
 
@@ -345,7 +345,7 @@ class SectionEditor extends Component {
     if (this.props.editorStates[this.props.activeSection.id] !== prevProps.editorStates[this.props.activeSection.id]) {
       this.debouncedCleanStuffFromEditorInspection(this.props.activeSection.id);
     }
-    // console.timeEnd('editor update time');/* eslint no-console: 0 */
+    console.timeEnd('editor update time');/* eslint no-console: 0 */
   }
 
 

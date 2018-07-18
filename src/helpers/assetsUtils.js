@@ -272,6 +272,7 @@ export function inferMetadata(data, assetType) {
     const activeSection = story.sections[sectionId];
     const resource = story.resources[resourceId];
 
+
     const editorStateId = contentId === 'main' ? sectionId : contentId;
     const editorState = editorStates[editorStateId];
 

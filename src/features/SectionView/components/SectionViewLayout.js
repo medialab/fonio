@@ -396,9 +396,9 @@ const SectionViewLayout = ({
   const onCreateResource = payload => {
     createResource(payload);
     if (embedResourceAfterCreation) {
-      setTimeout(() => {
+      // setTimeout(() => {
           embedLastResource();
-        });
+        // });
     }
   };
 

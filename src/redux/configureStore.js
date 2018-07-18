@@ -66,7 +66,6 @@ export default function configureStore (initialState = {}) {
   );
 
 const connectionErrors = ['connect_error', 'reconnect_failed', 'reconnect_error'];
-
 connectionErrors.forEach(message => {
   socket.on(message, error => {
     store.dispatch({

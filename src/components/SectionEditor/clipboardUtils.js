@@ -154,7 +154,6 @@ export const handleCopy = function(event) {
         charsToParse = block.characterList;
       }
       const entitiesIds = uniq(charsToParse.filter(char => char.entity).map(char => char.entity));
-      console.log('entitiesIds', entitiesIds);
       let entity;
       let eData;
       entitiesIds.forEach(entityKey => {

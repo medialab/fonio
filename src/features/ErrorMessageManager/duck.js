@@ -48,7 +48,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
       return {
         ...state,
         connectError: false
-      }
+      };
     /**
      * Errors and failures management
      */

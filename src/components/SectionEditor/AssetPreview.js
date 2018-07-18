@@ -33,7 +33,6 @@ import {loadResourceData} from '../../helpers/assetsUtils';
 import {abbrevString} from '../../helpers/misc';
 
 
-
 /**
  * EmbedContainer class for building react component instances
  * that wrap an embed/iframe element
