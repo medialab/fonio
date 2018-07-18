@@ -734,7 +734,6 @@ export const handleCopy = function(event) {
           return isValid;
         });
 
-        console.log(data);
         // paste contextualizers (attributing them a new id)
         if (data.copiedContextualizers) {
           data.copiedContextualizers.forEach((contextualizer, index) => {
