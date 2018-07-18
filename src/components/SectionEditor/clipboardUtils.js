@@ -134,21 +134,20 @@ export const handleCopy = function(event) {
 
     stateDiff.clipboard = clipboard;
     const selection = editorState.getSelection().toJS();
-
     // we are going to parse draft-js ContentBlock objects
     // and store separately non-textual objects that needs to be remembered
     // (entities, notes, inline assets, block assets)
     selectedBlocksList.forEach((contentBlock, blockIndex) => {
       const block = contentBlock.toJS();
       let charsToParse;
-      if (blockIndex === 0 && selectedBlocksList.length === 1) {
-        charsToParse = block.characterList.slice(selection.focusOffset, selection.anchorOffset);
+      if (blockIndex === 0 && selectedBlocksList.size === 1) {
+        charsToParse = block.characterList.slice(selection.anchorOffset, selection.focusOffset);
       }
       else if (blockIndex === 0) {
-        charsToParse = block.characterList.slice(selection.focusOffset);
+        charsToParse = block.characterList.slice(selection.anchorOffset);
       }
-      else if (blockIndex === selectedBlocksList.length - 1) {
-        charsToParse = block.characterList.slice(0, selection.anchorOffset);
+      else if (blockIndex === selectedBlocksList.size - 1) {
+        charsToParse = block.characterList.slice(0, selection.focusOffset);
       }
       else {
         charsToParse = block.characterList;
@@ -735,7 +734,7 @@ export const handleCopy = function(event) {
           return isValid;
         });
 
-
+        console.log(data);
         // paste contextualizers (attributing them a new id)
         if (data.copiedContextualizers) {
           data.copiedContextualizers.forEach((contextualizer, index) => {
