@@ -185,14 +185,18 @@ class LibraryViewLayout extends Component {
         resourceId: resource.id
       };
       // deleting entities in content states
-      const relatedContextualizationsIds = Object.keys(story.contextualizations).map(c => story.contextualizations[c])
+      const relatedContextualizations = Object.keys(story.contextualizations).map(c => story.contextualizations[c])
         .filter(contextualization => {
           return contextualization.resourceId === promptedToDeleteResourceId;
-        }).map(c => c.id);
+        });
+
+      const relatedContextualizationsIds = relatedContextualizations.map(c => c.id);
+      const relatedContextualizationsSectionIds = relatedContextualizations.map(c => c.sectionId);
 
       if (relatedContextualizationsIds.length) {
-        Object.keys(story.sections).forEach(key => {
+        relatedContextualizationsSectionIds.forEach(key => {
           const section = story.sections[key];
+          if (!section) return;
           let sectionChanged;
 
           const newSection = {

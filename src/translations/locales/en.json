@@ -397,5 +397,7 @@
   "Components.InlineCitation.Additional comment to this citation (version, context, etc.)": ")",
   "Features.ErrorMessageContainer.Fonio - Something is wrong": "Fonio - Something is wrong",
   "Features.ErrorMessageContainer.You cannot connect to your classroom server.": "",
-  "Features.ErrorMessageContainer.Please check your internet connection or contact your teacher": "Please check your internet connection or contact your teacher"
+  "Features.ErrorMessageContainer.Please check your internet connection or contact your teacher": "Please check your internet connection or contact your teacher",
+  "Features.SectionViewContainer.Please wait...": "",
+  "Features.SectionViewContainer.copying content...": ""
 }

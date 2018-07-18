@@ -73,6 +73,7 @@ const MainSectionColumn = ({
   deleteContextualizer,
   deleteContextualizationFromId,
 
+  setEditorBlocked,
   setAssetRequestContentId,
   startNewResourceConfiguration,
   startExistingResourceConfiguration,
@@ -356,7 +357,7 @@ const MainSectionColumn = ({
                   isSize={editorWidth}
                   isOffset={editorX} isWrapper>
                   {/* editor header*/}
-                  <StretchedLayoutContainer style={{padding: '.5rem'}} isFluid isDirection={/*mainColumnMode !== 'edition' ? 'vertical' : 'horizontal'*/'vertical'}>
+                  <StretchedLayoutContainer isFluid isDirection={/*mainColumnMode !== 'edition' ? 'vertical' : 'horizontal'*/'vertical'}>
                     <StretchedLayoutItem isFlex={1}>
                       <Title isSize={2}>
                         {abbrevString(section.metadata.title, 20)}
@@ -416,6 +417,7 @@ const MainSectionColumn = ({
                     startNewResourceConfiguration={startNewResourceConfiguration}
                     startExistingResourceConfiguration={startExistingResourceConfiguration}
 
+                    setEditorBlocked={setEditorBlocked}
                     setEditorFocus={setEditorFocus} />
 
 

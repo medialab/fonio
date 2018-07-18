@@ -7,6 +7,10 @@ import {
 } from 'react-router';
 
 import {
+  ModalCard
+} from 'quinoa-design-library/components/';
+
+import {
   convertToRaw
 } from 'draft-js';
 
@@ -16,6 +20,7 @@ import {
   summonAsset
 } from '../../../helpers/assetsUtils';
 import {createResourceData} from '../../../helpers/resourcesUtils';
+import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import DataUrlProvider from '../../../components/DataUrlProvider';
 
@@ -55,6 +60,10 @@ class SectionViewContainer extends Component {
 
   static childContextTypes = {
     setDraggedResourceId: PropTypes.func
+  }
+
+  static contextTypes = {
+    t: PropTypes.func,
   }
 
   constructor(props) {
@@ -266,12 +275,16 @@ class SectionViewContainer extends Component {
             storyId,
           }
         },
+        editorBlocked,
       },
       goToSection,
       onSummonAsset,
       submitMultiResources,
-      embedLastResource
+      embedLastResource,
+      context: {t},
     } = this;
+    const translate = translateNameSpacer(t, 'Features.SectionViewContainer');
+
     if (editedStory) {
       const section = editedStory.sections[sectionId];
       if (section) {
@@ -286,6 +299,16 @@ class SectionViewContainer extends Component {
                 summonAsset={onSummonAsset}
                 submitMultiResources={submitMultiResources}
                 {...this.props} />
+              <ModalCard
+                isActive={editorBlocked}
+                headerContent={translate('Please wait...')}
+                mainContent={
+                  <div>
+                    <p>
+                      {translate('copying content...')}
+                    </p>
+                  </div>
+                } />
             </EditionUiWrapper>
           </DataUrlProvider>
         );
