@@ -19,7 +19,7 @@ import config from '../../../config';
 import {
   summonAsset
 } from '../../../helpers/assetsUtils';
-import {createResourceData} from '../../../helpers/resourcesUtils';
+import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import DataUrlProvider from '../../../components/DataUrlProvider';
@@ -35,6 +35,8 @@ import * as errorMessageDuck from '../../ErrorMessageManager/duck';
 import SectionViewLayout from './SectionViewLayout';
 
 import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
+
+const {maxBatchNumber} = config;
 
 @connect(
   state => ({
@@ -226,9 +228,20 @@ class SectionViewContainer extends Component {
     //     .catch(err => reject(err));
     // });
     const {setErrorMessage} = this.props.actions;
-
+    const validFiles = validateFiles(files);
+    if (files.length > maxBatchNumber) {
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded, please upload below 50 files'});
+      return;
+    }
+    if (validFiles.length === 0) {
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Files extends maximum size too upload, please upload below 50MB'});
+      return;
+    }
+    if (validFiles.length < files.length) {
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Some files larger than 4MB are not be uploaded'});
+    }
     const errors = [];
-    files.reduce((curr, next) => {
+    validFiles.reduce((curr, next) => {
       return curr.then(() =>
         createResourceData(next, this.props)
         .then((res) => {
@@ -276,6 +289,9 @@ class SectionViewContainer extends Component {
           }
         },
         editorBlocked,
+        actions: {
+          setEditorBlocked
+        }
       },
       goToSection,
       onSummonAsset,
@@ -301,6 +317,7 @@ class SectionViewContainer extends Component {
                 {...this.props} />
               <ModalCard
                 isActive={editorBlocked}
+                onClose={() => setEditorBlocked(false)}
                 headerContent={translate('Please wait...')}
                 mainContent={
                   <div>
