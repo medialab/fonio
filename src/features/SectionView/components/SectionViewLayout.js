@@ -78,6 +78,7 @@ const SectionViewLayout = ({
 
     setPromptedToDeleteSectionId,
     setPromptedToDeleteResourceId,
+    setEditorBlocked,
 
     updateSection,
     createSection,
@@ -468,6 +469,8 @@ const SectionViewLayout = ({
             promptAssetEmbed={promptAssetEmbed}
             unpromptAssetEmbed={unpromptAssetEmbed}
             setEditorFocus={setEditorFocus}
+
+            setEditorBlocked={setEditorBlocked}
 
             setNewResourceMode={setNewResourceMode}
 

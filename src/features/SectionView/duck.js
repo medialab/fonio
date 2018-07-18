@@ -51,6 +51,8 @@ export const UNPROMPT_ASSET_EMBED = 'UNPROMPT_ASSET_EMBED';
 export const SET_ASSET_REQUEST_CONTENT_ID = 'SET_ASSET_REQUEST_CONTENT_ID';
 
 export const SET_EDITOR_FOCUS = 'SET_EDITOR_FOCUS';
+export const SET_EDITOR_BLOCKED = 'SET_EDITOR_BLOCKED';
+
 /**
  * data
  */
@@ -178,6 +180,11 @@ export const setAssetRequestContentId = contentId => ({
   },
 });
 
+export const setEditorBlocked = payload => ({
+  type: SET_EDITOR_BLOCKED,
+  payload,
+});
+
 /**
  * Sets which editor has the focus for edition
  * @param {string} editorFocus  - id of the editor to focus to
@@ -217,7 +224,8 @@ const UI_DEFAULT_STATE = {
   resourceSortValue: 'title',
   newResourceMode: 'manually',
   editedSectionId: undefined,
-  draggedResourceId: undefined
+  draggedResourceId: undefined,
+  editorBlocked: false,
 };
 
 /**
@@ -239,6 +247,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_NEW_RESOURCE_MODE:
     case SET_EDITED_SECTION_ID:
     case SET_DRAGGED_RESOURCE_ID:
+    case SET_EDITOR_BLOCKED:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -449,6 +458,7 @@ const resourceSearchString = state => state.ui.resourceSearchString;
 const newResourceMode = state => state.ui.newResourceMode;
 const editedSectionId = state => state.ui.editedSectionId;
 const draggedResourceId = state => state.ui.draggedResourceId;
+const editorBlocked = state => state.ui.editorBlocked;
 
 const editorStates = state => state.editorstates;
 const assetRequestState = state => state.assetRequeststate;
@@ -476,6 +486,7 @@ export const selector = createStructuredSelector({
   newResourceMode,
   editedSectionId,
   draggedResourceId,
+  editorBlocked,
 
   editorStates,
   assetRequestState,

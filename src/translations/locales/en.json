@@ -394,5 +394,7 @@
   "Components.InlineCitation.Additional comment to this citation (version, context, ...)": ")",
   "Components.InlineCitation.additionnal comment": "additionnal comment",
   "Components.ResourceForm.File is too large, please choose one under 5MB": "File is too large, please choose one under 5MB",
-  "Components.InlineCitation.Additional comment to this citation (version, context, etc.)": ")"
+  "Components.InlineCitation.Additional comment to this citation (version, context, etc.)": ")",
+  "Features.SectionViewContainer.Please wait...": "",
+  "Features.SectionViewContainer.copying content...": ""
 }
