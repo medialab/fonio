@@ -33,7 +33,13 @@
     "type": "git",
     "url": "git+https://github.com/medialab/fonio.git"
   },
-  "author": "Robin de Mourat <robin.demourat@sciencespo.fr> (https://github.com/robindemourat)",
+  "author": "médialab sciences po",
+  "contributors": [
+    "Robin de Mourat",
+    "Mengying Du",
+    "Guillaume Plique",
+    "Jérémy Richard"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/medialab/fonio/issues"
