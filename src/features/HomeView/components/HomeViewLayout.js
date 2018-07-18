@@ -13,6 +13,8 @@ import FlipMove from 'react-flip-move';
 import {createDefaultSection} from '../../../helpers/schemaUtils';
 import {v4 as genId} from 'uuid';
 
+import ReactTooltip from 'react-tooltip';
+
 import {
   Button,
   Column,
@@ -368,27 +370,29 @@ class HomeViewLayout extends Component {
                         {this.translate('Who else is online ?')} <HelpPin>{this.translate('writers connected to this classroom right now')}</HelpPin>
                       </Title>
                     }
-                    {activeUsers &&
+                    <div style={{maxHeight: '15rem', overflow: 'auto'}}>
+                      {activeUsers &&
                     Object.keys(activeUsers)
-                    .filter(thatUserId => userId !== thatUserId)
-                    .map(thatUserId => ({userId, ...activeUsers[thatUserId]}))
-                    .map((user, index) => {
-                      return (
-                        <Level key={index}>
-                          <Columns style={{alignItems: 'center'}}>
-                            <Column style={{maxWidth: '3rem', minWidth: '3rem'}} isSize={'1/3'}>
-                              <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
-                            </Column>
-                            <Column isSize={'2/3'}>
-                              <Content>
-                                {user.name}
-                              </Content>
-                            </Column>
-                          </Columns>
-                        </Level>
-                      );
-                    })
-                  }
+                      .filter(thatUserId => userId !== thatUserId)
+                      .map(thatUserId => ({userId, ...activeUsers[thatUserId]}))
+                      .map((user, index) => {
+                        return (
+                          <Level key={index}>
+                            <Columns style={{alignItems: 'center'}}>
+                              <Column style={{maxWidth: '3rem', minWidth: '3rem'}} isSize={'1/3'}>
+                                <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
+                              </Column>
+                              <Column isSize={'2/3'}>
+                                <Content>
+                                  {user.name}
+                                </Content>
+                              </Column>
+                            </Columns>
+                          </Level>
+                        );
+                      })
+                    }
+                    </div>
                   </div>
 
                   <Level />
@@ -713,6 +717,8 @@ class HomeViewLayout extends Component {
           onChange={setUserInfoTemp}
           onClose={() => setIdentificationModalSwitch(false)}
           onSubmit={onSubmitUserInfo} />
+
+        <ReactTooltip id="tooltip" />
 
       </section>
     );

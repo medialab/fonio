@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ReactTooltip from 'react-tooltip';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -73,8 +72,9 @@ const SectionMiniCard = ({
           <Columns>
             <Column isOffset={2} isSize={10}>
               <Button
-                data-for="card-action"
                 data-tip={translate('drag to change section order')}
+                data-effect="solid"
+                data-place="left"
                 style={{cursor: 'pointer', pointerEvents: 'none'}}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.move.black.svg} />
@@ -83,7 +83,8 @@ const SectionMiniCard = ({
               <Button
                 onClick={onOpenSettings}
                 isDisabled={section.lockStatus !== 'active'}
-                data-for="card-action"
+                data-effect="solid"
+                data-place="left"
                 data-tip={translate('section settings')}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.settings.black.svg} />
@@ -92,7 +93,8 @@ const SectionMiniCard = ({
               <Button
                 onClick={onDeleteSection}
                 isDisabled={section.lockStatus === 'locked' || section.lockStatus === 'active'}
-                data-for="card-action"
+                data-effect="solid"
+                data-place="left"
                 data-tip={translate('delete this section')}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.remove.black.svg} />
@@ -100,10 +102,6 @@ const SectionMiniCard = ({
               </Button>
 
             </Column>
-            <ReactTooltip
-              place="right"
-              effect="solid"
-              id="card-action" />
           </Columns>
         </div>
       } />

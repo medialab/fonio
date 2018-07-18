@@ -30,3 +30,24 @@
     }
   }
 }
+
+.ReactVirtualized__Grid{
+  outline: none;
+}
+
+.__react_component_tooltip{
+  z-index: 10000!important;
+}
+
+// ::-webkit-scrollbar {
+//     width: .3rem;
+// }
+ 
+// ::-webkit-scrollbar-track {
+//     // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+// }
+ 
+// ::-webkit-scrollbar-thumb {
+//   background-color: #29B6F6;
+//   outline: 1px solid #29B6F6;
+// }

@@ -5,6 +5,7 @@ import {isEmpty} from 'lodash';
 
 import {arrayMove} from 'react-sortable-hoc';
 
+
 import {
   convertToRaw,
   EditorState,

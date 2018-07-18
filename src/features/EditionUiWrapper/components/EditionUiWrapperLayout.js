@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {get} from 'axios';
 
+import ReactTooltip from 'react-tooltip';
+
 import {
   Button,
   Navbar,
@@ -211,6 +213,7 @@ const EditionUiWrapperLayout = ({
         isActive={exportModalOpen}
         onClose={() => setExportModalOpen(false)}
         onChange={exportToFile} />
+      <ReactTooltip id="tooltip" />
     </StretchedLayoutContainer>
   );
 };

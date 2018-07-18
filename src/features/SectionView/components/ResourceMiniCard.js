@@ -4,8 +4,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import ReactTooltip from 'react-tooltip';
-
 import {DragSource} from 'react-dnd';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
@@ -222,20 +220,27 @@ class ResourceCard extends Component {
                 </Columns>
                 <Columns>
                   <Column isOffset={2} isSize={10}>
-                    <Button style={{pointerEvents: 'none'}} data-for="card-action">
+                    <Button
+                      style={{pointerEvents: 'none'}}
+                      data-place="left"
+                      data-effect="solid">
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.move.black.svg} />
                       </Icon>
                     </Button>
                     <Button
-                      onClick={onEdit} isDisabled={isActive || lockStatus === 'locked'} data-for="card-action"
+                      onClick={onEdit} isDisabled={isActive || lockStatus === 'locked'}
+                      data-place="left"
+                      data-effect="solid"
                       data-tip={translate('settings')}>
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.settings.black.svg} />
                       </Icon>
                     </Button>
                     <Button
-                      onClick={handleDelete} isDisabled={isActive || lockStatus === 'locked'} data-for="card-action"
+                      onClick={handleDelete} isDisabled={isActive || lockStatus === 'locked'}
+                      data-place="left"
+                      data-effect="solid"
                       data-tip={translate(`delete this ${type}`)}>
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.remove.black.svg} />
@@ -244,7 +249,9 @@ class ResourceCard extends Component {
                     {type === 'image' &&
                       <Button
                         onClick={onSetCoverImage}
-                        data-for="card-action" data-tip={translate('use as cover image')}>
+                        data-place="left"
+                        data-effect="solid"
+                        data-tip={translate('use as cover image')}>
                         <Icon isSize="small" isAlign="left">
                           <img src={icons.cover.black.svg} />
                         </Icon>
@@ -252,10 +259,7 @@ class ResourceCard extends Component {
                     }
                   </Column>
                 </Columns>
-                <ReactTooltip
-                  place="right"
-                  effect="solid"
-                  id="card-action" />
+
               </div>
                 } />
         </div>
