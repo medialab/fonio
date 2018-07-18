@@ -253,51 +253,99 @@ const SectionViewLayout = ({
       userId,
       resourceId: resource.id
     };
-    const relatedContextualizationsIds = Object.keys(story.contextualizations).map(c => story.contextualizations[c])
-      .filter(contextualization => {
-        return contextualization.resourceId === promptedToDeleteResourceId;
-      }).map(c => c.id);
+    const relatedContextualizations = Object.keys(story.contextualizations).map(c => story.contextualizations[c])
+        .filter(contextualization => {
+          return contextualization.resourceId === promptedToDeleteResourceId;
+        });
+
+    const relatedContextualizationsIds = relatedContextualizations.map(c => c.id);
+    const relatedContextualizationsSectionIds = relatedContextualizations.map(c => c.sectionId);
 
     const changedContentStates = {};
     if (relatedContextualizationsIds.length) {
-      Object.keys(story.sections).forEach(key => {
+      relatedContextualizationsSectionIds.forEach(key => {
         const thatSection = story.sections[key];
+        if (!thatSection) return;
         let sectionChanged;
-        const sectionContents = editorStates[thatSection.id] ? {...convertToRaw(editorStates[thatSection.id].getCurrentContent())} : thatSection.contents;
+        let newSection;
+        // resource is cited in this section view
+        if (Object.keys(editorStates).indexOf(key) !== -1) {
+          const sectionContents = editorStates[thatSection.id] ? {...convertToRaw(editorStates[thatSection.id].getCurrentContent())} : thatSection.contents;
 
-        const notesContents = Object.keys(thatSection.notes).reduce((res, noteId) => ({
-          ...res,
-          [noteId]: editorStates[noteId] ? convertToRaw(editorStates[noteId].getCurrentContent()) : thatSection.notes[noteId].contents
-        }), {});
+          const notesContents = Object.keys(thatSection.notes).reduce((res, noteId) => ({
+            ...res,
+            [noteId]: editorStates[noteId] ? convertToRaw(editorStates[noteId].getCurrentContent()) : thatSection.notes[noteId].contents
+          }), {});
 
-        const newSection = {
-          ...thatSection,
-          contents: relatedContextualizationsIds.reduce((temp, contId) => {
-            const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
-            if (changed && !sectionChanged) {
-              sectionChanged = true;
-              changedContentStates[key] = result;
-            }
-            return result;
-          }, {...sectionContents}),
-          notes: Object.keys(thatSection.notes).reduce((temp1, noteId) => ({
-            ...temp1,
-            [noteId]: {
-              ...thatSection.notes[noteId],
-              contents: relatedContextualizationsIds.reduce((temp, contId) => {
-                const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
-                if (changed && !sectionChanged) {
-                  sectionChanged = true;
-                  changedContentStates[noteId] = result;
-                }
-                return result;
-              }, {...notesContents[noteId]})
-            }
-          }), {})
-        };
+          newSection = {
+            ...thatSection,
+            contents: relatedContextualizationsIds.reduce((temp, contId) => {
+              const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
+              if (changed && !sectionChanged) {
+                sectionChanged = true;
+                changedContentStates[key] = result;
+              }
+              return result;
+            }, {...sectionContents}),
+            notes: Object.keys(thatSection.notes).reduce((temp1, noteId) => ({
+              ...temp1,
+              [noteId]: {
+                ...thatSection.notes[noteId],
+                contents: relatedContextualizationsIds.reduce((temp, contId) => {
+                  const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
+                  if (changed && !sectionChanged) {
+                    sectionChanged = true;
+                    changedContentStates[noteId] = result;
+                  }
+                  return result;
+                }, {...notesContents[noteId]})
+              }
+            }), {})
+          };
+          // updating live editor states
+          const newEditorStates = Object.keys(editorStates || {})
+            .reduce((res, contentId) => ({
+              ...res,
+              [contentId]: changedContentStates[contentId] ?
+                EditorState.push(
+                  editorStates[contentId],
+                  convertFromRaw(changedContentStates[contentId]),
+                  'remove-entity'
+                )
+                 :
+                editorStates[contentId]
+            }), {});
+          updateDraftEditorsStates(newEditorStates);
+        }
+        // resource is cited in other sections
+        else {
+          newSection = {
+            ...thatSection,
+            contents: relatedContextualizationsIds.reduce((temp, contId) => {
+              const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
+              if (changed && !sectionChanged) {
+                sectionChanged = true;
+              }
+              return result;
+            }, thatSection.contents),
+            notes: Object.keys(thatSection.notes).reduce((temp1, noteId) => ({
+              ...temp1,
+              [noteId]: {
+                ...thatSection.notes[noteId],
+                contents: relatedContextualizationsIds.reduce((temp, contId) => {
+                  const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
+                  if (changed && !sectionChanged) {
+                    sectionChanged = true;
+                  }
+                  return result;
+                }, thatSection.notes[noteId].contents)
+              }
+            }), {})
+          };
+        }
         if (sectionChanged) {
           updateSection({
-            sectionId: section.id,
+            sectionId: thatSection.id,
             storyId: story.id,
             userId,
             section: newSection,
@@ -305,20 +353,7 @@ const SectionViewLayout = ({
         }
       });
     }
-    // updating live editor states
-    const newEditorStates = Object.keys(editorStates || {})
-      .reduce((res, contentId) => ({
-        ...res,
-        [contentId]: changedContentStates[contentId] ?
-          EditorState.push(
-            editorStates[contentId],
-            convertFromRaw(changedContentStates[contentId]),
-            'remove-entity'
-          )
-           :
-          editorStates[contentId]
-      }), {});
-    updateDraftEditorsStates(newEditorStates);
+
     if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
       deleteUploadedResource(payload);
     }
