@@ -106,14 +106,15 @@ class ErrorMessageContainer extends Component {
     const {
       props: {
         children,
-        needsReload
+        needsReload,
+        connectError
       },
       context: {t}
     } = this;
     const translate = translateNameSpacer(t, 'Features.ErrorMessageContainer');
     return (
       <div>
-        {children}
+        {!connectError && children}
         <ModalCard
           isActive={needsReload}
           headerContent={translate('Something went wrong')}
@@ -124,6 +125,19 @@ class ErrorMessageContainer extends Component {
               </p>
               <p>
                 {translate('Would you be kind enough to report what happened before this screen')}<a target="blank" href="https://github.com/medialab/fonio/issues/new?title=I+have+got+save+story+fail+modal">{translate('in this page')}</a> ?
+              </p>
+            </div>
+          } />
+        <ModalCard
+          isActive={connectError}
+          headerContent={translate('Fonio - Something is wrong')}
+          mainContent={
+            <div>
+              <p>
+                {translate('You cannot connect to your classroom server.')}
+              </p>
+              <p>
+                {translate('Please check your internet connection or contact your teacher')}.
               </p>
             </div>
           } />

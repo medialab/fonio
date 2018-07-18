@@ -13,6 +13,9 @@ import {ACTIVATE_STORY, UPLOAD_RESOURCE, DELETE_UPLOADED_RESOURCE, DELETE_SECTIO
 
 export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 
+export const CONNECT_ERROR = 'CONNECT_ERROR';
+export const RECONNECT = 'RECONNECT';
+
 const CLEAR_ERROR_MESSAGES = 'CLEAR_ERROR_MESSAGES';
 
 export const setErrorMessage = payload => ({
@@ -27,7 +30,8 @@ export const clearErrorMessages = () => ({
 const FAIL_DEFAULT_STATE = {
   requestFail: undefined,
   lastLockFail: undefined,
-  needsReload: false
+  needsReload: false,
+  connectError: false
 };
 const fails = (state = FAIL_DEFAULT_STATE, action) => {
   const {payload} = action;
@@ -35,6 +39,16 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
   switch (action.type) {
     case CLEAR_ERROR_MESSAGES:
       return FAIL_DEFAULT_STATE;
+    case CONNECT_ERROR:
+      return {
+        ...state,
+        connectError: true
+      };
+    case RECONNECT:
+      return {
+        ...state,
+        connectError: false
+      }
     /**
      * Errors and failures management
      */
@@ -98,6 +112,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
 const requestFail = state => state.fails.requestFail;
 const lastLockFail = state => state.fails.lastLockFail;
 const needsReload = state => state.fails.needsReload;
+const connectError = state => state.fails.connectError;
 
 export default combineReducers({
   fails,
@@ -107,5 +122,6 @@ export const selector = createStructuredSelector({
   requestFail,
   lastLockFail,
   needsReload,
+  connectError,
 });
 
