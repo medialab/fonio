@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-19\n"
-"PO-Revision-Date: Thu Jul 19 2018 18:39:35 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jul 19 2018 19:08:24 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4268,14 +4268,62 @@ msgstr ""
 msgid "Features.ErrorMessageContainer.Come back to classroom home"
 msgstr "Come back to classroom home"
 
+msgid "Features.SectionView.Saving..."
+msgstr "Sauvegarder..."
+
+msgid "Features.SectionView.Shortcuts help"
+msgstr "Shortcuts help"
+
+msgid "Features.SectionView.Shortcut"
+msgstr "Shortcut"
+
+msgid "Features.SectionView.Effect"
+msgstr "Effect"
+
+msgid "Features.SectionView.Open item citation widget"
+msgstr "Open item citation widget"
+
+msgid "Features.SectionView.Add a new note"
+msgstr "Add a new note"
+
+msgid "Features.SectionView."
+msgstr "\"**\" then content then \"**\""
+
+msgid "Features.SectionView.Add a title"
+msgstr "Add a title"
+
+msgid "Features.SectionView.Add a citation block"
+msgstr "Add a citation block"
+
+msgid "Features.SectionView.Write italic text"
+msgstr "Write italic text"
+
+msgid "Features.SectionView.Begin a list"
+msgstr "Begin a list"
+
+msgid "Features.SectionView.Write bold text"
+msgstr "Write bold text"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  \"{s}\" ?"
 
-msgid "Features.SectionView.Saving..."
-msgstr "Sauvegarder..."
-
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} travaille sur la section \"{t}\""
+
+msgid "Features.SectionView."#" then space"
+msgstr "\"#\" then space"
+
+msgid "Features.SectionView.">" then space"
+msgstr "\">\" then space"
+
+msgid "Features.SectionView."*" then content then "*""
+msgstr "\"*\" then content then \"*\""
+
+msgid "Features.SectionView."*" then space"
+msgstr "\"*\" then space"
+
+msgid "Features.SectionView."**" then content then "**""
+msgstr "\"**\" then content then \"**\""

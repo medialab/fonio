@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {v4 as genId} from 'uuid';
 import {isEmpty} from 'lodash';
@@ -15,7 +16,10 @@ import {
 import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
+  ModalCard,
 } from 'quinoa-design-library/components/';
+
+import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 
 import {
@@ -61,6 +65,7 @@ const SectionViewLayout = ({
   editorFocus,
   assetRequestState,
   draggedResourceId,
+  shortcutsHelpVisible,
 
   story,
   section,
@@ -112,6 +117,7 @@ const SectionViewLayout = ({
     deleteUploadedResource,
 
     setAssetRequestContentId,
+    setShortcutsHelpVisible,
 
     setNewResourceType,
     setEmbedResourceAfterCreation,
@@ -120,7 +126,9 @@ const SectionViewLayout = ({
   summonAsset,
   submitMultiResources,
   embedLastResource,
-}) => {
+}, {t}) => {
+
+  const translate = translateNameSpacer(t, 'Features.SectionView');
 
   const {id: storyId, resources, contextualizations} = story;
   const {id: sectionId} = section;
@@ -507,6 +515,7 @@ const SectionViewLayout = ({
             editorFocus={editorFocus}
             assetRequestState={assetRequestState}
             draggedResourceId={draggedResourceId}
+            setShortcutsHelpVisible={setShortcutsHelpVisible}
 
             newResourceMode={newResourceMode}
 
@@ -574,8 +583,63 @@ const SectionViewLayout = ({
             onClose={() => setPromptedToDeleteResourceId(undefined)}
             onDeleteConfirm={onDeleteResourceConfirm} />
         }
+      <ModalCard
+        isActive={shortcutsHelpVisible}
+        headerContent={translate('Shortcuts help')}
+        onClose={() => setShortcutsHelpVisible(false)}
+        style={{
+          maxHeight: '80%'
+        }}
+        mainContent={<div>
+          <p>
+            {t('All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)')}
+          </p>
+          <table className="table">
+            <thead>
+            <tr>
+              <th>{translate('Shortcut')}</th>
+              <th>{translate('Effect')}</th> 
+            </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th><code>cmd+@</code></th>
+                <th>{translate('Open item citation widget')}</th> 
+              </tr>
+              <tr>
+                <th><code>cmd+m</code></th>
+                <th>{translate('Add a new note')}</th> 
+              </tr>
+              <tr>
+                <th><code>{translate('"#" then space')}</code></th>
+                <th>{translate('Add a title')}</th> 
+              </tr>
+              <tr>
+                <th><code>{translate('">" then space')}</code></th>
+                <th>{translate('Add a citation block')}</th> 
+              </tr>
+              <tr>
+                <th><code>{translate('"*" then content then "*"')}</code></th>
+                <th>{translate('Write italic text')}</th> 
+              </tr>
+              <tr>
+                <th><code>{translate('"*" then space')}</code></th>
+                <th>{translate('Begin a list')}</th> 
+              </tr>
+              <tr>
+                <th><code>{translate('"**" then content then "**"')}</code></th>
+                <th>{translate('Write bold text')}</th> 
+              </tr>
+            </tbody>
+          </table>
+        </div>}
+      />
     </StretchedLayoutContainer>
   );
 };
+
+SectionViewLayout.contextTypes = {
+  t: PropTypes.func,
+}
 
 export default SectionViewLayout;

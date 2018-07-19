@@ -13,6 +13,7 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {
   Button,
   Column,
+  Columns,
   Delete,
   DropZone,
   Tab,
@@ -50,6 +51,7 @@ const MainSectionColumn = ({
   updateSection,
 
   setMainColumnMode,
+  setShortcutsHelpVisible,
   onNewSectionSubmit,
 
 
@@ -426,8 +428,17 @@ const MainSectionColumn = ({
               </StretchedLayoutItem>
               <StretchedLayoutItem className="editor-footer">
                 <Column
-                  style={{textAlign: 'right'}} isSize={editorWidth}
-                  isOffset={editorX}><i>{storyIsSaved ? translate('All changes saved') : translate('Saving...')}</i></Column>
+                   isSize={editorWidth}
+                  isOffset={editorX}>
+                  <Columns>
+                    <Column isSize="6">
+                      <a onClick={() => setShortcutsHelpVisible(true)}>{t('shortcuts help')}</a>
+                    </Column>
+                    <Column style={{textAlign: 'right'}} isSize="6">
+                      <i>{storyIsSaved ? translate('All changes saved') : translate('Saving...')}</i>
+                    </Column>
+                  </Columns>
+                </Column>
               </StretchedLayoutItem>
             </StretchedLayoutContainer>
           </Column>

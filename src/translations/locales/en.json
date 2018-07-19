@@ -427,5 +427,20 @@
   "Features.SectionView.lower level of importance": "lower level of importance",
   "Features.ErrorMessageContainer.An error happened, sorry. It seems that the story you are trying to access is corrupted.": "",
   "Features.ErrorMessageContainer.Please contact your teachers so that a backup version of this story is reset.": "",
-  "Features.ErrorMessageContainer.Come back to classroom home": "Come back to classroom home"
+  "Features.ErrorMessageContainer.Come back to classroom home": "Come back to classroom home",
+  "Features.SectionView.Shortcuts help": "Shortcuts help",
+  "Features.SectionView.Shortcut": "Shortcut",
+  "Features.SectionView.Effect": "Effect",
+  "Features.SectionView.Open item citation widget": "Open item citation widget",
+  "Features.SectionView.Add a new note": "Add a new note",
+  "Features.SectionView.\"#\" then space": "\"#\" then space",
+  "Features.SectionView.Add a title": "Add a title",
+  "Features.SectionView.\">\" then space": "\">\" then space",
+  "Features.SectionView.Add a citation block": "Add a citation block",
+  "Features.SectionView.\"*\" then content then \"*\"": "\"*\" then content then \"*\"",
+  "Features.SectionView.Write italic text": "Write italic text",
+  "Features.SectionView.\"*\" then space": "\"*\" then space",
+  "Features.SectionView.Begin a list": "Begin a list",
+  "Features.SectionView.\"**\" then content then \"**\"": "\"**\" then content then \"**\"",
+  "Features.SectionView.Write bold text": "Write bold text"
 }
