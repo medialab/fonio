@@ -51,3 +51,50 @@
 //   background-color: #29B6F6;
 //   outline: 1px solid #29B6F6;
 // }
+
+@media print
+{
+  .navbar,
+  .aside-edition-container,
+  .button,
+  .editor-footer,
+  .icon,
+  .modal,
+  .nav
+  {
+    display: none!important;
+  }
+  div,
+  section{
+    padding: 0!important;
+    margin: 0!important;
+    overflow: visible!important;
+    background: white!important;
+    position: relative!important;
+    left: unset!important;
+    top: unset!important;
+    width: unset!important;
+    height: unset!important;
+    display: block!important;
+  }
+  *{
+    font-size: unset!important;
+  }
+  .stretched-layout-container{
+    flex-direction: column!important;
+  }
+  .card{
+    width: unset!important;
+    border: none!important;
+    box-shadow: none!important;
+  }
+  p,
+  li,
+  blockquote,
+  div.public-DraftStyleDefault-block
+  {
+    font-size: 10px!important;
+    line-height: 15px!important;
+    margin-bottom: 15px!important;
+  }
+}
