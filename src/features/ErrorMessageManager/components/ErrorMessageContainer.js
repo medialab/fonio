@@ -41,8 +41,7 @@ class ErrorMessageContainer extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     const translate = translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer');
-    if (nextProps.requestFail !== this.props.requestFail)
-      toastr.error(nextProps.requestFail);
+
 
     if (this.props.lastLockFail !== nextProps.lastLockFail) {
 
@@ -95,6 +94,9 @@ class ErrorMessageContainer extends Component {
           toastr.error(title, message);
         }
       }
+    }
+ else if (nextProps.requestFail !== this.props.requestFail || nextProps.lastErrorTime !== this.props.lastErrorTime) {
+      toastr.error(nextProps.requestFail);
     }
   }
 

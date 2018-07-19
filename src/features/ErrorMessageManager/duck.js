@@ -66,7 +66,8 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
       return {
         ...state,
         requestFail: payload.type,
-        needsReload
+        needsReload,
+        lastErrorTime: new Date().getTime()
       };
     case 'SAVE_STORY_FAIL':
       needsReload = true; /* eslint no-fallthrough : 0 */
@@ -86,7 +87,8 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
         ...state,
         requestFail: action.type,
         needsReload,
-        lastError: action.payload
+        lastError: action.payload,
+        lastErrorTime: new Date().getTime()
       };
 
     case `${ENTER_BLOCK}_FAIL`:
@@ -96,6 +98,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
           ...payload,
           mode: 'enter',
         },
+        lastErrorTime: new Date().getTime()
       };
     case `${DELETE_RESOURCE}_FAIL`:
       return {
@@ -114,6 +117,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
           mode: 'delete',
           blockType: 'sections'
         },
+        lastErrorTime: new Date().getTime()
       };
     default:
       return state;
@@ -125,6 +129,7 @@ const lastLockFail = state => state.fails.lastLockFail;
 const needsReload = state => state.fails.needsReload;
 const connectError = state => state.fails.connectError;
 const lastError = state => state.fails.lastError;
+const lastErrorTime = state => state.fails.lastErrorTime;
 
 export default combineReducers({
   fails,
@@ -136,5 +141,6 @@ export const selector = createStructuredSelector({
   needsReload,
   connectError,
   lastError,
+  lastErrorTime
 });
 
