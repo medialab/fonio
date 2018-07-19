@@ -367,6 +367,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
   const {result, payload} = action;
   let contextualizers;
   let contextualizations;
+  let createdAt;
   switch (action.type) {
     case LEAVE_STORY:
       return {
@@ -463,6 +464,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
               [payload.sectionId]: {
                 ...payload.section,
                 lastUpdateAt: payload.lastUpdateAt,
+                createdAt: payload.lastUpdateAt,
               }
             },
             sectionsOrder: [
@@ -519,6 +521,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
      * STORY RESOURCES
      */
     case `${CREATE_RESOURCE}`:
+      createdAt = payload.lastUpdateAt; /* eslint no-fallthrough : 0 */
     case `${CREATE_RESOURCE}_BROADCAST`:
     case `${UPDATE_RESOURCE}`:
     case `${UPDATE_RESOURCE}_BROADCAST`:
@@ -534,6 +537,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
               [payload.resourceId]: {
                 ...payload.resource,
                 lastUpdateAt: payload.lastUpdateAt,
+                createdAt: createdAt ? createdAt : state.story.reosurces[payload.resourceId].createdAt
               }
             },
             lastUpdateAt: payload.lastUpdateAt,
@@ -654,10 +658,10 @@ function story(state = STORY_DEFAULT_STATE, action) {
      * CONTEXTUALIZER RELATED
      */
     // contextualizers CUD
-    case UPDATE_CONTEXTUALIZER:
-    case `${UPDATE_CONTEXTUALIZER}_BROADCAST`:
     case CREATE_CONTEXTUALIZER:
     case `${CREATE_CONTEXTUALIZER}_BROADCAST`:
+    case UPDATE_CONTEXTUALIZER:
+    case `${UPDATE_CONTEXTUALIZER}_BROADCAST`:
       if (!state.story) {
         return state;
       }
