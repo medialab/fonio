@@ -26,7 +26,7 @@ import {validateResource, createDefaultResource} from './schemaUtils';
 import {loadImage, inferMetadata, parseBibTeXToCSLJSON} from './assetsUtils';
 import {getFileAsText} from './fileLoader';
 
-const {restUrl} = config;
+const {restUrl, maxFileSize, maxBatchSize} = config;
 
 /**
  * Returns from server a list of all csl citation styles available in a light form
@@ -86,6 +86,20 @@ export const searchResources = (items, string) => {
   const fuse = new Fuse(items, options);
   return fuse.search(string);
 };
+/**
+ * resource files size validation
+ */
+export const validateFiles = (files) => {
+  const batchSize = files.map(file => file.size).reduce((fileA, fileB) => {
+    return fileA + fileB;
+  }, 0);
+  let validFiles = [];
+  if (batchSize < maxBatchSize) {
+    validFiles = files.filter(file => file.size < maxFileSize);
+  }
+  return validFiles;
+};
+
 
 /**
  * Generate and submit bib resource

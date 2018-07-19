@@ -10,12 +10,14 @@ import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
 import * as errorMessageDuck from '../../ErrorMessageManager/duck';
 
-import {createResourceData} from '../../../helpers/resourcesUtils';
+import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils';
 
 import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
 import DataUrlProvider from '../../../components/DataUrlProvider';
 
 import config from '../../../config';
+
+const {maxBatchNumber} = config;
 
 @connect(
   state => ({
@@ -83,8 +85,20 @@ class LibraryViewContainer extends Component {
     //     .catch(err => reject(err));
     // });
     const {setErrorMessage} = this.props.actions;
+    if (files.length > maxBatchNumber) {
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded, please upload below 50 files'});
+      return;
+    }
+    const validFiles = validateFiles(files);
+    if (validFiles.length === 0) {
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Files extends maximum size too upload, please upload below 50MB'});
+      return;
+    }
+    if (validFiles.length < files.length) {
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Some files larger than 4MB are not be uploaded'});
+    }
     const errors = [];
-    files.reduce((curr, next) => {
+    validFiles.reduce((curr, next) => {
       return curr.then(() =>
         createResourceData(next, this.props)
         .then((res) => {
