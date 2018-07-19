@@ -14,6 +14,7 @@ const SortableItem = SortableElement(({
   value: section,
   onOpenSettings,
   onDeleteSection,
+  setSectionLevel,
   storyId,
 }) => {
   const handleDelete = () => {
@@ -21,9 +22,10 @@ const SortableItem = SortableElement(({
   };
   return (
     <Level>
-      <Column>
+      <Column isSize={12 - section.metadata.level} isOffset={section.metadata.level} >
         <SectionMiniCard
           section={section}
+          setSectionLevel={setSectionLevel}
           storyId={storyId}
           onDeleteSection={handleDelete}
           onOpenSettings={onOpenSettings} />

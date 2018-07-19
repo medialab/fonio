@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-19\n"
-"PO-Revision-Date: Thu Jul 19 2018 16:53:57 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jul 19 2018 17:22:53 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4267,3 +4267,12 @@ msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  \"{s}\" ?"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} travaille sur la section \"{t}\""
+
+msgid "Features.ErrorMessageContainer.An error happened, sorry. It seems that the story you are trying to access is corrupted."
+msgstr ""
+
+msgid "Features.ErrorMessageContainer.Please contact your teachers so that a backup version of this story is reset."
+msgstr ""
+
+msgid "Features.ErrorMessageContainer.Come back to classroom home"
+msgstr "Come back to classroom home"

@@ -418,5 +418,10 @@
   "Features.LibraryView.Delete": "Delete",
   "Features.LibraryView.Cancel": "Cancel",
   "Component.SectionEditor.add an element from your library (shortcut : cmd + @)": "add an element from your library (shortcut : cmd + @)",
-  "Component.SectionEditor.add a footnote (shortcut : cmd + m)": "add a footnote (shortcut : cmd + m)"
+  "Component.SectionEditor.add a footnote (shortcut : cmd + m)": "add a footnote (shortcut : cmd + m)",
+  "Components.SectionCard.less important": "less important",
+  "Components.SectionCard.lower level": "lower level",
+  "Components.SectionCard.higher level": "higher level",
+  "Features.SectionView.higher level of importance": "higher level of importance",
+  "Features.SectionView.lower level of importance": "lower level of importance"
 }

@@ -46,6 +46,7 @@ const SummaryViewLayout = ({
   userId,
   newSectionOpen,
   promptedToDeleteSectionId,
+  isSorting,
 
   actions: {
     enterBlock,
@@ -53,10 +54,12 @@ const SummaryViewLayout = ({
     updateStoryMetadata,
     setNewSectionOpen,
     setPromptedToDeleteSectionId,
+    setIsSorting,
 
     createSection,
     deleteSection,
     updateSectionsOrder,
+    setSectionLevel,
   },
   goToSection
 }, {t}) => {
@@ -227,6 +230,16 @@ const SummaryViewLayout = ({
     //   userId,
     //   blockType: 'sectionsOrder',
     // });
+    setIsSorting(false);
+  };
+
+  const onSetSectionLevel = ({sectionId, level}) => {
+    setSectionLevel({
+      storyId,
+      sectionId,
+      level,
+      userId
+    });
   };
 
   return (
@@ -374,7 +387,10 @@ const SummaryViewLayout = ({
                   items={sectionsList}
                   onSortEnd={onSortEnd}
                   goToSection={goToSection}
+                  onSortStart={() => setIsSorting(true)}
+                  isSorting={isSorting}
                   onDelete={onDeleteSection}
+                  setSectionLevel={onSetSectionLevel}
                   useDragHandle
                   reverseSectionLockMap={reverseSectionLockMap} />
               </Column>

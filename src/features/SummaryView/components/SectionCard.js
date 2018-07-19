@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 
 import {SortableHandle} from 'react-sortable-hoc';
 
+import config from '../../../config';
+
 import {
   Card,
+  Icon,
 } from 'quinoa-design-library/components/';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
@@ -13,6 +16,8 @@ const SectionCard = ({
   section,
   goTo,
   lockData,
+  setSectionLevel,
+  // minified,
   onDelete
 }, {t}) => {
 
@@ -22,6 +27,12 @@ const SectionCard = ({
     switch (action) {
       case 'delete':
         onDelete(section.id);
+        break;
+      case 'higher':
+        setSectionLevel({sectionId: section.id, level: section.metadata.level - 1});
+        break;
+      case 'lower':
+        setSectionLevel({sectionId: section.id, level: section.metadata.level + 1});
         break;
       case 'edit':
       default:
@@ -43,6 +54,7 @@ const SectionCard = ({
     }
     return '';
   };
+
   return (
     <Card
       title={section.metadata.title}
@@ -78,6 +90,31 @@ const SectionCard = ({
         //   label: translate('duplicate'),
         //   id: 'duplicate'
         // }
+      ]}
+
+      footerActions={[
+        {
+          label: [
+            <Icon key={1} isSize="small" isAlign="left">
+              <span className="fa fa-chevron-left" aria-hidden="true" />
+            </Icon>,
+              translate('higher level')
+            ],
+          isDisabled: section.metadata.level === 0,
+          isColor: 'info',
+          id: 'higher'
+        },
+        {
+          label: [
+            translate('lower level'),
+            <Icon key={1} isSize="small" isAlign="right">
+              <span className="fa fa-chevron-right" aria-hidden="true" />
+            </Icon>
+           ],
+          isDisabled: section.metadata.level >= config.maxSectionLevel - 1,
+          isColor: 'info',
+          id: 'lower'
+        }
       ]} />
   );
 };

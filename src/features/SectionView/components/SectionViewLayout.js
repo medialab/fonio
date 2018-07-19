@@ -98,6 +98,7 @@ const SectionViewLayout = ({
     createResource,
     uploadResource,
     setCoverImage,
+    setSectionLevel,
 
     updateDraftEditorState,
     updateDraftEditorsStates,
@@ -439,6 +440,15 @@ const SectionViewLayout = ({
     }
   };
 
+  const onSetSectionLevel = ({sectionId: thatSectionId, level}) => {
+    setSectionLevel({
+      storyId,
+      sectionId: thatSectionId,
+      level,
+      userId
+    });
+  };
+
   return (
     <StretchedLayoutContainer isAbsolute isFluid isDirection="horizontal">
       <StretchedLayoutItem className={`aside-edition-container ${asideTabCollapsed ? 'is-collapsed' : ''} is-hidden-mobile`} isFlex={1}>
@@ -465,6 +475,7 @@ const SectionViewLayout = ({
           setResourceFilterValues={setResourceFilterValues}
           resourceSortValue={resourceSortValue}
           setResourceSortValue={setResourceSortValue}
+          setSectionLevel={onSetSectionLevel}
 
           onDeleteResource={onDeleteResource}
           submitMultiResources={submitMultiResources}

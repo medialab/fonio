@@ -40,6 +40,7 @@ export const UPDATE_SECTIONS_ORDER = 'UPDATE_SECTIONS_ORDER';
 export const CREATE_SECTION = 'CREATE_SECTION';
 export const UPDATE_SECTION = 'UPDATE_SECTION';
 export const DELETE_SECTION = 'DELETE_SECTION';
+export const SET_SECTION_LEVEL = 'SET_SECTION_LEVEL';
 /**
  * resources CRUD
  */
@@ -133,6 +134,16 @@ export const updateStory = (TYPE, payload, callback) => {
         properties: {
           ...DEFAULT_PAYLOAD_SCHEMA.properties,
           sectionsOrder: storySchema.properties.sectionsOrder,
+        }
+      };
+      break;
+    case SET_SECTION_LEVEL:
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          sectionId: sectionSchema.properties.id,
+          level: storySchema.definitions.metadata.properties.level,
         }
       };
       break;
@@ -291,6 +302,7 @@ export const updateSectionsOrder = payload => updateStory(UPDATE_SECTIONS_ORDER,
 export const createSection = payload => updateStory(CREATE_SECTION, payload);
 export const updateSection = payload => updateStory(UPDATE_SECTION, payload);
 export const deleteSection = (payload, callback) => updateStory(DELETE_SECTION, payload, callback);
+export const setSectionLevel = (payload, callback) => updateStory(SET_SECTION_LEVEL, payload, callback);
 
 export const createResource = payload => updateStory(CREATE_RESOURCE, payload);
 export const updateResource = payload => updateStory(UPDATE_RESOURCE, payload);
@@ -487,6 +499,30 @@ function story(state = STORY_DEFAULT_STATE, action) {
               ...state.story.sections,
               [payload.sectionId]: {
                 ...payload.section,
+                lastUpdateAt: payload.lastUpdateAt,
+              }
+            },
+            lastUpdateAt: payload.lastUpdateAt,
+          }
+      };
+    case `${SET_SECTION_LEVEL}`:
+    case `${SET_SECTION_LEVEL}_SUCCESS`:
+    case `${SET_SECTION_LEVEL}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
+      return {
+          ...state,
+          story: {
+            ...state.story,
+            sections: {
+              ...state.story.sections,
+              [payload.sectionId]: {
+                ...state.story.sections[payload.sectionId],
+                metadata: {
+                  ...state.story.sections[payload.sectionId].metadata,
+                  level: payload.level
+                },
                 lastUpdateAt: payload.lastUpdateAt,
               }
             },

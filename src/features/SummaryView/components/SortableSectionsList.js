@@ -13,24 +13,30 @@ const SortableItem = SortableElement(({
   value: section,
   goToSection,
   onDelete,
-  reverseSectionLockMap = {}
-}) =>
-  (
-    <Level>
-      <Column>
-        <SectionCard
-          section={section}
-          goTo={goToSection}
-          onDelete={onDelete}
-          lockData={reverseSectionLockMap[section.id]} />
-      </Column>
-    </Level>
-  )
+  setSectionLevel,
+  reverseSectionLockMap = {},
+  isSorting,
+}) => {
+    return (
+      <Level>
+        <Column isSize={12 - section.metadata.level} isOffset={section.metadata.level}>
+          <SectionCard
+            section={section}
+            minified={isSorting}
+            goTo={goToSection}
+            onDelete={onDelete}
+            setSectionLevel={setSectionLevel}
+            lockData={reverseSectionLockMap[section.id]} />
+        </Column>
+      </Level>
+    );
+  }
 );
 
 
 const SortableSectionsList = SortableContainer(({
-  items, ...props
+  items,
+  ...props
 }) => {
   return (
     <ul>

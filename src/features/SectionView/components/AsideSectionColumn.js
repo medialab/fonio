@@ -80,11 +80,14 @@ class AsideSectionColumn extends Component {
     } = nextProps;
     const prevSectionsLocks = this.props.sections.map(s => s.lockStatus).join('-');
     const nextSectionsLocks = nextProps.sections.map(s => s.lockStatus).join('-');
+    const prevSectionsLevels = this.props.sections.map(s => s.metadata.level).join('-');
+    const nextSectionsLevels = nextProps.sections.map(s => s.metadata.level).join('-');
     return (
       changingProps.find(propName => this.props[propName] !== nextProps[propName]) !== undefined
       || prevResources !== nextResources
       || prevSectionsOrder !== nextSectionsOrder
       || prevSectionsLocks !== nextSectionsLocks
+      || prevSectionsLevels !== nextSectionsLevels
       || this.state.searchString !== nextState.searchString
     );
   }
@@ -119,6 +122,7 @@ class AsideSectionColumn extends Component {
       setAsideTabMode,
       setResourceOptionsVisible,
       setMainColumnMode,
+      setSectionLevel,
 
       visibleResources,
       // resourceSearchString,
@@ -270,6 +274,7 @@ class AsideSectionColumn extends Component {
                     onSortEnd={onSortEnd}
                     onOpenSettings={thatSection => onOpenSectionSettings(thatSection.id)}
                     onDeleteSection={onDeleteSection}
+                    setSectionLevel={setSectionLevel}
                     pressDelay={150} />
                 </Column>
               </StretchedLayoutItem>
