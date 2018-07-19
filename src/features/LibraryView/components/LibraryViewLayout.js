@@ -184,9 +184,9 @@ class LibraryViewLayout extends Component {
           case 'unlocked':
             return !resourcesLockMap[resource.id];
           case 'unused':
-            return Object.keys(story.contextualizations)
-              .filter(contextualizationId => story.contextualizations[contextualizationId].resourceId === resource.id)
-              .length > 0;
+            const citedResources = Object.keys(story.contextualizations)
+              .map(contextualizationId => story.contextualizations[contextualizationId].resourceId);
+            return citedResources.indexOf(resource.id) === -1;
           case 'all':
           default:
             return true;

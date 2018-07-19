@@ -522,3 +522,60 @@ export const deleteContextualizationFromId = ({
       });
       return {result, changed};
     };
+
+export const cleanUncitedNotes = (section) => {
+  const {notesOrder, notes} = section;
+  const newNotes = {...notes};
+  Object.keys(newNotes).forEach((noteId) => {
+    if (notesOrder.indexOf(noteId) === -1) {
+      delete newNotes[noteId];
+    }
+  });
+  return newNotes;
+};
+export const deleteUncitedContext = (sectionId, props) => {
+  const {
+    editedStory,
+    userId,
+    actions: {
+      deleteContextualizer,
+      deleteContextualization,
+      updateSection
+    }
+  } = props;
+
+  const {id: storyId} = editedStory;
+  const cleanedSection = {
+    ...editedStory.sections[sectionId],
+    notes: cleanUncitedNotes(editedStory.sections[sectionId])
+  };
+  updateSection({storyId, sectionId, section: cleanedSection, userId});
+
+  const citedContextualizationIds = Object.keys(cleanedSection.notes).reduce((contents, noteId) => [
+    ...contents,
+    editedStory.sections[sectionId].notes[noteId].contents,
+  ], [editedStory.sections[sectionId].contents])
+  .reduce((entities, contents) =>
+    [
+      ...entities,
+      ...Object.keys(contents && contents.entityMap || {}).reduce((localEntities, entityId) => {
+        const entity = contents.entityMap[entityId];
+        const isContextualization = entity.type === 'INLINE_ASSET' || entity.type === 'BLOCK_ASSET';
+        if (isContextualization) {
+          return [...localEntities, entity.data.asset.id];
+        }
+        return localEntities;
+      }, [])
+    ],
+  []);
+  const uncitedContextualizations = Object.keys(editedStory.contextualizations)
+                                        .map(id => editedStory.contextualizations[id])
+                                        .filter((contextualization) => {
+                                          return contextualization.sectionId === sectionId && citedContextualizationIds.indexOf(contextualization.id) === -1;
+                                        });
+  uncitedContextualizations.forEach((contextualization) => {
+    const {contextualizerId, id: contextualizationId} = contextualization;
+    deleteContextualization({storyId, contextualizationId, userId});
+    deleteContextualizer({storyId, contextualizerId, userId});
+  });
+};
