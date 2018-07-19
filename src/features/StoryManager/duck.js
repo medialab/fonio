@@ -573,7 +573,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
               [payload.resourceId]: {
                 ...payload.resource,
                 lastUpdateAt: payload.lastUpdateAt,
-                createdAt: createdAt ? createdAt : state.story.reosurces[payload.resourceId].createdAt
+                createdAt: createdAt ? createdAt : state.story.resources[payload.resourceId].createdAt
               }
             },
             lastUpdateAt: payload.lastUpdateAt,
