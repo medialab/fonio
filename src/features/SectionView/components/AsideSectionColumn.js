@@ -168,7 +168,7 @@ class AsideSectionColumn extends Component {
             }
           };
           return (
-            <StretchedLayoutContainer isFluid isAbsolute>
+            <StretchedLayoutContainer className="aside-section-column" isFluid isAbsolute>
               <StretchedLayoutItem>
                 <div>
                   <Column>

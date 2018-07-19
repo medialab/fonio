@@ -424,7 +424,7 @@ const MainSectionColumn = ({
 
                 </Column>
               </StretchedLayoutItem>
-              <StretchedLayoutItem>
+              <StretchedLayoutItem className="editor-footer">
                 <Column
                   style={{textAlign: 'right'}} isSize={editorWidth}
                   isOffset={editorX}><i>{storyIsSaved ? translate('All changes saved') : translate('Saving...')}</i></Column>
