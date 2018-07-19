@@ -45,6 +45,7 @@ const MainSectionColumn = ({
   draggedResourceId,
 
   newResourceType,
+  storyIsSaved,
 
   updateSection,
 
@@ -426,7 +427,7 @@ const MainSectionColumn = ({
               <StretchedLayoutItem>
                 <Column
                   style={{textAlign: 'right'}} isSize={editorWidth}
-                  isOffset={editorX}><i>{translate('All changes saved')}</i></Column>
+                  isOffset={editorX}><i>{storyIsSaved ? translate('All changes saved') : translate('Saving...')}</i></Column>
               </StretchedLayoutItem>
             </StretchedLayoutContainer>
           </Column>

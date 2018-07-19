@@ -67,6 +67,7 @@ const SectionViewLayout = ({
 
   embedResourceAfterCreation,
   newResourceType,
+  storyIsSaved,
   actions: {
     setAsideTabMode,
     setAsideTabCollapsed,
@@ -522,6 +523,7 @@ const SectionViewLayout = ({
             setNewResourceMode={setNewResourceMode}
 
             newResourceType={newResourceType}
+            storyIsSaved={storyIsSaved}
 
             createContextualization={createContextualization}
             createContextualizer={createContextualizer}

@@ -267,6 +267,7 @@
   "Features.SectionView.Edit section metadata": "Éditer les propriétés de la section",
   "Features.SectionView.Save changes": "Sauvegarder",
   "Features.SectionView.All changes saved": "Tous les changements sont sauvegardés.",
+  "Features.SectionView.Saving...": "Sauvegarder...",
   "Features.SectionView.Section content": "Contenus de la section",
   "Features.SectionView.Explanation about the section content": "Vous éditez le contenu de cette section. Rendez-vous dans la section design pour voir son rendu.",
   "Features.SectionView.edited by you": "édité par vous",
