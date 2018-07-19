@@ -757,7 +757,7 @@ export const handleCopy = function(event) {
             };
           });
         }
-        // past assets/contextualizations (attributing them a new id)
+        // paste assets/contextualizations (attributing them a new id)
         if (data.copiedContextualizations) {
           data.copiedContextualizations.forEach((contextualization, index) => {
             const contextualizationId = generateId();

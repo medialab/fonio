@@ -399,5 +399,11 @@
   "Features.ErrorMessageContainer.You cannot connect to your classroom server.": "",
   "Features.ErrorMessageContainer.Please check your internet connection or contact your teacher": "Please check your internet connection or contact your teacher",
   "Features.SectionViewContainer.Please wait...": "",
-  "Features.SectionViewContainer.copying content...": ""
+  "Features.SectionViewContainer.copying content...": "",
+  "Features.LibraryView.Select all": "Select all",
+  "Features.LibraryView.Deselect all": "Deselect all",
+  "Features.ErrorMessageContainer.Would you be kind enough to report what happened before this screen ": "Would you be kind enough to report what happened before this screen ",
+  "Components.PageNotFound.Fonio - page not found": "Fonio - page not found",
+  "Components.PageNotFound.No match for {u}, go back to ": "No match for {u}, go back to ",
+  "Components.PageNotFound.home page": "home page"
 }

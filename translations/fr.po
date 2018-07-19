@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-19\n"
-"PO-Revision-Date: Thu Jul 19 2018 10:02:42 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jul 19 2018 11:10:42 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4193,6 +4193,18 @@ msgstr "Select all"
 msgid "Features.LibraryView.Deselect all"
 msgstr "Deselect all"
 
+msgid "Features.ErrorMessageContainer.Would you be kind enough to report what happened before this screen "
+msgstr "Would you be kind enough to report what happened before this screen "
+
+msgid "Components.PageNotFound.Fonio - page not found"
+msgstr "Fonio - page not found"
+
+msgid "Components.PageNotFound.No match for {u}, go back to "
+msgstr "No match for {u}, go back to "
+
+msgid "Components.PageNotFound.home page"
+msgstr "home page"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
 
@@ -4201,6 +4213,3 @@ msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  \"{s}\" ?"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} travaille sur la section \"{t}\""
-
-msgid "Features.ErrorMessageContainer.Would you be kind enough to report what happened before this screen "
-msgstr "Would you be kind enough to report what happened before this screen "
