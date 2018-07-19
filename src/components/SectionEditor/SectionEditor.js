@@ -1078,6 +1078,8 @@ class SectionEditor extends Component {
           id="style-button"
           place="top"
           effect="solid" />
+        <ReactTooltip
+          id="icon-btn-tooltip" />
       </Content>
     );
   }

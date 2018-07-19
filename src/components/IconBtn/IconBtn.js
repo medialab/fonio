@@ -14,8 +14,15 @@ export default ({
   ...otherProps
 }) => (
   <Button
-    data-tip={dataTip} isColor={isColor} isRounded
-    onClick={onClick} {...otherProps}>
+    data-tip={dataTip}
+    data-for="icon-btn-tooltip"
+    data-effect="solid"
+    data-place="top"
+    isColor={isColor}
+    isRounded
+    onClick={onClick}
+    style={{overflow: 'visible'}}
+    {...otherProps}>
     <span style={{opacity: 0}}>o</span>
     <Image
       style={{
