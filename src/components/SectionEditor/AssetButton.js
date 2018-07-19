@@ -20,7 +20,7 @@ const AssetButton = ({
       isColor={active && 'warning'}
       onMouseDown={onMouseDown}
       onClick={onClick}
-      dataTip={translate('add an element from your library')}
+      dataTip={translate('add an element from your library (shortcut : cmd + @)')}
       src={icon || icons.asset.black.svg} />
   );
 };

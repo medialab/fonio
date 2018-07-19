@@ -18,7 +18,7 @@ const NoteButton = ({
       isColor={active && 'info'}
       onClick={onClick}
       onMouseDown={onMouseDown}
-      dataTip={translate('add a footnote')}
+      dataTip={translate('add a footnote (shortcut : cmd + m)')}
       src={icons.note.black.svg} />
   );
 };
