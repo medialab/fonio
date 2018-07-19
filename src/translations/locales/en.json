@@ -442,5 +442,13 @@
   "Features.SectionView.\"*\" then space": "\"*\" then space",
   "Features.SectionView.Begin a list": "Begin a list",
   "Features.SectionView.\"**\" then content then \"**\"": "\"**\" then content then \"**\"",
-  "Features.SectionView.Write bold text": "Write bold text"
+  "Features.SectionView.Write bold text": "Write bold text",
+  "Features.DesignView.What types of items to show in references": "What types of items to show in references",
+  "Features.DesignView.Choose item types": "Choose item types",
+  "Features.DesignView.What items to show in references": "What items to show in references",
+  "Features.DesignView.cited items only": "cited items only",
+  "Features.DesignView.all items": "all items",
+  "Features.SectionView.Where": "Where",
+  "Features.SectionView.Anywhere": "Anywhere",
+  "Features.SectionView.Begining of a paragraph": "Begining of a paragraph"
 }

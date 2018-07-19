@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import {templates} from 'quinoa-story-player';
 
+import resourceSchema from 'quinoa-schemas/resource';
+
 import {
   Button,
   // Box,
@@ -16,6 +18,7 @@ import {
   Dropdown,
   Field,
   Input,
+  Image,
   // Help,
   Label,
   Level,
@@ -29,7 +32,11 @@ import {
   // Title,
 } from 'quinoa-design-library/components/';
 
+import icons from 'quinoa-design-library/src/themes/millet/icons';
+
 import {translateNameSpacer} from '../../../helpers/translateUtils';
+
+const resourceTypes = Object.keys(resourceSchema.definitions);
 
 const AsideDesignColumn = ({
   designAsideTabCollapsed,
@@ -43,6 +50,9 @@ const AsideDesignColumn = ({
 
   onUpdateCss,
   onUpdateSettings,
+
+  referenceTypesVisible,
+  setReferenceTypesVisible,
 
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Features.DesignView');
@@ -60,6 +70,18 @@ const AsideDesignColumn = ({
         [key]: value
       }
     });
+  };
+
+  const updateReferenceTypes = type => {
+    const referenceTypes = options.referenceTypes || [];
+    let newReferenceTypes;
+    if (referenceTypes.indexOf(type) === -1) {
+      newReferenceTypes = [...referenceTypes, type];
+    }
+    else {
+      newReferenceTypes = referenceTypes.filter(thatType => thatType !== type);
+    }
+    onOptionChange('referenceTypes', newReferenceTypes);
   };
 
   const renderAsideContent = () => {
@@ -93,6 +115,46 @@ const AsideDesignColumn = ({
                       <Select onChange={e => onOptionChange('notesPosition', e.target.value)} value={options.notesPosition}>
                         <option >{translate('side notes')}</option>
                         <option>{translate('foot notes')}</option>
+                      </Select>
+                    </Control>
+                  </Field>
+                </form>
+              </Level>
+            }
+            {
+              templateOptions.indexOf('referenceTypes') > -1 &&
+              <Level>
+                <form>
+                  <Field>
+                    <Label>{translate('What types of items to show in references')}</Label>
+                    <Control>
+                      <Dropdown
+                        onToggle={() => setReferenceTypesVisible(!referenceTypesVisible)}
+                        isActive={referenceTypesVisible}
+                        closeOnChange={false}
+                        onChange={updateReferenceTypes}
+                        value={(story.settings.options && story.settings.options.referenceTypes) || ['bib']}
+                        options={resourceTypes.map(type => ({
+                                id: type,
+                                label: <span style={{display: 'flex', flexFlow: 'row nowrap', alignItems: 'center'}}><Image style={{display: 'inline-block', marginRight: '1em'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
+                              }))}>
+                        {translate('Choose item types')}
+                      </Dropdown>
+                    </Control>
+                  </Field>
+                </form>
+              </Level>
+            }
+            {
+              templateOptions.indexOf('referenceStatus') > -1 &&
+              <Level>
+                <form>
+                  <Field>
+                    <Label>{translate('What items to show in references')}</Label>
+                    <Control>
+                      <Select onChange={e => onOptionChange('referenceStatus', e.target.value)} value={options.referenceStatus}>
+                        <option value="cited">{translate('cited items only')}</option>
+                        <option value="all">{translate('all items')}</option>
                       </Select>
                     </Control>
                   </Field>

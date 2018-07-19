@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-19\n"
-"PO-Revision-Date: Thu Jul 19 2018 19:10:49 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jul 19 2018 22:40:03 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4303,6 +4303,30 @@ msgstr "Begin a list"
 
 msgid "Features.SectionView.Write bold text"
 msgstr "Write bold text"
+
+msgid "Features.DesignView.What types of items to show in references"
+msgstr "What types of items to show in references"
+
+msgid "Features.DesignView.Choose item types"
+msgstr "Choose item types"
+
+msgid "Features.DesignView.What items to show in references"
+msgstr "What items to show in references"
+
+msgid "Features.DesignView.cited items only"
+msgstr "cited items only"
+
+msgid "Features.DesignView.all items"
+msgstr "all items"
+
+msgid "Features.SectionView.Where"
+msgstr "Where"
+
+msgid "Features.SectionView.Anywhere"
+msgstr "Anywhere"
+
+msgid "Features.SectionView.Begining of a paragraph"
+msgstr "Begining of a paragraph"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Are you sure you want to delete the section \"{s}\" ? All its content will be lost without possible recovery."

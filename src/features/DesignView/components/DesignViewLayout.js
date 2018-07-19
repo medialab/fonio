@@ -11,9 +11,11 @@ const DesignViewLayout = ({
   designAsideTabMode,
   designAsideTabCollapsed,
   editedStory: story,
+  referenceTypesVisible,
   actions: {
     setDesignAsideTabMode,
     setDesignAsideTabCollapsed,
+    setReferenceTypesVisible,
   },
   onUpdateCss,
   onUpdateSettings,
@@ -29,6 +31,8 @@ const DesignViewLayout = ({
 
         setDesignAsideTabMode={setDesignAsideTabMode}
         setDesignAsideTabCollapsed={setDesignAsideTabCollapsed}
+        referenceTypesVisible={referenceTypesVisible}
+        setReferenceTypesVisible={setReferenceTypesVisible}
         onUpdateCss={onUpdateCss}
         onUpdateSettings={onUpdateSettings} />
 
