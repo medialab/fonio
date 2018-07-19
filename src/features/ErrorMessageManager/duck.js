@@ -7,9 +7,18 @@
 import {combineReducers} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
-import {LOGIN_STORY, ENTER_BLOCK} from '../ConnectionsManager/duck';
+import {
+  // LOGIN_STORY,
+  ENTER_BLOCK
+} from '../ConnectionsManager/duck';
 import {FETCH_STORIES, CREATE_STORY, OVERRIDE_STORY, IMPORT_STORY, DUPLICATE_STORY, DELETE_STORY, CHANGE_PASSWORD} from '../HomeView/duck';
-import {ACTIVATE_STORY, UPLOAD_RESOURCE, DELETE_UPLOADED_RESOURCE, DELETE_SECTION, DELETE_RESOURCE} from '../StoryManager/duck';
+import {
+  // ACTIVATE_STORY,
+  UPLOAD_RESOURCE,
+  DELETE_UPLOADED_RESOURCE,
+  DELETE_SECTION,
+  DELETE_RESOURCE
+} from '../StoryManager/duck';
 
 export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 
@@ -31,7 +40,8 @@ const FAIL_DEFAULT_STATE = {
   requestFail: undefined,
   lastLockFail: undefined,
   needsReload: false,
-  connectError: false
+  connectError: false,
+  lastError: undefined
 };
 const fails = (state = FAIL_DEFAULT_STATE, action) => {
   const {payload} = action;
@@ -66,16 +76,17 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
     case `${IMPORT_STORY}_FAIL`:
     case `${DUPLICATE_STORY}_FAIL`:
     case `${DELETE_STORY}_FAIL`:
-    case `${LOGIN_STORY}_FAIL`:
+    // case `${LOGIN_STORY}_FAIL`:
     case `${CHANGE_PASSWORD}_FAIL`:
-    case `${ACTIVATE_STORY}_FAIL`:
+    // case `${ACTIVATE_STORY}_FAIL`:
     case `${UPLOAD_RESOURCE}_FAIL`:
     case `${DELETE_UPLOADED_RESOURCE}_FAIL`:
       console.error(action);/* eslint no-console : 0 */
       return {
         ...state,
         requestFail: action.type,
-        needsReload
+        needsReload,
+        lastError: action.payload
       };
 
     case `${ENTER_BLOCK}_FAIL`:
@@ -113,6 +124,7 @@ const requestFail = state => state.fails.requestFail;
 const lastLockFail = state => state.fails.lastLockFail;
 const needsReload = state => state.fails.needsReload;
 const connectError = state => state.fails.connectError;
+const lastError = state => state.fails.lastError;
 
 export default combineReducers({
   fails,
@@ -123,5 +135,6 @@ export const selector = createStructuredSelector({
   lastLockFail,
   needsReload,
   connectError,
+  lastError,
 });
 

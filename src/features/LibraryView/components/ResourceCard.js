@@ -27,7 +27,9 @@ class ResourceCard extends Component {
         lockData,
         getTitle,
         onEdit,
-        onDelete
+        onDelete,
+        isActive,
+        onClick,
       },
       context: {t}
     } = this;
@@ -72,6 +74,8 @@ class ResourceCard extends Component {
           widescreen: 3,
         }}>
           <Card
+            isActive={isActive}
+            onClick={onClick}
             bodyContent={
               <div>
                 <Columns>

@@ -27,6 +27,7 @@ const SET_FILTER_VALUES = 'SET_FILTER_VALUES';
 const SET_SORT_VALUE = 'SET_SORT_VALUE';
 const SET_SEARCH_STRING = 'SET_SEARCH_STRING';
 const SET_PROMPTED_TO_DELETE_RESOURCE_ID = 'SET_PROMPTED_TO_DELETE_RESOURCE_ID';
+const SET_SELECTED_RESOURCES_IDS = 'SET_SELECTED_RESOURCES_IDS';
 
 /**
  * lock system
@@ -63,6 +64,10 @@ export const setPromptedToDeleteResourceId = payload => ({
   type: SET_PROMPTED_TO_DELETE_RESOURCE_ID,
   payload
 });
+export const setSelectedResourcesIds = payload => ({
+  type: SET_SELECTED_RESOURCES_IDS,
+  payload,
+});
 /**
  * ===================================================
  * REDUCERS
@@ -86,6 +91,7 @@ const UI_DEFAULT_STATE = {
   filterValues: defaultFilterValues,
   sortValue: 'title',
   promptedToDeleteResourceId: undefined,
+  selectedResourcesIds: []
 };
 
 /**
@@ -105,6 +111,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_FILTER_VALUES:
     case SET_SORT_VALUE:
     case SET_PROMPTED_TO_DELETE_RESOURCE_ID:
+    case SET_SELECTED_RESOURCES_IDS:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -148,6 +155,7 @@ const searchString = state => state.ui.searchString;
 const filterValues = state => state.ui.filterValues;
 const sortValue = state => state.ui.sortValue;
 const promptedToDeleteResourceId = state => state.ui.promptedToDeleteResourceId;
+const selectedResourcesIds = state => state.ui.selectedResourcesIds;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -160,4 +168,5 @@ export const selector = createStructuredSelector({
   filterValues,
   sortValue,
   promptedToDeleteResourceId,
+  selectedResourcesIds,
 });

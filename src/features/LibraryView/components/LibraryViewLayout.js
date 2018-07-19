@@ -27,6 +27,7 @@ import {
   Button,
 
   LevelLeft,
+  LevelRight,
   LevelItem,
   StretchedLayoutContainer,
   StretchedLayoutItem,
@@ -92,6 +93,7 @@ class LibraryViewLayout extends Component {
       sortValue,
       searchString,
       promptedToDeleteResourceId,
+      selectedResourcesIds,
       actions: {
         setOptionsVisible,
         setMainColumnMode,
@@ -109,6 +111,7 @@ class LibraryViewLayout extends Component {
         uploadResource,
         deleteUploadedResource,
         updateSection,
+        setSelectedResourcesIds,
       },
       submitMultiResources,
     } = this.props;
@@ -378,6 +381,22 @@ class LibraryViewLayout extends Component {
                         </Dropdown>
                       </LevelItem>
                     </LevelLeft>
+                    <LevelRight>
+                      <LevelItem>
+                        <Button
+                          onClick={() => setSelectedResourcesIds(visibleResources.map(res => res.id))}
+                          isDisabled={selectedResourcesIds.length === visibleResources.length}>
+                          {translate('Select all')}
+                        </Button>
+                      </LevelItem>
+                      <LevelItem>
+                        <Button
+                          onClick={() => setSelectedResourcesIds([])}
+                          isDisabled={selectedResourcesIds.length === 0}>
+                          {translate('Deselect all')}
+                        </Button>
+                      </LevelItem>
+                    </LevelRight>
                   </Level>
                 </Column>
               </StretchedLayoutItem>
@@ -397,8 +416,21 @@ class LibraryViewLayout extends Component {
                           const handleDelete = () => {
                             setPromptedToDeleteResourceId(resource.id);
                           };
+                          const isSelected = selectedResourcesIds.indexOf(resource.id) > -1;
+                          const handleClick = () => {
+                            let newSelectedResourcesIds;
+                            if (isSelected) {
+                              newSelectedResourcesIds = selectedResourcesIds.filter(id => id !== resource.id);
+                            }
+                           else {
+                              newSelectedResourcesIds = [...selectedResourcesIds, resource.id];
+                            }
+                            setSelectedResourcesIds(newSelectedResourcesIds);
+                          };
                           return (
                             <ResourceCard
+                              isActive={isSelected}
+                              onClick={handleClick}
                               onEdit={handleEdit}
                               onDelete={handleDelete}
                               resource={resource}

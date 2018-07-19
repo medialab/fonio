@@ -370,7 +370,7 @@ class HomeViewLayout extends Component {
                         {this.translate('Who else is online ?')} <HelpPin>{this.translate('writers connected to this classroom right now')}</HelpPin>
                       </Title>
                     }
-                    <div style={{maxHeight: '15rem', overflow: 'auto'}}>
+                    <div style={{maxHeight: '30rem', overflow: 'auto'}}>
                       {activeUsers &&
                     Object.keys(activeUsers)
                       .filter(thatUserId => userId !== thatUserId)

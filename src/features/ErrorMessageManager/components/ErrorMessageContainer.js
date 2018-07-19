@@ -107,7 +107,8 @@ class ErrorMessageContainer extends Component {
       props: {
         children,
         needsReload,
-        connectError
+        connectError,
+        lastError
       },
       context: {t}
     } = this;
@@ -124,7 +125,12 @@ class ErrorMessageContainer extends Component {
                 {translate('An error happened, sorry. Please reload this page to continue editing!')}
               </p>
               <p>
-                {translate('Would you be kind enough to report what happened before this screen')}<a target="blank" href="https://github.com/medialab/fonio/issues/new?title=I+have+got+save+story+fail+modal">{translate('in this page')}</a> ?
+                {translate('Would you be kind enough to report what happened before this screen ')}
+                <a
+                  target="blank"
+                  href={`https://github.com/medialab/fonio/issues/new?title=save+story+failed&body=${encodeURIComponent('My editor failed to save story with error message:\n```\n' + JSON.stringify(lastError) + '\n```\n\nJust before that, here is what I was doing:\n\n')}`}>
+                  {translate('in this page')}
+                </a> ?
               </p>
             </div>
           } />
