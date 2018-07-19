@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-19\n"
-"PO-Revision-Date: Thu Jul 19 2018 15:28:40 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jul 19 2018 16:53:57 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4243,6 +4243,21 @@ msgstr "add an element from your library (shortcut : cmd + @)"
 
 msgid "Component.SectionEditor.add a footnote (shortcut : cmd + m)"
 msgstr "add a footnote (shortcut : cmd + m)"
+
+msgid "Components.SectionCard.less important"
+msgstr "less important"
+
+msgid "Components.SectionCard.lower level"
+msgstr "lower level"
+
+msgid "Components.SectionCard.higher level"
+msgstr "higher level"
+
+msgid "Features.SectionView.higher level of importance"
+msgstr "higher level of importance"
+
+msgid "Features.SectionView.lower level of importance"
+msgstr "lower level of importance"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."

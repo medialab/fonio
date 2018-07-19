@@ -95,7 +95,7 @@ class ErrorMessageContainer extends Component {
         }
       }
     }
- else if (nextProps.requestFail !== this.props.requestFail || nextProps.lastErrorTime !== this.props.lastErrorTime) {
+    else if (nextProps.requestFail !== this.props.requestFail || nextProps.lastErrorTime !== this.props.lastErrorTime) {
       toastr.error(nextProps.requestFail);
     }
   }
@@ -110,7 +110,8 @@ class ErrorMessageContainer extends Component {
         children,
         needsReload,
         connectError,
-        lastError
+        lastError,
+        malformedStoryError,
       },
       context: {t}
     } = this;
@@ -132,6 +133,24 @@ class ErrorMessageContainer extends Component {
                   target="blank"
                   href={`https://github.com/medialab/fonio/issues/new?title=save+story+failed&body=${encodeURIComponent('My editor failed to save story with error message:\n```\n' + JSON.stringify(lastError) + '\n```\n\nJust before that, here is what I was doing:\n\n')}`}>
                   {translate('in this page')}
+                </a> ?
+              </p>
+            </div>
+          } />
+        <ModalCard
+          isActive={malformedStoryError}
+          headerContent={translate('Something went wrong')}
+          mainContent={
+            <div>
+              <p>
+                {translate('An error happened, sorry. It seems that the story you are trying to access is corrupted.')}
+              </p>
+              <p>
+                {translate('Please contact your teachers so that a backup version of this story is reset.')}
+                <a
+                  target="blank"
+                  href={`/`}>
+                  {translate('Come back to classroom home')}
                 </a> ?
               </p>
             </div>

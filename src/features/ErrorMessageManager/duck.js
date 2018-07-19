@@ -13,7 +13,7 @@ import {
 } from '../ConnectionsManager/duck';
 import {FETCH_STORIES, CREATE_STORY, OVERRIDE_STORY, IMPORT_STORY, DUPLICATE_STORY, DELETE_STORY, CHANGE_PASSWORD} from '../HomeView/duck';
 import {
-  // ACTIVATE_STORY,
+  ACTIVATE_STORY,
   UPLOAD_RESOURCE,
   DELETE_UPLOADED_RESOURCE,
   DELETE_SECTION,
@@ -41,7 +41,8 @@ const FAIL_DEFAULT_STATE = {
   lastLockFail: undefined,
   needsReload: false,
   connectError: false,
-  lastError: undefined
+  lastError: undefined,
+  malformedStoryError: undefined,
 };
 const fails = (state = FAIL_DEFAULT_STATE, action) => {
   const {payload} = action;
@@ -79,7 +80,6 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
     case `${DELETE_STORY}_FAIL`:
     // case `${LOGIN_STORY}_FAIL`:
     case `${CHANGE_PASSWORD}_FAIL`:
-    // case `${ACTIVATE_STORY}_FAIL`:
     case `${UPLOAD_RESOURCE}_FAIL`:
     case `${DELETE_UPLOADED_RESOURCE}_FAIL`:
       console.error(action);/* eslint no-console : 0 */
@@ -119,6 +119,14 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
         },
         lastErrorTime: new Date().getTime()
       };
+    case `${ACTIVATE_STORY}_FAIL`:
+      if (action.error && action.error.response && action.error.response.status === 422) {
+        return {
+          ...state,
+          malformedStoryError: true
+        }
+      }
+      return state;
     default:
       return state;
   }
@@ -130,6 +138,7 @@ const needsReload = state => state.fails.needsReload;
 const connectError = state => state.fails.connectError;
 const lastError = state => state.fails.lastError;
 const lastErrorTime = state => state.fails.lastErrorTime;
+const malformedStoryError = state => state.fails.malformedStoryError;
 
 export default combineReducers({
   fails,
@@ -141,6 +150,7 @@ export const selector = createStructuredSelector({
   needsReload,
   connectError,
   lastError,
-  lastErrorTime
+  lastErrorTime,
+  malformedStoryError,
 });
 
