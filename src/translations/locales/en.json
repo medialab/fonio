@@ -265,6 +265,7 @@
   "Features.SectionView.Edit section metadata": "Edit section metadata",
   "Features.SectionView.Save changes": "Save changes",
   "Features.SectionView.All changes saved": "All changes saved",
+  "Features.SectionView.Saving...": "Saving...",
   "Features.SectionView.Section content": "Section content",
   "Features.SectionView.Explanation about the section content": "Explanation about the section content",
   "Features.SectionView.edited by you": "edited by you",

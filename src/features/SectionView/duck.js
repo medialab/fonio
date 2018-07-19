@@ -226,6 +226,7 @@ const UI_DEFAULT_STATE = {
   editedSectionId: undefined,
   draggedResourceId: undefined,
   editorBlocked: false,
+  storyIsSaved: true,
 };
 
 /**
@@ -252,6 +253,17 @@ function ui(state = UI_DEFAULT_STATE, action) {
       return {
         ...state,
         [propName]: payload
+      };
+    case UPDATE_DRAFT_EDITOR_STATE:
+    case UPDATE_DRAFT_EDITORS_STATES:
+      return {
+        ...state,
+        storyIsSaved: false
+      };
+    case 'SAVE_STORY_SUCCESS':
+      return {
+        ...state,
+        storyIsSaved: true
       };
     default:
       return state;
@@ -459,6 +471,7 @@ const newResourceMode = state => state.ui.newResourceMode;
 const editedSectionId = state => state.ui.editedSectionId;
 const draggedResourceId = state => state.ui.draggedResourceId;
 const editorBlocked = state => state.ui.editorBlocked;
+const storyIsSaved = state => state.ui.storyIsSaved;
 
 const editorStates = state => state.editorstates;
 const assetRequestState = state => state.assetRequeststate;
@@ -487,6 +500,7 @@ export const selector = createStructuredSelector({
   editedSectionId,
   draggedResourceId,
   editorBlocked,
+  storyIsSaved,
 
   editorStates,
   assetRequestState,
