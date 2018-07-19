@@ -149,7 +149,7 @@ class ErrorMessageContainer extends Component {
                 {translate('Please contact your teachers so that a backup version of this story is reset.')}
                 <a
                   target="blank"
-                  href={`/`}>
+                  href={'/'}>
                   {translate('Come back to classroom home')}
                 </a> ?
               </p>

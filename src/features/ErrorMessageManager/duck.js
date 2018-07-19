@@ -124,7 +124,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
         return {
           ...state,
           malformedStoryError: true
-        }
+        };
       }
       return state;
     default:

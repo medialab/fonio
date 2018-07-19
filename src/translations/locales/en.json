@@ -423,5 +423,8 @@
   "Components.SectionCard.lower level": "lower level",
   "Components.SectionCard.higher level": "higher level",
   "Features.SectionView.higher level of importance": "higher level of importance",
-  "Features.SectionView.lower level of importance": "lower level of importance"
+  "Features.SectionView.lower level of importance": "lower level of importance",
+  "Features.ErrorMessageContainer.An error happened, sorry. It seems that the story you are trying to access is corrupted.": "",
+  "Features.ErrorMessageContainer.Please contact your teachers so that a backup version of this story is reset.": "",
+  "Features.ErrorMessageContainer.Come back to classroom home": "Come back to classroom home"
 }
