@@ -494,33 +494,42 @@ export const deleteContextualizationFromId = ({
 
 
   export const removeContextualizationReferenceFromRawContents = (contents, contId) => {
-      const result = {
-        ...contents,
-        blocks: [...contents.blocks],
-        entityMap: {...contents.entityMap}
-      };
+
       let changed;
-      Object.keys(result.entityMap).forEach(key => {
-        const entity = contents.entityMap[key];
+      const newContents = Object.keys(contents.entityMap).reduce((result, entityKey) => {
+        const entity = contents.entityMap[entityKey];
+        // console.log('parsing', entityKey, entity);
         if ((entity.type === BLOCK_ASSET || entity.type === INLINE_ASSET) && entity.data && entity.data.asset && entity.data.asset.id === contId) {
-          result.blocks = result.blocks.map(block => {
-            // if block is atomic we delete it
-            if (block.type === 'atomic') {
-              return undefined;
-            }
-            return {
-              ...block,
-              entityRanges: block.entityRanges.filter(range => range.key !== key)
-            };
-          })
-          // just keep defined blocks
-          .filter(b => b);
-          // delete entity from entity map
-          delete result.entityMap[key];
+          // console.log('found', entityKey);
           changed = true;
+          return {
+            blocks: result.blocks.map(block => {
+              if (block.type === 'atomic') {
+              return undefined;
+              }
+              return {
+                ...block,
+                entityRanges: block.entityRanges.filter(range => range.key !== entityKey)
+              };
+            }).filter(b => b),
+            entityMap: Object.keys(result.entityMap).reduce((newMap, thatEntityKey) => {
+              // console.log('comparing', thatEntityKey, entityKey, thatEntityKey === entityKey);
+              if (thatEntityKey === entityKey) {
+                // console.log('excluding', entityKey)
+                return newMap;
+              }
+              return {
+                ...newMap,
+                [thatEntityKey]: result.entityMap[thatEntityKey]
+              };
+            }, {})
+          };
         }
-      });
-      return {result, changed};
+        return result;
+      }, {...contents});
+
+      // console.log('final result', newContents);
+      return {result: newContents, changed};
     };
 
 export const cleanUncitedNotes = (section) => {
