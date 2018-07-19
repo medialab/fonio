@@ -428,7 +428,7 @@ const MainSectionColumn = ({
               </StretchedLayoutItem>
               <StretchedLayoutItem className="editor-footer">
                 <Column
-                   isSize={editorWidth}
+                  isSize={editorWidth}
                   isOffset={editorX}>
                   <Columns>
                     <Column isSize="6">

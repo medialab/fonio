@@ -596,50 +596,57 @@ const SectionViewLayout = ({
           </p>
           <table className="table">
             <thead>
-            <tr>
-              <th>{translate('Shortcut')}</th>
-              <th>{translate('Effect')}</th> 
-            </tr>
+              <tr>
+                <th>{translate('Shortcut')}</th>
+                <th>{translate('Where')}</th>
+                <th>{translate('Effect')}</th>
+              </tr>
             </thead>
             <tbody>
               <tr>
                 <th><code>cmd+@</code></th>
-                <th>{translate('Open item citation widget')}</th> 
+                <th>{translate('Anywhere')}</th>
+                <th>{translate('Open item citation widget')}</th>
               </tr>
               <tr>
                 <th><code>cmd+m</code></th>
-                <th>{translate('Add a new note')}</th> 
+                <th>{translate('Anywhere')}</th>
+                <th>{translate('Add a new note')}</th>
               </tr>
               <tr>
                 <th><code>{translate('"#" then space')}</code></th>
-                <th>{translate('Add a title')}</th> 
+                <th>{translate('Begining of a paragraph')}</th>
+                <th>{translate('Add a title')}</th>
               </tr>
               <tr>
                 <th><code>{translate('">" then space')}</code></th>
-                <th>{translate('Add a citation block')}</th> 
+                <th>{translate('Begining of a paragraph')}</th>
+                <th>{translate('Add a citation block')}</th>
               </tr>
               <tr>
                 <th><code>{translate('"*" then content then "*"')}</code></th>
-                <th>{translate('Write italic text')}</th> 
-              </tr>
-              <tr>
-                <th><code>{translate('"*" then space')}</code></th>
-                <th>{translate('Begin a list')}</th> 
+                <th>{translate('Anywhere')}</th>
+                <th>{translate('Write italic text')}</th>
               </tr>
               <tr>
                 <th><code>{translate('"**" then content then "**"')}</code></th>
-                <th>{translate('Write bold text')}</th> 
+                <th>{translate('Anywhere')}</th>
+                <th>{translate('Write bold text')}</th>
+              </tr>
+              <tr>
+                <th><code>{translate('"*" then space')}</code></th>
+                <th>{translate('Begining of a paragraph')}</th>
+                <th>{translate('Begin a list')}</th>
               </tr>
             </tbody>
           </table>
-        </div>}
-      />
+        </div>} />
     </StretchedLayoutContainer>
   );
 };
 
 SectionViewLayout.contextTypes = {
   t: PropTypes.func,
-}
+};
 
 export default SectionViewLayout;
