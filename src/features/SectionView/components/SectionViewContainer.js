@@ -17,7 +17,8 @@ import {
 import config from '../../../config';
 
 import {
-  summonAsset
+  summonAsset,
+  deleteUncitedContext
 } from '../../../helpers/assetsUtils';
 import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
@@ -170,6 +171,7 @@ class SectionViewContainer extends Component {
       lockingMap,
     } = props;
     if (lockingMap && lockingMap[storyId] && lockingMap[storyId].locks[userId]) {
+      deleteUncitedContext(sectionId, props);
       this.props.actions.leaveBlock({
         blockId: sectionId,
         storyId,
