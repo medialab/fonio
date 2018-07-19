@@ -405,5 +405,11 @@
   "Features.ErrorMessageContainer.Would you be kind enough to report what happened before this screen ": "Would you be kind enough to report what happened before this screen ",
   "Components.PageNotFound.Fonio - page not found": "Fonio - page not found",
   "Components.PageNotFound.No match for {u}, go back to ": "No match for {u}, go back to ",
-  "Components.PageNotFound.home page": "home page"
+  "Components.PageNotFound.home page": "home page",
+  "Features.LibraryView.all items": "all items",
+  "Features.LibraryView.only editable items (not used by another author)": "only editable items (not used by another author)",
+  "Features.LibraryView.only unused items (not mentionned anywhere in the story)": "only unused items (not mentionned anywhere in the story)",
+  "Features.LibraryView.Show items of type": "Show items of type",
+  "Features.LibraryView.Show ...": "",
+  "Features.LibraryView.Delete selection": "Delete selection"
 }

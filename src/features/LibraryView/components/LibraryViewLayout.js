@@ -25,6 +25,7 @@ import {
   Input,
   Image,
   Button,
+  ModalCard,
 
   LevelLeft,
   LevelRight,
@@ -91,15 +92,18 @@ class LibraryViewLayout extends Component {
       optionsVisible,
       filterValues,
       sortValue,
+      statusFilterValue,
       searchString,
       promptedToDeleteResourceId,
       selectedResourcesIds,
+      resourcesPromptedToDelete,
       actions: {
         setOptionsVisible,
         setMainColumnMode,
         // setSearchString,
         setFilterValues,
         setSortValue,
+        setStatusFilterValue,
         setPromptedToDeleteResourceId,
 
         enterBlock,
@@ -112,6 +116,7 @@ class LibraryViewLayout extends Component {
         deleteUploadedResource,
         updateSection,
         setSelectedResourcesIds,
+        setResourcesPromptedToDelete,
       },
       submitMultiResources,
     } = this.props;
@@ -125,12 +130,67 @@ class LibraryViewLayout extends Component {
 
     const translate = translateNameSpacer(t, 'Features.LibraryView');
     const activeFilters = Object.keys(filterValues).filter(key => filterValues[key]);
+    const statusFilterValues = [
+      {
+        id: 'all',
+        label: translate('all items')
+      },
+      {
+        id: 'unlocked',
+        label: translate('only editable items (not used by another author)')
+      },
+      {
+        id: 'unused',
+        label: translate('only unused items (not mentionned anywhere in the story)')
+      }
+    ];
+
+    const userLockedResourceId = getUserResourceLockId(lockingMap, userId, storyId);
+    const reverseResourcesLockMap = getReverseResourcesLockMap(lockingMap, activeUsers, storyId);
+    const reverseSectionLockMap = getReverseSectionsLockMap(lockingMap, activeUsers, storyId);
+
+     const reverseResourcesSectionsMap =
+      Object.keys(contextualizations)
+      .reduce((result, contextId) => {
+        const context = contextualizations[contextId];
+        const activeCitedSections =
+          getCitedSections(contextualizations, context.resourceId)
+            .filter(id => {
+              return (reverseSectionLockMap[id] && reverseSectionLockMap[id].userId !== userId);
+            });
+        if (activeCitedSections.length > 0) {
+          return {
+            ...result,
+            [context.resourceId]: {name: `other ${activeCitedSections.length} sections`}
+          };
+        }
+        return result;
+      }, {});
+
+    const resourcesLockMap = isEmpty(reverseResourcesLockMap) ? reverseResourcesSectionsMap : reverseResourcesLockMap;
+
+    const actualResourcesPromptedToDelete = resourcesPromptedToDelete.filter(resourceId => resourcesLockMap[resourceId] === undefined);
+
+
     const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
     let visibleResources = searchString.length === 0 ? resourcesList : searchResources(resourcesList, searchString);
 
     visibleResources = visibleResources
       .filter(resource => {
         return activeFilters.indexOf(resource.metadata.type) > -1;
+      })
+      .filter(resource => {
+        switch (statusFilterValue) {
+          case 'unlocked':
+            return !resourcesLockMap[resource.id];
+          case 'unused':
+            return Object.keys(story.contextualizations)
+              .filter(contextualizationId => story.contextualizations[contextualizationId].resourceId === resource.id)
+              .length > 0;
+          case 'all':
+          default:
+            return true;
+        }
       })
       .sort((a, b) => {
           switch (sortValue) {
@@ -150,29 +210,7 @@ class LibraryViewLayout extends Component {
           }
         });
 
-    const userLockedResourceId = getUserResourceLockId(lockingMap, userId, storyId);
-    const reverseResourcesLockMap = getReverseResourcesLockMap(lockingMap, activeUsers, storyId);
-    const reverseSectionLockMap = getReverseSectionsLockMap(lockingMap, activeUsers, storyId);
 
-    const reverseResourcesSectionsMap =
-      Object.keys(contextualizations)
-      .reduce((result, contextId) => {
-        const context = contextualizations[contextId];
-        const activeCitedSections =
-          getCitedSections(contextualizations, context.resourceId)
-            .filter(id => {
-              return (reverseSectionLockMap[id] && reverseSectionLockMap[id].userId !== userId);
-            });
-        if (activeCitedSections.length > 0) {
-          return {
-            ...result,
-            [context.resourceId]: {name: `other ${activeCitedSections.length} sections`}
-          };
-        }
-        return result;
-      }, {});
-
-    const resourcesLockMap = isEmpty(reverseResourcesLockMap) ? reverseResourcesSectionsMap : reverseResourcesLockMap;
     const toggleFilter = type => {
       setFilterValues({
         ...filterValues,
@@ -180,8 +218,12 @@ class LibraryViewLayout extends Component {
       });
     };
 
-    const onDeleteResourceConfirm = () => {
-      const resource = resources[promptedToDeleteResourceId];
+    const onDeleteResourceConfirm = (thatResourceId) => {
+      const realResourceId = typeof thatResourceId === 'string' ? thatResourceId : promptedToDeleteResourceId;
+      const resource = resources[realResourceId];
+      if (!resource || resourcesLockMap[resource.id]) {
+        return;
+      }
       const payload = {
         storyId,
         userId,
@@ -190,7 +232,7 @@ class LibraryViewLayout extends Component {
       // deleting entities in content states
       const relatedContextualizations = Object.keys(story.contextualizations).map(c => story.contextualizations[c])
         .filter(contextualization => {
-          return contextualization.resourceId === promptedToDeleteResourceId;
+          return contextualization.resourceId === realResourceId;
         });
 
       const relatedContextualizationsIds = relatedContextualizations.map(c => c.id);
@@ -234,6 +276,7 @@ class LibraryViewLayout extends Component {
             });
           }
         });
+       setPromptedToDeleteResourceId(undefined);
       }
 
       // deleting the resource
@@ -245,6 +288,20 @@ class LibraryViewLayout extends Component {
       }
       setPromptedToDeleteResourceId(undefined);
     };
+
+    const onDeleteResourcesPromptedToDelete = () => {
+        actualResourcesPromptedToDelete.forEach(onDeleteResourceConfirm);
+        setResourcesPromptedToDelete([]);
+      };
+
+    let endangeredContextualizationsLength = 0;
+    if (actualResourcesPromptedToDelete.length) {
+      endangeredContextualizationsLength = actualResourcesPromptedToDelete.reduce((sum, resourceId) => {
+        return sum + Object.keys(story.contextualizations)
+                .filter(contextualizationId => story.contextualizations[contextualizationId].resourceId === resourceId)
+                .length;
+      }, 0);
+    }
 
     const renderMainColumn = () => {
       if (userLockedResourceId) {
@@ -323,6 +380,11 @@ class LibraryViewLayout extends Component {
             }
             else if (optionDomain === 'sort') {
               setSortValue(option);
+              setOptionsVisible(false);
+            }
+ else if (optionDomain === 'status') {
+              setStatusFilterValue(option);
+              setOptionsVisible(false);
             }
           };
           return (
@@ -351,6 +413,9 @@ class LibraryViewLayout extends Component {
                             },
                             filter: {
                               value: Object.keys(filterValues).filter(f => filterValues[f]),
+                            },
+                            status: {
+                              value: statusFilterValue,
                             }
                           }}
                           options={[
@@ -369,11 +434,19 @@ class LibraryViewLayout extends Component {
                               ]
                             },
                             {
-                              label: translate('Filter by'),
+                              label: translate('Show items of type'),
                               id: 'filter',
                               options: resourceTypes.map(type => ({
                                 id: type,
                                 label: <span style={{display: 'flex', flexFlow: 'row nowrap', alignItems: 'center'}}><Image style={{display: 'inline-block', marginRight: '1em'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
+                              })),
+                            },
+                            {
+                              label: translate('Show ...'),
+                              id: 'status',
+                              options: statusFilterValues.map(type => ({
+                                id: type.id,
+                                label: type.label
                               })),
                             }
                           ]}>
@@ -384,7 +457,7 @@ class LibraryViewLayout extends Component {
                     <LevelRight>
                       <LevelItem>
                         <Button
-                          onClick={() => setSelectedResourcesIds(visibleResources.map(res => res.id))}
+                          onClick={() => setSelectedResourcesIds(visibleResources.map(res => res.id).filter(id => !resourcesLockMap[id]))}
                           isDisabled={selectedResourcesIds.length === visibleResources.length}>
                           {translate('Select all')}
                         </Button>
@@ -394,6 +467,14 @@ class LibraryViewLayout extends Component {
                           onClick={() => setSelectedResourcesIds([])}
                           isDisabled={selectedResourcesIds.length === 0}>
                           {translate('Deselect all')}
+                        </Button>
+                      </LevelItem>
+                      <LevelItem>
+                        <Button
+                          isColor="danger"
+                          onClick={() => setResourcesPromptedToDelete([...selectedResourcesIds])}
+                          isDisabled={selectedResourcesIds.length === 0}>
+                          {translate('Delete selection')}
                         </Button>
                       </LevelItem>
                     </LevelRight>
@@ -419,17 +500,20 @@ class LibraryViewLayout extends Component {
                           const isSelected = selectedResourcesIds.indexOf(resource.id) > -1;
                           const handleClick = () => {
                             let newSelectedResourcesIds;
-                            if (isSelected) {
-                              newSelectedResourcesIds = selectedResourcesIds.filter(id => id !== resource.id);
+                            if (resourcesLockMap[resource.id] === undefined) {
+                              if (isSelected) {
+                                newSelectedResourcesIds = selectedResourcesIds.filter(id => id !== resource.id);
+                              }
+                              else {
+                                newSelectedResourcesIds = [...selectedResourcesIds, resource.id];
+                              }
+                              setSelectedResourcesIds(newSelectedResourcesIds);
                             }
-                           else {
-                              newSelectedResourcesIds = [...selectedResourcesIds, resource.id];
-                            }
-                            setSelectedResourcesIds(newSelectedResourcesIds);
                           };
                           return (
                             <ResourceCard
                               isActive={isSelected}
+                              isSelectable={!resourcesLockMap[resource.id]}
                               onClick={handleClick}
                               onEdit={handleEdit}
                               onDelete={handleDelete}
@@ -451,6 +535,46 @@ class LibraryViewLayout extends Component {
                 id={promptedToDeleteResourceId}
                 onClose={() => setPromptedToDeleteResourceId(undefined)}
                 onDeleteConfirm={onDeleteResourceConfirm} />
+              <ModalCard
+                isActive={actualResourcesPromptedToDelete.length > 0}
+                headerContent={translate(['Delete an item', 'Delete {n} items', 'n'], {n: actualResourcesPromptedToDelete.length})}
+                onClose={() => setResourcesPromptedToDelete([])}
+                mainContent={
+                  <div>
+                    {
+                      actualResourcesPromptedToDelete.length !== resourcesPromptedToDelete.length &&
+                      <p>
+                        {
+                          translate('{x} of {y} of the resources you selected cannot be deleted now because they are used by another author.', {x: resourcesPromptedToDelete.length - actualResourcesPromptedToDelete.length, y: resourcesPromptedToDelete.length})
+                        }
+                      </p>
+                    }
+                    {endangeredContextualizationsLength > 0 &&
+                      <p>{
+                        t([
+                          'You will destroy one item mention in your content if you delete these items.',
+                          'You will destroy {n} item mentions in your content if your delete these items.',
+                          'n'
+                          ],
+                        {n: endangeredContextualizationsLength})}
+                      </p>
+                    }
+                    <p>
+                      {translate(['Are you sure you want to delete this item ?', 'Are you sure you want to delete these items ?', 'n'], {n: resourcesPromptedToDelete.length})}
+                    </p>
+                  </div>
+                }
+                footerContent={[
+                  <Button
+                    type="submit"
+                    isFullWidth
+                    key={0}
+                    onClick={onDeleteResourcesPromptedToDelete}
+                    isColor="danger">{translate('Delete')}</Button>,
+                  <Button
+                    onClick={() => setResourcesPromptedToDelete([])} isFullWidth key={1}
+                    isColor="warning">{translate('Cancel')}</Button>,
+                ]} />
             </StretchedLayoutContainer>
         );
       }

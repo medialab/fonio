@@ -28,6 +28,8 @@ const SET_SORT_VALUE = 'SET_SORT_VALUE';
 const SET_SEARCH_STRING = 'SET_SEARCH_STRING';
 const SET_PROMPTED_TO_DELETE_RESOURCE_ID = 'SET_PROMPTED_TO_DELETE_RESOURCE_ID';
 const SET_SELECTED_RESOURCES_IDS = 'SET_SELECTED_RESOURCES_IDS';
+const SET_STATUS_FILTER_VALUE = 'SET_STATUS_FILTER_VALUE';
+const SET_RESOURCES_PROMPTED_TO_DELETE = 'SET_RESOURCES_PROMPTED_TO_DELETE';
 
 /**
  * lock system
@@ -68,6 +70,14 @@ export const setSelectedResourcesIds = payload => ({
   type: SET_SELECTED_RESOURCES_IDS,
   payload,
 });
+export const setStatusFilterValue = payload => ({
+  type: SET_STATUS_FILTER_VALUE,
+  payload,
+});
+export const setResourcesPromptedToDelete = payload => ({
+  type: SET_RESOURCES_PROMPTED_TO_DELETE,
+  payload,
+});
 /**
  * ===================================================
  * REDUCERS
@@ -91,7 +101,9 @@ const UI_DEFAULT_STATE = {
   filterValues: defaultFilterValues,
   sortValue: 'title',
   promptedToDeleteResourceId: undefined,
-  selectedResourcesIds: []
+  selectedResourcesIds: [],
+  statusFilterValue: 'unlocked',
+  resourcesPromptedToDelete: [],
 };
 
 /**
@@ -112,6 +124,8 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_SORT_VALUE:
     case SET_PROMPTED_TO_DELETE_RESOURCE_ID:
     case SET_SELECTED_RESOURCES_IDS:
+    case SET_STATUS_FILTER_VALUE:
+    case SET_RESOURCES_PROMPTED_TO_DELETE:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -156,6 +170,8 @@ const filterValues = state => state.ui.filterValues;
 const sortValue = state => state.ui.sortValue;
 const promptedToDeleteResourceId = state => state.ui.promptedToDeleteResourceId;
 const selectedResourcesIds = state => state.ui.selectedResourcesIds;
+const statusFilterValue = state => state.ui.statusFilterValue;
+const resourcesPromptedToDelete = state => state.ui.resourcesPromptedToDelete;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -169,4 +185,6 @@ export const selector = createStructuredSelector({
   sortValue,
   promptedToDeleteResourceId,
   selectedResourcesIds,
+  statusFilterValue,
+  resourcesPromptedToDelete,
 });

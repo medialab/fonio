@@ -69,7 +69,7 @@
     "postcss": "^6.0.19",
     "postcss-prefix-selector": "^1.6.0",
     "pouchdb": "^6.3.4",
-    "quinoa-design-library": "0.0.14",
+    "quinoa-design-library": "0.0.15",
     "quinoa-presentation-player": "^0.2.6",
     "quinoa-schemas": "0.0.11",
     "quinoa-story-player": "^0.2.17",

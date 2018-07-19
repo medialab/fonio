@@ -30,6 +30,7 @@ class ResourceCard extends Component {
         onDelete,
         isActive,
         onClick,
+        isSelectable,
       },
       context: {t}
     } = this;
@@ -74,6 +75,7 @@ class ResourceCard extends Component {
           widescreen: 3,
         }}>
           <Card
+            isSelectable={isSelectable}
             isActive={isActive}
             onClick={onClick}
             bodyContent={

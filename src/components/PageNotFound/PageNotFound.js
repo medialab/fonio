@@ -18,20 +18,19 @@ const PageNotFound = ({
 
   return (
     <ModalCard
-      isActive={true}
+      isActive
       headerContent={translate('Fonio - page not found')}
-      mainContent = {
+      mainContent={
         <p>
           {translate('No match for {u}, go back to ', {u: pathName})}
-            <Link to="/">{translate('home page')}</Link>
+          <Link to="/">{translate('home page')}</Link>
         </p>
-      }
-    />
-  )
-}
+      } />
+  );
+};
 
 PageNotFound.contextTypes = {
   t: PropTypes.func
-}
+};
 
 export default PageNotFound;

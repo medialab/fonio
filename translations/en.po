@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-19\n"
-"PO-Revision-Date: Thu Jul 19 2018 11:19:53 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jul 19 2018 14:24:09 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4205,6 +4205,24 @@ msgstr "No match for {u}, go back to "
 msgid "Components.PageNotFound.home page"
 msgstr "home page"
 
+msgid "Features.LibraryView.all items"
+msgstr "all items"
+
+msgid "Features.LibraryView.only editable items (not used by another author)"
+msgstr "only editable items (not used by another author)"
+
+msgid "Features.LibraryView.only unused items (not mentionned anywhere in the story)"
+msgstr "only unused items (not mentionned anywhere in the story)"
+
+msgid "Features.LibraryView.Show items of type"
+msgstr "Show items of type"
+
+msgid "Features.LibraryView.Show ..."
+msgstr ""
+
+msgid "Features.LibraryView.Delete selection"
+msgstr "Delete selection"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Are you sure you want to delete the section \"{s}\" ? All its content will be lost without possible recovery."
 
@@ -4213,3 +4231,18 @@ msgstr "Are you sure you want to delete the item \"{s}\" ?"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} is working on section \"{t}\""
+
+msgid "Features.LibraryView.Delete an item"
+msgstr "Delete an item"
+
+msgid "Features.LibraryView.{x} of {y} of the resources you selected cannot be deleted now because they are used by another author."
+msgstr ""
+
+msgid "Features.LibraryView.Are you sure you want to delete this item ?"
+msgstr "Are you sure you want to delete this item ?"
+
+msgid "Features.LibraryView.Delete"
+msgstr "Delete"
+
+msgid "Features.LibraryView.Cancel"
+msgstr "Cancel"
