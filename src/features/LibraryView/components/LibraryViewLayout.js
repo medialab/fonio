@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import {v4 as genId} from 'uuid';
-import {isEmpty, debounce} from 'lodash';
+import {isEmpty, debounce, uniq} from 'lodash';
 
 import FlipMove from 'react-flip-move';
 
@@ -236,46 +236,53 @@ class LibraryViewLayout extends Component {
         });
 
       const relatedContextualizationsIds = relatedContextualizations.map(c => c.id);
-      const relatedContextualizationsSectionIds = relatedContextualizations.map(c => c.sectionId);
+      const relatedContextualizationsSectionIds = uniq(relatedContextualizations.map(c => c.sectionId));
 
       if (relatedContextualizationsIds.length) {
-        relatedContextualizationsSectionIds.forEach(key => {
-          const section = story.sections[key];
-          if (!section) return;
+        const changedSections = relatedContextualizationsSectionIds.reduce((tempSections, sectionId) => {
+          const section = tempSections[sectionId] || story.sections[sectionId];
+          const sectionRelatedContextualizations = relatedContextualizations.filter(c => c.sectionId === sectionId);
           let sectionChanged;
-
           const newSection = {
             ...section,
-            contents: relatedContextualizationsIds.reduce((temp, contId) => {
-              const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
+            contents: sectionRelatedContextualizations.reduce((temp, cont) => {
+              const {changed, result} = removeContextualizationReferenceFromRawContents(temp, cont.id);
               if (changed && !sectionChanged) {
                 sectionChanged = true;
               }
               return result;
-            }, section.contents),
+            }, {...section.contents}),
             notes: Object.keys(section.notes).reduce((temp1, noteId) => ({
               ...temp1,
               [noteId]: {
                 ...section.notes[noteId],
-                contents: relatedContextualizationsIds.reduce((temp, contId) => {
-                  const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
+                contents: sectionRelatedContextualizations.reduce((temp, cont) => {
+                  const {changed, result} = removeContextualizationReferenceFromRawContents(temp, cont.id);
                   if (changed && !sectionChanged) {
                     sectionChanged = true;
                   }
                   return result;
-                }, section.notes[noteId].contents)
+                }, {...section.notes[noteId].contents})
               }
             }), {})
           };
           if (sectionChanged) {
-            updateSection({
-              sectionId: section.id,
-              storyId: story.id,
-              userId,
-              section: newSection,
-            });
+            return {
+              ...tempSections,
+              [sectionId]: newSection
+            };
           }
+          return tempSections;
+        }, {});
+        Object.keys(changedSections).forEach(sectionId => {
+          updateSection({
+            sectionId,
+            storyId: story.id,
+            userId,
+            section: changedSections[sectionId],
+          });
         });
+
        setPromptedToDeleteResourceId(undefined);
       }
 
@@ -290,9 +297,101 @@ class LibraryViewLayout extends Component {
     };
 
     const onDeleteResourcesPromptedToDelete = () => {
-        actualResourcesPromptedToDelete.forEach(onDeleteResourceConfirm);
-        setResourcesPromptedToDelete([]);
-      };
+      // cannot mutualize with single resource deletion for now
+      // because section contents changes must be done all in the same time
+      // @todo try to factor this
+      // actualResourcesPromptedToDelete.forEach(onDeleteResourceConfirm);
+      // 1. delete entity mentions
+      // we need to do it all at once to avoid discrepancies
+      const finalChangedSections = actualResourcesPromptedToDelete.reduce((tempFinalSections, resourceId) => {
+        const resource = resources[resourceId];
+        if (!resource || resourcesLockMap[resource.id]) {
+          return;
+        }
+        // deleting entities in content states
+        const relatedContextualizations = Object.keys(story.contextualizations).map(c => story.contextualizations[c])
+          .filter(contextualization => {
+            return contextualization.resourceId === resourceId;
+          });
+
+        const relatedContextualizationsIds = relatedContextualizations.map(c => c.id);
+        const relatedContextualizationsSectionIds = uniq(relatedContextualizations.map(c => c.sectionId));
+
+        if (relatedContextualizationsIds.length) {
+          const changedSections = relatedContextualizationsSectionIds.reduce((tempSections, sectionId) => {
+            const section = tempSections[sectionId] || story.sections[sectionId];
+            const sectionRelatedContextualizations = relatedContextualizations.filter(c => c.sectionId === sectionId);
+            let sectionChanged;
+            const newSection = {
+              ...section,
+              contents: sectionRelatedContextualizations.reduce((temp, cont) => {
+                const {changed, result} = removeContextualizationReferenceFromRawContents(temp, cont.id);
+                if (changed && !sectionChanged) {
+                  sectionChanged = true;
+                }
+                return result;
+              }, {...section.contents}),
+              notes: Object.keys(section.notes).reduce((temp1, noteId) => ({
+                ...temp1,
+                [noteId]: {
+                  ...section.notes[noteId],
+                  contents: sectionRelatedContextualizations.reduce((temp, cont) => {
+                    const {changed, result} = removeContextualizationReferenceFromRawContents(temp, cont.id);
+                    if (changed && !sectionChanged) {
+                      sectionChanged = true;
+                    }
+                    return result;
+                  }, {...section.notes[noteId].contents})
+                }
+              }), {})
+            };
+            if (sectionChanged) {
+              return {
+                ...tempSections,
+                [sectionId]: newSection
+              };
+            }
+            return tempSections;
+          }, tempFinalSections);
+
+          if (Object.keys(changedSections).length) {
+            return {
+              ...tempFinalSections,
+              ...changedSections
+            };
+          }
+        }
+        return tempFinalSections;
+      }, {});
+
+      Object.keys(finalChangedSections).forEach(sectionId => {
+        updateSection({
+          sectionId,
+          storyId: story.id,
+          userId,
+          section: finalChangedSections[sectionId],
+        });
+      });
+
+      // 2. delete the resources
+      actualResourcesPromptedToDelete.forEach(resourceId => {
+        const resource = resources[resourceId];
+        const payload = {
+          storyId,
+          userId,
+          resourceId
+        };
+        // deleting the resource
+        if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
+          deleteUploadedResource(payload);
+        }
+        else {
+          deleteResource(payload);
+        }
+      });
+      setPromptedToDeleteResourceId(undefined);
+      setResourcesPromptedToDelete([]);
+    };
 
     let endangeredContextualizationsLength = 0;
     if (actualResourcesPromptedToDelete.length) {

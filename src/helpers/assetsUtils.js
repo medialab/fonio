@@ -495,10 +495,11 @@ export const deleteContextualizationFromId = ({
 
   export const removeContextualizationReferenceFromRawContents = (contents, contId) => {
 
+      // console.log('looking for', contId);
       let changed;
       const newContents = Object.keys(contents.entityMap).reduce((result, entityKey) => {
         const entity = contents.entityMap[entityKey];
-        // console.log('parsing', entityKey, entity);
+        // console.log('parsing', entityKey, 'contents are', result.entityMap);
         if ((entity.type === BLOCK_ASSET || entity.type === INLINE_ASSET) && entity.data && entity.data.asset && entity.data.asset.id === contId) {
           // console.log('found', entityKey);
           changed = true;
@@ -528,7 +529,7 @@ export const deleteContextualizationFromId = ({
         return result;
       }, {...contents});
 
-      // console.log('final result', newContents);
+      // console.log('final result', newContents.entityMap);
       return {result: newContents, changed};
     };
 
