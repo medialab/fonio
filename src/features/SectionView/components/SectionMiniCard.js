@@ -83,6 +83,7 @@ const SectionMiniCard = ({
                 data-tip={translate('drag to change section order')}
                 data-effect="solid"
                 data-place="left"
+                data-for="tooltip"
                 style={{cursor: 'pointer', pointerEvents: 'none'}}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.move.black.svg} />
@@ -93,6 +94,7 @@ const SectionMiniCard = ({
                 isDisabled={section.lockStatus !== 'active'}
                 data-effect="solid"
                 data-place="left"
+                data-for="tooltip"
                 data-tip={translate('section settings')}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.settings.black.svg} />
@@ -103,6 +105,7 @@ const SectionMiniCard = ({
                 isDisabled={section.lockStatus === 'locked' || section.lockStatus === 'active'}
                 data-effect="solid"
                 data-place="left"
+                data-for="tooltip"
                 data-tip={translate('delete this section')}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.remove.black.svg} />
@@ -114,6 +117,7 @@ const SectionMiniCard = ({
                 isDisabled={section.metadata.level <= 0}
                 data-effect="solid"
                 data-place="left"
+                data-for="tooltip"
                 data-tip={translate('higher level of importance')}>
                 <Icon isSize="small" isAlign="left">
                   <span className="fa fa-chevron-left" aria-hidden="true" />
@@ -124,6 +128,7 @@ const SectionMiniCard = ({
                 isDisabled={section.metadata.level >= config.maxSectionLevel - 1}
                 data-effect="solid"
                 data-place="left"
+                data-for="tooltip"
                 data-tip={translate('lower level of importance')}>
                 <Icon isSize="small" isAlign="left">
                   <span className="fa fa-chevron-right" aria-hidden="true" />

@@ -223,7 +223,8 @@ class ResourceCard extends Component {
                     <Button
                       style={{pointerEvents: 'none'}}
                       data-place="left"
-                      data-effect="solid">
+                      data-effect="solid"
+                      data-for="tooltip">
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.move.black.svg} />
                       </Icon>
@@ -232,6 +233,7 @@ class ResourceCard extends Component {
                       onClick={onEdit} isDisabled={isActive || lockStatus === 'locked'}
                       data-place="left"
                       data-effect="solid"
+                      data-for="tooltip"
                       data-tip={translate('settings')}>
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.settings.black.svg} />
@@ -241,6 +243,7 @@ class ResourceCard extends Component {
                       onClick={handleDelete} isDisabled={isActive || lockStatus === 'locked'}
                       data-place="left"
                       data-effect="solid"
+                      data-for="tooltip"
                       data-tip={translate(`delete this ${type}`)}>
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.remove.black.svg} />
@@ -251,6 +254,7 @@ class ResourceCard extends Component {
                         onClick={onSetCoverImage}
                         data-place="left"
                         data-effect="solid"
+                        data-for="tooltip"
                         data-tip={translate('use as cover image')}>
                         <Icon isSize="small" isAlign="left">
                           <img src={icons.cover.black.svg} />
@@ -259,7 +263,6 @@ class ResourceCard extends Component {
                     }
                   </Column>
                 </Columns>
-
               </div>
                 } />
         </div>
