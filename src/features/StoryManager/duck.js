@@ -377,8 +377,10 @@ const STORY_DEFAULT_STATE = {
  */
 function story(state = STORY_DEFAULT_STATE, action) {
   const {result, payload} = action;
-  let contextualizers;
   let contextualizations;
+  let contextualizers;
+  let contextualizersToDeleteIds;
+  let contextualizationsToDeleteIds;
   let createdAt;
   switch (action.type) {
     case LEAVE_STORY:
@@ -534,6 +536,26 @@ function story(state = STORY_DEFAULT_STATE, action) {
       if (!state.story) {
         return state;
       }
+      contextualizations = {...state.story.contextualizations};
+      contextualizers = {...state.story.contextualizers};
+
+      contextualizationsToDeleteIds = Object.keys(contextualizations)
+      .filter(id => {
+        return contextualizations[id].sectionId === payload.sectionId;
+      });
+      contextualizersToDeleteIds = [];
+
+      contextualizationsToDeleteIds
+      .forEach((id) => {
+        contextualizersToDeleteIds.push(contextualizations[id].contextualizerId);
+      });
+
+      contextualizersToDeleteIds.forEach(contextualizerId => {
+        delete contextualizers[contextualizerId];
+      });
+      contextualizationsToDeleteIds.forEach(contextualizationId => {
+        delete contextualizations[contextualizationId];
+      });
       return {
           ...state,
           story: {
@@ -548,6 +570,8 @@ function story(state = STORY_DEFAULT_STATE, action) {
                   [thatSectionId]: state.story.sections[thatSectionId]
                 };
               }, {}),
+            contextualizations,
+            contextualizers,
             sectionsOrder: state.story.sectionsOrder.filter(id => id !== payload.sectionId),
             lastUpdateAt: payload.lastUpdateAt,
           }
@@ -611,10 +635,10 @@ function story(state = STORY_DEFAULT_STATE, action) {
       // if not doing so we would end up with a bunch of unused contextualizers in documents' data after a while)
 
       // we will store contextualizers id to delete here
-      const contextualizersToDeleteIds = [];
+      contextualizersToDeleteIds = [];
 
       // we will store contextualizations id to delete here
-      const contextualizationsToDeleteIds = [];
+      contextualizationsToDeleteIds = [];
       // spot all objects to delete
       Object.keys(contextualizations)
         .forEach(contextualizationId => {
