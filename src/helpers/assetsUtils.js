@@ -505,8 +505,8 @@ export const deleteContextualizationFromId = ({
           changed = true;
           return {
             blocks: result.blocks.map(block => {
-              if (block.type === 'atomic') {
-              return undefined;
+              if (block.type === 'atomic' && block.entityRanges.find(range => range.key === entityKey)) {
+                return undefined;
               }
               return {
                 ...block,
