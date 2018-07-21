@@ -15,6 +15,23 @@ import * as duck from '../duck';
 import * as storyDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 
+import {
+  FETCH_STORIES,
+  CREATE_STORY,
+  OVERRIDE_STORY,
+  IMPORT_STORY,
+  DUPLICATE_STORY,
+  DELETE_STORY,
+  CHANGE_PASSWORD
+} from '../../HomeView/duck';
+import {
+  ACTIVATE_STORY,
+  UPLOAD_RESOURCE,
+  DELETE_UPLOADED_RESOURCE,
+  DELETE_SECTION,
+  DELETE_RESOURCE
+} from '../../StoryManager/duck';
+
 
 @connect(
   state => ({
@@ -35,8 +52,9 @@ class ErrorMessageContainer extends Component {
     store: PropTypes.object,
   }
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
+    this.translate = translateNameSpacer(context.t, 'Features.ErrorMessageContainer');
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -96,13 +114,78 @@ class ErrorMessageContainer extends Component {
       }
     }
     else if (nextProps.requestFail !== this.props.requestFail || nextProps.lastErrorTime !== this.props.lastErrorTime) {
-      toastr.error(nextProps.requestFail);
+      const message = this.messages[nextProps.requestFail] || {
+        title: () => nextProps.requestFail
+      };
+      toastr.error(message.title(nextProps.lastError), message.details && message.details(nextProps.lastError));
     }
   }
-
+  
   componentWillUnmount = () => {
     this.props.actions.clearErrorMessages(false);
   }
+
+  messages = {
+    [`${'SUBMIT_MULTI_RESOURCES_FAIL'}`]: {
+      title: () => {
+        return this.translate('Upload went wrong');
+      },
+      details: (payload) => {
+        switch (payload.error) {
+          case 'Too many files uploaded':
+            return this.translate('You tried to upload too many files at the same time. ') + this.translate('Please split your uploads in smaller groups !');
+          case 'Files extends maximum size to upload':
+            return this.translate('The total length of the files you tried to upload extends maximum size to upload. ') + this.translate('Please split your uploads in smaller groups !');
+          case 'Some files larger than maximum file size':
+            return this.translate('Some files are larger than the maximum file size allowed, they were not added to the library.');
+          default:
+            return undefined;
+        }
+      }
+    },
+    [`${FETCH_STORIES}_FAIL`]: {
+      title: () => this.translate('The list of stories could not be retrieved')
+    },
+    [`${CREATE_STORY}_FAIL`]: {
+      title: () => this.translate('The story could not be created')
+    },
+    [`${OVERRIDE_STORY}_FAIL`]: {
+      title: () => this.translate('The story could not be overriden')
+    },
+    [`${IMPORT_STORY}_FAIL`]: {
+      title: () => this.translate('The story could not be imported')
+    },
+    [`${DUPLICATE_STORY}_FAIL`]: {
+      title: () => this.translate('The story could not be duplicated')
+    },
+    [`${DELETE_STORY}_FAIL`]: {
+      title: () => this.translate('The story could not be deleted')
+    },
+    [`${CHANGE_PASSWORD}_FAIL`]: {
+      title: () => this.translate('The password could not be changed')
+    },
+    [`${ACTIVATE_STORY}_FAIL`]: {
+      title: () => this.translate('The story could not be opened')
+    },
+    [`${UPLOAD_RESOURCE}_FAIL`]: {
+      title: () => this.translate('An item could not be uploaded'),
+      details: (payload) => {
+        const fileName = payload.resource && payload.resource.metadata &&
+          `${payload.resource.metadata.title}.${payload.resource.metadata.ext}`;
+        return this.translate('{n} is too big', {n: fileName});
+      }
+    },
+    [`${DELETE_UPLOADED_RESOURCE}_FAIL`]: {
+      title: () => this.translate('An item could not be deleted')
+    },
+    [`${DELETE_SECTION}_FAIL`]: {
+      title: () => this.translate('A section could not be deleted')
+    },
+    [`${DELETE_RESOURCE}_FAIL`]: {
+      title: () => this.translate('An item could not be deleted')
+    }
+  }
+
 
   render() {
     const {

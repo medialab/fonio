@@ -231,16 +231,16 @@ class SectionViewContainer extends Component {
     // });
     const {setErrorMessage} = this.props.actions;
     if (files.length > maxBatchNumber) {
-      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded, please upload below 50 files'});
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded'});
       return;
     }
     const validFiles = validateFiles(files);
     if (validFiles.length === 0) {
-      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Files extends maximum size too upload, please upload below 50MB'});
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Files extends maximum size to upload'});
       return;
     }
     if (validFiles.length < files.length) {
-      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Some files larger than 4MB are not be uploaded'});
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Some files larger than maximum size'});
     }
     const errors = [];
     validFiles.reduce((curr, next) => {

@@ -11,7 +11,14 @@ import {
   // LOGIN_STORY,
   ENTER_BLOCK
 } from '../ConnectionsManager/duck';
-import {FETCH_STORIES, CREATE_STORY, OVERRIDE_STORY, IMPORT_STORY, DUPLICATE_STORY, DELETE_STORY, CHANGE_PASSWORD} from '../HomeView/duck';
+import {FETCH_STORIES,
+  CREATE_STORY,
+  OVERRIDE_STORY,
+  IMPORT_STORY,
+  DUPLICATE_STORY,
+  DELETE_STORY,
+  CHANGE_PASSWORD
+} from '../HomeView/duck';
 import {
   ACTIVATE_STORY,
   UPLOAD_RESOURCE,
@@ -68,6 +75,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
         ...state,
         requestFail: payload.type,
         needsReload,
+        lastError: action.payload,
         lastErrorTime: new Date().getTime()
       };
     case 'SAVE_STORY_FAIL':
