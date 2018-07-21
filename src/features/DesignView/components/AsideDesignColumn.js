@@ -26,6 +26,7 @@ import {
   Tab,
   TabLink,
   TabList,
+  Title,
   Tabs,
   StretchedLayoutContainer,
   StretchedLayoutItem,
@@ -225,12 +226,15 @@ const AsideDesignColumn = ({
               </form>
             </Collapsable>
             {stylesMode !== 'code' && <Level />}
-            <Button
+            {/**<Button
               isFullWidth
               isColor={stylesMode === 'gui' ? '' : 'primary'}
-              onClick={() => console.log('set styles mode to', {stylesMode: stylesMode === 'gui' ? 'code' : 'gui'}) /* eslint no-console :  0 */}>
+            >
               {translate('Edit css (advanced)')}
-            </Button>
+            </Button>*/}
+            <Title isSize={3}>
+              {translate('Edit style with css')}
+            </Title>
             {stylesMode === 'code' && <Level />}
             <Collapsable isCollapsed={stylesMode !== 'code'}>
               <CodeEditor
