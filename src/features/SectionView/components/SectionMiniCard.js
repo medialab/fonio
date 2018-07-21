@@ -15,6 +15,11 @@ import {
   Icon,
 } from 'quinoa-design-library/components/';
 
+import {
+  abbrevString
+} from '../../../helpers/misc';
+
+
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {Link} from 'react-router-dom';
@@ -64,10 +69,10 @@ const SectionMiniCard = ({
             <Column isSize={8}>
               {
                 section.lockStatus !== 'active' &&
-                <Link style={cardStyle} to={`/story/${storyId}/section/${section.id}`}>{section.metadata.title}</Link>
+                <Link style={cardStyle} to={`/story/${storyId}/section/${section.id}`}>{abbrevString(section.metadata.title, 15)}</Link>
               }
               {section.lockStatus === 'active' &&
-              <b>{section.metadata.title}</b>
+              <b>{abbrevString(section.metadata.title, 15)}</b>
               }
             </Column>
 

@@ -11,6 +11,7 @@ import resourceSchema from 'quinoa-schemas/resource';
 import {getResourceTitle, searchResources} from '../../../helpers/resourcesUtils';
 import {createBibData} from '../../../helpers/resourcesUtils';
 
+
 import {
   Column,
   Content,

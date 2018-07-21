@@ -6,6 +6,11 @@ import PropTypes from 'prop-types';
 import resourceSchema from 'quinoa-schemas/resource';
 
 import {
+  abbrevString
+} from '../../../helpers/misc';
+
+
+import {
   Column,
   Columns,
 
@@ -88,7 +93,7 @@ class ResourceCard extends Component {
                   </Column>
 
                   <Column isSize={8}>
-                    {resourceTitle}
+                    {abbrevString(resourceTitle, 8)}
                   </Column>
 
                   <Column isSize={2}>

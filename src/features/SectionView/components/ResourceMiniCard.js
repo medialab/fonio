@@ -17,6 +17,11 @@ import {
   StatusMarker,
 } from 'quinoa-design-library/components/';
 
+import {
+  abbrevString
+} from '../../../helpers/misc';
+
+
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 import './ResourceMiniCard.scss';
 
@@ -153,7 +158,7 @@ class ResourceCard extends Component {
         resourceTitle = <div className="bib-wrapper-mini" dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} />;
       }
       else resourceTitle = getTitle(resource) || translate('untitled resource');
-
+      resourceTitle = abbrevString(resourceTitle, 15);
     /**
      * component's callbacks
      */
