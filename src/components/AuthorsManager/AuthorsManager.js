@@ -17,7 +17,9 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 
 const AuthorsManager = ({
   authors,
-  onChange
+  onChange,
+  title,
+  titleHelp,
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Components.AuthorsManager');
 
@@ -33,9 +35,9 @@ const AuthorsManager = ({
   return (
     <Field>
       <Label>
-        {translate('Authors')}
+        {title || translate('Authors')}
         <HelpPin place="right">
-          {translate('Explanation about the story authors')}
+          {titleHelp || translate('Explanation about the story authors')}
         </HelpPin>
       </Label>
       {
