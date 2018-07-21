@@ -36,7 +36,7 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
-const resourceTypes = Object.keys(resourceSchema.definitions);
+const resourceTypes = Object.keys(resourceSchema.definitions).filter(t => t !== 'glossary');
 
 const AsideDesignColumn = ({
   designAsideTabCollapsed,
