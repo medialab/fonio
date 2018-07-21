@@ -442,14 +442,8 @@ class ResourceForm extends Component {
                               iconUrl: icons[thatType].black.svg
                             }))
                           } />}
-                  {formApi.getValue('metadata.type') && <Column>
-                    <Column>
-                      <NestedField defaultValues={resource.data} field="data">
-                        <DataForm resourceType={formApi.getValue('metadata.type')} formApi={formApi} />
-                        {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
-                      </NestedField>
-                    </Column>
-                    {(formApi.getValue('metadata.type') !== 'glossary' &&
+
+                  {(formApi.getValue('metadata.type') !== 'glossary' &&
                       formApi.getValue('metadata.type') !== 'webpage') &&
                       !isEmpty(formApi.getValue('data')) &&
                       !(formApi.errors && formApi.errors.maxSize) &&
@@ -461,7 +455,15 @@ class ResourceForm extends Component {
                           resource={formApi.values} />
                       </Column>
                     }
-                  </Column>}
+                  {formApi.getValue('metadata.type') && <Column>
+                    <Column>
+                      <NestedField defaultValues={resource.data} field="data">
+                        <DataForm resourceType={formApi.getValue('metadata.type')} formApi={formApi} />
+                        {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
+                      </NestedField>
+                    </Column>
+
+                    </Column>}
                   {formApi.getValue('metadata.type') &&
                   resourceSchema.definitions[formApi.getValue('metadata.type')].showMetadata &&
                   <Column>
