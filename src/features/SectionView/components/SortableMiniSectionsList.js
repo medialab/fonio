@@ -2,6 +2,7 @@ import React from 'react';
 
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 import {List, AutoSizer} from 'react-virtualized';
+import ReactTooltip from 'react-tooltip';
 
 import {
   Level,
@@ -9,6 +10,7 @@ import {
 } from 'quinoa-design-library/components/';
 
 import SectionMiniCard from './SectionMiniCard';
+
 
 const SortableItem = SortableElement(({
   value: section,
@@ -59,7 +61,10 @@ const SortableSectionsList = SortableContainer(({
           rowCount={items.length}
           rowHeight={200}
           rowRenderer={rowRenderer}
-          width={width} />
+          width={width}
+          onRowsRendered={() =>
+            ReactTooltip.rebuild()
+          } />
       )}
     </AutoSizer>
   );

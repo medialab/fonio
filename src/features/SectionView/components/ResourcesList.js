@@ -7,10 +7,8 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import {List, AutoSizer} from 'react-virtualized';
 
 // import {getResourceTitle} from '../../../helpers/resourcesUtils';
-
-
 // import DragLayer from './DragLayer';
-
+import ReactTooltip from 'react-tooltip';
 
 import {
   Column,
@@ -99,7 +97,10 @@ export default class ResourcesList extends Component {
             rowCount={resources.length}
             rowHeight={210}
             rowRenderer={rowRenderer}
-            width={width} />
+            width={width}
+            onRowsRendered={() =>
+              ReactTooltip.rebuild()
+            } />
         )}
       </AutoSizer>
     );
