@@ -263,11 +263,11 @@ class AssetPreview extends Component {
                     {translate(`edit ${metadata.type}`)}
                   </Button>
                 </Column>
-                {(metadata.description || metadata.source) && <Column>
+                {/*(metadata.description || metadata.source) && <Column>
                   <Button isColor={isInfoShown ? 'primary' : 'info'} onClick={() => this.setState({isInfoShown: !isInfoShown})}>
                     {translate('show info')}
                   </Button>
-                </Column>}
+                </Column>*/}
               </Column>
             </Level>
             {(metadata.description || metadata.source) && isInfoShown &&
