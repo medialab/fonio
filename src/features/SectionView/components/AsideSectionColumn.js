@@ -82,12 +82,15 @@ class AsideSectionColumn extends Component {
     const nextSectionsLocks = nextProps.sections.map(s => s.lockStatus).join('-');
     const prevSectionsLevels = this.props.sections.map(s => s.metadata.level).join('-');
     const nextSectionsLevels = nextProps.sections.map(s => s.metadata.level).join('-');
+    const prevSectionsTitles = this.props.sections.map(s => s.metadata.title).join('-');
+    const nextSectionsTitles = nextProps.sections.map(s => s.metadata.title).join('-');
     return (
       changingProps.find(propName => this.props[propName] !== nextProps[propName]) !== undefined
       || prevResources !== nextResources
       || prevSectionsOrder !== nextSectionsOrder
       || prevSectionsLocks !== nextSectionsLocks
       || prevSectionsLevels !== nextSectionsLevels
+      || prevSectionsTitles !== nextSectionsTitles
       || this.state.searchString !== nextState.searchString
     );
   }
