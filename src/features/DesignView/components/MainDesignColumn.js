@@ -6,6 +6,8 @@ import {
   Content,
 } from 'quinoa-design-library/components/';
 
+import {processCustomCss} from '../../../helpers/postcss';
+
 
 const MainDesignColumn = ({
   story
@@ -15,7 +17,13 @@ const MainDesignColumn = ({
   return (
     <Column isSize={'fullwidth'} style={{position: 'relative'}}>
       <Content>
-        <StoryPlayer story={story} />
+        <StoryPlayer story={{
+          ...story,
+          settings: {
+            ...story.settings,
+            css: processCustomCss(story.settings.css)
+          }
+        }} />
       </Content>
     </Column>
   );

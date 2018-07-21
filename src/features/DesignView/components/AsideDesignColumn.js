@@ -54,6 +54,8 @@ const AsideDesignColumn = ({
   referenceTypesVisible,
   setReferenceTypesVisible,
 
+  setCssHelpVisible,
+
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Features.DesignView');
   const {settings = {}} = story;
@@ -84,6 +86,7 @@ const AsideDesignColumn = ({
     onOptionChange('referenceTypes', newReferenceTypes);
   };
 
+
   const renderAsideContent = () => {
     switch (designAsideTabMode) {
       case 'settings':
@@ -113,8 +116,8 @@ const AsideDesignColumn = ({
                     <Label>{translate('Notes position')}</Label>
                     <Control>
                       <Select onChange={e => onOptionChange('notesPosition', e.target.value)} value={options.notesPosition}>
-                        <option >{translate('side notes')}</option>
-                        <option>{translate('foot notes')}</option>
+                        <option value="aside" >{translate('side notes')}</option>
+                        <option value="foot">{translate('foot notes')}</option>
                       </Select>
                     </Control>
                   </Field>
@@ -233,6 +236,9 @@ const AsideDesignColumn = ({
               <CodeEditor
                 value={story.settings.css}
                 onChange={onUpdateCss} />
+              <Button isFullWidth onClick={() => setCssHelpVisible(true)}>
+                {translate('Help')}
+              </Button>
             </Collapsable>
           </Column>
         );

@@ -83,6 +83,7 @@ class DesignViewContainer extends Component {
   componentWillUnmount = () => {
     this.onUpdateCss.cancel();
     this.unlockOnDesign(this.props);
+    this.props.actions.setCssHelpVisible(false);
   }
 
   unlockOnDesign = props => {
@@ -149,7 +150,7 @@ class DesignViewContainer extends Component {
       userId,
       settings: {
         ...story.settings,
-        css
+        css,
       }
     });
   }

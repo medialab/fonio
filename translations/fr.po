@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-7-20\n"
-"PO-Revision-Date: Fri Jul 20 2018 11:27:06 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-7-21\n"
+"PO-Revision-Date: Sat Jul 21 2018 07:49:11 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4328,6 +4328,45 @@ msgstr "Anywhere"
 msgid "Features.SectionView.Begining of a paragraph"
 msgstr "Begining of a paragraph"
 
+msgid "Components.ResourceForm.Date of creation of the resource"
+msgstr "Date of creation of the resource"
+
+msgid "Components.ResourceForm.Explanation about the resource date"
+msgstr "Explanation about the resource date"
+
+msgid "Components.ResourceForm.Resource date"
+msgstr "Resource date"
+
+msgid "Features.DesignView.Help"
+msgstr "Help"
+
+msgid "Features.DesignView.Change the paragraphs font size"
+msgstr "Change the paragraphs font size"
+
+msgid "Features.DesignView.Change the background color"
+msgstr "Change the background color"
+
+msgid "Features.DesignView.Change the titles color"
+msgstr "Change the titles color"
+
+msgid "Features.DesignView.CSS Styling - help"
+msgstr "CSS Styling - help"
+
+msgid "Features.DesignView.You can style your story output with custom css rules."
+msgstr ""
+
+msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="
+msgstr "org/en-US/docs/Learn/CSS/Introduction_to_CSS\">this tutorial</a>"
+
+msgid "Features.DesignView.You will need to use the !important suffix for some rules as you want to override initial rules."
+msgstr ""
+
+msgid "Features.DesignView.Here are a few examples of things you could do:"
+msgstr "Here are a few examples of things you could do:"
+
+msgid "Features.DesignView.add"
+msgstr "add"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
 
@@ -4352,11 +4391,23 @@ msgstr "\"*\" then space"
 msgid "Features.SectionView."**" then content then "**""
 msgstr "\"**\" then content then \"**\""
 
-msgid "Components.ResourceForm.Date of creation of the resource"
-msgstr "Date of creation of the resource"
+msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
+msgstr "org/en-US/docs/Learn/CSS/Introduction_to_CSS\">this tutorial</a>"
 
-msgid "Components.ResourceForm.Explanation about the resource date"
-msgstr "Explanation about the resource date"
+msgid "Features.DesignView.You might need to use the !important suffix for some rules as you want to override initial ones."
+msgstr ""
 
-msgid "Components.ResourceForm.Resource date"
-msgstr "Resource date"
+msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
+msgstr ""
+
+msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
+msgstr ""
+
+msgid "Features.HomeView.Avatar icons courtesy of "
+msgstr "Avatar icons courtesy of "
+
+msgid "Features.HomeView.The source code of Fonio is licensed under free software license "
+msgstr "The source code of Fonio is licensed under free software license "
+
+msgid "Features.HomeView. and is hosted on "
+msgstr " and is hosted on "
