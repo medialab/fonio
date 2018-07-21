@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-21\n"
-"PO-Revision-Date: Sat Jul 21 2018 09:57:27 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Sat Jul 21 2018 10:43:44 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4463,6 +4463,27 @@ msgstr " Please split your uploads in smaller groups !"
 msgid "Features.ErrorMessageContainer.Some files are larger than the maximum file size allowed, they were not added to the library."
 msgstr ""
 
+msgid "Features.ErrorMessageContainer.You tried to upload too many files at the same time. "
+msgstr " "
+
+msgid "Features.ErrorMessageContainer.Please split your uploads in smaller groups !"
+msgstr "Please split your uploads in smaller groups !"
+
+msgid "Features.ErrorMessageContainer.The total length of the files you tried to upload extends maximum size to upload. "
+msgstr " "
+
+msgid "Features.DesignView.Edit style with css"
+msgstr "Edit style with css"
+
+msgid "Features.ErrorMessageContainer.Your browser is not supported"
+msgstr "Your browser is not supported"
+
+msgid "Features.ErrorMessageContainer.You are using {b} version {v} which was not tested for fonio."
+msgstr ""
+
+msgid "Features.ErrorMessageContainer.Please download the last version of firefox or chrome or use this tool at your risks !"
+msgstr "Please download the last version of firefox or chrome or use this tool at your risks !"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Are you sure you want to delete the section \"{s}\" ? All its content will be lost without possible recovery."
 
@@ -4495,12 +4516,3 @@ msgstr ""
 
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
 msgstr ""
-
-msgid "Features.ErrorMessageContainer.You tried to upload too many files at the same time. "
-msgstr " "
-
-msgid "Features.ErrorMessageContainer.Please split your uploads in smaller groups !"
-msgstr "Please split your uploads in smaller groups !"
-
-msgid "Features.ErrorMessageContainer.The total length of the files you tried to upload extends maximum size to upload. "
-msgstr " "

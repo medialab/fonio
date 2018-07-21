@@ -32,6 +32,8 @@ export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 export const CONNECT_ERROR = 'CONNECT_ERROR';
 export const RECONNECT = 'RECONNECT';
 
+export const SET_BROWSER_WARNING = 'SET_BROWSER_WARNING';
+
 const CLEAR_ERROR_MESSAGES = 'CLEAR_ERROR_MESSAGES';
 
 export const setErrorMessage = payload => ({
@@ -43,6 +45,11 @@ export const clearErrorMessages = () => ({
   type: CLEAR_ERROR_MESSAGES
 });
 
+export const setBrowserWarning = (payload) => ({
+  type: SET_BROWSER_WARNING,
+  payload
+})
+
 const FAIL_DEFAULT_STATE = {
   requestFail: undefined,
   lastLockFail: undefined,
@@ -50,6 +57,7 @@ const FAIL_DEFAULT_STATE = {
   connectError: false,
   lastError: undefined,
   malformedStoryError: undefined,
+  browserWarning: undefined,
 };
 const fails = (state = FAIL_DEFAULT_STATE, action) => {
   const {payload} = action;
@@ -135,6 +143,11 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
         };
       }
       return state;
+    case SET_BROWSER_WARNING:
+      return {
+        ...state,
+        browserWarning: payload
+      }
     default:
       return state;
   }
@@ -147,6 +160,7 @@ const connectError = state => state.fails.connectError;
 const lastError = state => state.fails.lastError;
 const lastErrorTime = state => state.fails.lastErrorTime;
 const malformedStoryError = state => state.fails.malformedStoryError;
+const browserWarning = state => state.fails.browserWarning;
 
 export default combineReducers({
   fails,
@@ -160,5 +174,6 @@ export const selector = createStructuredSelector({
   lastError,
   lastErrorTime,
   malformedStoryError,
+  browserWarning,
 });
 

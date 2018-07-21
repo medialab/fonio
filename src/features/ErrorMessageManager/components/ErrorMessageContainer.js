@@ -10,6 +10,7 @@ import {
 } from 'quinoa-design-library/components';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
+import {getBrowserInfo} from '../../../helpers/misc';
 
 import * as duck from '../duck';
 import * as storyDuck from '../../StoryManager/duck';
@@ -31,6 +32,16 @@ import {
   DELETE_SECTION,
   DELETE_RESOURCE
 } from '../../StoryManager/duck';
+
+const ACCEPTED_BROWSERS = [
+{
+  id: 'Chrome',
+  version: 50
+},
+{
+  id: 'Firefox',
+  version: 50
+}];
 
 
 @connect(
@@ -55,6 +66,14 @@ class ErrorMessageContainer extends Component {
   constructor(props, context) {
     super(props);
     this.translate = translateNameSpacer(context.t, 'Features.ErrorMessageContainer');
+  }
+
+  componentDidMount = () => {
+    const browserInfo = getBrowserInfo();
+    const accepted = ACCEPTED_BROWSERS.find(browser => browserInfo.name === browser.id && +browserInfo.version >= browser.version);
+    if (!accepted) {
+      this.props.actions.setBrowserWarning(browserInfo);
+    }
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -120,7 +139,7 @@ class ErrorMessageContainer extends Component {
       toastr.error(message.title(nextProps.lastError), message.details && message.details(nextProps.lastError));
     }
   }
-  
+
   componentWillUnmount = () => {
     this.props.actions.clearErrorMessages(false);
   }
@@ -195,6 +214,10 @@ class ErrorMessageContainer extends Component {
         connectError,
         lastError,
         malformedStoryError,
+        browserWarning,
+        actions: {
+          setBrowserWarning
+        }
       },
       context: {t}
     } = this;
@@ -248,6 +271,20 @@ class ErrorMessageContainer extends Component {
               </p>
               <p>
                 {translate('Please check your internet connection or contact your teacher')}.
+              </p>
+            </div>
+          } />
+        <ModalCard
+          isActive={browserWarning}
+          headerContent={translate('Your browser is not supported')}
+          onClose={() => setBrowserWarning(undefined)}
+          mainContent={
+            <div>
+              <p>
+                {translate('You are using {b} version {v} which was not tested for fonio.', {b: browserWarning && browserWarning.name, v: browserWarning && browserWarning.version})}
+              </p>
+              <p>
+                {translate('Please download the last version of firefox or chrome or use this tool at your risks !')}
               </p>
             </div>
           } />

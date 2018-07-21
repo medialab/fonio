@@ -495,5 +495,12 @@
   "Features.ErrorMessageContainer.Upload went wrong": "Upload went wrong",
   "Features.ErrorMessageContainer.You tried to upload too many files at the same time. Please split your uploads in smaller groups !": " Please split your uploads in smaller groups !",
   "Features.ErrorMessageContainer.The total length of the files you tried to upload extends maximum size to upload. Please split your uploads in smaller groups !": " Please split your uploads in smaller groups !",
-  "Features.ErrorMessageContainer.Some files are larger than the maximum file size allowed, they were not added to the library.": ""
+  "Features.ErrorMessageContainer.Some files are larger than the maximum file size allowed, they were not added to the library.": "",
+  "Features.ErrorMessageContainer.You tried to upload too many files at the same time. ": " ",
+  "Features.ErrorMessageContainer.Please split your uploads in smaller groups !": "Please split your uploads in smaller groups !",
+  "Features.ErrorMessageContainer.The total length of the files you tried to upload extends maximum size to upload. ": " ",
+  "Features.DesignView.Edit style with css": "Edit style with css",
+  "Features.ErrorMessageContainer.Your browser is not supported": "Your browser is not supported",
+  "Features.ErrorMessageContainer.You are using {b} version {v} which was not tested for fonio.": "",
+  "Features.ErrorMessageContainer.Please download the last version of firefox or chrome or use this tool at your risks !": "Please download the last version of firefox or chrome or use this tool at your risks !"
 }
