@@ -10,12 +10,15 @@ import {createBibData} from '../../../helpers/resourcesUtils';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
+import config from '../../../config';
+
 import {
   Button,
   Column,
   Columns,
   Delete,
   DropZone,
+  HelpPin,
   Tab,
   Level,
   TabLink,
@@ -27,8 +30,12 @@ import {
 } from 'quinoa-design-library/components/';
 
 import {
-  abbrevString
+  abbrevString,
+  base64ToBytesLength
 } from '../../../helpers/misc';
+
+const {maxBatchNumber, maxFileSize} = config;
+const realMaxFileSize = base64ToBytesLength(maxFileSize);
 
 
 const MainSectionColumn = ({
@@ -253,8 +260,16 @@ const MainSectionColumn = ({
               </StretchedLayoutItem>}
               {newResourceMode === 'drop' && <StretchedLayoutItem>
                 <Column>
-                  <DropZone style={{height: '5rem'}} onDrop={submitMultiResources}>
-                    {translate('Drop files here to include new items in your library (images, tables, bibliographies)')}
+                  <DropZone
+                    style={{height: '5rem'}}
+                    onDrop={submitMultiResources}>
+                    {translate('Drop files here to include in your library')}
+                    <HelpPin>
+                      {`${translate('Accepted file formats: jpeg, jpg, gif, png, csv, tsv, bib')}. ${translate('Up to {n} files, with a maximum size of {s} Mb each', {
+                        n: maxBatchNumber,
+                        s: Math.floor(realMaxFileSize / 1000000)
+                      })}`}
+                    </HelpPin>
                   </DropZone>
                 </Column>
               </StretchedLayoutItem>}

@@ -7,6 +7,8 @@ import {isEmpty, debounce, uniq} from 'lodash';
 
 import FlipMove from 'react-flip-move';
 
+import config from '../../../config';
+
 import resourceSchema from 'quinoa-schemas/resource';
 import {getResourceTitle, searchResources} from '../../../helpers/resourcesUtils';
 import {createBibData} from '../../../helpers/resourcesUtils';
@@ -27,6 +29,7 @@ import {
   Image,
   Button,
   ModalCard,
+  HelpPin,
 
   LevelLeft,
   LevelRight,
@@ -48,6 +51,14 @@ import {
   getCitedSections,
   getUserResourceLockId,
 } from '../../../helpers/lockUtils';
+
+
+import {
+  base64ToBytesLength
+} from '../../../helpers/misc';
+
+const {maxBatchNumber, maxFileSize} = config;
+const realMaxFileSize = base64ToBytesLength(maxFileSize);
 
 import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 import ResourceForm from '../../../components/ResourceForm';
@@ -694,7 +705,7 @@ class LibraryViewLayout extends Component {
               <Level />
               <Level>
                 <Content>
-                  {translate('Your library contains all the resources (references, images, visualizations...) that can be used within the story.')}
+                  {translate('Your library contains all the items that can be used within the story.')}
                 </Content>
               </Level>
               <Level>
@@ -706,7 +717,13 @@ class LibraryViewLayout extends Component {
               </Level>
               <Level>
                 <DropZone onDrop={submitMultiResources}>
-                  {translate('Drop files to include new resources in your library (images, tables, bibliographies)')}
+                  {translate('Drop files to include in your library')}
+                  <HelpPin place="right">
+                    {`${translate('Accepted file formats: jpeg, jpg, gif, png, csv, tsv, bib')}. ${translate('Up to {n} files, with a maximum size of {s} Mb each', {
+                        n: maxBatchNumber,
+                        s: Math.floor(realMaxFileSize / 1000000)
+                      })}`}
+                  </HelpPin>
                 </DropZone>
               </Level>
             </Column>

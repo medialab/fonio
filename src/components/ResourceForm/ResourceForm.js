@@ -23,6 +23,7 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 import {retrieveMediaMetadata, loadImage, inferMetadata, parseBibTeXToCSLJSON} from '../../helpers/assetsUtils';
 import {getFileAsText} from '../../helpers/fileLoader';
 
+import {base64ToBytesLength} from '../../helpers/misc';
 import {createDefaultResource, validateResource} from '../../helpers/schemaUtils';
 import {
   BigSelect,
@@ -46,9 +47,12 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 import BibRefsEditor from '../BibRefsEditor';
 import AssetPreview from '../AssetPreview';
 
+
 const resourceTypes = Object.keys(resourceSchema.definitions);
 const credentials = {youtubeAPIKey: config.youtubeAPIKey};
 const {maxFileSize} = config;
+
+const realMaxFileSize = base64ToBytesLength(maxFileSize);
 
 class ResourceForm extends Component {
 
@@ -120,7 +124,7 @@ class ResourceForm extends Component {
 
     const DataForm = ({resourceType, formApi}) => {/* eslint no-shadow : 0 */
       const onDropFiles = (files) => {
-        if (files[0].size > maxFileSize) {
+        if (files.length && files[0].size > realMaxFileSize) {
           formApi.setError('maxSize', translate('File is too large, please choose one under 5MB'));
         }
         else {
@@ -165,7 +169,7 @@ class ResourceForm extends Component {
               <DropZone
                 accept=".jpg,.jpeg,.png,.gif"
                 onDrop={onDropFiles}>
-                {translate('Drop an image file')}
+                {translate('Drop an image file ({l} Mb max)', {l: Math.floor(realMaxFileSize / 1000000)})}
               </DropZone>
             </Control>
           </Field>
@@ -183,7 +187,7 @@ class ResourceForm extends Component {
               <DropZone
                 accept=".csv,.tsv"
                 onDrop={onDropFiles}>
-                {translate('Drop an table file(csv, tsv)')}
+                {translate('Drop an table file(csv, tsv,  ({l} Mb max))', {l: Math.floor(realMaxFileSize / 1000000)})}
               </DropZone>
             </Control>
           </Field>
@@ -203,7 +207,7 @@ class ResourceForm extends Component {
                   <DropZone
                     accept=".bib,.txt"
                     onDrop={onDropFiles}>
-                    {translate('Drop an bib file')}
+                    {translate('Drop a bib file ({l} Mb max)', {l: Math.floor(realMaxFileSize / 1000000)})}
                   </DropZone> :
                   <BibRefsEditor data={resource.data} onChange={onEditBib} />
               }

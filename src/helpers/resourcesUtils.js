@@ -22,11 +22,15 @@ import apa from 'raw-loader!../sharedAssets/bibAssets/apa.csl';
 
 import config from '../config';
 
+import {base64ToBytesLength} from './misc';
+
 import {validateResource, createDefaultResource} from './schemaUtils';
 import {loadImage, inferMetadata, parseBibTeXToCSLJSON} from './assetsUtils';
 import {getFileAsText} from './fileLoader';
 
 const {restUrl, maxFileSize, maxBatchSize} = config;
+
+const realMaxFileSize = base64ToBytesLength(maxFileSize);
 
 /**
  * Returns from server a list of all csl citation styles available in a light form
@@ -95,7 +99,7 @@ export const validateFiles = (files) => {
   }, 0);
   let validFiles = [];
   if (batchSize < maxBatchSize) {
-    validFiles = files.filter(file => file.size < maxFileSize);
+    validFiles = files.filter(file => file.size < realMaxFileSize);
   }
   return validFiles;
 };
