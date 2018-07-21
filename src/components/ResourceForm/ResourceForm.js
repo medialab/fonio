@@ -17,6 +17,8 @@ import resourceSchema from 'quinoa-schemas/resource';
 
 import config from '../../config';
 
+import AuthorsManager from '../AuthorsManager';
+
 import {translateNameSpacer} from '../../helpers/translateUtils';
 import {retrieveMediaMetadata, loadImage, inferMetadata, parseBibTeXToCSLJSON} from '../../helpers/assetsUtils';
 import {getFileAsText} from '../../helpers/fileLoader';
@@ -436,6 +438,26 @@ class ResourceForm extends Component {
                               iconUrl: icons[thatType].black.svg
                             }))
                           } />}
+                  {formApi.getValue('metadata.type') && <Column>
+                    <Column>
+                      <NestedField defaultValues={resource.data} field="data">
+                        <DataForm resourceType={formApi.getValue('metadata.type')} formApi={formApi} />
+                        {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
+                      </NestedField>
+                    </Column>
+                    {(formApi.getValue('metadata.type') !== 'glossary' &&
+                      formApi.getValue('metadata.type') !== 'webpage') &&
+                      !isEmpty(formApi.getValue('data')) &&
+                      !(formApi.errors && formApi.errors.maxSize) &&
+                      <Column>
+                        <Title isSize={5}>
+                          {translate('Preview')}
+                        </Title>
+                        <AssetPreview
+                          resource={formApi.values} />
+                      </Column>
+                    }
+                  </Column>}
                   {formApi.getValue('metadata.type') &&
                   resourceSchema.definitions[formApi.getValue('metadata.type')].showMetadata &&
                   <Column>
@@ -472,7 +494,34 @@ class ResourceForm extends Component {
                             placeholder={translate('Resource source')} />
                         </Control>
                       </Field>
+                      <Field>
+                        <Control>
+                          <AuthorsManager
+                            field="metadata.authors"
+                            id="metadata.authors"
+                            onChange={(authors) => formApi.setValue('metadata.authors', authors)}
+                            authors={formApi.getValue('metadata.authors')} />
+                        </Control>
+                      </Field>
+                      <Field>
+                        <Control>
+                          <Label>
+                            {translate('Date of creation of the resource')}
+                            <HelpPin place="right">
+                              {translate('Explanation about the resource date')}
+                            </HelpPin>
+                          </Label>
+                          <Text
+                            className="input"
+                            type="text"
+                            id="metadata.date"
+                            field="metadata.date"
+                            placeholder={translate('Resource date')} />
+                        </Control>
+                      </Field>
                     </Column>
+
+
                     <Column>
                       <Field>
                         <Control>
@@ -492,26 +541,7 @@ class ResourceForm extends Component {
                       </Field>
                     </Column>
                   </Column>}
-                  {formApi.getValue('metadata.type') && <Column>
-                    <Column>
-                      <NestedField defaultValues={resource.data} field="data">
-                        <DataForm resourceType={formApi.getValue('metadata.type')} formApi={formApi} />
-                        {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
-                      </NestedField>
-                    </Column>
-                    {(formApi.getValue('metadata.type') !== 'glossary' &&
-                      formApi.getValue('metadata.type') !== 'webpage') &&
-                      !isEmpty(formApi.getValue('data')) &&
-                      !(formApi.errors && formApi.errors.maxSize) &&
-                      <Column>
-                        <Title isSize={5}>
-                          {translate('Preview')}
-                        </Title>
-                        <AssetPreview
-                          resource={formApi.values} />
-                      </Column>
-                    }
-                  </Column>}
+
                   {
                     formApi.errors && formApi.errors.maxSize &&
                       <Help isColor="danger">{formApi.errors.maxSize}</Help>

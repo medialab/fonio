@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-21\n"
-"PO-Revision-Date: Sat Jul 21 2018 07:49:11 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Sat Jul 21 2018 08:17:48 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4367,6 +4367,24 @@ msgstr "Here are a few examples of things you could do:"
 msgid "Features.DesignView.add"
 msgstr "add"
 
+msgid "Features.DesignView.You might need to use the !important suffix for some rules as you want to override initial ones."
+msgstr ""
+
+msgid "Features.HomeView.Provided by the <a target="
+msgstr ""
+
+msgid "Features.HomeView.Made at the <a target="
+msgstr ""
+
+msgid "Features.HomeView.Avatar icons courtesy of "
+msgstr "Avatar icons courtesy of "
+
+msgid "Features.HomeView.The source code of Fonio is licensed under free software license "
+msgstr "The source code of Fonio is licensed under free software license "
+
+msgid "Features.HomeView. and is hosted on "
+msgstr " and is hosted on "
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Are you sure you want to delete the section \"{s}\" ? All its content will be lost without possible recovery."
 
@@ -4394,20 +4412,8 @@ msgstr "\"**\" then content then \"**\""
 msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
 msgstr "org/en-US/docs/Learn/CSS/Introduction_to_CSS\">this tutorial</a>"
 
-msgid "Features.DesignView.You might need to use the !important suffix for some rules as you want to override initial ones."
-msgstr ""
-
 msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
 msgstr ""
 
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
 msgstr ""
-
-msgid "Features.HomeView.Avatar icons courtesy of "
-msgstr "Avatar icons courtesy of "
-
-msgid "Features.HomeView.The source code of Fonio is licensed under free software license "
-msgstr "The source code of Fonio is licensed under free software license "
-
-msgid "Features.HomeView. and is hosted on "
-msgstr " and is hosted on "
