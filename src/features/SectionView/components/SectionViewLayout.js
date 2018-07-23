@@ -401,12 +401,14 @@ const SectionViewLayout = ({
   };
 
   const onResourceEditAttempt = resourceId => {
-     enterBlock({
-      storyId,
-      userId,
-      blockType: 'resources',
-      blockId: resourceId
-    });
+    if (userLockedResourceId !== resourceId) {
+      enterBlock({
+        storyId,
+        userId,
+        blockType: 'resources',
+        blockId: resourceId
+      });
+    }
   };
 
   const onSetCoverImage = resourceId => {

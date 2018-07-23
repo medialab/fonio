@@ -54,6 +54,283 @@ const {maxFileSize} = config;
 
 const realMaxFileSize = base64ToBytesLength(maxFileSize);
 
+class DataForm extends Component {
+  static contextTypes = {
+    t: PropTypes.func.isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.resource !== nextProps.resource) {
+      nextProps.formApi.setAllValues({data: nextProps.resource.data});
+    }
+  }
+  render = () => {
+    const {
+      resourceType,
+      resource,
+      asNewResource,
+      formApi
+    } = this.props;
+    const {t} = this.context;
+    const translate = translateNameSpacer(t, 'Component.ResourceForm');
+
+    const loadResourceData = (type, file) =>
+    new Promise((resolve, reject) => {
+        switch (type) {
+          case 'bib':
+            return getFileAsText(file)
+              .then(text => resolve(parseBibTeXToCSLJSON(text)))
+              .catch(e => reject(e));
+          case 'image':
+            return loadImage(file)
+              .then(base64 => resolve({base64}))
+              .catch(e => reject(e));
+          case 'table':
+            return getFileAsText(file)
+              .then(text => resolve({json: csvParse(text)}))
+              .catch(e => reject(e));
+          default:
+            return reject();
+        }
+      });
+    const onDropFiles = (files) => {
+        if (files.length && files[0].size > realMaxFileSize) {
+          formApi.setError('maxSize', translate('File is too large, please choose one under 5MB'));
+        }
+        else {
+          formApi.setError('maxSize', undefined);
+          loadResourceData(resourceType, files[0])
+          .then((data) => {
+            const inferedMetadata = inferMetadata({...data, file: files[0]}, resourceType);
+            const prevMetadata = formApi.getValue('metadata');
+            const metadata = {
+              ...prevMetadata,
+              ...inferedMetadata,
+              title: prevMetadata.title ? prevMetadata.title : inferedMetadata.title
+            };
+            formApi.setValue('metadata', metadata);
+            formApi.setValue('data', data);
+          });
+        }
+      };
+    const onEditBib = (value) => {
+      const bibData = parseBibTeXToCSLJSON(value);
+      // TODO: citation-js parse fail in silence, wait error handling feature
+      if (bibData.length === 1) {
+        formApi.setValue('data', bibData);
+        formApi.setError('data', undefined);
+      }
+      else if (bibData.length > 1) {
+        formApi.setError('data', translate('Please enter only one bibtex'));
+      }
+      else formApi.setError('data', translate('Invalid bibtext resource'));
+    };
+    switch (resourceType) {
+    case 'image':
+      return (
+        <Field>
+          <Control>
+            <Label>
+              {translate('Image file')}
+              <HelpPin place="right">
+                {translate('Explanation about the image')}
+              </HelpPin>
+            </Label>
+            <DropZone
+              accept=".jpg,.jpeg,.png,.gif"
+              onDrop={onDropFiles}>
+              {translate('Drop an image file ({l} Mb max)', {l: Math.floor(realMaxFileSize / 1000000)})}
+            </DropZone>
+          </Control>
+        </Field>
+      );
+    case 'table':
+      return (
+        <Field>
+          <Control>
+            <Label>
+              {translate('Table')}
+              <HelpPin place="right">
+                {translate('Explanation about the table')}
+              </HelpPin>
+            </Label>
+            <DropZone
+              accept=".csv,.tsv"
+              onDrop={onDropFiles}>
+              {translate('Drop an table file(csv, tsv,  ({l} Mb max))', {l: Math.floor(realMaxFileSize / 1000000)})}
+            </DropZone>
+          </Control>
+        </Field>
+      );
+    case 'bib':
+      return (
+        <Field>
+          <Control>
+            <Label>
+              {translate('Bib file')}
+              <HelpPin place="right">
+                {translate('Explanation about the bib')}
+              </HelpPin>
+            </Label>
+            {
+              asNewResource ?
+                <DropZone
+                  accept=".bib,.txt"
+                  onDrop={onDropFiles}>
+                  {translate('Drop a bib file ({l} Mb max)', {l: Math.floor(realMaxFileSize / 1000000)})}
+                </DropZone> :
+                <BibRefsEditor data={resource.data} onChange={onEditBib} />
+            }
+          </Control>
+          {
+            formApi.errors && formApi.errors.data &&
+              <Help isColor="danger">{formApi.errors.data}</Help>
+          }
+        </Field>
+      );
+    case 'video':
+      const onVideoUrlChange = (thatUrl) => {
+        retrieveMediaMetadata(thatUrl, credentials)
+          .then(({metadata}) => {
+            Object.keys(metadata)
+              .forEach(key => {
+                formApi.setValue(`metadata.${key}`, metadata[key]);
+              });
+          });
+      };
+      return (
+        <Field>
+          <Control>
+            <Label>
+              {translate('Url of the video')}
+              <HelpPin place="right">
+                {translate('Explanation about the video url')}
+              </HelpPin>
+            </Label>
+            <Text
+              className="input"
+              field="url" id="url"
+              onChange={onVideoUrlChange}
+              type="text"
+              placeholder={translate('Video url')} />
+          </Control>
+          {
+            formApi.errors && formApi.errors.url &&
+              <Help isColor="danger">{formApi.errors.url}</Help>
+          }
+        </Field>
+      );
+    case 'embed':
+      return (
+        <Field>
+          <Control>
+            <Label>
+              {translate('Embed code')}
+              <HelpPin place="right">
+                {translate('Explanation about the embed')}
+              </HelpPin>
+            </Label>
+            <TextArea
+              className="textarea"
+              field="html" id="html"
+              type="text"
+              placeholder={translate('Embed code')} />
+          </Control>
+          {
+            formApi.errors && formApi.errors.html &&
+              <Help isColor="danger">{formApi.errors.html}</Help>
+          }
+        </Field>
+      );
+    case 'webpage':
+      return (
+        <Column>
+          <Field>
+            <Control>
+              <Label>
+                {translate('Webpage name')}
+                <HelpPin place="right">
+                  {translate('Explanation about the webpage')}
+                </HelpPin>
+              </Label>
+              <Text
+                className="input"
+                field="name" id="name"
+                type="text"
+                placeholder={translate('name')} />
+            </Control>
+          </Field>
+          <Field>
+            <Control>
+              <Label>
+                {translate('hyperlink')}
+                <HelpPin place="right">
+                  {translate('Explanation about the hyperlink')}
+                </HelpPin>
+              </Label>
+              <Text
+                className="input"
+                field="url" id="url"
+                type="text"
+                placeholder={translate('http://')} />
+            </Control>
+            {
+              formApi.errors && formApi.errors.url &&
+                <Help isColor="danger">{formApi.errors.url}</Help>
+            }
+          </Field>
+        </Column>
+      );
+    case 'glossary':
+      return (
+        <Column>
+          <Field>
+            <Control>
+              <Label>
+                {translate('Glossary name')}
+                <HelpPin place="right">
+                  {translate('Explanation about the glossary')}
+                </HelpPin>
+              </Label>
+              <Text
+                className="input"
+                field="name" id="name"
+                type="text"
+                placeholder={translate('glossary name')} />
+            </Control>
+            {
+              formApi.errors && formApi.errors.name &&
+                <Help isColor="danger">{formApi.errors.name}</Help>
+            }
+          </Field>
+          <Field>
+            <Control>
+              <Label>
+                {translate('Glossary description')}
+                <HelpPin place="right">
+                  {translate('Explanation about the glossary description')}
+                </HelpPin>
+              </Label>
+              <TextArea
+                className="textarea"
+                type="text"
+                field="description"
+                id="description"
+                placeholder={translate('glossary description')} />
+            </Control>
+          </Field>
+        </Column>
+      );
+    default:
+      return null;
+    }
+  }
+}
+
 class ResourceForm extends Component {
 
   constructor(props, context) {
@@ -100,261 +377,6 @@ class ResourceForm extends Component {
       },
       translate,
     } = this;
-
-
-    const loadResourceData = (type, file) =>
-      new Promise((resolve, reject) => {
-          switch (type) {
-            case 'bib':
-              return getFileAsText(file)
-                .then(text => resolve(parseBibTeXToCSLJSON(text)))
-                .catch(e => reject(e));
-            case 'image':
-              return loadImage(file)
-                .then(base64 => resolve({base64}))
-                .catch(e => reject(e));
-            case 'table':
-              return getFileAsText(file)
-                .then(text => resolve({json: csvParse(text)}))
-                .catch(e => reject(e));
-            default:
-              return reject();
-          }
-        });
-
-    const DataForm = ({resourceType, formApi}) => {/* eslint no-shadow : 0 */
-      const onDropFiles = (files) => {
-        if (files.length && files[0].size > realMaxFileSize) {
-          formApi.setError('maxSize', translate('File is too large, please choose one under 5MB'));
-        }
-        else {
-          formApi.setError('maxSize', undefined);
-          loadResourceData(resourceType, files[0])
-          .then((data) => {
-            const inferedMetadata = inferMetadata({...data, file: files[0]}, resourceType);
-            const prevMetadata = formApi.getValue('metadata');
-            const metadata = {
-              ...prevMetadata,
-              ...inferedMetadata,
-              title: prevMetadata.title ? prevMetadata.title : inferedMetadata.title
-            };
-            formApi.setValue('metadata', metadata);
-            formApi.setValue('data', data);
-          });
-        }
-      };
-      const onEditBib = (value) => {
-        const bibData = parseBibTeXToCSLJSON(value);
-        // TODO: citation-js parse fail in silence, wait error handling feature
-        if (bibData.length === 1) {
-          formApi.setValue('data', bibData);
-          formApi.setError('data', undefined);
-        }
-        else if (bibData.length > 1) {
-          formApi.setError('data', translate('Please enter only one bibtex'));
-        }
-        else formApi.setError('data', translate('Invalid bibtext resource'));
-      };
-      switch (resourceType) {
-      case 'image':
-        return (
-          <Field>
-            <Control>
-              <Label>
-                {translate('Image file')}
-                <HelpPin place="right">
-                  {translate('Explanation about the image')}
-                </HelpPin>
-              </Label>
-              <DropZone
-                accept=".jpg,.jpeg,.png,.gif"
-                onDrop={onDropFiles}>
-                {translate('Drop an image file ({l} Mb max)', {l: Math.floor(realMaxFileSize / 1000000)})}
-              </DropZone>
-            </Control>
-          </Field>
-        );
-      case 'table':
-        return (
-          <Field>
-            <Control>
-              <Label>
-                {translate('Table')}
-                <HelpPin place="right">
-                  {translate('Explanation about the table')}
-                </HelpPin>
-              </Label>
-              <DropZone
-                accept=".csv,.tsv"
-                onDrop={onDropFiles}>
-                {translate('Drop an table file(csv, tsv,  ({l} Mb max))', {l: Math.floor(realMaxFileSize / 1000000)})}
-              </DropZone>
-            </Control>
-          </Field>
-        );
-      case 'bib':
-        return (
-          <Field>
-            <Control>
-              <Label>
-                {translate('Bib file')}
-                <HelpPin place="right">
-                  {translate('Explanation about the bib')}
-                </HelpPin>
-              </Label>
-              {
-                asNewResource ?
-                  <DropZone
-                    accept=".bib,.txt"
-                    onDrop={onDropFiles}>
-                    {translate('Drop a bib file ({l} Mb max)', {l: Math.floor(realMaxFileSize / 1000000)})}
-                  </DropZone> :
-                  <BibRefsEditor data={resource.data} onChange={onEditBib} />
-              }
-            </Control>
-            {
-              formApi.errors && formApi.errors.data &&
-                <Help isColor="danger">{formApi.errors.data}</Help>
-            }
-          </Field>
-        );
-      case 'video':
-        const onVideoUrlChange = (thatUrl) => {
-          retrieveMediaMetadata(thatUrl, credentials)
-            .then(({metadata}) => {
-              Object.keys(metadata)
-                .forEach(key => {
-                  formApi.setValue(`metadata.${key}`, metadata[key]);
-                });
-            });
-        };
-        return (
-          <Field>
-            <Control>
-              <Label>
-                {translate('Url of the video')}
-                <HelpPin place="right">
-                  {translate('Explanation about the video url')}
-                </HelpPin>
-              </Label>
-              <Text
-                className="input"
-                field="url" id="url"
-                onChange={onVideoUrlChange}
-                type="text"
-                placeholder={translate('Video url')} />
-            </Control>
-            {
-              formApi.errors && formApi.errors.url &&
-                <Help isColor="danger">{formApi.errors.url}</Help>
-            }
-          </Field>
-        );
-      case 'embed':
-        return (
-          <Field>
-            <Control>
-              <Label>
-                {translate('Embed code')}
-                <HelpPin place="right">
-                  {translate('Explanation about the embed')}
-                </HelpPin>
-              </Label>
-              <TextArea
-                className="textarea"
-                field="html" id="html"
-                type="text"
-                placeholder={translate('Embed code')} />
-            </Control>
-            {
-              formApi.errors && formApi.errors.html &&
-                <Help isColor="danger">{formApi.errors.html}</Help>
-            }
-          </Field>
-        );
-      case 'webpage':
-        return (
-          <Column>
-            <Field>
-              <Control>
-                <Label>
-                  {translate('Webpage name')}
-                  <HelpPin place="right">
-                    {translate('Explanation about the webpage')}
-                  </HelpPin>
-                </Label>
-                <Text
-                  className="input"
-                  field="name" id="name"
-                  type="text"
-                  placeholder={translate('name')} />
-              </Control>
-            </Field>
-            <Field>
-              <Control>
-                <Label>
-                  {translate('hyperlink')}
-                  <HelpPin place="right">
-                    {translate('Explanation about the hyperlink')}
-                  </HelpPin>
-                </Label>
-                <Text
-                  className="input"
-                  field="url" id="url"
-                  type="text"
-                  placeholder={translate('http://')} />
-              </Control>
-              {
-                formApi.errors && formApi.errors.url &&
-                  <Help isColor="danger">{formApi.errors.url}</Help>
-              }
-            </Field>
-          </Column>
-        );
-      case 'glossary':
-        return (
-          <Column>
-            <Field>
-              <Control>
-                <Label>
-                  {translate('Glossary name')}
-                  <HelpPin place="right">
-                    {translate('Explanation about the glossary')}
-                  </HelpPin>
-                </Label>
-                <Text
-                  className="input"
-                  field="name" id="name"
-                  type="text"
-                  placeholder={translate('glossary name')} />
-              </Control>
-              {
-                formApi.errors && formApi.errors.name &&
-                  <Help isColor="danger">{formApi.errors.name}</Help>
-              }
-            </Field>
-            <Field>
-              <Control>
-                <Label>
-                  {translate('Glossary description')}
-                  <HelpPin place="right">
-                    {translate('Explanation about the glossary description')}
-                  </HelpPin>
-                </Label>
-                <TextArea
-                  className="textarea"
-                  type="text"
-                  field="description"
-                  id="description"
-                  placeholder={translate('glossary description')} />
-              </Control>
-            </Field>
-          </Column>
-        );
-      default:
-        return null;
-      }
-    };
 
     const handleSubmit = (candidates) => {
       onSubmit(candidates);
@@ -458,7 +480,11 @@ class ResourceForm extends Component {
                   {formApi.getValue('metadata.type') && <Column>
                     <Column>
                       <NestedField defaultValues={resource.data} field="data">
-                        <DataForm resourceType={formApi.getValue('metadata.type')} formApi={formApi} />
+                        <DataForm
+                          asNewResource={asNewResource}
+                          resource={resource}
+                          resourceType={formApi.getValue('metadata.type')}
+                          formApi={formApi} />
                         {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
                       </NestedField>
                     </Column>
