@@ -502,5 +502,8 @@
   "Features.DesignView.Edit style with css": "Edit style with css",
   "Features.ErrorMessageContainer.Your browser is not supported": "Your browser is not supported",
   "Features.ErrorMessageContainer.You are using {b} version {v} which was not tested for fonio.": "",
-  "Features.ErrorMessageContainer.Please download the last version of firefox or chrome or use this tool at your risks !": "Please download the last version of firefox or chrome or use this tool at your risks !"
+  "Features.ErrorMessageContainer.Please download the last version of firefox or chrome or use this tool at your risks !": "Please download the last version of firefox or chrome or use this tool at your risks !",
+  "Components.ResourceForm.authors of the resource": "authors of the resource",
+  "Components.ResourceForm.help about resource authors": "help about resource authors",
+  "Components.AuthorsManager.New author": "New author"
 }

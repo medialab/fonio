@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-23\n"
-"PO-Revision-Date: Mon Jul 23 2018 14:26:55 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jul 23 2018 14:40:27 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4484,6 +4484,12 @@ msgstr ""
 msgid "Features.ErrorMessageContainer.Please download the last version of firefox or chrome or use this tool at your risks !"
 msgstr "Please download the last version of firefox or chrome or use this tool at your risks !"
 
+msgid "Components.ResourceForm.authors of the resource"
+msgstr "authors of the resource"
+
+msgid "Components.ResourceForm.help about resource authors"
+msgstr "help about resource authors"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
 
@@ -4517,8 +4523,5 @@ msgstr ""
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
 msgstr ""
 
-msgid "Components.ResourceForm.authors of the resource"
-msgstr "authors of the resource"
-
-msgid "Components.ResourceForm.help about resource authors"
-msgstr "help about resource authors"
+msgid "Components.AuthorsManager.New author"
+msgstr "New author"
