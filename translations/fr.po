@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-23\n"
-"PO-Revision-Date: Mon Jul 23 2018 14:50:35 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jul 23 2018 15:11:46 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4493,39 +4493,6 @@ msgstr "help about resource authors"
 msgid "Components.AuthorsManager.New author"
 msgstr "New author"
 
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
-msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
-
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
-msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  \"{s}\" ?"
-
-msgid "Features.SummaryView.{a} is working on section "{t}""
-msgstr "{a} travaille sur la section \"{t}\""
-
-msgid "Features.SectionView."#" then space"
-msgstr "\"#\" then space"
-
-msgid "Features.SectionView.">" then space"
-msgstr "\">\" then space"
-
-msgid "Features.SectionView."*" then content then "*""
-msgstr "\"*\" then content then \"*\""
-
-msgid "Features.SectionView."*" then space"
-msgstr "\"*\" then space"
-
-msgid "Features.SectionView."**" then content then "**""
-msgstr "\"**\" then content then \"**\""
-
-msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
-msgstr "org/en-US/docs/Learn/CSS/Introduction_to_CSS\">this tutorial</a>"
-
-msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
-msgstr ""
-
-msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
-msgstr ""
-
 msgid "Component.ResourceForm.File is too large, please choose one under 5MB"
 msgstr "File is too large, please choose one under 5MB"
 
@@ -4681,3 +4648,36 @@ msgstr "Cancel"
 
 msgid "Features.SectionViewContainer.Your data is not saved, are you sure you want to leave?"
 msgstr "Your data is not saved, are you sure you want to leave?"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
+msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  \"{s}\" ?"
+
+msgid "Features.SummaryView.{a} is working on section "{t}""
+msgstr "{a} travaille sur la section \"{t}\""
+
+msgid "Features.SectionView."#" then space"
+msgstr "\"#\" then space"
+
+msgid "Features.SectionView.">" then space"
+msgstr "\">\" then space"
+
+msgid "Features.SectionView."*" then content then "*""
+msgstr "\"*\" then content then \"*\""
+
+msgid "Features.SectionView."*" then space"
+msgstr "\"*\" then space"
+
+msgid "Features.SectionView."**" then content then "**""
+msgstr "\"**\" then content then \"**\""
+
+msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
+msgstr "org/en-US/docs/Learn/CSS/Introduction_to_CSS\">this tutorial</a>"
+
+msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
+msgstr ""
+
+msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
+msgstr ""

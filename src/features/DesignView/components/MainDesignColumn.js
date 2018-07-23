@@ -16,7 +16,7 @@ const MainDesignColumn = ({
 
   return (
     <Column isSize={'fullwidth'} style={{position: 'relative'}}>
-      <StoryPlayer 
+      <StoryPlayer
         locale={lang}
         story={{
           ...story,

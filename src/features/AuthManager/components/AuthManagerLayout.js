@@ -100,7 +100,9 @@ const AuthManagerLayout = ({
                 <Button
                   type="submit" isFullWidth key={0}
                   isColor="success">{translate('Enter')}</Button>,
-                <Button isFullWidth key={1} onClick={goReadStory} isColor="warning">{translate('Read')}</Button>,
+                <Button
+                  isFullWidth key={1} onClick={goReadStory}
+                  isColor="warning">{translate('Read')}</Button>,
                 <Button isFullWidth key={2} onClick={goBackHome}>
                   {translate('Back to home')}
                 </Button>
