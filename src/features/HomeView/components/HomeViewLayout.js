@@ -568,6 +568,7 @@ class HomeViewLayout extends Component {
                                       <Button
                                         isFullWidth key={0}
                                         onClick={() => confirmImport('override')}
+                                        isDisabled={lockingMap[newStory.id] && Object.keys(lockingMap[newStory.id].locks).length > 0}
                                         isColor="danger">{this.translate('Override exist story')}
                                       </Button>,
                                       <Button
