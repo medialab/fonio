@@ -286,8 +286,10 @@ class SectionEditor extends Component {
       this.hydrateEditorStates(activeSection);
       // setTimeout(() => this.clearNotesAndContext());
     }
- else if (sectionId) {
+    else if (sectionId) {
       this.props.updateDraftEditorState(sectionId, this.editor.generateEmptyEditor());
+      // TODO: manually set story is saved for now, need to optimized
+      this.props.setStoryIsSaved(true);
     }
     document.addEventListener('copy', this.onCopy);
     document.addEventListener('cut', this.onCopy);
@@ -623,6 +625,7 @@ class SectionEditor extends Component {
             : this.editor.generateEmptyEditor()
         });
     this.props.updateDraftEditorsStates(editors);
+    // TODO: manually set story is saved for now, need to optimized
     this.props.setStoryIsSaved(true);
   }
 
