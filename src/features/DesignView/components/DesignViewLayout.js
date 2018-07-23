@@ -21,6 +21,7 @@ const DesignViewLayout = ({
   editedStory: story,
   referenceTypesVisible,
   cssHelpVisible,
+  lang,
   actions: {
     setDesignAsideTabMode,
     setDesignAsideTabCollapsed,
@@ -75,6 +76,7 @@ h1,h2
         onUpdateSettings={onUpdateSettings} />
 
       <MainDesignColumn
+        lang={lang}
         story={story} />
       <ModalCard
         isActive={cssHelpVisible}

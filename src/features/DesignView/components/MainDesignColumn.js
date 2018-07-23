@@ -9,13 +9,16 @@ import {processCustomCss} from '../../../helpers/postcss';
 
 
 const MainDesignColumn = ({
-  story
+  story,
+  lang
 }) => {
 
 
   return (
     <Column isSize={'fullwidth'} style={{position: 'relative'}}>
-      <StoryPlayer story={{
+      <StoryPlayer 
+        locale={lang}
+        story={{
           ...story,
           settings: {
             ...story.settings,

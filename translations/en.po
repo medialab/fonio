@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-23\n"
-"PO-Revision-Date: Mon Jul 23 2018 14:40:27 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jul 23 2018 14:50:35 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4490,6 +4490,9 @@ msgstr "authors of the resource"
 msgid "Components.ResourceForm.help about resource authors"
 msgstr "help about resource authors"
 
+msgid "Components.AuthorsManager.New author"
+msgstr "New author"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Are you sure you want to delete the section \"{s}\" ? All its content will be lost without possible recovery."
 
@@ -4523,5 +4526,158 @@ msgstr ""
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
 msgstr ""
 
-msgid "Components.AuthorsManager.New author"
-msgstr "New author"
+msgid "Component.ResourceForm.File is too large, please choose one under 5MB"
+msgstr "File is too large, please choose one under 5MB"
+
+msgid "Component.ResourceForm.Please enter only one bibtex"
+msgstr "Please enter only one bibtex"
+
+msgid "Component.ResourceForm.Invalid bibtext resource"
+msgstr "Invalid bibtext resource"
+
+msgid "Component.ResourceForm.Image file"
+msgstr "Image file"
+
+msgid "Component.ResourceForm.Explanation about the image"
+msgstr "Explanation about the image"
+
+msgid "Component.ResourceForm.Drop an image file ({l} Mb max)"
+msgstr "Drop an image file ({l} Mb max)"
+
+msgid "Component.ResourceForm.Table"
+msgstr "Table"
+
+msgid "Component.ResourceForm.Explanation about the table"
+msgstr "Explanation about the table"
+
+msgid "Component.ResourceForm.Drop an table file(csv, tsv,  ({l} Mb max))"
+msgstr "Drop an table file(csv, tsv,  ({l} Mb max))"
+
+msgid "Component.ResourceForm.Bib file"
+msgstr "Bib file"
+
+msgid "Component.ResourceForm.Explanation about the bib"
+msgstr "Explanation about the bib"
+
+msgid "Component.ResourceForm.Drop a bib file ({l} Mb max)"
+msgstr "Drop a bib file ({l} Mb max)"
+
+msgid "Component.ResourceForm.Url of the video"
+msgstr "Url of the video"
+
+msgid "Component.ResourceForm.Explanation about the video url"
+msgstr "Explanation about the video url"
+
+msgid "Component.ResourceForm.Video url"
+msgstr "Video url"
+
+msgid "Component.ResourceForm.Embed code"
+msgstr "Embed code"
+
+msgid "Component.ResourceForm.Explanation about the embed"
+msgstr "Explanation about the embed"
+
+msgid "Component.ResourceForm.Webpage name"
+msgstr "Webpage name"
+
+msgid "Component.ResourceForm.Explanation about the webpage"
+msgstr "Explanation about the webpage"
+
+msgid "Component.ResourceForm.name"
+msgstr "name"
+
+msgid "Component.ResourceForm.hyperlink"
+msgstr "hyperlink"
+
+msgid "Component.ResourceForm.Explanation about the hyperlink"
+msgstr "Explanation about the hyperlink"
+
+msgid "Component.ResourceForm.http://"
+msgstr "http://"
+
+msgid "Component.ResourceForm.Glossary name"
+msgstr "Glossary name"
+
+msgid "Component.ResourceForm.Explanation about the glossary"
+msgstr "Explanation about the glossary"
+
+msgid "Component.ResourceForm.glossary name"
+msgstr "glossary name"
+
+msgid "Component.ResourceForm.Glossary description"
+msgstr "Glossary description"
+
+msgid "Component.ResourceForm.Explanation about the glossary description"
+msgstr "Explanation about the glossary description"
+
+msgid "Component.ResourceForm.glossary description"
+msgstr "glossary description"
+
+msgid "Component.ResourceForm.this field is required"
+msgstr "this field is required"
+
+msgid "Component.ResourceForm.resource is not valid"
+msgstr "resource is not valid"
+
+msgid "Component.ResourceForm.item"
+msgstr "item"
+
+msgid "Component.ResourceForm.metadata.type"
+msgstr "type"
+
+msgid "Component.ResourceForm.reset type"
+msgstr "reset type"
+
+msgid "Component.ResourceForm.Preview"
+msgstr "Preview"
+
+msgid "Component.ResourceForm.Title of the resource"
+msgstr "Title of the resource"
+
+msgid "Component.ResourceForm.Explanation about the resource title"
+msgstr "Explanation about the resource title"
+
+msgid "Component.ResourceForm.Resource title"
+msgstr "Resource title"
+
+msgid "Component.ResourceForm.Source of the resource"
+msgstr "Source of the resource"
+
+msgid "Component.ResourceForm.Explanation about the resource source"
+msgstr "Explanation about the resource source"
+
+msgid "Component.ResourceForm.Resource source"
+msgstr "Resource source"
+
+msgid "Component.ResourceForm.authors of the resource"
+msgstr "authors of the resource"
+
+msgid "Component.ResourceForm.help about resource authors"
+msgstr "help about resource authors"
+
+msgid "Component.ResourceForm.Date of creation of the resource"
+msgstr "Date of creation of the resource"
+
+msgid "Component.ResourceForm.Explanation about the resource date"
+msgstr "Explanation about the resource date"
+
+msgid "Component.ResourceForm.Resource date"
+msgstr "Resource date"
+
+msgid "Component.ResourceForm.Description of the resource"
+msgstr "Description of the resource"
+
+msgid "Component.ResourceForm.Explanation about the resource description"
+msgstr "Explanation about the resource description"
+
+msgid "Component.ResourceForm.Resource description"
+msgstr "Resource description"
+
+msgid "Component.ResourceForm.Resource is not valid"
+msgstr "Resource is not valid"
+
+msgid "Component.ResourceForm.Cancel"
+msgstr "Cancel"
+
+msgid "Features.SectionViewContainer.Your data is not saved, are you sure you want to leave?"
+msgstr "Your data is not saved, are you sure you want to leave?"
