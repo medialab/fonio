@@ -40,6 +40,7 @@ const EditionUiWrapperLayout = ({
   sectionId,
   navLocation,
   navbarOpen,
+  lang,
   actions: {
     setUserInfoTemp,
     setUserInfoModalOpen,
@@ -104,7 +105,7 @@ const EditionUiWrapperLayout = ({
         });
         break;
       case 'html':
-        get(`${config.restUrl}/stories/${storyId}?edit=false&&format=html`)
+        get(`${config.restUrl}/stories/${storyId}?edit=false&&format=html&&locale=${lang}`)
         .then(({data}) => {
           if (data) {
             downloadFile(data, 'html', title);

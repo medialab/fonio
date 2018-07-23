@@ -14,6 +14,7 @@ import EditionUiWrapperLayout from './EditionUiWrapperLayout';
 
 @connect(
   state => ({
+    lang: state.i18nState && state.i18nState.lang,
     ...connectionsDuck.selector(state.connections),
     ...duck.selector(state.editionUiWrapper),
     ...userInfoDuck.selector(state.userInfo),
