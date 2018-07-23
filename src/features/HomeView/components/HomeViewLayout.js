@@ -320,10 +320,9 @@ class HomeViewLayout extends Component {
               .then((resp) => {
                 if (resp.result) {
                   setPasswordModalOpen(false);
-                  saveStoryToken(res.result.data.story.id, res.result.data.token);
                   setNewStoryOpen(false);
                   history.push({
-                    pathname: `/story/${res.result.data.story.id}/`,
+                    pathname: `/story/${newStory.id}/`,
                   });
                 }
               });

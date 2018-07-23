@@ -33,7 +33,7 @@ const EnterPasswordModal = ({
 
   const errorValidator = (values) => {
     return {
-      password: (!values.password || values.password.length < 6) ? translate('Password should be at least 6 characters') : null,
+      password: (!values.password || (mode === 'create' && values.password.length < 6)) ? translate('Password should be at least 6 characters') : null,
     };
   };
 
