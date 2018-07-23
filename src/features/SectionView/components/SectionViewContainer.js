@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {
   withRouter,
+  Prompt
 } from 'react-router';
 
 import {
@@ -71,6 +72,7 @@ class SectionViewContainer extends Component {
 
   constructor(props) {
     super(props);
+    this.confirmExit = this.confirmExit.bind(this);
   }
 
   getChildContext = () => ({
@@ -79,6 +81,7 @@ class SectionViewContainer extends Component {
 
 
   componentDidMount = () => {
+    window.addEventListener('beforeunload', this.confirmExit);
     // require lock if edited story is here
     if (this.props.editedStory) {
       this.requireLockOnSection(this.props);
@@ -152,6 +155,15 @@ class SectionViewContainer extends Component {
     this.unlockOnSection(this.props);
     this.props.actions.setEditedSectionId(undefined);
     this.props.actions.resetDraftEditorsStates();
+  }
+
+  confirmExit(e) {
+    const {storyIsSaved} = this.props;
+    if (!storyIsSaved) {
+      const confirmationMessage = '\o/';
+      e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
+      return confirmationMessage;
+    }
   }
 
   setDraggedResourceId = resourceId => {
@@ -291,6 +303,7 @@ class SectionViewContainer extends Component {
           }
         },
         editorBlocked,
+        storyIsSaved,
         actions: {
           setEditorBlocked
         }
@@ -309,6 +322,9 @@ class SectionViewContainer extends Component {
         return (
           <DataUrlProvider storyId={storyId} serverUrl={config.apiUrl} >
             <EditionUiWrapper>
+              <Prompt
+                when={!storyIsSaved}
+                message={translate('Your data is not saved, are you sure you want to leave?')} />
               <SectionViewLayout
                 section={section}
                 goToSection={goToSection}

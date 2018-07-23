@@ -53,6 +53,7 @@ export const SET_ASSET_REQUEST_CONTENT_ID = 'SET_ASSET_REQUEST_CONTENT_ID';
 
 export const SET_EDITOR_FOCUS = 'SET_EDITOR_FOCUS';
 export const SET_EDITOR_BLOCKED = 'SET_EDITOR_BLOCKED';
+export const SET_STORY_IS_SAVED = 'SET_STORY_IS_SAVED';
 
 /**
  * data
@@ -119,6 +120,11 @@ export const setEditedSectionId = payload => ({
 
 export const setShortcutsHelpVisible = payload => ({
   type: SET_SHORTCUTS_HELP_VISIBLE,
+  payload,
+});
+
+export const setStoryIsSaved = payload => ({
+  type: SET_STORY_IS_SAVED,
   payload,
 });
 
@@ -257,6 +263,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_DRAGGED_RESOURCE_ID:
     case SET_EDITOR_BLOCKED:
     case SET_SHORTCUTS_HELP_VISIBLE:
+    case SET_STORY_IS_SAVED:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,

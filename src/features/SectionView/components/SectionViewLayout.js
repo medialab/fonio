@@ -121,6 +121,7 @@ const SectionViewLayout = ({
 
     setNewResourceType,
     setEmbedResourceAfterCreation,
+    setStoryIsSaved,
   },
   goToSection,
   summonAsset,
@@ -558,6 +559,7 @@ const SectionViewLayout = ({
             setAssetRequestContentId={setAssetRequestContentId}
             startNewResourceConfiguration={startNewResourceConfiguration}
             startExistingResourceConfiguration={startExistingResourceConfiguration}
+            setStoryIsSaved={setStoryIsSaved}
             summonAsset={summonAsset} />
             : <LoadingScreen />
         }

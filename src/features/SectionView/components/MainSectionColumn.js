@@ -84,6 +84,7 @@ const MainSectionColumn = ({
   deleteContextualizationFromId,
 
   setEditorBlocked,
+  setStoryIsSaved,
   setAssetRequestContentId,
   startNewResourceConfiguration,
   startExistingResourceConfiguration,
@@ -434,6 +435,7 @@ const MainSectionColumn = ({
 
                     startNewResourceConfiguration={startNewResourceConfiguration}
                     startExistingResourceConfiguration={startExistingResourceConfiguration}
+                    setStoryIsSaved={setStoryIsSaved}
 
                     setEditorBlocked={setEditorBlocked}
                     setEditorFocus={setEditorFocus} />

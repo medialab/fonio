@@ -623,6 +623,7 @@ class SectionEditor extends Component {
             : this.editor.generateEmptyEditor()
         });
     this.props.updateDraftEditorsStates(editors);
+    this.props.setStoryIsSaved(true);
   }
 
   updateSectionRawContent = (editorStateId, storyId, sectionId) => {
