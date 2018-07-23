@@ -409,6 +409,7 @@ const MainSectionColumn = ({
                     editorFocus={editorFocus}
                     userId={userId}
                     draggedResourceId={draggedResourceId}
+                    disablePaste={(userLockedResourceId || mainColumnMode !== 'edit') && !editorFocus}
 
                     updateSection={newSection => onUpdateSection(newSection)}
 
