@@ -403,6 +403,7 @@ class LibraryViewLayout extends Component {
       });
       setPromptedToDeleteResourceId(undefined);
       setResourcesPromptedToDelete([]);
+      setSelectedResourcesIds([]);
     };
 
     let endangeredContextualizationsLength = 0;

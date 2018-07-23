@@ -121,6 +121,7 @@ const SectionViewLayout = ({
 
     setNewResourceType,
     setEmbedResourceAfterCreation,
+    setStoryIsSaved,
   },
   goToSection,
   summonAsset,
@@ -401,12 +402,14 @@ const SectionViewLayout = ({
   };
 
   const onResourceEditAttempt = resourceId => {
-     enterBlock({
-      storyId,
-      userId,
-      blockType: 'resources',
-      blockId: resourceId
-    });
+    if (userLockedResourceId !== resourceId) {
+      enterBlock({
+        storyId,
+        userId,
+        blockType: 'resources',
+        blockId: resourceId
+      });
+    }
   };
 
   const onSetCoverImage = resourceId => {
@@ -556,6 +559,7 @@ const SectionViewLayout = ({
             setAssetRequestContentId={setAssetRequestContentId}
             startNewResourceConfiguration={startNewResourceConfiguration}
             startExistingResourceConfiguration={startExistingResourceConfiguration}
+            setStoryIsSaved={setStoryIsSaved}
             summonAsset={summonAsset} />
             : <LoadingScreen />
         }
