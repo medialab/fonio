@@ -48,7 +48,7 @@ export const clearErrorMessages = () => ({
 export const setBrowserWarning = (payload) => ({
   type: SET_BROWSER_WARNING,
   payload
-})
+});
 
 const FAIL_DEFAULT_STATE = {
   requestFail: undefined,
@@ -147,7 +147,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
       return {
         ...state,
         browserWarning: payload
-      }
+      };
     default:
       return state;
   }

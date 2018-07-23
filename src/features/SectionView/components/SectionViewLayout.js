@@ -282,7 +282,6 @@ const SectionViewLayout = ({
         // resource is cited in this section view
         if (Object.keys(editorStates).indexOf(key) !== -1) {
           const sectionContents = editorStates[thatSection.id] ? {...convertToRaw(editorStates[thatSection.id].getCurrentContent())} : thatSection.contents;
-
           const notesContents = Object.keys(thatSection.notes).reduce((res, noteId) => ({
             ...res,
             [noteId]: editorStates[noteId] ? convertToRaw(editorStates[noteId].getCurrentContent()) : thatSection.notes[noteId].contents
