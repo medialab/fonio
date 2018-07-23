@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-23\n"
-"PO-Revision-Date: Mon Jul 23 2018 16:16:25 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jul 23 2018 16:17:49 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4649,6 +4649,12 @@ msgstr "Cancel"
 msgid "Features.SectionViewContainer.Your data is not saved, are you sure you want to leave?"
 msgstr "Your data is not saved, are you sure you want to leave?"
 
+msgid "Components.NewSectionForm.Section authors"
+msgstr "Section authors"
+
+msgid "Components.NewSectionForm.help about section authors"
+msgstr "help about section authors"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Are you sure you want to delete the section \"{s}\" ? All its content will be lost without possible recovery."
 
@@ -4681,9 +4687,3 @@ msgstr ""
 
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
 msgstr ""
-
-msgid "Components.NewSectionForm.Section authors"
-msgstr "Section authors"
-
-msgid "Components.NewSectionForm.help about section authors"
-msgstr "help about section authors"
