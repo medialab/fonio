@@ -409,14 +409,16 @@ class SectionEditor extends Component {
   }
 
   /**
-   * Handles user cmd+c like command (restoring stashed contextualizations among other things)
+   * Handles user cmd+v like command (restoring stashed contextualizations among other things)
    */
   onPaste = e => {
-    this.props.setEditorBlocked(true);
-    this.handlePaste(e);
-    setTimeout(() => {
-      this.props.setEditorBlocked(false);
-    });
+    if (!this.props.disablePaste) {
+      this.props.setEditorBlocked(true);
+      this.handlePaste(e);
+      setTimeout(() => {
+        this.props.setEditorBlocked(false);
+      });
+    }
   }
 
 

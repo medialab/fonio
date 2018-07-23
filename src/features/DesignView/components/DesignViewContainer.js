@@ -22,6 +22,7 @@ import DataUrlProvider from '../../../components/DataUrlProvider';
 
 @connect(
   state => ({
+    lang: state.i18nState && state.i18nState.lang,
     ...connectionsDuck.selector(state.connections),
     ...storyDuck.selector(state.editedStory),
     ...duck.selector(state.design),
