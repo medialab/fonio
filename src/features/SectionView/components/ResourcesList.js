@@ -24,6 +24,7 @@ class ResourceCardWrapper extends Component {
   render = () => {
     const {
       resource,
+      userId,
       handleDelete,
       getResourceTitle,
       reverseResourcesLockMap,
@@ -38,7 +39,7 @@ class ResourceCardWrapper extends Component {
         getTitle={getResourceTitle}
         onSetCoverImage={onSetCoverImage}
         lockData={reverseResourcesLockMap[resource.id]}
-        isActive={userLockedResourceId}
+        isActive={userLockedResourceId === userId}
         onEdit={handleEdit} />
     </Column>);
   }
@@ -54,6 +55,7 @@ export default class ResourcesList extends Component {
   render = () => {
     const {
       resources,
+      userId,
       onDeleteResource,
       onResourceEditAttempt,
       onSetCoverImage,
@@ -80,6 +82,7 @@ export default class ResourcesList extends Component {
         <div key={key} style={style}>
           <ResourceCardWrapper
             resource={resources[index]}
+            userId={userId}
             handleDelete={handleDelete}
             getResourceTitle={getResourceTitle}
             reverseResourcesLockMap={reverseResourcesLockMap}
