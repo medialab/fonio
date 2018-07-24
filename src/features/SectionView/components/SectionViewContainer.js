@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {
   withRouter,
-  Prompt
 } from 'react-router';
 
 import {
@@ -303,7 +302,6 @@ class SectionViewContainer extends Component {
           }
         },
         editorBlocked,
-        storyIsSaved,
         actions: {
           setEditorBlocked
         }
@@ -322,9 +320,6 @@ class SectionViewContainer extends Component {
         return (
           <DataUrlProvider storyId={storyId} serverUrl={config.apiUrl} >
             <EditionUiWrapper>
-              <Prompt
-                when={!storyIsSaved}
-                message={translate('Your data is not saved, are you sure you want to leave?')} />
               <SectionViewLayout
                 section={section}
                 goToSection={goToSection}
