@@ -326,51 +326,50 @@ export function inferMetadata(data, assetType) {
     let newEditorState = editorState;
 
     let isMutable = false;
-    if (selectedText.length === 0 && insertionType === 'inline') {
-      let placeholderText;
-      switch (resource.metadata.type) {
-        case 'glossary':
-          placeholderText = resource.data.name;
-          isMutable = true;
-          break;
-        case 'webpage':
-          placeholderText = resource.metadata.title;
-          isMutable = true;
-          break;
-        case 'bib':
-        default:
-          placeholderText = ' ';
-          break;
+    let selectedDisplacement ;
+    if (insertionType === 'inline') {
+      selectedDisplacement = selectedText.length;
+      // if selection is empty we add placeholder text
+      if (selectedText.length === 0) {
+        let placeholderText;
+        switch (resource.metadata.type) {
+          case 'glossary':
+            placeholderText = resource.data.name;
+            isMutable = true;
+            break;
+          case 'webpage':
+            placeholderText = resource.metadata.title;
+            isMutable = true;
+            break;
+          case 'bib':
+          default:
+            placeholderText = ' ';
+            break;
+        }
+        const newContentState = Modifier.replaceText(
+          newEditorState.getCurrentContent(),
+          editorState.getSelection(),
+          placeholderText
+        );
+        newEditorState = EditorState.push(newEditorState, newContentState, 'replace-text');
+        selectedDisplacement = placeholderText.length;
+        newEditorState = EditorState.forceSelection(
+          newEditorState,
+          newEditorState.getSelection().merge({
+            anchorOffset: newEditorState.getSelection().getStartOffset() - selectedDisplacement
+          })
+        );
       }
-      const newContentState = Modifier.replaceText(
-        newEditorState.getCurrentContent(),
-        editorState.getSelection(),
-        placeholderText
-      );
-      newEditorState = EditorState.push(newEditorState, newContentState, 'replace-text');
-      newEditorState = EditorState.forceSelection(
-        newEditorState,
-        newEditorState.getSelection().merge({
-          anchorOffset: newEditorState.getSelection().getStartOffset() - placeholderText.length
-        })
-      );
     }
+      
 
-    // if alias remove text placeholder
-    // if (hasAlias && selectedText.length) {
-    //   const newContentState = Modifier.replaceText(
-    //     newEditorState.getCurrentContent(),
-    //     editorState.getSelection(),
-    //     ''
-    //   );
-    //   newEditorState = EditorState.push(newEditorState, newContentState, 'replace-text');
-    // }
     // update related editor state
     newEditorState = insertionType === 'block' ?
       insertBlockContextualization(newEditorState, contextualization, contextualizer, resource) :
       insertInlineContextualization(newEditorState, contextualization, contextualizer, resource, isMutable);
 
     // update immutable editor state
+
     updateDraftEditorState(editorStateId, newEditorState);
     // update serialized editor state
     let newSection;
