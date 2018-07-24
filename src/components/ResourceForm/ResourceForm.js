@@ -531,8 +531,8 @@ class ResourceForm extends Component {
                           <AuthorsManager
                             field="metadata.authors"
                             id="metadata.authors"
-                            title={translate('authors of the resource')}
-                            titleHelp={translate('help about resource authors')}
+                            title={translate(`authors of the ${formApi.getValue('metadata.type')}`)}
+                            titleHelp={translate(`help about ${formApi.getValue('metadata.type')} authors`)}
                             onChange={(authors) => formApi.setValue('metadata.authors', authors)}
                             authors={formApi.getValue('metadata.authors')} />
                         </Control>
