@@ -607,7 +607,7 @@ const SectionViewLayout = ({
             </thead>
             <tbody>
               <tr>
-                <th><code>cmd+@</code></th>
+                <th><code>cmd+l</code></th>
                 <th>{translate('Anywhere')}</th>
                 <th>{translate('Open item citation widget')}</th>
               </tr>

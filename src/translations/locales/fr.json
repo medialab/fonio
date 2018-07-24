@@ -559,5 +559,8 @@
   "Component.ResourceForm.Cancel": "Cancel",
   "Features.SectionViewContainer.Your data is not saved, are you sure you want to leave?": "Your data is not saved, are you sure you want to leave?",
   "Components.NewSectionForm.Section authors": "Section authors",
-  "Components.NewSectionForm.help about section authors": "help about section authors"
+  "Components.NewSectionForm.help about section authors": "help about section authors",
+  "Component.ResourceForm.Date of creation": "Date of creation",
+  "Component.ResourceForm.Explanation about the date": "Explanation about the date",
+  "Component.SectionEditor.add an element from your library (shortcut : cmd + l)": "add an element from your library (shortcut : cmd + l)"
 }

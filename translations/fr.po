@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-24\n"
-"PO-Revision-Date: Tue Jul 24 2018 16:10:49 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Tue Jul 24 2018 18:21:27 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4655,6 +4655,15 @@ msgstr "Section authors"
 msgid "Components.NewSectionForm.help about section authors"
 msgstr "help about section authors"
 
+msgid "Component.ResourceForm.Date of creation"
+msgstr "Date of creation"
+
+msgid "Component.ResourceForm.Explanation about the date"
+msgstr "Explanation about the date"
+
+msgid "Component.SectionEditor.add an element from your library (shortcut : cmd + l)"
+msgstr "add an element from your library (shortcut : cmd + l)"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
 
@@ -4687,9 +4696,3 @@ msgstr ""
 
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
 msgstr ""
-
-msgid "Component.ResourceForm.Date of creation"
-msgstr "Date of creation"
-
-msgid "Component.ResourceForm.Explanation about the date"
-msgstr "Explanation about the date"
