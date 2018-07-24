@@ -211,7 +211,7 @@ class AssetPreview extends Component {
 
   onClickEdit (e) {
     const {onEditRequest} = this.props;
-    e.stopPropagation();
+    // e.stopPropagation(); // cause lockingMap state not update
     if (typeof onEditRequest === 'function') {
       this.props.onEditRequest();
     }
