@@ -540,9 +540,9 @@ class ResourceForm extends Component {
                       <Field>
                         <Control>
                           <Label>
-                            {translate('Date of creation of the resource')}
+                            {translate('Date of creation')}
                             <HelpPin place="right">
-                              {translate('Explanation about the resource date')}
+                              {translate('Explanation about the date')}
                             </HelpPin>
                           </Label>
                           <Text
