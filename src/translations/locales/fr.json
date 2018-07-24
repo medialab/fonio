@@ -557,5 +557,7 @@
   "Component.ResourceForm.Resource description": "Resource description",
   "Component.ResourceForm.Resource is not valid": "Resource is not valid",
   "Component.ResourceForm.Cancel": "Cancel",
-  "Features.SectionViewContainer.Your data is not saved, are you sure you want to leave?": "Your data is not saved, are you sure you want to leave?"
+  "Features.SectionViewContainer.Your data is not saved, are you sure you want to leave?": "Your data is not saved, are you sure you want to leave?",
+  "Components.NewSectionForm.Section authors": "Section authors",
+  "Components.NewSectionForm.help about section authors": "help about section authors"
 }

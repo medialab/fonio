@@ -334,7 +334,7 @@ export function inferMetadata(data, assetType) {
           isMutable = true;
           break;
         case 'webpage':
-          placeholderText = resource.data.name;
+          placeholderText = resource.metadata.title;
           isMutable = true;
           break;
         case 'bib':

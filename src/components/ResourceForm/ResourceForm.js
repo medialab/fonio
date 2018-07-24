@@ -249,7 +249,7 @@ class DataForm extends Component {
     case 'webpage':
       return (
         <Column>
-          <Field>
+          {/*<Field>
             <Control>
               <Label>
                 {translate('Webpage name')}
@@ -263,7 +263,7 @@ class DataForm extends Component {
                 type="text"
                 placeholder={translate('name')} />
             </Control>
-          </Field>
+          </Field>*/}
           <Field>
             <Control>
               <Label>

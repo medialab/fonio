@@ -576,13 +576,12 @@ export const handleCopy = function(event) {
                   },
                   data: {
                     url,
-                    name: text
                   }
                 };
                 contextualizer = {
                   id: contextualizerId,
                   type: 'webpage',
-                  alias: text,
+                  // alias: text,
                   insertionType: 'inline'
                 };
                 contextualization = {
