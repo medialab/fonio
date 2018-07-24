@@ -18,7 +18,7 @@ import resourceSchema from 'quinoa-schemas/resource';
  * ===================================================
  */
 
-import {CREATE_RESOURCE} from '../StoryManager/duck';
+import {CREATE_RESOURCE, UPDATE_SECTION} from '../StoryManager/duck';
 /**
  * UI
  */
@@ -275,7 +275,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
         ...state,
         storyIsSaved: false
       };
-    case 'SAVE_STORY_SUCCESS':
+    case `${UPDATE_SECTION}_SUCCESS`:
       return {
         ...state,
         storyIsSaved: true
