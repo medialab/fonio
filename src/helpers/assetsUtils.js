@@ -326,7 +326,7 @@ export function inferMetadata(data, assetType) {
     let newEditorState = editorState;
 
     let isMutable = false;
-    let selectedDisplacement ;
+    let selectedDisplacement;
     if (insertionType === 'inline') {
       selectedDisplacement = selectedText.length;
       // if selection is empty we add placeholder text
@@ -361,7 +361,7 @@ export function inferMetadata(data, assetType) {
         );
       }
     }
-      
+
 
     // update related editor state
     newEditorState = insertionType === 'block' ?
