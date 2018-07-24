@@ -394,6 +394,7 @@ const DATA_DEFAULT_STATE = {
  */
 function data(state = DATA_DEFAULT_STATE, action) {
   const {payload} = action;
+  let story;
   let newStory;
   switch (action.type) {
      case SET_EDITION_HISTORY:
@@ -449,7 +450,16 @@ function data(state = DATA_DEFAULT_STATE, action) {
         stories: thatData
       };
     case `${CREATE_STORY}_SUCCESS`:
-      const {story} = action.result.data;
+      story = action.result.data && action.result.data.story;
+      return {
+        ...state,
+        stories: {
+          ...state.stories,
+          [story.id]: story
+        }
+      };
+    case `${OVERRIDE_STORY}_SUCCESS`:
+      story = action.result.data;
       return {
         ...state,
         stories: {
@@ -458,6 +468,7 @@ function data(state = DATA_DEFAULT_STATE, action) {
         }
       };
     case `${CREATE_STORY}_BROADCAST`:
+    case `${OVERRIDE_STORY}_BROADCAST`:
       return {
         ...state,
         stories: {
