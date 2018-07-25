@@ -18,8 +18,15 @@
 .aside-edition-container{
   &:not(.is-collapsed){
     min-width: 30%;
-
   }
+}
+
+.column,
+.columns,
+.stretched-layout-container,
+.stretched-layout-item
+{
+  transition: all .5s ease;
 }
 
 @media screen and (max-width: 1087px) {
