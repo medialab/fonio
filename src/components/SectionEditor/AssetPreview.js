@@ -248,18 +248,20 @@ class AssetPreview extends Component {
                 </Column>
               </Columns>
             </Level>
-            <Level>
-              <Column>
-                <Column>
-                  <Button style={{overflow: 'visible'}} isColor="warning" onClick={this.onClickDelete}>
+            <div>
+              <div style={{width: '100%'}}>
+                <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
+                  <Button
+                    isFullWidth style={{overflow: 'visible'}} isColor="warning"
+                    onClick={this.onClickDelete}>
                     <span style={{marginRight: '1em'}}>{translate('delete mention')}</span>
                     <HelpPin>
                       {translate(`The ${metadata.type} will not be delete from the library`)}
                     </HelpPin>
                   </Button>
                 </Column>
-                <Column>
-                  <Button isColor="primary" onClick={this.onClickEdit}>
+                <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
+                  <Button isFullWidth isColor="primary" onClick={this.onClickEdit}>
                     {translate(`edit ${metadata.type}`)}
                   </Button>
                 </Column>
@@ -268,8 +270,8 @@ class AssetPreview extends Component {
                     {translate('show info')}
                   </Button>
                 </Column>*/}
-              </Column>
-            </Level>
+              </div>
+            </div>
             {(metadata.description || metadata.source) && isInfoShown &&
               <Level>
                 <Columns>

@@ -21,6 +21,7 @@ import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
   Level,
+  Column,
 } from 'quinoa-design-library/components';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -179,24 +180,25 @@ class ResourceSearchWidget extends Component {
     const filteredOptions = this.state.searchTerm.length === 0 ? options : searchResources(options, this.state.searchTerm);
     return (
       <DropdownContent style={{paddingLeft: '1rem'}} className="fonio-ResourceSearchWidget">
-        <StretchedLayoutContainer>
-          <StretchedLayoutItem>
-            <form className="search-form" onSubmit={this.onSubmit}>
-              {/* <span className="arobase">@</span>*/}
-              <input
-                ref={bindRef}
-                className="input"
-                value={this.state.searchTerm}
-                onBlur={this.onBlur}
-                onChange={this.onTermChange}
-                onKeyUp={this.onKeyUp}
-                onClick={this.onInputClick}
-                placeholder={translate('search-a-resource')} />
-            </form>
-          </StretchedLayoutItem>
-          <StretchedLayoutItem isFlex={1}>
-            <Level />
-            {
+        <Column>
+          <StretchedLayoutContainer>
+            <StretchedLayoutItem>
+              <form className="search-form" onSubmit={this.onSubmit}>
+                {/* <span className="arobase">@</span>*/}
+                <input
+                  ref={bindRef}
+                  className="input"
+                  value={this.state.searchTerm}
+                  onBlur={this.onBlur}
+                  onChange={this.onTermChange}
+                  onKeyUp={this.onKeyUp}
+                  onClick={this.onInputClick}
+                  placeholder={translate('search-a-resource')} />
+              </form>
+            </StretchedLayoutItem>
+            <StretchedLayoutItem isFlex={1}>
+              <Level />
+              {
               filteredOptions.length > 0 ?
 
                 <div className="choice-options-container" style={{maxHeight: '10rem', overflowX: 'hidden', overflowY: 'auto'}}>
@@ -236,16 +238,17 @@ class ResourceSearchWidget extends Component {
                   {options.length ? translate('no items matching search') : translate('add items to your library in order to embed them')}
                 </DropdownItem>
           }
-          </StretchedLayoutItem>
-          <StretchedLayoutItem>
-            <Level />
-            <Button
-              isFullWidth isColor={'primary'} className="choice-option new-option"
-              onClick={onAddNewClick}>
-              {translate('add new item')}
-            </Button>
-          </StretchedLayoutItem>
-        </StretchedLayoutContainer>
+            </StretchedLayoutItem>
+            <StretchedLayoutItem>
+              <Level />
+              <Button
+                isFullWidth isColor={'primary'} className="choice-option new-option"
+                onClick={onAddNewClick}>
+                {translate('add new item')}
+              </Button>
+            </StretchedLayoutItem>
+          </StretchedLayoutContainer>
+        </Column>
       </DropdownContent>
     );
   }
