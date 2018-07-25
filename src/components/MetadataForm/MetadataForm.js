@@ -8,11 +8,11 @@ import {
   Field,
   HelpPin,
   Icon,
+  Column,
+  Columns,
   Label,
   // Input,
   // TextArea,
-  StretchedLayoutContainer,
-  StretchedLayoutItem,
   Help,
 } from 'quinoa-design-library/components/';
 
@@ -117,9 +117,6 @@ const MetadataForm = ({
                   <Icon isSize="small" isAlign="left">
                     <span className="fa fa-lock" aria-hidden="true" />
                   </Icon>
-                  <Icon isSize="small" isAlign="right">
-                    <span className="fa fa-exclamation" aria-hidden="true" />
-                  </Icon>
                 </Control>
                 {
                   formApi.touched.password && formApi.errors && formApi.errors.password &&
@@ -145,21 +142,21 @@ const MetadataForm = ({
           </Field>
           {!story.id && status === 'processing' && <Help>{translate('Creating story')}</Help>}
           {!story.id && status === 'fail' && <Help isColor="danger">{translate('Story could not be created')}</Help>}
-          <StretchedLayoutContainer isDirection="horizontal">
-            <StretchedLayoutItem isFlex={1}>
+          <Columns>
+            <Column isSize={6}>
               <Button isFullWidth type="submit" isColor="success">
                 {story.id ?
                   <span>{translate('Update settings')}</span> :
                   <span>{translate('Create story')}</span>
                 }
               </Button>
-            </StretchedLayoutItem>
-            <StretchedLayoutItem isFlex={1}>
+            </Column>
+            <Column isSize={6}>
               <Button onClick={onCancel} isFullWidth isColor="danger">
                 {translate('Cancel')}
               </Button>
-            </StretchedLayoutItem>
-          </StretchedLayoutContainer>
+            </Column>
+          </Columns>
         </form>
       )}
     </Form>
