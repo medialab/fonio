@@ -381,7 +381,6 @@ function story(state = STORY_DEFAULT_STATE, action) {
   let contextualizers;
   let contextualizersToDeleteIds;
   let contextualizationsToDeleteIds;
-  let createdAt;
   switch (action.type) {
     case LEAVE_STORY:
       return {

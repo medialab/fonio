@@ -1,4 +1,3 @@
-import React from 'react';
 
 export const abbrevString = (str, maxLength = 10) => {
   if (str.length > maxLength) {
