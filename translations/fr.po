@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-25\n"
-"PO-Revision-Date: Wed Jul 25 2018 14:39:56 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Jul 25 2018 19:28:40 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1143,7 +1143,7 @@ msgid "Features.SummaryView.{a} is here on the summary"
 msgstr "{a} is here on the summary"
 
 msgid "Features.SummaryView.{a} is working on section "
-msgstr "{a} travaille sur la section \"{t}\""
+msgstr "{a} travaille sur la section « {t} »"
 
 msgid "Features.SummaryView.What are other authors doing ?"
 msgstr "What are other authors doing ?"
@@ -1791,13 +1791,13 @@ msgid "Features.ReadOnly.Loading"
 msgstr "Loading"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "
-msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
+msgstr "Êtes-vous sûr·e de vouloir supprimer la section « {s} » ? Tous ses contenus seront perdus sans possibilité de les récupérer."
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete this section ?"
 msgstr "Are you sure you want to delete this section ?"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "
-msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  \"{s}\" ?"
+msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete this resource ?"
 msgstr "Are you sure you want to delete this resource ?"
@@ -4287,7 +4287,7 @@ msgid "Features.SectionView.Add a new note"
 msgstr "Add a new note"
 
 msgid "Features.SectionView."
-msgstr "\"**\" then content then \"**\""
+msgstr "« ** » puis du contenu puis « ** »"
 
 msgid "Features.SectionView.Add a title"
 msgstr "Add a title"
@@ -4356,7 +4356,7 @@ msgid "Features.DesignView.You can style your story output with custom css rules
 msgstr ""
 
 msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="
-msgstr "org/en-US/docs/Learn/CSS/Introduction_to_CSS\">this tutorial</a>"
+msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
 
 msgid "Features.DesignView.You will need to use the !important suffix for some rules as you want to override initial rules."
 msgstr ""
@@ -4371,10 +4371,10 @@ msgid "Features.DesignView.You might need to use the !important suffix for some 
 msgstr ""
 
 msgid "Features.HomeView.Provided by the <a target="
-msgstr ""
+msgstr "Fourni par le programme <a target=\"blank\" href=\"http://controverses.org/\">FORCCAST</a>, dédié au développement d'innovations pédagogiques dans la champ de la cartographie des controverses."
 
 msgid "Features.HomeView.Made at the <a target="
-msgstr ""
+msgstr "Fabriqué au <a target=\"blank\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, laboratoire de recherche qui connecte les sciences sociales avec de nouvelles méthodologies de recherche, d'ingénierie et de design."
 
 msgid "Features.HomeView.Avatar icons courtesy of "
 msgstr "Avatar icons courtesy of "
@@ -4685,12 +4685,6 @@ msgstr "add an element from your library (shortcut : cmd + l)"
 msgid "Components.SectionEditor.add a footnote (shortcut : cmd + m)"
 msgstr "add a footnote (shortcut : cmd + m)"
 
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
-msgstr "Êtes-vous sûr·e de vouloir supprimer la section « {s} » ? Tous ses contenus seront perdus sans possibilité de les récupérer."
-
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
-msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
-
 msgid "Components.ResourceForm.Authors of the webpage"
 msgstr "Auteurs de la page web"
 
@@ -4715,9 +4709,6 @@ msgstr "Auteurs du contenu"
 msgid "Components.ResourceForm.help about code authors"
 msgstr "Qui a produit le contenu que vous citez ?"
 
-msgid "Features.SummaryView.{a} is working on section "{t}""
-msgstr "{a} travaille sur la section « {t} »"
-
 msgid "Features.DesignView.image"
 msgstr "images"
 
@@ -4736,11 +4727,74 @@ msgstr "références"
 msgid "Features.DesignView.webpage"
 msgstr "pages web"
 
+msgid "Features.LibraryView.Are you sure you want to delete these items ?"
+msgstr "Êtes-vous sûr·e de vouloir supprimer ces items ?"
+
+msgid "Features.LibraryView.Delete {n} items"
+msgstr "Supprimer {n} items"
+
+msgid "You will destroy one item mention in your content if you delete these items."
+msgstr "Vous allez détruire une mention d'item dans vos contenus si vous supprimer ces items."
+
+msgid "You will destroy {n} item mentions in your content if your delete these items."
+msgstr "Vous allez détruire {n} mentions d'items dans vos contenus si vous supprimez ces items."
+
+msgid "shortcuts help"
+msgstr "Raccourcis clavier"
+
+msgid "Features.LibraryView.You will destroy one item mention in your content if you delete these items."
+msgstr "Vous will destroy one item mention in your content if you delete these items."
+
+msgid "Features.LibraryView.You will destroy {n} item mentions in your content if your delete these items."
+msgstr "You will destroy {n} item mentions in your content if your delete these items."
+
+msgid "Features.DesignView.show settings pannels"
+msgstr "show settings pannels"
+
+msgid "Features.DesignView.hide settings pannels"
+msgstr "hide settings pannels"
+
+msgid "Features.SectionView.show summary and library pannels"
+msgstr "show summary and library pannels"
+
+msgid "Features.SectionView.hide summary and library pannels"
+msgstr "hide summary and library pannels"
+
+msgid "Components.ConfirmToDeleteModal.You will destroy one item mention in your content if you delete these items."
+msgstr "Vous allez détruire une mention de cet item dans vos contenus si vous le supprimez."
+
+msgid "Components.ConfirmToDeleteModal.You will destroy {n} item mentions in your content if your delete these items."
+msgstr "Vous allez détruire {n} mentions de cet item dans vos contenus si vous le supprimez."
+
+msgid "All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)"
+msgstr "Tous les raccourcis présentés ci-dessous sont également accessibles à travers l'interface graphique de l'éditeur (déplacer le curseur / sélectionner du texte)."
+
+msgid "Components.ConfirmToDeleteModal.You will destroy one item mention in your content if you delete this item."
+msgstr ""
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
+msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr "Êtes-vous sûr·e de vouloir supprimer la section « {s} » ? Tous ses contenus seront perdus sans possibilité de les récupérer."
+
+msgid "Components.ConfirmToDeleteModal.You will destroy {n} item mentions in your content if your delete this item."
+msgstr "Vous allez détruire {n} mentions de cet item dans vos contenus si vous le supprimez."
+
+msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
+msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
+
+msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
+msgstr "Fabriqué au <a target=\"blank\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, laboratoire de recherche qui connecte les sciences sociales avec de nouvelles méthodologies de recherche, d'ingénierie et de design."
+
+msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
+msgstr "Fourni par le programme <a target=\"blank\" href=\"http://controverses.org/\">FORCCAST</a>, dédié au développement d'innovations pédagogiques dans la champ de la cartographie des controverses."
+
 msgid "Features.SectionView."#" then space"
 msgstr "« # » puis espace"
 
-msgid "Features.SectionView.">" then space"
-msgstr "« > » puis espace"
+msgid "Features.SectionView."**" then content then "**""
+msgstr "« ** » puis du contenu puis « ** »"
 
 msgid "Features.SectionView."*" then content then "*""
 msgstr "« * » puis du contenu puis « * »"
@@ -4748,14 +4802,8 @@ msgstr "« * » puis du contenu puis « * »"
 msgid "Features.SectionView."*" then space"
 msgstr "« * » puis espace"
 
-msgid "Features.SectionView."**" then content then "**""
-msgstr "« ** » puis du contenu puis « ** »"
+msgid "Features.SectionView.">" then space"
+msgstr "« > » puis espace"
 
-msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
-msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
-
-msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
-msgstr "Fourni par le programme <a target=\"blank\" href=\"http://controverses.org/\">FORCCAST</a>, développant des innovations pédagogiques en cartographie des controverses."
-
-msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
-msgstr "Fabriqué au <a target=\"blank\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, un laboratoire de recherche qui connecte les sciences sociales avec des méthodes inventives."
+msgid "Features.SummaryView.{a} is working on section "{t}""
+msgstr "{a} travaille sur la section « {t} »"
