@@ -24,7 +24,6 @@ import {
   Dropdown,
 
   Field,
-  Control,
   Input,
   Image,
   Button,
@@ -455,6 +454,7 @@ class LibraryViewLayout extends Component {
         return (<ResourceForm
           onCancel={handleCancel}
           onSubmit={handleSubmit}
+          bigSelectColumnsNumber={3}
           resource={resources[userLockedResourceId]} asNewResource={false} />);
       }
       switch (mainColumnMode) {
@@ -485,6 +485,7 @@ class LibraryViewLayout extends Component {
             <ResourceForm
               onCancel={() => setMainColumnMode('list')}
               onSubmit={handleSubmit}
+              bigSelectColumnsNumber={3}
               asNewResource />
           );
         case 'list':
@@ -506,94 +507,94 @@ class LibraryViewLayout extends Component {
             <StretchedLayoutContainer isAbsolute>
               <StretchedLayoutItem>
                 <Column>
-                  <Level isMobile>
-                    <LevelLeft>
-                      <Field hasAddons>
-                        <Control>
+                  <Column>
+                    <Level style={{flexFlow: 'row wrap'}}>
+                      <LevelLeft>
+                        <Field hasAddons>
                           <Input value={this.state.searchString} onChange={e => this.setResourceSearchStringDebounce(e.target.value)} placeholder={translate('Find a resource')} />
-                        </Control>
-                      </Field>
-                      <LevelItem>
-                        <Dropdown
-                          closeOnChange={false}
-                          menuAlign="right"
-                          onToggle={() => {
-                            setOptionsVisible(!optionsVisible);
-                          }}
-                          onChange={setOption}
-                          isActive={optionsVisible}
-                          value={{
-                            sort: {
-                              value: sortValue,
-                            },
-                            filter: {
-                              value: Object.keys(filterValues).filter(f => filterValues[f]),
-                            },
-                            status: {
-                              value: statusFilterValue,
-                            }
-                          }}
-                          options={[
-                            {
-                              label: translate('Sort items by'),
-                              id: 'sort',
-                              options: [
-                                {
-                                  id: 'edited recently',
-                                  label: translate('edited recently')
-                                },
-                                {
-                                  id: 'title',
-                                  label: translate('title')
-                                },
-                              ]
-                            },
-                            {
-                              label: translate('Show items of type'),
-                              id: 'filter',
-                              options: resourceTypes.map(type => ({
-                                id: type,
-                                label: <span style={{display: 'flex', flexFlow: 'row nowrap', alignItems: 'center'}}><Image style={{display: 'inline-block', marginRight: '1em'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
-                              })),
-                            },
-                            {
-                              label: translate('Show ...'),
-                              id: 'status',
-                              options: statusFilterValues.map(type => ({
-                                id: type.id,
-                                label: type.label
-                              })),
-                            }
-                          ]}>
-                          {translate('Options')}
-                        </Dropdown>
-                      </LevelItem>
-                    </LevelLeft>
-                    <LevelRight>
-                      <LevelItem>
-                        <Button
-                          onClick={() => setSelectedResourcesIds(visibleResources.map(res => res.id).filter(id => !resourcesLockMap[id]))}
-                          isDisabled={selectedResourcesIds.length === visibleResources.length}>
-                          {translate('Select all')}
-                        </Button>
-                      </LevelItem>
-                      <LevelItem>
-                        <Button
-                          onClick={() => setSelectedResourcesIds([])}
-                          isDisabled={selectedResourcesIds.length === 0}>
-                          {translate('Deselect all')}
-                        </Button>
-                      </LevelItem>
-                      <LevelItem>
-                        <Button
-                          isColor="danger"
-                          onClick={() => setResourcesPromptedToDelete([...selectedResourcesIds])}
-                          isDisabled={selectedResourcesIds.length === 0}>
-                          {translate('Delete selection')}
-                        </Button>
-                      </LevelItem>
-                    </LevelRight>
-                  </Level>
+                        </Field>
+                        <LevelItem>
+                          <Dropdown
+                            closeOnChange={false}
+                            menuAlign="left"
+                            onToggle={() => {
+                              setOptionsVisible(!optionsVisible);
+                            }}
+                            onChange={setOption}
+                            isActive={optionsVisible}
+                            value={{
+                              sort: {
+                                value: sortValue,
+                              },
+                              filter: {
+                                value: Object.keys(filterValues).filter(f => filterValues[f]),
+                              },
+                              status: {
+                                value: statusFilterValue,
+                              }
+                            }}
+                            options={[
+                              {
+                                label: translate('Sort items by'),
+                                id: 'sort',
+                                options: [
+                                  {
+                                    id: 'edited recently',
+                                    label: translate('edited recently')
+                                  },
+                                  {
+                                    id: 'title',
+                                    label: translate('title')
+                                  },
+                                ]
+                              },
+                              {
+                                label: translate('Show items of type'),
+                                id: 'filter',
+                                options: resourceTypes.map(type => ({
+                                  id: type,
+                                  label: <span style={{display: 'flex', flexFlow: 'row nowrap', alignItems: 'center'}}><Image style={{display: 'inline-block', marginRight: '1em'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
+                                })),
+                              },
+                              {
+                                label: translate('Show ...'),
+                                id: 'status',
+                                options: statusFilterValues.map(type => ({
+                                  id: type.id,
+                                  label: type.label
+                                })),
+                              }
+                            ]}>
+                            {translate('Options')}
+                          </Dropdown>
+                        </LevelItem>
+                      </LevelLeft>
+                      <LevelRight>
+                        <LevelItem>
+                          <Button
+                            onClick={() => setSelectedResourcesIds(visibleResources.map(res => res.id).filter(id => !resourcesLockMap[id]))}
+                            isDisabled={selectedResourcesIds.length === visibleResources.length}>
+                            {translate('Select all')}
+                          </Button>
+                        </LevelItem>
+                        <LevelItem>
+                          <Button
+                            onClick={() => setSelectedResourcesIds([])}
+                            isDisabled={selectedResourcesIds.length === 0}>
+                            {translate('Deselect all')}
+                          </Button>
+                        </LevelItem>
+                        <LevelItem>
+                          <Button
+                            isColor="danger"
+                            onClick={() => setResourcesPromptedToDelete([...selectedResourcesIds])}
+                            isDisabled={selectedResourcesIds.length === 0}>
+                            {translate('Delete selection')}
+                          </Button>
+                        </LevelItem>
+                      </LevelRight>
+                    </Level>
+                  </Column>
                 </Column>
               </StretchedLayoutItem>
               <StretchedLayoutItem isFlex={1} isFlowing>

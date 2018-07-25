@@ -74,68 +74,72 @@ class ResourceCard extends Component {
       }
       else resourceTitle = getTitle(resource) || translate('untitled resource');
 
+
       return (
         <Column
           isSize={{
           mobile: 12,
           tablet: 6,
           desktop: 4,
-          widescreen: 3,
+          widescreen: 4,
         }}>
           <Card
             isSelectable={isSelectable}
             isActive={isActive}
             onClick={onClick}
             bodyContent={
-              <div>
-                <Columns>
-                  <Column isSize={2}>
-                    <Icon isSize="medium" isAlign="left">
-                      <img src={icons[type].black.svg} />
-                    </Icon>
-                  </Column>
+              <div style={{position: 'relative'}}>
+                <div className="card-content-fading">
+                  <Columns>
+                    <Column isSize={2}>
+                      <Icon isSize="medium" isAlign="left">
+                        <img src={icons[type].black.svg} />
+                      </Icon>
+                    </Column>
 
-                  <Column isSize={8}>
-                    <span
-                      data-html
-                      data-tip={resource.metadata.type === 'image' ? `<img style="max-width:10rem;max-height:10rem;" src="${getResourceDataUrl(resource.data)}"></img>` : undefined}
-                      data-for="tooltip">
-                      {abbrevString(resourceTitle, 8)}
-                    </span>
-                  </Column>
+                    <Column isSize={8}>
+                      <span
+                        data-html
+                        data-place="bottom"
+                        data-tip={resource.metadata.type === 'image' ? `<img style="max-width:10rem;max-height:10rem;" src="${getResourceDataUrl(resource.data)}"></img>` : undefined}
+                        data-for="tooltip">
+                        {abbrevString(resourceTitle, 8)}
+                      </span>
+                    </Column>
 
-                  <Column isSize={2}>
-                    <StatusMarker
-                      lockStatus={lockData ? 'locked' : 'open'}
-                      statusMessage={lockData ? translate('edited by {a}', {a: lockData.name}) : translate('open to edition')} />
-                  </Column>
-                </Columns>
-                {
-                  specificSchema.showMetadata &&
-                  <div>
-                    {
-                      source &&
+                    <Column isSize={2}>
+                      <StatusMarker
+                        lockStatus={lockData ? 'locked' : 'open'}
+                        statusMessage={lockData ? translate('edited by {a}', {a: lockData.name}) : translate('open to edition')} />
+                    </Column>
+                  </Columns>
+                  {
+                    specificSchema.showMetadata &&
+                    <div>
+                      {
+                        source &&
+                        <p>
+                          {translate('Source: ')} : {shorten(source, 30)}
+                        </p>
+                      }
+                      {
+                        description &&
+                        <p>
+                          <i>{shorten(description, 40)}</i>
+                        </p>
+                      }
+                    </div>
+                  }
+                  {
+                    type === 'glossary' &&
+                    data && data.description &&
+                    <div>
                       <p>
-                        {translate('Source: ')} : {shorten(source, 30)}
+                        <i>{shorten(data.description, 40)}</i>
                       </p>
-                    }
-                    {
-                      description &&
-                      <p>
-                        <i>{shorten(description, 40)}</i>
-                      </p>
-                    }
-                  </div>
-                }
-                {
-                  type === 'glossary' &&
-                  data && data.description &&
-                  <div>
-                    <p>
-                      <i>{shorten(data.description, 40)}</i>
-                    </p>
-                  </div>
-                }
+                    </div>
+                  }
+                </div>
               </div>
               }
             footerActions={[
