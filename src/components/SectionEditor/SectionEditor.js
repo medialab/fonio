@@ -749,7 +749,7 @@ class SectionEditor extends Component {
     <OrderedListItemButton tooltip={this.translate('ordered list')} key={6} />,
     <UnorderedListItemButton tooltip={this.translate('unordered list')} key={7} />,
     <RemoveFormattingButton tooltip={this.translate('remove formatting for selection')} key={9} />,
-    <LinkButton key={8} />,
+    <LinkButton tooltip={this.translate('add a link')} key={8} />,
     /*<CodeBlockButton />,*/
   ]
 

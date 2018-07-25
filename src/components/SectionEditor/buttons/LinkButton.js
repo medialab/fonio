@@ -15,7 +15,7 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
-const LinkButton = (props, {
+const LinkButton = ({tooltip}, {
   startNewResourceConfiguration,
   t
 }) => {
@@ -26,15 +26,11 @@ const LinkButton = (props, {
     startNewResourceConfiguration(true, 'webpage');
   };
   return (
-    <Button onMouseDown={onClick}>
-      <Columns>
-        <Column isSize={1}>
-          <Image isSize={'24x24'} src={icons.webpage.black.svg} />
-        </Column>
-        <Column isSize={12}>
-          {translate('add link')}
-        </Column>
-      </Columns>
+    <Button 
+    data-tip={tooltip}
+    data-for="style-button"
+    onMouseDown={onClick}>
+      <Image style={{marginLeft: 0, marginRight: 0}} isSize={'24x24'} src={icons.webpage.black.svg} />
     </Button>
   );
 };
