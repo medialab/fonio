@@ -29,6 +29,10 @@
   transition: all .5s ease;
 }
 
+.csl-entry{
+  margin-bottom: 1em;
+}
+
 @media screen and (max-width: 1087px) {
   .aside-edition-container{
   &:not(.is-collapsed){

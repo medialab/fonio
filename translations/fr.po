@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-7-25\n"
-"PO-Revision-Date: Wed Jul 25 2018 11:18:08 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Jul 25 2018 14:39:56 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4670,35 +4670,92 @@ msgstr "File is too large, please choose one under {s} Mb"
 msgid "Components.SectionEditor.add a link"
 msgstr "add a link"
 
+msgid "Components.ResourceForm.File is too large, please choose one under {s} Mb"
+msgstr "File is too large, please choose one under {s} Mb"
+
+msgid "Components.ResourceForm.Date of creation"
+msgstr "Date of creation"
+
+msgid "Components.ResourceForm.Explanation about the date"
+msgstr "Explanation about the date"
+
+msgid "Components.SectionEditor.add an element from your library (shortcut : cmd + l)"
+msgstr "add an element from your library (shortcut : cmd + l)"
+
+msgid "Components.SectionEditor.add a footnote (shortcut : cmd + m)"
+msgstr "add a footnote (shortcut : cmd + m)"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
-msgstr "Êtes-vous sûr·e de vouloir supprimer la section \"{s}\" ? Tous ses contenus seront perdus sans possibilité de les récupérer."
+msgstr "Êtes-vous sûr·e de vouloir supprimer la section « {s} » ? Tous ses contenus seront perdus sans possibilité de les récupérer."
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
-msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  \"{s}\" ?"
+msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
+
+msgid "Components.ResourceForm.Authors of the webpage"
+msgstr "Auteurs de la page web"
+
+msgid "Components.ResourceForm.help about webpage authors"
+msgstr "Qui a écrit la page web que vous citez ?"
+
+msgid "Components.ResourceForm.Authors of the image"
+msgstr "Auteurs de l'image"
+
+msgid "Components.ResourceForm.help about image authors"
+msgstr "Qui a produit l'image que vous citez ?"
+
+msgid "Components.ResourceForm.Authors of the video"
+msgstr "Auteurs de la vidéo"
+
+msgid "Components.ResourceForm.help about video authors"
+msgstr "Qui a produit la vidéo que vous citez ?"
+
+msgid "Components.ResourceForm.Authors of the code"
+msgstr "Auteurs du contenu"
+
+msgid "Components.ResourceForm.help about code authors"
+msgstr "Qui a produit le contenu que vous citez ?"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
-msgstr "{a} travaille sur la section \"{t}\""
+msgstr "{a} travaille sur la section « {t} »"
+
+msgid "Features.DesignView.image"
+msgstr "images"
+
+msgid "Features.DesignView.table"
+msgstr "tableaux"
+
+msgid "Features.DesignView.video"
+msgstr "vidéos"
+
+msgid "Features.DesignView.embed"
+msgstr "morceaux de code"
+
+msgid "Features.DesignView.bib"
+msgstr "références"
+
+msgid "Features.DesignView.webpage"
+msgstr "pages web"
 
 msgid "Features.SectionView."#" then space"
-msgstr "\"#\" then space"
+msgstr "« # » puis espace"
 
 msgid "Features.SectionView.">" then space"
-msgstr "\">\" then space"
+msgstr "« > » puis espace"
 
 msgid "Features.SectionView."*" then content then "*""
-msgstr "\"*\" then content then \"*\""
+msgstr "« * » puis du contenu puis « * »"
 
 msgid "Features.SectionView."*" then space"
-msgstr "\"*\" then space"
+msgstr "« * » puis espace"
 
 msgid "Features.SectionView."**" then content then "**""
-msgstr "\"**\" then content then \"**\""
+msgstr "« ** » puis du contenu puis « ** »"
 
 msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
-msgstr "org/en-US/docs/Learn/CSS/Introduction_to_CSS\">this tutorial</a>"
+msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
 
 msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
-msgstr ""
+msgstr "Fourni par le programme <a target=\"blank\" href=\"http://controverses.org/\">FORCCAST</a>, développant des innovations pédagogiques en cartographie des controverses."
 
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
-msgstr ""
+msgstr "Fabriqué au <a target=\"blank\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, un laboratoire de recherche qui connecte les sciences sociales avec des méthodes inventives."
