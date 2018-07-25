@@ -68,12 +68,18 @@ class AsideSectionColumn extends Component {
     ];
     const {
       story: {
+        metadata: {
+          coverImage: prevCoverImage
+        },
         resources: prevResources,
         sectionsOrder: prevSectionsOrder
       }
     } = this.props;
     const {
       story: {
+        metadata: {
+          coverImage: nextCoverImage
+        },
         resources: nextResources,
         sectionsOrder: nextSectionsOrder
       }
@@ -91,6 +97,7 @@ class AsideSectionColumn extends Component {
       || prevSectionsLocks !== nextSectionsLocks
       || prevSectionsLevels !== nextSectionsLevels
       || prevSectionsTitles !== nextSectionsTitles
+      || prevCoverImage !== nextCoverImage
       || this.state.searchString !== nextState.searchString
     );
   }
@@ -147,7 +154,14 @@ class AsideSectionColumn extends Component {
     } = this.props;
     const {t} = this.context;
     const translate = translateNameSpacer(t, 'Features.SectionView');
-    const {id: storyId} = story;
+    const {
+      id: storyId,
+      metadata: {
+        coverImage = {}
+      }
+    } = story;
+
+    const coverImageId = coverImage.resourceId;
 
     const toggleResourceFilter = type => {
       setResourceFilterValues({
@@ -234,6 +248,7 @@ class AsideSectionColumn extends Component {
                     resources={visibleResources}
                     onDeleteResource={onDeleteResource}
                     onSetCoverImage={onSetCoverImage}
+                    coverImageId={coverImageId}
                     storyId={storyId}
                     userId={userId}
                     onResourceEditAttempt={onResourceEditAttempt}

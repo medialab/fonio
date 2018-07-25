@@ -120,6 +120,7 @@ class ResourceCard extends Component {
       getTitle,
       onSetCoverImage,
       selectMode,
+      coverImageId,
 
       connectDragSource,
       onMouseDown,
@@ -260,6 +261,7 @@ class ResourceCard extends Component {
                         data-place="left"
                         data-effect="solid"
                         data-for="tooltip"
+                        isColor={coverImageId === resource.id ? 'info' : undefined}
                         data-tip={translate('use as cover image')}>
                         <Icon isSize="small" isAlign="left">
                           <img src={icons.cover.black.svg} />

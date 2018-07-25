@@ -164,7 +164,7 @@ const MainSectionColumn = ({
         });
       };
       return (
-        <Column style={{position: 'relative', height: '100%', width: '100%', background: 'white', zIndex: 1000}}>
+        <Column style={{position: 'relative', height: '100%', width: '100%', background: 'white', zIndex: 2}}>
           <StretchedLayoutContainer isAbsolute>
             <StretchedLayoutItem isFlex={1}>
               <Column style={{position: 'relative', height: '100%', width: '100%'}}>
@@ -212,7 +212,7 @@ const MainSectionColumn = ({
           setMainColumnMode('edition');
         };
         return (
-          <Column isWrapper style={{background: 'white', zIndex: 1000}}>
+          <Column isWrapper style={{background: 'white', zIndex: 2}}>
             <StretchedLayoutContainer isAbsolute>
               <StretchedLayoutItem>
                 <StretchedLayoutItem>
