@@ -166,7 +166,7 @@ const MainSectionColumn = ({
         });
       };
       return (
-        <Column style={{position: 'relative', height: '100%', width: '100%', background: 'white', zIndex: 2}}>
+        <Column style={{position: 'relative', height: '100%', width: '100%', background: 'white', zIndex: 3}}>
           <StretchedLayoutContainer isAbsolute>
             <StretchedLayoutItem isFlex={1}>
               <Column style={{position: 'relative', height: '100%', width: '100%'}}>
