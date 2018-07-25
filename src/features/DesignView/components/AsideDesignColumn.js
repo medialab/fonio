@@ -89,6 +89,9 @@ const AsideDesignColumn = ({
 
 
   const renderAsideContent = () => {
+    if (designAsideTabCollapsed) {
+      return null;
+    }
     switch (designAsideTabMode) {
       case 'settings':
         return (
@@ -237,12 +240,16 @@ const AsideDesignColumn = ({
             </Title>
             {stylesMode === 'code' && <Level />}
             <Collapsable isCollapsed={stylesMode !== 'code'}>
-              <CodeEditor
-                value={story.settings.css}
-                onChange={onUpdateCss} />
-              <Button isFullWidth onClick={() => setCssHelpVisible(true)}>
-                {translate('Help')}
-              </Button>
+              <Column>
+                <CodeEditor
+                  value={story.settings.css}
+                  onChange={onUpdateCss} />
+              </Column>
+              <Column>
+                <Button isFullWidth onClick={() => setCssHelpVisible(true)}>
+                  {translate('Help')}
+                </Button>
+              </Column>
             </Collapsable>
           </Column>
         );
@@ -273,13 +280,29 @@ const AsideDesignColumn = ({
                     </TabLink>
                   </Tab>
                 }
-                <Tab className="is-hidden-mobile" onClick={() => setDesignAsideTabCollapsed(!designAsideTabCollapsed)} isActive={designAsideTabCollapsed}><TabLink>{designAsideTabCollapsed ? '▶' : '◀'}</TabLink></Tab>
+                <Tab
+                  className="is-hidden-mobile"
+                  onClick={() => setDesignAsideTabCollapsed(!designAsideTabCollapsed)}
+                  isActive={designAsideTabCollapsed}>
+                  <TabLink
+                    style={{
+                          boxShadow: 'none',
+                          transform: designAsideTabCollapsed ? 'rotate(180deg)' : undefined,
+                          transition: 'all .5s ease'
+                        }}
+                    data-for="tooltip"
+                    data-effect="solid"
+                    data-place="right"
+                    data-tip={designAsideTabCollapsed ? translate('show settings pannels') : translate('hide settings pannels')}>
+                      ◀
+                  </TabLink>
+                </Tab>
               </TabList>
             </Tabs>
           </Column>
         </StretchedLayoutItem>
         <StretchedLayoutItem isFlex={1} isFlowing>
-          {!designAsideTabCollapsed && renderAsideContent()}
+          {renderAsideContent()}
         </StretchedLayoutItem>
       </StretchedLayoutContainer>
     </Column>
