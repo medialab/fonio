@@ -10,7 +10,7 @@ import {createStructuredSelector} from 'reselect';
 
 import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 
-import resourceSchema from 'quinoa-schemas/resource';
+// import resourceSchema from 'quinoa-schemas/resource';
 
 /**
  * ===================================================
@@ -220,11 +220,11 @@ export const setDraggedResourceId = payload => ({
  * ===================================================
  */
 
-const defaultResourceFilterValues = Object.keys(resourceSchema.definitions)
-  .reduce((result, type) => ({
-    ...result,
-    [type]: true
-  }), {});
+// const defaultResourceFilterValues = Object.keys(resourceSchema.definitions)
+//   .reduce((result, type) => ({
+//     ...result,
+//     [type]: true
+//   }), {});
 
 const UI_DEFAULT_STATE = {
   asideTabMode: 'summary',
@@ -232,8 +232,8 @@ const UI_DEFAULT_STATE = {
   mainColumnMode: 'edition',
   resourceOptionsVisible: false,
   resourceSearchString: '',
-  resourceFilterValues: defaultResourceFilterValues,
-  resourceSortValue: 'title',
+  resourceFilterValues: [],
+  resourceSortValue: 'edited recently',
   newResourceMode: 'manually',
   editedSectionId: undefined,
   draggedResourceId: undefined,

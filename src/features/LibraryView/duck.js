@@ -10,7 +10,7 @@ import {createStructuredSelector} from 'reselect';
 
 import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 
-import resourceSchema from 'quinoa-schemas/resource';
+// import resourceSchema from 'quinoa-schemas/resource';
 
 /**
  * ===================================================
@@ -87,22 +87,22 @@ export const setResourcesPromptedToDelete = payload => ({
  * Default/fallback state of the ui state
  */
 
-const defaultFilterValues = Object.keys(resourceSchema.definitions)
-  .reduce((result, type) => ({
-    ...result,
-    [type]: true
-  }), {});
+// const defaultFilterValues = Object.keys(resourceSchema.definitions)
+//   .reduce((result, type) => ({
+//     ...result,
+//     [type]: true
+//   }), {});
 
 const UI_DEFAULT_STATE = {
   mainColumnMode: 'list',
   sortVisible: false,
   filterVisible: false,
   searchString: '',
-  filterValues: defaultFilterValues,
-  sortValue: 'title',
+  filterValues: [],
+  sortValue: 'edited recently',
   promptedToDeleteResourceId: undefined,
   selectedResourcesIds: [],
-  statusFilterValue: 'unlocked',
+  statusFilterValue: 'all',
   resourcesPromptedToDelete: [],
 };
 

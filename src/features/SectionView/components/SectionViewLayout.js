@@ -185,7 +185,10 @@ const SectionViewLayout = ({
   let visibleResources = resourceSearchString.length === 0 ? resourcesList : searchResources(resourcesList, resourceSearchString);
   visibleResources = visibleResources
     .filter(resource => {
-      return activeFilters.indexOf(resource.metadata.type) > -1;
+      if (activeFilters.length) {
+        return activeFilters.indexOf(resource.metadata.type) > -1;
+      }
+      return true;
     })
     .sort((a, b) => {
         switch (resourceSortValue) {

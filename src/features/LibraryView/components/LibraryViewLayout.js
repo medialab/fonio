@@ -189,7 +189,10 @@ class LibraryViewLayout extends Component {
 
     visibleResources = visibleResources
       .filter(resource => {
-        return activeFilters.indexOf(resource.metadata.type) > -1;
+        if (activeFilters.length) {
+          return activeFilters.indexOf(resource.metadata.type) > -1;
+        }
+        return true;
       })
       .filter(resource => {
         switch (statusFilterValue) {
@@ -494,7 +497,7 @@ class LibraryViewLayout extends Component {
               setSortValue(option);
               setOptionsVisible(false);
             }
- else if (optionDomain === 'status') {
+            else if (optionDomain === 'status') {
               setStatusFilterValue(option);
               setOptionsVisible(false);
             }
