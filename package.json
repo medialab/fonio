@@ -72,7 +72,7 @@
     "quinoa-design-library": "0.0.17",
     "quinoa-presentation-player": "^0.2.6",
     "quinoa-schemas": "0.0.17",
-    "quinoa-story-player": "^0.2.22",
+    "quinoa-story-player": "^0.2.24",
     "react": "^16.4.1",
     "react-citeproc": "^0.1.9",
     "react-codemirror2": "^4.0.0",
