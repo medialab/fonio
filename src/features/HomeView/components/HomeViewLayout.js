@@ -336,9 +336,18 @@ class HomeViewLayout extends Component {
               <Column isSize={'1/3'}>
 
                 <Column>
-                  <Title isSize={2}>
+                  <Title isSize={3}>
                     {config.sessionName /* eslint no-undef: 0 */}
                   </Title>
+
+
+                  <div>
+                    <Button isFullWidth onClick={() => setNewStoryOpen(!newStoryOpen)} isColor={newStoryOpen ? 'primary' : 'info'}>
+                      {this.translate('New story')}
+                    </Button>
+                  </div>
+
+                  <Level />
 
                   <div>
                     <Title isSize={5}>
@@ -396,15 +405,8 @@ class HomeViewLayout extends Component {
                   </div>
 
                   <Level />
-                  <Content>
-                    {this.translate('intro short title')}
-                  </Content>
 
-                  <div>
-                    <Button isFullWidth onClick={() => setNewStoryOpen(!newStoryOpen)} isColor={newStoryOpen ? 'primary' : 'info'}>
-                      {this.translate('New story')}
-                    </Button>
-                  </div>
+
                   <Level />
                 </Column>
               </Column>
@@ -423,7 +425,7 @@ class HomeViewLayout extends Component {
                         <StretchedLayoutContainer isDirection="horizontal" isFluid>
                           <StretchedLayoutItem><i>{this.translate('sort by')}</i></StretchedLayoutItem>
                           <StretchedLayoutItem>
-                            / <a onClick={() => setSortingMode('edited by me')}>{
+                            <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('edited by me')}>{
                               sortingMode === 'edited by me' ?
                                 <strong>{this.translate('edited by me')}</strong>
                                 :
@@ -431,7 +433,7 @@ class HomeViewLayout extends Component {
                             }</a>
                           </StretchedLayoutItem>
                           <StretchedLayoutItem>
-                            / <a onClick={() => setSortingMode('edited recently')}>{
+                            <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('edited recently')}>{
                               sortingMode === 'edited recently' ?
                                 <strong>{this.translate('edited recently')}</strong>
                                 :
@@ -439,7 +441,7 @@ class HomeViewLayout extends Component {
                             }</a>
                           </StretchedLayoutItem>
                           <StretchedLayoutItem>
-                            / <a onClick={() => setSortingMode('title')}>{
+                            <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('title')}>{
                               sortingMode === 'title' ?
                                 <strong>{this.translate('title')}</strong>
                                 :
@@ -692,25 +694,17 @@ class HomeViewLayout extends Component {
 
         <Footer id="footer">
           <Container>
-            <Content>
-              <Columns>
-                <Column>
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: this.translate('Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.')
-                    }} />
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: this.translate('Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.')
-                    }} />
-                </Column>
-              </Columns>
-              <Column>
-                {this.translate('Avatar icons courtesy of ')}<a target="blank" href="https://www.flaticon.com/packs/people-faces">Freepik</a>
-              </Column>
-              <Content isSize="small">
-                <p>{this.translate('The source code of Fonio is licensed under free software license ')}<a target="_blank">LGPL</a>{this.translate(' and is hosted on ')}<a target="blank" href="https://github.com/medialab/fonio/">Github</a>.</p>
-              </Content>
+            <Content isSize="small">
+              <p
+                dangerouslySetInnerHTML={{
+                    __html: this.translate('Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.')
+                  }} />
+              <p
+                dangerouslySetInnerHTML={{
+                    __html: this.translate('Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.')
+                  }} />
+              <p>{this.translate('Avatar icons courtesy of ')}<a target="blank" href="https://www.flaticon.com/packs/people-faces">Freepik</a>.</p>
+              <p>{this.translate('The source code of Fonio is licensed under free software license ')}<a target="_blank">LGPL</a>{this.translate(' and is hosted on ')}<a target="blank" href="https://github.com/medialab/fonio/">Github</a>.</p>
             </Content>
           </Container>
         </Footer>

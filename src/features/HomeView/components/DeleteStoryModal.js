@@ -57,9 +57,6 @@ const DeleteStoryModal = ({
                     <Icon isSize="small" isAlign="left">
                       <span className="fa fa-lock" aria-hidden="true" />
                     </Icon>
-                    <Icon isSize="small" isAlign="right">
-                      <span className="fa fa-exclamation" aria-hidden="true" />
-                    </Icon>
                   </Control>
                   {loginStatus === 'processing' && <Help>{translate('Submitting password')}</Help>}
                   {loginStatus === 'fail' && <Help isColor="danger">{translate('Password is not valid')}</Help>}
