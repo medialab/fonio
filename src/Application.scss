@@ -33,6 +33,24 @@
   margin-bottom: 1em;
 }
 
+.modal{
+  &.is-active{
+    z-index: 1000;
+  }
+}
+
+.card-content-fading{
+  max-height: 4rem;
+  overflow: hidden;
+}
+
+
+.bibtex-editor{
+  padding: 1rem;
+  color: white;
+  background: darkgrey;
+}
+
 @media screen and (max-width: 1087px) {
   .aside-edition-container{
   &:not(.is-collapsed){
