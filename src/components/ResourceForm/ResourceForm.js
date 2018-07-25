@@ -99,7 +99,7 @@ class DataForm extends Component {
       });
     const onDropFiles = (files) => {
         if (files.length && files[0].size > realMaxFileSize) {
-          formApi.setError('maxSize', translate('File is too large, please choose one under 5MB'));
+          formApi.setError('maxSize', translate('File is too large, please choose one under {s} Mb', {s: Math.floor(realMaxFileSize)}));
         }
         else {
           formApi.setError('maxSize', undefined);
