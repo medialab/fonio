@@ -599,8 +599,9 @@ class SectionEditor extends Component {
     }
 
     setEditorFocus(undefined);
-    setTimeout(() => setEditorFocus(contentId));
-    // this.editor.focus(contentId);
+    setTimeout(() => {
+      setEditorFocus(contentId);
+    });
     // register assetRequestState
     requestAsset(editorId, selection);
   }

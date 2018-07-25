@@ -15,7 +15,7 @@ const timers = {
 
 import {
   // Input,
-  Button,
+  // Button,
   DropdownItem,
   DropdownContent,
   StretchedLayoutContainer,
@@ -160,7 +160,7 @@ class ResourceSearchWidget extends Component {
   render () {
     const {
       onAssetChoice,
-      addNewResource,
+      // addNewResource,
       options = []
     } = this.props;
     const context = this.context;
@@ -169,9 +169,9 @@ class ResourceSearchWidget extends Component {
       onAssetChoice(option, this.props.contentId);
     };
 
-    const onAddNewClick = () => {
-      addNewResource();
-    };
+    // const onAddNewClick = () => {
+    //   addNewResource();
+    // };
     const bindRef = input => {
       this.input = input;
     };
@@ -239,14 +239,14 @@ class ResourceSearchWidget extends Component {
                 </DropdownItem>
           }
             </StretchedLayoutItem>
-            <StretchedLayoutItem>
+            {/*<StretchedLayoutItem>
               <Level />
               <Button
                 isFullWidth isColor={'primary'} className="choice-option new-option"
                 onClick={onAddNewClick}>
                 {translate('add new item')}
               </Button>
-            </StretchedLayoutItem>
+            </StretchedLayoutItem>*/}
           </StretchedLayoutContainer>
         </Column>
       </DropdownContent>
