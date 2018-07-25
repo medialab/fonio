@@ -581,8 +581,25 @@ function story(state = STORY_DEFAULT_STATE, action) {
      * STORY RESOURCES
      */
     case `${CREATE_RESOURCE}`:
-      createdAt = payload.lastUpdateAt; /* eslint no-fallthrough : 0 */
     case `${CREATE_RESOURCE}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
+      return {
+          ...state,
+          story: {
+            ...state.story,
+            resources: {
+              ...state.story.resources,
+              [payload.resourceId]: {
+                ...payload.resource,
+                lastUpdateAt: payload.lastUpdateAt,
+                createdAt: payload.lastUpdateAt
+              }
+            },
+            lastUpdateAt: payload.lastUpdateAt,
+          }
+      };
     case `${UPDATE_RESOURCE}`:
     case `${UPDATE_RESOURCE}_BROADCAST`:
       if (!state.story) {
@@ -597,7 +614,6 @@ function story(state = STORY_DEFAULT_STATE, action) {
               [payload.resourceId]: {
                 ...payload.resource,
                 lastUpdateAt: payload.lastUpdateAt,
-                createdAt: createdAt ? createdAt : state.story.resources[payload.resourceId].createdAt
               }
             },
             lastUpdateAt: payload.lastUpdateAt,
