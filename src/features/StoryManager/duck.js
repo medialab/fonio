@@ -602,6 +602,23 @@ function story(state = STORY_DEFAULT_STATE, action) {
       };
     case `${UPDATE_RESOURCE}`:
     case `${UPDATE_RESOURCE}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
+      return {
+          ...state,
+          story: {
+            ...state.story,
+            resources: {
+              ...state.story.resources,
+              [payload.resourceId]: {
+                ...payload.resource,
+                lastUpdateAt: payload.lastUpdateAt,
+              }
+            },
+            lastUpdateAt: payload.lastUpdateAt,
+          }
+      };
     case `${UPLOAD_RESOURCE}_SUCCESS`:
       if (!state.story) {
         return state;
