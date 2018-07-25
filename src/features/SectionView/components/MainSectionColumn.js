@@ -462,19 +462,6 @@ const MainSectionColumn = ({
             </StretchedLayoutContainer>
           </Column>
 
-
-          {/*<Level>
-                <Control>
-                  <Label>
-                    {translate('Section content')}
-                    <HelpPin place="right">
-                      {translate('Explanation about the section content')}
-                    </HelpPin>
-                  </Label>
-                </Control>
-              </Level>*/}
-          {/*<Level />*/}
-
         </StretchedLayoutItem>
       </StretchedLayoutContainer>
     </Column>

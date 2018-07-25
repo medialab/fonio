@@ -12,7 +12,7 @@ const AssetButton = ({
   active,
   icon
 }, {t}) => {
-  const translate = translateNameSpacer(t, 'Component.SectionEditor');
+  const translate = translateNameSpacer(t, 'Components.SectionEditor');
   const onMouseDown = event => event.preventDefault();
 
   return (

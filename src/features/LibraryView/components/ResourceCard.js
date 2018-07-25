@@ -37,7 +37,10 @@ class ResourceCard extends Component {
         onClick,
         isSelectable,
       },
-      context: {t}
+      context: {
+        t,
+        getResourceDataUrl
+      }
     } = this;
     const {
         data,
@@ -93,7 +96,12 @@ class ResourceCard extends Component {
                   </Column>
 
                   <Column isSize={8}>
-                    {abbrevString(resourceTitle, 8)}
+                    <span
+                      data-html
+                      data-tip={resource.metadata.type === 'image' ? `<img style="max-width:10rem;max-height:10rem;" src="${getResourceDataUrl(resource.data)}"></img>` : undefined}
+                      data-for="tooltip">
+                      {abbrevString(resourceTitle, 8)}
+                    </span>
                   </Column>
 
                   <Column isSize={2}>
@@ -159,7 +167,8 @@ class ResourceCard extends Component {
 
 
 ResourceCard.contextTypes = {
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
+  getResourceDataUrl: PropTypes.func
 };
 
 

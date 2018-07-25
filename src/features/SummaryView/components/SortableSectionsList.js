@@ -11,6 +11,7 @@ import SectionCard from './SectionCard';
 
 const SortableItem = SortableElement(({
   value: section,
+  story,
   goToSection,
   onDelete,
   setSectionLevel,
@@ -24,6 +25,7 @@ const SortableItem = SortableElement(({
             section={section}
             minified={isSorting}
             goTo={goToSection}
+            story={story}
             onDelete={onDelete}
             setSectionLevel={setSectionLevel}
             lockData={reverseSectionLockMap[section.id]} />

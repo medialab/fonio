@@ -76,7 +76,7 @@ class DataForm extends Component {
       formApi
     } = this.props;
     const {t} = this.context;
-    const translate = translateNameSpacer(t, 'Component.ResourceForm');
+    const translate = translateNameSpacer(t, 'Components.ResourceForm');
 
     const loadResourceData = (type, file) =>
     new Promise((resolve, reject) => {
@@ -531,7 +531,7 @@ class ResourceForm extends Component {
                           <AuthorsManager
                             field="metadata.authors"
                             id="metadata.authors"
-                            title={translate(`authors of the ${formApi.getValue('metadata.type')}`)}
+                            title={translate(`Authors of the ${formApi.getValue('metadata.type')}`)}
                             titleHelp={translate(`help about ${formApi.getValue('metadata.type')} authors`)}
                             onChange={(authors) => formApi.setValue('metadata.authors', authors)}
                             authors={formApi.getValue('metadata.authors')} />

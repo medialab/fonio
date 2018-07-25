@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import {SortableHandle} from 'react-sortable-hoc';
 
+import {Link} from 'react-router-dom';
+
 import config from '../../../config';
 
 import {
@@ -18,6 +20,7 @@ const SectionCard = ({
   lockData,
   setSectionLevel,
   // minified,
+  story,
   onDelete
 }, {t}) => {
 
@@ -57,7 +60,7 @@ const SectionCard = ({
 
   return (
     <Card
-      title={section.metadata.title}
+      title={<Link to={`/story/${story.id}/section/${section.id}`} >{section.metadata.title}</Link>}
       subtitle={section.metadata.subtitle}
       lockStatus={lockData ? 'locked' : 'open'}
       statusMessage={lockData ? translate('edited by {n}', {n: lockData.name}) : translate('open for edition')}

@@ -42,12 +42,6 @@ class InlineCitation extends Component {
     this.state = {
       contextualizerOpen: false
     };
-    // this.state = {
-    //   locator: props.asset.contextualizer && props.asset.contextualizer.locator,
-    //   prefix: props.asset.contextualizer && props.asset.contextualizer.prefix,
-    //   suffix: props.asset.contextualizer && props.asset.contextualizer.suffix,
-    //   optionsVisible: false
-    // };
   }
 
 

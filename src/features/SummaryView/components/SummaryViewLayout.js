@@ -385,6 +385,7 @@ const SummaryViewLayout = ({
                 </Level>
                 <SortableSectionsList
                   items={sectionsList}
+                  story={story}
                   onSortEnd={onSortEnd}
                   goToSection={goToSection}
                   onSortStart={() => setIsSorting(true)}

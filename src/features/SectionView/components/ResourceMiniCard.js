@@ -209,29 +209,26 @@ class ResourceCard extends Component {
           onMouseDown={onMDown}>
           <Card
             bodyContent={
-              <div
-              >
+              <div >
                 <Columns style={{minHeight: '4em', maxHeight: '4em', overflow: 'hidden'}}>
-                  <Column 
-                  isSize={2}>
-                    <Icon 
+                  <Column
+                    isSize={2}>
+                    <Icon
                       data-tip={translate(resource.metadata.type)}
-                      data-for="tooltip" 
-                      isSize="medium" 
-                      isAlign="left"
-                    >
+                      data-for="tooltip"
+                      isSize="medium"
+                      isAlign="left">
                       <img src={icons[type].black.svg} />
                     </Icon>
                   </Column>
 
-                  <Column 
+                  <Column
                     isSize={8}>
                     <span
-                      data-html={true}
+                      data-html
                       data-place="right"
-                      data-tip={resource.metadata.type === 'image' ? `<img style="max-width:10rem;max-height:10rem;" src="${getResourceDataUrl(resource.data)}"></img>`  : undefined}
-                      data-for="tooltip" 
-                    >
+                      data-tip={resource.metadata.type === 'image' ? `<img style="max-width:10rem;max-height:10rem;" src="${getResourceDataUrl(resource.data)}"></img>` : undefined}
+                      data-for="tooltip">
                       {resourceTitle}
                     </span>
                   </Column>
