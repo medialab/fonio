@@ -1,4 +1,4 @@
-
+import React from 'react';
 
 export const abbrevString = (str, maxLength = 10) => {
   if (str.length > maxLength) {
@@ -43,3 +43,18 @@ export const getBrowserInfo = () => {
       version: M[1]
     };
  };
+
+
+export const computeSectionFirstWords = (section, maxLength = 100) => {
+  if (section.contents
+      && section.contents.blocks
+      && section.contents.blocks[0]
+      && section.contents.blocks[0].text
+  ) {
+    return section.contents.blocks[0].text.length > maxLength ?
+      `${section.contents.blocks[0].text.substr(0, maxLength)}...`
+      :
+      section.contents.blocks[0].text;
+  }
+  return '';
+};
