@@ -529,5 +529,15 @@
   "You will destroy one item mention in your content if you delete these items.": "Vous allez détruire une mention d'item dans vos contenus si vous supprimer ces items.",
   "You will destroy {n} item mentions in your content if your delete these items.": "Vous allez détruire {n} mentions d'items dans vos contenus si vous supprimez ces items.",
   "shortcuts help": "shortcuts help",
-  "Components.ConfirmToDeleteModal.You will destroy {n} item mentions in your content if your delete this item.": "Vous allez détruire {n} mentions de cet item dans vos contenus si vous le supprimez."
+  "Components.ConfirmToDeleteModal.You will destroy {n} item mentions in your content if your delete this item.": "Vous allez détruire {n} mentions de cet item dans vos contenus si vous le supprimez.",
+  "Components.LinkModal.Add a hyperlink": "Add a hyperlink",
+  "Components.LinkModal.Pick an existing hyperlink from your library": "Pick an existing hyperlink from your library",
+  "Components.LinkModal.Choose an existing hyperlink": "Choose an existing hyperlink",
+  "Components.LinkModal.Create a new hyperlink": "Create a new hyperlink",
+  "Components.LinkModal.URL address": "URL address",
+  "Components.LinkModal.Hyperlink URL": "Hyperlink URL",
+  "Components.LinkModal.Title of the webpage": "Title of the webpage",
+  "Components.LinkModal.Hyperlink title": "Hyperlink title",
+  "Components.LinkModal.Add hyperlink": "Add hyperlink",
+  "Components.LinkModal.Cancel": "Cancel"
 }

@@ -12,12 +12,15 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 
 const LinkButton = ({tooltip}, {
-  startNewResourceConfiguration,
+  // startNewResourceConfiguration,
+  setLinkModalFocusId,
+  editorFocus
 }) => {
   const onClick = e => {
     e.preventDefault();
     e.stopPropagation();
-    startNewResourceConfiguration(true, 'webpage');
+    // startNewResourceConfiguration(true, 'webpage');
+    setLinkModalFocusId(editorFocus);
   };
   return (
     <Button
@@ -31,7 +34,9 @@ const LinkButton = ({tooltip}, {
 
 
 LinkButton.contextTypes = {
-  startNewResourceConfiguration: PropTypes.func,
+  setLinkModalFocusId: PropTypes.func,
+  editorFocus: PropTypes.string,
+  // startNewResourceConfiguration: PropTypes.func,
 };
 
 export default LinkButton;

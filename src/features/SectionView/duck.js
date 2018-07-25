@@ -30,9 +30,11 @@ const SET_RESOURCE_OPTIONS_VISIBLE = 'SET_RESOURCE_OPTIONS_VISIBLE';
 const SET_RESOURCE_SORT_VALUE = 'SET_RESOURCE_SORT_VALUE';
 const SET_RESOURCE_SEARCH_STRING = 'SET_RESOURCE_SEARCH_STRING';
 const SET_NEW_RESOURCE_MODE = 'SET_NEW_RESOURCE_MODE';
+const SET_PENDING_CONTEXTUALIZATION = 'SET_PENDING_CONTEXTUALIZATION';
 const SET_EDITED_SECTION_ID = 'SET_EDITED_SECTION_ID';
 const SET_DRAGGED_RESOURCE_ID = 'SET_DRAGGED_RESOURCE_ID';
 const SET_SHORTCUTS_HELP_VISIBLE = 'SET_SHORTCUTS_HELP_VISIBLE';
+const SET_LINK_MODAL_FOCUS_ID = 'SET_LINK_MODAL_FOCUS_ID';
 
 /**
  * actions related to resources edition parameters
@@ -103,6 +105,11 @@ export const setNewResourceType = payload => ({
   payload
 });
 
+export const setPendingContextualization = payload => ({
+  type: SET_PENDING_CONTEXTUALIZATION,
+  payload
+});
+
 export const setEmbedResourceAfterCreation = payload => ({
   type: SET_EMBED_RESOURCE_AFTER_CREATION,
   payload
@@ -125,6 +132,11 @@ export const setShortcutsHelpVisible = payload => ({
 
 export const setStoryIsSaved = payload => ({
   type: SET_STORY_IS_SAVED,
+  payload,
+});
+
+export const setLinkModalFocusId = payload => ({
+  type: SET_LINK_MODAL_FOCUS_ID,
   payload,
 });
 
@@ -239,7 +251,8 @@ const UI_DEFAULT_STATE = {
   draggedResourceId: undefined,
   editorBlocked: false,
   storyIsSaved: true,
-  shortcutsHelpVisible: false
+  shortcutsHelpVisible: false,
+  linkModalFocusId: undefined,
 };
 
 /**
@@ -264,6 +277,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_EDITOR_BLOCKED:
     case SET_SHORTCUTS_HELP_VISIBLE:
     case SET_STORY_IS_SAVED:
+    case SET_LINK_MODAL_FOCUS_ID:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -287,7 +301,8 @@ function ui(state = UI_DEFAULT_STATE, action) {
 
 const RESOURCES_EMBED_SETTINGS_DEFAULT_STATE = {
   embedResourceAfterCreation: false,
-  newResourceType: undefined
+  newResourceType: undefined,
+  pendingContextualization: undefined
 };
 /**
  * In-editor resources management
@@ -297,6 +312,7 @@ function resourcesEmbedSettings(state = RESOURCES_EMBED_SETTINGS_DEFAULT_STATE, 
   switch (type) {
     case SET_EMBED_RESOURCE_AFTER_CREATION:
     case SET_NEW_RESOURCE_TYPE:
+    case SET_PENDING_CONTEXTUALIZATION:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -488,6 +504,7 @@ const draggedResourceId = state => state.ui.draggedResourceId;
 const editorBlocked = state => state.ui.editorBlocked;
 const storyIsSaved = state => state.ui.storyIsSaved;
 const shortcutsHelpVisible = state => state.ui.shortcutsHelpVisible;
+const linkModalFocusId = state => state.ui.linkModalFocusId;
 
 const editorStates = state => state.editorstates;
 const assetRequestState = state => state.assetRequeststate;
@@ -497,6 +514,7 @@ const previousEditorFocus = state => state.editorFocusState.previousEditorFocus;
 
 
 const embedResourceAfterCreation = state => state.resourcesEmbedSettings.embedResourceAfterCreation;
+const pendingContextualization = state => state.resourcesEmbedSettings.pendingContextualization;
 const newResourceType = state => state.resourcesEmbedSettings.newResourceType;
 
 /**
@@ -508,6 +526,7 @@ export const selector = createStructuredSelector({
   asideTabCollapsed,
   mainColumnMode,
   shortcutsHelpVisible,
+  linkModalFocusId,
 
   resourceOptionsVisible,
   resourceFilterValues,
@@ -518,6 +537,8 @@ export const selector = createStructuredSelector({
   draggedResourceId,
   editorBlocked,
   storyIsSaved,
+
+  pendingContextualization,
 
   editorStates,
   assetRequestState,

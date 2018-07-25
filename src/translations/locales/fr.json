@@ -529,5 +529,15 @@
   "Features.SummaryView.{a} is working on {l}": "{a} travaille sur {l}",
   "You will destroy one item mention in your content if you delete these items.": "Vous allez détruire une mention d'item dans vos contenus si vous supprimer ces items.",
   "You will destroy {n} item mentions in your content if your delete these items.": "Vous allez détruire {n} mentions d'items dans vos contenus si vous supprimez ces items.",
-  "shortcuts help": "Raccourcis clavier"
+  "shortcuts help": "Raccourcis clavier",
+  "Components.LinkModal.Add a hyperlink": "Ajouter un hyperlien",
+  "Components.LinkModal.Pick an existing hyperlink from your library": "Sélectionner un hyperlien existant dans la bibliothèque",
+  "Components.LinkModal.Choose an existing hyperlink": "Choisir un hyperlien existant",
+  "Components.LinkModal.Create a new hyperlink": "Créer un nouvel hyperlink",
+  "Components.LinkModal.URL address": "Adresse URL",
+  "Components.LinkModal.Hyperlink URL": "URL de l'hyperlien",
+  "Components.LinkModal.Title of the webpage": "Titre de la page web",
+  "Components.LinkModal.Hyperlink title": "Titre",
+  "Components.LinkModal.Add hyperlink": "Ajouter",
+  "Components.LinkModal.Cancel": "Annuler"
 }

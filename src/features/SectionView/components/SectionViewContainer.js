@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {v4 as genId} from 'uuid';
 import {
   withRouter,
 } from 'react-router';
@@ -22,6 +23,7 @@ import {
 } from '../../../helpers/assetsUtils';
 import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
+import {createDefaultResource} from '../../../helpers/schemaUtils';
 
 import DataUrlProvider from '../../../components/DataUrlProvider';
 
@@ -62,7 +64,9 @@ const {maxBatchNumber} = config;
 class SectionViewContainer extends Component {
 
   static childContextTypes = {
-    setDraggedResourceId: PropTypes.func
+    setDraggedResourceId: PropTypes.func,
+    setLinkModalFocusId: PropTypes.func,
+    editorFocus: PropTypes.string,
   }
 
   static contextTypes = {
@@ -75,7 +79,9 @@ class SectionViewContainer extends Component {
   }
 
   getChildContext = () => ({
-    setDraggedResourceId: this.setDraggedResourceId
+    setDraggedResourceId: this.setDraggedResourceId,
+    setLinkModalFocusId: this.setLinkModalFocusId,
+    editorFocus: this.props.editorFocus,
   })
 
 
@@ -110,6 +116,8 @@ class SectionViewContainer extends Component {
           storyId: nextStoryId
         }
       },
+      pendingContextualization,
+      editedStory
     } = nextProps;
 
     /**
@@ -148,6 +156,20 @@ class SectionViewContainer extends Component {
       this.props.actions.setNewResourceType(undefined);
       this.props.actions.setEditedSectionId(undefined);
     }
+
+    if (pendingContextualization) {
+      const {
+        resourceId,
+        contentId
+      } = pendingContextualization;
+      if (editedStory && editedStory.resources && editedStory.resources[resourceId]) {
+        nextProps.actions.setPendingContextualization(undefined);
+        setTimeout(() => {
+          this.onSummonAsset(contentId, resourceId);
+          nextProps.actions.setLinkModalFocusId(undefined);
+        });
+      }
+    }
   }
 
   componentWillUnmount = () => {
@@ -167,6 +189,10 @@ class SectionViewContainer extends Component {
 
   setDraggedResourceId = resourceId => {
     this.props.actions.setDraggedResourceId(resourceId);
+  }
+
+  setLinkModalFocusId = (focusId) => {
+    this.props.actions.setLinkModalFocusId(focusId);
   }
 
 
@@ -275,6 +301,49 @@ class SectionViewContainer extends Component {
 
   onSummonAsset = (contentId, resourceId) => summonAsset(contentId, resourceId, this.props);
 
+  onCreateHyperlink = ({title, url}, contentId) => {
+    const {
+      match: {
+        params: {
+          storyId,
+        }
+      },
+      userId,
+      actions: {
+        createResource,
+      }
+    } = this.props;
+    const id = genId();
+    const resource = {
+      ...createDefaultResource(),
+      id,
+      metadata: {
+        type: 'webpage',
+        createdAt: new Date().getTime(),
+        lastModifiedAt: new Date().getTime(),
+        title,
+      },
+      data: {
+        url,
+      }
+    };
+    createResource({
+      resourceId: id,
+      storyId,
+      userId,
+      resource
+    });
+    this.props.actions.setPendingContextualization({
+      resourceId: id,
+      contentId
+    });
+  }
+
+  onContextualizeHyperlink = (resourceId, contentId) => {
+    this.onSummonAsset(contentId, resourceId);
+    this.props.actions.setLinkModalFocusId(undefined);
+  }
+
   embedLastResource = () => {
     const resources = this.props.editedStory.resources;
     const resourcesMap = Object.keys(resources).map(id => resources[id]);
@@ -308,6 +377,8 @@ class SectionViewContainer extends Component {
       },
       goToSection,
       onSummonAsset,
+      onContextualizeHyperlink,
+      onCreateHyperlink,
       submitMultiResources,
       embedLastResource,
       context: {t},
@@ -327,6 +398,8 @@ class SectionViewContainer extends Component {
                 embedLastResource={embedLastResource}
                 summonAsset={onSummonAsset}
                 submitMultiResources={submitMultiResources}
+                onCreateHyperlink={onCreateHyperlink}
+                onContextualizeHyperlink={onContextualizeHyperlink}
                 {...this.props} />
               <ModalCard
                 isActive={editorBlocked}

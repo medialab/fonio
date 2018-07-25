@@ -43,6 +43,7 @@ import MainSectionColumn from './MainSectionColumn';
 
 import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 import LoadingScreen from '../../../components/LoadingScreen';
+import LinkModal from '../../../components/LinkModal';
 
 
 const SectionViewLayout = ({
@@ -54,6 +55,7 @@ const SectionViewLayout = ({
   resourceFilterValues,
   resourceSortValue,
   resourceSearchString,
+  linkModalFocusId,
 
   lockingMap = {},
   activeUsers,
@@ -82,6 +84,7 @@ const SectionViewLayout = ({
     setResourceSortValue,
     setResourceSearchString,
     setNewResourceMode,
+    setLinkModalFocusId,
 
     setPromptedToDeleteSectionId,
     setPromptedToDeleteResourceId,
@@ -127,6 +130,8 @@ const SectionViewLayout = ({
   summonAsset,
   submitMultiResources,
   embedLastResource,
+  onCreateHyperlink,
+  onContextualizeHyperlink,
 }, {t}) => {
 
   const translate = translateNameSpacer(t, 'Features.SectionView');
@@ -463,6 +468,10 @@ const SectionViewLayout = ({
     });
   };
 
+  const hyperlinks = linkModalFocusId ? Object.keys(story.resources)
+    .filter(resourceId => story.resources[resourceId].metadata.type === 'webpage')
+    .map(resourceId => story.resources[resourceId]) : [];
+
   return (
     <StretchedLayoutContainer isAbsolute isFluid isDirection="horizontal">
       <StretchedLayoutItem className={`aside-edition-container ${asideTabCollapsed ? 'is-collapsed' : ''} is-hidden-mobile`} isFlex={1}>
@@ -589,6 +598,13 @@ const SectionViewLayout = ({
             onClose={() => setPromptedToDeleteResourceId(undefined)}
             onDeleteConfirm={onDeleteResourceConfirm} />
         }
+      <LinkModal
+        isActive={linkModalFocusId !== undefined}
+        focusId={linkModalFocusId}
+        onClose={() => setLinkModalFocusId(undefined)}
+        hyperlinks={hyperlinks}
+        onCreateHyperlink={onCreateHyperlink}
+        onContextualizeHyperlink={onContextualizeHyperlink} />
       <ModalCard
         isActive={shortcutsHelpVisible}
         headerContent={translate('Shortcuts help')}
