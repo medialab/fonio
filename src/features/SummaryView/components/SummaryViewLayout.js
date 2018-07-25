@@ -286,13 +286,13 @@ const SummaryViewLayout = ({
                 onClick={toggleMetadataEdition}>
 
                 {
-                  <StretchedLayoutContainer isAbsolute style={{alignItems: 'center', justifyContent: metadataOpen ? 'space-around' : 'center'}} isDirection="horizontal">
+                  <StretchedLayoutContainer isAbsolute style={{alignItems: 'center', justifyContent: 'space-around', padding: '1rem'}} isDirection="horizontal">
                     <StretchedLayoutItem>
                       <StatusMarker
                         lockStatus={metadataLockStatus}
                         statusMessage={metadataLockMessage} />
                     </StretchedLayoutItem>
-                    <StretchedLayoutItem>
+                    <StretchedLayoutItem isFlex={1}>
                       {metadataOpen ? translate('Close story settings') : translate('Edit story settings')}
                     </StretchedLayoutItem>
                     {metadataOpen && <StretchedLayoutItem>
@@ -399,7 +399,7 @@ const SummaryViewLayout = ({
         }
 
         <ConfirmToDeleteModal
-          isActive={promptedToDeleteSectionId}
+          isActive={promptedToDeleteSectionId !== undefined}
           isDisabled={reverseSectionLockMap[promptedToDeleteSectionId]}
           deleteType={'section'}
           story={story}

@@ -10,9 +10,16 @@ import config from '../../../config';
 import {
   Card,
   Icon,
+    StretchedLayoutContainer,
+  StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
+
+import {
+  abbrevString,
+  computeSectionFirstWords
+} from '../../../helpers/misc';
 
 const SectionCard = ({
   section,
@@ -44,28 +51,15 @@ const SectionCard = ({
 
     }
   };
-  const computeFirstWords = () => {
-    if (section.contents
-        && section.contents.blocks
-        && section.contents.blocks[0]
-        && section.contents.blocks[0].text
-    ) {
-      return section.contents.blocks[0].text.length > 30 ?
-        <i>{`${section.contents.blocks[0].text.substr(0, 30)}...`}</i>
-        :
-        <i>{section.contents.blocks[0].text}</i>;
-    }
-    return '';
-  };
 
   return (
     <Card
-      title={<Link to={`/story/${story.id}/section/${section.id}`} >{section.metadata.title}</Link>}
+      title={<Link to={`/story/${story.id}/section/${section.id}`} >{abbrevString(section.metadata.title, 15)}</Link>}
       subtitle={section.metadata.subtitle}
       lockStatus={lockData ? 'locked' : 'open'}
       statusMessage={lockData ? translate('edited by {n}', {n: lockData.name}) : translate('open for edition')}
       onAction={onAction}
-      bodyContent={computeFirstWords()}
+      bodyContent={<div style={{paddingLeft: '2.5rem'}}><i>{computeSectionFirstWords(section)}</i></div>}
       asideActions={[
         {
           label: translate('edit'),
@@ -97,23 +91,35 @@ const SectionCard = ({
 
       footerActions={[
         {
-          label: [
-            <Icon key={1} isSize="small" isAlign="left">
-              <span className="fa fa-chevron-left" aria-hidden="true" />
-            </Icon>,
-              translate('higher level')
-            ],
+          label: (
+            <StretchedLayoutContainer style={{alignItems: 'center', padding: '1rem'}} isAbsolute isDirection="horizontal">
+              <StretchedLayoutItem>
+                <Icon isSize="small" isAlign="left">
+                  <span className="fa fa-chevron-left" aria-hidden="true" />
+                </Icon>
+              </StretchedLayoutItem>
+              <StretchedLayoutItem isFlex={1}>
+                {translate('higher level')}
+              </StretchedLayoutItem>
+            </StretchedLayoutContainer>
+          ),
           isDisabled: section.metadata.level === 0,
           isColor: 'info',
           id: 'higher'
         },
         {
-          label: [
-            translate('lower level'),
-            <Icon key={1} isSize="small" isAlign="right">
-              <span className="fa fa-chevron-right" aria-hidden="true" />
-            </Icon>
-           ],
+          label: (
+            <StretchedLayoutContainer style={{alignItems: 'center', padding: '1rem'}} isAbsolute isDirection="horizontal">
+              <StretchedLayoutItem isFlex={1}>
+                {translate('lower level')}
+              </StretchedLayoutItem>
+              <StretchedLayoutItem>
+                <Icon isSize="small" isAlign="left">
+                  <span className="fa fa-chevron-right" aria-hidden="true" />
+                </Icon>
+              </StretchedLayoutItem>
+            </StretchedLayoutContainer>
+          ),
           isDisabled: section.metadata.level >= config.maxSectionLevel - 1,
           isColor: 'info',
           id: 'lower'
