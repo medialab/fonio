@@ -160,7 +160,9 @@ class ResourceCard extends Component {
       if (type === 'bib' && data && data[0]) {
         resourceTitle = <div className="bib-wrapper-mini" dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} />;
       }
-      else resourceTitle = getTitle(resource) || translate('untitled resource');
+      else {
+         resourceTitle = getTitle(resource) || translate('untitled resource');
+      }
       resourceTitle = abbrevString(resourceTitle, 15);
     /**
      * component's callbacks
@@ -217,6 +219,7 @@ class ResourceCard extends Component {
                       data-tip={translate(resource.metadata.type)}
                       data-for="tooltip"
                       isSize="medium"
+                      data-effect="solid"
                       isAlign="left">
                       <img src={icons[type].black.svg} />
                     </Icon>
@@ -226,7 +229,7 @@ class ResourceCard extends Component {
                     isSize={8}>
                     <span
                       data-html
-                      data-place="right"
+                      data-place="bottom"
                       data-tip={resource.metadata.type === 'image' ? `<img style="max-width:10rem;max-height:10rem;" src="${getResourceDataUrl(resource.data)}"></img>` : undefined}
                       data-for="tooltip">
                       {resourceTitle}

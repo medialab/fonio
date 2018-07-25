@@ -16,7 +16,8 @@ import {
 } from 'quinoa-design-library/components/';
 
 import {
-  abbrevString
+  abbrevString,
+  computeSectionFirstWords
 } from '../../../helpers/misc';
 
 
@@ -55,6 +56,13 @@ const SectionMiniCard = ({
   const cardStyle = {
     pointerEvents: section.lockStatus === 'locked' ? 'none' : 'all'
   };
+  const sectionTitle = (<span
+    data-for="tooltip"
+    data-place="right"
+    data-html
+    data-tip={`<div class="content"><h5 style="color: white">${section.metadata.title}</h5><p>${computeSectionFirstWords(section)}</p></div>`}>
+    {abbrevString(section.metadata.title, 15)}
+  </span>);
   return (
     <Card
       bodyContent={
@@ -69,10 +77,12 @@ const SectionMiniCard = ({
             <Column isSize={8}>
               {
                 section.lockStatus !== 'active' &&
-                <Link style={cardStyle} to={`/story/${storyId}/section/${section.id}`}>{abbrevString(section.metadata.title, 15)}</Link>
+                <Link style={cardStyle} to={`/story/${storyId}/section/${section.id}`}>
+                  {sectionTitle}
+                </Link>
               }
               {section.lockStatus === 'active' &&
-              <b>{abbrevString(section.metadata.title, 15)}</b>
+              <b>{sectionTitle}</b>
               }
             </Column>
 

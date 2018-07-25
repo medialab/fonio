@@ -33,7 +33,7 @@ class ResourceCardWrapper extends Component {
       coverImageId,
       handleEdit
     } = this.props;
-    return (<Column style={{margin: '0 0 1rem 0', padding: 0}} key={resource.id}>
+    return (<Column key={resource.id}>
       <ResourceMiniCard
         resource={resource}
         onDelete={handleDelete}

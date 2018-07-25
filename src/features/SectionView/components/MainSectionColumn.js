@@ -15,12 +15,12 @@ import config from '../../../config';
 import {
   Button,
   Column,
-  Columns,
   Delete,
   DropZone,
   HelpPin,
   Tab,
   Level,
+  Image,
   TabLink,
   TabList,
   Tabs,
@@ -28,6 +28,8 @@ import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
+
+import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {
   abbrevString,
@@ -217,7 +219,7 @@ const MainSectionColumn = ({
               <StretchedLayoutItem>
                 <StretchedLayoutItem>
                   <Column>
-                    <Title isSize={2}>
+                    <Title isSize={3}>
                       <StretchedLayoutContainer isDirection="horizontal">
                         <StretchedLayoutItem isFlex={10}>
                           {translate('Add items to the library')}
@@ -234,20 +236,22 @@ const MainSectionColumn = ({
                 </StretchedLayoutItem>
               </StretchedLayoutItem>
               <StretchedLayoutItem>
-                <Tabs isBoxed>
-                  <TabList>
-                    <Tab onClick={() => setNewResourceMode('manually')} isActive={newResourceMode === 'manually'}>
-                      <TabLink>
-                        {translate('Manually')}
-                      </TabLink>
-                    </Tab>
-                    <Tab onClick={() => setNewResourceMode('drop')} isActive={newResourceMode === 'drop'}>
-                      <TabLink>
-                        {translate('From files drop')}
-                      </TabLink>
-                    </Tab>
-                  </TabList>
-                </Tabs>
+                <Column>
+                  <Tabs isBoxed>
+                    <TabList>
+                      <Tab onClick={() => setNewResourceMode('manually')} isActive={newResourceMode === 'manually'}>
+                        <TabLink>
+                          {translate('Manually')}
+                        </TabLink>
+                      </Tab>
+                      <Tab onClick={() => setNewResourceMode('drop')} isActive={newResourceMode === 'drop'}>
+                        <TabLink>
+                          {translate('From files drop')}
+                        </TabLink>
+                      </Tab>
+                    </TabList>
+                  </Tabs>
+                </Column>
               </StretchedLayoutItem>
               {newResourceMode === 'manually' && <StretchedLayoutItem isFlex={1}>
                 <Column isWrapper>
@@ -284,7 +288,7 @@ const MainSectionColumn = ({
             <StretchedLayoutContainer isAbsolute>
               <StretchedLayoutItem>
                 <Column>
-                  <Title isSize={2}>
+                  <Title isSize={3}>
                     <StretchedLayoutContainer isDirection="horizontal">
                       <StretchedLayoutItem isFlex={10}>
                         {translate('New section')}
@@ -312,7 +316,7 @@ const MainSectionColumn = ({
           <StretchedLayoutContainer isAbsolute>
             <StretchedLayoutItem>
               <Column>
-                <Title isSize={2}>
+                <Title isSize={3}>
                   <StretchedLayoutContainer isDirection="horizontal">
                     <StretchedLayoutItem isFlex={10}>
                       {translate('Edit section metadata')}
@@ -377,18 +381,21 @@ const MainSectionColumn = ({
                   isSize={editorWidth}
                   isOffset={editorX} isWrapper>
                   {/* editor header*/}
-                  <StretchedLayoutContainer isFluid isDirection={/*mainColumnMode !== 'edition' ? 'vertical' : 'horizontal'*/'vertical'}>
+                  <StretchedLayoutContainer isFluid isDirection={'horizontal'}>
                     <StretchedLayoutItem isFlex={1}>
                       <Title isSize={2}>
                         {abbrevString(section.metadata.title, 20)}
                       </Title>
                     </StretchedLayoutItem>
-                    <StretchedLayoutItem>
+                    <StretchedLayoutItem style={{padding: '.5rem'}}>
                       <Button
+                        isRounded
                         isDisabled={userLockedResourceId || (mainColumnMode !== 'edition' && mainColumnMode !== 'editmetadata')}
                         isColor={mainColumnMode === 'editmetadata' ? 'primary' : ''}
+                        data-tip={translate('Edit section metadata')}
+                        data-for="tooltip"
                         onClick={onEditMetadataClick}>
-                        {translate('Edit section metadata')}
+                        <Image isSize={'24x24'} src={mainColumnMode === 'editmetadata' ? icons.edit.white.svg : icons.edit.black.svg} />
                       </Button>
                     </StretchedLayoutItem>
                   </StretchedLayoutContainer>
@@ -447,16 +454,19 @@ const MainSectionColumn = ({
               </StretchedLayoutItem>
               <StretchedLayoutItem className="editor-footer">
                 <Column
+                  style={{paddingTop: 0}}
                   isSize={editorWidth}
                   isOffset={editorX}>
-                  <Columns>
-                    <Column isSize="6">
-                      <a onClick={() => setShortcutsHelpVisible(true)}>{t('shortcuts help')}</a>
-                    </Column>
-                    <Column style={{textAlign: 'right'}} isSize="6">
-                      <i>{storyIsSaved ? translate('All changes saved') : translate('Saving...')}</i>
-                    </Column>
-                  </Columns>
+                  <Column style={{paddingTop: 0}}>
+                    <StretchedLayoutContainer isDirection="horizontal">
+                      <StretchedLayoutItem isFlex={1}>
+                        <a onClick={() => setShortcutsHelpVisible(true)}>{t('shortcuts help')}</a>
+                      </StretchedLayoutItem>
+                      <StretchedLayoutItem style={{textAlign: 'right'}}>
+                        <i>{storyIsSaved ? translate('All changes saved') : translate('Saving...')}</i>
+                      </StretchedLayoutItem>
+                    </StretchedLayoutContainer>
+                  </Column>
                 </Column>
               </StretchedLayoutItem>
             </StretchedLayoutContainer>

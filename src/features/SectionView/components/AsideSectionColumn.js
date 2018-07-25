@@ -14,8 +14,6 @@ import {
   // DropZone,
   Field,
   Input,
-  HelpPin,
-  Level,
   Image,
   Tab,
   TabLink,
@@ -187,8 +185,8 @@ class AsideSectionColumn extends Component {
           return (
             <StretchedLayoutContainer className="aside-section-column" isFluid isAbsolute>
               <StretchedLayoutItem>
-                <div>
-                  <Column>
+                <Column style={{paddingTop: 0, paddingBottom: 0}}>
+                  <Column style={{paddingTop: 0, paddingBottom: 0}}>
                     <Field hasAddons>
                       <Control style={{flex: 1}}>
                         <Input value={this.state.searchString} onChange={e => this.setResourceSearchStringDebounce(e.target.value)} placeholder={translate('find a resource')} />
@@ -240,7 +238,7 @@ class AsideSectionColumn extends Component {
                       </Control>
                     </Field>
                   </Column>
-                </div>
+                </Column>
               </StretchedLayoutItem>
               <StretchedLayoutItem isFlex={1} isFlowing>
                 <Column isWrapper>
@@ -256,14 +254,9 @@ class AsideSectionColumn extends Component {
                     getResourceTitle={getResourceTitle}
                     userLockedResourceId={userLockedResourceId} />
                 </Column>
-                {/*<Level>
-                  <DropZone onDrop={submitMultiResources}>
-                    {translate('Drop files to include new resources in your library (images, tables, bibliographies)')}
-                  </DropZone>
-                </Level>*/}
               </StretchedLayoutItem>
               <StretchedLayoutItem>
-                <Level>
+                <Column>
                   <Column>
                     <Button
                       isFullWidth
@@ -271,12 +264,10 @@ class AsideSectionColumn extends Component {
                       onClick={() => setMainColumnMode(mainColumnMode === 'newresource' ? 'edition' : 'newresource')}
                       isColor={mainColumnMode === 'newresource' ? 'primary' : 'info'}
                       isDisabled={userLockedResourceId !== undefined}>
-                      <span style={{paddingRight: '1rem'}}>{translate('Add items to library')}</span> <HelpPin place="top">
-                        {translate('Add new images to your story')}
-                      </HelpPin>
+                      <span style={{paddingRight: '1rem'}}>{translate('Add items to library')}</span>
                     </Button>
                   </Column>
-                </Level>
+                </Column>
               </StretchedLayoutItem>
             </StretchedLayoutContainer>
           );
@@ -303,9 +294,7 @@ class AsideSectionColumn extends Component {
                       style={{overflow: 'visible'}}
                       isDisabled={userLockedResourceId !== undefined && mainColumnMode === 'edition'}
                       onClick={() => setMainColumnMode('newsection')} isColor={'primary'} isFullWidth>
-                      <span style={{paddingRight: '1rem'}}>{translate('New section')}</span> <HelpPin place="top">
-                        {translate('Add a new section or chapter to your story')}
-                      </HelpPin>
+                      <span style={{paddingRight: '1rem'}}>{translate('New section')}</span>
                     </Button>
                   </Column>
                 </Column>
@@ -318,9 +307,9 @@ class AsideSectionColumn extends Component {
       <Column isSize={asideTabCollapsed ? 1 : '1/4'}>
         <StretchedLayoutContainer isFluid isAbsolute>
           <StretchedLayoutItem>
-            <Column>
+            <Column style={{paddingRight: 0}}>
               <Tabs isBoxed isFullWidth style={{overflow: 'hidden'}}>
-                <Column>
+                <Column style={{paddingRight: 0}}>
                   <TabList>
                     {
                     !asideTabCollapsed &&
@@ -337,7 +326,23 @@ class AsideSectionColumn extends Component {
                       <TabLink>{translate('Library')}</TabLink>
                     </Tab>
                     }
-                    <Tab onClick={() => setAsideTabCollapsed(!asideTabCollapsed)} isActive={asideTabCollapsed}><TabLink>{asideTabCollapsed ? '▶' : '◀'}</TabLink></Tab>
+                    <Tab
+                      onClick={() => setAsideTabCollapsed(!asideTabCollapsed)}
+                      isActive={asideTabCollapsed}>
+                      <TabLink
+                        style={{
+                          boxShadow: 'none',
+                          transform: asideTabCollapsed ? 'rotate(180deg)' : undefined,
+                          transition: 'all .5s ease'
+                        }}
+                        data-for="tooltip"
+                        data-effect="solid"
+                        data-place="right"
+                        data-tip={asideTabCollapsed ? translate('show summary and library pannels') : translate('hide summary and library pannels')}>
+                        ◀
+                        {/*asideTabCollapsed ? '▶' : '◀'*/}
+                      </TabLink>
+                    </Tab>
                   </TabList>
                 </Column>
               </Tabs>
