@@ -12,6 +12,10 @@ const apa = require('raw-loader!./apa.csl');
 
 import {Bibliography} from 'react-citeproc';
 
+import {
+  Content
+} from 'quinoa-design-library/components';
+
 import './BibliographicPreview.scss';
 
 
@@ -24,10 +28,14 @@ import './BibliographicPreview.scss';
 const BibliographicPreview = ({
   items
 }) => (
-  <Bibliography
-    items={items}
-    style={apa}
-    locale={english} />
+  <Content>
+    <blockquote>
+      <Bibliography
+        items={items}
+        style={apa}
+        locale={english} />
+    </blockquote>
+  </Content>
 );
 
 
