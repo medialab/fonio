@@ -720,7 +720,10 @@ class LibraryViewLayout extends Component {
                 </Button>
               </Level>
               <Level>
-                <DropZone onDrop={submitMultiResources}>
+                <DropZone 
+                  onDrop={submitMultiResources}
+                  accept=".jpeg,.jpg,.gif,.png,.csv,.tsv,.bib"
+                >
                   {translate('Drop files to include in your library')}
                   <HelpPin place="right">
                     {`${translate('Accepted file formats: jpeg, jpg, gif, png, csv, tsv, bib')}. ${translate('Up to {n} files, with a maximum size of {s} Mb each', {

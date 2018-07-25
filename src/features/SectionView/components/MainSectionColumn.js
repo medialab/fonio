@@ -262,6 +262,7 @@ const MainSectionColumn = ({
               {newResourceMode === 'drop' && <StretchedLayoutItem>
                 <Column>
                   <DropZone
+                    accept=".jpeg,.jpg,.gif,.png,.csv,.tsv,.bib"
                     style={{height: '5rem'}}
                     onDrop={submitMultiResources}>
                     {translate('Drop files here to include in your library')}
