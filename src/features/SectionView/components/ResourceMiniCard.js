@@ -68,6 +68,7 @@ class ResourceCard extends Component {
      */
     t: PropTypes.func.isRequired,
     setDraggedResourceId: PropTypes.func,
+    getResourceDataUrl: PropTypes.func
   }
 
 
@@ -108,7 +109,8 @@ class ResourceCard extends Component {
       props,
       context: {
         t,
-        setDraggedResourceId
+        setDraggedResourceId,
+        getResourceDataUrl
       }
     } = this;
     const {
@@ -198,6 +200,7 @@ class ResourceCard extends Component {
       }
      };
 
+
       return connectDragSource(
         <div
           // draggable
@@ -206,16 +209,31 @@ class ResourceCard extends Component {
           onMouseDown={onMDown}>
           <Card
             bodyContent={
-              <div>
+              <div
+              >
                 <Columns style={{minHeight: '4em', maxHeight: '4em', overflow: 'hidden'}}>
-                  <Column isSize={2}>
-                    <Icon isSize="medium" isAlign="left">
+                  <Column 
+                  isSize={2}>
+                    <Icon 
+                      data-tip={translate(resource.metadata.type)}
+                      data-for="tooltip" 
+                      isSize="medium" 
+                      isAlign="left"
+                    >
                       <img src={icons[type].black.svg} />
                     </Icon>
                   </Column>
 
-                  <Column isSize={8}>
-                    {resourceTitle}
+                  <Column 
+                    isSize={8}>
+                    <span
+                      data-html={true}
+                      data-place="right"
+                      data-tip={resource.metadata.type === 'image' ? `<img style="max-width:10rem;max-height:10rem;" src="${getResourceDataUrl(resource.data)}"></img>`  : undefined}
+                      data-for="tooltip" 
+                    >
+                      {resourceTitle}
+                    </span>
                   </Column>
 
                   <Column isSize={2}>
