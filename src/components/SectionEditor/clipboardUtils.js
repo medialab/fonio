@@ -130,10 +130,19 @@ export const handleCopy = function(event) {
     const currentContent = editorState.getCurrentContent();
     // this function comes from draft-js-utils - it returns
     // a fragment of content state that correspond to currently selected text
-    const selectedBlocksList = getSelectedBlocksList(editorState);
+    let selectedBlocksList = getSelectedBlocksList(editorState);
 
     stateDiff.clipboard = clipboard;
-    const selection = editorState.getSelection().toJS();
+    let selection = editorState.getSelection().toJS();
+    // normalizing selection regarding direction
+    selection = {
+      ...selection,
+      startOffset: selection.isBackward ? selection.focusOffset : selection.anchorOffset,
+      startKey: selection.isBackward ? selection.focusKey : selection.anchorKey,
+      endOffset: selection.isBackward ? selection.anchorOffset : selection.focusOffset,
+      endKey: selection.isBackward ? selection.anchorKey : selection.focusKey,
+    };
+    selectedBlocksList = selection.isBackward ? selectedBlocksList.reverse() : selectedBlocksList;
     // we are going to parse draft-js ContentBlock objects
     // and store separately non-textual objects that needs to be remembered
     // (entities, notes, inline assets, block assets)
@@ -141,13 +150,13 @@ export const handleCopy = function(event) {
       const block = contentBlock.toJS();
       let charsToParse;
       if (blockIndex === 0 && selectedBlocksList.size === 1) {
-        charsToParse = block.characterList.slice(selection.anchorOffset, selection.focusOffset);
+        charsToParse = block.characterList.slice(selection.startOffset, selection.endOffset);
       }
       else if (blockIndex === 0) {
-        charsToParse = block.characterList.slice(selection.anchorOffset);
+        charsToParse = block.characterList.slice(selection.startOffset);
       }
       else if (blockIndex === selectedBlocksList.size - 1) {
-        charsToParse = block.characterList.slice(0, selection.focusOffset);
+        charsToParse = block.characterList.slice(0, selection.endOffset);
       }
       else {
         charsToParse = block.characterList;
@@ -843,6 +852,7 @@ export const handleCopy = function(event) {
           }, {
             ...pastNotes
           });
+
 
           // we now have to update copied entities targets
           // for entities stored in pasted notes
