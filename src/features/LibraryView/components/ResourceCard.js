@@ -146,13 +146,13 @@ class ResourceCard extends Component {
                 {
                   id: 'edit',
                   isColor: 'info',
-                  label: 'edit',
+                  label: translate('edit'),
                   isDisabled: lockData,
                 },
                 {
                   id: 'delete',
                   isColor: 'danger',
-                  label: 'delete',
+                  label: translate('delete'),
                   isDisabled: lockData
                 }
               ]}

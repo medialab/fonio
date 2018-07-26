@@ -539,5 +539,7 @@
   "Components.LinkModal.Title of the webpage": "Title of the webpage",
   "Components.LinkModal.Hyperlink title": "Hyperlink title",
   "Components.LinkModal.Add hyperlink": "Add hyperlink",
-  "Components.LinkModal.Cancel": "Cancel"
+  "Components.LinkModal.Cancel": "Cancel",
+  "Features.LibraryView.edit": "edit",
+  "Features.LibraryView.delete": "delete"
 }

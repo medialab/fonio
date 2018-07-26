@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-7-25\n"
-"PO-Revision-Date: Wed Jul 25 2018 22:35:36 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-7-26\n"
+"PO-Revision-Date: Thu Jul 26 2018 08:42:19 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4804,6 +4804,12 @@ msgstr "Add hyperlink"
 
 msgid "Components.LinkModal.Cancel"
 msgstr "Cancel"
+
+msgid "Features.LibraryView.edit"
+msgstr "edit"
+
+msgid "Features.LibraryView.delete"
+msgstr "delete"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
