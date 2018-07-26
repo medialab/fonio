@@ -9,7 +9,7 @@ import {
   Button,
   // Box,
   // Checkbox,
-  ColorPicker,
+  // ColorPicker,
   CodeEditor,
   Column,
   // Content,
@@ -17,7 +17,7 @@ import {
   Control,
   Dropdown,
   Field,
-  Input,
+  // Input,
   Image,
   // Help,
   Label,
@@ -174,12 +174,12 @@ const AsideDesignColumn = ({
       default:
         return (
           <Column>
-            <Collapsable maxHeight={900} paddingBottom={'5rem'} isCollapsed={stylesMode === 'code'}>
+            {/*<Collapsable maxHeight={900} paddingBottom={'5rem'} isCollapsed={stylesMode === 'code'}>
               <form>
                 <Field>
                   <Label>Text size:</Label>
                   <Dropdown
-                    onToggle={() => console.log('set active size')/* eslint no-console :  0 */}
+                    onToggle={() => console.log('set active size')}
                     isActive={false}
                     value={{id: 1, label: '1 rem'}}
                     options={[1, 2, 3, 4].map(id => ({id, label: id + ' rem'}))}>
@@ -213,7 +213,7 @@ const AsideDesignColumn = ({
                     <ColorPicker
                       edited={false}
                       color={'#32FF'}
-                      onEdit={() => console.log('edit background color')/* eslint no-console :  0 */} />
+                      onEdit={() => console.log('edit background color')} />
                     <Input value={'#32FF'} />
                   </Level>
                 </Field>
@@ -227,7 +227,7 @@ const AsideDesignColumn = ({
                   </Control>
                 </Field>
               </form>
-            </Collapsable>
+            </Collapsable>*/}
             {stylesMode !== 'code' && <Level />}
             {/**<Button
               isFullWidth
