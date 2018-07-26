@@ -162,6 +162,9 @@ class ErrorMessageContainer extends Component {
         }
       }
     },
+    [`${'CREATE_CONTEXTUALIZATION_NOTE_FAIL'}`]: {
+      title: () => this.translate('This asset could not be added into note')
+    },
     [`${FETCH_STORIES}_FAIL`]: {
       title: () => this.translate('The list of stories could not be retrieved')
     },

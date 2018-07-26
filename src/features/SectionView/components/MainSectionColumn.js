@@ -87,6 +87,7 @@ const MainSectionColumn = ({
 
   setEditorBlocked,
   setStoryIsSaved,
+  setErrorMessage,
   setAssetRequestContentId,
   startNewResourceConfiguration,
   startExistingResourceConfiguration,
@@ -445,6 +446,7 @@ const MainSectionColumn = ({
                     startNewResourceConfiguration={startNewResourceConfiguration}
                     startExistingResourceConfiguration={startExistingResourceConfiguration}
                     setStoryIsSaved={setStoryIsSaved}
+                    setErrorMessage={setErrorMessage}
 
                     setEditorBlocked={setEditorBlocked}
                     setEditorFocus={setEditorFocus} />

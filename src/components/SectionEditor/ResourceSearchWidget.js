@@ -164,7 +164,7 @@ class ResourceSearchWidget extends Component {
       options = []
     } = this.props;
     const context = this.context;
-
+    const blockAssetTypes = ['image', 'table', 'video', 'embed'];
     const onOptionClick = option => {
       onAssetChoice(option, this.props.contentId);
     };
@@ -176,8 +176,13 @@ class ResourceSearchWidget extends Component {
       this.input = input;
     };
     const translate = translateNameSpacer(context.t, 'Components.ResourceSearchWidget');
-
-    const filteredOptions = this.state.searchTerm.length === 0 ? options : searchResources(options, this.state.searchTerm);
+    const allowedOptions = options.filter((option) => {
+      if (this.props.contentId !== 'main') {
+        return blockAssetTypes.indexOf(option.metadata.type) === -1;
+      }
+      return option;
+    });
+    const filteredOptions = this.state.searchTerm.length === 0 ? allowedOptions : searchResources(allowedOptions, this.state.searchTerm);
     return (
       <DropdownContent style={{paddingLeft: '1rem'}} className="fonio-ResourceSearchWidget">
         <Column>

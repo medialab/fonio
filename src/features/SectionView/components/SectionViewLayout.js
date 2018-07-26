@@ -121,10 +121,10 @@ const SectionViewLayout = ({
 
     setAssetRequestContentId,
     setShortcutsHelpVisible,
-
     setNewResourceType,
     setEmbedResourceAfterCreation,
     setStoryIsSaved,
+    setErrorMessage,
   },
   goToSection,
   summonAsset,
@@ -572,6 +572,7 @@ const SectionViewLayout = ({
             startNewResourceConfiguration={startNewResourceConfiguration}
             startExistingResourceConfiguration={startExistingResourceConfiguration}
             setStoryIsSaved={setStoryIsSaved}
+            setErrorMessage={setErrorMessage}
             summonAsset={summonAsset} />
             : <LoadingScreen />
         }
