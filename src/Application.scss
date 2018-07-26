@@ -67,8 +67,19 @@
   outline: none;
 }
 
+.button{
+  text-transform: lowercase;
+}
+
 .__react_component_tooltip{
   z-index: 10000!important;
+}
+
+.drop-zone{
+  transition: all .5s ease;
+  &.active{
+    background: rgba(0,0,0,.1);
+  }
 }
 
 // ::-webkit-scrollbar {
