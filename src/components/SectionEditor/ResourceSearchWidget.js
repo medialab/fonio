@@ -180,7 +180,7 @@ class ResourceSearchWidget extends Component {
       if (this.props.contentId !== 'main') {
         return blockAssetTypes.indexOf(option.metadata.type) === -1;
       }
-      else return;
+      return option;
     });
     const filteredOptions = this.state.searchTerm.length === 0 ? allowedOptions : searchResources(allowedOptions, this.state.searchTerm);
     return (
