@@ -897,7 +897,7 @@ class SectionEditor extends Component {
         setEditorFocus(targetedEditorId);
       }, timers.short);
     };
-
+    const blockAssetTypes = ['image', 'table', 'video', 'embed'];
     const onDrop = (contentId, payload, selection) => {
       if (draggedResourceId) {
         let targetedEditorId = contentId;
@@ -905,16 +905,24 @@ class SectionEditor extends Component {
           targetedEditorId = this.props.editorFocus;
         }
         const editorId = contentId === 'main' ? activeSection.id : contentId;
-        const editorState = editorStates[editorId];
-        // updating selection to take into account the drop payload
-        const rightSelectionState = new SelectionState({
-          anchorKey: selection.getStartKey(),
-          anchorOffset: selection.getStartOffset() - payload.length,
-          focusKey: selection.getEndKey(),
-          focusOffset: selection.getEndOffset() - payload.length
-        });
-        updateDraftEditorState(editorId, EditorState.forceSelection(editorState, rightSelectionState));
-        onAssetChoice({id: draggedResourceId}, contentId);
+        const draggedResource = story.resources[draggedResourceId];
+        if (editorId !== 'main' && blockAssetTypes.indexOf(draggedResource.metadata.type) === -1) {
+          const editorState = editorStates[editorId];
+          // updating selection to take into account the drop payload
+          const rightSelectionState = new SelectionState({
+            anchorKey: selection.getStartKey(),
+            anchorOffset: selection.getStartOffset() - payload.length,
+            focusKey: selection.getEndKey(),
+            focusOffset: selection.getEndOffset() - payload.length
+          });
+          updateDraftEditorState(editorId, EditorState.forceSelection(editorState, rightSelectionState));
+          onAssetChoice({id: draggedResourceId}, contentId);
+        }
+        else {
+          // set error message when try drag a block asset into note
+          this.props.setErrorMessage({type: 'CREATE_CONTEXTUALIZATION_NOTE_FAIL', error: `${draggedResource.metadata.type} could not be added into note`});
+
+        }
       }
     };
 
