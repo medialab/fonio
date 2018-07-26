@@ -511,7 +511,7 @@
   "Features.SectionView.webpage": "hyperlien",
   "Features.SectionViewContainer.Please wait...": "Merci d'attendre...",
   "Features.SectionViewContainer.Your data is not saved, are you sure you want to leave?": "Toutes vos données ne sont pas sauvegardées, êtes-vous sûr·e de vouloir partir ?",
-  "Features.SectionViewContainer.copying content...": "Documentation et structuration des contenus importés...",
+  "Features.SectionViewContainer.copying content...": "Documentation et structuration des contenus copiés...",
   "Features.SummaryView.Close story settings": "Fermer les propriétés",
   "Features.SummaryView.Edit story settings": "Éditer les propriétés",
   "Features.SummaryView.New section": "Nouvelle section",
