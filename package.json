@@ -71,7 +71,7 @@
     "pouchdb": "^6.3.4",
     "quinoa-design-library": "0.0.18",
     "quinoa-schemas": "0.0.17",
-    "quinoa-story-player": "^0.2.26",
+    "quinoa-story-player": "^0.2.27",
     "react": "^16.4.1",
     "react-animated-transitions": "0.0.6",
     "react-citeproc": "^0.1.9",
@@ -104,7 +104,7 @@
     "redux-pouchdb": "^0.1.1",
     "redux-validator": "^0.2.3",
     "reselect": "^3.0.0",
-    "scholar-draft": "^0.2.41",
+    "scholar-draft": "^0.2.42",
     "socket.io-client": "^2.1.1",
     "uuid": "^3.0.1"
   },
