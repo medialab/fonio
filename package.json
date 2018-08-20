@@ -71,7 +71,7 @@
     "pouchdb": "^6.3.4",
     "quinoa-design-library": "0.0.18",
     "quinoa-schemas": "0.0.17",
-    "quinoa-story-player": "^0.2.27",
+    "quinoa-story-player": "^0.2.29",
     "react": "^16.4.1",
     "react-animated-transitions": "0.0.6",
     "react-citeproc": "^0.1.9",

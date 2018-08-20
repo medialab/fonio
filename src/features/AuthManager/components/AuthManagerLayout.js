@@ -26,6 +26,7 @@ const AuthManagerLayout = ({
     loginStory,
     activateStory,
     setLoginStatus,
+    setStoryLoginId,
   },
   saveStoryToken
 }, {t}) => {
@@ -50,12 +51,14 @@ const AuthManagerLayout = ({
   };
 
   const goReadStory = () => {
+    setStoryLoginId(undefined);
     history.push({
       pathname: `/read/${storyLoginId}`
     });
   };
 
   const goBackHome = () => {
+    setStoryLoginId(undefined);
     history.push({
       pathname: '/'
     });
