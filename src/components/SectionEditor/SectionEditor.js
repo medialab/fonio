@@ -129,9 +129,20 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './SectionEditor.scss';
 
-const EmbedAssetComponent = ({
-  ...props
-}) => <AssetButtonComponent {...props} icon={icons.asset.black.svg} />;
+// const EmbedAssetComponent = ({
+//   ...props
+// }) => <AssetButtonComponent {...props} icon={icons.asset.black.svg} />;
+
+class EmbedAssetComponent extends Component {
+  render = () => {
+    const bindRef = el => {
+      if (el) {
+        this.element = el.element;
+      }
+    };
+    return <AssetButtonComponent ref={bindRef} {...this.props} icon={icons.asset.black.svg} />;
+  }
+}
 
 
 class ElementLayout extends Component {
