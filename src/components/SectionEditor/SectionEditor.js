@@ -765,15 +765,18 @@ class SectionEditor extends Component {
     /*<CodeBlockButton />,*/
   ]
 
-  onEditorChange = (editorId, editor) => {
-    const {activeSection: {id: sectionId}, story: {id: activeStoryId}, updateDraftEditorState} = this.props;
+  onEditorChange = (editorId, editorState) => {
+    const {activeSection: {id: sectionId}, story: {id: activeStoryId}, updateDraftEditorState, editorStates, setStoryIsSaved} = this.props;
     const {updateSectionRawContentDebounced} = this;
     const editorStateId = editorId === 'main' ? sectionId : editorId;
     // console.log('on update', editorStateId, convertToRaw(editor.getCurrentContent()));
     // update active immutable editor state
-    updateDraftEditorState(editorStateId, editor);
-    // ("debouncily") update serialized content
-    updateSectionRawContentDebounced(editorId, activeStoryId, sectionId);
+    updateDraftEditorState(editorStateId, editorState);
+    const currentEditorState = editorStates[editorStateId];
+    if (currentEditorState.getCurrentContent() !== editorState.getCurrentContent()) {
+      setStoryIsSaved(false);
+      updateSectionRawContentDebounced(editorId, activeStoryId, sectionId);
+    }
   };
 
   handleEditorPaste = (text, html) => {

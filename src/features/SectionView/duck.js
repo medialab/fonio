@@ -140,6 +140,7 @@ export const setLinkModalFocusId = payload => ({
   payload,
 });
 
+
 /**
  * Action creators related to section edition
  */
@@ -283,12 +284,12 @@ function ui(state = UI_DEFAULT_STATE, action) {
         ...state,
         [propName]: payload
       };
-    case UPDATE_DRAFT_EDITOR_STATE:
-    case UPDATE_DRAFT_EDITORS_STATES:
-      return {
-        ...state,
-        storyIsSaved: false
-      };
+    // case UPDATE_DRAFT_EDITOR_STATE:
+    // case UPDATE_DRAFT_EDITORS_STATES:
+      // return {
+      //   ...state,
+      //   storyIsSaved: false
+      // };
     case `${UPDATE_SECTION}_SUCCESS`:
       return {
         ...state,
