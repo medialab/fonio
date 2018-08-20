@@ -215,7 +215,7 @@ class ErrorMessageContainer extends Component {
         children,
         needsReload,
         connectError,
-        lastError,
+        // lastError,
         malformedStoryError,
         browserWarning,
         actions: {
@@ -240,7 +240,10 @@ class ErrorMessageContainer extends Component {
                 {translate('Would you be kind enough to report what happened before this screen ')}
                 <a
                   target="blank"
-                  href={`https://github.com/medialab/fonio/issues/new?title=save+story+failed&body=${encodeURIComponent('My editor failed to save story with error message:\n```\n' + JSON.stringify(lastError) + '\n```\n\nJust before that, here is what I was doing:\n\n')}`}>
+                  href={
+                    'https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link'
+                   // `https://github.com/medialab/fonio/issues/new?title=save+story+failed&body=${encodeURIComponent('My editor failed to save story with error message:\n```\n' + JSON.stringify(lastError) + '\n```\n\nJust before that, here is what I was doing:\n\n')}`
+                  }>
                   {translate('in this page')}
                 </a> ?
               </p>

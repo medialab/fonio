@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-7-26\n"
-"PO-Revision-Date: Thu Jul 26 2018 12:19:08 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-8-20\n"
+"PO-Revision-Date: Mon Aug 20 2018 11:05:59 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4843,3 +4843,9 @@ msgstr "\">\" then space"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} is working on section \"{t}\""
+
+msgid "Features.ErrorMessageContainer.This contextualization could not be added into note"
+msgstr "This contextualization could not be added into note"
+
+msgid "Features.ErrorMessageContainer.This asset could not be added into note"
+msgstr "This asset could not be added into note"
