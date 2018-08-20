@@ -137,6 +137,9 @@ class AuthManagerContainer extends Component {
       if (res.error && res.error.response && res.error.response.data && res.error.response.data.auth === false) {
         this.props.actions.setStoryLoginId(storyId);
       }
+      else {
+        this.props.actions.setStoryLoginId(undefined);
+      }
     });
   }
 
