@@ -65,14 +65,14 @@ export default function configureStore (initialState = {}) {
     initialState,
   );
 
-const connectionErrors = ['connect_error', 'reconnect_failed', 'reconnect_error'];
-connectionErrors.forEach(message => {
-  socket.on(message, error => {
-    store.dispatch({
-      type: CONNECT_ERROR,
-      error
+  const connectionErrors = ['connect_error', 'reconnect_failed', 'reconnect_error'];
+  connectionErrors.forEach(message => {
+    socket.on(message, error => {
+      store.dispatch({
+        type: CONNECT_ERROR,
+        error
+      });
     });
-  });
 });
 
 socket.on('reconnect', error => {
