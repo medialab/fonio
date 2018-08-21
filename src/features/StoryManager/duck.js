@@ -102,6 +102,7 @@ export const updateStory = (TYPE, payload, callback) => {
   let blockType;
   let blockId;
 
+  // TODO: refactor validation schema more modular
   let payloadSchema = DEFAULT_PAYLOAD_SCHEMA;
   const sectionSchema = storySchema.properties.sections.patternProperties['[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'];
 
@@ -285,7 +286,10 @@ export const updateStory = (TYPE, payload, callback) => {
             const val = ajv.compile(payloadSchema);
             return val(payload);
           },
-          msg: 'payload is not valid',
+          msg: () => {
+            const val = ajv.compile(payloadSchema);
+            return val.errors;
+          },
         },
       },
     },
