@@ -401,7 +401,7 @@ class ResourceForm extends Component {
     const errorValidator = (values) => {
       if (values.metadata.type) {
         const dataSchema = resourceSchema.definitions[values.metadata.type];
-        const dataRequiredValues = dataSchema.requiredProperties || [];
+        const dataRequiredValues = dataSchema.required || [];
         return {
           ...dataRequiredValues.reduce((result, key) => ({
             ...result,
@@ -587,10 +587,10 @@ class ResourceForm extends Component {
                     formApi.errors && formApi.errors.maxSize &&
                       <Help isColor="danger">{formApi.errors.maxSize}</Help>
                   }
-                  {
+                  {/*
                     formApi.errors && formApi.errors.schemaVal &&
                       <Help isColor="danger">{translate('Resource is not valid')}</Help>
-                  }
+                  */}
                   <Level />
 
                 </StretchedLayoutItem>
