@@ -19,6 +19,10 @@ import {
 } from 'draft-js';
 
 import {
+  getSelectionInlineStyle
+} from 'draftjs-utils';
+
+import {
   Content,
   // Level,
   Title,
@@ -689,7 +693,15 @@ class SectionEditor extends Component {
     const {editorFocus, editorStates, activeSection} = this.props;
     const {id: sectionId} = activeSection;
     const editorState = editorFocus === 'main' ? editorStates[sectionId] : activeSection.notes[editorFocus].contents;
-    const styles = editorState.getCurrentInlineStyle().toList().toJS();
+    // const styles = editorState.getCurrentInlineStyle().toList().toJS();
+    const styles = [
+      'BOLD',
+      'ITALIC',
+      'UNDERLINE',
+      'STRIKETHROUGH',
+      'CODE'
+    ];
+
     let newEditorState = editorState;
     styles.forEach(style => {
       newEditorState = EditorState.push(
