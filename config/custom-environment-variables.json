@@ -6,5 +6,6 @@
   "maxSectionLevel": "MAX_SECTION_LEVEL",
   "maxFileSize": "MAX_FILE_SIZE",
   "maxBatchSize": "MAX_BATCH_SIZE",
-  "maxBatchNumber": "MAX_BATCH_NUMBER"
+  "maxBatchNumber": "MAX_BATCH_NUMBER",
+  "backgroundColor": "BACKGROUND_COLOR"
 }

@@ -65,6 +65,8 @@ import EnterPasswordModal from './EnterPasswordModal';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 
+const DEFAULT_BACKGROUND_COLOR = 'lightblue';
+
 class StoryCardWrapper extends Component {
   render = () => {
     const {
@@ -410,116 +412,120 @@ class HomeViewLayout extends Component {
                   <Level />
                 </Column>
               </Column>
-              <Column isHidden={newStoryOpen} isSize={'2/3'}>
-                <Column>
-                  <StretchedLayoutContainer isFluid isDirection="horizontal">
-                    <StretchedLayoutItem isFluid isFlex={1}>
-                      <Field hasAddons>
-                        <Control>
-                          <Input value={searchString} onChange={e => setSearchString(e.target.value)} placeholder={this.translate('find a story')} />
-                        </Control>
-                      </Field>
-                    </StretchedLayoutItem>
-                    <StretchedLayoutItem isFluid>
-                      <Column>
-                        <StretchedLayoutContainer isDirection="horizontal" isFluid>
-                          <StretchedLayoutItem><i>{this.translate('sort by')}</i></StretchedLayoutItem>
-                          <StretchedLayoutItem>
-                            <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('edited by me')}>{
-                              sortingMode === 'edited by me' ?
-                                <strong>{this.translate('edited by me')}</strong>
-                                :
-                                this.translate('edited by me')
-                            }</a>
-                          </StretchedLayoutItem>
-                          <StretchedLayoutItem>
-                            <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('edited recently')}>{
-                              sortingMode === 'edited recently' ?
-                                <strong>{this.translate('edited recently')}</strong>
-                                :
-                                this.translate('edited recently')
-                            }</a>
-                          </StretchedLayoutItem>
-                          <StretchedLayoutItem>
-                            <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('title')}>{
-                              sortingMode === 'title' ?
-                                <strong>{this.translate('title')}</strong>
-                                :
-                                this.translate('title')
-                            }</a>
-                          </StretchedLayoutItem>
-                        </StretchedLayoutContainer>
-                      </Column>
-                    </StretchedLayoutItem>
-                  </StretchedLayoutContainer>
-                </Column>
-                <FlipMove>
+              {
+                storiesList.length ?
+                  <Column isHidden={newStoryOpen} isSize={'2/3'}>
+                    <Column>
+                      <StretchedLayoutContainer isFluid isDirection="horizontal">
+                        <StretchedLayoutItem isFluid isFlex={1}>
+                          <Field hasAddons>
+                            <Control>
+                              <Input value={searchString} onChange={e => setSearchString(e.target.value)} placeholder={this.translate('find a story')} />
+                            </Control>
+                          </Field>
+                        </StretchedLayoutItem>
+                        <StretchedLayoutItem isFluid>
+                          <Column>
+                            <StretchedLayoutContainer isDirection="horizontal" isFluid>
+                              <StretchedLayoutItem><i>{this.translate('sort by')}</i></StretchedLayoutItem>
+                              <StretchedLayoutItem>
+                                <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('edited by me')}>{
+                                  sortingMode === 'edited by me' ?
+                                    <strong>{this.translate('edited by me')}</strong>
+                                    :
+                                    this.translate('edited by me')
+                                }</a>
+                              </StretchedLayoutItem>
+                              <StretchedLayoutItem>
+                                <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('edited recently')}>{
+                                  sortingMode === 'edited recently' ?
+                                    <strong>{this.translate('edited recently')}</strong>
+                                    :
+                                    this.translate('edited recently')
+                                }</a>
+                              </StretchedLayoutItem>
+                              <StretchedLayoutItem>
+                                <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('title')}>{
+                                  sortingMode === 'title' ?
+                                    <strong>{this.translate('title')}</strong>
+                                    :
+                                    this.translate('title')
+                                }</a>
+                              </StretchedLayoutItem>
+                            </StretchedLayoutContainer>
+                          </Column>
+                        </StretchedLayoutItem>
+                      </StretchedLayoutContainer>
+                    </Column>
+                    <FlipMove>
 
-                  {
-                        visibleStoriesList.map((story) => {
-                          const onAction = (id) => {
-                            switch (id) {
-                              case 'open':
-                                history.push({
-                                  pathname: `/story/${story.id}`
-                                });
-                                break;
-                              case 'read':
-                                history.push({
-                                  pathname: `/read/${story.id}`
-                                });
-                                break;
-                              case 'duplicate':
-                                duplicateStory({storyId: story.id})
-                                .then((res) => {
-                                  if (res.result) {
-                                    setPasswordModalOpen(true);
-                                    setOverrideStoryMode('create');
-                                  }
-                                });
-                                break;
-                              case 'delete':
-                                setStoryDeleteId(story.id);
-                                break;
-                              case 'change password':
-                                setChangePasswordId(story.id);
-                                break;
-                              default:
-                                break;
-                            }
-                          };
-                          const users = lockingMap[story.id] ?
-                            Object.keys(lockingMap[story.id].locks)
-                              .map(thatUserId => {
-                                return {
-                                  ...activeUsers[thatUserId]
-                                };
-                              })
-                          : [];
-                          return (
-                            <StoryCardWrapper
-                              key={story.id}
-                              story={story}
-                              users={users}
-                              onAction={onAction} />
-                          );
-                        })
-                      }
-                </FlipMove>
-                {storyDeleteId &&
-                  <DeleteStoryModal
-                    loginStatus={loginStatus}
-                    deleteStatus={deleteStoryStatus}
-                    onSubmitPassword={onDeleteStory}
-                    onCancel={() => setStoryDeleteId(undefined)} />
-                }
-                {changePasswordId &&
-                  <ChangePasswordModal
-                    changePasswordStatus={changePasswordStatus}
-                    onChangePassword={onChangePassword}
-                    onCancel={() => setChangePasswordId(undefined)} />
-                }
-              </Column>
+                      {
+                            visibleStoriesList.map((story) => {
+                              const onAction = (id) => {
+                                switch (id) {
+                                  case 'open':
+                                    history.push({
+                                      pathname: `/story/${story.id}`
+                                    });
+                                    break;
+                                  case 'read':
+                                    history.push({
+                                      pathname: `/read/${story.id}`
+                                    });
+                                    break;
+                                  case 'duplicate':
+                                    duplicateStory({storyId: story.id})
+                                    .then((res) => {
+                                      if (res.result) {
+                                        setPasswordModalOpen(true);
+                                        setOverrideStoryMode('create');
+                                      }
+                                    });
+                                    break;
+                                  case 'delete':
+                                    setStoryDeleteId(story.id);
+                                    break;
+                                  case 'change password':
+                                    setChangePasswordId(story.id);
+                                    break;
+                                  default:
+                                    break;
+                                }
+                              };
+                              const users = lockingMap[story.id] ?
+                                Object.keys(lockingMap[story.id].locks)
+                                  .map(thatUserId => {
+                                    return {
+                                      ...activeUsers[thatUserId]
+                                    };
+                                  })
+                              : [];
+                              return (
+                                <StoryCardWrapper
+                                  key={story.id}
+                                  story={story}
+                                  users={users}
+                                  onAction={onAction} />
+                              );
+                            })
+                          }
+                    </FlipMove>
+                    {storyDeleteId &&
+                      <DeleteStoryModal
+                        loginStatus={loginStatus}
+                        deleteStatus={deleteStoryStatus}
+                        onSubmitPassword={onDeleteStory}
+                        onCancel={() => setStoryDeleteId(undefined)} />
+                    }
+                    {changePasswordId &&
+                      <ChangePasswordModal
+                        changePasswordStatus={changePasswordStatus}
+                        onChangePassword={onChangePassword}
+                        onCancel={() => setChangePasswordId(undefined)} />
+                    }
+                  </Column>
+                : null
+              }
               {
                       newStoryOpen ?
                         <Column isSize={newStoryOpen ? '2/3' : '1/2'}>
@@ -638,12 +644,12 @@ class HomeViewLayout extends Component {
           isColor="success"
           isSize="large"
           style={{
-                background: `url(${require('../../../sharedAssets/cover_forccast.jpg')})`,
-                backgroundPosition: 'center center',
-                backgroundRepeat: 'no-repeat',
-                backgroundAttachment: 'fixed',
-                backgroundSize: 'cover',
-                backgroundColor: '#999',
+                background: config.backgroundColor || DEFAULT_BACKGROUND_COLOR, // `url(${require('../../../sharedAssets/cover_forccast.jpg')})`,
+                // backgroundPosition: 'center center',
+                // backgroundRepeat: 'no-repeat',
+                // backgroundAttachment: 'fixed',
+                // backgroundSize: 'cover',
+                // backgroundColor: '#999',
               }}>
           <HeroHeader>
             <Navbar
