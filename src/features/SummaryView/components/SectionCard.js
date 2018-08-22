@@ -54,7 +54,16 @@ const SectionCard = ({
 
   return (
     <Card
-      title={<Link to={`/story/${story.id}/section/${section.id}`} >{abbrevString(section.metadata.title, 15)}</Link>}
+      title={
+        <Link
+          to={`/story/${story.id}/section/${section.id}`}
+          data-tip={section.metadata.title}
+          data-for="tooltip"
+          isSize="medium"
+          data-place="bottom">
+          <span>
+            {abbrevString(section.metadata.title, 15)}
+          </span></Link>}
       subtitle={section.metadata.subtitle}
       lockStatus={lockData ? 'locked' : 'open'}
       statusMessage={lockData ? translate('edited by {n}', {n: lockData.name}) : translate('open for edition')}
