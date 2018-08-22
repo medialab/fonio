@@ -36,7 +36,7 @@ const EditionUiWrapperLayout = ({
   userInfoModalOpen,
   exportModalOpen,
   editedStory = {},
-  lockingMap,
+  lockingMap = {},
   sectionId,
   navLocation,
   navbarOpen,
