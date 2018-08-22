@@ -130,7 +130,7 @@ export function retrieveWebpageMetadata (url) {
             });
 
           }
-          catch () {
+          catch (e) {/* eslint no-unused-vars : 0 */
             resolve({});
           }
         })
