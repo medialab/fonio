@@ -119,6 +119,7 @@ class DataForm extends Component {
         }
       };
     const onEditBib = (value) => {
+      if (resource.metadata && resource.metadata.type !== 'bib') return;
       const bibData = parseBibTeXToCSLJSON(value);
       // TODO: citation-js parse fail in silence, wait error handling feature
       if (bibData.length === 1) {
