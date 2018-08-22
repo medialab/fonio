@@ -177,7 +177,7 @@ class AssetPreview extends Component {
         </div>);
       case 'video':
         return (
-          <Player url={data.url} />
+          <div className="player-container"><Player url={data.url} /></div>
         );
       case 'data-presentation':
         return (
