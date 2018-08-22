@@ -20,7 +20,7 @@ import config from '../../config';
 import AuthorsManager from '../AuthorsManager';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
-import {retrieveMediaMetadata, loadImage, inferMetadata, parseBibTeXToCSLJSON} from '../../helpers/assetsUtils';
+import {retrieveMediaMetadata, retrieveWebpageMetadata, loadImage, inferMetadata, parseBibTeXToCSLJSON} from '../../helpers/assetsUtils';
 import {getFileAsText} from '../../helpers/fileLoader';
 
 import {base64ToBytesLength} from '../../helpers/misc';
@@ -115,6 +115,9 @@ class DataForm extends Component {
           };
           formApi.setValue('metadata', metadata);
           formApi.setValue('data', data);
+        })
+        .catch(e => {
+          console.error(e);/* no-console: 0*/
         });
       }
     };
@@ -199,7 +202,10 @@ class DataForm extends Component {
           .then(({metadata}) => {
             Object.keys(metadata)
               .forEach(key => {
-                formApi.setValue(`metadata.${key}`, metadata[key]);
+                const existing = formApi.getValue(`metadata.${key}`);
+                if (!existing || (typeof existing === 'string' && !existing.trim().length) || (Array.isArray(existing) && !existing.length)) {
+                  formApi.setValue(`metadata.${key}`, metadata[key]);
+                }
               });
           });
       };
@@ -248,23 +254,27 @@ class DataForm extends Component {
         </Field>
       );
     case 'webpage':
+      const onWebpageUrlChange = (thatUrl) => {
+        retrieveWebpageMetadata(thatUrl)
+          .then((metadata) => {
+            Object.keys(metadata)
+              .forEach(key => {
+                const existing = formApi.getValue(`metadata.${key}`);
+                if (!existing || (typeof existing === 'string' && !existing.trim().length) || (Array.isArray(existing) && !existing.length)) {
+                  formApi.setValue(`metadata.${key}`, metadata[key]);
+                }
+              });
+          });
+        // retrieveMediaMetadata(thatUrl, credentials)
+        //   .then(({metadata}) => {
+        //     Object.keys(metadata)
+        //       .forEach(key => {
+        //         formApi.setValue(`metadata.${key}`, metadata[key]);
+        //       });
+        //   });
+      };
       return (
         <div>
-          {/*<Field>
-            <Control>
-              <Label>
-                {translate('Webpage name')}
-                <HelpPin place="right">
-                  {translate('Explanation about the webpage')}
-                </HelpPin>
-              </Label>
-              <Text
-                className="input"
-                field="name" id="name"
-                type="text"
-                placeholder={translate('name')} />
-            </Control>
-          </Field>*/}
           <Field>
             <Control>
               <Label>
@@ -277,6 +287,7 @@ class DataForm extends Component {
                 className="input"
                 field="url" id="url"
                 type="text"
+                onChange={onWebpageUrlChange}
                 placeholder={translate('http://')} />
             </Control>
             {

@@ -103,6 +103,47 @@ export function loadResourceData(url) {
   });
 }
 
+/**
+ * Retrieves the metadata associated with a given webpage resource from its source code
+ * @param {string} url - the url to start from to know where to retrieve the metadata
+ * @return {Promise} process - loading is wrapped in a promise for consistence matters
+ */
+export function retrieveWebpageMetadata (url) {
+  return new Promise((resolve) => {
+    if (url.length) {
+      get(url)
+        .then(({data: html}) => {
+          try {
+            let title = /\<title\>(.+)\<\/title\>/.exec(html);
+            title = title && title[1];
+            let description = /\<meta\s+content="([^"]+)"\s+name="description"\s*\/\>/.exec(html)
+              || /\<meta\s+name="description"\s+content="([^"]+)"\s*\/\>/.exec(html);
+            description = description && description[1];
+            let authors = /\<meta\s+content="([^"]+)"\s+name="author"\s*\/\>/.exec(html)
+              || /\<meta\s+name="author"\s+content="([^"]+)"\s*\/\>/.exec(html);
+            authors = authors && authors[1];
+            authors = authors && [authors];
+            resolve({
+              title,
+              description,
+              authors
+            });
+
+          }
+          catch () {
+            resolve({});
+          }
+        })
+        .catch(e => {
+          resolve({});
+        });
+    }
+ else {
+      resolve({});
+    }
+  });
+}
+
 const youtubeRegexp = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/gi;
 const vimeoRegexp = /^(https?\:\/\/)?(www\.)?(vimeo\.com)/gi;
 /**
@@ -131,7 +172,8 @@ export function retrieveMediaMetadata (url, credentials = {}) {
                     description: info.description,
                     source: info.channelTitle + ` (youtube: ${url})`,
                     title: info.title,
-                    videoUrl: url
+                    videoUrl: url,
+                    authors: [info.channelTitle]
                   }
                 });
             })
