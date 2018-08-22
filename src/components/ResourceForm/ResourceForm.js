@@ -80,7 +80,7 @@ class DataForm extends Component {
     const translate = translateNameSpacer(t, 'Components.ResourceForm');
 
     const loadResourceData = (type, file) =>
-    new Promise((resolve, reject) => {
+      new Promise((resolve, reject) => {
         switch (type) {
           case 'bib':
             return getFileAsText(file)
@@ -104,9 +104,9 @@ class DataForm extends Component {
       }
       else {
         formApi.setError('maxSize', undefined);
-        loadResourceData(resource.metadata.type, files[0])
+        loadResourceData(resourceType, files[0])
         .then((data) => {
-          const inferedMetadata = inferMetadata({...data, file: files[0]}, resource.metadata.type);
+          const inferedMetadata = inferMetadata({...data, file: files[0]}, resourceType);
           const prevMetadata = formApi.getValue('metadata');
           const metadata = {
             ...prevMetadata,
