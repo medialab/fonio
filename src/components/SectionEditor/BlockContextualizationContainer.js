@@ -6,7 +6,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import AssetPreview from './AssetPreview';
+import AssetPreview from '../AssetPreview';
 
 
 /**
