@@ -7,7 +7,7 @@
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Media, Player} from 'react-media-player';
+import Player from 'react-player';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 
@@ -177,9 +177,7 @@ class AssetPreview extends Component {
         </div>);
       case 'video':
         return (
-          <Media>
-            <Player src={data.url} />
-          </Media>
+          <Player url={data.url} />
         );
       case 'data-presentation':
         return (
