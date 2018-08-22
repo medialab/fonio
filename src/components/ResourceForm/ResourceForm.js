@@ -71,7 +71,6 @@ class DataForm extends Component {
   }
   render = () => {
     const {
-      resourceType,
       resource,
       asNewResource,
       formApi
@@ -99,27 +98,26 @@ class DataForm extends Component {
         }
       });
     const onDropFiles = (files) => {
-        if (files.length && files[0].size > realMaxFileSize) {
-          formApi.setError('maxSize', translate('File is too large, please choose one under {s} Mb', {s: Math.floor(realMaxFileSize)}));
-        }
-        else {
-          formApi.setError('maxSize', undefined);
-          loadResourceData(resourceType, files[0])
-          .then((data) => {
-            const inferedMetadata = inferMetadata({...data, file: files[0]}, resourceType);
-            const prevMetadata = formApi.getValue('metadata');
-            const metadata = {
-              ...prevMetadata,
-              ...inferedMetadata,
-              title: prevMetadata.title ? prevMetadata.title : inferedMetadata.title
-            };
-            formApi.setValue('metadata', metadata);
-            formApi.setValue('data', data);
-          });
-        }
-      };
+      if (files.length && files[0].size > realMaxFileSize) {
+        formApi.setError('maxSize', translate('File is too large, please choose one under {s} Mb', {s: Math.floor(realMaxFileSize)}));
+      }
+      else {
+        formApi.setError('maxSize', undefined);
+        loadResourceData(resource.metadata.type, files[0])
+        .then((data) => {
+          const inferedMetadata = inferMetadata({...data, file: files[0]}, resource.metadata.type);
+          const prevMetadata = formApi.getValue('metadata');
+          const metadata = {
+            ...prevMetadata,
+            ...inferedMetadata,
+            title: prevMetadata.title ? prevMetadata.title : inferedMetadata.title
+          };
+          formApi.setValue('metadata', metadata);
+          formApi.setValue('data', data);
+        });
+      }
+    };
     const onEditBib = (value) => {
-      if (resource.metadata && resource.metadata.type !== 'bib') return;
       const bibData = parseBibTeXToCSLJSON(value);
       // TODO: citation-js parse fail in silence, wait error handling feature
       if (bibData.length === 1) {
@@ -131,7 +129,7 @@ class DataForm extends Component {
       }
       else formApi.setError('data', translate('Invalid bibtext resource'));
     };
-    switch (resourceType) {
+    switch (resource.metadata.type) {
     case 'image':
       return (
         <Field>
@@ -491,7 +489,6 @@ class ResourceForm extends Component {
                         <DataForm
                           asNewResource={asNewResource}
                           resource={resource}
-                          resourceType={formApi.getValue('metadata.type')}
                           formApi={formApi} />
                         {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
                       </NestedField>
