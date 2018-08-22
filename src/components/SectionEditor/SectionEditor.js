@@ -19,10 +19,6 @@ import {
 } from 'draft-js';
 
 import {
-  getSelectionInlineStyle
-} from 'draftjs-utils';
-
-import {
   Content,
   // Level,
   Title,

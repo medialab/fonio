@@ -225,7 +225,7 @@ export function inferMetadata(data, assetType) {
       }
       return {
         title,
-        fileName: data && data.file && data.file.name && data.file.name,// @todo use lodash/getIn
+        fileName: data && data.file && data.file.name && data.file.name, // @todo use lodash/getIn
         ext: data && data.file && data.file.name && data.file.name.split('.')[1],
         mimeType: data && data.file && data.file.type
       };
