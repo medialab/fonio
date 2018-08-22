@@ -211,20 +211,21 @@ class AssetPreview extends Component {
 
   onClickEdit () {
     const {onEditRequest} = this.props;
-    // e.stopPropagation(); // cause lockingMap state not update
     if (typeof onEditRequest === 'function') {
-      this.props.onEditRequest();
+      onEditRequest();
     }
   }
 
-  onClickDelete (e) {
-    const {onEditRequest} = this.props;
-    e.stopPropagation();
-    if (typeof onEditRequest === 'function') {
-      this.props.onDeleteRequest();
+  onClickDelete () {
+    const {onDeleteRequest} = this.props;
+    if (typeof onDeleteRequest === 'function') {
+      onDeleteRequest();
     }
   }
 
+  onClickBox (e) {
+    e.stopPropagation(); //cause lockingMap state not be updated
+  }
   render() {
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
     const {showPannel, resource} = this.props;
@@ -232,7 +233,10 @@ class AssetPreview extends Component {
     const {isInfoShown} = this.state;
     return (
       showPannel ?
-        <Box style={{background: 'rgb(240,240,240)'}} className="fonio-AssetPreview">
+        <Box
+          onClick={this.onClickBox}
+          style={{background: 'rgb(240,240,240)'}}
+          className="fonio-AssetPreview">
           <div className="preview-container">
             {data && this.renderPreview()}
           </div>
