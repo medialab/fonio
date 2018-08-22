@@ -72,6 +72,7 @@ class DataForm extends Component {
   render = () => {
     const {
       resource,
+      resourceType,
       asNewResource,
       formApi
     } = this.props;
@@ -129,7 +130,7 @@ class DataForm extends Component {
       }
       else formApi.setError('data', translate('Invalid bibtext resource'));
     };
-    switch (resource.metadata.type) {
+    switch (resourceType) {
     case 'image':
       return (
         <Field>
@@ -489,6 +490,7 @@ class ResourceForm extends Component {
                         <DataForm
                           asNewResource={asNewResource}
                           resource={resource}
+                          resourceType={resource.metadata.type ? resource.metadata.type : formApi.getValue('metadata.type')}
                           formApi={formApi} />
                         {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
                       </NestedField>
