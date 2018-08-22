@@ -11,14 +11,26 @@ import Player from 'react-player';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 
-import QuinoaPresentationPlayer from 'quinoa-presentation-player';
-import BibliographicPreview from '../BibliographicPreview/BibliographicPreview';
-import {translateNameSpacer} from '../../helpers/translateUtils';
-import {loadResourceData} from '../../helpers/assetsUtils';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
-import './AssetPreview.scss';
+import {
+  Box,
+  Button,
+  Content,
+  Columns,
+  Column,
+  Image,
+  Level,
+  HelpPin,
+  Title,
+} from 'quinoa-design-library/components';
+
+
+import QuinoaPresentationPlayer from 'quinoa-presentation-player';
+import BibliographicPreview from '../BibliographicPreview';
+import {translateNameSpacer} from '../../helpers/translateUtils';
+import {loadResourceData} from '../../helpers/assetsUtils';
+import {abbrevString} from '../../helpers/misc';
 
 
 /**
@@ -87,7 +99,8 @@ class AssetPreview extends Component {
     this.state = {
       data: undefined,
       loading: false,
-      columns: []
+      columns: [],
+      isInfoShown: false
     };
     this.onClickEdit = this.onClickEdit.bind(this);
     this.onClickDelete = this.onClickDelete.bind(this);
@@ -104,11 +117,10 @@ class AssetPreview extends Component {
   }
 
   updateResource() {
-    const {resource = {}} = this.props;
-    const {metadata = {}, data} = resource;
-    const {type} = metadata;
+    const {resource} = this.props;
     const {getResourceDataUrl} = this.context;
-    if (type === 'table' && data && data.filePath) {
+    const {metadata, data} = resource;
+    if (metadata.type === 'table' && data && data.filePath) {
       this.setState({loading: true});
       loadResourceData(getResourceDataUrl(data))
       .then((result) => {
@@ -124,7 +136,7 @@ class AssetPreview extends Component {
       });
     }
 
-    if (type === 'data-presentation' && data && data.filePath) {
+    if (metadata.type === 'data-presentation' && data && data.filePath) {
       loadResourceData(getResourceDataUrl(data))
       .then((result) => {
         this.setState({
@@ -135,13 +147,11 @@ class AssetPreview extends Component {
   }
 
   renderPreview() {
-    const {resource = {}} = this.props;
-    const {data, metadata = {}, lastUpdateAt} = resource;
-    const {type} = metadata;
-
+    const {resource} = this.props;
+    const {data, metadata, lastUpdateAt} = resource;
     const {getResourceDataUrl} = this.context;
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
-    switch (type) {
+    switch (metadata.type) {
       case 'table':
         let columns;
         if (data.json && data.json[0]) {
@@ -163,7 +173,7 @@ class AssetPreview extends Component {
           rowsText={translate('table-row')} />);
       case 'image':
         return (<div className="image-container">
-          <img key={resource.lastUpdateAt} src={data.base64 ? data.base64 : `${getResourceDataUrl(data)}?${lastUpdateAt}`} />
+          <img src={data.base64 ? data.base64 : `${getResourceDataUrl(data)}?${lastUpdateAt}`} />
         </div>);
       case 'video':
         return (
@@ -197,75 +207,104 @@ class AssetPreview extends Component {
     }
   }
 
-  onClickEdit (e) {
+  onClickEdit () {
     const {onEditRequest} = this.props;
-    e.stopPropagation();
     if (typeof onEditRequest === 'function') {
-      this.props.onEditRequest();
+      onEditRequest();
     }
   }
 
-  onClickDelete (e) {
-    const {onEditRequest} = this.props;
-    e.stopPropagation();
-    if (typeof onEditRequest === 'function') {
-      this.props.onDeleteRequest();
+  onClickDelete () {
+    const {onDeleteRequest} = this.props;
+    if (typeof onDeleteRequest === 'function') {
+      onDeleteRequest();
     }
   }
 
+  onClickBox (e) {
+    e.stopPropagation(); //cause lockingMap state not be updated
+  }
   render() {
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
-    const {
-      resource = {},
-      showPannel,
-    } = this.props;
-    const {
-      data,
-      metadata = {}
-    } = resource;
+    const {showPannel, resource} = this.props;
+    const {metadata, data} = resource;
+    const {isInfoShown} = this.state;
     return (
-      <div className="fonio-AssetPreview">
-        <div className="preview-container">
-          {data && this.renderPreview()}
-        </div>
-        {showPannel && <div onClick={this.onClickEdit} className="asset-metadata">
-          <div className="column">
-            <h5>
-              <img className="type-icon" src={require(`../../sharedAssets/${metadata.type}-black.svg`)} />
-              <span>
-                {metadata.title || translate('Unnamed resource')}
-              </span>
-              {/*<button onClick={this.onClickEdit}>{translate('edit-resource')}</button>*/}
-              {/*<button onClick={this.onClickDelete}>{translate('delete-contextualization')}</button>*/}
-            </h5>
-            <div className="line-buttons-container displaced">
-              {/*<button onClick={this.onClickEdit}>
-                  <img className="fonio-icon-image" src={require(`../../sharedAssets/edit-black.svg`)} />
-                </button>*/}
-              <button onClick={this.onClickDelete}>
-                <img className="fonio-icon-image" src={icons.remove.white.svg} />
-                {translate('delete-contextualization')}
-              </button>
-            </div>
-
-            {metadata.description &&
-              <div className="displaced">
-                <h6>{translate('description')}</h6>
-                <p>{metadata.description}</p>
+      showPannel ?
+        <Box
+          onClick={this.onClickBox}
+          style={{background: 'rgb(240,240,240)'}}
+          className="fonio-AssetPreview">
+          <div className="preview-container">
+            {data && this.renderPreview()}
+          </div>
+          <div>
+            <Level />
+            <Level>
+              <Columns>
+                <Column>
+                  <Image isSize={'24x24'} className="type-icon" src={icons[metadata.type].black.svg} />
+                </Column>
+                <Column isSize={11}>
+                  <Title isSize={4}>{metadata.title || translate('Unnamed resource')}</Title>
+                </Column>
+              </Columns>
+            </Level>
+            <div>
+              <div style={{width: '100%'}}>
+                <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
+                  <Button
+                    isFullWidth style={{overflow: 'visible'}} isColor="warning"
+                    onClick={this.onClickDelete}>
+                    <span style={{marginRight: '1em'}}>{translate('delete mention')}</span>
+                    <HelpPin>
+                      {translate(`The ${metadata.type} will not be delete from the library`)}
+                    </HelpPin>
+                  </Button>
+                </Column>
+                <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
+                  <Button isFullWidth isColor="primary" onClick={this.onClickEdit}>
+                    {translate(`edit ${metadata.type}`)}
+                  </Button>
+                </Column>
+                {/*(metadata.description || metadata.source) && <Column>
+                  <Button isColor={isInfoShown ? 'primary' : 'info'} onClick={() => this.setState({isInfoShown: !isInfoShown})}>
+                    {translate('show info')}
+                  </Button>
+                </Column>*/}
               </div>
+            </div>
+            {(metadata.description || metadata.source) && isInfoShown &&
+              <Level>
+                <Columns>
+                  <Column>
+                    {metadata.description &&
+                      <div>
+                        <Title isSize={5}>{translate('Description')}</Title>
+                        <Content>{abbrevString(metadata.description, 500)}</Content>
+                      </div>
+                    }
+                  </Column>
+                  {metadata.source &&
+                    <Column>
+                      <div>
+                        <Title isSize={5}>{translate('Source')}</Title>
+                        <Content>{abbrevString(metadata.source, 500)}</Content>
+                      </div>
+                    </Column>
+                  }
+                </Columns>
+              </Level>
             }
 
           </div>
-          {metadata.source &&
-            <div className="column">
-              <div>
-                <h6>{translate('source')}</h6>
-                <p>{metadata.source}</p>
-              </div>
-            </div>
-          }
-        </div>}
-      </div>);
+        </Box> :
+        <div className="fonio-AssetPreview">
+          <div className="preview-container">
+            {data && this.renderPreview()}
+          </div>
+        </div>
+    );
   }
 }
 
@@ -310,6 +349,7 @@ AssetPreview.contextTypes = {
    * translation function
    */
   t: PropTypes.func.isRequired,
+
   /**
    * getResourceDataUrl in DataUrlProvider
    */

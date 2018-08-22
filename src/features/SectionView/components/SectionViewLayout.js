@@ -132,6 +132,7 @@ const SectionViewLayout = ({
   embedLastResource,
   onCreateHyperlink,
   onContextualizeHyperlink,
+  onResourceEditAttempt,
 }, {t}) => {
 
   const translate = translateNameSpacer(t, 'Features.SectionView');
@@ -405,17 +406,6 @@ const SectionViewLayout = ({
         userId,
 
         section: thatSection,
-      });
-    }
-  };
-
-  const onResourceEditAttempt = resourceId => {
-    if (userLockedResourceId !== resourceId) {
-      enterBlock({
-        storyId,
-        userId,
-        blockType: 'resources',
-        blockId: resourceId
       });
     }
   };

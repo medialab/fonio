@@ -21,6 +21,11 @@ import {
   summonAsset,
   deleteUncitedContext
 } from '../../../helpers/assetsUtils';
+
+import {
+  getUserResourceLockId,
+} from '../../../helpers/lockUtils';
+
 import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultResource} from '../../../helpers/schemaUtils';
@@ -360,6 +365,27 @@ class SectionViewContainer extends Component {
     }
   }
 
+  onResourceEditAttempt = resourceId => {
+    const {
+      match: {
+        params: {
+          storyId
+        }
+      },
+      lockingMap,
+      userId
+    } = this.props;
+    const userLockedResourceId = getUserResourceLockId(lockingMap, userId, storyId);
+    if (userLockedResourceId !== resourceId) {
+      this.props.actions.enterBlock({
+        storyId,
+        userId,
+        blockType: 'resources',
+        blockId: resourceId
+      });
+    }
+  };
+
   render() {
     const {
       props: {
@@ -381,6 +407,7 @@ class SectionViewContainer extends Component {
       onCreateHyperlink,
       submitMultiResources,
       embedLastResource,
+      onResourceEditAttempt,
       context: {t},
     } = this;
     const translate = translateNameSpacer(t, 'Features.SectionViewContainer');
@@ -400,6 +427,7 @@ class SectionViewContainer extends Component {
                 submitMultiResources={submitMultiResources}
                 onCreateHyperlink={onCreateHyperlink}
                 onContextualizeHyperlink={onContextualizeHyperlink}
+                onResourceEditAttempt={onResourceEditAttempt}
                 {...this.props} />
               <ModalCard
                 isActive={editorBlocked}
