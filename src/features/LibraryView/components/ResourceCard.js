@@ -97,7 +97,7 @@ class ResourceCard extends Component {
                       </Icon>
                     </Column>
 
-                    <Column isSize={8}>
+                    <Column style={{transition: 'none'}} isSize={8}>
                       <span
                         data-html
                         data-place="bottom"
