@@ -37,7 +37,7 @@ const DesignViewLayout = ({
   {
     action: translate('Change the paragraphs font size'),
     code: `
-.content-paragraph{
+.content-p{
   font-size: 10px;
 }`
   },
