@@ -471,7 +471,7 @@ class SectionEditor extends Component {
       updateDraftEditorState(sectionId, newEditorState);
       updateDraftEditorState(id, undefined);
       // focus on main editor
-      setEditorFocus('main');
+      setTimeout(() => setEditorFocus('main'));
     });
     // this.editor.focus('main');
   }
