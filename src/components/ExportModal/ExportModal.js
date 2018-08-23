@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  Column,
   ModalCard,
   BigSelect,
   Notification,
@@ -31,21 +32,24 @@ const ExportModal = ({
       mainContent={
         <StretchedLayoutContainer isDirection="vertical">
           <StretchedLayoutItem isFlex={1}>
-            <BigSelect
-              activeOptionId={activeOptionId}
-              onChange={onChange}
-              options={[
-                {
-                  id: 'html',
-                  label: translate('Export your story to publish it (HTML format)'),
-                  iconUrl: activeOptionId === 'html' ? icons.takeAway.white.svg : icons.takeAway.black.svg
-                },
-                {
-                  id: 'json',
-                  label: translate('Export your story to backup and edit it later in Fonio (fonio JSON format)'),
-                  iconUrl: activeOptionId === 'json' ? icons.takeAway.white.svg : icons.takeAway.black.svg
-                }
-              ]} />
+            <Column>
+              <BigSelect
+                activeOptionId={activeOptionId}
+                onChange={onChange}
+                boxStyle={{minHeight: '12rem', textAlign: 'center'}}
+                options={[
+                  {
+                    id: 'html',
+                    label: translate('Export your story to publish it (HTML format)'),
+                    iconUrl: activeOptionId === 'html' ? icons.takeAway.white.svg : icons.takeAway.black.svg
+                  },
+                  {
+                    id: 'json',
+                    label: translate('Export your story to backup it (fonio JSON format)'),
+                    iconUrl: activeOptionId === 'json' ? icons.takeAway.white.svg : icons.takeAway.black.svg
+                  }
+                ]} />
+            </Column>
           </StretchedLayoutItem>
           {status === 'success' && <StretchedLayoutItem>
             <Notification isColor="success">

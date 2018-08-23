@@ -60,7 +60,7 @@ var discoverTranslations = function() {
     //     console.log(colors.red('Automatically adding the key ' + shortKey + ' to locale ' + locale.fileName));
     //   }
     // });
-    const newTranslations = {};
+    const newTranslations = Object.assign({}, locale.translations);
     Object.keys(keys).map(key => {
       if (locale.translations[key] !== undefined) {
         const shortKey = key.split('.').pop();

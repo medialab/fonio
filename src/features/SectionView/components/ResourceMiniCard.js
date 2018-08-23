@@ -4,8 +4,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import ReactTooltip from 'react-tooltip';
-
 import {DragSource} from 'react-dnd';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
@@ -18,6 +16,11 @@ import {
   Icon,
   StatusMarker,
 } from 'quinoa-design-library/components/';
+
+import {
+  abbrevString
+} from '../../../helpers/misc';
+
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 import './ResourceMiniCard.scss';
@@ -63,7 +66,9 @@ class ResourceCard extends Component {
     /**
      * Un-namespaced translate function
      */
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    setDraggedResourceId: PropTypes.func,
+    getResourceDataUrl: PropTypes.func
   }
 
 
@@ -102,7 +107,11 @@ class ResourceCard extends Component {
   render() {
     const {
       props,
-      context: {t}
+      context: {
+        t,
+        setDraggedResourceId,
+        getResourceDataUrl
+      }
     } = this;
     const {
       resource = {},
@@ -111,8 +120,9 @@ class ResourceCard extends Component {
       onEdit,
       onDelete,
       getTitle,
-      // onSetCoverImage,
+      onSetCoverImage,
       selectMode,
+      coverImageId,
 
       connectDragSource,
       onMouseDown,
@@ -150,8 +160,10 @@ class ResourceCard extends Component {
       if (type === 'bib' && data && data[0]) {
         resourceTitle = <div className="bib-wrapper-mini" dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} />;
       }
-      else resourceTitle = getTitle(resource) || translate('untitled resource');
-
+      else {
+         resourceTitle = getTitle(resource) || translate('untitled resource');
+      }
+      resourceTitle = abbrevString(resourceTitle, 15);
     /**
      * component's callbacks
      */
@@ -173,7 +185,9 @@ class ResourceCard extends Component {
        icon.src = icons[type].black.svg;
        e.dataTransfer.setDragImage(icon, 0, 0);
        e.dataTransfer.dropEffect = 'move';
-       e.dataTransfer.setData('text', 'DRAFTJS_RESOURCE_ID:' + resource.id);
+       setDraggedResourceId(resource.id);
+       // e.dataTransfer.setData('text', 'DRAFTJS_RESOURCE_ID:' + resource.id);
+       e.dataTransfer.setData('text', ' ');
      };
 
      const endDrag = () => {
@@ -188,6 +202,7 @@ class ResourceCard extends Component {
       }
      };
 
+
       return connectDragSource(
         <div
           // draggable
@@ -196,16 +211,29 @@ class ResourceCard extends Component {
           onMouseDown={onMDown}>
           <Card
             bodyContent={
-              <div>
-                <Columns>
-                  <Column isSize={2}>
-                    <Icon isSize="medium" isAlign="left">
+              <div >
+                <Columns style={{minHeight: '4em', maxHeight: '4em', overflow: 'hidden'}}>
+                  <Column
+                    isSize={2}>
+                    <Icon
+                      data-tip={translate(resource.metadata.type)}
+                      data-for="tooltip"
+                      isSize="medium"
+                      data-effect="solid"
+                      isAlign="left">
                       <img src={icons[type].black.svg} />
                     </Icon>
                   </Column>
 
-                  <Column isSize={8}>
-                    {resourceTitle}
+                  <Column
+                    isSize={8}>
+                    <span
+                      data-html
+                      data-place="bottom"
+                      data-tip={resource.metadata.type === 'image' ? `<img style="max-width:10rem;max-height:10rem;" src="${getResourceDataUrl(resource.data)}"></img>` : undefined}
+                      data-for="tooltip">
+                      {resourceTitle}
+                    </span>
                   </Column>
 
                   <Column isSize={2}>
@@ -216,27 +244,43 @@ class ResourceCard extends Component {
                 </Columns>
                 <Columns>
                   <Column isOffset={2} isSize={10}>
-                    <Button data-for="card-action" data-tip={translate('drag this card to the editor')}>
+                    <Button
+                      style={{pointerEvents: 'none'}}
+                      data-place="left"
+                      data-effect="solid"
+                      data-for="tooltip">
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.move.black.svg} />
                       </Icon>
                     </Button>
                     <Button
-                      onClick={onEdit} isDisabled={isActive || lockStatus === 'locked'} data-for="card-action"
-                      data-tip={'settings'}>
+                      onClick={onEdit} isDisabled={isActive || lockStatus === 'locked'}
+                      data-place="left"
+                      data-effect="solid"
+                      data-for="tooltip"
+                      data-tip={translate('settings')}>
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.settings.black.svg} />
                       </Icon>
                     </Button>
                     <Button
-                      onClick={handleDelete} isDisabled={isActive || lockStatus === 'locked'} data-for="card-action"
-                      data-tip={translate('delete this resource')}>
+                      onClick={handleDelete} isDisabled={isActive || lockStatus === 'locked'}
+                      data-place="left"
+                      data-effect="solid"
+                      data-for="tooltip"
+                      data-tip={translate(`delete this ${type}`)}>
                       <Icon isSize="small" isAlign="left">
                         <img src={icons.remove.black.svg} />
                       </Icon>
                     </Button>
                     {type === 'image' &&
-                      <Button data-for="card-action" data-tip={translate('use as cover image')}>
+                      <Button
+                        onClick={onSetCoverImage}
+                        data-place="left"
+                        data-effect="solid"
+                        data-for="tooltip"
+                        isColor={coverImageId === resource.id ? 'info' : undefined}
+                        data-tip={translate('use as cover image')}>
                         <Icon isSize="small" isAlign="left">
                           <img src={icons.cover.black.svg} />
                         </Icon>
@@ -244,10 +288,6 @@ class ResourceCard extends Component {
                     }
                   </Column>
                 </Columns>
-                <ReactTooltip
-                  place="right"
-                  effect="solid"
-                  id="card-action" />
               </div>
                 } />
         </div>

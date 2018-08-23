@@ -7,7 +7,7 @@
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Media, Player} from 'react-media-player';
+import Player from 'react-player';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 
@@ -111,16 +111,18 @@ class AssetPreview extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((nextProps.data !== this.props.data) || nextProps.metadata.lastModifiedAt !== this.props.metadata.lastModifiedAt) {
+    if ((nextProps.resource.data !== this.props.resource.data) || nextProps.resource.metadata.lastUpdateAt !== this.props.resource.metadata.lastUpdateAt) {
       this.updateResource();
     }
   }
 
   updateResource() {
-    const {data, type} = this.props;
-    if (type === 'table' && data && data.url) {
+    const {resource} = this.props;
+    const {getResourceDataUrl} = this.context;
+    const {metadata, data} = resource;
+    if (metadata.type === 'table' && data && data.filePath) {
       this.setState({loading: true});
-      loadResourceData(data.url)
+      loadResourceData(getResourceDataUrl(data))
       .then((result) => {
         const columns = Object.keys(result[0]).map(key => ({
           Header: key,
@@ -134,8 +136,8 @@ class AssetPreview extends Component {
       });
     }
 
-    if (type === 'data-presentation' && data && data.url) {
-      loadResourceData(data.url)
+    if (metadata.type === 'data-presentation' && data && data.filePath) {
+      loadResourceData(getResourceDataUrl(data))
       .then((result) => {
         this.setState({
           data: result
@@ -145,9 +147,11 @@ class AssetPreview extends Component {
   }
 
   renderPreview() {
-    const {type, data, metadata} = this.props;
+    const {resource} = this.props;
+    const {data, metadata, lastUpdateAt} = resource;
+    const {getResourceDataUrl} = this.context;
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
-    switch (type) {
+    switch (metadata.type) {
       case 'table':
         let columns;
         if (data.json && data.json[0]) {
@@ -169,13 +173,11 @@ class AssetPreview extends Component {
           rowsText={translate('table-row')} />);
       case 'image':
         return (<div className="image-container">
-          <img key={metadata.lastModifiedAt} src={data.base64 || data.url} />
+          <img src={data.base64 ? data.base64 : `${getResourceDataUrl(data)}?${lastUpdateAt}`} />
         </div>);
       case 'video':
         return (
-          <Media>
-            <Player src={data.url} />
-          </Media>
+          <div className="player-container"><Player url={data.url} /></div>
         );
       case 'data-presentation':
         return (
@@ -189,22 +191,25 @@ class AssetPreview extends Component {
           <EmbedContainer html={data.html} />
         );
       case 'bib':
-        const items = data.reduce((result, item) => ({
-          ...result,
-          [item.id]: item
-        }), {});
-        return (
-          <BibliographicPreview
-            items={items} />
-        );
+        if (data.length > 0) {
+          const items = data.reduce((result, item) => ({
+            ...result,
+            [item.id]: item
+          }), {});
+          return (
+            <BibliographicPreview
+              items={items} />
+          );
+        }
+        else return null;
       default:
         return null;
     }
   }
 
-  onClickEdit (e) {
+  onClickEdit () {
     const {onEditRequest} = this.props;
-    e.stopPropagation();
+    // e.stopPropagation(); // cause lockingMap state not update
     if (typeof onEditRequest === 'function') {
       this.props.onEditRequest();
     }
@@ -220,7 +225,8 @@ class AssetPreview extends Component {
 
   render() {
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
-    const {data, metadata, showPannel} = this.props;
+    const {showPannel, resource} = this.props;
+    const {metadata, data} = resource;
     const {isInfoShown} = this.state;
     return (
       <Box style={{background: 'rgb(240,240,240)'}} className="fonio-AssetPreview">
@@ -240,28 +246,30 @@ class AssetPreview extends Component {
                 </Column>
               </Columns>
             </Level>
-            <Level>
-              <Columns>
-                <Column>
-                  <Button isColor="warning" onClick={this.onClickDelete}>
-                    <span>{translate('delete mention')}</span>
+            <div>
+              <div style={{width: '100%'}}>
+                <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
+                  <Button
+                    isFullWidth style={{overflow: 'visible'}} isColor="warning"
+                    onClick={this.onClickDelete}>
+                    <span style={{marginRight: '1em'}}>{translate('delete mention')}</span>
                     <HelpPin>
                       {translate(`The ${metadata.type} will not be delete from the library`)}
                     </HelpPin>
                   </Button>
                 </Column>
-                <Column>
-                  <Button isColor="primary" onClick={this.onClickEdit}>
+                <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
+                  <Button isFullWidth isColor="primary" onClick={this.onClickEdit}>
                     {translate(`edit ${metadata.type}`)}
                   </Button>
                 </Column>
-                {metadata.description && metadata.source && <Column>
+                {/*(metadata.description || metadata.source) && <Column>
                   <Button isColor={isInfoShown ? 'primary' : 'info'} onClick={() => this.setState({isInfoShown: !isInfoShown})}>
                     {translate('show info')}
                   </Button>
-                </Column>}
-              </Columns>
-            </Level>
+                </Column>*/}
+              </div>
+            </div>
             {(metadata.description || metadata.source) && isInfoShown &&
               <Level>
                 <Columns>
@@ -332,6 +340,12 @@ AssetPreview.contextTypes = {
    * translation function
    */
   t: PropTypes.func.isRequired,
+
+  /**
+   * getResourceDataUrl in DataUrlProvider
+   */
+  getResourceDataUrl: PropTypes.func,
+
 };
 
 export default AssetPreview;

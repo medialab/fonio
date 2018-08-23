@@ -46,6 +46,7 @@ const SummaryViewLayout = ({
   userId,
   newSectionOpen,
   promptedToDeleteSectionId,
+  isSorting,
 
   actions: {
     enterBlock,
@@ -53,10 +54,12 @@ const SummaryViewLayout = ({
     updateStoryMetadata,
     setNewSectionOpen,
     setPromptedToDeleteSectionId,
+    setIsSorting,
 
     createSection,
     deleteSection,
     updateSectionsOrder,
+    setSectionLevel,
   },
   goToSection
 }, {t}) => {
@@ -90,12 +93,13 @@ const SummaryViewLayout = ({
     }
     else if (lockNames.length > 1) {
       const oLockNames = lockNames.filter(n => n !== 'summary');
-      if (oLockNames.length === 1) {
+      const hasSection = lockNames.find(n => n === 'sections') !== undefined;
+      if (oLockNames.length === 1 || hasSection) {
         const lockName = oLockNames[0];
-        if (lockName === 'sections') {
+        if (hasSection) {
           const lock = locks[lockName];
           if (lock) {
-            const sectionId = locks[lockName].blockId;
+            const sectionId = locks.sections.blockId;
             const section = sections[sectionId];
             const sectionTitle = section.metadata.title;
             message = translate('{a} is working on section "{t}"', {a: name, t: sectionTitle});
@@ -226,6 +230,16 @@ const SummaryViewLayout = ({
     //   userId,
     //   blockType: 'sectionsOrder',
     // });
+    setIsSorting(false);
+  };
+
+  const onSetSectionLevel = ({sectionId, level}) => {
+    setSectionLevel({
+      storyId,
+      sectionId,
+      level,
+      userId
+    });
   };
 
   return (
@@ -272,13 +286,13 @@ const SummaryViewLayout = ({
                 onClick={toggleMetadataEdition}>
 
                 {
-                  <StretchedLayoutContainer isAbsolute style={{alignItems: 'center', justifyContent: metadataOpen ? 'space-around' : 'center'}} isDirection="horizontal">
+                  <StretchedLayoutContainer isAbsolute style={{alignItems: 'center', justifyContent: 'space-around', padding: '1rem'}} isDirection="horizontal">
                     <StretchedLayoutItem>
                       <StatusMarker
                         lockStatus={metadataLockStatus}
                         statusMessage={metadataLockMessage} />
                     </StretchedLayoutItem>
-                    <StretchedLayoutItem>
+                    <StretchedLayoutItem isFlex={1}>
                       {metadataOpen ? translate('Close story settings') : translate('Edit story settings')}
                     </StretchedLayoutItem>
                     {metadataOpen && <StretchedLayoutItem>
@@ -371,9 +385,13 @@ const SummaryViewLayout = ({
                 </Level>
                 <SortableSectionsList
                   items={sectionsList}
+                  story={story}
                   onSortEnd={onSortEnd}
                   goToSection={goToSection}
+                  onSortStart={() => setIsSorting(true)}
+                  isSorting={isSorting}
                   onDelete={onDeleteSection}
+                  setSectionLevel={onSetSectionLevel}
                   useDragHandle
                   reverseSectionLockMap={reverseSectionLockMap} />
               </Column>
@@ -381,7 +399,7 @@ const SummaryViewLayout = ({
         }
 
         <ConfirmToDeleteModal
-          isActive={promptedToDeleteSectionId}
+          isActive={promptedToDeleteSectionId !== undefined}
           isDisabled={reverseSectionLockMap[promptedToDeleteSectionId]}
           deleteType={'section'}
           story={story}

@@ -15,6 +15,7 @@
   <meta name="DC.Title" lang="fr" content="Fonio" />
   <meta name="DC.Date.created" scheme="W3CDTF" content="2017-09-01" />
   <meta name="DC.subject" xml:lang="en-GB" content="data-presentation" />
+  <meta name="DC.subject" xml:lang="en-GB" content="rich content edition" />
    <!-- END META DUBLIN CORE -->
 
   <!-- REGULAR META -->
@@ -26,28 +27,28 @@
 
   <!-- META TWITTER -->
   <meta name="twitter:card" value="summary">
-  <meta name="twitter:site" content="https://fonio.surge.sh/">
+  <!-- <meta name="twitter:site" content="https://fonio.surge.sh/"> -->
   <meta name="twitter:title" content="Fonio">
   <meta name="twitter:description" content="The data stories editor">
   <meta name="twitter:creator" content="@medialab">
   <!-- todo : Twitter Summary card images must be at least 200x200px -->
-  <meta name="twitter:image" content="https://fonio.surge.sh/apple-touch-icon.png">
+  <!-- <meta name="twitter:image" content="https://fonio.surge.sh/apple-touch-icon.png"> -->
   <!-- end meta twitter-->
 
   <!-- META GOOGLE + -->
   <meta itemprop="name" content="Fonio">
   <meta itemprop="description" content="The data stories editor">
-  <meta itemprop="image" content="https://fonio.surge.sh/bulgur-rs.png">
+  <!-- <meta itemprop="image" content="https://fonio.surge.sh/bulgur-rs.png"> -->
   <!-- END META GOOGLE + -->
 
   <!-- META OPEN GRAPH / FACEBOOK -->
   <meta property="og:title" content="Fonio"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://fonio.surge.sh/"/>
+  <!-- <meta property="og:url" content="https://fonio.surge.sh/"/> -->
   <meta property="og:description" content="The data stories editor"/>
-  <meta property="og:image" content="https://fonio.surge.sh/fonio-rs.png"/>
-  <meta property="og:image:width" content="1200"/>
-  <meta property="og:image:height" content="900"/>
+  <!-- <meta property="og:image" content="https://fonio.surge.sh/fonio-rs.png"/> -->
+  <!-- <meta property="og:image:width" content="1200"/> -->
+  <!-- <meta property="og:image:height" content="900"/> -->
   <!-- END META OPEN GRAPH / FACEBOOK -->
    <style type="text/css">
     body {
@@ -55,8 +56,20 @@
     }
     .spinner-wrapper {
       position: fixed;
-      top: 50%;
-      left: 50%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+    }
+    .logo-img{
+      display: inline;
+      max-height: 1em;
     }
     .spinner {
       width: 40px;
@@ -90,7 +103,8 @@
 <body>
   <!--CSS Spinner-->
   <div class="spinner-wrapper">
-    <div class="spinner"></div>
+    <h1><img class="logo-img" src="/android-chrome-96x96.png"></img> Fonio</h1>
+    <!-- <div class="spinner"></div> -->
   </div>
   <!-- Element in which to mount the app -->
   <div id="mount"></div>

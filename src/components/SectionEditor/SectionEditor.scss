@@ -9,6 +9,7 @@
 .fonio-SectionEditor
 {
     display: flex;
+
     flex-flow: row nowrap;
     justify-content: stretch;
     // @extend .flex-stretched-column;
@@ -51,11 +52,18 @@
         }
     }
 
+    .player-container{
+        max-width: 100%;
+        max-height: 100%;
+        overflow: hidden;
+    }
+
     .editor-wrapper
     {
         position: relative;
 
         overflow: auto;
+
         flex: 1;
 
         // padding-bottom: 10rem;// todo: parametrize that
@@ -68,7 +76,12 @@
             width: 100%;
             height: 100%;
 
-            .editor-bibliography{
+            > div > div {
+                overflow-x: hidden!important;
+            }
+
+            .editor-bibliography
+            {
                 display: none;
             }
 
@@ -85,18 +98,20 @@
             }
             .scholar-draft-BasicEditor
             {
-                .public-DraftEditor-content{
+                background: rgb(249,249,249);
+                .public-DraftEditor-content
+                {
                     padding: 1rem;
                 }
-                background: rgb(249,249,249);
 
                 // background: $color-very-light;
                 &:not(.active)
                 {
                     .public-DraftEditor-content
                     {
-                        background: rgb(240,240,240);
                         cursor: text;
+
+                        background: rgb(240,240,240);
                         // background: $color-sec-stroke;
                     }
                 }
@@ -106,15 +121,18 @@
             {
                 // font-family: $editable-font-stack;
                 line-height: 2em;
+
                 padding: 1rem;
 
                 // padding: $gutter-medium;
 
                 // @extend .animated;
-                // .public-DraftStyleDefault-block
-                // {
-                    // margin-bottom: $gutter-medium;
-                // }
+                .public-DraftStyleDefault-block
+                {
+                    line-height: 1.75rem;
+
+                    margin-bottom: 1.5rem;
+                }
             }
             .scholar-draft-NoteContainer
             {
@@ -137,7 +155,6 @@
                     {
                         // width: $font-size-1*2.5;
                         // height: $font-size-1*2.5;
-
                         text-align: center;
                         vertical-align: center;
 
@@ -172,10 +189,8 @@
             {
                 // font-size: $font-size-1;
                 // line-height: $font-size-1*3;
-
                 display: inline-block;
                 display: inline-block;
-
                 // width: $font-size-2 * 1.4;
                 // height: $font-size-2 * 1.4;
                 // margin-left: $gutter-small;
@@ -214,7 +229,8 @@
     {
         // max-width: 50rem;// todo: parametrize that
         height: 100%;
-        background : white;
+
+        background: white;
     }
 
     .contextualization-loading-placeholder
@@ -226,7 +242,8 @@
 
     .scholar-draft-InlineButton,
     .scholar-draft-BlockButton,
-    .fonio-LinkButton{
+    .fonio-LinkButton
+    {
         float: left;
     }
 
@@ -234,15 +251,18 @@
     {
         font-size: 1em;
 
-        padding: 0;
-        height: 100%;
-        margin: 0;
         position: relative;
         top: 0;
+
+        height: 100%;
+        margin: 0;
+        padding: 0;
         .button-content
         {
-            height: 100%;
             display: flex;
+
+            height: 100%;
+
             align-items: center;
             flex-flow: row nowrap;
             justify-content: center;
@@ -256,43 +276,76 @@
         }
     }
 
-    .native-link{
-        // @extend .interactive-item;
-        text-decoration: underline;
+    .native-link
+    {
         display: inline;
-        .link-content{
-            
-            .pin-container{
+        // @extend .interactive-item;
+
+        text-decoration: underline;
+        .link-content
+        {
+            .pin-container
+            {
                 display: inline;
             }
         }
-            
     }
 
-    .scholar-draft-SideToolbar{
-        &:not(:hover){
-            button:not(.is-primary){
+    .scholar-draft-SideToolbar
+    {
+        &:not(:hover)
+        {
+            button:not(.is-primary)
+            {
                 opacity: .5;
             }
         }
+        padding-right: .5rem;
     }
 
     /**
      * Inline contextualizations containing an input
      */
-    .items-container{
-        display: flex;
-        align-items: center;
+    .items-container
+    {
         font-size: inherit;
         font-style: inherit;
-        input{
-          color: inherit;
-          background: inherit;
-          display: inline;
-          border: transparent;
-          font-size: inherit;
-          font-style: inherit;
-          outline: none;
+
+        display: flex;
+
+        align-items: center;
+        input
+        {
+            font-size: inherit;
+            font-style: inherit;
+
+            display: inline;
+
+            color: inherit;
+            border: transparent;
+            outline: none;
+            background: inherit;
+        }
+    }
+
+    .inline-icon-container
+    {
+        display: inline;
+
+        height: 1em;
+        margin-left: -.5em;
+        // position: absolute;
+        // right: -2rem;
+
+        -webkit-user-select: none;  /* Chrome all / Safari all */
+           -moz-user-select: none;     /* Firefox all */
+            -ms-user-select: none;      /* IE 10+ */
+                user-select: none;          /* Likely future */
+        img
+        {
+            display: inline;
+
+            max-height: 1em;
         }
     }
 }

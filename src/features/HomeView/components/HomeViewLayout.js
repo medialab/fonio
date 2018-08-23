@@ -1,4 +1,6 @@
 /* eslint react/jsx-no-bind:0 */
+/* eslint react/prefer-stateless-function : 0 */
+/* eslint react/no-danger : 0 */
 
 /**
  * This module exports a stateless component rendering the layout of the editor feature interface
@@ -7,8 +9,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import FlipMove from 'react-flip-move';
+
 import {createDefaultSection} from '../../../helpers/schemaUtils';
 import {v4 as genId} from 'uuid';
+
+import ReactTooltip from 'react-tooltip';
 
 import {
   Button,
@@ -59,6 +65,29 @@ import EnterPasswordModal from './EnterPasswordModal';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 
+const DEFAULT_BACKGROUND_COLOR = 'lightblue';
+
+class StoryCardWrapper extends Component {
+  render = () => {
+    const {
+      story,
+      users,
+      onAction
+    } = this.props;
+    return (
+      <Level>
+        <Column>
+          <StoryCard
+            story={story}
+            users={users}
+            onAction={onAction} />
+        </Column>
+      </Level>
+    );
+  }
+}
+
+
 /**
  * Renders the component
  * @return {ReactElement} markup
@@ -69,6 +98,12 @@ class HomeViewLayout extends Component {
     super(props);
 
     this.translate = translateNameSpacer(context.t, 'Features.HomeView');
+  }
+
+  componentWillUpdate = (nextProps, nextState, nextContext) => {
+    if (this.context.t !== nextContext.t) {
+       this.translate = translateNameSpacer(nextContext.t, 'Features.HomeView');
+    }
   }
 
   renderContent = mode => {
@@ -287,10 +322,9 @@ class HomeViewLayout extends Component {
               .then((resp) => {
                 if (resp.result) {
                   setPasswordModalOpen(false);
-                  saveStoryToken(res.result.data.story.id, res.result.data.token);
                   setNewStoryOpen(false);
                   history.push({
-                    pathname: `/story/${res.result.data.story.id}/`,
+                    pathname: `/story/${newStory.id}/`,
                   });
                 }
               });
@@ -304,9 +338,18 @@ class HomeViewLayout extends Component {
               <Column isSize={'1/3'}>
 
                 <Column>
-                  <Title isSize={2}>
+                  <Title isSize={3}>
                     {config.sessionName /* eslint no-undef: 0 */}
                   </Title>
+
+
+                  <div>
+                    <Button isFullWidth onClick={() => setNewStoryOpen(!newStoryOpen)} isColor={newStoryOpen ? 'primary' : 'info'}>
+                      {this.translate('New story')}
+                    </Button>
+                  </div>
+
+                  <Level />
 
                   <div>
                     <Title isSize={5}>
@@ -330,153 +373,159 @@ class HomeViewLayout extends Component {
                   </div>
                   <Level />
                   <div>
-                    <Title isSize={5}>
-                      {this.translate('Who else is online ?')} <HelpPin>{this.translate('writers connected to this classroom right now')}</HelpPin>
-                    </Title>
-                    {activeUsers &&
+                    {
+                      activeUsers &&
+                      Object.keys(activeUsers)
+                      .filter(thatUserId => userId !== thatUserId).length > 0 &&
+                      <Title isSize={5}>
+                        {this.translate('Who else is online ?')} <HelpPin>{this.translate('writers connected to this classroom right now')}</HelpPin>
+                      </Title>
+                    }
+                    <div style={{maxHeight: '30rem', overflow: 'auto'}}>
+                      {activeUsers &&
                     Object.keys(activeUsers)
-                    .filter(thatUserId => userId !== thatUserId)
-                    .map(thatUserId => ({userId, ...activeUsers[thatUserId]}))
-                    .map((user, index) => {
-                      return (
-                        <Level key={index}>
-                          <Columns>
-                            <Column isSize={'1/3'}>
-                              <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
-                            </Column>
-                            <Column isSize={'2/3'}>
-                              <Content>
-                                {user.name}
-                              </Content>
-                            </Column>
-                          </Columns>
-                        </Level>
-                      );
-                    })
-                  }
-                  </div>
-
-                  <Level />
-                  <Content>
-                    {this.translate('intro short title')}
-                  </Content>
-
-                  <div>
-                    <Button isFullWidth onClick={() => setNewStoryOpen(!newStoryOpen)} isColor={newStoryOpen ? 'primary' : 'info'}>
-                      {this.translate('New story')}
-                    </Button>
-                  </div>
-                  <Level />
-                </Column>
-              </Column>
-              <Column isHidden={newStoryOpen} isSize={'2/3'}>
-                <Column>
-                  <StretchedLayoutContainer isFluid isDirection="horizontal">
-                    <StretchedLayoutItem isFluid isFlex={1}>
-                      <Field hasAddons>
-                        <Control>
-                          <Input value={searchString} onChange={e => setSearchString(e.target.value)} placeholder={this.translate('find a story')} />
-                        </Control>
-                      </Field>
-                    </StretchedLayoutItem>
-                    <StretchedLayoutItem isFluid>
-                      <Column>
-                        <StretchedLayoutContainer isDirection="horizontal" isFluid>
-                          <StretchedLayoutItem><i>{this.translate('sort by')}</i></StretchedLayoutItem>
-                          <StretchedLayoutItem>
-                            / <a onClick={() => setSortingMode('edited by me')}>{
-                              sortingMode === 'edited by me' ?
-                                <strong>{this.translate('edited by me')}</strong>
-                                :
-                                this.translate('edited by me')
-                            }</a>
-                          </StretchedLayoutItem>
-                          <StretchedLayoutItem>
-                            / <a onClick={() => setSortingMode('edited recently')}>{
-                              sortingMode === 'edited recently' ?
-                                <strong>{this.translate('edited recently')}</strong>
-                                :
-                                this.translate('edited recently')
-                            }</a>
-                          </StretchedLayoutItem>
-                          <StretchedLayoutItem>
-                            / <a onClick={() => setSortingMode('title')}>{
-                              sortingMode === 'title' ?
-                                <strong>{this.translate('title')}</strong>
-                                :
-                                this.translate('title')
-                            }</a>
-                          </StretchedLayoutItem>
-                        </StretchedLayoutContainer>
-                      </Column>
-                    </StretchedLayoutItem>
-                  </StretchedLayoutContainer>
-                </Column>
-                {
-                        visibleStoriesList.map((story, index) => (
+                      .filter(thatUserId => userId !== thatUserId)
+                      .map(thatUserId => ({userId, ...activeUsers[thatUserId]}))
+                      .map((user, index) => {
+                        return (
                           <Level key={index}>
-                            <Column>
-                              <StoryCard
-                                story={story}
-                                users={
-                                  lockingMap[story.id] ?
-                                    Object.keys(lockingMap[story.id].locks)
-                                      .map(thatUserId => {
-                                        return {
-                                          ...activeUsers[thatUserId]
-                                        };
-                                      })
-                                  : []
-                                }
-                                onAction={(id) => {
-                                  switch (id) {
-                                    case 'open':
-                                      history.push({
-                                        pathname: `/story/${story.id}`
-                                      });
-                                      break;
-                                    case 'read':
-                                      history.push({
-                                        pathname: `/read/${story.id}`
-                                      });
-                                      break;
-                                    case 'duplicate':
-                                      duplicateStory({storyId: story.id})
-                                      .then((res) => {
-                                        if (res.result) {
-                                          setPasswordModalOpen(true);
-                                          setOverrideStoryMode('create');
-                                        }
-                                      });
-                                      break;
-                                    case 'delete':
-                                      setStoryDeleteId(story.id);
-                                      break;
-                                    case 'change password':
-                                      setChangePasswordId(story.id);
-                                      break;
-                                    default:
-                                      break;
-                                  }
-                                }} />
-                            </Column>
+                            <Columns style={{alignItems: 'center'}}>
+                              <Column style={{maxWidth: '3rem', minWidth: '3rem'}} isSize={'1/3'}>
+                                <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
+                              </Column>
+                              <Column isSize={'2/3'}>
+                                <Content>
+                                  {user.name}
+                                </Content>
+                              </Column>
+                            </Columns>
                           </Level>
-                        ))
-                      }
-                {storyDeleteId &&
-                  <DeleteStoryModal
-                    loginStatus={loginStatus}
-                    deleteStatus={deleteStoryStatus}
-                    onSubmitPassword={onDeleteStory}
-                    onCancel={() => setStoryDeleteId(undefined)} />
-                }
-                {changePasswordId &&
-                  <ChangePasswordModal
-                    changePasswordStatus={changePasswordStatus}
-                    onChangePassword={onChangePassword}
-                    onCancel={() => setChangePasswordId(undefined)} />
-                }
+                        );
+                      })
+                    }
+                    </div>
+                  </div>
+
+                  <Level />
+
+
+                  <Level />
+                </Column>
               </Column>
+              {
+                storiesList.length ?
+                  <Column isHidden={newStoryOpen} isSize={'2/3'}>
+                    <Column>
+                      <StretchedLayoutContainer isFluid isDirection="horizontal">
+                        <StretchedLayoutItem isFluid isFlex={1}>
+                          <Field hasAddons>
+                            <Control>
+                              <Input value={searchString} onChange={e => setSearchString(e.target.value)} placeholder={this.translate('find a story')} />
+                            </Control>
+                          </Field>
+                        </StretchedLayoutItem>
+                        <StretchedLayoutItem isFluid>
+                          <Column>
+                            <StretchedLayoutContainer isDirection="horizontal" isFluid>
+                              <StretchedLayoutItem><i>{this.translate('sort by')}</i></StretchedLayoutItem>
+                              <StretchedLayoutItem>
+                                <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('edited by me')}>{
+                                  sortingMode === 'edited by me' ?
+                                    <strong>{this.translate('edited by me')}</strong>
+                                    :
+                                    this.translate('edited by me')
+                                }</a>
+                              </StretchedLayoutItem>
+                              <StretchedLayoutItem>
+                                <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('edited recently')}>{
+                                  sortingMode === 'edited recently' ?
+                                    <strong>{this.translate('edited recently')}</strong>
+                                    :
+                                    this.translate('edited recently')
+                                }</a>
+                              </StretchedLayoutItem>
+                              <StretchedLayoutItem>
+                                <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('title')}>{
+                                  sortingMode === 'title' ?
+                                    <strong>{this.translate('title')}</strong>
+                                    :
+                                    this.translate('title')
+                                }</a>
+                              </StretchedLayoutItem>
+                            </StretchedLayoutContainer>
+                          </Column>
+                        </StretchedLayoutItem>
+                      </StretchedLayoutContainer>
+                    </Column>
+                    <FlipMove>
+
+                      {
+                            visibleStoriesList.map((story) => {
+                              const onAction = (id) => {
+                                switch (id) {
+                                  case 'open':
+                                    history.push({
+                                      pathname: `/story/${story.id}`
+                                    });
+                                    break;
+                                  case 'read':
+                                    history.push({
+                                      pathname: `/read/${story.id}`
+                                    });
+                                    break;
+                                  case 'duplicate':
+                                    duplicateStory({storyId: story.id})
+                                    .then((res) => {
+                                      if (res.result) {
+                                        setPasswordModalOpen(true);
+                                        setOverrideStoryMode('create');
+                                      }
+                                    });
+                                    break;
+                                  case 'delete':
+                                    setStoryDeleteId(story.id);
+                                    break;
+                                  case 'change password':
+                                    setChangePasswordId(story.id);
+                                    break;
+                                  default:
+                                    break;
+                                }
+                              };
+                              const users = lockingMap[story.id] ?
+                                Object.keys(lockingMap[story.id].locks)
+                                  .map(thatUserId => {
+                                    return {
+                                      ...activeUsers[thatUserId]
+                                    };
+                                  })
+                              : [];
+                              return (
+                                <StoryCardWrapper
+                                  key={story.id}
+                                  story={story}
+                                  users={users}
+                                  onAction={onAction} />
+                              );
+                            })
+                          }
+                    </FlipMove>
+                    {storyDeleteId &&
+                      <DeleteStoryModal
+                        loginStatus={loginStatus}
+                        deleteStatus={deleteStoryStatus}
+                        onSubmitPassword={onDeleteStory}
+                        onCancel={() => setStoryDeleteId(undefined)} />
+                    }
+                    {changePasswordId &&
+                      <ChangePasswordModal
+                        changePasswordStatus={changePasswordStatus}
+                        onChangePassword={onChangePassword}
+                        onCancel={() => setChangePasswordId(undefined)} />
+                    }
+                  </Column>
+                : null
+              }
               {
                       newStoryOpen ?
                         <Column isSize={newStoryOpen ? '2/3' : '1/2'}>
@@ -527,6 +576,7 @@ class HomeViewLayout extends Component {
                                       <Button
                                         isFullWidth key={0}
                                         onClick={() => confirmImport('override')}
+                                        isDisabled={lockingMap[newStory.id] && Object.keys(lockingMap[newStory.id].locks).length > 0}
                                         isColor="danger">{this.translate('Override exist story')}
                                       </Button>,
                                       <Button
@@ -594,12 +644,12 @@ class HomeViewLayout extends Component {
           isColor="success"
           isSize="large"
           style={{
-                background: `url(${require('../../../sharedAssets/cover_forccast.jpg')})`,
-                backgroundPosition: 'center center',
-                backgroundRepeat: 'no-repeat',
-                backgroundAttachment: 'fixed',
-                backgroundSize: 'cover',
-                backgroundColor: '#999',
+                background: config.backgroundColor || DEFAULT_BACKGROUND_COLOR, // `url(${require('../../../sharedAssets/cover_forccast.jpg')})`,
+                // backgroundPosition: 'center center',
+                // backgroundRepeat: 'no-repeat',
+                // backgroundAttachment: 'fixed',
+                // backgroundSize: 'cover',
+                // backgroundColor: '#999',
               }}>
           <HeroHeader>
             <Navbar
@@ -633,7 +683,7 @@ class HomeViewLayout extends Component {
               <Container>
                 <TabList>
                   <Tab onClick={() => setTabMode('stories')} isActive={tabMode === 'stories'}><TabLink>{this.translate('Stories')}</TabLink></Tab>
-                  <Tab onClick={() => setTabMode('learn')} isActive={tabMode === 'learn'}><TabLink>{this.translate('Learn')}</TabLink></Tab>
+                  {/*<Tab onClick={() => setTabMode('learn')} isActive={tabMode === 'learn'}><TabLink>{this.translate('Learn')}</TabLink></Tab>*/}
                   <Tab onClick={() => setTabMode('about')} isActive={tabMode === 'about'}><TabLink>{this.translate('About')}</TabLink></Tab>
                 </TabList>
               </Container>
@@ -650,20 +700,17 @@ class HomeViewLayout extends Component {
 
         <Footer id="footer">
           <Container>
-            <Content>
-              <Columns>
-                <Column>
-                  <p>
-                    {this.translate('Provided thanks to the FORCCAST program')}.
-                  </p>
-                  <p>
-                    {this.translate('Made by médialab Sciences Po')}.
-                  </p>
-                </Column>
-              </Columns>
-              <Content isSize="small">
-                <p>{this.translate('The source code is licensed under ')}<a target="_blank">LGPL</a>.</p>
-              </Content>
+            <Content isSize="small">
+              <p
+                dangerouslySetInnerHTML={{
+                    __html: this.translate('Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.')
+                  }} />
+              <p
+                dangerouslySetInnerHTML={{
+                    __html: this.translate('Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.')
+                  }} />
+              <p>{this.translate('Avatar icons courtesy of ')}<a target="blank" href="https://www.flaticon.com/packs/people-faces">Freepik</a>.</p>
+              <p>{this.translate('The source code of Fonio is licensed under free software license ')}<a target="_blank">LGPL</a>{this.translate(' and is hosted on ')}<a target="blank" href="https://github.com/medialab/fonio/">Github</a>.</p>
             </Content>
           </Container>
         </Footer>
@@ -676,6 +723,8 @@ class HomeViewLayout extends Component {
           onChange={setUserInfoTemp}
           onClose={() => setIdentificationModalSwitch(false)}
           onSubmit={onSubmitUserInfo} />
+
+        <ReactTooltip id="tooltip" />
 
       </section>
     );

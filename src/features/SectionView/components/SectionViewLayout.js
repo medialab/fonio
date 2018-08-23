@@ -1,18 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {v4 as genId} from 'uuid';
 import {isEmpty} from 'lodash';
 
 import {arrayMove} from 'react-sortable-hoc';
 
-import objectPath from 'object-path';
 
-import resourceSchema from 'quinoa-schemas/resource';
+import {
+  convertToRaw,
+  EditorState,
+  convertFromRaw,
+} from 'draft-js';
 
 import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
+  ModalCard,
 } from 'quinoa-design-library/components/';
+
+import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 
 import {
@@ -21,6 +28,8 @@ import {
 
 import {createDefaultSection} from '../../../helpers/schemaUtils';
 import {deleteContextualizationFromId} from '../../../helpers/assetsUtils';
+import {getResourceTitle, searchResources} from '../../../helpers/resourcesUtils';
+
 import {
   getReverseSectionsLockMap,
   checkIfUserHasLockOnSection,
@@ -34,6 +43,7 @@ import MainSectionColumn from './MainSectionColumn';
 
 import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 import LoadingScreen from '../../../components/LoadingScreen';
+import LinkModal from '../../../components/LinkModal';
 
 
 const SectionViewLayout = ({
@@ -45,6 +55,7 @@ const SectionViewLayout = ({
   resourceFilterValues,
   resourceSortValue,
   resourceSearchString,
+  linkModalFocusId,
 
   lockingMap = {},
   activeUsers,
@@ -55,12 +66,15 @@ const SectionViewLayout = ({
   editorStates,
   editorFocus,
   assetRequestState,
+  draggedResourceId,
+  shortcutsHelpVisible,
 
   story,
   section,
 
   embedResourceAfterCreation,
   newResourceType,
+  storyIsSaved,
   actions: {
     setAsideTabMode,
     setAsideTabCollapsed,
@@ -70,9 +84,11 @@ const SectionViewLayout = ({
     setResourceSortValue,
     setResourceSearchString,
     setNewResourceMode,
+    setLinkModalFocusId,
 
     setPromptedToDeleteSectionId,
     setPromptedToDeleteResourceId,
+    setEditorBlocked,
 
     updateSection,
     createSection,
@@ -90,6 +106,8 @@ const SectionViewLayout = ({
     createContextualizer,
     createResource,
     uploadResource,
+    setCoverImage,
+    setSectionLevel,
 
     updateDraftEditorState,
     updateDraftEditorsStates,
@@ -102,15 +120,22 @@ const SectionViewLayout = ({
     deleteUploadedResource,
 
     setAssetRequestContentId,
-
+    setShortcutsHelpVisible,
     setNewResourceType,
     setEmbedResourceAfterCreation,
+    setStoryIsSaved,
+    setErrorMessage,
   },
   goToSection,
   summonAsset,
   submitMultiResources,
   embedLastResource,
-}) => {
+  onCreateHyperlink,
+  onContextualizeHyperlink,
+  onResourceEditAttempt,
+}, {t}) => {
+
+  const translate = translateNameSpacer(t, 'Features.SectionView');
 
   const {id: storyId, resources, contextualizations} = story;
   const {id: sectionId} = section;
@@ -163,21 +188,13 @@ const SectionViewLayout = ({
   const activeFilters = Object.keys(resourceFilterValues).filter(key => resourceFilterValues[key]);
   const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
 
-  const getResourceTitle = (resource) => {
-    const titlePath = objectPath.get(resourceSchema, ['definitions', resource.metadata.type, 'title_path']);
-    const title = titlePath ? objectPath.get(resource, titlePath) : resource.metadata.title;
-    return title;
-  };
-
-  const visibleResources = resourcesList
+  let visibleResources = resourceSearchString.length === 0 ? resourcesList : searchResources(resourcesList, resourceSearchString);
+  visibleResources = visibleResources
     .filter(resource => {
-      if (activeFilters.indexOf(resource.metadata.type) > -1) {
-        if (resourceSearchString.length) {
-         return JSON.stringify(resource).toLowerCase().indexOf(resourceSearchString.toLowerCase()) > -1;
-        }
-        return true;
+      if (activeFilters.length) {
+        return activeFilters.indexOf(resource.metadata.type) > -1;
       }
-      return false;
+      return true;
     })
     .sort((a, b) => {
         switch (resourceSortValue) {
@@ -257,42 +274,98 @@ const SectionViewLayout = ({
       userId,
       resourceId: resource.id
     };
-    const relatedContextualizationsIds = Object.keys(story.contextualizations).map(c => story.contextualizations[c])
-      .filter(contextualization => {
-        return contextualization.resourceId === promptedToDeleteResourceId;
-      }).map(c => c.id);
+    const relatedContextualizations = Object.keys(story.contextualizations).map(c => story.contextualizations[c])
+        .filter(contextualization => {
+          return contextualization.resourceId === promptedToDeleteResourceId;
+        });
 
+    const relatedContextualizationsIds = relatedContextualizations.map(c => c.id);
+    const relatedContextualizationsSectionIds = relatedContextualizations.map(c => c.sectionId);
+
+    const changedContentStates = {};
     if (relatedContextualizationsIds.length) {
-      Object.keys(story.sections).forEach(key => {
+      relatedContextualizationsSectionIds.forEach(key => {
         const thatSection = story.sections[key];
+        if (!thatSection) return;
         let sectionChanged;
+        let newSection;
+        // resource is cited in this section view
+        if (Object.keys(editorStates).indexOf(key) !== -1) {
+          const sectionContents = editorStates[thatSection.id] ? {...convertToRaw(editorStates[thatSection.id].getCurrentContent())} : thatSection.contents;
+          const notesContents = Object.keys(thatSection.notes).reduce((res, noteId) => ({
+            ...res,
+            [noteId]: editorStates[noteId] ? convertToRaw(editorStates[noteId].getCurrentContent()) : thatSection.notes[noteId].contents
+          }), {});
 
-        const newSection = {
-          ...thatSection,
-          contents: relatedContextualizationsIds.reduce((temp, contId) => {
-            const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
-            if (changed && !sectionChanged) {
-              sectionChanged = true;
-            }
-            return result;
-          }, thatSection.contents),
-          notes: Object.keys(thatSection.notes).reduce((temp1, noteId) => ({
-            ...temp1,
-            [noteId]: {
-              ...thatSection.notes[noteId],
-              contents: relatedContextualizationsIds.reduce((temp, contId) => {
-                const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
-                if (changed && !sectionChanged) {
-                  sectionChanged = true;
-                }
-                return result;
-              }, thatSection.notes[noteId].contents)
-            }
-          }), {})
-        };
+          newSection = {
+            ...thatSection,
+            contents: relatedContextualizationsIds.reduce((temp, contId) => {
+              const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
+              if (changed && !sectionChanged) {
+                sectionChanged = true;
+                changedContentStates[key] = result;
+              }
+              return result;
+            }, {...sectionContents}),
+            notes: Object.keys(thatSection.notes).reduce((temp1, noteId) => ({
+              ...temp1,
+              [noteId]: {
+                ...thatSection.notes[noteId],
+                contents: relatedContextualizationsIds.reduce((temp, contId) => {
+                  const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
+                  if (changed && !sectionChanged) {
+                    sectionChanged = true;
+                    changedContentStates[noteId] = result;
+                  }
+                  return result;
+                }, {...notesContents[noteId]})
+              }
+            }), {})
+          };
+          // updating live editor states
+          const newEditorStates = Object.keys(editorStates || {})
+            .reduce((res, contentId) => ({
+              ...res,
+              [contentId]: changedContentStates[contentId] ?
+                EditorState.push(
+                  editorStates[contentId],
+                  convertFromRaw(changedContentStates[contentId]),
+                  'remove-entity'
+                )
+                 :
+                editorStates[contentId]
+            }), {});
+          updateDraftEditorsStates(newEditorStates);
+        }
+        // resource is cited in other sections
+        else {
+          newSection = {
+            ...thatSection,
+            contents: relatedContextualizationsIds.reduce((temp, contId) => {
+              const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
+              if (changed && !sectionChanged) {
+                sectionChanged = true;
+              }
+              return result;
+            }, thatSection.contents),
+            notes: Object.keys(thatSection.notes).reduce((temp1, noteId) => ({
+              ...temp1,
+              [noteId]: {
+                ...thatSection.notes[noteId],
+                contents: relatedContextualizationsIds.reduce((temp, contId) => {
+                  const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
+                  if (changed && !sectionChanged) {
+                    sectionChanged = true;
+                  }
+                  return result;
+                }, thatSection.notes[noteId].contents)
+              }
+            }), {})
+          };
+        }
         if (sectionChanged) {
           updateSection({
-            sectionId: section.id,
+            sectionId: thatSection.id,
             storyId: story.id,
             userId,
             section: newSection,
@@ -300,6 +373,7 @@ const SectionViewLayout = ({
         }
       });
     }
+
     if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
       deleteUploadedResource(payload);
     }
@@ -336,12 +410,11 @@ const SectionViewLayout = ({
     }
   };
 
-  const onResourceEditAttempt = resourceId => {
-     enterBlock({
+  const onSetCoverImage = resourceId => {
+    setCoverImage({
       storyId,
-      userId,
-      blockType: 'resources',
-      blockId: resourceId
+      resourceId,
+      userId
     });
   };
 
@@ -370,15 +443,28 @@ const SectionViewLayout = ({
   const onCreateResource = payload => {
     createResource(payload);
     if (embedResourceAfterCreation) {
-      setTimeout(() => {
+      // setTimeout(() => {
           embedLastResource();
-        });
+        // });
     }
   };
 
+  const onSetSectionLevel = ({sectionId: thatSectionId, level}) => {
+    setSectionLevel({
+      storyId,
+      sectionId: thatSectionId,
+      level,
+      userId
+    });
+  };
+
+  const hyperlinks = linkModalFocusId ? Object.keys(story.resources)
+    .filter(resourceId => story.resources[resourceId].metadata.type === 'webpage')
+    .map(resourceId => story.resources[resourceId]) : [];
+
   return (
     <StretchedLayoutContainer isAbsolute isFluid isDirection="horizontal">
-      <StretchedLayoutItem className="is-hidden-mobile" isFlex={1}>
+      <StretchedLayoutItem className={`aside-edition-container ${asideTabCollapsed ? 'is-collapsed' : ''} is-hidden-mobile`} isFlex={1}>
         <AsideSectionColumn
           asideTabCollapsed={asideTabCollapsed}
           asideTabMode={asideTabMode}
@@ -402,11 +488,13 @@ const SectionViewLayout = ({
           setResourceFilterValues={setResourceFilterValues}
           resourceSortValue={resourceSortValue}
           setResourceSortValue={setResourceSortValue}
+          setSectionLevel={onSetSectionLevel}
 
           onDeleteResource={onDeleteResource}
           submitMultiResources={submitMultiResources}
 
           onResourceEditAttempt={onResourceEditAttempt}
+          onSetCoverImage={onSetCoverImage}
 
           onOpenSectionSettings={onOpenSectionSettings}
           setResourceOptionsVisible={setResourceOptionsVisible}
@@ -430,6 +518,8 @@ const SectionViewLayout = ({
             editorStates={editorStates}
             editorFocus={editorFocus}
             assetRequestState={assetRequestState}
+            draggedResourceId={draggedResourceId}
+            setShortcutsHelpVisible={setShortcutsHelpVisible}
 
             newResourceMode={newResourceMode}
 
@@ -441,9 +531,12 @@ const SectionViewLayout = ({
             unpromptAssetEmbed={unpromptAssetEmbed}
             setEditorFocus={setEditorFocus}
 
+            setEditorBlocked={setEditorBlocked}
+
             setNewResourceMode={setNewResourceMode}
 
             newResourceType={newResourceType}
+            storyIsSaved={storyIsSaved}
 
             createContextualization={createContextualization}
             createContextualizer={createContextualizer}
@@ -468,6 +561,8 @@ const SectionViewLayout = ({
             setAssetRequestContentId={setAssetRequestContentId}
             startNewResourceConfiguration={startNewResourceConfiguration}
             startExistingResourceConfiguration={startExistingResourceConfiguration}
+            setStoryIsSaved={setStoryIsSaved}
+            setErrorMessage={setErrorMessage}
             summonAsset={summonAsset} />
             : <LoadingScreen />
         }
@@ -477,7 +572,7 @@ const SectionViewLayout = ({
           promptedToDeleteSectionId &&
           !reverseSectionLockMap[promptedToDeleteSectionId] &&
           <ConfirmToDeleteModal
-            isActive={promptedToDeleteSectionId}
+            isActive={promptedToDeleteSectionId !== undefined}
             deleteType={'section'}
             story={story}
             id={promptedToDeleteSectionId}
@@ -487,15 +582,84 @@ const SectionViewLayout = ({
       {
           promptedToDeleteResourceId &&
           <ConfirmToDeleteModal
-            isActive={promptedToDeleteResourceId}
+            isActive={promptedToDeleteResourceId !== undefined}
             deleteType={'resource'}
             story={story}
             id={promptedToDeleteResourceId}
             onClose={() => setPromptedToDeleteResourceId(undefined)}
             onDeleteConfirm={onDeleteResourceConfirm} />
         }
+      <LinkModal
+        isActive={linkModalFocusId !== undefined}
+        focusId={linkModalFocusId}
+        onClose={() => setLinkModalFocusId(undefined)}
+        hyperlinks={hyperlinks}
+        onCreateHyperlink={onCreateHyperlink}
+        onContextualizeHyperlink={onContextualizeHyperlink} />
+      <ModalCard
+        isActive={shortcutsHelpVisible}
+        headerContent={translate('Shortcuts help')}
+        onClose={() => setShortcutsHelpVisible(false)}
+        style={{
+          maxHeight: '80%'
+        }}
+        mainContent={<div>
+          <p>
+            {t('All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)')}
+          </p>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>{translate('Shortcut')}</th>
+                <th>{translate('Where')}</th>
+                <th>{translate('Effect')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th><code>cmd+l</code></th>
+                <th>{translate('Anywhere')}</th>
+                <th>{translate('Open item citation widget')}</th>
+              </tr>
+              <tr>
+                <th><code>cmd+m</code></th>
+                <th>{translate('Anywhere')}</th>
+                <th>{translate('Add a new note')}</th>
+              </tr>
+              <tr>
+                <th><code>{translate('"#" then space')}</code></th>
+                <th>{translate('Begining of a paragraph')}</th>
+                <th>{translate('Add a title')}</th>
+              </tr>
+              <tr>
+                <th><code>{translate('">" then space')}</code></th>
+                <th>{translate('Begining of a paragraph')}</th>
+                <th>{translate('Add a citation block')}</th>
+              </tr>
+              <tr>
+                <th><code>{translate('"*" then content then "*"')}</code></th>
+                <th>{translate('Anywhere')}</th>
+                <th>{translate('Write italic text')}</th>
+              </tr>
+              <tr>
+                <th><code>{translate('"**" then content then "**"')}</code></th>
+                <th>{translate('Anywhere')}</th>
+                <th>{translate('Write bold text')}</th>
+              </tr>
+              <tr>
+                <th><code>{translate('"*" then space')}</code></th>
+                <th>{translate('Begining of a paragraph')}</th>
+                <th>{translate('Begin a list')}</th>
+              </tr>
+            </tbody>
+          </table>
+        </div>} />
     </StretchedLayoutContainer>
   );
+};
+
+SectionViewLayout.contextTypes = {
+  t: PropTypes.func,
 };
 
 export default SectionViewLayout;

@@ -13,6 +13,8 @@ import promiseMiddleware from './promiseMiddleware';
 import {loadingBarMiddleware} from 'react-redux-loading-bar';
 import Validator from 'redux-validator';
 
+import {CONNECT_ERROR, RECONNECT} from '../features/ErrorMessageManager/duck';
+
 import config from '../config';
 
 import io from 'socket.io-client';
@@ -62,6 +64,25 @@ export default function configureStore (initialState = {}) {
     rootReducer,
     initialState,
   );
+
+  const connectionErrors = ['connect_error', 'reconnect_failed', 'reconnect_error'];
+  connectionErrors.forEach(message => {
+    socket.on(message, error => {
+      store.dispatch({
+        type: CONNECT_ERROR,
+        error
+      });
+    });
+});
+
+socket.on('reconnect', error => {
+  store.dispatch({
+    type: RECONNECT,
+    error
+  });
+});
+
+
   // live-reloading handling
   if (module.hot) {
     module.hot.accept('./rootReducer', () => {

@@ -6,17 +6,21 @@ import {v4 as genId} from 'uuid';
 import SectionEditor from '../../../components/SectionEditor';
 import NewSectionForm from '../../../components/NewSectionForm';
 import ResourceForm from '../../../components/ResourceForm';
-
+import {createBibData} from '../../../helpers/resourcesUtils';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
+
+import config from '../../../config';
 
 import {
   Button,
   Column,
   Delete,
   DropZone,
+  HelpPin,
   Tab,
   Level,
+  Image,
   TabLink,
   TabList,
   Tabs,
@@ -25,9 +29,15 @@ import {
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 
+import icons from 'quinoa-design-library/src/themes/millet/icons';
+
 import {
-  abbrevString
+  abbrevString,
+  base64ToBytesLength
 } from '../../../helpers/misc';
+
+const {maxBatchNumber, maxFileSize} = config;
+const realMaxFileSize = base64ToBytesLength(maxFileSize);
 
 
 const MainSectionColumn = ({
@@ -42,12 +52,15 @@ const MainSectionColumn = ({
   editorStates,
   editorFocus,
   assetRequestState,
+  draggedResourceId,
 
   newResourceType,
+  storyIsSaved,
 
   updateSection,
 
   setMainColumnMode,
+  setShortcutsHelpVisible,
   onNewSectionSubmit,
 
 
@@ -72,6 +85,9 @@ const MainSectionColumn = ({
   deleteContextualizer,
   deleteContextualizationFromId,
 
+  setEditorBlocked,
+  setStoryIsSaved,
+  setErrorMessage,
   setAssetRequestContentId,
   startNewResourceConfiguration,
   startExistingResourceConfiguration,
@@ -122,6 +138,16 @@ const MainSectionColumn = ({
         if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
           uploadResource(payload, 'update');
         }
+        else if (resource.metadata.type === 'bib') {
+          createBibData(resource, {
+            editedStory: story,
+            userId,
+            actions: {
+              createResource,
+              updateResource
+            },
+          });
+        }
         else {
           updateResource(payload);
         }
@@ -141,7 +167,7 @@ const MainSectionColumn = ({
         });
       };
       return (
-        <Column style={{position: 'relative', height: '100%', width: '100%', background: 'white', zIndex: 1000}}>
+        <Column style={{position: 'relative', height: '100%', width: '100%', background: 'white', zIndex: 3}}>
           <StretchedLayoutContainer isAbsolute>
             <StretchedLayoutItem isFlex={1}>
               <Column style={{position: 'relative', height: '100%', width: '100%'}}>
@@ -173,46 +199,60 @@ const MainSectionColumn = ({
           if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
             uploadResource(payload, 'create');
           }
+          else if (resource.metadata.type === 'bib') {
+            createBibData(resource, {
+              editedStory: story,
+              userId,
+              actions: {
+                createResource,
+                updateResource
+              },
+            });
+          }
           else {
             createResource(payload);
           }
           setMainColumnMode('edition');
         };
         return (
-          <Column isWrapper style={{background: 'white', zIndex: 1000}}>
+          <Column isWrapper style={{background: 'white', zIndex: 2}}>
             <StretchedLayoutContainer isAbsolute>
               <StretchedLayoutItem>
                 <StretchedLayoutItem>
-                  <Title isSize={2}>
-                    <StretchedLayoutContainer isDirection="horizontal">
-                      <StretchedLayoutItem isFlex={10}>
-                        {translate('Add items to the library')}
-                      </StretchedLayoutItem>
-                      <StretchedLayoutItem>
-                        <Delete onClick={
-                          () => setMainColumnMode('edition')
-                        } />
-                      </StretchedLayoutItem>
-                    </StretchedLayoutContainer>
-                  </Title>
+                  <Column>
+                    <Title isSize={3}>
+                      <StretchedLayoutContainer isDirection="horizontal">
+                        <StretchedLayoutItem isFlex={10}>
+                          {translate('Add items to the library')}
+                        </StretchedLayoutItem>
+                        <StretchedLayoutItem>
+                          <Delete onClick={
+                            () => setMainColumnMode('edition')
+                          } />
+                        </StretchedLayoutItem>
+                      </StretchedLayoutContainer>
+                    </Title>
+                  </Column>
                   <Level />
                 </StretchedLayoutItem>
               </StretchedLayoutItem>
               <StretchedLayoutItem>
-                <Tabs isBoxed>
-                  <TabList>
-                    <Tab onClick={() => setNewResourceMode('manually')} isActive={newResourceMode === 'manually'}>
-                      <TabLink>
-                        {translate('Manually')}
-                      </TabLink>
-                    </Tab>
-                    <Tab onClick={() => setNewResourceMode('drop')} isActive={newResourceMode === 'drop'}>
-                      <TabLink>
-                        {translate('From files drop')}
-                      </TabLink>
-                    </Tab>
-                  </TabList>
-                </Tabs>
+                <Column>
+                  <Tabs isBoxed>
+                    <TabList>
+                      <Tab onClick={() => setNewResourceMode('manually')} isActive={newResourceMode === 'manually'}>
+                        <TabLink>
+                          {translate('Manually')}
+                        </TabLink>
+                      </Tab>
+                      <Tab onClick={() => setNewResourceMode('drop')} isActive={newResourceMode === 'drop'}>
+                        <TabLink>
+                          {translate('From files drop')}
+                        </TabLink>
+                      </Tab>
+                    </TabList>
+                  </Tabs>
+                </Column>
               </StretchedLayoutItem>
               {newResourceMode === 'manually' && <StretchedLayoutItem isFlex={1}>
                 <Column isWrapper>
@@ -226,8 +266,17 @@ const MainSectionColumn = ({
               </StretchedLayoutItem>}
               {newResourceMode === 'drop' && <StretchedLayoutItem>
                 <Column>
-                  <DropZone style={{height: '5rem'}} onDrop={submitMultiResources}>
-                    {translate('Drop files here to include new items in your library (images, tables, bibliographies)')}
+                  <DropZone
+                    accept=".jpeg,.jpg,.gif,.png,.csv,.tsv,.bib"
+                    style={{height: '5rem'}}
+                    onDrop={submitMultiResources}>
+                    {translate('Drop files here to include in your library')}
+                    <HelpPin>
+                      {`${translate('Accepted file formats: jpeg, jpg, gif, png, csv, tsv, bib')}. ${translate('Up to {n} files, with a maximum size of {s} Mb each', {
+                        n: maxBatchNumber,
+                        s: Math.floor(realMaxFileSize / 1000000)
+                      })}`}
+                    </HelpPin>
                   </DropZone>
                 </Column>
               </StretchedLayoutItem>}
@@ -240,7 +289,7 @@ const MainSectionColumn = ({
             <StretchedLayoutContainer isAbsolute>
               <StretchedLayoutItem>
                 <Column>
-                  <Title isSize={2}>
+                  <Title isSize={3}>
                     <StretchedLayoutContainer isDirection="horizontal">
                       <StretchedLayoutItem isFlex={10}>
                         {translate('New section')}
@@ -268,7 +317,7 @@ const MainSectionColumn = ({
           <StretchedLayoutContainer isAbsolute>
             <StretchedLayoutItem>
               <Column>
-                <Title isSize={2}>
+                <Title isSize={3}>
                   <StretchedLayoutContainer isDirection="horizontal">
                     <StretchedLayoutItem isFlex={10}>
                       {translate('Edit section metadata')}
@@ -307,13 +356,13 @@ const MainSectionColumn = ({
 
   const editorWidth = {
     mobile: mainColumnMode === 'edition' && !userLockedResourceId ? 10 : 12,
-    tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 8 : 12,
-    widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 6 : 12
+    tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 10 : 12,
+    widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 8 : 12
   };
   const editorX = {
     mobile: mainColumnMode === 'edition' && !userLockedResourceId ? 1 : 0,
-    tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 2 : 0,
-    widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 3 : 0
+    tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 1 : 0,
+    widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 2 : 0
   };
 
   return (
@@ -333,18 +382,21 @@ const MainSectionColumn = ({
                   isSize={editorWidth}
                   isOffset={editorX} isWrapper>
                   {/* editor header*/}
-                  <StretchedLayoutContainer isFluid isDirection={mainColumnMode !== 'edition' ? 'vertical' : 'horizontal'}>
+                  <StretchedLayoutContainer isFluid isDirection={'horizontal'}>
                     <StretchedLayoutItem isFlex={1}>
                       <Title isSize={2}>
                         {abbrevString(section.metadata.title, 20)}
                       </Title>
                     </StretchedLayoutItem>
-                    <StretchedLayoutItem>
+                    <StretchedLayoutItem style={{padding: '.5rem'}}>
                       <Button
+                        isRounded
                         isDisabled={userLockedResourceId || (mainColumnMode !== 'edition' && mainColumnMode !== 'editmetadata')}
                         isColor={mainColumnMode === 'editmetadata' ? 'primary' : ''}
+                        data-tip={translate('Edit section metadata')}
+                        data-for="tooltip"
                         onClick={onEditMetadataClick}>
-                        {translate('Edit section metadata')}
+                        <Image isSize={'24x24'} src={mainColumnMode === 'editmetadata' ? icons.edit.white.svg : icons.edit.black.svg} />
                       </Button>
                     </StretchedLayoutItem>
                   </StretchedLayoutContainer>
@@ -365,6 +417,8 @@ const MainSectionColumn = ({
                     updateDraftEditorsStates={updateDraftEditorsStates}
                     editorFocus={editorFocus}
                     userId={userId}
+                    draggedResourceId={draggedResourceId}
+                    disablePaste={(userLockedResourceId || mainColumnMode !== 'edit') && !editorFocus}
 
                     updateSection={newSection => onUpdateSection(newSection)}
 
@@ -391,32 +445,34 @@ const MainSectionColumn = ({
 
                     startNewResourceConfiguration={startNewResourceConfiguration}
                     startExistingResourceConfiguration={startExistingResourceConfiguration}
+                    setStoryIsSaved={setStoryIsSaved}
+                    setErrorMessage={setErrorMessage}
 
+                    setEditorBlocked={setEditorBlocked}
                     setEditorFocus={setEditorFocus} />
 
 
                 </Column>
               </StretchedLayoutItem>
-              <StretchedLayoutItem>
+              <StretchedLayoutItem className="editor-footer">
                 <Column
-                  style={{textAlign: 'right'}} isSize={editorWidth}
-                  isOffset={editorX}><i>{translate('All changes saved')}</i></Column>
+                  style={{paddingTop: 0}}
+                  isSize={editorWidth}
+                  isOffset={editorX}>
+                  <Column style={{paddingTop: 0}}>
+                    <StretchedLayoutContainer isDirection="horizontal">
+                      <StretchedLayoutItem isFlex={1}>
+                        <a onClick={() => setShortcutsHelpVisible(true)}>{t('shortcuts help')}</a>
+                      </StretchedLayoutItem>
+                      <StretchedLayoutItem style={{textAlign: 'right'}}>
+                        <i>{storyIsSaved ? translate('All changes saved') : translate('Saving...')}</i>
+                      </StretchedLayoutItem>
+                    </StretchedLayoutContainer>
+                  </Column>
+                </Column>
               </StretchedLayoutItem>
             </StretchedLayoutContainer>
           </Column>
-
-
-          {/*<Level>
-                <Control>
-                  <Label>
-                    {translate('Section content')}
-                    <HelpPin place="right">
-                      {translate('Explanation about the section content')}
-                    </HelpPin>
-                  </Label>
-                </Control>
-              </Level>*/}
-          {/*<Level />*/}
 
         </StretchedLayoutItem>
       </StretchedLayoutContainer>

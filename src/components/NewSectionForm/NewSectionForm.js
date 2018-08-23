@@ -84,6 +84,8 @@ const NewSectionForm = ({
                 <AuthorsManager
                   field="authors"
                   id="authors"
+                  title={translate('Section authors')}
+                  titleHelp={translate('help about section authors')}
                   onChange={(authors) => formApi.setValue('authors', authors)}
                   authors={formApi.getValue('authors')} />
               </Column>

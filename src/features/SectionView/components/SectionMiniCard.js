@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {SortableHandle} from 'react-sortable-hoc';
 
-import ReactTooltip from 'react-tooltip';
+import config from '../../../config';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -16,28 +15,23 @@ import {
   Icon,
 } from 'quinoa-design-library/components/';
 
+import {
+  abbrevString,
+  computeSectionFirstWords
+} from '../../../helpers/misc';
+
+
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {Link} from 'react-router-dom';
-
-
-const DragHandle = SortableHandle(({icon, tip}) =>
-  (<Button
-    data-for="card-action"
-    data-tip={tip}
-    style={{cursor: 'pointer'}}>
-    <Icon isSize="small" isAlign="left">
-      <img src={icon} />
-    </Icon>
-  </Button>)
-);
 
 
 const SectionMiniCard = ({
   section,
   storyId,
   onDeleteSection,
-  onOpenSettings
+  onOpenSettings,
+  setSectionLevel,
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Features.SectionView');
   const lockStatusMessage = () => {
@@ -52,10 +46,23 @@ const SectionMiniCard = ({
     }
   };
 
+  const onHigher = () => {
+    setSectionLevel({sectionId: section.id, level: section.metadata.level - 1});
+  };
+  const onLower = () => {
+    setSectionLevel({sectionId: section.id, level: section.metadata.level + 1});
+  };
+
   const cardStyle = {
     pointerEvents: section.lockStatus === 'locked' ? 'none' : 'all'
   };
-
+  const sectionTitle = (<span
+    data-for="tooltip"
+    data-place="right"
+    data-html
+    data-tip={`<div class="content"><h5 style="color: white">${section.metadata.title}</h5><p>${computeSectionFirstWords(section)}</p></div>`}>
+    {abbrevString(section.metadata.title, 15)}
+  </span>);
   return (
     <Card
       bodyContent={
@@ -70,10 +77,12 @@ const SectionMiniCard = ({
             <Column isSize={8}>
               {
                 section.lockStatus !== 'active' &&
-                <Link style={cardStyle} to={`/story/${storyId}/section/${section.id}`}>{section.metadata.title}</Link>
+                <Link style={cardStyle} to={`/story/${storyId}/section/${section.id}`}>
+                  {sectionTitle}
+                </Link>
               }
               {section.lockStatus === 'active' &&
-              <b>{section.metadata.title}</b>
+              <b>{sectionTitle}</b>
               }
             </Column>
 
@@ -85,13 +94,22 @@ const SectionMiniCard = ({
           </Columns>
           <Columns>
             <Column isOffset={2} isSize={10}>
-              <DragHandle
-                icon={icons.move.black.svg}
-                tip={translate('drag to change section order')} />
+              <Button
+                data-tip={translate('drag to change section order')}
+                data-effect="solid"
+                data-place="left"
+                data-for="tooltip"
+                style={{cursor: 'pointer', pointerEvents: 'none'}}>
+                <Icon isSize="small" isAlign="left">
+                  <img src={icons.move.black.svg} />
+                </Icon>
+              </Button>
               <Button
                 onClick={onOpenSettings}
                 isDisabled={section.lockStatus !== 'active'}
-                data-for="card-action"
+                data-effect="solid"
+                data-place="left"
+                data-for="tooltip"
                 data-tip={translate('section settings')}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.settings.black.svg} />
@@ -100,18 +118,39 @@ const SectionMiniCard = ({
               <Button
                 onClick={onDeleteSection}
                 isDisabled={section.lockStatus === 'locked' || section.lockStatus === 'active'}
-                data-for="card-action"
+                data-effect="solid"
+                data-place="left"
+                data-for="tooltip"
                 data-tip={translate('delete this section')}>
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.remove.black.svg} />
                 </Icon>
               </Button>
 
+              <Button
+                onClick={onHigher}
+                isDisabled={section.metadata.level <= 0}
+                data-effect="solid"
+                data-place="left"
+                data-for="tooltip"
+                data-tip={translate('higher level of importance')}>
+                <Icon isSize="small" isAlign="left">
+                  <span className="fa fa-chevron-left" aria-hidden="true" />
+                </Icon>
+              </Button>
+              <Button
+                onClick={onLower}
+                isDisabled={section.metadata.level >= config.maxSectionLevel - 1}
+                data-effect="solid"
+                data-place="left"
+                data-for="tooltip"
+                data-tip={translate('lower level of importance')}>
+                <Icon isSize="small" isAlign="left">
+                  <span className="fa fa-chevron-right" aria-hidden="true" />
+                </Icon>
+              </Button>
+
             </Column>
-            <ReactTooltip
-              place="right"
-              effect="solid"
-              id="card-action" />
           </Columns>
         </div>
       } />

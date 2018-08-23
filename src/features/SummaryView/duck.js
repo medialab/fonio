@@ -20,6 +20,7 @@ import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
  * ui
  */
 const SET_NEW_SECTION_OPEN = 'SET_NEW_SECTION_OPEN';
+const SET_IS_SORTING = 'SET_IS_SORTING';
 
 /**
  * lock system
@@ -44,6 +45,11 @@ export const setNewSectionOpen = payload => ({
   payload
 });
 
+export const setIsSorting = payload => ({
+  type: SET_IS_SORTING,
+  payload
+});
+
 /**
  * ===================================================
  * REDUCERS
@@ -57,6 +63,7 @@ const UI_DEFAULT_STATE = {
    * Whether new section dialog is open
    */
   newSectionOpen: false,
+  isSorting: false,
 };
 
 /**
@@ -71,6 +78,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case LEAVE_STORY:
       return UI_DEFAULT_STATE;
     case SET_NEW_SECTION_OPEN:
+    case SET_IS_SORTING:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -110,6 +118,7 @@ export default combineReducers({
  */
 
 const newSectionOpen = state => state.ui.newSectionOpen;
+const isSorting = state => state.ui.isSorting;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -117,4 +126,5 @@ const newSectionOpen = state => state.ui.newSectionOpen;
  */
 export const selector = createStructuredSelector({
   newSectionOpen,
+  isSorting,
 });

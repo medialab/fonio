@@ -10,7 +10,7 @@ import {createStructuredSelector} from 'reselect';
 
 import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 
-import resourceSchema from 'quinoa-schemas/resource';
+// import resourceSchema from 'quinoa-schemas/resource';
 
 /**
  * ===================================================
@@ -18,7 +18,7 @@ import resourceSchema from 'quinoa-schemas/resource';
  * ===================================================
  */
 
-import {CREATE_RESOURCE} from '../StoryManager/duck';
+import {CREATE_RESOURCE, UPDATE_SECTION} from '../StoryManager/duck';
 /**
  * UI
  */
@@ -30,6 +30,11 @@ const SET_RESOURCE_OPTIONS_VISIBLE = 'SET_RESOURCE_OPTIONS_VISIBLE';
 const SET_RESOURCE_SORT_VALUE = 'SET_RESOURCE_SORT_VALUE';
 const SET_RESOURCE_SEARCH_STRING = 'SET_RESOURCE_SEARCH_STRING';
 const SET_NEW_RESOURCE_MODE = 'SET_NEW_RESOURCE_MODE';
+const SET_PENDING_CONTEXTUALIZATION = 'SET_PENDING_CONTEXTUALIZATION';
+const SET_EDITED_SECTION_ID = 'SET_EDITED_SECTION_ID';
+const SET_DRAGGED_RESOURCE_ID = 'SET_DRAGGED_RESOURCE_ID';
+const SET_SHORTCUTS_HELP_VISIBLE = 'SET_SHORTCUTS_HELP_VISIBLE';
+const SET_LINK_MODAL_FOCUS_ID = 'SET_LINK_MODAL_FOCUS_ID';
 
 /**
  * actions related to resources edition parameters
@@ -42,12 +47,16 @@ const SET_EMBED_RESOURCE_AFTER_CREATION = 'SET_EMBED_RESOURCE_AFTER_CREATION';
  */
 export const UPDATE_DRAFT_EDITOR_STATE = 'UPDATE_DRAFT_EDITOR_STATE';
 export const UPDATE_DRAFT_EDITORS_STATES = 'UPDATE_DRAFT_EDITORS_STATES';
+export const RESET_DRAFT_EDITORS_STATES = 'RESET_DRAFT_EDITORS_STATES';
 
 export const PROMPT_ASSET_EMBED = 'PROMPT_ASSET_EMBED';
 export const UNPROMPT_ASSET_EMBED = 'UNPROMPT_ASSET_EMBED';
 export const SET_ASSET_REQUEST_CONTENT_ID = 'SET_ASSET_REQUEST_CONTENT_ID';
 
 export const SET_EDITOR_FOCUS = 'SET_EDITOR_FOCUS';
+export const SET_EDITOR_BLOCKED = 'SET_EDITOR_BLOCKED';
+export const SET_STORY_IS_SAVED = 'SET_STORY_IS_SAVED';
+
 /**
  * data
  */
@@ -96,6 +105,11 @@ export const setNewResourceType = payload => ({
   payload
 });
 
+export const setPendingContextualization = payload => ({
+  type: SET_PENDING_CONTEXTUALIZATION,
+  payload
+});
+
 export const setEmbedResourceAfterCreation = payload => ({
   type: SET_EMBED_RESOURCE_AFTER_CREATION,
   payload
@@ -105,6 +119,27 @@ export const setNewResourceMode = payload => ({
   type: SET_NEW_RESOURCE_MODE,
   payload,
 });
+
+export const setEditedSectionId = payload => ({
+  type: SET_EDITED_SECTION_ID,
+  payload,
+});
+
+export const setShortcutsHelpVisible = payload => ({
+  type: SET_SHORTCUTS_HELP_VISIBLE,
+  payload,
+});
+
+export const setStoryIsSaved = payload => ({
+  type: SET_STORY_IS_SAVED,
+  payload,
+});
+
+export const setLinkModalFocusId = payload => ({
+  type: SET_LINK_MODAL_FOCUS_ID,
+  payload,
+});
+
 
 /**
  * Action creators related to section edition
@@ -134,6 +169,10 @@ export const updateDraftEditorsStates = (editorsStates) => ({
   payload: {
     editorsStates,
   },
+});
+
+export const resetDraftEditorsStates = () => ({
+  type: RESET_DRAFT_EDITORS_STATES,
 });
 
 /**
@@ -166,6 +205,11 @@ export const setAssetRequestContentId = contentId => ({
   },
 });
 
+export const setEditorBlocked = payload => ({
+  type: SET_EDITOR_BLOCKED,
+  payload,
+});
+
 /**
  * Sets which editor has the focus for edition
  * @param {string} editorFocus  - id of the editor to focus to
@@ -178,27 +222,38 @@ export const setEditorFocus = (editorFocus) => ({
   },
 });
 
+export const setDraggedResourceId = payload => ({
+  type: SET_DRAGGED_RESOURCE_ID,
+  payload
+});
+
 /**
  * ===================================================
  * REDUCERS
  * ===================================================
  */
 
-const defaultResourceFilterValues = Object.keys(resourceSchema.definitions)
-  .reduce((result, type) => ({
-    ...result,
-    [type]: true
-  }), {});
+// const defaultResourceFilterValues = Object.keys(resourceSchema.definitions)
+//   .reduce((result, type) => ({
+//     ...result,
+//     [type]: true
+//   }), {});
 
 const UI_DEFAULT_STATE = {
-  asideTabMode: 'library',
-  asideTabCollapsed: false,
+  asideTabMode: 'summary',
+  asideTabCollapsed: true,
   mainColumnMode: 'edition',
   resourceOptionsVisible: false,
   resourceSearchString: '',
-  resourceFilterValues: defaultResourceFilterValues,
-  resourceSortValue: 'title',
+  resourceFilterValues: [],
+  resourceSortValue: 'edited recently',
   newResourceMode: 'manually',
+  editedSectionId: undefined,
+  draggedResourceId: undefined,
+  editorBlocked: false,
+  storyIsSaved: true,
+  shortcutsHelpVisible: false,
+  linkModalFocusId: undefined,
 };
 
 /**
@@ -218,10 +273,27 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_RESOURCE_SORT_VALUE:
     case SET_RESOURCE_SEARCH_STRING:
     case SET_NEW_RESOURCE_MODE:
+    case SET_EDITED_SECTION_ID:
+    case SET_DRAGGED_RESOURCE_ID:
+    case SET_EDITOR_BLOCKED:
+    case SET_SHORTCUTS_HELP_VISIBLE:
+    case SET_STORY_IS_SAVED:
+    case SET_LINK_MODAL_FOCUS_ID:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
         [propName]: payload
+      };
+    // case UPDATE_DRAFT_EDITOR_STATE:
+    // case UPDATE_DRAFT_EDITORS_STATES:
+      // return {
+      //   ...state,
+      //   storyIsSaved: false
+      // };
+    case `${UPDATE_SECTION}_SUCCESS`:
+      return {
+        ...state,
+        storyIsSaved: true
       };
     default:
       return state;
@@ -230,7 +302,8 @@ function ui(state = UI_DEFAULT_STATE, action) {
 
 const RESOURCES_EMBED_SETTINGS_DEFAULT_STATE = {
   embedResourceAfterCreation: false,
-  newResourceType: undefined
+  newResourceType: undefined,
+  pendingContextualization: undefined
 };
 /**
  * In-editor resources management
@@ -240,6 +313,7 @@ function resourcesEmbedSettings(state = RESOURCES_EMBED_SETTINGS_DEFAULT_STATE, 
   switch (type) {
     case SET_EMBED_RESOURCE_AFTER_CREATION:
     case SET_NEW_RESOURCE_TYPE:
+    case SET_PENDING_CONTEXTUALIZATION:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -290,6 +364,8 @@ const editorstates = (state = {}, action) => {
       // reset editors data to optimize memory management
       // todo: this is a bit messy, it should be explicited for instance with two different actions 'MERGE_EDITORS'/'REPLACE_EDITORS'
       {} /* state */);
+    case RESET_DRAFT_EDITORS_STATES:
+      return {};
     default:
       return state;
   }
@@ -424,6 +500,12 @@ const resourceFilterValues = state => state.ui.resourceFilterValues;
 const resourceSortValue = state => state.ui.resourceSortValue;
 const resourceSearchString = state => state.ui.resourceSearchString;
 const newResourceMode = state => state.ui.newResourceMode;
+const editedSectionId = state => state.ui.editedSectionId;
+const draggedResourceId = state => state.ui.draggedResourceId;
+const editorBlocked = state => state.ui.editorBlocked;
+const storyIsSaved = state => state.ui.storyIsSaved;
+const shortcutsHelpVisible = state => state.ui.shortcutsHelpVisible;
+const linkModalFocusId = state => state.ui.linkModalFocusId;
 
 const editorStates = state => state.editorstates;
 const assetRequestState = state => state.assetRequeststate;
@@ -433,6 +515,7 @@ const previousEditorFocus = state => state.editorFocusState.previousEditorFocus;
 
 
 const embedResourceAfterCreation = state => state.resourcesEmbedSettings.embedResourceAfterCreation;
+const pendingContextualization = state => state.resourcesEmbedSettings.pendingContextualization;
 const newResourceType = state => state.resourcesEmbedSettings.newResourceType;
 
 /**
@@ -443,12 +526,20 @@ export const selector = createStructuredSelector({
   asideTabMode,
   asideTabCollapsed,
   mainColumnMode,
+  shortcutsHelpVisible,
+  linkModalFocusId,
 
   resourceOptionsVisible,
   resourceFilterValues,
   resourceSortValue,
   resourceSearchString,
   newResourceMode,
+  editedSectionId,
+  draggedResourceId,
+  editorBlocked,
+  storyIsSaved,
+
+  pendingContextualization,
 
   editorStates,
   assetRequestState,

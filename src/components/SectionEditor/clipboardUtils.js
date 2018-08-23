@@ -7,7 +7,14 @@ import {
   Modifier,
 } from 'draft-js';
 
+import {uniq} from 'lodash';
+
+import CSL from 'citeproc';
+
+import {Parser} from 'html-to-react';
+
 import {v4 as generateId} from 'uuid';
+import {renderToStaticMarkup} from 'react-dom/server';
 
 import {
   getSelectedBlocksList
@@ -16,10 +23,18 @@ import {
 import {stateToHTML} from 'draft-js-export-html';
 import {createDefaultResource} from '../../helpers/schemaUtils';
 
+
+import {
+  getCitationModels,
+} from './citationUtils';
+
 import {
   utils,
   constants
 } from 'scholar-draft';
+
+
+const htmlToReactParser = new Parser();
 
 const {
   NOTE_POINTER,
@@ -33,6 +48,29 @@ const {
   insertFragment,
 } = utils;
 
+const makeReactCitations = (processor, cits) => {
+  return cits.reduce((inputCitations, citationData) => {
+    const citations = {...inputCitations};
+    const citation = citationData[0];
+    const citationsPre = citationData[1];
+    const citationsPost = citationData[2];
+    let citationObjects = processor.processCitationCluster(citation, citationsPre, citationsPost);
+    citationObjects = citationObjects[1];
+    citationObjects.forEach(cit => {
+      const order = cit[0];
+      const html = cit[1];
+      const ThatComponent = htmlToReactParser.parse(cit[1]);
+      const citationId = cit[2];
+      citations[citationId] = {
+        order,
+        html,
+        Component: ThatComponent
+      };
+    });
+    return citations;
+  }, {});
+};
+
 
 /**
  * Prepares data within component's state for later pasting
@@ -41,6 +79,9 @@ const {
 export const handleCopy = function(event) {
     const {
       props,
+      state: {
+        citations,
+      },
       editor
     } = this;
     const setState = this.setState.bind(this);
@@ -89,16 +130,38 @@ export const handleCopy = function(event) {
     const currentContent = editorState.getCurrentContent();
     // this function comes from draft-js-utils - it returns
     // a fragment of content state that correspond to currently selected text
-    const selectedBlocksList = getSelectedBlocksList(editorState);
+    let selectedBlocksList = getSelectedBlocksList(editorState);
 
     stateDiff.clipboard = clipboard;
-
+    let selection = editorState.getSelection().toJS();
+    // normalizing selection regarding direction
+    selection = {
+      ...selection,
+      startOffset: selection.isBackward ? selection.focusOffset : selection.anchorOffset,
+      startKey: selection.isBackward ? selection.focusKey : selection.anchorKey,
+      endOffset: selection.isBackward ? selection.anchorOffset : selection.focusOffset,
+      endKey: selection.isBackward ? selection.anchorKey : selection.focusKey,
+    };
+    selectedBlocksList = selection.isBackward ? selectedBlocksList.reverse() : selectedBlocksList;
     // we are going to parse draft-js ContentBlock objects
     // and store separately non-textual objects that needs to be remembered
     // (entities, notes, inline assets, block assets)
-    selectedBlocksList.forEach(contentBlock => {
+    selectedBlocksList.forEach((contentBlock, blockIndex) => {
       const block = contentBlock.toJS();
-      const entitiesIds = block.characterList.filter(char => char.entity).map(char => char.entity);
+      let charsToParse;
+      if (blockIndex === 0 && selectedBlocksList.size === 1) {
+        charsToParse = block.characterList.slice(selection.startOffset, selection.endOffset);
+      }
+      else if (blockIndex === 0) {
+        charsToParse = block.characterList.slice(selection.startOffset);
+      }
+      else if (blockIndex === selectedBlocksList.size - 1) {
+        charsToParse = block.characterList.slice(0, selection.endOffset);
+      }
+      else {
+        charsToParse = block.characterList;
+      }
+      const entitiesIds = uniq(charsToParse.filter(char => char.entity).map(char => char.entity));
       let entity;
       let eData;
       entitiesIds.forEach(entityKey => {
@@ -137,8 +200,13 @@ export const handleCopy = function(event) {
                     key: entityKey,
                     entity: eData
                   });
+                  const contextualization = contextualizations[eData.data.asset.id];
                   copiedContextualizations.push({
-                    ...contextualizations[eData.data.asset.id]
+                    ...contextualization
+                  });
+                  copiedContextualizers.push({
+                    ...contextualizers[contextualization.contextualizerId],
+                    id: contextualization.contextualizerId
                   });
                 }
               });
@@ -147,7 +215,7 @@ export const handleCopy = function(event) {
           }
         }
         // copying asset entities and related contextualization & contextualizer
-        // todo: question - should we store as well the resources being copied ?
+        // @todo: question - should we store as well the resources being copied ?
         // (in case the resource being copied is deleted by the time)
         else if (type === INLINE_ASSET || type === BLOCK_ASSET) {
           const assetId = entity.data.asset.id;
@@ -167,28 +235,142 @@ export const handleCopy = function(event) {
       copiedEntities,
       copiedContextualizations,
       copiedContextualizers,
-      copiedNotes
+      copiedNotes,
+      contentId: editorFocus
     };
 
     const tempEditorState = EditorState.createEmpty();
 
-    const clipboardContentState = Modifier.replaceWithFragment(
+    const {locale: citationLocale, style: citationStyle} = getCitationModels(story);
+
+    /**
+     * citeproc scaffolding
+     */
+    const sys = {
+      retrieveLocale: () => {
+        return citationLocale;
+      },
+      retrieveItem: (id) => {
+        return citations.citationItems[id];
+      },
+      variableWrapper: (params, prePunct, str, postPunct) => {
+        if (params.variableNames[0] === 'title'
+            && params.itemData.URL
+            && params.context === 'bibliography') {
+          return prePunct
+             + '<a href="'
+               + params.itemData.URL
+             + '" target="blank">'
+               + str
+             + '</a>'
+               + postPunct;
+        }
+        else if (params.variableNames[0] === 'URL') {
+          return prePunct
+             + '<a href="'
+               + str
+             + '" target="blank">'
+               + str
+             + '</a>'
+               + postPunct;
+        }
+        else {
+          return (prePunct + str + postPunct);
+        }
+      }
+    };
+
+    let clipboardContentState = Modifier.replaceWithFragment(
       tempEditorState.getCurrentContent(),
       tempEditorState.getSelection(),
       clipboard
     );
+
     const plainText = clipboardContentState.getPlainText();
 
+    /**
+     * This is the content state that will be parsed if content is pasted internally
+     */
     copiedData.clipboardContentState = convertToRaw(clipboardContentState);
 
+    /**
+     * convrerting bib references to string so that they
+     * can be pasted in another editor
+     */
+    const processor = new CSL.Engine(sys, citationStyle);
+
+    const reactCitations = makeReactCitations(processor, citations.citationData);
+
+    clipboardContentState.getBlocksAsArray()
+      .forEach(block => {
+        const characters = block.getCharacterList();
+        const blockKey = block.getKey();
+          characters.forEach((char, index) => {
+            if (char.getEntity()) {
+              const thatEntityKey = char.getEntity();
+              const thatEntity = clipboardContentState.getEntity(thatEntityKey).toJS();
+              if (thatEntity.type === INLINE_ASSET) {
+                const targetId = thatEntity && thatEntity.data.asset.id;
+                const contextualization = story.contextualizations[targetId];
+                const contextualizer = story.contextualizers[contextualization.contextualizerId];
+                if (contextualizer.type === 'bib' && reactCitations[contextualization.id]) {
+                  const component = reactCitations[contextualization.id].Component;
+                  const content = renderToStaticMarkup(component).replace(/<(?:.|\n)*?>/gm, '');
+                  clipboardContentState = Modifier.replaceText(
+                    clipboardContentState,
+                    tempEditorState.getSelection().merge({
+                      anchorKey: blockKey,
+                      focusKey: blockKey,
+                      anchorOffset: index,
+                      focusOffset: index + 1,
+                    }),
+                    content
+                  );
+                }
+              }
+            }
+          });
+      });
+
+    const toHTMLOptions = {
+      entityStyleFn: entity => {
+        const data = entity.getData();
+        if (data.asset && data.asset.id) {
+          const contextualization = story.contextualizations[data.asset.id];
+          const contextualizer = story.contextualizers[contextualization.contextualizerId];
+          const resource = story.resources[contextualization.resourceId];
+          switch (contextualizer.type) {
+            case 'webpage':
+              return {
+                element: 'a',
+                attributes: {
+                  href: resource.data.url,
+                }
+              };
+            case 'glossary':
+              return {
+                element: 'cite',
+              };
+            case 'bib':
+            default:
+              return {
+                element: 'cite',
+              };
+          }
+        }
+        return null;
+      }
+    };
+
     const clipboardHtml = `
-      ${stateToHTML(clipboardContentState)}
+      ${stateToHTML(clipboardContentState, toHTMLOptions)}
       <script id="fonio-copied-data" type="application/json">
        ${JSON.stringify(copiedData)}
       </script>
     `.split('\n').join('').trim();
     event.clipboardData.setData('text/plain', plainText);
     event.clipboardData.setData('text/html', clipboardHtml);
+
 
     // event.clipboardData.setData('text/plain', SCHOLAR_DRAFT_CLIPBOARD_CODE);
     stateDiff.copiedData = copiedData;
@@ -224,7 +406,7 @@ export const handleCopy = function(event) {
       updateDraftEditorsStates,
       updateDraftEditorState,
       updateSection,
-      setEditorFocus,
+      // setEditorFocus,
       userId,
     } = props;
 
@@ -232,6 +414,8 @@ export const handleCopy = function(event) {
       id: storyId,
       resources
     } = story;
+
+    if (!Object.keys(editorStates).length) return;
 
 
     const {
@@ -268,25 +452,28 @@ export const handleCopy = function(event) {
         .getBlocksAsArray()
         .map(contentBlock => {
           let url;
-          let src;
-          let alt;
+          // let src;
+          // let alt;
           let entityKey;
+          let type;
           contentBlock.findEntityRanges(
             (character) => {
               entityKey = character.getEntity();
+              if (entityKey === null) {
+                return false;
+              }
+              type = contentState.getEntity(entityKey).getType();
               if (
-                entityKey !== null &&
-                contentState.getEntity(entityKey).getType() === 'LINK'
+                type === 'LINK'
               ) {
                 url = contentState.getEntity(entityKey).getData().url;
                 return true;
               }
               else if (
-                entityKey !== null &&
-                contentState.getEntity(entityKey).getType() === 'IMAGE'
+                type === 'IMAGE'
                 ) {
-                 src = contentState.getEntity(entityKey).getData().src;
-                 alt = contentState.getEntity(entityKey).getData().alt;
+                 // src = contentState.getEntity(entityKey).getData().src;
+                 // alt = contentState.getEntity(entityKey).getData().alt;
                  return true;
               }
             },
@@ -297,7 +484,7 @@ export const handleCopy = function(event) {
               let shouldCreateResource;
               let matchingResourceId;
               // case LINK entity
-              if (url) {
+              if (type === 'LINK') {
                 matchingResourceId = Object.keys(resources)
                   .find(resourceId => resources[resourceId].metadata.type === 'webpage' && resources[resourceId].data.url === url);
 
@@ -318,7 +505,7 @@ export const handleCopy = function(event) {
                 }
               }
               // case IMAGE entity
-              else if (src) {
+              else if (type === 'IMAGE') {
                 const selectionState = activeEditorState.getSelection().merge({
                   anchorKey: blockKey,
                   focusKey: blockKey,
@@ -327,11 +514,21 @@ export const handleCopy = function(event) {
                 });
 
                 // we remove the IMAGE entity
-                contentState = Modifier.applyEntity(
-                  contentState,
-                  selectionState,
-                  null
-                );
+                try {
+                  // it sometimes fails
+                  // why ? draft-js mystery ...
+                  // @todo investigate why it fails in some cases
+                  contentState = Modifier.applyEntity(
+                    contentState,
+                    selectionState,
+                    null
+                  );
+                }
+                catch (e) {
+                  console.warn('An error occured while trying to remove an image from pasted contents:');/* eslint no-console: 0 */
+                  console.error(e);/* eslint no-console: 0 */
+                }
+
                 // we remove the corresponding text
                 contentState = Modifier.removeRange(
                   contentState,
@@ -388,13 +585,12 @@ export const handleCopy = function(event) {
                   },
                   data: {
                     url,
-                    name: text
                   }
                 };
                 contextualizer = {
                   id: contextualizerId,
                   type: 'webpage',
-                  alias: text,
+                  // alias: text,
                   insertionType: 'inline'
                 };
                 contextualization = {
@@ -402,8 +598,7 @@ export const handleCopy = function(event) {
                   resourceId: resId,
                   contextualizerId,
                   sectionId: activeSectionId,
-                  type: 'image',
-                  title: alt
+                  type: 'webpage',
                 };
               }
 
@@ -417,14 +612,15 @@ export const handleCopy = function(event) {
                 to,
                 blockKey,
                 contextualizationId,
+                contextualizer,
               });
             }
           );
         });
       // reversing modifications to content state
       // to avoid messing with indexes
-      mods.reverse().forEach(({from, to, blockKey, contextualizationId}) => {
-        let textSelection = new SelectionState({
+      mods.reverse().forEach(({from, to, blockKey, contextualizationId, contextualizer}) => {
+        const textSelection = new SelectionState({
           anchorKey: blockKey,
           anchorOffset: from,
           focusKey: blockKey,
@@ -432,14 +628,14 @@ export const handleCopy = function(event) {
           collapsed: true
         });
 
-        contentState = Modifier.replaceText(
-          contentState,
-          textSelection,
-          ' ',
-        );
+        // contentState = Modifier.replaceText(
+        //   contentState,
+        //   textSelection,
+        //   ' ',
+        // );
         contentState = contentState.createEntity(
           INLINE_ASSET,
-          'IMMUTABLE',
+          contextualizer.type === 'bib' ? 'IMMUTABLE' : 'MUTABLE',
           {
             asset: {
               id: contextualizationId,
@@ -448,9 +644,9 @@ export const handleCopy = function(event) {
         );
         const entityKey = contentState.getLastCreatedEntityKey();
         // update selection
-        textSelection = textSelection.merge({
-          focusOffset: from + 1
-        });
+        // textSelection = textSelection.merge({
+        //   focusOffset: from + 1
+        // });
         contentState = Modifier.applyEntity(
           contentState,
           textSelection,
@@ -488,12 +684,12 @@ export const handleCopy = function(event) {
           }
         };
       }
-      updateSection({storyId, sectionId: activeSectionId, section: newSection, userId});
+      updateSection(newSection);
 
 
       return;
     }
-    // case 2 : comes from inside
+    // case 2 : pasting comes from inside the editor
     else {
       // if contents comes from scholar-draft, prevent default
       // because we are going to handle the paste process manually
@@ -515,7 +711,7 @@ export const handleCopy = function(event) {
         }
         copiedData = JSON.parse(json);
       }
- catch (e) {
+       catch (e) {
         // console.log('e', e);
       }
     }
@@ -526,24 +722,92 @@ export const handleCopy = function(event) {
 
     // let editorState;
     let newNotes;
-    // let newClipboard = clipboard;// clipboard entities will have to be updated
     let newClipboard = convertFromRaw(copiedData.clipboardContentState).getBlockMap();// clipboard entities will have to be updated
 
-    // case: some non-textual data has been saved to the clipboard
+
+    // case: some non-textual data (contextualizations, notes pointers, that kind of things) has been saved to the clipboard
     if (typeof copiedData === 'object') {
         const data = copiedData;
-        // past assets/contextualizations (attributing them a new id)
-        if (data.copiedContextualizations) {
-          data.copiedContextualizations.forEach(contextualization => {
-            createContextualization({storyId, contextualizationId: contextualization.id, contextualization, userId});
-          });
-        }
+
+        const invalidEntities = [];
+
+        // filter out contextualizations that point to a resource that has been deleted
+        data.copiedContextualizations = data.copiedContextualizations.filter(contextualization => {
+          const isValid = story.resources[contextualization.resourceId] !== undefined;
+          if (!isValid) {
+            data.copiedContextualizers = data.copiedContextualizers.filter(contextualizer => {
+              return contextualizer.id !== contextualization.contextualizerId;
+            });
+          }
+          return isValid;
+        });
+
         // paste contextualizers (attributing them a new id)
         if (data.copiedContextualizers) {
-          data.copiedContextualizers.forEach(contextualizer => {
-            createContextualizer({storyId, contextualizerId: contextualizer.id, contextualizer, userId});
+          data.copiedContextualizers.forEach((contextualizer, index) => {
+            const contextualizerId = generateId();
+            data.copiedContextualizations = data.copiedContextualizations.map(c => {
+              if (c.contextualizerId === contextualizer.id) {
+                return {
+                  ...c,
+                  contextualizerId
+                };
+              }
+              return c;
+            });
+            createContextualizer({storyId, contextualizerId, contextualizer: {...contextualizer, id: contextualizerId}, userId});
+            data.copiedContextualizers[index] = {
+              ...contextualizer,
+              oldId: contextualizer.id,
+              id: contextualizerId
+            };
           });
         }
+        // paste assets/contextualizations (attributing them a new id)
+        if (data.copiedContextualizations) {
+          data.copiedContextualizations.forEach((contextualization, index) => {
+            const contextualizationId = generateId();
+            createContextualization({storyId, contextualizationId, contextualization: {
+              ...contextualization,
+              id: contextualizationId,
+              sectionId: activeSection.id
+            }, userId});
+            data.copiedContextualizations[index] = {
+              ...contextualization,
+              oldId: contextualization.id,
+              id: contextualizationId
+            };
+          });
+        }
+
+        // filter out entities that are related to incorrect contextualizations
+        data.copiedEntities = Object.keys(data.copiedEntities)
+        .reduce((result, contentId) => {
+          return {
+            ...result,
+            [contentId]: data.copiedEntities[contentId]
+              .filter(entity => {
+
+                const thatData = entity.entity.data;
+                // verifying that asset points to a contextualization
+                if (thatData.asset && thatData.asset.id) {
+                  const thatContextualization = data.copiedContextualizations.find(c => c.oldId === thatData.asset.id);
+                  const isValid = thatContextualization !== undefined;
+                  if (!isValid) {
+                    invalidEntities.push(thatData.asset.id);
+                  }
+                  return isValid;
+                }
+                return true;
+              })
+            };
+          }, {});
+        // retargeting main editor source
+        if (data.contentId !== editorFocus) {
+          data.copiedEntities[editorFocus] = data.copiedEntities[data.contentId];
+          delete data.copiedEntities[data.contentId];
+        }
+
         // paste notes (attributing them a new id to duplicate them if in situation of copy/paste)
         if (data.copiedNotes && editorFocus === 'main') {
           // we have to convert existing notes contents
@@ -567,12 +831,28 @@ export const handleCopy = function(event) {
               [id]: {
                 ...note,
                 oldId: note.id,
+                // filter out invalid entities in copied notes
+                contents: {
+                  ...note.contents,
+                  entityMap: Object.keys(note.contents.entityMap).reduce((res, entityKey) => {
+                    const entity = note.contents.entityMap[entityKey];
+                    const assetId = entity.data && entity.data.asset && entity.data.asset.id;
+                    if (entity.type === NOTE_POINTER || !assetId || invalidEntities.length === 0 || invalidEntities.indexOf(assetId) > -1) {
+                      return {
+                        ...res,
+                        [entityKey]: note.contents.entityMap[entityKey]
+                      };
+                    }
+                    return res;
+                  }, {})
+                },
                 id
               }
             };
           }, {
             ...pastNotes
           });
+
 
           // we now have to update copied entities targets
           // for entities stored in pasted notes
@@ -612,15 +892,19 @@ export const handleCopy = function(event) {
           newNotes = notes;
         }
 
+
         // integrate new draftjs entities in respective editorStates
-        // editorStates as stored as a map in which each keys corresponds
-        // to a category of content ('main' or uuids for each note)
+        // editorStates are stored as a map in which each keys corresponds
+        // to a category of content ('main' for main contents or uuids for each note)
         if (Object.keys(data.copiedEntities).length) {
+
           // update entities data with correct notes and contextualizations ids pointers
-          const copiedEntities = Object.keys(data.copiedEntities).reduce((result, contentId) => {
+          const copiedEntities = Object.keys(data.copiedEntities)
+          .reduce((result, contentId) => {
             return {
               ...result,
-              [contentId]: data.copiedEntities[contentId].map(inputEntity => {
+              [contentId]: data.copiedEntities[contentId]
+                .map(inputEntity => {
                 const entity = {...inputEntity};
                 const thatData = entity.entity.data;
                 // case: copying note entity
@@ -645,12 +929,15 @@ export const handleCopy = function(event) {
                   }
                 }
                 // case: copying asset entity
-                else if (data.asset && data.asset.id) {
-                  const id = Object.keys(copiedData.copiedContextualizations).find(key => {
-                    if (copiedData.copiedContextualizations[key].oldId === data.asset.id) {
+                else if (thatData.asset && thatData.asset.id) {
+                  let id = Object.keys(copiedData.copiedContextualizations).find(key => {
+                    if (copiedData.copiedContextualizations[key].oldId === thatData.asset.id) {
                       return true;
                     }
                   });
+                  if (id) {
+                    id = copiedData.copiedContextualizations[id].id;
+                  }
                   if (id) {
                     return {
                       ...entity,
@@ -675,44 +962,93 @@ export const handleCopy = function(event) {
 
           let newContentState;
 
-          // iterating through all the entities and adding them to the new editor state
+          const realEditorFocus = editorFocus === 'main' ? activeSectionId : editorFocus;
+          newContentState = editorStates[realEditorFocus].getCurrentContent();
+          // cleaning the clipboard of invalid entities
+          newClipboard = newClipboard.map(block => {
+            const characters = block.getCharacterList();
+            const newCharacters = characters.map(char => {
+              if (char.getEntity()) {
+                const thatEntityKey = char.getEntity();
+                const thatEntity = newContentState.getEntity(thatEntityKey).toJS();
+                if (thatEntity.type === BLOCK_ASSET || thatEntity.type === INLINE_ASSET) {
+                  const targetId = thatEntity && thatEntity.data.asset.id;
+
+                  if (invalidEntities.length > 0 && invalidEntities.indexOf(targetId) > -1) {
+                    return CharacterMetadata.applyEntity(char, null);
+                  }
+                }
+              }
+              return char;
+            });
+            return block.set('characterList', newCharacters); // block;
+          });
+
+          // iterating through all the entities and adding them to the new editor states
           Object.keys(copiedEntities).forEach(contentId => {
-            if (contentId === 'main') {
+            // if (contentId === 'main') {
               // iterating through the main editor's copied entities
               copiedEntities[contentId].forEach(entity => {
-                const editorState = editorStates[activeSectionId];
+                // if (contentId === editorFocus) {
+                  const eId = contentId === 'main' ? activeSectionId : editorFocus;
+                  const editorState = editorStates[eId];
 
-                newContentState = editorState.getCurrentContent();
-                newContentState = newContentState.createEntity(entity.entity.type, entity.entity.mutability, {...entity.entity.data});
-                // const newEditorState = EditorState.push(
-                //   editor,
-                //   newContentState,
-                //   'create-entity'
-                // );
-                const newEntityKey = newContentState.getLastCreatedEntityKey();
-                // updating the related clipboard
-                newClipboard = newClipboard.map(block => {
-                  const characters = block.getCharacterList();
-                  const newCharacters = characters.map(char => {
-                    if (char.getEntity() && char.getEntity() === entity.key) {
-                      return CharacterMetadata.applyEntity(char, newEntityKey);
-                    }
-                    return char;
+                  if (!editorState) {
+                    return;
+                  }
+
+                  newContentState = editorState.getCurrentContent();
+                  newContentState = newContentState.createEntity(entity.entity.type, entity.entity.mutability, {...entity.entity.data});
+                  // const newEditorState = EditorState.push(
+                  //   editor,
+                  //   newContentState,
+                  //   'create-entity'
+                  // );
+                  const newEntityKey = newContentState.getLastCreatedEntityKey();
+                  // updating the related clipboard
+                  newClipboard = newClipboard.map(block => {
+                    const characters = block.getCharacterList();
+                    const newCharacters = characters.map(char => {
+                      if (char.getEntity()) {
+                        const thatEntityKey = char.getEntity();
+                        const thatEntity = newContentState.getEntity(thatEntityKey).toJS();
+                        if (entity.entity.type === NOTE_POINTER && thatEntity.type === NOTE_POINTER) {
+                          if (contentId !== 'main') {
+                            return CharacterMetadata.applyEntity(char, null);
+                          }
+                          const entityNoteId = entity.entity.data.noteId;
+                          const newNoteOldId = newNotes[entityNoteId] && newNotes[entityNoteId].oldId;
+                          if (newNoteOldId === thatEntity.data.noteId) {
+                            return CharacterMetadata.applyEntity(char, newEntityKey);
+                          }
+                        }
+                        else if ((entity.entity.type === BLOCK_ASSET || entity.entity.type === INLINE_ASSET) && (thatEntity.type === BLOCK_ASSET || thatEntity.type === INLINE_ASSET)) {
+                          const targetId = thatEntity && thatEntity.data.asset.id;
+                          if (invalidEntities.length > 0 && invalidEntities.indexOf(targetId) > -1) {
+                            return CharacterMetadata.applyEntity(char, null);
+                          }
+                          else if (targetId === entity.entity.data.asset.oldId) {
+                            return CharacterMetadata.applyEntity(char, newEntityKey);
+                          }
+                        }
+                      }
+
+                      return char;
+                    });
+                    return block.set('characterList', newCharacters); // block;
                   });
-                  return block.set('characterList', newCharacters); // block;
-                });
+                // }
               });
-            }
+            // }
             // iterating through a note's editor's copied entities
             // to update its entities and the clipboard
-            else if (newNotes[contentId]) {
+            if (newNotes[contentId]) {
               copiedEntities[contentId].forEach(entity => {
                 const editorState = editorStates[contentId]
                   || EditorState.createWithContent(
                       convertFromRaw(newNotes[contentId].contents),
                       this.editor.mainEditor.createDecorator()
                     );
-
                 newContentState = editorState.getCurrentContent();
                 newContentState = newContentState.createEntity(entity.entity.type, entity.entity.mutability, {...entity.entity.data});
                 // update related entity in content
@@ -738,8 +1074,19 @@ export const handleCopy = function(event) {
                 newClipboard = newClipboard.map(block => {
                   const characters = block.getCharacterList();
                   const newCharacters = characters.map(char => {
-                    if (char.getEntity() && char.getEntity() === entity.key) {
-                      return CharacterMetadata.applyEntity(char, newEntityKey);
+                    const thatEntityKey = char.getEntity();
+                    if (thatEntityKey) {
+                      const thatEntity = newContentState.getEntity(thatEntityKey).toJS();
+                      if (thatEntity.type === BLOCK_ASSET || thatEntity.type === INLINE_ASSET) {
+                        const targetId = thatEntity.data.asset.id;
+                        // console.log(thatEntity, 'invalid ? ', invalidEntities.indexOf(targetId) > -1);
+                        if (invalidEntities.length > 0 && invalidEntities.indexOf(targetId) > -1) {
+                          return CharacterMetadata.applyEntity(char, null);
+                        }
+                        else if (thatEntityKey === entity.key) {
+                          return CharacterMetadata.applyEntity(char, newEntityKey);
+                        }
+                      }
                     }
                     return char;
                   });
@@ -751,13 +1098,11 @@ export const handleCopy = function(event) {
         }
     }
 
-
     let mainEditorState = editorStates[activeSectionId];
     let notesOrder = activeSection.notesOrder;
     // case pasting target is the main editor
     if (editorFocus === 'main') {
       mainEditorState = insertFragment(mainEditorState, newClipboard);
-
 
       const {newNotes: newNewNotes, notesOrder: newNotesOrder} = updateNotesFromEditor(mainEditorState, newNotes);
       newNotes = newNewNotes;
@@ -793,6 +1138,7 @@ export const handleCopy = function(event) {
         }
       };
     }
+
 
     newNotes = Object.keys(newNotes).reduce((result, noteId) => {
       const note = newNotes[noteId];
@@ -837,8 +1183,9 @@ export const handleCopy = function(event) {
             }, {})
       }
     };
-    updateSection({storyId, sectionId: activeSectionId, section: newSection, userId});
-    setEditorFocus(undefined);
-    setTimeout(() => setEditorFocus(editorFocus));
+    updateSection(newSection);
+    // updateSection({storyId, sectionId: activeSectionId, section: newSection, userId});
+    // setEditorFocus(undefined);
+    // setTimeout(() => setEditorFocus(editorFocus));
     event.preventDefault();
   };

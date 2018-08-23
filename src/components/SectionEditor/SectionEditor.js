@@ -65,7 +65,7 @@ import {
 
 import {
   updateNotesFromSectionEditor,
-  updateContextualizationsFromEditor
+  // updateContextualizationsFromEditor
 } from './editorToStoryUtils';
 
 import {
@@ -129,15 +129,30 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
 
 import './SectionEditor.scss';
 
+// const EmbedAssetComponent = ({
+//   ...props
+// }) => <AssetButtonComponent {...props} icon={icons.asset.black.svg} />;
+
+class EmbedAssetComponent extends Component {
+  render = () => {
+    const bindRef = el => {
+      if (el) {
+        this.element = el.element;
+      }
+    };
+    return <AssetButtonComponent ref={bindRef} {...this.props} icon={icons.asset.black.svg} />;
+  }
+}
+
 
 class ElementLayout extends Component {
 
-  static propTypes = {
-    isSize: PropTypes.number,
-    isOffset: PropTypes.number,
-    children: PropTypes.array,
-    style: PropTypes.string,
-  }
+  // static propTypes = {
+  //   isSize: PropTypes.number,
+  //   isOffset: PropTypes.number,
+  //   children: PropTypes.array,
+  //   style: PropTypes.string,
+  // }
   render = () => {
 
     const {
@@ -230,7 +245,7 @@ class SectionEditor extends Component {
    * @param {object} props - properties given to instance at instanciation
    */
   constructor(props, context) {
-    super(props);
+    super(props, context);
     this.state = {
       hydrated: false,
       citations: {
@@ -247,6 +262,13 @@ class SectionEditor extends Component {
     this.handlePaste = handlePaste.bind(this);
 
     this.translate = translateNameSpacer(context.t, 'Components.SectionEditor').bind(this);
+
+    this.assetButtons = Object.keys(inlineAssetComponents).reduce((result, type) => ({
+      ...result,
+      [type]: ({
+              ...theseProps
+            }) => <AssetButtonComponent {...theseProps} icon={icons[type].black.svg} />
+    }), {});
 
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
@@ -273,7 +295,12 @@ class SectionEditor extends Component {
     const {id: sectionId} = activeSection;
     if (sectionId && activeSection.contents && Object.keys(activeSection.contents).length) {
       this.hydrateEditorStates(activeSection);
-      setTimeout(() => this.clearNotesAndContext());
+      // setTimeout(() => this.clearNotesAndContext());
+    }
+    else if (sectionId) {
+      this.props.updateDraftEditorState(sectionId, this.editor.generateEmptyEditor());
+      // TODO: manually set story is saved for now, need to optimized
+      this.props.setStoryIsSaved(true);
     }
     document.addEventListener('copy', this.onCopy);
     document.addEventListener('cut', this.onCopy);
@@ -294,7 +321,7 @@ class SectionEditor extends Component {
       const {
         activeSection
       } = nextProps;
-      this.clearNotesAndContext();
+      // this.clearNotesAndContext();
 
       // hydrate editors with new section
       this.hydrateEditorStates(activeSection);
@@ -339,34 +366,36 @@ class SectionEditor extends Component {
    * Executes code before component unmounts
    */
   componentWillUnmount = () => {
-    this.clearNotesAndContext();
+    // this.clearNotesAndContext();
     // remove all document-level event listeners
     // handled by the component
     document.removeEventListener('copy', this.onCopy);
     document.removeEventListener('cut', this.onCopy);
     document.removeEventListener('paste', this.onPaste);
+    this.updateSectionRawContentDebounced.cancel();
+    this.debouncedCleanStuffFromEditorInspection.cancel();
   }
 
   clearNotesAndContext = () => {
     // delete unused notes
-    const prevSection = this.props.activeSection;
-    if (prevSection) {
-      const newSection = {
-        ...prevSection,
-        notes: prevSection.notesOrder.reduce((res, noteId) => ({
-          ...res,
-          [noteId]: prevSection.notes[noteId]
-        }), {})
-      };
-      // delete unused contextualizations
-      updateContextualizationsFromEditor(this.props);
-      this.props.updateSection(newSection);
+    // const prevSection = this.props.activeSection;
+    // if (prevSection) {
+    //   const newSection = {
+    //     ...prevSection,
+    //     notes: prevSection.notesOrder.reduce((res, noteId) => ({
+    //       ...res,
+    //       [noteId]: prevSection.notes[noteId]
+    //     }), {})
+    //   };
+    //   // delete unused contextualizations
+    //   // updateContextualizationsFromEditor(this.props);
+    //   this.props.updateSection(newSection);
 
-      // update all raw contents
-      const notesIds = Object.keys(prevSection.notes);
-      notesIds.forEach(noteId => this.updateSectionRawContent(noteId, this.props.story.id, this.props.activeSection.id));
-      this.updateSectionRawContent('main', this.props.story.id, this.props.activeSection.id);
-    }
+    //   // update all raw contents
+    //   const notesIds = Object.keys(prevSection.notes);
+    //   notesIds.forEach(noteId => this.updateSectionRawContent(noteId, this.props.story.id, this.props.activeSection.id));
+    //   this.updateSectionRawContent('main', this.props.story.id, this.props.activeSection.id);
+    // }
   }
 
   updateStateFromProps = props => {
@@ -391,10 +420,16 @@ class SectionEditor extends Component {
   }
 
   /**
-   * Handles user cmd+c like command (restoring stashed contextualizations among other things)
+   * Handles user cmd+v like command (restoring stashed contextualizations among other things)
    */
   onPaste = e => {
-    this.handlePaste(e);
+    if (!this.props.disablePaste) {
+      this.props.setEditorBlocked(true);
+      this.handlePaste(e);
+      setTimeout(() => {
+        this.props.setEditorBlocked(false);
+      });
+    }
   }
 
 
@@ -520,17 +555,19 @@ class SectionEditor extends Component {
    */
   onDataChange = (dataType, dataId, data) => {
     const {
-      updateResource,
       updateContextualizer,
       story: {
-        id: activeStoryId,
+        id: storyId,
       },
+      userId
     } = this.props;
-    if (dataType === 'resource') {
-      updateResource(activeStoryId, dataId, data);
-    }
-    else if (dataType === 'contextualizer') {
-      updateContextualizer(activeStoryId, dataId, data);
+    if (dataType === 'contextualizer') {
+      updateContextualizer({
+        storyId,
+        userId,
+        contextualizerId: data.id,
+        contextualizer: data
+      });
     }
   }
 
@@ -542,18 +579,40 @@ class SectionEditor extends Component {
    */
   onAssetRequest = (contentId, inputSelection) => {
     const {
+      story,
       setEditorFocus,
       requestAsset,
       editorStates,
+      startExistingResourceConfiguration,
       // editorFocus,
     } = this.props;
 
     const editorId = contentId === 'main' ? this.props.activeSection.id : contentId;
     const selection = inputSelection || editorStates[editorId].getSelection();
 
+    const editedEditorState = editorStates[editorId];
+    if (editedEditorState) {
+      const thatSelection = editedEditorState.getSelection();
+      if (thatSelection.isCollapsed()) {
+        const content = editedEditorState.getCurrentContent();
+        const selectedBlockKey = thatSelection.getStartKey();
+        const selectedBlock = content.getBlockForKey(selectedBlockKey);
+        const entityKey = selectedBlock.getEntityAt(thatSelection.getStartOffset());
+        if (entityKey) {
+          const entityData = content.getEntity(entityKey).getData();
+          if (entityData.asset && entityData.asset.id) {
+            const contextualization = story.contextualizations[entityData.asset.id];
+            const resource = story.resources[contextualization.resourceId];
+            return startExistingResourceConfiguration(resource.id);
+          }
+        }
+      }
+    }
+
     setEditorFocus(undefined);
-    setTimeout(() => setEditorFocus(contentId));
-    // this.editor.focus(contentId);
+    setTimeout(() => {
+      setEditorFocus(contentId);
+    });
     // register assetRequestState
     requestAsset(editorId, selection);
   }
@@ -580,6 +639,8 @@ class SectionEditor extends Component {
             : this.editor.generateEmptyEditor()
         });
     this.props.updateDraftEditorsStates(editors);
+    // TODO: manually set story is saved for now, need to optimized
+    this.props.setStoryIsSaved(true);
   }
 
   updateSectionRawContent = (editorStateId, storyId, sectionId) => {
@@ -616,16 +677,27 @@ class SectionEditor extends Component {
     }
 
     this.props.updateSection(newSection);
-    this.setState({
-      citations: buildCitations(this.state.assets, this.props)
-    });
+    // checking that component is mounted
+    if (this.component) {
+      this.setState({
+        citations: buildCitations(this.state.assets, this.props)
+      });
+    }
   }
 
   removeFormattingForSelection = () => {
     const {editorFocus, editorStates, activeSection} = this.props;
     const {id: sectionId} = activeSection;
     const editorState = editorFocus === 'main' ? editorStates[sectionId] : activeSection.notes[editorFocus].contents;
-    const styles = editorState.getCurrentInlineStyle().toList().toJS();
+    // const styles = editorState.getCurrentInlineStyle().toList().toJS();
+    const styles = [
+      'BOLD',
+      'ITALIC',
+      'UNDERLINE',
+      'STRIKETHROUGH',
+      'CODE'
+    ];
+
     let newEditorState = editorState;
     styles.forEach(style => {
       newEditorState = EditorState.push(
@@ -697,20 +769,33 @@ class SectionEditor extends Component {
     <OrderedListItemButton tooltip={this.translate('ordered list')} key={6} />,
     <UnorderedListItemButton tooltip={this.translate('unordered list')} key={7} />,
     <RemoveFormattingButton tooltip={this.translate('remove formatting for selection')} key={9} />,
-    <LinkButton key={8} />,
+    <LinkButton tooltip={this.translate('add a link')} key={8} />,
     /*<CodeBlockButton />,*/
   ]
 
-  onEditorChange = (editorId, editor) => {
-    const {activeSection: {id: sectionId}, story: {id: activeStoryId}, updateDraftEditorState} = this.props;
+  onEditorChange = (editorId, editorState) => {
+    const {activeSection: {id: sectionId}, story: {id: activeStoryId}, updateDraftEditorState, editorStates, setStoryIsSaved} = this.props;
     const {updateSectionRawContentDebounced} = this;
     const editorStateId = editorId === 'main' ? sectionId : editorId;
-    // console.log('on update', editorStateId, editor.getSelection().getStartOffset());
+    // console.log('on update', editorStateId, convertToRaw(editor.getCurrentContent()));
     // update active immutable editor state
-    updateDraftEditorState(editorStateId, editor);
-    // ("debouncily") update serialized content
-    updateSectionRawContentDebounced(editorId, activeStoryId, sectionId);
+    updateDraftEditorState(editorStateId, editorState);
+    const currentEditorState = editorStates[editorStateId];
+    if (currentEditorState.getCurrentContent() !== editorState.getCurrentContent()) {
+      setStoryIsSaved(false);
+      updateSectionRawContentDebounced(editorId, activeStoryId, sectionId);
+    }
   };
+
+  handleEditorPaste = (text, html) => {
+    if (html) {
+      // check whether the clipboard contains fonio data
+      const dataRegex = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>$/gm;
+      const hasScript = dataRegex.test(html);
+      return hasScript;
+    }
+    return false;
+  }
 
 
   /**
@@ -726,6 +811,7 @@ class SectionEditor extends Component {
       state,
       props,
       onEditorChange,
+      handleEditorPaste,
     } = this;
     const {
       story,
@@ -740,6 +826,7 @@ class SectionEditor extends Component {
       assetRequestPosition,
       cancelAssetRequest,
       summonAsset,
+      draggedResourceId,
       // editorWidth,
       // editorOffset,
       style: componentStyle = {},
@@ -776,8 +863,34 @@ class SectionEditor extends Component {
       }
     }), {}) : {};
 
+    let RealAssetComponent = EmbedAssetComponent;
+
     // let clipboard;
     const focusedEditorId = editorFocus;
+
+    const editorStateId = focusedEditorId === 'main' ? sectionId : focusedEditorId;
+
+
+    const editedEditorState = editorStates[editorStateId];
+    let resourceType;
+    if (editedEditorState) {
+      const selection = editedEditorState.getSelection();
+      if (selection.isCollapsed()) {
+        const content = editedEditorState.getCurrentContent();
+        const selectedBlockKey = selection.getStartKey();
+        const selectedBlock = content.getBlockForKey(selectedBlockKey);
+        const entityKey = selectedBlock.getEntityAt(selection.getStartOffset());
+        if (entityKey) {
+          const entityData = content.getEntity(entityKey).getData();
+          if (entityData.asset && entityData.asset.id) {
+            const contextualization = story.contextualizations[entityData.asset.id];
+            const resource = story.resources[contextualization.resourceId];
+            resourceType = resource.metadata.type;
+          }
+        }
+      }
+    }
+    RealAssetComponent = resourceType ? this.assetButtons[resourceType] : EmbedAssetComponent;
 
 
     /**
@@ -806,25 +919,31 @@ class SectionEditor extends Component {
         setEditorFocus(targetedEditorId);
       }, timers.short);
     };
-
+    const blockAssetTypes = ['image', 'table', 'video', 'embed'];
     const onDrop = (contentId, payload, selection) => {
-      if (payload && payload.indexOf('DRAFTJS_RESOURCE_ID:') > -1) {
-        const id = payload.split('DRAFTJS_RESOURCE_ID:')[1];
+      if (draggedResourceId) {
         let targetedEditorId = contentId;
         if (!targetedEditorId) {
           targetedEditorId = this.props.editorFocus;
         }
         const editorId = contentId === 'main' ? activeSection.id : contentId;
-        const editorState = editorStates[editorId];
-        // updating selection to take into account the drop payload
-        const rightSelectionState = new SelectionState({
-          anchorKey: selection.getStartKey(),
-          anchorOffset: selection.getStartOffset() - payload.length,
-          focusKey: selection.getEndKey(),
-          focusOffset: selection.getEndOffset() - payload.length
-        });
-        updateDraftEditorState(editorId, EditorState.forceSelection(editorState, rightSelectionState));
-        onAssetChoice({id}, contentId);
+        const draggedResource = story.resources[draggedResourceId];
+        if (contentId !== 'main' && blockAssetTypes.indexOf(draggedResource.metadata.type) !== -1) {
+          // set error message when try drag a block asset into note
+          this.props.setErrorMessage({type: 'CREATE_CONTEXTUALIZATION_NOTE_FAIL', error: `${draggedResource.metadata.type} could not be added into note`});
+        }
+        else {
+          const editorState = editorStates[editorId];
+          // updating selection to take into account the drop payload
+          const rightSelectionState = new SelectionState({
+            anchorKey: selection.getStartKey(),
+            anchorOffset: selection.getStartOffset() - payload.length,
+            focusKey: selection.getEndKey(),
+            focusOffset: selection.getEndOffset() - payload.length
+          });
+          updateDraftEditorState(editorId, EditorState.forceSelection(editorState, rightSelectionState));
+          onAssetChoice({id: draggedResourceId}, contentId);
+        }
       }
     };
 
@@ -915,9 +1034,14 @@ class SectionEditor extends Component {
 
     const inlineButtons = this.inlineButtons();
 
+    const bindRef = component => {
+      this.component = component;
+    };
+
     return (
       <Content style={componentStyle} className="fonio-SectionEditor">
         <div
+          ref={bindRef}
           className="editor-wrapper"
           onScroll={onScroll}>
           <ReferencesManager
@@ -931,6 +1055,8 @@ class SectionEditor extends Component {
               notes={notes}
               notesOrder={notesOrder}
               assets={assets}
+
+              handlePastedText={handleEditorPaste}
 
               messages={{
                 addNote: this.translate('add-note'),
@@ -949,6 +1075,8 @@ class SectionEditor extends Component {
               focusedEditorId={focusedEditorId}
 
               onEditorChange={onEditorChange}
+
+              editorPlaceholder={this.translate('start writing')}
 
               onDrop={onDrop}
               onDragOver={onDragOver}
@@ -972,7 +1100,7 @@ class SectionEditor extends Component {
               NoteLayout={NoteLayout}
 
               NotePointerComponent={NotePointer}
-              AssetButtonComponent={AssetButtonComponent}
+              AssetButtonComponent={RealAssetComponent}
               NoteButtonComponent={NoteButtonComponent}
               ElementLayoutComponent={this.ElementLayoutComponent}
 
@@ -986,6 +1114,8 @@ class SectionEditor extends Component {
           id="style-button"
           place="top"
           effect="solid" />
+        <ReactTooltip
+          id="icon-btn-tooltip" />
       </Content>
     );
   }

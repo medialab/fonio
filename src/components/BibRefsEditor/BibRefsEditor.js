@@ -2,7 +2,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {TextArea} from 'quinoa-design-library';
+import {
+  CodeEditor
+} from 'quinoa-design-library';
 import Cite from 'citation-js';
 
 class BibRefsEditor extends Component {
@@ -36,18 +38,16 @@ class BibRefsEditor extends Component {
     const {onChange} = this.props;
     const {refsInput} = this.state;
 
-    const onBibTeXInputChange = e => {
-      const value = e.target.value;
+    const onBibTeXInputChange = value => {
       this.setState({
         refsInput: value,
       });
       onChange(value);
     };
-    return (
-      <TextArea
-        className="textarea" value={refsInput} type="text"
-        onChange={onBibTeXInputChange} />
-    );
+
+    return (<CodeEditor
+      onChange={onBibTeXInputChange}
+      value={refsInput} />);
   }
 }
 

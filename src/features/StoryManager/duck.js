@@ -14,6 +14,9 @@ import Ajv from 'ajv';
 import storySchema from 'quinoa-schemas/story';
 import resourceSchema from 'quinoa-schemas/resource';
 
+
+import {LEAVE_STORY} from '../ConnectionsManager/duck';
+
 import config from '../../config';
 
 import {updateEditionHistoryMap, loadStoryToken} from '../../helpers/localStorageUtils';
@@ -37,6 +40,7 @@ export const UPDATE_SECTIONS_ORDER = 'UPDATE_SECTIONS_ORDER';
 export const CREATE_SECTION = 'CREATE_SECTION';
 export const UPDATE_SECTION = 'UPDATE_SECTION';
 export const DELETE_SECTION = 'DELETE_SECTION';
+export const SET_SECTION_LEVEL = 'SET_SECTION_LEVEL';
 /**
  * resources CRUD
  */
@@ -52,6 +56,7 @@ export const CREATE_CONTEXTUALIZATION = 'CREATE_CONTEXTUALIZATION';
 export const UPDATE_CONTEXTUALIZATION = 'UPDATE_CONTEXTUALIZATION';
 export const DELETE_CONTEXTUALIZATION = 'DELETE_CONTEXTUALIZATION';
 
+export const SET_COVER_IMAGE = 'SET_COVER_IMAGE';
 
 export const UPLOAD_RESOURCE = 'UPLOAD_RESOURCE';
 export const DELETE_UPLOADED_RESOURCE = 'DELETE_UPLOADED_RESOURCE';
@@ -97,6 +102,7 @@ export const updateStory = (TYPE, payload, callback) => {
   let blockType;
   let blockId;
 
+  // TODO: refactor validation schema more modular
   let payloadSchema = DEFAULT_PAYLOAD_SCHEMA;
   const sectionSchema = storySchema.properties.sections.patternProperties['[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'];
 
@@ -129,6 +135,16 @@ export const updateStory = (TYPE, payload, callback) => {
         properties: {
           ...DEFAULT_PAYLOAD_SCHEMA.properties,
           sectionsOrder: storySchema.properties.sectionsOrder,
+        }
+      };
+      break;
+    case SET_SECTION_LEVEL:
+      payloadSchema = {
+        ...DEFAULT_PAYLOAD_SCHEMA,
+        properties: {
+          ...DEFAULT_PAYLOAD_SCHEMA.properties,
+          sectionId: sectionSchema.properties.id,
+          level: storySchema.definitions.metadata.properties.level,
         }
       };
       break;
@@ -270,7 +286,10 @@ export const updateStory = (TYPE, payload, callback) => {
             const val = ajv.compile(payloadSchema);
             return val(payload);
           },
-          msg: 'payload is not valid',
+          msg: () => {
+            const val = ajv.compile(payloadSchema);
+            return val.errors;
+          },
         },
       },
     },
@@ -287,6 +306,7 @@ export const updateSectionsOrder = payload => updateStory(UPDATE_SECTIONS_ORDER,
 export const createSection = payload => updateStory(CREATE_SECTION, payload);
 export const updateSection = payload => updateStory(UPDATE_SECTION, payload);
 export const deleteSection = (payload, callback) => updateStory(DELETE_SECTION, payload, callback);
+export const setSectionLevel = (payload, callback) => updateStory(SET_SECTION_LEVEL, payload, callback);
 
 export const createResource = payload => updateStory(CREATE_RESOURCE, payload);
 export const updateResource = payload => updateStory(UPDATE_RESOURCE, payload);
@@ -300,12 +320,16 @@ export const createContextualization = payload => updateStory(CREATE_CONTEXTUALI
 export const updateContextualization = payload => updateStory(UPDATE_CONTEXTUALIZATION, payload);
 export const deleteContextualization = payload => updateStory(DELETE_CONTEXTUALIZATION, payload);
 
+export const setCoverImage = payload => updateStory(SET_COVER_IMAGE, payload);
 /**
  * Action creators related to resource upload request
  */
 export const uploadResource = (payload, mode) => ({
   type: UPLOAD_RESOURCE,
-  payload,
+  payload: {
+    ...payload,
+    lastUpdateAt: new Date().getTime()
+  },
   promise: () => {
     const token = loadStoryToken(payload.storyId);
     const lastUpdateAt = new Date().getTime();
@@ -357,9 +381,16 @@ const STORY_DEFAULT_STATE = {
  */
 function story(state = STORY_DEFAULT_STATE, action) {
   const {result, payload} = action;
-  let contextualizers;
   let contextualizations;
+  let contextualizers;
+  let contextualizersToDeleteIds;
+  let contextualizationsToDeleteIds;
   switch (action.type) {
+    case LEAVE_STORY:
+      return {
+        ...state,
+        story: undefined,
+      };
     case `${ACTIVATE_STORY}_SUCCESS`:
       return {
         ...state,
@@ -370,6 +401,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
      */
     case `${UPDATE_STORY_METADATA}_SUCCESS`:
     case `${UPDATE_STORY_METADATA}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       return {
           ...state,
           story: {
@@ -383,6 +417,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
      */
     case `${UPDATE_STORY_SETTINGS}_SUCCESS`:
     case `${UPDATE_STORY_SETTINGS}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       return {
           ...state,
           story: {
@@ -396,6 +433,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
      */
     case `${UPDATE_SECTIONS_ORDER}`:
     case `${UPDATE_SECTIONS_ORDER}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       const oldSectionsOrder = [...state.story.sectionsOrder];
       const newSectionsOrder = [...payload.sectionsOrder];
       let resolvedSectionsOrder = [...payload.sectionsOrder];
@@ -429,6 +469,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
      */
     case `${CREATE_SECTION}`:
     case `${CREATE_SECTION}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       return {
           ...state,
           story: {
@@ -438,6 +481,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
               [payload.sectionId]: {
                 ...payload.section,
                 lastUpdateAt: payload.lastUpdateAt,
+                createdAt: payload.lastUpdateAt,
               }
             },
             sectionsOrder: [
@@ -449,6 +493,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
       };
     case `${UPDATE_SECTION}_SUCCESS`:
     case `${UPDATE_SECTION}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       return {
           ...state,
           story: {
@@ -463,8 +510,55 @@ function story(state = STORY_DEFAULT_STATE, action) {
             lastUpdateAt: payload.lastUpdateAt,
           }
       };
+    case `${SET_SECTION_LEVEL}`:
+    case `${SET_SECTION_LEVEL}_SUCCESS`:
+    case `${SET_SECTION_LEVEL}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
+      return {
+          ...state,
+          story: {
+            ...state.story,
+            sections: {
+              ...state.story.sections,
+              [payload.sectionId]: {
+                ...state.story.sections[payload.sectionId],
+                metadata: {
+                  ...state.story.sections[payload.sectionId].metadata,
+                  level: payload.level
+                },
+                lastUpdateAt: payload.lastUpdateAt,
+              }
+            },
+            lastUpdateAt: payload.lastUpdateAt,
+          }
+      };
     case `${DELETE_SECTION}_SUCCESS`:
     case `${DELETE_SECTION}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
+      contextualizations = {...state.story.contextualizations};
+      contextualizers = {...state.story.contextualizers};
+
+      contextualizationsToDeleteIds = Object.keys(contextualizations)
+      .filter(id => {
+        return contextualizations[id].sectionId === payload.sectionId;
+      });
+      contextualizersToDeleteIds = [];
+
+      contextualizationsToDeleteIds
+      .forEach((id) => {
+        contextualizersToDeleteIds.push(contextualizations[id].contextualizerId);
+      });
+
+      contextualizersToDeleteIds.forEach(contextualizerId => {
+        delete contextualizers[contextualizerId];
+      });
+      contextualizationsToDeleteIds.forEach(contextualizationId => {
+        delete contextualizations[contextualizationId];
+      });
       return {
           ...state,
           story: {
@@ -479,6 +573,8 @@ function story(state = STORY_DEFAULT_STATE, action) {
                   [thatSectionId]: state.story.sections[thatSectionId]
                 };
               }, {}),
+            contextualizations,
+            contextualizers,
             sectionsOrder: state.story.sectionsOrder.filter(id => id !== payload.sectionId),
             lastUpdateAt: payload.lastUpdateAt,
           }
@@ -489,8 +585,29 @@ function story(state = STORY_DEFAULT_STATE, action) {
      */
     case `${CREATE_RESOURCE}`:
     case `${CREATE_RESOURCE}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
+      return {
+          ...state,
+          story: {
+            ...state.story,
+            resources: {
+              ...state.story.resources,
+              [payload.resourceId]: {
+                ...payload.resource,
+                lastUpdateAt: payload.lastUpdateAt,
+                createdAt: payload.lastUpdateAt
+              }
+            },
+            lastUpdateAt: payload.lastUpdateAt,
+          }
+      };
     case `${UPDATE_RESOURCE}`:
     case `${UPDATE_RESOURCE}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       return {
           ...state,
           story: {
@@ -506,6 +623,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
           }
       };
     case `${UPLOAD_RESOURCE}_SUCCESS`:
+      if (!state.story) {
+        return state;
+      }
       return {
         ...state,
         story: {
@@ -523,6 +643,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${DELETE_RESOURCE}_SUCCESS`:
     case `${DELETE_RESOURCE}_BROADCAST`:
     case `${DELETE_UPLOADED_RESOURCE}_SUCCESS`:
+      if (!state.story) {
+        return state;
+      }
       contextualizations = {...state.story.contextualizations};
       contextualizers = {...state.story.contextualizers};
       // for now as the app does not allow to reuse the same contextualizer for several resources
@@ -531,10 +654,10 @@ function story(state = STORY_DEFAULT_STATE, action) {
       // if not doing so we would end up with a bunch of unused contextualizers in documents' data after a while)
 
       // we will store contextualizers id to delete here
-      const contextualizersToDeleteIds = [];
+      contextualizersToDeleteIds = [];
 
       // we will store contextualizations id to delete here
-      const contextualizationsToDeleteIds = [];
+      contextualizationsToDeleteIds = [];
       // spot all objects to delete
       Object.keys(contextualizations)
         .forEach(contextualizationId => {
@@ -579,6 +702,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${UPDATE_CONTEXTUALIZATION}_BROADCAST`:
     case CREATE_CONTEXTUALIZATION:
     case `${CREATE_CONTEXTUALIZATION}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       const {
         contextualizationId,
         contextualization
@@ -611,10 +737,13 @@ function story(state = STORY_DEFAULT_STATE, action) {
      * CONTEXTUALIZER RELATED
      */
     // contextualizers CUD
-    case UPDATE_CONTEXTUALIZER:
-    case `${UPDATE_CONTEXTUALIZER}_BROADCAST`:
     case CREATE_CONTEXTUALIZER:
     case `${CREATE_CONTEXTUALIZER}_BROADCAST`:
+    case UPDATE_CONTEXTUALIZER:
+    case `${UPDATE_CONTEXTUALIZER}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       // storyId = action.storyId;
       const {
         contextualizerId,
@@ -633,6 +762,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
       };
     case DELETE_CONTEXTUALIZER:
     case `${DELETE_CONTEXTUALIZER}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
       contextualizers = {...state.story.contextualizers};
       delete contextualizers[payload.contextualizerId];
       return {
@@ -644,6 +776,25 @@ function story(state = STORY_DEFAULT_STATE, action) {
         }
       };
 
+    case SET_COVER_IMAGE:
+    case `${SET_COVER_IMAGE}_BROADCAST`:
+      if (!state.story) {
+        return state;
+      }
+      const {resourceId} = payload;
+      return {
+        ...state,
+        story: {
+          ...state.story,
+          metadata: {
+            ...state.story.metadata,
+            coverImage: {
+              resourceId
+            }
+          },
+          lastUpdateAt: payload.lastUpdateAt,
+        }
+      };
     default:
       return state;
   }

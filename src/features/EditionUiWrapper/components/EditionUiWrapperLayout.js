@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {get} from 'axios';
 
+import ReactTooltip from 'react-tooltip';
+
 import {
   Button,
   Navbar,
@@ -34,10 +36,11 @@ const EditionUiWrapperLayout = ({
   userInfoModalOpen,
   exportModalOpen,
   editedStory = {},
-  lockingMap,
+  lockingMap = {},
   sectionId,
   navLocation,
   navbarOpen,
+  lang,
   actions: {
     setUserInfoTemp,
     setUserInfoModalOpen,
@@ -55,7 +58,7 @@ const EditionUiWrapperLayout = ({
 
   const storyId = editedStory.id;
 
-  const lockMap = lockingMap[storyId].locks;
+  const lockMap = lockingMap[storyId] && lockingMap[storyId].locks;
   const userLockedOnDesignId = Object.keys(lockMap).find(thatUserId => lockMap[thatUserId].design);
   let designStatus;
   let designMessage;
@@ -102,7 +105,7 @@ const EditionUiWrapperLayout = ({
         });
         break;
       case 'html':
-        get(`${config.restUrl}/stories/${storyId}?edit=false&&format=html`)
+        get(`${config.restUrl}/stories/${storyId}?edit=false&&format=html&&locale=${lang}`)
         .then(({data}) => {
           if (data) {
             downloadFile(data, 'html', title);
@@ -211,6 +214,7 @@ const EditionUiWrapperLayout = ({
         isActive={exportModalOpen}
         onClose={() => setExportModalOpen(false)}
         onChange={exportToFile} />
+      <ReactTooltip id="tooltip" />
     </StretchedLayoutContainer>
   );
 };

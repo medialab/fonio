@@ -1,5 +1,8 @@
+/* eslint react/no-set-state : 0 */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+
+import {debounce} from 'lodash';
 
 import resourceSchema from 'quinoa-schemas/resource';
 
@@ -11,8 +14,6 @@ import {
   // DropZone,
   Field,
   Input,
-  HelpPin,
-  Level,
   Image,
   Tab,
   TabLink,
@@ -33,7 +34,22 @@ const resourceTypes = Object.keys(resourceSchema.definitions);
 
 class AsideSectionColumn extends Component {
 
-  shouldComponentUpdate = nextProps => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchString: ''
+    };
+    this.setResourceSearchString = debounce(this.setResourceSearchString, 500);
+  }
+
+  componentDidMount = () => {
+    const {resourceSearchString} = this.props;
+    this.setState({
+      searchString: resourceSearchString
+    });
+  }
+
+  shouldComponentUpdate = (nextProps, nextState) => {
     const changingProps = [
       'asideTabCollapsed',
       'asideTabMode',
@@ -42,7 +58,7 @@ class AsideSectionColumn extends Component {
       'activeUsers',
       'lockMap',
       'userLockedResourceId',
-      'sections',
+      // 'sections',
 
       'resourceSearchString',
       'resourceFilterValues',
@@ -50,22 +66,50 @@ class AsideSectionColumn extends Component {
     ];
     const {
       story: {
+        metadata: {
+          coverImage: prevCoverImage
+        },
         resources: prevResources,
         sectionsOrder: prevSectionsOrder
       }
     } = this.props;
     const {
       story: {
+        metadata: {
+          coverImage: nextCoverImage
+        },
         resources: nextResources,
         sectionsOrder: nextSectionsOrder
       }
     } = nextProps;
+    const prevSectionsLocks = this.props.sections.map(s => s.lockStatus).join('-');
+    const nextSectionsLocks = nextProps.sections.map(s => s.lockStatus).join('-');
+    const prevSectionsLevels = this.props.sections.map(s => s.metadata.level).join('-');
+    const nextSectionsLevels = nextProps.sections.map(s => s.metadata.level).join('-');
+    const prevSectionsTitles = this.props.sections.map(s => s.metadata.title).join('-');
+    const nextSectionsTitles = nextProps.sections.map(s => s.metadata.title).join('-');
     return (
       changingProps.find(propName => this.props[propName] !== nextProps[propName]) !== undefined
       || prevResources !== nextResources
       || prevSectionsOrder !== nextSectionsOrder
+      || prevSectionsLocks !== nextSectionsLocks
+      || prevSectionsLevels !== nextSectionsLevels
+      || prevSectionsTitles !== nextSectionsTitles
+      || prevCoverImage !== nextCoverImage
+      || this.state.searchString !== nextState.searchString
     );
   }
+
+  setResourceSearchString = (value) => this.props.setResourceSearchString(value)
+
+  setResourceSearchStringDebounce = (value) => {
+    // const {setResourceSearchString} = this.props;
+    this.setState({
+      searchString: value
+    });
+    this.setResourceSearchString(value);
+  }
+
   render = () => {
     const {
       asideTabCollapsed,
@@ -86,10 +130,11 @@ class AsideSectionColumn extends Component {
       setAsideTabMode,
       setResourceOptionsVisible,
       setMainColumnMode,
+      setSectionLevel,
 
       visibleResources,
-      resourceSearchString,
-      setResourceSearchString,
+      // resourceSearchString,
+      // setResourceSearchString,
       resourceFilterValues,
       setResourceFilterValues,
       resourceSortValue,
@@ -98,6 +143,7 @@ class AsideSectionColumn extends Component {
       onResourceEditAttempt,
 
       onDeleteResource,
+      onSetCoverImage,
       // submitMultiResources,
 
       onDeleteSection,
@@ -106,7 +152,14 @@ class AsideSectionColumn extends Component {
     } = this.props;
     const {t} = this.context;
     const translate = translateNameSpacer(t, 'Features.SectionView');
-    const {id: storyId} = story;
+    const {
+      id: storyId,
+      metadata: {
+        coverImage = {}
+      }
+    } = story;
+
+    const coverImageId = coverImage.resourceId;
 
     const toggleResourceFilter = type => {
       setResourceFilterValues({
@@ -130,13 +183,14 @@ class AsideSectionColumn extends Component {
             }
           };
           return (
-            <StretchedLayoutContainer isFluid isAbsolute>
+            <StretchedLayoutContainer className="aside-section-column" isFluid isAbsolute>
               <StretchedLayoutItem>
-                <Column>
-                  <Column>
+                <Column style={{paddingTop: 0, paddingBottom: 0}}>
+                  <Column style={{paddingTop: 0, paddingBottom: 0}}>
                     <Field hasAddons>
-                      <Control>
-                        <Input value={resourceSearchString} onChange={e => setResourceSearchString(e.target.value)} placeholder={translate('find a resource')} />
+                      <Control style={{flex: 1}}>
+                        <Input value={this.state.searchString} onChange={e => this.setResourceSearchStringDebounce(e.target.value)} placeholder={translate('find a resource')} />
+                        {/*<Input value={resourceSearchString} onChange={e => setResourceSearchString(e.target.value)} placeholder={translate('find a resource')} />*/}
                       </Control>
                       <Control>
                         <Dropdown
@@ -175,7 +229,7 @@ class AsideSectionColumn extends Component {
                             id: 'filter',
                             options: resourceTypes.map(type => ({
                               id: type,
-                              label: <span><Image style={{display: 'inline-block'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
+                              label: <span style={{display: 'flex', flexFlow: 'row nowrap', alignItems: 'center'}}><Image style={{display: 'inline-block', marginRight: '1em'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
                             })),
                           }
                         ]}>
@@ -187,10 +241,12 @@ class AsideSectionColumn extends Component {
                 </Column>
               </StretchedLayoutItem>
               <StretchedLayoutItem isFlex={1} isFlowing>
-                <Column>
+                <Column isWrapper>
                   <ResourcesList
                     resources={visibleResources}
                     onDeleteResource={onDeleteResource}
+                    onSetCoverImage={onSetCoverImage}
+                    coverImageId={coverImageId}
                     storyId={storyId}
                     userId={userId}
                     onResourceEditAttempt={onResourceEditAttempt}
@@ -198,26 +254,20 @@ class AsideSectionColumn extends Component {
                     getResourceTitle={getResourceTitle}
                     userLockedResourceId={userLockedResourceId} />
                 </Column>
-                {/*<Level>
-                  <DropZone onDrop={submitMultiResources}>
-                    {translate('Drop files to include new resources in your library (images, tables, bibliographies)')}
-                  </DropZone>
-                </Level>*/}
               </StretchedLayoutItem>
               <StretchedLayoutItem>
-                <Level>
+                <Column>
                   <Column>
                     <Button
                       isFullWidth
+                      style={{overflow: 'visible'}}
                       onClick={() => setMainColumnMode(mainColumnMode === 'newresource' ? 'edition' : 'newresource')}
                       isColor={mainColumnMode === 'newresource' ? 'primary' : 'info'}
                       isDisabled={userLockedResourceId !== undefined}>
-                      <span style={{paddingRight: '1rem'}}>{translate('Add items to library')}</span> <HelpPin place="right">
-                        {translate('Add new images, references, videos, ... to your story')}
-                      </HelpPin>
+                      <span style={{paddingRight: '1rem'}}>{translate('Add items to library')}</span>
                     </Button>
                   </Column>
-                </Level>
+                </Column>
               </StretchedLayoutItem>
             </StretchedLayoutContainer>
           );
@@ -226,25 +276,25 @@ class AsideSectionColumn extends Component {
           return (
             <StretchedLayoutContainer isFluid isAbsolute>
               <StretchedLayoutItem isFlex={1} isFlowing>
-                <Column>
+                <Column isWrapper>
                   <SortableMiniSectionsList
                     storyId={storyId}
                     items={sections}
                     onSortEnd={onSortEnd}
                     onOpenSettings={thatSection => onOpenSectionSettings(thatSection.id)}
                     onDeleteSection={onDeleteSection}
-                    useDragHandle />
+                    setSectionLevel={setSectionLevel}
+                    pressDelay={150} />
                 </Column>
               </StretchedLayoutItem>
               <StretchedLayoutItem >
                 <Column>
                   <Column>
                     <Button
+                      style={{overflow: 'visible'}}
                       isDisabled={userLockedResourceId !== undefined && mainColumnMode === 'edition'}
                       onClick={() => setMainColumnMode('newsection')} isColor={'primary'} isFullWidth>
-                      <span style={{paddingRight: '1rem'}}>{translate('New section')}</span> <HelpPin place="right">
-                        {translate('Add a new section or chapter to your story')}
-                      </HelpPin>
+                      <span style={{paddingRight: '1rem'}}>{translate('New section')}</span>
                     </Button>
                   </Column>
                 </Column>
@@ -257,16 +307,10 @@ class AsideSectionColumn extends Component {
       <Column isSize={asideTabCollapsed ? 1 : '1/4'}>
         <StretchedLayoutContainer isFluid isAbsolute>
           <StretchedLayoutItem>
-            <Column>
-              <Tabs isBoxed isFullWidth>
-                <Column>
+            <Column style={{paddingRight: 0}}>
+              <Tabs isBoxed isFullWidth style={{overflow: 'hidden'}}>
+                <Column style={{paddingRight: 0}}>
                   <TabList>
-                    {
-                    !asideTabCollapsed &&
-                    <Tab onClick={() => setAsideTabMode('library')} isActive={asideTabMode === 'library'}>
-                      <TabLink>{translate('Library')}</TabLink>
-                    </Tab>
-                  }
                     {
                     !asideTabCollapsed &&
                     'collapse' &&
@@ -275,8 +319,30 @@ class AsideSectionColumn extends Component {
                         {translate('Summary')}
                       </TabLink>
                     </Tab>
-                  }
-                    <Tab onClick={() => setAsideTabCollapsed(!asideTabCollapsed)} isActive={asideTabCollapsed}><TabLink>{asideTabCollapsed ? '▶' : '◀'}</TabLink></Tab>
+                    }
+                    {
+                    !asideTabCollapsed &&
+                    <Tab onClick={() => setAsideTabMode('library')} isActive={asideTabMode === 'library'}>
+                      <TabLink>{translate('Library')}</TabLink>
+                    </Tab>
+                    }
+                    <Tab
+                      onClick={() => setAsideTabCollapsed(!asideTabCollapsed)}
+                      isActive={asideTabCollapsed}>
+                      <TabLink
+                        style={{
+                          boxShadow: 'none',
+                          transform: asideTabCollapsed ? 'rotate(180deg)' : undefined,
+                          transition: 'all .5s ease'
+                        }}
+                        data-for="tooltip"
+                        data-effect="solid"
+                        data-place="right"
+                        data-tip={asideTabCollapsed ? translate('show summary and library pannels') : translate('hide summary and library pannels')}>
+                        ◀
+                        {/*asideTabCollapsed ? '▶' : '◀'*/}
+                      </TabLink>
+                    </Tab>
                   </TabList>
                 </Column>
               </Tabs>

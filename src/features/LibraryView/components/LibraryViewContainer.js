@@ -8,10 +8,16 @@ import * as duck from '../duck';
 import * as editedStoryDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
+import * as errorMessageDuck from '../../ErrorMessageManager/duck';
 
-import {createResourceData} from '../../../helpers/resourcesUtils';
+import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils';
 
 import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
+import DataUrlProvider from '../../../components/DataUrlProvider';
+
+import config from '../../../config';
+
+const {maxBatchNumber} = config;
 
 @connect(
   state => ({
@@ -25,6 +31,7 @@ import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapper
       ...connectionsDuck,
       ...editedStoryDuck,
       ...sectionsManagementDuck,
+      ...errorMessageDuck,
       ...duck
     }, dispatch)
   })
@@ -77,8 +84,21 @@ class LibraryViewContainer extends Component {
     //     .then(res => resolve(res.filter(result => !result.success)))
     //     .catch(err => reject(err));
     // });
+    const {setErrorMessage} = this.props.actions;
+    if (files.length > maxBatchNumber) {
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded'});
+      return;
+    }
+    const validFiles = validateFiles(files);
+    if (validFiles.length === 0) {
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Files extends maximum size to upload'});
+      return;
+    }
+    if (validFiles.length < files.length) {
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Some files larger than maximum file size'});
+    }
     const errors = [];
-    files.reduce((curr, next) => {
+    validFiles.reduce((curr, next) => {
       return curr.then(() =>
         createResourceData(next, this.props)
         .then((res) => {
@@ -88,29 +108,24 @@ class LibraryViewContainer extends Component {
     }, Promise.resolve())
     .then(() => {
       if (errors.length > 0) {
-        console.error(errors);/* eslint no-console: 0 */
-        /**
-         * @todo handle errors
-         */
-        console.log('resource fail to upload');/* eslint no-console: 0 */
+        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: errors});
       }
     })
-    .catch((err) => {
-      /**
-       * @todo handle errors
-       */
-      console.log('resources fail to upload', err);/* eslint no-console: 0 */
+    .catch((error) => {
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error});
     });
   }
 
   render() {
     return this.props.editedStory ?
           (
-            <EditionUiWrapper>
-              <LibraryViewLayout
-                {...this.props}
-                submitMultiResources={this.submitMultiResources} />
-            </EditionUiWrapper>
+            <DataUrlProvider storyId={this.props.editedStory.id} serverUrl={config.apiUrl} >
+              <EditionUiWrapper>
+                <LibraryViewLayout
+                  {...this.props}
+                  submitMultiResources={this.submitMultiResources} />
+              </EditionUiWrapper>
+            </DataUrlProvider>
           )
           : null;
   }

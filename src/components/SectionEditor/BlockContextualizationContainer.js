@@ -6,7 +6,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import AssetPreview from './AssetPreview';
+import AssetPreview from '../AssetPreview';
 
 
 /**
@@ -69,9 +69,7 @@ class BlockContainer extends Component {
 
     return (resource.data ?
       <AssetPreview
-        type={resource.metadata && resource.metadata.type}
-        data={resource.data}
-        metadata={resource.metadata}
+        resource={resource}
         onEditRequest={onEditRequest}
         onDeleteRequest={onDeleteRequest}
         showPannel /> : null

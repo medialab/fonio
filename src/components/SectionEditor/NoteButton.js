@@ -11,14 +11,14 @@ const NoteButton = ({
   onClick,
   active
 }, {t}) => {
-  const translate = translateNameSpacer(t, 'Component.SectionEditor');
+  const translate = translateNameSpacer(t, 'Components.SectionEditor');
   const onMouseDown = event => event.preventDefault();
   return (
     <IconBtn
       isColor={active && 'info'}
       onClick={onClick}
       onMouseDown={onMouseDown}
-      dataTip={translate('add a footnote')}
+      dataTip={translate('add a footnote (shortcut : cmd + m)')}
       src={icons.note.black.svg} />
   );
 };

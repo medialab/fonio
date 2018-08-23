@@ -22,6 +22,10 @@ export default () => ({dispatch, getState}) => (next) => (action) => {
     // pass the action to the next middleware
     return next(action);
   }
+  else if (typeof promise !== 'function' || !Promise.resolve(promise)) {
+    console.warn('passed an action with a "promise" prop which is not a promise function, action:', action);/* eslint  no-console : 0 */
+    return next(action);
+  }
   // build constants that will be used to dispatch actions
   const REQUEST = type + '_PENDING';
   const SUCCESS = type + '_SUCCESS';

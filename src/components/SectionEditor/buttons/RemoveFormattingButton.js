@@ -24,7 +24,7 @@ const RemoveFormattingButton = (props, {
       data-tip={props.tooltip}
       data-for="style-button"
       onMouseDown={onClick}>
-      <Image isSize={'24x24'} src={icons.remove.black.svg} />
+      <Image isSize={'24x24'} style={{marginLeft: 0, marginRight: 0}} src={icons.remove.black.svg} />
     </Button>
   );
 };

@@ -69,6 +69,7 @@ class HomeViewContainer extends Component {
     this.props.actions.fetchStories();
     const editionHistoryMap = getEditionHistoryMap();
     this.props.actions.setEditionHistory(editionHistoryMap);
+    this.props.actions.setStoryLoginId(undefined);
   }
 
 

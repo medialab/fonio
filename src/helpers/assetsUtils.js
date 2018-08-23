@@ -103,6 +103,47 @@ export function loadResourceData(url) {
   });
 }
 
+/**
+ * Retrieves the metadata associated with a given webpage resource from its source code
+ * @param {string} url - the url to start from to know where to retrieve the metadata
+ * @return {Promise} process - loading is wrapped in a promise for consistence matters
+ */
+export function retrieveWebpageMetadata (url) {
+  return new Promise((resolve) => {
+    if (url.length) {
+      get(url)
+        .then(({data: html}) => {
+          try {
+            let title = /\<title\>(.+)\<\/title\>/.exec(html);
+            title = title && title[1];
+            let description = /\<meta\s+content="([^"]+)"\s+name="description"\s*\/\>/.exec(html)
+              || /\<meta\s+name="description"\s+content="([^"]+)"\s*\/\>/.exec(html);
+            description = description && description[1];
+            let authors = /\<meta\s+content="([^"]+)"\s+name="author"\s*\/\>/.exec(html)
+              || /\<meta\s+name="author"\s+content="([^"]+)"\s*\/\>/.exec(html);
+            authors = authors && authors[1];
+            authors = authors && [authors];
+            resolve({
+              title,
+              description,
+              authors
+            });
+
+          }
+          catch (e) {/* eslint no-unused-vars : 0 */
+            resolve({});
+          }
+        })
+        .catch(e => {
+          resolve({});
+        });
+    }
+ else {
+      resolve({});
+    }
+  });
+}
+
 const youtubeRegexp = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/gi;
 const vimeoRegexp = /^(https?\:\/\/)?(www\.)?(vimeo\.com)/gi;
 /**
@@ -131,7 +172,8 @@ export function retrieveMediaMetadata (url, credentials = {}) {
                     description: info.description,
                     source: info.channelTitle + ` (youtube: ${url})`,
                     title: info.title,
-                    videoUrl: url
+                    videoUrl: url,
+                    authors: [info.channelTitle]
                   }
                 });
             })
@@ -225,7 +267,7 @@ export function inferMetadata(data, assetType) {
       }
       return {
         title,
-        fileName: data && data.file && data.file.name && data.file.name,
+        fileName: data && data.file && data.file.name && data.file.name, // @todo use lodash/getIn
         ext: data && data.file && data.file.name && data.file.name.split('.')[1],
         mimeType: data && data.file && data.file.type
       };
@@ -272,6 +314,7 @@ export function inferMetadata(data, assetType) {
     const activeSection = story.sections[sectionId];
     const resource = story.resources[resourceId];
 
+
     const editorStateId = contentId === 'main' ? sectionId : contentId;
     const editorState = editorStates[editorStateId];
 
@@ -287,11 +330,10 @@ export function inferMetadata(data, assetType) {
 
     // @todo: choose that from resource model
     const insertionType = ['bib', 'glossary', 'webpage'].indexOf(resource.metadata.type) > -1 ? 'inline' : 'block';
-    const hasAlias = resource.metadata.type === 'glossary' || resource.metadata.type === 'webpage';
+    // const hasAlias = resource.metadata.type === 'glossary' || resource.metadata.type === 'webpage';
 
     // get selected text
     const selectedText = getTextSelection(editorState.getCurrentContent(), editorState.getSelection());
-
     // 1. create contextualizer
     // question: why isn't the contextualizer
     // data directly embedded in the contextualization data ?
@@ -305,7 +347,7 @@ export function inferMetadata(data, assetType) {
     const contextualizer = {
       id: contextualizerId,
       type: resource.metadata.type,
-      alias: hasAlias ? selectedText : undefined
+      // alias: hasAlias ? selectedText : undefined
     };
     createContextualizer({storyId, contextualizerId, contextualizer, userId});
 
@@ -325,21 +367,51 @@ export function inferMetadata(data, assetType) {
 
     let newEditorState = editorState;
 
-    // if alias remove text placeholder
-    if (hasAlias && selectedText.length) {
-      const newContentState = Modifier.replaceText(
-        newEditorState.getCurrentContent(),
-        editorState.getSelection(),
-        ''
-      );
-      newEditorState = EditorState.push(newEditorState, newContentState, 'replace-text');
+    let isMutable = false;
+    let selectedDisplacement;
+    if (insertionType === 'inline') {
+      selectedDisplacement = selectedText.length;
+      // if selection is empty we add placeholder text
+      if (selectedText.length === 0) {
+        let placeholderText;
+        switch (resource.metadata.type) {
+          case 'glossary':
+            placeholderText = resource.data.name;
+            isMutable = true;
+            break;
+          case 'webpage':
+            placeholderText = resource.metadata.title;
+            isMutable = true;
+            break;
+          case 'bib':
+          default:
+            placeholderText = ' ';
+            break;
+        }
+        const newContentState = Modifier.replaceText(
+          newEditorState.getCurrentContent(),
+          editorState.getSelection(),
+          placeholderText
+        );
+        newEditorState = EditorState.push(newEditorState, newContentState, 'replace-text');
+        selectedDisplacement = placeholderText.length;
+        newEditorState = EditorState.forceSelection(
+          newEditorState,
+          newEditorState.getSelection().merge({
+            anchorOffset: newEditorState.getSelection().getStartOffset() - selectedDisplacement
+          })
+        );
+      }
     }
+
+
     // update related editor state
     newEditorState = insertionType === 'block' ?
       insertBlockContextualization(newEditorState, contextualization, contextualizer, resource) :
-      insertInlineContextualization(newEditorState, contextualization, contextualizer, resource);
+      insertInlineContextualization(newEditorState, contextualization, contextualizer, resource, isMutable);
 
     // update immutable editor state
+
     updateDraftEditorState(editorStateId, newEditorState);
     // update serialized editor state
     let newSection;
@@ -463,27 +535,98 @@ export const deleteContextualizationFromId = ({
 
 
   export const removeContextualizationReferenceFromRawContents = (contents, contId) => {
-      const result = {...contents};
+
+      // console.log('looking for', contId);
       let changed;
-      Object.keys(contents.entityMap).forEach(key => {
-        const entity = contents.entityMap[key];
+      const newContents = Object.keys(contents.entityMap).reduce((result, entityKey) => {
+        const entity = contents.entityMap[entityKey];
+        // console.log('parsing', entityKey, 'contents are', result.entityMap);
         if ((entity.type === BLOCK_ASSET || entity.type === INLINE_ASSET) && entity.data && entity.data.asset && entity.data.asset.id === contId) {
-          result.blocks = result.blocks.map(block => {
-            // if block is atomic we delete it
-            if (block.type === 'atomic') {
-              return undefined;
-            }
-            return {
-              ...block,
-              entityRanges: block.entityRanges.filter(range => range.key !== key)
-            };
-          })
-          // just keep defined blocks
-          .filter(b => b);
-          // delete entity from entity map
-          delete result.entityMap[key];
+          // console.log('found', entityKey);
           changed = true;
+          return {
+            blocks: result.blocks.map(block => {
+              if (block.type === 'atomic' && block.entityRanges.find(range => range.key === entityKey)) {
+                return undefined;
+              }
+              return {
+                ...block,
+                entityRanges: block.entityRanges.filter(range => range.key !== entityKey)
+              };
+            }).filter(b => b),
+            entityMap: Object.keys(result.entityMap).reduce((newMap, thatEntityKey) => {
+              // console.log('comparing', thatEntityKey, entityKey, thatEntityKey === entityKey);
+              if (thatEntityKey === entityKey) {
+                // console.log('excluding', entityKey)
+                return newMap;
+              }
+              return {
+                ...newMap,
+                [thatEntityKey]: result.entityMap[thatEntityKey]
+              };
+            }, {})
+          };
         }
-      });
-      return {result, changed};
+        return result;
+      }, {...contents});
+
+      // console.log('final result', newContents.entityMap);
+      return {result: newContents, changed};
     };
+
+export const cleanUncitedNotes = (section) => {
+  const {notesOrder, notes} = section;
+  const newNotes = {...notes};
+  Object.keys(newNotes).forEach((noteId) => {
+    if (notesOrder.indexOf(noteId) === -1) {
+      delete newNotes[noteId];
+    }
+  });
+  return newNotes;
+};
+export const deleteUncitedContext = (sectionId, props) => {
+  const {
+    editedStory,
+    userId,
+    actions: {
+      deleteContextualizer,
+      deleteContextualization,
+      updateSection
+    }
+  } = props;
+
+  const {id: storyId} = editedStory;
+  const cleanedSection = {
+    ...editedStory.sections[sectionId],
+    notes: cleanUncitedNotes(editedStory.sections[sectionId])
+  };
+  updateSection({storyId, sectionId, section: cleanedSection, userId});
+
+  const citedContextualizationIds = Object.keys(cleanedSection.notes).reduce((contents, noteId) => [
+    ...contents,
+    editedStory.sections[sectionId].notes[noteId].contents,
+  ], [editedStory.sections[sectionId].contents])
+  .reduce((entities, contents) =>
+    [
+      ...entities,
+      ...Object.keys(contents && contents.entityMap || {}).reduce((localEntities, entityId) => {
+        const entity = contents.entityMap[entityId];
+        const isContextualization = entity.type === 'INLINE_ASSET' || entity.type === 'BLOCK_ASSET';
+        if (isContextualization) {
+          return [...localEntities, entity.data.asset.id];
+        }
+        return localEntities;
+      }, [])
+    ],
+  []);
+  const uncitedContextualizations = Object.keys(editedStory.contextualizations)
+                                        .map(id => editedStory.contextualizations[id])
+                                        .filter((contextualization) => {
+                                          return contextualization.sectionId === sectionId && citedContextualizationIds.indexOf(contextualization.id) === -1;
+                                        });
+  uncitedContextualizations.forEach((contextualization) => {
+    const {contextualizerId, id: contextualizationId} = contextualization;
+    deleteContextualization({storyId, contextualizationId, userId});
+    deleteContextualizer({storyId, contextualizerId, userId});
+  });
+};

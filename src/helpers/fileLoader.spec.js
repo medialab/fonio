@@ -16,20 +16,18 @@ describe('fileLoader helpers', () => {
     const validFileNames = ['myfile.csv', 'myfile.tsv', 'myfile.dsv', 'myfile.doc.csv'];
     const invalidFileNames = ['', 'myfile', 'myfile_csv', 'myfile.csv.psd'];
 
-    it('should accept valid extensions', (done) => {
+    it('should accept valid extensions', () => {
       validFileNames.forEach(fileName => {
         const valid = validateFileExtensionForVisType(fileName, visualizationModel);
         return expect(valid).to.be.true;
       });
-      done();
     });
 
-    it('should not accept invalid extensions', (done) => {
+    it('should not accept invalid extensions', () => {
       invalidFileNames.forEach(fileName => {
         const valid = validateFileExtensionForVisType(fileName, visualizationModel);
         return expect(valid).to.be.false;
       });
-      done();
     });
   });
 });

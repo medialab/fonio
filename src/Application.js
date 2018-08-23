@@ -17,7 +17,6 @@ import {loadUserInfo} from './helpers/localStorageUtils';
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   Switch,
 } from 'react-router-dom';
 
@@ -35,11 +34,13 @@ import Library from './features/LibraryView/components/LibraryViewContainer';
 import Design from './features/DesignView/components/DesignViewContainer';
 import AuthWrapper from './features/AuthManager/components/AuthManagerContainer';
 import ErrorMessageContainer from './features/ErrorMessageManager/components/ErrorMessageContainer';
+import PageNotFound from './components/PageNotFound/';
 
 import * as connectionsDuck from './features/ConnectionsManager/duck';
 import * as userInfoDuck from './features/UserInfoManager/duck';
 
 import generateRandomUserInfo from './helpers/userInfo';
+
 
 import 'quinoa-design-library/themes/millet/style.css';
 import './Application.scss';
@@ -130,10 +131,7 @@ export default class Application extends Component {
                 <Route path="/story/:storyId" component={ProtectedRoutes} />
                 <Route exact path={'/read/:storyId'} component={ReadStory} />
                 <Route render={(props) => (
-                      // TODO: render proper loading/error page
-                  <h2>
-                        No match for {props.location.pathname}, go back to <Link to="/">Home page</Link>
-                  </h2>
+                  <PageNotFound pathName={props.location.pathname} />
                     )} />
               </Switch>
               }

@@ -8,6 +8,7 @@ import {
   withRouter,
 } from 'react-router';
 
+import config from '../../../config';
 
 import * as duck from '../duck';
 
@@ -17,9 +18,11 @@ import * as storyDuck from '../../StoryManager/duck';
 import DesignViewLayout from './DesignViewLayout';
 
 import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
+import DataUrlProvider from '../../../components/DataUrlProvider';
 
 @connect(
   state => ({
+    lang: state.i18nState && state.i18nState.lang,
     ...connectionsDuck.selector(state.connections),
     ...storyDuck.selector(state.editedStory),
     ...duck.selector(state.design),
@@ -37,7 +40,7 @@ class DesignViewContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.onUpdteCss = debounce(this.onUpdateCss, 500);
+    this.onUpdateCss = debounce(this.onUpdateCss, 500);
   }
 
   componentDidMount = () => {
@@ -74,13 +77,14 @@ class DesignViewContainer extends Component {
     }
 
     if (prevStoryId !== nextStoryId) {
-      this.unlockOnSection(this.props);
       this.requireLockOnDesign(nextProps);
     }
   }
 
   componentWillUnmount = () => {
+    this.onUpdateCss.cancel();
     this.unlockOnDesign(this.props);
+    this.props.actions.setCssHelpVisible(false);
   }
 
   unlockOnDesign = props => {
@@ -90,14 +94,17 @@ class DesignViewContainer extends Component {
           storyId
         }
       },
-      userId
-    } = props;
-    this.props.actions.leaveBlock({
-      storyId,
+      lockingMap,
       userId,
-      blockType: 'design',
-      blockId: 'design'
-    });
+    } = props;
+    if (lockingMap && lockingMap[storyId] && lockingMap[storyId].locks[userId]) {
+      this.props.actions.leaveBlock({
+        storyId,
+        userId,
+        blockType: 'design',
+        blockId: 'design'
+      });
+    }
   }
 
   requireLockOnDesign = props => {
@@ -144,7 +151,7 @@ class DesignViewContainer extends Component {
       userId,
       settings: {
         ...story.settings,
-        css
+        css,
       }
     });
   }
@@ -174,13 +181,15 @@ class DesignViewContainer extends Component {
     } = this;
     if (editedStory) {
       return (
-        <EditionUiWrapper>
-          <DesignViewLayout
-            story={this.props.editedStory}
-            onUpdateCss={onUpdateCss}
-            onUpdateSettings={onUpdateSettings}
-            {...this.props} />
-        </EditionUiWrapper>
+        <DataUrlProvider storyId={editedStory.id} serverUrl={config.apiUrl}>
+          <EditionUiWrapper>
+            <DesignViewLayout
+              story={this.props.editedStory}
+              onUpdateCss={onUpdateCss}
+              onUpdateSettings={onUpdateSettings}
+              {...this.props} />
+          </EditionUiWrapper>
+        </DataUrlProvider>
       );
     }
     return null;

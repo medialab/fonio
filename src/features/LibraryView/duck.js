@@ -10,7 +10,7 @@ import {createStructuredSelector} from 'reselect';
 
 import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 
-import resourceSchema from 'quinoa-schemas/resource';
+// import resourceSchema from 'quinoa-schemas/resource';
 
 /**
  * ===================================================
@@ -27,6 +27,9 @@ const SET_FILTER_VALUES = 'SET_FILTER_VALUES';
 const SET_SORT_VALUE = 'SET_SORT_VALUE';
 const SET_SEARCH_STRING = 'SET_SEARCH_STRING';
 const SET_PROMPTED_TO_DELETE_RESOURCE_ID = 'SET_PROMPTED_TO_DELETE_RESOURCE_ID';
+const SET_SELECTED_RESOURCES_IDS = 'SET_SELECTED_RESOURCES_IDS';
+const SET_STATUS_FILTER_VALUE = 'SET_STATUS_FILTER_VALUE';
+const SET_RESOURCES_PROMPTED_TO_DELETE = 'SET_RESOURCES_PROMPTED_TO_DELETE';
 
 /**
  * lock system
@@ -63,6 +66,18 @@ export const setPromptedToDeleteResourceId = payload => ({
   type: SET_PROMPTED_TO_DELETE_RESOURCE_ID,
   payload
 });
+export const setSelectedResourcesIds = payload => ({
+  type: SET_SELECTED_RESOURCES_IDS,
+  payload,
+});
+export const setStatusFilterValue = payload => ({
+  type: SET_STATUS_FILTER_VALUE,
+  payload,
+});
+export const setResourcesPromptedToDelete = payload => ({
+  type: SET_RESOURCES_PROMPTED_TO_DELETE,
+  payload,
+});
 /**
  * ===================================================
  * REDUCERS
@@ -72,20 +87,23 @@ export const setPromptedToDeleteResourceId = payload => ({
  * Default/fallback state of the ui state
  */
 
-const defaultFilterValues = Object.keys(resourceSchema.definitions)
-  .reduce((result, type) => ({
-    ...result,
-    [type]: true
-  }), {});
+// const defaultFilterValues = Object.keys(resourceSchema.definitions)
+//   .reduce((result, type) => ({
+//     ...result,
+//     [type]: true
+//   }), {});
 
 const UI_DEFAULT_STATE = {
   mainColumnMode: 'list',
   sortVisible: false,
   filterVisible: false,
   searchString: '',
-  filterValues: defaultFilterValues,
-  sortValue: 'title',
+  filterValues: [],
+  sortValue: 'edited recently',
   promptedToDeleteResourceId: undefined,
+  selectedResourcesIds: [],
+  statusFilterValue: 'all',
+  resourcesPromptedToDelete: [],
 };
 
 /**
@@ -105,6 +123,9 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_FILTER_VALUES:
     case SET_SORT_VALUE:
     case SET_PROMPTED_TO_DELETE_RESOURCE_ID:
+    case SET_SELECTED_RESOURCES_IDS:
+    case SET_STATUS_FILTER_VALUE:
+    case SET_RESOURCES_PROMPTED_TO_DELETE:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -148,6 +169,9 @@ const searchString = state => state.ui.searchString;
 const filterValues = state => state.ui.filterValues;
 const sortValue = state => state.ui.sortValue;
 const promptedToDeleteResourceId = state => state.ui.promptedToDeleteResourceId;
+const selectedResourcesIds = state => state.ui.selectedResourcesIds;
+const statusFilterValue = state => state.ui.statusFilterValue;
+const resourcesPromptedToDelete = state => state.ui.resourcesPromptedToDelete;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -160,4 +184,7 @@ export const selector = createStructuredSelector({
   filterValues,
   sortValue,
   promptedToDeleteResourceId,
+  selectedResourcesIds,
+  statusFilterValue,
+  resourcesPromptedToDelete,
 });

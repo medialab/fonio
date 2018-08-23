@@ -7,20 +7,24 @@
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {getResourceTitle, searchResources} from '../../helpers/resourcesUtils';
 
 const timers = {
   medium: 500
 };
 
 import {
-  Input,
-  Button,
+  // Input,
+  // Button,
   DropdownItem,
   DropdownContent,
   StretchedLayoutContainer,
   StretchedLayoutItem,
   Level,
+  Column,
 } from 'quinoa-design-library/components';
+
+import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
@@ -68,7 +72,9 @@ class ResourceSearchWidget extends Component {
     if (this.input) {
       setTimeout(() => {
         this.props.onAssetChoiceFocus();
-        this.input.focus();
+        if (this.input) {
+          this.input.focus();
+        }
       }, timers.medium);
     }
   }
@@ -154,64 +160,75 @@ class ResourceSearchWidget extends Component {
   render () {
     const {
       onAssetChoice,
-      addNewResource,
+      // addNewResource,
       options = []
     } = this.props;
     const context = this.context;
-
+    const blockAssetTypes = ['image', 'table', 'video', 'embed'];
     const onOptionClick = option => {
       onAssetChoice(option, this.props.contentId);
     };
 
-    const onAddNewClick = () => {
-      addNewResource();
-    };
+    // const onAddNewClick = () => {
+    //   addNewResource();
+    // };
     const bindRef = input => {
       this.input = input;
     };
     const translate = translateNameSpacer(context.t, 'Components.ResourceSearchWidget');
+    const allowedOptions = options.filter((option) => {
+      if (this.props.contentId !== 'main') {
+        return blockAssetTypes.indexOf(option.metadata.type) === -1;
+      }
+      return option;
+    });
+    const filteredOptions = this.state.searchTerm.length === 0 ? allowedOptions : searchResources(allowedOptions, this.state.searchTerm);
+    const bindElement = element => {
+      this.element = element;
+    };
     return (
-      <DropdownContent style={{paddingLeft: '1rem'}} className="fonio-ResourceSearchWidget">
-        <StretchedLayoutContainer>
-          <StretchedLayoutItem>
-            <form className="search-form" onSubmit={this.onSubmit}>
-              {/* <span className="arobase">@</span>*/}
-              <Input
-                ref={bindRef}
-                value={this.state.searchTerm}
-                onBlur={this.onBlur}
-                onChange={this.onTermChange}
-                onKeyUp={this.onKeyUp}
-                onClick={this.onInputClick}
-                placeholder={translate('search-a-resource')} />
-            </form>
-          </StretchedLayoutItem>
-          <StretchedLayoutItem isFlex={1}>
-            <Level />
-            {
-              options.filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
-              .length > 0 ?
+      <div ref={bindElement} style={{paddingLeft: '1rem'}} className="fonio-ResourceSearchWidget">
+        <DropdownContent>
+          <Column>
+            <StretchedLayoutContainer>
+              <StretchedLayoutItem>
+                <form className="search-form" onSubmit={this.onSubmit}>
+                  {/* <span className="arobase">@</span>*/}
+                  <input
+                    ref={bindRef}
+                    className="input"
+                    value={this.state.searchTerm}
+                    onBlur={this.onBlur}
+                    onChange={this.onTermChange}
+                    onKeyUp={this.onKeyUp}
+                    onClick={this.onInputClick}
+                    placeholder={translate('search-a-resource')} />
+                </form>
+              </StretchedLayoutItem>
+              <StretchedLayoutItem isFlex={1}>
+                <Level />
+                {
+              filteredOptions.length > 0 ?
 
                 <div className="choice-options-container" style={{maxHeight: '10rem', overflowX: 'hidden', overflowY: 'auto'}}>
                   {
-                options
-                .filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1)
+                filteredOptions
                 .map((option, index) => {
                   const onC = () => onOptionClick(option);
-                  let optionName;
+                  let optionName = getResourceTitle(option);
                   const {
-                    data,
                     metadata
                   } = option;
-                  if (metadata.type === 'bib') {
-                    optionName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
-                  }
-                  else if (metadata.type === 'glossary') {
-                    optionName = data.name && data.name.length ? data.name : translate('untitled-asset');
-                  }
-                  else {
-                    optionName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
-                  }
+                  // if (metadata.type === 'bib') {
+                  //   optionName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
+                  // }
+                  // else if (metadata.type === 'glossary') {
+                  //   optionName = data.name && data.name.length ? data.name : translate('untitled-asset');
+                  // }
+                  // else {
+                  //   optionName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
+                  // }
+                  optionName = optionName.length ? optionName : translate('untitled-asset');
                   return (
                     <DropdownItem
                       isFullWidth
@@ -219,6 +236,7 @@ class ResourceSearchWidget extends Component {
                       isActive={index === this.state.selectedItemIndex}
                       key={index}
                       onClick={onC}>
+                      <img src={icons[metadata.type].black.svg} style={{height: '1em', display: 'inline', paddingRight: '1em'}} />
                       {optionName}
                     </DropdownItem>
                   );
@@ -229,17 +247,19 @@ class ResourceSearchWidget extends Component {
                   {options.length ? translate('no items matching search') : translate('add items to your library in order to embed them')}
                 </DropdownItem>
           }
-          </StretchedLayoutItem>
-          <StretchedLayoutItem>
-            <Level />
-            <Button
-              isFullWidth isColor={'primary'} className="choice-option new-option"
-              onClick={onAddNewClick}>
-              {translate('add new item')}
-            </Button>
-          </StretchedLayoutItem>
-        </StretchedLayoutContainer>
-      </DropdownContent>
+              </StretchedLayoutItem>
+              {/*<StretchedLayoutItem>
+              <Level />
+              <Button
+                isFullWidth isColor={'primary'} className="choice-option new-option"
+                onClick={onAddNewClick}>
+                {translate('add new item')}
+              </Button>
+            </StretchedLayoutItem>*/}
+            </StretchedLayoutContainer>
+          </Column>
+        </DropdownContent>
+      </div>
     );
   }
 }

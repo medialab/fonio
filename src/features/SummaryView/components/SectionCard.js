@@ -3,16 +3,31 @@ import PropTypes from 'prop-types';
 
 import {SortableHandle} from 'react-sortable-hoc';
 
+import {Link} from 'react-router-dom';
+
+import config from '../../../config';
+
 import {
   Card,
+  Icon,
+    StretchedLayoutContainer,
+  StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
+
+import {
+  abbrevString,
+  computeSectionFirstWords
+} from '../../../helpers/misc';
 
 const SectionCard = ({
   section,
   goTo,
   lockData,
+  setSectionLevel,
+  // minified,
+  story,
   onDelete
 }, {t}) => {
 
@@ -23,6 +38,12 @@ const SectionCard = ({
       case 'delete':
         onDelete(section.id);
         break;
+      case 'higher':
+        setSectionLevel({sectionId: section.id, level: section.metadata.level - 1});
+        break;
+      case 'lower':
+        setSectionLevel({sectionId: section.id, level: section.metadata.level + 1});
+        break;
       case 'edit':
       default:
         goTo(section.id);
@@ -30,27 +51,24 @@ const SectionCard = ({
 
     }
   };
-  const computeFirstWords = () => {
-    if (section.contents
-        && section.contents.blocks
-        && section.contents.blocks[0]
-        && section.contents.blocks[0].text
-    ) {
-      return section.contents.blocks[0].text.length > 30 ?
-        <i>{`${section.contents.blocks[0].text.substr(0, 30)}...`}</i>
-        :
-        <i>{section.contents.blocks[0].text}</i>;
-    }
-    return '';
-  };
+
   return (
     <Card
-      title={section.metadata.title}
+      title={
+        <Link
+          to={`/story/${story.id}/section/${section.id}`}
+          data-tip={section.metadata.title}
+          data-for="tooltip"
+          isSize="medium"
+          data-place="bottom">
+          <span>
+            {abbrevString(section.metadata.title, 15)}
+          </span></Link>}
       subtitle={section.metadata.subtitle}
       lockStatus={lockData ? 'locked' : 'open'}
       statusMessage={lockData ? translate('edited by {n}', {n: lockData.name}) : translate('open for edition')}
       onAction={onAction}
-      bodyContent={computeFirstWords()}
+      bodyContent={<div style={{paddingLeft: '2.5rem'}}><i>{computeSectionFirstWords(section)}</i></div>}
       asideActions={[
         {
           label: translate('edit'),
@@ -78,6 +96,43 @@ const SectionCard = ({
         //   label: translate('duplicate'),
         //   id: 'duplicate'
         // }
+      ]}
+
+      footerActions={[
+        {
+          label: (
+            <StretchedLayoutContainer style={{alignItems: 'center', padding: '1rem'}} isAbsolute isDirection="horizontal">
+              <StretchedLayoutItem>
+                <Icon isSize="small" isAlign="left">
+                  <span className="fa fa-chevron-left" aria-hidden="true" />
+                </Icon>
+              </StretchedLayoutItem>
+              <StretchedLayoutItem isFlex={1}>
+                {translate('higher level')}
+              </StretchedLayoutItem>
+            </StretchedLayoutContainer>
+          ),
+          isDisabled: section.metadata.level === 0,
+          isColor: 'info',
+          id: 'higher'
+        },
+        {
+          label: (
+            <StretchedLayoutContainer style={{alignItems: 'center', padding: '1rem'}} isAbsolute isDirection="horizontal">
+              <StretchedLayoutItem isFlex={1}>
+                {translate('lower level')}
+              </StretchedLayoutItem>
+              <StretchedLayoutItem>
+                <Icon isSize="small" isAlign="left">
+                  <span className="fa fa-chevron-right" aria-hidden="true" />
+                </Icon>
+              </StretchedLayoutItem>
+            </StretchedLayoutContainer>
+          ),
+          isDisabled: section.metadata.level >= config.maxSectionLevel - 1,
+          isColor: 'info',
+          id: 'lower'
+        }
       ]} />
   );
 };

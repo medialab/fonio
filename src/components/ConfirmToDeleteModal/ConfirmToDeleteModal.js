@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import objectPath from 'object-path';
-
-import resourceSchema from 'quinoa-schemas/resource';
 
 import {
   ModalCard,
   Button,
 } from 'quinoa-design-library/components/';
 
+import {getResourceTitle} from '../../helpers/resourcesUtils';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
 
@@ -23,11 +21,6 @@ const ConfirmToDeleteModal = ({
 }, {t}) => {
 
   const translate = translateNameSpacer(t, 'Components.ConfirmToDeleteModal');
-  const getResourceTitle = (resource) => {
-    const titlePath = objectPath.get(resourceSchema, ['definitions', resource.metadata.type, 'title_path']);
-    const title = titlePath ? objectPath.get(resource, titlePath) : resource.metadata.title;
-    return title;
-  };
 
   let message;
   let citedContext;
@@ -60,7 +53,10 @@ const ConfirmToDeleteModal = ({
       mainContent={
         <div>
           {deleteType === 'resource' && citedContext.length > 0 &&
-            <div>{`This resource is cited ${citedContext.length} places of in your story,`}</div>}
+            <div>
+              {translate(['You will destroy one item mention in your content if you delete this item.', 'You will destroy {n} item mentions in your content if your delete this item.', 'n'],
+                        {n: citedContext.length})}
+            </div>}
           <div>{message}</div>
         </div>
       }
