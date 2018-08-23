@@ -15,7 +15,7 @@ ADD . /fonio
 WORKDIR /fonio
 
 RUN apk add --no-cache --virtual .build-deps git nodejs=8.9.3-r1 build-base python \
-    && npm install --quiet --production false \
+    && npm install --quiet --production false --no-audit \
     && npm run build:docker \
     && mv ./build/bundle.js ./build/bundle.js.template \
     && apk del .build-deps \
