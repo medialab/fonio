@@ -413,8 +413,7 @@ class ResourceForm extends Component {
       if (values.metadata.type) {
         const dataSchema = resourceSchema.definitions[values.metadata.type];
         const dataRequiredValues = dataSchema.required || [];
-        console.log(values);
-        console.log(validateResource(values));
+
         return {
           ...dataRequiredValues.reduce((result, key) => ({
             ...result,
