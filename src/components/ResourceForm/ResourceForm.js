@@ -203,7 +203,7 @@ class DataForm extends Component {
             Object.keys(metadata)
               .forEach(key => {
                 const existing = formApi.getValue(`metadata.${key}`);
-                if (!existing || (typeof existing === 'string' && !existing.trim().length) || (Array.isArray(existing) && !existing.length)) {
+                if ((!existing || (typeof existing === 'string' && !existing.trim().length) || (Array.isArray(existing) && !existing.length)) && metadata[key]) {
                   formApi.setValue(`metadata.${key}`, metadata[key]);
                 }
               });
@@ -260,7 +260,7 @@ class DataForm extends Component {
             Object.keys(metadata)
               .forEach(key => {
                 const existing = formApi.getValue(`metadata.${key}`);
-                if (!existing || (typeof existing === 'string' && !existing.trim().length) || (Array.isArray(existing) && !existing.length)) {
+                if ((!existing || (typeof existing === 'string' && !existing.trim().length) || (Array.isArray(existing) && !existing.length)) && metadata[key]) {
                   formApi.setValue(`metadata.${key}`, metadata[key]);
                 }
               });
@@ -413,6 +413,8 @@ class ResourceForm extends Component {
       if (values.metadata.type) {
         const dataSchema = resourceSchema.definitions[values.metadata.type];
         const dataRequiredValues = dataSchema.required || [];
+        console.log(values);
+        console.log(validateResource(values));
         return {
           ...dataRequiredValues.reduce((result, key) => ({
             ...result,
