@@ -91,7 +91,6 @@ class AuthorsManager extends Component {
                   <input
                     className="input"
                     ref={bindInput}
-                    isColor="success"
                     placeholder={translate('New author')}
                     value={author}
                     onChange={onAuthorChange} />

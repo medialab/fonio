@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import StoryPlayer from 'quinoa-story-player';
 import {render} from 'react-dom';
 
@@ -8,7 +9,25 @@ import {
 
 import {processCustomCss} from '../../../helpers/postcss';
 
+class ContextProvider extends Component {
+
+  static childContextTypes = {
+    getResourceDataUrl: PropTypes.func
+  }
+
+  getChildContext = () => ({
+    getResourceDataUrl: this.props.getResourceDataUrl,
+  })
+  render = () => {
+    return this.props.children;
+  }
+}
+
 class PreviewWrapper extends Component {
+
+  static contextTypes = {
+    getResourceDataUrl: PropTypes.func,
+  }
 
   componentDidMount = () => {
     setTimeout(() => this.update(this.props));
@@ -21,6 +40,7 @@ class PreviewWrapper extends Component {
 
   update = (props) => {
     const {story, lang} = props;
+    const {getResourceDataUrl} = this.context;
     const contentDocument = this.iframe && this.iframe.contentDocument;
     const contentWindow = this.iframe && this.iframe.contentWindow;
     if (contentDocument) {
@@ -31,26 +51,28 @@ class PreviewWrapper extends Component {
         contentDocument.body.appendChild(mount);
       }
       render(
-        <StoryPlayer
-          locale={lang}
-          story={{
-            ...story,
-            settings: {
-              ...story.settings,
-              css: processCustomCss(story.settings.css)
-            }
-          
-          }} 
-          usedDocument={contentDocument}
-          usedWindow={contentWindow}
-        />, mount);
+        <ContextProvider getResourceDataUrl={getResourceDataUrl}>
+          <StoryPlayer
+            locale={lang}
+            story={{
+              ...story,
+              settings: {
+                ...story.settings,
+                css: processCustomCss(story.settings.css)
+              }
+
+            }}
+            usedDocument={contentDocument}
+            usedWindow={contentWindow} />
+        </ContextProvider>
+        , mount);
     }
   }
   render = () => {
     const bindRef = iframe => {
       this.iframe = iframe;
-    }
-    
+    };
+
     return <iframe style={{width: '100%', height: '100%'}} ref={bindRef} />;
   }
 }

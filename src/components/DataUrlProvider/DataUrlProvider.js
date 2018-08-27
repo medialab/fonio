@@ -19,7 +19,7 @@ export default class DataUrlProvider extends Component {
     const {
       serverUrl,
     } = this.props;
-    return `${serverUrl}/static/${data.filePath}`;
+    return `${serverUrl}/static${data.filePath}`;
   }
 
   render = () => {

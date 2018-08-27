@@ -4,6 +4,7 @@
  */
 
 import {get} from 'axios';
+import exif from 'exif-js';
 
 import {v4 as genId} from 'uuid';
 
@@ -68,6 +69,76 @@ export function videoUrlIsValid(url) {
 }
 
 /**
+ * Forces the orientation of a base64 image
+ * @param {string} srcBase64 - base64 representation
+ * @param {number} srcOrientation - exif orientation code
+ */
+const resetOrientation = (srcBase64, srcOrientation) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+
+    img.onload = function() {
+      const width = img.width;
+      const height = img.height;
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // set proper canvas dimensions before transform & export
+      if (srcOrientation > 4 && srcOrientation < 9) {
+        canvas.width = height;
+        canvas.height = width;
+      }
+      else {
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      // transform context before drawing image
+      switch (srcOrientation) {
+        case 2: ctx.transform(-1, 0, 0, 1, width, 0); break;
+        case 3: ctx.transform(-1, 0, 0, -1, width, height); break;
+        case 4: ctx.transform(1, 0, 0, -1, 0, height); break;
+        case 5: ctx.transform(0, 1, 1, 0, 0, 0); break;
+        case 6: ctx.transform(0, 1, -1, 0, height, 0); break;
+        case 7: ctx.transform(0, -1, -1, 0, height, width); break;
+        case 8: ctx.transform(0, -1, 1, 0, 0, width); break;
+        default: break;
+      }
+
+      // draw image
+      ctx.drawImage(img, 0, 0);
+
+      // export base64
+      resolve(canvas.toDataURL());
+    };
+
+    img.src = srcBase64;
+  });
+
+};
+
+/**
+ * Fetches exif data out of a base64-represented image
+ */
+const getExifOrientation = base64 => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+
+    img.onload = function() {
+      exif.getData(img, function() {
+          const orientation = exif.getTag(this, 'Orientation');
+          if (orientation) {
+            resolve(orientation);
+          }
+          else resolve();
+      });
+    };
+
+    img.src = base64;
+  });
+};
+
+/**
  * Loads an image file in base64
  * todo: could be improved
  * @param {File} file - the file to load
@@ -77,7 +148,21 @@ export function loadImage(file) {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
     reader.onload = (event) => {
-      resolve(event.target.result);
+      const base64 = event.target.result;
+      getExifOrientation(base64)
+      .then(orientation => {
+        if (orientation) {
+          return resetOrientation(base64, orientation);
+        }
+ else {
+          return resolve(base64);
+        }
+      })
+      .then(newBase64 => resolve(newBase64))
+      .catch(e => {
+        console.error(e);/* eslint no-console : 0 */
+      });
+
       reader = undefined;
     };
     reader.onerror = (event) => {

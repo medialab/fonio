@@ -1,5 +1,5 @@
 {
-  "All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)": "Tous les raccourcis présentés ci-dessous sont également accessibles à travers l'interface graphique de l'éditeur (déplacer le curseur / sélectionner du texte).",
+  "All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)": "All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text).",
   "Components.AssetPreview.Description": "Description",
   "Components.AssetPreview.Source": "Source",
   "Components.AssetPreview.Unnamed resource": "Untitled item",
@@ -543,5 +543,6 @@
   "Features.LibraryView.delete": "delete",
   "Features.ErrorMessageContainer.This contextualization could not be added into note": "This contextualization could not be added into note",
   "Features.ErrorMessageContainer.This asset could not be added into note": "This asset could not be added into note",
-  "Features.HomeView.Provided thanks to the FORCCAST program": "Provided thanks to the FORCCAST program"
+  "Features.HomeView.Provided thanks to the FORCCAST program": "Provided thanks to the FORCCAST program",
+  "Features.SectionView.Untitled section": "Untitled section"
 }

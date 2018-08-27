@@ -453,6 +453,8 @@ class SectionEditor extends Component {
     } = this.props;
     const {id: sectionId} = activeSection;
     const mainEditorState = editorStates[sectionId];
+    // scroll to the position of deletion
+    this.editor.scrollToNotePointer(id);
     // remove related entity in main editor
     deleteNoteFromEditor(mainEditorState, id, newEditorState => {
       // remove note
@@ -469,7 +471,7 @@ class SectionEditor extends Component {
       updateDraftEditorState(sectionId, newEditorState);
       updateDraftEditorState(id, undefined);
       // focus on main editor
-      setEditorFocus('main');
+      setTimeout(() => setEditorFocus('main'));
     });
     // this.editor.focus('main');
   }
@@ -541,6 +543,7 @@ class SectionEditor extends Component {
     // this.props.setEditorFocus(undefined);
     setTimeout(() => {
       this.props.setEditorFocus(id);
+      this.editor.scrollToNote(id);
       // this.editor.focus(id);
     }, 500);
   }

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-8-23\n"
-"PO-Revision-Date: Thu Aug 23 2018 14:11:10 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-8-27\n"
+"PO-Revision-Date: Mon Aug 27 2018 14:16:11 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4816,6 +4816,9 @@ msgstr "This contextualization could not be added into note"
 
 msgid "Features.ErrorMessageContainer.This asset could not be added into note"
 msgstr "This asset could not be added into note"
+
+msgid "Features.SectionView.Untitled section"
+msgstr "Untitled section"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"
