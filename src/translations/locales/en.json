@@ -543,5 +543,6 @@
   "Features.LibraryView.delete": "delete",
   "Features.ErrorMessageContainer.This contextualization could not be added into note": "This contextualization could not be added into note",
   "Features.ErrorMessageContainer.This asset could not be added into note": "This asset could not be added into note",
-  "Features.HomeView.Provided thanks to the FORCCAST program": "Provided thanks to the FORCCAST program"
+  "Features.HomeView.Provided thanks to the FORCCAST program": "Provided thanks to the FORCCAST program",
+  "Features.SectionView.Untitled section": "Untitled section"
 }

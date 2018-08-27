@@ -287,7 +287,6 @@
   "Features.DesignView.What types of items to show in references": "Quels types d'items montrer dans les références",
   "Features.DesignView.You can style your story output with custom css rules.": "Vous pouvez mettre en forme votre page web au moyen de règles css spécifiques à ce récit.",
   "Features.DesignView.You might need to use the !important suffix for some rules as you want to override initial ones.": "Il est possible qu'il vous faille utiliser le suffixe !important pour certaines des règles afin d'écraser les règles initiales.",
-  "Features.DesignView.You will need to use the !important suffix for some rules as you want to override initial rules.": "You will need to use the !important suffix for some rules as you want to override initial rules.",
   "Features.DesignView.add": "ajouter",
   "Features.DesignView.all items": "tous les items",
   "Features.DesignView.bib": "références",
@@ -414,7 +413,7 @@
   "Features.LibraryView.Up to {n} files, with a maximum size of {s} Mb each": "Jusqu'à {n} fichiers, avec une taille maximale de {s} Mo chacun",
   "Features.LibraryView.You will destroy one item mention in your content if you delete these items.": "Vous allez détruire une mention de cet item dans vos contenus si vous le supprimez.",
   "Features.LibraryView.You will destroy {n} item mentions in your content if your delete these items.": "Vous allez détruire {n} mentions de cet item dans vos contenus si vous le supprimez.",
-  "Features.LibraryView.Your library contains all the items (references, images, visualizations...) that can be used within the story.": "Your library contains all the items (references, images, visualizations...) that can be used within the story.",
+  "Features.LibraryView.Your library contains all the items (references, images, visualizations...) that can be used within the story.": "Votre bibliothèque contient tous les items pouvant être utilisés dans votre récit.",
   "Features.LibraryView.Your library contains all the items that can be used within the story.": "La bibliothèque accueille tous les items qui peuvent être utilisés dans ce récit.",
   "Features.LibraryView.Your library contains all the resources (references, images, visualizations...) that can be used within the story.": "La bibliothèque contient tous les items (références, images, visualisations,...) pouvant être utilisés dans le récit.",
   "Features.LibraryView.all items": "tous les items",
@@ -542,6 +541,7 @@
   "Components.LinkModal.Cancel": "Annuler",
   "Features.LibraryView.edit": "éditer",
   "Features.LibraryView.delete": "supprimer",
-  "Features.ErrorMessageContainer.This contextualization could not be added into note": "This contextualization could not be added into note",
-  "Features.ErrorMessageContainer.This asset could not be added into note": "This asset could not be added into note"
+  "Features.ErrorMessageContainer.This contextualization could not be added into note": "Cette mention n'a pas pu être ajoutée à la note.",
+  "Features.ErrorMessageContainer.This asset could not be added into note": "Cet élément n'a pas pu être ajouté à la note.",
+  "Features.SectionView.Untitled section": "Section sans titre"
 }
