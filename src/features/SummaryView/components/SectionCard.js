@@ -59,7 +59,6 @@ const SectionCard = ({
           to={`/story/${story.id}/section/${section.id}`}
           data-tip={section.metadata.title}
           data-for="tooltip"
-          isSize="medium"
           data-place="bottom">
           <span>
             {abbrevString(section.metadata.title, 15)}
