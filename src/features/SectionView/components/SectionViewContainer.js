@@ -271,37 +271,43 @@ class SectionViewContainer extends Component {
     //     .then(res => resolve(res.filter(result => !result.success)))
     //     .catch(err => reject(err));
     // });
-    const {setErrorMessage} = this.props.actions;
-    if (files.length > maxBatchNumber) {
-      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded'});
-      return;
-    }
-    const validFiles = validateFiles(files);
-    if (validFiles.length === 0) {
-      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Files extends maximum size to upload'});
-      return;
-    }
-    if (validFiles.length < files.length) {
-      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Some files larger than maximum size'});
-    }
-    const errors = [];
-    validFiles.reduce((curr, next) => {
-      return curr.then(() =>
-        createResourceData(next, this.props)
-        .then((res) => {
-          if (res && !res.success) errors.push(res);
-        })
-      );
-    }, Promise.resolve())
-    .then(() => {
-      if (errors.length > 0) {
-        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: errors});
+    this.props.actions.setEditorBlocked(true);
+    setTimeout(() => {
+      const {setErrorMessage} = this.props.actions;
+      if (files.length > maxBatchNumber) {
+        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded'});
+        return;
       }
-      this.props.actions.setMainColumnMode('edition');
-    })
-    .catch((error) => {
-      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error});
-    });
+      const validFiles = validateFiles(files);
+      if (validFiles.length === 0) {
+        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Files extends maximum size to upload'});
+        return;
+      }
+      if (validFiles.length < files.length) {
+        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Some files larger than maximum size'});
+      }
+      const errors = [];
+      validFiles.reduce((curr, next) => {
+        return curr.then(() =>
+          createResourceData(next, this.props)
+          .then((res) => {
+            if (res && !res.success) errors.push(res);
+          })
+        );
+      }, Promise.resolve())
+      .then(() => {
+        if (errors.length > 0) {
+          setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: errors});
+        }
+        this.props.actions.setMainColumnMode('edition');
+        this.props.actions.setEditorBlocked(false);
+      })
+      .catch((error) => {
+        this.props.actions.setEditorBlocked(false);
+        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error});
+      });
+    }, 100);
+
   }
 
   onSummonAsset = (contentId, resourceId) => summonAsset(contentId, resourceId, this.props);
