@@ -5,6 +5,8 @@ import {render} from 'react-dom';
 
 import {
   Column,
+  Button,
+  Icon,
 } from 'quinoa-design-library/components/';
 
 import {processCustomCss} from '../../../helpers/postcss';
@@ -73,7 +75,9 @@ class PreviewWrapper extends Component {
       this.iframe = iframe;
     };
 
-    return <iframe style={{width: '100%', height: '100%'}} ref={bindRef} />;
+    return (<iframe
+      name="preview" id="preview" style={{width: '100%', height: '100%'}}
+      ref={bindRef} />);
   }
 }
 
@@ -96,6 +100,21 @@ const MainDesignColumn = ({
             css: processCustomCss(story.settings.css)
           }
         }} />*/}
+      <Button
+        style={{
+          position: 'absolute',
+          right: '1rem',
+          bottom: '1rem'
+        }}
+        className="is-rounded"
+        onClick={() => {
+          window.frames.preview.focus();
+          window.frames.preview.print();
+        }}>
+        <Icon isSize="small" isAlign="left">
+          <span className="fa fa-print" aria-hidden="true" />
+        </Icon>
+      </Button>
     </Column>
   );
 };
