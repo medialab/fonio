@@ -21,10 +21,24 @@ import {FETCH_STORIES,
 } from '../HomeView/duck';
 import {
   ACTIVATE_STORY,
+  CREATE_RESOURCE,
+  UPDATE_RESOURCE,
   UPLOAD_RESOURCE,
   DELETE_UPLOADED_RESOURCE,
+  DELETE_RESOURCE,
+  UPDATE_STORY_METADATA,
+  UPDATE_STORY_SETTINGS,
+  UPDATE_SECTIONS_ORDER,
+  SET_SECTION_LEVEL,
+  CREATE_SECTION,
+  UPDATE_SECTION,
   DELETE_SECTION,
-  DELETE_RESOURCE
+  CREATE_CONTEXTUALIZATION,
+  UPDATE_CONTEXTUALIZATION,
+  DELETE_CONTEXTUALIZATION,
+  CREATE_CONTEXTUALIZER,
+  UPDATE_CONTEXTUALIZER,
+  DELETE_CONTEXTUALIZER
 } from '../StoryManager/duck';
 
 export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
@@ -96,8 +110,23 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
     case `${DELETE_STORY}_FAIL`:
     // case `${LOGIN_STORY}_FAIL`:
     case `${CHANGE_PASSWORD}_FAIL`:
+    case `${CREATE_RESOURCE}_FAIL`:
+    case `${UPDATE_RESOURCE}_FAIL`:
     case `${UPLOAD_RESOURCE}_FAIL`:
     case `${DELETE_UPLOADED_RESOURCE}_FAIL`:
+    case `${UPDATE_STORY_METADATA}_FAIL`:
+    case `${UPDATE_STORY_SETTINGS}_FAIL`:
+    case `${UPDATE_SECTIONS_ORDER}_FAIL`:
+    case `${SET_SECTION_LEVEL}_FAIL`:
+    case `${CREATE_SECTION}_FAIL`:
+    case `${UPDATE_SECTION}_FAIL`:
+    case `${CREATE_CONTEXTUALIZATION}_FAIL`:
+    case `${UPDATE_CONTEXTUALIZATION}_FAIL`:
+    case `${DELETE_CONTEXTUALIZATION}_FAIL`:
+    case `${CREATE_CONTEXTUALIZER}_FAIL`:
+    case `${UPDATE_CONTEXTUALIZER}_FAIL`:
+    case `${DELETE_CONTEXTUALIZER}_FAIL`:
+      // TODO: Need to find a better way to display this validation error in toaster
       console.error(action);/* eslint no-console : 0 */
       return {
         ...state,

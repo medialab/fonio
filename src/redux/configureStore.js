@@ -10,8 +10,8 @@ import {
 } from 'redux';
 import rootReducer from './rootReducer';
 import promiseMiddleware from './promiseMiddleware';
+import Validator from './payloadValidatorMiddleware';
 import {loadingBarMiddleware} from 'react-redux-loading-bar';
-import Validator from 'redux-validator';
 
 import {CONNECT_ERROR, RECONNECT} from '../features/ErrorMessageManager/duck';
 
