@@ -19,8 +19,10 @@ module.exports = {
       }
     })),
 
-    output: {
-      path: "/build",
-      publicPath: '@@URL_PREFIX@@/build/'
-    }
+  devtool: 'source-map',
+
+  output: {
+    path: '/build',
+    publicPath: '@@URL_PREFIX@@/build/'
+  }
 };

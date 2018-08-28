@@ -26,8 +26,10 @@ module.exports = {
       analyzerMode: 'disabled'
     })),
 
-    output: {
-      path: "/build",
-      publicPath: urlPrefix && urlPrefix.length ? urlPrefix + "/build/" : '/build/'
-    }
+  devtool: 'source-map',
+
+  output: {
+    path: '/build',
+    publicPath: urlPrefix && urlPrefix.length ? urlPrefix + '/build/' : '/build/'
+  }
 };
