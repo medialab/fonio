@@ -647,11 +647,17 @@ export const handleCopy = function(event) {
         // textSelection = textSelection.merge({
         //   focusOffset: from + 1
         // });
-        contentState = Modifier.applyEntity(
-          contentState,
-          textSelection,
-          entityKey
-        );
+        try {
+          contentState = Modifier.applyEntity(
+            contentState,
+            textSelection,
+            entityKey
+          );
+        }
+        catch (e) {/* eslint no-empty : 0 */
+
+        }
+
       });
       // applying updated editor state
       activeEditorState = EditorState.push(
