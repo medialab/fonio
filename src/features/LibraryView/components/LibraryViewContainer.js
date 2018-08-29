@@ -55,7 +55,7 @@ class LibraryViewContainer extends Component {
     const {
       userId,
       editedStory: story,
-      lockingMap,
+      lockingMap = {},
       actions: {
         leaveBlock
       }
@@ -64,7 +64,7 @@ class LibraryViewContainer extends Component {
       id: storyId
     } = story;
 
-    const locks = lockingMap[storyId].locks;
+    const locks = lockingMap[storyId] && lockingMap[storyId].locks || {};
     const userLocks = locks[userId];
 
     if (userLocks && userLocks.resources) {

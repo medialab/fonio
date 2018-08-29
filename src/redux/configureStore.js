@@ -65,7 +65,7 @@ export default function configureStore (initialState = {}) {
     initialState,
   );
 
-  const connectionErrors = ['connect_error', 'reconnect_failed', 'reconnect_error'];
+  const connectionErrors = ['connect_error', 'reconnect_failed', 'reconnect_error', 'disconnect'];
   connectionErrors.forEach(message => {
     socket.on(message, error => {
       store.dispatch({
@@ -81,7 +81,6 @@ socket.on('reconnect', error => {
     error
   });
 });
-
 
   // live-reloading handling
   if (module.hot) {
