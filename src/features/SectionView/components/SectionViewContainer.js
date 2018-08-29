@@ -411,9 +411,6 @@ class SectionViewContainer extends Component {
           }
         },
         editorBlocked,
-        actions: {
-          setEditorBlocked
-        }
       },
       goToSection,
       onSummonAsset,
@@ -445,7 +442,6 @@ class SectionViewContainer extends Component {
                 {...this.props} />
               <ModalCard
                 isActive={editorBlocked}
-                onClose={() => setEditorBlocked(false)}
                 headerContent={translate('Please wait...')}
                 mainContent={
                   <div>
