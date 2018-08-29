@@ -70,7 +70,7 @@ class ErrorMessageContainer extends Component {
 
   componentDidMount = () => {
     const browserInfo = getBrowserInfo();
-    const accepted = ACCEPTED_BROWSERS.find(browser => browserInfo.name === browser.id && +browserInfo.version >= browser.version);
+    const accepted = browserInfo.name !== undefined && browserInfo.version !== undefined && ACCEPTED_BROWSERS.find(browser => browserInfo.name === browser.id && +browserInfo.version >= browser.version);
     if (!accepted) {
       this.props.actions.setBrowserWarning(browserInfo);
     }
