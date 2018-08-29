@@ -545,5 +545,7 @@
   "Features.SectionView.Untitled section": "Section sans titre",
   "Features.DesignView.You will need to use the !important suffix for some rules as you want to override initial rules.": "You will need to use the !important suffix for some rules as you want to override initial rules.",
   "Components.SectionCard.Untitled section": "Section sans titre",
-  "Components.SectionCard.Title level {n}": "Niveau de titre {n}"
+  "Components.SectionCard.Title level {n}": "Niveau de titre {n}",
+  "Features.HomeView.The source code of Fonio is licensed under free software licenses <a target=\"blank\" href=\"http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.html\">CeCILL-B</a> and <a target=\"blank\" href=\"http://www.gnu.org/licenses/agpl-3.0.html\">AGPL v3</a>": "Le code source de Fonio est partagé selon les licenses libres <a target=\"blank\" href=\"http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.html\">CeCILL-B</a> et <a target=\"blank\" href=\"http://www.gnu.org/licenses/agpl-3.0.html\">AGPL v3</a>",
+  "Features.HomeView.The source code of Fonio is licensed under free software license <a target=\"blank\" href=\"http://www.gnu.org/licenses/agpl-3.0.html\">AGPL v3</a>": "html\">AGPL v3</a>"
 }
