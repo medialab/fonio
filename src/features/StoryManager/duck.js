@@ -348,7 +348,7 @@ export const uploadResource = (payload, mode) => ({
   },
 });
 
-export const deleteUploadedResource = payload => ({
+export const deleteUploadedResource = (payload, callback) => ({
   type: DELETE_UPLOADED_RESOURCE,
   payload,
   promise: () => {
@@ -360,7 +360,17 @@ export const deleteUploadedResource = payload => ({
       },
     };
     const serverRequestUrl = `${config.restUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
-    return del(serverRequestUrl, options);
+    return del(serverRequestUrl, options)
+            .then(thatPayload => {
+              if (typeof callback === 'function') {
+                callback(null, thatPayload);
+              }
+            })
+            .catch(error => {
+              if (typeof callback === 'function') {
+                callback(error);
+              }
+            });
   },
 });
 /**

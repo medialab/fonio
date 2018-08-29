@@ -108,6 +108,8 @@ class LibraryViewLayout extends Component {
       promptedToDeleteResourceId,
       selectedResourcesIds,
       resourcesPromptedToDelete,
+      isBatchDeleting,
+      resourceDeleteStep,
       actions: {
         setOptionsVisible,
         setMainColumnMode,
@@ -128,6 +130,8 @@ class LibraryViewLayout extends Component {
         updateSection,
         setSelectedResourcesIds,
         setResourcesPromptedToDelete,
+        setIsBatchDeleting,
+        setResourceDeleteStep,
       },
       submitMultiResources,
     } = this.props;
@@ -311,6 +315,7 @@ class LibraryViewLayout extends Component {
     };
 
     const onDeleteResourcesPromptedToDelete = () => {
+      setIsBatchDeleting(true);
       // cannot mutualize with single resource deletion for now
       // because section contents changes must be done all in the same time
       // @todo try to factor this
@@ -378,34 +383,56 @@ class LibraryViewLayout extends Component {
         return tempFinalSections;
       }, {});
 
-      Object.keys(finalChangedSections).forEach(sectionId => {
+      Object.keys(finalChangedSections).forEach((sectionId) => {
         updateSection({
           sectionId,
           storyId: story.id,
           userId,
           section: finalChangedSections[sectionId],
         });
+
       });
 
       // 2. delete the resources
-      actualResourcesPromptedToDelete.forEach(resourceId => {
-        const resource = resources[resourceId];
-        const payload = {
-          storyId,
-          userId,
-          resourceId
-        };
-        // deleting the resource
-        if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
-          deleteUploadedResource(payload);
-        }
-        else {
-          deleteResource(payload);
-        }
+      actualResourcesPromptedToDelete.reduce((cur, resourceId, index) => {
+        return cur.then(() => {
+          return new Promise((resolve, reject) => {
+            const resource = resources[resourceId];
+            const payload = {
+              storyId,
+              userId,
+              resourceId
+            };
+            setResourceDeleteStep(index);
+            // deleting the resource
+            if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
+              deleteUploadedResource(payload, (err) => {
+                if (err) {
+                  reject(err);
+                }
+                else resolve();
+              });
+            }
+            else {
+              deleteResource(payload, (err) => {
+                if (err) {
+                  reject(err);
+                }
+                else resolve();
+              });
+            }
+          });
+        });
+
+      }, Promise.resolve())
+      .then(() => {
+        setResourceDeleteStep(0);
+        setResourcesPromptedToDelete([]);
+        setSelectedResourcesIds([]);
+        setIsBatchDeleting(false);
+        setPromptedToDeleteResourceId(undefined);
       });
-      setPromptedToDeleteResourceId(undefined);
-      setResourcesPromptedToDelete([]);
-      setSelectedResourcesIds([]);
+
     };
 
     let endangeredContextualizationsLength = 0;
@@ -741,6 +768,15 @@ class LibraryViewLayout extends Component {
             </Column>
           </StretchedLayoutItem>
         </StretchedLayoutContainer>
+
+        <ModalCard
+          isActive={isBatchDeleting}
+          headerContent={translate(['Deleting an item', 'Deleting {n} items', 'n'], {n: actualResourcesPromptedToDelete.length})}
+          mainContent={
+            <div>
+              {translate('Deleting item {k} of {n}', {k: resourceDeleteStep + 1, n: actualResourcesPromptedToDelete.length})}
+            </div>
+          } />
       </Container>
     );
   }

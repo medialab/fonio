@@ -30,6 +30,8 @@ const SET_PROMPTED_TO_DELETE_RESOURCE_ID = 'SET_PROMPTED_TO_DELETE_RESOURCE_ID';
 const SET_SELECTED_RESOURCES_IDS = 'SET_SELECTED_RESOURCES_IDS';
 const SET_STATUS_FILTER_VALUE = 'SET_STATUS_FILTER_VALUE';
 const SET_RESOURCES_PROMPTED_TO_DELETE = 'SET_RESOURCES_PROMPTED_TO_DELETE';
+const SET_IS_BATCH_DELETING = 'SET_IS_BATCH_DELETING';
+const SET_RESOURCE_DELETE_STEP = 'SET_RESOURCE_DELETE_STEP';
 
 /**
  * lock system
@@ -78,6 +80,14 @@ export const setResourcesPromptedToDelete = payload => ({
   type: SET_RESOURCES_PROMPTED_TO_DELETE,
   payload,
 });
+export const setIsBatchDeleting = payload => ({
+  type: SET_IS_BATCH_DELETING,
+  payload,
+});
+export const setResourceDeleteStep = payload => ({
+  type: SET_RESOURCE_DELETE_STEP,
+  payload,
+});
 /**
  * ===================================================
  * REDUCERS
@@ -104,6 +114,8 @@ const UI_DEFAULT_STATE = {
   selectedResourcesIds: [],
   statusFilterValue: 'all',
   resourcesPromptedToDelete: [],
+  isBatchDeleting: false,
+  resourceDeleteStep: 0
 };
 
 /**
@@ -126,6 +138,8 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_SELECTED_RESOURCES_IDS:
     case SET_STATUS_FILTER_VALUE:
     case SET_RESOURCES_PROMPTED_TO_DELETE:
+    case SET_IS_BATCH_DELETING:
+    case SET_RESOURCE_DELETE_STEP:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -172,6 +186,8 @@ const promptedToDeleteResourceId = state => state.ui.promptedToDeleteResourceId;
 const selectedResourcesIds = state => state.ui.selectedResourcesIds;
 const statusFilterValue = state => state.ui.statusFilterValue;
 const resourcesPromptedToDelete = state => state.ui.resourcesPromptedToDelete;
+const isBatchDeleting = state => state.ui.isBatchDeleting;
+const resourceDeleteStep = state => state.ui.resourceDeleteStep;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -187,4 +203,6 @@ export const selector = createStructuredSelector({
   selectedResourcesIds,
   statusFilterValue,
   resourcesPromptedToDelete,
+  isBatchDeleting,
+  resourceDeleteStep,
 });
