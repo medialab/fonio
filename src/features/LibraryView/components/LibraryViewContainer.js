@@ -91,7 +91,7 @@ class LibraryViewContainer extends Component {
     }
     const validFiles = validateFiles(files);
     if (validFiles.length === 0) {
-      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Files extends maximum size to upload'});
+      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'No valid files to upload'});
       return;
     }
     if (validFiles.length < files.length) {

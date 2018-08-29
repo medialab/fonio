@@ -155,12 +155,17 @@ class ErrorMessageContainer extends Component {
             return this.translate('You tried to upload too many files at the same time. ') + this.translate('Please split your uploads in smaller groups !');
           case 'Files extends maximum size to upload':
             return this.translate('The total length of the files you tried to upload extends maximum size to upload. ') + this.translate('Please split your uploads in smaller groups !');
+          case 'No valid files to upload':
+            return this.translate('No valid files to upload, your files are either too big or not in the right format.');
           case 'Some files larger than maximum file size':
             return this.translate('Some files are larger than the maximum file size allowed, they were not added to the library.');
           default:
             return undefined;
         }
       }
+    },
+    [`${'UPDATE_SECTION_FAIL'}`]: {
+      title: () => this.translate('The section could not be updated with your last changes')
     },
     [`${'CREATE_CONTEXTUALIZATION_NOTE_FAIL'}`]: {
       title: () => this.translate('This asset could not be added into note')

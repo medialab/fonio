@@ -177,6 +177,14 @@ class SectionViewContainer extends Component {
     }
   }
 
+  // componentWillUpdate = () => {
+  //   console.time('container update time');/* eslint no-console: 0 */
+  // }
+
+  // componentDidUpdate = () => {
+  //   console.timeEnd('container update time');/* eslint no-console: 0 */
+  // }
+
   componentWillUnmount = () => {
     this.unlockOnSection(this.props);
     this.props.actions.setEditedSectionId(undefined);
@@ -280,7 +288,7 @@ class SectionViewContainer extends Component {
       }
       const validFiles = validateFiles(files);
       if (validFiles.length === 0) {
-        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Files extends maximum size to upload'});
+        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'No valid files to upload'});
         return;
       }
       if (validFiles.length < files.length) {
