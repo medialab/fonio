@@ -26,7 +26,7 @@ import {
 } from 'quinoa-design-library/components';
 
 
-import QuinoaPresentationPlayer from 'quinoa-presentation-player';
+// import QuinoaPresentationPlayer from 'quinoa-presentation-player';
 import BibliographicPreview from '../BibliographicPreview';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 import {loadResourceData} from '../../helpers/assetsUtils';
@@ -179,11 +179,11 @@ class AssetPreview extends Component {
         return (
           <div className="player-container"><Player url={data.url} /></div>
         );
-      case 'data-presentation':
-        return (
-          (data.json || this.state.data) && <QuinoaPresentationPlayer
-            presentation={data.json || this.state.data} />
-        );
+      // case 'data-presentation':
+      //   return (
+      //     (data.json || this.state.data) && <QuinoaPresentationPlayer
+      //       presentation={data.json || this.state.data} />
+      //   );
       case 'webpage':
         return (<iframe src={data.url} />);
       case 'embed':
