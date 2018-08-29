@@ -743,8 +743,8 @@ class SectionEditor extends Component {
    * @param {ImmutableRecord} inputContentState - the content state to parse
    */
   findDraftDropPlaceholder = (contentBlock, callback) => {
-    const PLACE_HLODER_REGEX = /(DRAFTJS_RESOURCE_ID:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/gi;
-    this.findWithRegex(PLACE_HLODER_REGEX, contentBlock, callback);
+    const PLACE_HOLDER_REGEX = /(DRAFTJS_RESOURCE_ID:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/gi;
+    this.findWithRegex(PLACE_HOLDER_REGEX, contentBlock, callback);
   }
   /**
    * Draft.js strategy for finding native links
