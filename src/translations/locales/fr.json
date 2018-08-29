@@ -553,5 +553,8 @@
   "Features.LibraryView.Deleting an item": "Suppression d'un item",
   "Features.LibraryView.Deleting {n} items": "Suppression de {n} items",
   "Features.LibraryView.Deleting item {k} of {n}": "Suppression de l'item {k} sur {n}",
-  "Features.LibraryView.Deleting {n} item": "Suppression de {n} items"
+  "Features.LibraryView.Deleting {n} item": "Suppression de {n} items",
+  "Components.PaginatedList.previous": "précédent",
+  "Components.PaginatedList.next": "suivant",
+  "Features.LibraryView.No item in your library yet": "Pas encore d'items dans votre bibliothèque."
 }

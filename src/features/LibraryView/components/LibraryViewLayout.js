@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import {v4 as genId} from 'uuid';
 import {isEmpty, debounce, uniq} from 'lodash';
 
-import FlipMove from 'react-flip-move';
-
 import config from '../../../config';
+
 
 import resourceSchema from 'quinoa-schemas/resource';
 import {getResourceTitle, searchResources} from '../../../helpers/resourcesUtils';
 import {createBibData} from '../../../helpers/resourcesUtils';
+import PaginatedList from '../../../components/PaginatedList';
 
 
 import {
@@ -136,6 +136,7 @@ class LibraryViewLayout extends Component {
       submitMultiResources,
     } = this.props;
     const {t} = this.context;
+
 
     const {
       resources = {},
@@ -383,48 +384,56 @@ class LibraryViewLayout extends Component {
         return tempFinalSections;
       }, {});
 
-      Object.keys(finalChangedSections).forEach((sectionId) => {
-        updateSection({
-          sectionId,
-          storyId: story.id,
-          userId,
-          section: finalChangedSections[sectionId],
-        });
-
-      });
-
-      // 2. delete the resources
-      actualResourcesPromptedToDelete.reduce((cur, resourceId, index) => {
-        return cur.then(() => {
-          return new Promise((resolve, reject) => {
-            const resource = resources[resourceId];
-            const payload = {
-              storyId,
-              userId,
-              resourceId
-            };
-            setResourceDeleteStep(index);
-            // deleting the resource
-            if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
-              deleteUploadedResource(payload, (err) => {
-                if (err) {
-                  reject(err);
-                }
-                else resolve();
-              });
+      Object.keys(finalChangedSections).reduce((cur, sectionId) => {
+        return cur.
+        then(() => new Promise((resolve, reject) => {
+          updateSection({
+            sectionId,
+            storyId: story.id,
+            userId,
+            section: finalChangedSections[sectionId],
+          }, (err) => {
+            if (err) {
+              reject(err);
             }
-            else {
-              deleteResource(payload, (err) => {
-                if (err) {
-                  reject(err);
-                }
-                else resolve();
-              });
-            }
+ else resolve();
           });
-        });
+        }));
 
       }, Promise.resolve())
+      .then(() => {
+        return actualResourcesPromptedToDelete.reduce((cur, resourceId, index) => {
+          return cur.then(() => {
+            return new Promise((resolve, reject) => {
+              const resource = resources[resourceId];
+              const payload = {
+                storyId,
+                userId,
+                resourceId
+              };
+              setResourceDeleteStep(index);
+              // deleting the resource
+              if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
+                deleteUploadedResource(payload, (err) => {
+                  if (err) {
+                    reject(err);
+                  }
+                  else resolve();
+                });
+              }
+              else {
+                deleteResource(payload, (err) => {
+                  if (err) {
+                    reject(err);
+                  }
+                  else resolve();
+                });
+              }
+            });
+          });
+        }, Promise.resolve());
+      })
+      // 2. delete the resources
       .then(() => {
         setResourceDeleteStep(0);
         setResourcesPromptedToDelete([]);
@@ -624,11 +633,14 @@ class LibraryViewLayout extends Component {
                   </Column>
                 </Column>
               </StretchedLayoutItem>
-              <StretchedLayoutItem isFlex={1} isFlowing>
-                <Column>
-                  <FlipMove style={{display: 'flex', flexFlow: 'row wrap'}}>
-                    {
-                        visibleResources.map(resource => {
+              <StretchedLayoutItem isFlex={1}>
+                <StretchedLayoutContainer isAbsolute isDirection="vertical">
+                  <PaginatedList
+                    items={visibleResources}
+                    itemsPerPage={9}
+                    style={{height: '100%'}}
+                    renderNoItem={() => <div>{translate('No item in your library yet')}</div>}
+                    renderItem={resource => {
                           const handleEdit = () => {
                             enterBlock({
                               storyId,
@@ -665,10 +677,9 @@ class LibraryViewLayout extends Component {
                               lockData={resourcesLockMap[resource.id]}
                               key={resource.id} />
                           );
-                        })
-                      }
-                  </FlipMove>
-                </Column>
+                        }} />
+
+                </StretchedLayoutContainer>
               </StretchedLayoutItem>
               <ConfirmToDeleteModal
                 isActive={promptedToDeleteResourceId !== undefined}

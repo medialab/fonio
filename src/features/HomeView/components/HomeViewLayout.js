@@ -711,12 +711,12 @@ class HomeViewLayout extends Component {
                   }} />
               <p>{this.translate('Avatar icons courtesy of ')}<a target="blank" href="https://www.flaticon.com/packs/people-faces">Freepik</a>.</p>
               <p>
-              <span 
-                dangerouslySetInnerHTML={{
+                <span
+                  dangerouslySetInnerHTML={{
                 __html: this.translate('The source code of Fonio is licensed under free software license <a target="blank" href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3</a>')
-              }}/>
-              {this.translate(' and is hosted on ')}
-              <a target="blank" href="https://github.com/medialab/fonio/">Github</a>.</p>
+              }} />
+                {this.translate(' and is hosted on ')}
+                <a target="blank" href="https://github.com/medialab/fonio/">Github</a>.</p>
             </Content>
           </Container>
         </Footer>
