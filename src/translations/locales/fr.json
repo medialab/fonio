@@ -558,5 +558,7 @@
   "Components.PaginatedList.next": "suivant",
   "Features.LibraryView.No item in your library yet": "Pas encore d'items dans votre bibliothèque.",
   "Components.ResourceForm.Drop a bib file": "Déposer un fichier .bib",
-  "Components.ResourceForm.File is too large ({s} Mb), please choose one under {m} Mb": "Fichier trop gros ({s} Mb), veuillez en choisir un de moins de {m} Mo"
+  "Components.ResourceForm.File is too large ({s} Mb), please choose one under {m} Mb": "Fichier trop gros ({s} Mb), veuillez en choisir un de moins de {m} Mo",
+  "Features.EditionUiWrapper.Home": "Accueil",
+  "Components.ResourceForm.File is too large, please choose a smaller file": "Fichier trop gros, veuillez choisir un fichier plus peti",
 }

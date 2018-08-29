@@ -4859,6 +4859,9 @@ msgstr "next"
 msgid "Features.LibraryView.No item in your library yet"
 msgstr "No item in your library yet"
 
+msgid "Features.EditionUiWrapper.Home"
+msgstr "Home"
+
 msgid "Components.ResourceForm.File is too large, please choose a smaller file"
 msgstr "File is too large, please choose a smaller file"
 

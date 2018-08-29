@@ -557,6 +557,7 @@
   "Components.PaginatedList.previous": "previous",
   "Components.PaginatedList.next": "next",
   "Features.LibraryView.No item in your library yet": "No item in your library yet",
+  "Features.EditionUiWrapper.Home": "Home",
   "Components.ResourceForm.File is too large, please choose a smaller file": "File is too large, please choose a smaller file",
   "Components.ResourceForm.Drop a bib file": "Drop a bib file",
   "Components.ResourceForm.File is too large ({s} Mb), please choose one under {m} Mb": "File is too large ({s} Mb), please choose one under {m} Mb"
