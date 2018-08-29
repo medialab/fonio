@@ -129,7 +129,7 @@ const EditionUiWrapperLayout = ({
 
         locationBreadCrumbs={[
             {
-              href: `/`,
+              href: '/',
               isActive: false,
               content: `${translate('Home')}`,
             },
@@ -146,7 +146,7 @@ const EditionUiWrapperLayout = ({
           ]}
 
         menuOptions={[
-            
+
             {
               href: `/story/${storyId}`,
               isActive: navLocation === 'summary',
