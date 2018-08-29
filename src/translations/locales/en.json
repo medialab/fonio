@@ -556,5 +556,6 @@
   "Features.LibraryView.Deleting {n} items": "Suppression de {n} items",
   "Components.PaginatedList.previous": "previous",
   "Components.PaginatedList.next": "next",
-  "Features.LibraryView.No item in your library yet": "No item in your library yet"
+  "Features.LibraryView.No item in your library yet": "No item in your library yet",
+  "Features.EditionUiWrapper.Home": "Home"
 }

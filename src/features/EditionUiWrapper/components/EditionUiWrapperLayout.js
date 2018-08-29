@@ -128,6 +128,11 @@ const EditionUiWrapperLayout = ({
         style={{zIndex: 2000}}
 
         locationBreadCrumbs={[
+            {
+              href: `/`,
+              isActive: false,
+              content: `${translate('Home')}`,
+            },
             // {
             //   href: '/',
             //   content: config.sessionName /* eslint no-undef:0 */,
@@ -141,6 +146,7 @@ const EditionUiWrapperLayout = ({
           ]}
 
         menuOptions={[
+            
             {
               href: `/story/${storyId}`,
               isActive: navLocation === 'summary',
