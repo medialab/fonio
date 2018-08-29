@@ -556,5 +556,7 @@
   "Features.LibraryView.Deleting {n} items": "Suppression de {n} items",
   "Components.PaginatedList.previous": "previous",
   "Components.PaginatedList.next": "next",
-  "Features.LibraryView.No item in your library yet": "No item in your library yet"
+  "Features.LibraryView.No item in your library yet": "No item in your library yet",
+  "Components.ResourceForm.File is too large, please choose a smaller file": "File is too large, please choose a smaller file",
+  "Components.ResourceForm.Drop a bib file": "Drop a bib file"
 }
