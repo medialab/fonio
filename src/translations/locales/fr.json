@@ -374,7 +374,6 @@
   "Features.HomeView.Provided thanks to the FORCCAST program": "Provided thanks to the FORCCAST program",
   "Features.HomeView.Stories": "Récits",
   "Features.HomeView.Story is not valid": "Le récit déposé n'est pas valide",
-  "Features.HomeView.The source code is licensed under ": "The source code is licensed under ",
   "Features.HomeView.The source code of Fonio is licensed under free software license ": "Le code source de Fonio est sous license libre ",
   "Features.HomeView.Who else is online ?": "Qui d'autre est en ligne ?",
   "Features.HomeView.Your profile": "Votre profil",
@@ -543,5 +542,8 @@
   "Features.LibraryView.delete": "supprimer",
   "Features.ErrorMessageContainer.This contextualization could not be added into note": "Cette mention n'a pas pu être ajoutée à la note.",
   "Features.ErrorMessageContainer.This asset could not be added into note": "Cet élément n'a pas pu être ajouté à la note.",
-  "Features.SectionView.Untitled section": "Section sans titre"
+  "Features.SectionView.Untitled section": "Section sans titre",
+  "Features.DesignView.You will need to use the !important suffix for some rules as you want to override initial rules.": "You will need to use the !important suffix for some rules as you want to override initial rules.",
+  "Components.SectionCard.Untitled section": "Section sans titre",
+  "Components.SectionCard.Title level {n}": "Niveau de titre {n}"
 }
