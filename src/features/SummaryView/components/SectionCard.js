@@ -61,9 +61,9 @@ const SectionCard = ({
           data-for="tooltip"
           data-place="bottom">
           <span>
-            {abbrevString(section.metadata.title, 15)}
+            {abbrevString(section.metadata.title || translate('Untitled section'), 30)}
           </span></Link>}
-      subtitle={section.metadata.subtitle}
+      subtitle={translate('Title level {n}', {n: section.metadata.level + 1})}
       lockStatus={lockData ? 'locked' : 'open'}
       statusMessage={lockData ? translate('edited by {n}', {n: lockData.name}) : translate('open for edition')}
       onAction={onAction}
@@ -107,7 +107,7 @@ const SectionCard = ({
                 </Icon>
               </StretchedLayoutItem>
               <StretchedLayoutItem isFlex={1}>
-                {translate('higher level')}
+                {translate('Title level {n}', {n: section.metadata.level})}
               </StretchedLayoutItem>
             </StretchedLayoutContainer>
           ),
@@ -119,7 +119,7 @@ const SectionCard = ({
           label: (
             <StretchedLayoutContainer style={{alignItems: 'center', padding: '1rem'}} isAbsolute isDirection="horizontal">
               <StretchedLayoutItem isFlex={1}>
-                {translate('lower level')}
+                {translate('Title level {n}', {n: section.metadata.level + 2})}
               </StretchedLayoutItem>
               <StretchedLayoutItem>
                 <Icon isSize="small" isAlign="left">

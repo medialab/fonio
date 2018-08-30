@@ -286,7 +286,9 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
     case USER_DISCONNECTING:
       const newState = {...state};
       payload.rooms.forEach((room) => {
-        delete newState[room].locks[payload.userId];
+        if (newState[room].locks) {
+          delete newState[room].locks[payload.userId];
+        }
       });
       return newState;
     default:

@@ -15,6 +15,8 @@ import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils
 import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
 import DataUrlProvider from '../../../components/DataUrlProvider';
 
+import UploadModal from '../../../components/UploadModal';
+
 import config from '../../../config';
 
 const {maxBatchNumber} = config;
@@ -77,53 +79,82 @@ class LibraryViewContainer extends Component {
     }
   }
 
+  /**
+   * @todo refactor this redundant cont with SectionViewContainer
+   */
   submitMultiResources = (files) => {
-    // return new Promise((resolve, reject) => {
-    //   const resourcesPromise = files.map(file => this.submitUploadResourceData(file));
-    //   return Promise.all(resourcesPromise.map(p => p.catch(e => e)))
-    //     .then(res => resolve(res.filter(result => !result.success)))
-    //     .catch(err => reject(err));
-    // });
-    const {setErrorMessage} = this.props.actions;
-    if (files.length > maxBatchNumber) {
-      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded'});
-      return;
-    }
-    const validFiles = validateFiles(files);
-    if (validFiles.length === 0) {
-      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Files extends maximum size to upload'});
-      return;
-    }
-    if (validFiles.length < files.length) {
-      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Some files larger than maximum file size'});
-    }
-    const errors = [];
-    validFiles.reduce((curr, next) => {
-      return curr.then(() =>
-        createResourceData(next, this.props)
-        .then((res) => {
-          if (res && !res.success) errors.push(res);
-        })
-      );
-    }, Promise.resolve())
-    .then(() => {
-      if (errors.length > 0) {
-        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: errors});
-      }
-    })
-    .catch((error) => {
-      setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error});
+
+    this.props.actions.setUploadStatus({
+      status: 'initializing',
+      errors: []
     });
+    setTimeout(() => {
+      const {setErrorMessage} = this.props.actions;
+      if (files.length > maxBatchNumber) {
+        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded'});
+        return;
+      }
+      const validFiles = validateFiles(files);
+      if (validFiles.length === 0) {
+        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'No valid files to upload'});
+        return;
+      }
+      if (validFiles.length < files.length) {
+        const invalidFiles = files.filter(f => validFiles.find(oF => oF.name === f.name) === undefined);
+        this.props.actions.setUploadStatus({
+          ...this.props.uploadStatus,
+          errors: invalidFiles.map(file => ({
+            fileName: file.name,
+            reason: 'too big'
+          }))
+        });
+        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Some files larger than maximum size'});
+      }
+      const errors = [];
+      validFiles.reduce((curr, next) => {
+        return curr.then(() => {
+          this.props.actions.setUploadStatus({
+            status: 'uploading',
+            currentFileName: next.name,
+            errors: this.props.uploadStatus.errors
+          });
+          return createResourceData(next, this.props)
+          .then((res) => {
+            if (res && !res.success) errors.push(res);
+          });
+        });
+      }, Promise.resolve())
+      .then(() => {
+        if (errors.length > 0) {
+          setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: errors});
+        }
+        this.props.actions.setMainColumnMode('edition');
+        this.props.actions.setUploadStatus(undefined);
+      })
+      .catch((error) => {
+        this.props.actions.setUploadStatus(undefined);
+        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error});
+      });
+    }, 100);
   }
 
   render() {
-    return this.props.editedStory ?
+    const {
+      props: {
+        uploadStatus,
+        editedStory,
+      },
+      submitMultiResources
+    } = this;
+    return editedStory ?
           (
-            <DataUrlProvider storyId={this.props.editedStory.id} serverUrl={config.apiUrl} >
+            <DataUrlProvider storyId={editedStory.id} serverUrl={config.apiUrl} >
               <EditionUiWrapper>
                 <LibraryViewLayout
                   {...this.props}
-                  submitMultiResources={this.submitMultiResources} />
+                  submitMultiResources={submitMultiResources} />
+
+                <UploadModal uploadStatus={uploadStatus} />
               </EditionUiWrapper>
             </DataUrlProvider>
           )

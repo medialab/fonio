@@ -1,0 +1,36 @@
+
+
+.fonio-PaginatedList{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  overflow: hidden;
+  .items-container{
+    flex: 1;
+    overflow: auto;
+    // max-height: calc(100% - 2rem);
+    > div{
+      overflow-y: auto;
+      display: flex;
+      flex-flow: row wrap;
+    }
+  }
+  .pagination{
+    min-height: 5rem;
+  }
+
+  .pagination-list
+    {
+        li
+        {
+            &.is-current
+            {
+                a
+                {
+                    color: white!important;
+                    background: brown;
+                }
+            }
+        }
+    }
+}

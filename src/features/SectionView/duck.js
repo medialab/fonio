@@ -35,6 +35,7 @@ const SET_EDITED_SECTION_ID = 'SET_EDITED_SECTION_ID';
 const SET_DRAGGED_RESOURCE_ID = 'SET_DRAGGED_RESOURCE_ID';
 const SET_SHORTCUTS_HELP_VISIBLE = 'SET_SHORTCUTS_HELP_VISIBLE';
 const SET_LINK_MODAL_FOCUS_ID = 'SET_LINK_MODAL_FOCUS_ID';
+const SET_UPLOAD_STATUS = 'SET_UPLOAD_STATUS';
 
 /**
  * actions related to resources edition parameters
@@ -138,6 +139,11 @@ export const setStoryIsSaved = payload => ({
 export const setLinkModalFocusId = payload => ({
   type: SET_LINK_MODAL_FOCUS_ID,
   payload,
+});
+
+export const setUploadStatus = payload => ({
+  type: SET_UPLOAD_STATUS,
+  payload
 });
 
 
@@ -254,6 +260,7 @@ const UI_DEFAULT_STATE = {
   storyIsSaved: true,
   shortcutsHelpVisible: false,
   linkModalFocusId: undefined,
+  uploadStatus: undefined,
 };
 
 /**
@@ -279,6 +286,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_SHORTCUTS_HELP_VISIBLE:
     case SET_STORY_IS_SAVED:
     case SET_LINK_MODAL_FOCUS_ID:
+    case SET_UPLOAD_STATUS:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -506,6 +514,7 @@ const editorBlocked = state => state.ui.editorBlocked;
 const storyIsSaved = state => state.ui.storyIsSaved;
 const shortcutsHelpVisible = state => state.ui.shortcutsHelpVisible;
 const linkModalFocusId = state => state.ui.linkModalFocusId;
+const uploadStatus = state => state.ui.uploadStatus;
 
 const editorStates = state => state.editorstates;
 const assetRequestState = state => state.assetRequeststate;
@@ -528,6 +537,7 @@ export const selector = createStructuredSelector({
   mainColumnMode,
   shortcutsHelpVisible,
   linkModalFocusId,
+  uploadStatus,
 
   resourceOptionsVisible,
   resourceFilterValues,

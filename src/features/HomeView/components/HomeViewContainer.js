@@ -17,6 +17,7 @@ import * as duck from '../duck';
 import * as userInfoDuck from '../../UserInfoManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as authDuck from '../../AuthManager/duck';
+import * as errorMessageDuck from '../../ErrorMessageManager/duck';
 
 /**
  * Redux-decorated component class rendering the takeaway dialog feature to the app
@@ -35,6 +36,7 @@ import * as authDuck from '../../AuthManager/duck';
       ...userInfoDuck,
       ...connectionsDuck,
       ...authDuck,
+      ...errorMessageDuck,
       setLanguage,
     }, dispatch)
   })

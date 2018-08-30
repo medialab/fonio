@@ -51,9 +51,9 @@ import AssetPreview from '../AssetPreview';
 
 const resourceTypes = Object.keys(resourceSchema.definitions);
 const credentials = {youtubeAPIKey: config.youtubeAPIKey};
-const {maxFileSize} = config;
+const {maxResourceSize} = config;
 
-const realMaxFileSize = base64ToBytesLength(maxFileSize);
+const realMaxFileSize = base64ToBytesLength(maxResourceSize);
 
 class DataForm extends Component {
   static contextTypes = {
@@ -99,27 +99,27 @@ class DataForm extends Component {
         }
       });
     const onDropFiles = (files) => {
-      if (files.length && files[0].size > realMaxFileSize) {
-        formApi.setError('maxSize', translate('File is too large, please choose one under {s} Mb', {s: Math.floor(realMaxFileSize)}));
-      }
-      else {
-        formApi.setError('maxSize', undefined);
-        loadResourceData(resourceType, files[0])
-        .then((data) => {
-          const inferedMetadata = inferMetadata({...data, file: files[0]}, resourceType);
-          const prevMetadata = formApi.getValue('metadata');
-          const metadata = {
-            ...prevMetadata,
-            ...inferedMetadata,
-            title: prevMetadata.title ? prevMetadata.title : inferedMetadata.title
-          };
-          formApi.setValue('metadata', metadata);
-          formApi.setValue('data', data);
-        })
-        .catch(e => {
-          console.error(e);/* no-console: 0*/
-        });
-      }
+      formApi.setError('maxSize', undefined);
+      loadResourceData(resourceType, files[0])
+      .then((data) => {
+        const contentLength = JSON.stringify(data).length;
+        if (contentLength > maxResourceSize) {
+          formApi.setError('maxSize', translate('File is too large ({s} Mb), please choose one under {m} Mb', {s: Math.floor(contentLength / 1000000), m: realMaxFileSize / 1000000}));
+        }
+        const inferedMetadata = inferMetadata({...data, file: files[0]}, resourceType);
+        const prevMetadata = formApi.getValue('metadata');
+        const metadata = {
+          ...prevMetadata,
+          ...inferedMetadata,
+          title: prevMetadata.title ? prevMetadata.title : inferedMetadata.title
+        };
+        formApi.setValue('metadata', metadata);
+        formApi.setValue('data', data);
+
+      })
+      .catch(e => {
+        console.error(e);/* no-console: 0*/
+      });
     };
     const onEditBib = (value) => {
       const bibData = parseBibTeXToCSLJSON(value);
@@ -147,7 +147,7 @@ class DataForm extends Component {
             <DropZone
               accept=".jpg,.jpeg,.png,.gif"
               onDrop={onDropFiles}>
-              {translate('Drop an image file ({l} Mb max)', {l: Math.floor(realMaxFileSize / 1000000)})}
+              {translate('Drop an image file')}
             </DropZone>
           </Control>
         </Field>
@@ -165,7 +165,7 @@ class DataForm extends Component {
             <DropZone
               accept=".csv,.tsv"
               onDrop={onDropFiles}>
-              {translate('Drop an table file(csv, tsv,  ({l} Mb max))', {l: Math.floor(realMaxFileSize / 1000000)})}
+              {translate('Drop an table file(csv, tsv)')}
             </DropZone>
           </Control>
         </Field>
@@ -185,7 +185,7 @@ class DataForm extends Component {
                 <DropZone
                   accept=".bib,.txt"
                   onDrop={onDropFiles}>
-                  {translate('Drop a bib file ({l} Mb max)', {l: Math.floor(realMaxFileSize / 1000000)})}
+                  {translate('Drop a bib file')}
                 </DropZone> :
                 <BibRefsEditor data={resource.data} onChange={onEditBib} />
             }
@@ -392,7 +392,18 @@ class ResourceForm extends Component {
     } = this;
 
     const handleSubmit = (candidates) => {
-      onSubmit(candidates);
+      if (candidates.metadata.type === 'embed') {
+        const {data} = candidates;
+        const scriptRegex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+        const cleanHtml = data.html.replace(scriptRegex, '');
+        onSubmit({
+          ...candidates,
+          data: {
+            html: cleanHtml
+          }
+        });
+      }
+      else onSubmit(candidates);
     };
 
     const onResourceTypeChange = (thatType, formApi) => {
@@ -506,6 +517,10 @@ class ResourceForm extends Component {
                           formApi={formApi} />
                         {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
                       </NestedField>
+                      {
+                        formApi.errors && formApi.errors.maxSize &&
+                          <Help isColor="danger">{formApi.errors.maxSize}</Help>
+                      }
                     </Column>
 
                     </Column>}
@@ -594,11 +609,6 @@ class ResourceForm extends Component {
                       </Field>
                     </Column>
                   </Column>}
-
-                  {
-                    formApi.errors && formApi.errors.maxSize &&
-                      <Help isColor="danger">{formApi.errors.maxSize}</Help>
-                  }
                   {/*
                     formApi.errors && formApi.errors.schemaVal &&
                       <Help isColor="danger">{translate('Resource is not valid')}</Help>

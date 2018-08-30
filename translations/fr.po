@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-8-27\n"
-"PO-Revision-Date: Mon Aug 27 2018 14:16:11 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-8-30\n"
+"PO-Revision-Date: Thu Aug 30 2018 11:23:06 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4820,6 +4820,69 @@ msgstr "This asset could not be added into note"
 msgid "Features.SectionView.Untitled section"
 msgstr "Untitled section"
 
+msgid "Components.SectionCard.Untitled section"
+msgstr "Untitled section"
+
+msgid "Components.SectionCard.Title level {n}"
+msgstr "Title level {n}"
+
+msgid "Features.HomeView.The source code of Fonio is licensed under free software licenses <a target="
+msgstr "Le code source de Fonio est partagé selon les licenses libres <a target=\"blank\" href=\"http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.html\">CeCILL-B</a> et <a target=\"blank\" href=\"http://www.gnu.org/licenses/agpl-3.0.html\">AGPL v3</a>"
+
+msgid "Features.HomeView.The source code of Fonio is licensed under free software license <a target="
+msgstr "html\">AGPL v3</a>"
+
+msgid "Features.ErrorMessageContainer.No valid files to upload, your files are either too big or not in the right format."
+msgstr ""
+
+msgid "Features.ErrorMessageContainer.The section could not be updated with your last changes"
+msgstr "The section could not be updated with your last changes"
+
+msgid "Features.LibraryView.Deleting an item"
+msgstr "Deleting an item"
+
+msgid "Features.LibraryView.Deleting item {k} of {n}"
+msgstr "Deleting item {k} of {n}"
+
+msgid "Features.LibraryView.Deleting {n} items"
+msgstr "Suppression de {n} items"
+
+msgid "Features.LibraryView.Deleting {n} item"
+msgstr "Deleting {n} item"
+
+msgid "Components.PaginatedList.previous"
+msgstr "previous"
+
+msgid "Components.PaginatedList.next"
+msgstr "next"
+
+msgid "Features.LibraryView.No item in your library yet"
+msgstr "No item in your library yet"
+
+msgid "Features.EditionUiWrapper.Home"
+msgstr "Home"
+
+msgid "Components.ResourceForm.File is too large, please choose a smaller file"
+msgstr "File is too large, please choose a smaller file"
+
+msgid "Components.ResourceForm.Drop a bib file"
+msgstr "Drop a bib file"
+
+msgid "Components.UploadModal.Please wait..."
+msgstr ""
+
+msgid "Components.UploadModal.Analyzing contents..."
+msgstr ""
+
+msgid "Components.UploadModal.Adding "
+msgstr "Ajout de \"{n}\""
+
+msgid "Components.UploadModal."
+msgstr "\"{f}\" est trop gros"
+
+msgid "Components.ResourceForm.File is too large ({s} Mb), please choose one under {m} Mb"
+msgstr "File is too large ({s} Mb), please choose one under {m} Mb"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
 
@@ -4852,3 +4915,18 @@ msgstr "« > » puis espace"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} travaille sur la section « {t} »"
+
+msgid "Features.HomeView.The source code of Fonio is licensed under free software licenses <a target="blank" href="http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.html">CeCILL-B</a> and <a target="blank" href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3</a>"
+msgstr "Le code source de Fonio est partagé selon les licenses libres <a target=\"blank\" href=\"http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.html\">CeCILL-B</a> et <a target=\"blank\" href=\"http://www.gnu.org/licenses/agpl-3.0.html\">AGPL v3</a>"
+
+msgid "Features.HomeView.The source code of Fonio is licensed under free software license <a target="blank" href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3</a>"
+msgstr "html\">AGPL v3</a>"
+
+msgid "Components.UploadModal.Adding "{n}""
+msgstr "Ajout de \"{n}\""
+
+msgid "Components.UploadModal."{f}" is too big"
+msgstr "\"{f}\" est trop gros"
+
+msgid "Features.ErrorMessageContainer.Your story file is larger than maximum file size allowed"
+msgstr "Your story file is larger than maximum file size allowed"

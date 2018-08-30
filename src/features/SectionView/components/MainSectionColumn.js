@@ -36,8 +36,8 @@ import {
   base64ToBytesLength
 } from '../../../helpers/misc';
 
-const {maxBatchNumber, maxFileSize} = config;
-const realMaxFileSize = base64ToBytesLength(maxFileSize);
+const {maxBatchNumber, maxResourceSize} = config;
+const realMaxFileSize = base64ToBytesLength(maxResourceSize);
 
 
 const MainSectionColumn = ({
@@ -200,14 +200,22 @@ const MainSectionColumn = ({
             uploadResource(payload, 'create');
           }
           else if (resource.metadata.type === 'bib') {
-            createBibData(resource, {
-              editedStory: story,
-              userId,
-              actions: {
-                createResource,
-                updateResource
-              },
-            });
+            setEditorBlocked(true);
+            setTimeout(() => {
+                createBibData(resource, {
+                  editedStory: story,
+                  userId,
+                  actions: {
+                    createResource,
+                    updateResource
+                  },
+                })
+                .then(() =>
+                  setEditorBlocked(false)
+                );
+            }, 100);
+
+
           }
           else {
             createResource(payload);

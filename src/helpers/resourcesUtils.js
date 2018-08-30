@@ -28,9 +28,9 @@ import {validateResource, createDefaultResource} from './schemaUtils';
 import {loadImage, inferMetadata, parseBibTeXToCSLJSON} from './assetsUtils';
 import {getFileAsText} from './fileLoader';
 
-const {restUrl, maxFileSize, maxBatchSize} = config;
+const {restUrl, maxResourceSize, maxFolderSize} = config;
 
-const realMaxFileSize = base64ToBytesLength(maxFileSize);
+const realMaxFileSize = base64ToBytesLength(maxResourceSize);
 
 /**
  * Returns from server a list of all csl citation styles available in a light form
@@ -86,7 +86,7 @@ export const getResourceTitle = (resource) => {
 export const searchResources = (items, string) => {
   const options = {
     keys: ['metadata.title', 'data.name', 'data.title'],
-    threshold: .5
+    threshold: 0.5
   };
   const fuse = new Fuse(items, options);
   return fuse.search(string);
@@ -99,7 +99,7 @@ export const validateFiles = (files) => {
     return fileA + fileB;
   }, 0);
   let validFiles = [];
-  if (batchSize < maxBatchSize) {
+  if (batchSize < maxFolderSize) {
     validFiles = files.filter(file => file.size < realMaxFileSize);
   }
   return validFiles;

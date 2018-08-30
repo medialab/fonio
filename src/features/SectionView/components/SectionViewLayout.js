@@ -137,6 +137,8 @@ const SectionViewLayout = ({
 
   const translate = translateNameSpacer(t, 'Features.SectionView');
 
+  // console.time('preparation');
+
   const {id: storyId, resources, contextualizations} = story;
   const {id: sectionId} = section;
   const defaultSection = createDefaultSection();
@@ -213,6 +215,16 @@ const SectionViewLayout = ({
             return -1;
         }
       });
+  const hyperlinks = linkModalFocusId ? Object.keys(story.resources)
+    .filter(resourceId => story.resources[resourceId].metadata.type === 'webpage')
+    .map(resourceId => story.resources[resourceId]) : [];
+
+  // console.timeEnd('preparation');
+
+
+  /**
+   * Callbacks
+   */
 
   const onNewSectionSubmit = (metadata) => {
     const newSection = {
@@ -458,9 +470,6 @@ const SectionViewLayout = ({
     });
   };
 
-  const hyperlinks = linkModalFocusId ? Object.keys(story.resources)
-    .filter(resourceId => story.resources[resourceId].metadata.type === 'webpage')
-    .map(resourceId => story.resources[resourceId]) : [];
 
   return (
     <StretchedLayoutContainer isAbsolute isFluid isDirection="horizontal">

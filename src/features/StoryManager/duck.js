@@ -304,7 +304,7 @@ export const updateStorySettings = payload => updateStory(UPDATE_STORY_SETTINGS,
 export const updateSectionsOrder = payload => updateStory(UPDATE_SECTIONS_ORDER, payload);
 
 export const createSection = payload => updateStory(CREATE_SECTION, payload);
-export const updateSection = payload => updateStory(UPDATE_SECTION, payload);
+export const updateSection = (payload, callback) => updateStory(UPDATE_SECTION, payload, callback);
 export const deleteSection = (payload, callback) => updateStory(DELETE_SECTION, payload, callback);
 export const setSectionLevel = (payload, callback) => updateStory(SET_SECTION_LEVEL, payload, callback);
 
@@ -348,7 +348,7 @@ export const uploadResource = (payload, mode) => ({
   },
 });
 
-export const deleteUploadedResource = payload => ({
+export const deleteUploadedResource = (payload, callback) => ({
   type: DELETE_UPLOADED_RESOURCE,
   payload,
   promise: () => {
@@ -360,7 +360,17 @@ export const deleteUploadedResource = payload => ({
       },
     };
     const serverRequestUrl = `${config.restUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
-    return del(serverRequestUrl, options);
+    return del(serverRequestUrl, options)
+            .then(thatPayload => {
+              if (typeof callback === 'function') {
+                callback(null, thatPayload);
+              }
+            })
+            .catch(error => {
+              if (typeof callback === 'function') {
+                callback(error);
+              }
+            });
   },
 });
 /**

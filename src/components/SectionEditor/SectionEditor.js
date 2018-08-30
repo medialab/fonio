@@ -423,12 +423,21 @@ class SectionEditor extends Component {
    * Handles user cmd+v like command (restoring stashed contextualizations among other things)
    */
   onPaste = e => {
+    const COPY_THRESHOLD = 1000;
     if (!this.props.disablePaste) {
-      this.props.setEditorBlocked(true);
-      this.handlePaste(e);
-      setTimeout(() => {
-        this.props.setEditorBlocked(false);
-      });
+      const html = e.clipboardData.getData('text/html');
+
+      if (html.length > COPY_THRESHOLD) {
+        this.props.setEditorBlocked(true);
+        this.handlePaste(e);
+        setTimeout(() => {
+          this.props.setEditorBlocked(false);
+        }, 100);
+      }
+      else {
+        this.handlePaste(e);
+      }
+
     }
   }
 
@@ -734,8 +743,8 @@ class SectionEditor extends Component {
    * @param {ImmutableRecord} inputContentState - the content state to parse
    */
   findDraftDropPlaceholder = (contentBlock, callback) => {
-    const PLACE_HLODER_REGEX = /(DRAFTJS_RESOURCE_ID:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/gi;
-    this.findWithRegex(PLACE_HLODER_REGEX, contentBlock, callback);
+    const PLACE_HOLDER_REGEX = /(DRAFTJS_RESOURCE_ID:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/gi;
+    this.findWithRegex(PLACE_HOLDER_REGEX, contentBlock, callback);
   }
   /**
    * Draft.js strategy for finding native links

@@ -372,8 +372,13 @@ export const handleCopy = function(event) {
     event.clipboardData.setData('text/html', clipboardHtml);
 
 
-    // event.clipboardData.setData('text/plain', SCHOLAR_DRAFT_CLIPBOARD_CODE);
+    /**
+     * Finally store copied data
+     */
     stateDiff.copiedData = copiedData;
+    /**
+     * Update loaded elements in state
+     */
     setState(stateDiff);
     event.preventDefault();
   };
@@ -439,7 +444,11 @@ export const handleCopy = function(event) {
     // check whether the clipboard contains fonio data
     const dataRegex = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>$/gm;
     const hasScript = dataRegex.test(html);
-    // case 1 : comes from outside (no fonio data)
+    /**
+     * ======================================
+     * case 1 : comes from outside (no fonio data)
+     * ======================================
+     */
     if (!hasScript) {
       // replacing pasted links with resources/contextualizers/contextualizations
       let contentState = activeEditorState.getCurrentContent();
@@ -647,11 +656,17 @@ export const handleCopy = function(event) {
         // textSelection = textSelection.merge({
         //   focusOffset: from + 1
         // });
-        contentState = Modifier.applyEntity(
-          contentState,
-          textSelection,
-          entityKey
-        );
+        try {
+          contentState = Modifier.applyEntity(
+            contentState,
+            textSelection,
+            entityKey
+          );
+        }
+        catch (e) {/* eslint no-empty : 0 */
+
+        }
+
       });
       // applying updated editor state
       activeEditorState = EditorState.push(
@@ -689,13 +704,17 @@ export const handleCopy = function(event) {
 
       return;
     }
-    // case 2 : pasting comes from inside the editor
+    /**
+     * =============================================
+     * case 2 : pasting comes from inside the editor
+     * =============================================
+    */
     else {
       // if contents comes from scholar-draft, prevent default
       // because we are going to handle the paste process manually
 
       try {
-        // copiedData = JSON.parse(dataRegex.match(html)[1]);
+        // first extract jsonify draft-js clipboard
        let json;
        let match = html.match(dataRegex);
        // if (match) {
