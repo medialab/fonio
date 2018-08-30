@@ -51,9 +51,9 @@ import AssetPreview from '../AssetPreview';
 
 const resourceTypes = Object.keys(resourceSchema.definitions);
 const credentials = {youtubeAPIKey: config.youtubeAPIKey};
-const {maxFileSize} = config;
+const {maxResourceSize} = config;
 
-const realMaxFileSize = base64ToBytesLength(maxFileSize);
+const realMaxFileSize = base64ToBytesLength(maxResourceSize);
 
 class DataForm extends Component {
   static contextTypes = {
@@ -103,7 +103,7 @@ class DataForm extends Component {
       loadResourceData(resourceType, files[0])
       .then((data) => {
         const contentLength = JSON.stringify(data).length;
-        if (contentLength > maxFileSize) {
+        if (contentLength > maxResourceSize) {
           formApi.setError('maxSize', translate('File is too large ({s} Mb), please choose one under {m} Mb', {s: Math.floor(contentLength / 1000000), m: realMaxFileSize / 1000000}));
         }
         const inferedMetadata = inferMetadata({...data, file: files[0]}, resourceType);

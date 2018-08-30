@@ -64,7 +64,7 @@ import EnterPasswordModal from './EnterPasswordModal';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
-
+const {maxStorySize} = config;
 const DEFAULT_BACKGROUND_COLOR = 'lightblue';
 
 class StoryCardWrapper extends Component {
@@ -181,6 +181,7 @@ class HomeViewLayout extends Component {
             setPasswordModalOpen,
             setOverrideImport,
             setOverrideStoryMode,
+            setErrorMessage,
           }
         } = this.props;
         const {translate} = this;
@@ -237,6 +238,10 @@ class HomeViewLayout extends Component {
 
         const onDropFiles = (files) => {
           if (!files || !files.length) {
+            return;
+          }
+          else if (files[0].size > maxStorySize) {
+            setErrorMessage({type: 'IMPORT_STORY_FAIL', error: 'file is too large'});
             return;
           }
           importStory(files[0])

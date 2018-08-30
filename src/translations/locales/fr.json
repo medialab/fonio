@@ -564,5 +564,6 @@
   "Components.UploadModal.Please wait...": "Merci d'attendre...",
   "Components.UploadModal.Analyzing contents...": "Analyse des contenus...",
   "Components.UploadModal.Adding \"{n}\"": "Ajout de \"{n}\"",
-  "Components.UploadModal.\"{f}\" is too big": "\"{f}\" est trop gros"
+  "Components.UploadModal.\"{f}\" is too big": "\"{f}\" est trop gros",
+  "Features.ErrorMessageContainer.Your story file is larger than maximum file size allowed": "Fichier est plus gros que la taille de fichier maximum autorisée"
 }

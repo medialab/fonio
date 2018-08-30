@@ -56,8 +56,8 @@ import {
   base64ToBytesLength
 } from '../../../helpers/misc';
 
-const {maxBatchNumber, maxFileSize} = config;
-const realMaxFileSize = base64ToBytesLength(maxFileSize);
+const {maxBatchNumber, maxResourceSize} = config;
+const realMaxFileSize = base64ToBytesLength(maxResourceSize);
 
 import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 import ResourceForm from '../../../components/ResourceForm';

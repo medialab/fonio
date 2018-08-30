@@ -180,7 +180,15 @@ class ErrorMessageContainer extends Component {
       title: () => this.translate('The story could not be overriden')
     },
     [`${IMPORT_STORY}_FAIL`]: {
-      title: () => this.translate('The story could not be imported')
+      title: () => this.translate('The story could not be imported'),
+      details: (payload) => {
+        switch (payload.error) {
+          case 'file is too large':
+            return this.translate('Your story file is larger than maximum file size allowed');
+          default:
+            return undefined;
+        }
+      }
     },
     [`${DUPLICATE_STORY}_FAIL`]: {
       title: () => this.translate('The story could not be duplicated')
