@@ -258,8 +258,8 @@ class SectionEditor extends Component {
     this.updateSectionRawContentDebounced = debounce(this.updateSectionRawContent, 2000);
     this.debouncedCleanStuffFromEditorInspection = debounce(this.cleanStuffFromEditorInspection, 500);
 
-    this.handleCopy = handleCopy.bind(this);
     this.handlePaste = handlePaste.bind(this);
+    this.handleCopy = handleCopy.bind(this);
 
     this.translate = translateNameSpacer(context.t, 'Components.SectionEditor').bind(this);
 
@@ -304,7 +304,11 @@ class SectionEditor extends Component {
     }
     document.addEventListener('copy', this.onCopy);
     document.addEventListener('cut', this.onCopy);
-    document.addEventListener('paste', this.onPaste);
+    document.addEventListener('paste', e => {
+      if (this.props.editorFocus) {
+        e.preventDefault();
+      }
+    });
 
 
     this.updateStateFromProps(this.props);
@@ -422,24 +426,9 @@ class SectionEditor extends Component {
   /**
    * Handles user cmd+v like command (restoring stashed contextualizations among other things)
    */
-  onPaste = e => {
-    const COPY_THRESHOLD = 1000;
-    if (!this.props.disablePaste) {
-      const html = e.clipboardData.getData('text/html');
-
-      if (html.length > COPY_THRESHOLD) {
-        this.props.setEditorBlocked(true);
-        this.handlePaste(e);
-        setTimeout(() => {
-          this.props.setEditorBlocked(false);
-        }, 100);
-      }
-      else {
-        this.handlePaste(e);
-      }
-
-    }
-  }
+  // onPaste = e => {
+  //   this.handlePaste(e);
+  // }
 
 
   /**
@@ -786,6 +775,7 @@ class SectionEditor extends Component {
   ]
 
   onEditorChange = (editorId, editorState) => {
+    // console.log('on editor change', editorId, editorState.getCurrentContent().toJS());
     const {activeSection: {id: sectionId}, story: {id: activeStoryId}, updateDraftEditorState, editorStates, setStoryIsSaved} = this.props;
     const {updateSectionRawContentDebounced} = this;
     const editorStateId = editorId === 'main' ? sectionId : editorId;
@@ -800,11 +790,11 @@ class SectionEditor extends Component {
   };
 
   handleEditorPaste = (text, html) => {
+    // console.log('handle editor paste with html', html !== undefined);
     if (html) {
-      // check whether the clipboard contains fonio data
-      const dataRegex = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>$/gm;
-      const hasScript = dataRegex.test(html);
-      return hasScript;
+      const preventDefault = this.handlePaste(html);
+      // console.log('handle with html prevent default: ', preventDefault);
+      return preventDefault;
     }
     return false;
   }

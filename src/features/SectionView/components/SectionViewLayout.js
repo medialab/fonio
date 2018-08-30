@@ -68,6 +68,7 @@ const SectionViewLayout = ({
   assetRequestState,
   draggedResourceId,
   shortcutsHelpVisible,
+  editorPastingStatus,
 
   story,
   section,
@@ -85,10 +86,10 @@ const SectionViewLayout = ({
     setResourceSearchString,
     setNewResourceMode,
     setLinkModalFocusId,
+    setEditorPastingStatus,
 
     setPromptedToDeleteSectionId,
     setPromptedToDeleteResourceId,
-    setEditorBlocked,
 
     updateSection,
     createSection,
@@ -410,7 +411,7 @@ const SectionViewLayout = ({
     });
   };
 
-  const onUpdateSection = thatSection => {
+  const onUpdateSection = (thatSection, callback) => {
     if (thatSection && reverseSectionLockMap[thatSection.id] && reverseSectionLockMap[thatSection.id].userId === userId) {
       updateSection({
         sectionId,
@@ -418,7 +419,7 @@ const SectionViewLayout = ({
         userId,
 
         section: thatSection,
-      });
+      }, callback);
     }
   };
 
@@ -452,8 +453,8 @@ const SectionViewLayout = ({
     });
   };
 
-  const onCreateResource = payload => {
-    createResource(payload);
+  const onCreateResource = (payload, callback) => {
+    createResource(payload, callback);
     if (embedResourceAfterCreation) {
       // setTimeout(() => {
           embedLastResource();
@@ -540,12 +541,14 @@ const SectionViewLayout = ({
             unpromptAssetEmbed={unpromptAssetEmbed}
             setEditorFocus={setEditorFocus}
 
-            setEditorBlocked={setEditorBlocked}
 
             setNewResourceMode={setNewResourceMode}
 
             newResourceType={newResourceType}
             storyIsSaved={storyIsSaved}
+
+            editorPastingStatus={editorPastingStatus}
+            setEditorPastingStatus={setEditorPastingStatus}
 
             createContextualization={createContextualization}
             createContextualizer={createContextualizer}

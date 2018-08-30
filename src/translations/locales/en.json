@@ -565,5 +565,13 @@
   "Components.UploadModal.Adding \"{n}\"": "Adding \"{n}\"",
   "Components.UploadModal.\"{f}\" is too big": "\"{f}\" is too big",
   "Components.ResourceForm.File is too large ({s} Mb), please choose one under {m} Mb": "File is too large ({s} Mb), please choose one under {m} Mb",
-  "Features.ErrorMessageContainer.Your story file is larger than maximum file size allowed": "Your story file is larger than maximum file size allowed"
+  "Features.ErrorMessageContainer.Your story file is larger than maximum file size allowed": "Your story file is larger than maximum file size allowed",
+  "Components.PastingModal.Duplicating contents": "Duplicating contents",
+  "Components.PastingModal.Updating contents": "Updating contents",
+  "Components.PastingModal.Converting contents": "Converting contents",
+  "Components.PastingModal.Duplicating {n} contextualizers": "Duplicating {n} items",
+  "Components.PastingModal.Duplicating {n} notes": "Duplicating {n} notes",
+  "Components.PastingModal.Creating {n} items": "Creating {n} items",
+  "Components.PastingModal.Attaching {n} contextualizers": "Attaching {n} links",
+  "Components.PastingModal.Please wait...": "Please wait..."
 }
