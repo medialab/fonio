@@ -8,7 +8,7 @@ import {
 } from 'react-router';
 
 import {
-  ModalCard
+  ModalCard,
 } from 'quinoa-design-library/components/';
 
 import {
@@ -29,6 +29,8 @@ import {
 import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultResource} from '../../../helpers/schemaUtils';
+
+import UploadModal from '../../../components/UploadModal';
 
 import DataUrlProvider from '../../../components/DataUrlProvider';
 
@@ -273,13 +275,10 @@ class SectionViewContainer extends Component {
   }
 
   submitMultiResources = (files) => {
-    // return new Promise((resolve, reject) => {
-    //   const resourcesPromise = files.map(file => this.submitUploadResourceData(file));
-    //   return Promise.all(resourcesPromise.map(p => p.catch(e => e)))
-    //     .then(res => resolve(res.filter(result => !result.success)))
-    //     .catch(err => reject(err));
-    // });
-    this.props.actions.setEditorBlocked(true);
+    this.props.actions.setUploadStatus({
+      status: 'initializing',
+      errors: []
+    });
     setTimeout(() => {
       const {setErrorMessage} = this.props.actions;
       if (files.length > maxBatchNumber) {
@@ -292,26 +291,39 @@ class SectionViewContainer extends Component {
         return;
       }
       if (validFiles.length < files.length) {
+        const invalidFiles = files.filter(f => validFiles.find(oF => oF.name === f.name) === undefined);
+        this.props.actions.setUploadStatus({
+          ...this.props.uploadStatus,
+          errors: invalidFiles.map(file => ({
+            fileName: file.name,
+            reason: 'too big'
+          }))
+        });
         setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Some files larger than maximum size'});
       }
       const errors = [];
       validFiles.reduce((curr, next) => {
-        return curr.then(() =>
-          createResourceData(next, this.props)
+        return curr.then(() => {
+          this.props.actions.setUploadStatus({
+            status: 'uploading',
+            currentFileName: next.name,
+            errors: this.props.uploadStatus.errors
+          });
+          return createResourceData(next, this.props)
           .then((res) => {
             if (res && !res.success) errors.push(res);
-          })
-        );
+          });
+        });
       }, Promise.resolve())
       .then(() => {
         if (errors.length > 0) {
           setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: errors});
         }
         this.props.actions.setMainColumnMode('edition');
-        this.props.actions.setEditorBlocked(false);
+        this.props.actions.setUploadStatus(undefined);
       })
       .catch((error) => {
-        this.props.actions.setEditorBlocked(false);
+        this.props.actions.setUploadStatus(undefined);
         setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error});
       });
     }, 100);
@@ -404,6 +416,7 @@ class SectionViewContainer extends Component {
     const {
       props: {
         editedStory,
+        uploadStatus,
         match: {
           params: {
             sectionId,
@@ -450,6 +463,7 @@ class SectionViewContainer extends Component {
                     </p>
                   </div>
                 } />
+              <UploadModal uploadStatus={uploadStatus} />
             </EditionUiWrapper>
           </DataUrlProvider>
         );

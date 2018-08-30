@@ -637,7 +637,7 @@ class LibraryViewLayout extends Component {
                 <StretchedLayoutContainer isAbsolute isDirection="vertical">
                   <PaginatedList
                     items={visibleResources}
-                    itemsPerPage={9}
+                    itemsPerPage={30}
                     style={{height: '100%'}}
                     renderNoItem={() => <div>{translate('No item in your library yet')}</div>}
                     renderItem={resource => {

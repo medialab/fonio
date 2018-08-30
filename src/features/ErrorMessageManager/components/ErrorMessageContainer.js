@@ -157,7 +157,7 @@ class ErrorMessageContainer extends Component {
             return this.translate('The total length of the files you tried to upload extends maximum size to upload. ') + this.translate('Please split your uploads in smaller groups !');
           case 'No valid files to upload':
             return this.translate('No valid files to upload, your files are either too big or not in the right format.');
-          case 'Some files larger than maximum file size':
+          case 'Some files larger than maximum size':
             return this.translate('Some files are larger than the maximum file size allowed, they were not added to the library.');
           default:
             return undefined;

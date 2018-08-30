@@ -553,11 +553,15 @@
   "Features.LibraryView.Deleting an item": "Deleting an item",
   "Features.LibraryView.Deleting {n} item": "Deleting {n} item",
   "Features.LibraryView.Deleting item {k} of {n}": "Deleting item {k} of {n}",
-  "Features.LibraryView.Deleting {n} items": "Suppression de {n} items",
+  "Features.LibraryView.Deleting {n} items": "Deleting {n} items",
   "Components.PaginatedList.previous": "previous",
   "Components.PaginatedList.next": "next",
   "Features.LibraryView.No item in your library yet": "No item in your library yet",
   "Features.EditionUiWrapper.Home": "Home",
   "Components.ResourceForm.File is too large, please choose a smaller file": "File is too large, please choose a smaller file",
-  "Components.ResourceForm.Drop a bib file": "Drop a bib file"
+  "Components.ResourceForm.Drop a bib file": "Drop a bib file",
+  "Components.UploadModal.Please wait...": "Please wait...",
+  "Components.UploadModal.Analyzing contents...": "Analyzing contents...",
+  "Components.UploadModal.Adding \"{n}\"": "Adding \"{n}\"",
+  "Components.UploadModal.\"{f}\" is too big": "\"{f}\" is too big"
 }

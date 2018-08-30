@@ -559,5 +559,9 @@
   "Features.LibraryView.No item in your library yet": "Pas encore d'items dans votre bibliothèque.",
   "Features.EditionUiWrapper.Home": "Accueil",
   "Components.ResourceForm.File is too large, please choose a smaller file": "Fichier trop gros, veuillez choisir un fichier plus peti",
-  "Components.ResourceForm.Drop a bib file": "Drop a bib file"
+  "Components.ResourceForm.Drop a bib file": "Drop a bib file",
+  "Components.UploadModal.Please wait...": "Merci d'attendre...",
+  "Components.UploadModal.Analyzing contents...": "Analyse des contenus...",
+  "Components.UploadModal.Adding \"{n}\"": "Ajout de \"{n}\"",
+  "Components.UploadModal.\"{f}\" is too big": "\"{f}\" est trop gros"
 }
