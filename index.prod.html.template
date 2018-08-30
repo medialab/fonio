@@ -118,7 +118,7 @@
       urlPrefix: '${URL_PREFIX}',
       maxResourceSize: ${MAX_RESOURCE_SIZE},
       maxStorySize: ${MAX_STORY_SIZE},
-      maxBatchSize: ${MAX_BATCH_SIZE},
+      maxFolderSize: ${MAX_FOLDER_SIZE},
       maxBatchNumber: ${MAX_BATCH_NUMBER},
       backgroundColor: '${BACKGROUND_COLOR}'
     };
