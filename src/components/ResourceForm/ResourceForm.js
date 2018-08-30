@@ -102,9 +102,9 @@ class DataForm extends Component {
       formApi.setError('maxSize', undefined);
       loadResourceData(resourceType, files[0])
       .then((data) => {
-        console.log(JSON.stringify(data).length);
-        if (JSON.stringify(data).length > maxFileSize) {
-          formApi.setError('maxSize', translate('File is too large, please choose a smaller file'));
+        const contentLength = JSON.stringify(data).length;
+        if (contentLength > maxFileSize) {
+          formApi.setError('maxSize', translate('File is too large ({s} Mb), please choose one under {m} Mb', {s: Math.floor(contentLength / 1000000), m: realMaxFileSize / 1000000}));
         }
         const inferedMetadata = inferMetadata({...data, file: files[0]}, resourceType);
         const prevMetadata = formApi.getValue('metadata');
@@ -147,7 +147,7 @@ class DataForm extends Component {
             <DropZone
               accept=".jpg,.jpeg,.png,.gif"
               onDrop={onDropFiles}>
-              {translate('Drop an image file ({l} Mb max)', {l: Math.floor(realMaxFileSize / 1000000)})}
+              {translate('Drop an image file')}
             </DropZone>
           </Control>
         </Field>

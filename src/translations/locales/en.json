@@ -563,5 +563,6 @@
   "Components.UploadModal.Please wait...": "Please wait...",
   "Components.UploadModal.Analyzing contents...": "Analyzing contents...",
   "Components.UploadModal.Adding \"{n}\"": "Adding \"{n}\"",
-  "Components.UploadModal.\"{f}\" is too big": "\"{f}\" is too big"
+  "Components.UploadModal.\"{f}\" is too big": "\"{f}\" is too big",
+  "Components.ResourceForm.File is too large ({s} Mb), please choose one under {m} Mb": "File is too large ({s} Mb), please choose one under {m} Mb"
 }
