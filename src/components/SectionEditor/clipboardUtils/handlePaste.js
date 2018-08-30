@@ -25,6 +25,8 @@ const handlePaste = function(event) {
       updateSection,
       // setEditorFocus,
       userId,
+      editorPastingStatus,
+      setEditorPastingStatus,
     } = props;
 
     const {
@@ -76,6 +78,9 @@ const handlePaste = function(event) {
         storyId,
         resources,
         editorFocus,
+
+        editorPastingStatus,
+        setEditorPastingStatus,
       });
     }
     /**

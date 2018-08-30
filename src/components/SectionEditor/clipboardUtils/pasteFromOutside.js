@@ -27,6 +27,9 @@ const pasteFromOutside = ({
   createContextualizer,
   updateDraftEditorState,
 
+  editorPastingStatus,
+  setEditorPastingStatus,
+
   userId,
   activeEditorStateId,
   activeSection,
@@ -34,6 +37,13 @@ const pasteFromOutside = ({
   resources,
   editorFocus,
 }) => {
+  console.log('début copie');
+
+  console.time('copie');
+
+  setEditorPastingStatus({
+    status: 'initializing'
+  });
   const activeSectionId = activeSection.id;
   // replacing pasted links with resources/contextualizers/contextualizations
     let contentState = activeEditorState.getCurrentContent();
@@ -285,7 +295,9 @@ const pasteFromOutside = ({
       };
     }
     updateSection(newSection);
-
+    console.timeEnd('copie');
+    console.log('fin copie');
+    setEditorPastingStatus(undefined);
     return;
 };
 

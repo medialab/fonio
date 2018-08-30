@@ -563,5 +563,6 @@
   "Components.UploadModal.Please wait...": "Merci d'attendre...",
   "Components.UploadModal.Analyzing contents...": "Analyse des contenus...",
   "Components.UploadModal.Adding \"{n}\"": "Ajout de \"{n}\"",
-  "Components.UploadModal.\"{f}\" is too big": "\"{f}\" est trop gros"
+  "Components.UploadModal.\"{f}\" is too big": "\"{f}\" est trop gros",
+  "Features.DesignView.You will need to use the !important suffix for some rules as you want to override initial rules.": "You will need to use the !important suffix for some rules as you want to override initial rules."
 }

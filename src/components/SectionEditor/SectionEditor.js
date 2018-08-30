@@ -423,22 +423,24 @@ class SectionEditor extends Component {
    * Handles user cmd+v like command (restoring stashed contextualizations among other things)
    */
   onPaste = e => {
-    const COPY_THRESHOLD = 1000;
-    if (!this.props.disablePaste) {
-      const html = e.clipboardData.getData('text/html');
+    this.handlePaste(e);
 
-      if (html.length > COPY_THRESHOLD) {
-        this.props.setEditorBlocked(true);
-        this.handlePaste(e);
-        setTimeout(() => {
-          this.props.setEditorBlocked(false);
-        }, 100);
-      }
-      else {
-        this.handlePaste(e);
-      }
+    // const COPY_THRESHOLD = 1000;
+    // if (!this.props.disablePaste) {
+    //   const html = e.clipboardData.getData('text/html');
 
-    }
+    //   if (html.length > COPY_THRESHOLD) {
+    //     this.props.setEditorBlocked(true);
+    //     this.handlePaste(e);
+    //     setTimeout(() => {
+    //       this.props.setEditorBlocked(false);
+    //     }, 100);
+    //   }
+    //   else {
+    //     this.handlePaste(e);
+    //   }
+
+    // }
   }
 
 

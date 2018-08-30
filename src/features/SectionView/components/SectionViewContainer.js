@@ -423,7 +423,7 @@ class SectionViewContainer extends Component {
             storyId,
           }
         },
-        editorBlocked,
+        editorPastingStatus,
       },
       goToSection,
       onSummonAsset,
@@ -454,13 +454,13 @@ class SectionViewContainer extends Component {
                 onResourceEditAttempt={onResourceEditAttempt}
                 {...this.props} />
               <ModalCard
-                isActive={editorBlocked}
+                isActive={editorPastingStatus !== undefined}
                 headerContent={translate('Please wait...')}
                 mainContent={
                   <div>
-                    <p>
-                      {translate('copying content...')}
-                    </p>
+                    {editorPastingStatus && <p>
+                      {editorPastingStatus.status}
+                    </p>}
                   </div>
                 } />
               <UploadModal uploadStatus={uploadStatus} />

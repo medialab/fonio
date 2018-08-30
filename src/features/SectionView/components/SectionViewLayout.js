@@ -68,6 +68,7 @@ const SectionViewLayout = ({
   assetRequestState,
   draggedResourceId,
   shortcutsHelpVisible,
+  editorPastingStatus,
 
   story,
   section,
@@ -85,10 +86,10 @@ const SectionViewLayout = ({
     setResourceSearchString,
     setNewResourceMode,
     setLinkModalFocusId,
+    setEditorPastingStatus,
 
     setPromptedToDeleteSectionId,
     setPromptedToDeleteResourceId,
-    setEditorBlocked,
 
     updateSection,
     createSection,
@@ -540,12 +541,14 @@ const SectionViewLayout = ({
             unpromptAssetEmbed={unpromptAssetEmbed}
             setEditorFocus={setEditorFocus}
 
-            setEditorBlocked={setEditorBlocked}
 
             setNewResourceMode={setNewResourceMode}
 
             newResourceType={newResourceType}
             storyIsSaved={storyIsSaved}
+
+            editorPastingStatus={editorPastingStatus}
+            setEditorPastingStatus={setEditorPastingStatus}
 
             createContextualization={createContextualization}
             createContextualizer={createContextualizer}
