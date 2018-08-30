@@ -392,7 +392,18 @@ class ResourceForm extends Component {
     } = this;
 
     const handleSubmit = (candidates) => {
-      onSubmit(candidates);
+      if (candidates.metadata.type === 'embed') {
+        const {data} = candidates;
+        const scriptRegex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+        const cleanHtml = data.html.replace(scriptRegex, '');
+        onSubmit({
+          ...candidates,
+          data: {
+            html: cleanHtml
+          }
+        });
+      }
+      else onSubmit(candidates);
     };
 
     const onResourceTypeChange = (thatType, formApi) => {
