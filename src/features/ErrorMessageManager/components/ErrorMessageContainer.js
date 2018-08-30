@@ -83,7 +83,7 @@ class ErrorMessageContainer extends Component {
     if (this.props.lastLockFail !== nextProps.lastLockFail) {
 
       let title;
-      if (nextProps.lastLockFail.mode === 'enter') {
+      if (nextProps.lastLockFail && nextProps.lastLockFail.mode === 'enter') {
         switch (nextProps.lastLockFail.blockType) {
           case 'sections':
             title = translate('You could not edit a section');
@@ -105,7 +105,7 @@ class ErrorMessageContainer extends Component {
             break;
         }
       }
-      if (nextProps.lastLockFail.mode === 'delete') {
+      if (nextProps.lastLockFail && nextProps.lastLockFail.mode === 'delete') {
         switch (nextProps.lastLockFail.blockType) {
           case 'sections':
             title = translate('You could not delete a section');
