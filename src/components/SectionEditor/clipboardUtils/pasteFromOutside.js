@@ -1,34 +1,12 @@
 import {
   EditorState,
-  // ContentState,
   convertToRaw,
-  // SelectionState,
   Modifier,
 } from 'draft-js';
 
 import {convertFromHTML} from 'draft-convert';
 
-// import {v4 as generateId} from 'uuid';
-
-// import {createDefaultResource} from '../../../helpers/schemaUtils';
-
-
-// import {
-//   // constants,
-//   utils,
-// } from 'scholar-draft';
-
-
-// const {
-//   insertFragment,
-// } = utils;
-
 import parsePastedLink from './parsePastedLink';
-
-// const {
-//   // SCHOLAR_DRAFT_CLIPBOARD_CODE,
-//   // INLINE_ASSET,
-// } = constants;
 
 const pasteFromOutside = ({
   html = '',
@@ -39,7 +17,6 @@ const pasteFromOutside = ({
   createContextualizer,
   updateDraftEditorState,
 
-  // editorPastingStatus,
   setEditorPastingStatus,
 
   userId,
@@ -48,16 +25,13 @@ const pasteFromOutside = ({
   storyId,
   resources,
   editorFocus,
-  // onEditorChange,
 
   setEditorFocus,
 }) => {
 
   const editorId = editorFocus === 'main' ? activeSection.id : editorFocus;
-  // console.time('copie');
 
   const handle = () => {
-    // console.time('copy');
 
     const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
     const resourcesToAdd = [];
@@ -65,8 +39,9 @@ const pasteFromOutside = ({
     const contextualizersToAdd = [];
     const activeSectionId = activeSection.id;
 
+    // unset editor focus to avoid
+    // noisy draft-js editor updates
     setEditorFocus(undefined);
-    // console.time('blocks from html');
 
     const copiedContentState = convertFromHTML({
       htmlToEntity: (nodeName, node, createEntity) => {
@@ -103,6 +78,9 @@ const pasteFromOutside = ({
       }
     })(html);
 
+    /**
+     * Append copied content state to existing editor state
+     */
     const newContentState = Modifier.replaceWithFragment(
       activeEditorState.getCurrentContent(),
       activeEditorState.getSelection(),
@@ -113,8 +91,12 @@ const pasteFromOutside = ({
       newContentState,
       'paste-content'
     );
-    // console.log('before', convertToRaw(newEditorState.getCurrentContent()))
 
+    /**
+     * Chaining all objects creations requiring server confirmation
+     * (we will actually update editor state only after this
+     * to avoid discrepancies due to interruptions/errors)
+     */
     Promise.resolve()
       .then(() => {
         if (resourcesToAdd.length) {
@@ -162,7 +144,7 @@ const pasteFromOutside = ({
               if (err) {
                 reject(err);
               }
- else resolve();
+              else resolve();
             });
 
           })
@@ -180,7 +162,7 @@ const pasteFromOutside = ({
               if (err) {
                 reject(err);
               }
- else resolve();
+              else resolve();
             });
           })
         , Promise.resolve())
@@ -210,8 +192,11 @@ const pasteFromOutside = ({
             }
           };
         }
-        // console.log('run on editor change', convertToRaw(newEditorState.getCurrentContent()));
-        // onEditorChange(editorId, newEditorState);
+        /**
+         * Simultaneously update section raw content,
+         * draft-js content states,
+         * and set editor view to edition setting
+         */
         setTimeout(() => {
           updateSection(newSection);
           updateDraftEditorState(editorId, newEditorState);
@@ -219,10 +204,12 @@ const pasteFromOutside = ({
           setEditorPastingStatus(undefined);
         });
 
-        // console.timeEnd('copy');
       });
   };
 
+  /**
+   * We show a loading modal only if html content is big enough
+   */
   if (html.length > 1000) {
     setEditorPastingStatus({
       status: 'converting-contents'

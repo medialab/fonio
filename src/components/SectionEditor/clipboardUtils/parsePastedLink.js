@@ -58,7 +58,6 @@ export default (
   const contextualizer = {
     id: contextualizerId,
     type: 'webpage',
-    // alias: text,
     insertionType: 'inline'
   };
   const contextualization = {

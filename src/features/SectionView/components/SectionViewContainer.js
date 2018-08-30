@@ -23,7 +23,6 @@ import {
 } from '../../../helpers/lockUtils';
 
 import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils';
-// import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultResource} from '../../../helpers/schemaUtils';
 
 import UploadModal from '../../../components/UploadModal';
@@ -429,9 +428,7 @@ class SectionViewContainer extends Component {
       submitMultiResources,
       embedLastResource,
       onResourceEditAttempt,
-      // context: {t},
     } = this;
-    // const translate = translateNameSpacer(t, 'Features.SectionViewContainer');
 
     if (editedStory) {
       const section = editedStory.sections[sectionId];

@@ -425,7 +425,7 @@ const pasteFromInside = ({
                 const editorState = editorStates[contentId]
                   || EditorState.createWithContent(
                       convertFromRaw(newNotes[contentId].contents),
-                      this.editor.mainEditor.createDecorator()
+                      editor.mainEditor.createDecorator()
                     );
                 newContentState = editorState.getCurrentContent();
                 newContentState = newContentState.createEntity(entity.entity.type, entity.entity.mutability, {...entity.entity.data});
