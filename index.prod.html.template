@@ -116,7 +116,8 @@
       maxSectionLevel: ${MAX_SECTION_LEVEL},
       sessionName: '${SESSION_NAME}',
       urlPrefix: '${URL_PREFIX}',
-      maxFileSize: ${MAX_FILE_SIZE},
+      maxResourceSize: ${MAX_RESOURCE_SIZE},
+      maxStorySize: ${MAX_STORY_SIZE},
       maxBatchSize: ${MAX_BATCH_SIZE},
       maxBatchNumber: ${MAX_BATCH_NUMBER},
       backgroundColor: '${BACKGROUND_COLOR}'
