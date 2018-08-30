@@ -1,11 +1,13 @@
 import pasteFromOutside from './pasteFromOutside';
 import pasteFromInside from './pasteFromInside';
 
-const handlePaste = function(event) {
+const handlePaste = function(html) {
+
     const {
       props,
-      state,
-      editor
+      // state,
+      editor,
+      onEditorChange
     } = this;
     // ensuring this is happening while editing the content
     if (!props.editorFocus) {
@@ -27,6 +29,7 @@ const handlePaste = function(event) {
       userId,
       editorPastingStatus,
       setEditorPastingStatus,
+      setEditorFocus,
     } = props;
 
     const {
@@ -42,18 +45,15 @@ const handlePaste = function(event) {
       id: activeSectionId
     } = activeSection;
 
-    const {
-      // clipboard, // blockMap of the data copied to clipboard
-      // copiedData, // model-dependent set of data objects saved to clipboard
-    } = state;
+    // const {
+    //   // clipboard, // blockMap of the data copied to clipboard
+    //   // copiedData, // model-dependent set of data objects saved to clipboard
+    // } = state;
 
     let copiedData;
 
-    const html = event.clipboardData.getData('text/html');
-
     const activeEditorStateId = editorFocus === 'main' ? activeSectionId : editorFocus;
     const activeEditorState = editorStates[activeEditorStateId];
-
 
     // check whether the clipboard contains fonio data
     const dataRegex = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>$/gm;
@@ -65,6 +65,7 @@ const handlePaste = function(event) {
      */
     if (!hasScript) {
       return pasteFromOutside({
+        html,
         activeEditorState,
         updateSection,
         createResource,
@@ -73,6 +74,8 @@ const handlePaste = function(event) {
         userId,
         activeEditorStateId,
         updateDraftEditorState,
+        onEditorChange,
+        setEditorFocus,
 
         activeSection,
         storyId,
@@ -89,7 +92,6 @@ const handlePaste = function(event) {
      * =============================================
     */
     else {
-      event.preventDefault();
       return pasteFromInside({
         updateSection,
         createContextualization,
@@ -99,6 +101,8 @@ const handlePaste = function(event) {
         activeSection,
         storyId,
         editorFocus,
+        setEditorPastingStatus,
+
 
         story,
         editor,

@@ -564,5 +564,13 @@
   "Components.UploadModal.Analyzing contents...": "Analyzing contents...",
   "Components.UploadModal.Adding \"{n}\"": "Adding \"{n}\"",
   "Components.UploadModal.\"{f}\" is too big": "\"{f}\" is too big",
-  "Components.ResourceForm.File is too large ({s} Mb), please choose one under {m} Mb": "File is too large ({s} Mb), please choose one under {m} Mb"
+  "Components.ResourceForm.File is too large ({s} Mb), please choose one under {m} Mb": "File is too large ({s} Mb), please choose one under {m} Mb",
+  "Components.PastingModal.Duplicating contents": "Duplicating contents",
+  "Components.PastingModal.Updating contents": "Updating contents",
+  "Components.PastingModal.Converting contents": "Converting contents",
+  "Components.PastingModal.Duplicating {n} contextualizers": "Duplicating {n} contextualizers",
+  "Components.PastingModal.Duplicating {n} notes": "Duplicating {n} notes",
+  "Components.PastingModal.Creating {n} items": "Creating {n} items",
+  "Components.PastingModal.Attaching {n} contextualizers": "Attaching {n} contextualizers",
+  "Components.PastingModal.Please wait...": "Please wait..."
 }

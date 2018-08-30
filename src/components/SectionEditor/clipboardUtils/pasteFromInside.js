@@ -36,6 +36,7 @@ const pasteFromInside = ({
   activeSection,
   storyId,
   editorFocus,
+  setEditorPastingStatus,
 
 
   story,
@@ -43,9 +44,11 @@ const pasteFromInside = ({
   notes,
   editorStates,
   copiedData,
-  html,
+  html = '',
   dataRegex,
 }) => {
+
+  let actualHtml = html;
 
   const activeSectionId = activeSection.id;
 
@@ -63,6 +66,7 @@ const pasteFromInside = ({
 
     while ((match = dataRegex.exec(html)) !== null) {
       json = match[1];
+      actualHtml = `${actualHtml.slice(0, match.index)}${actualHtml.slice(match.index + match[0].length)}`;
       // console.log(`Found ${match[1]}. Next starts at ${match.lastIndex}.`);
       // expected output: "Found foo. Next starts at 9."
       // expected output: "Found foo. Next starts at 19."
@@ -70,14 +74,18 @@ const pasteFromInside = ({
     copiedData = JSON.parse(json);
   }
    catch (e) {
-    // console.log('e', e);
+    return false;
   }
 
   if (!copiedData) {
-      return;
-    }
+    return false;
+  }
 
+  setEditorPastingStatus({
+    status: 'duplicating-contents',
+  });
 
+  setTimeout(() => {
     // let editorState;
     let newNotes;
     let newClipboard = convertFromRaw(copiedData.clipboardContentState).getBlockMap();// clipboard entities will have to be updated
@@ -123,6 +131,12 @@ const pasteFromInside = ({
         }
         // paste assets/contextualizations (attributing them a new id)
         if (data.copiedContextualizations) {
+          setEditorPastingStatus({
+            status: 'duplicating-contextualizers',
+            statusParameters: {
+              length: data.copiedContextualizers.length
+            }
+          });
           data.copiedContextualizations.forEach((contextualization, index) => {
             const contextualizationId = generateId();
             createContextualization({storyId, contextualizationId, contextualization: {
@@ -168,6 +182,12 @@ const pasteFromInside = ({
 
         // paste notes (attributing them a new id to duplicate them if in situation of copy/paste)
         if (data.copiedNotes && editorFocus === 'main') {
+          setEditorPastingStatus({
+            status: 'duplicating-notes',
+            statusParameters: {
+              length: data.copiedNotes.length
+            }
+          });
           // we have to convert existing notes contents
           // as EditorState objects to handle past and new notes
           // the same way
@@ -509,6 +529,10 @@ const pasteFromInside = ({
 
 
     // all done ! now we batch-update all the editor states ...
+    setEditorPastingStatus({
+      status: 'updating-contents'
+    });
+
     const newEditorStates = Object.keys(newNotes).reduce((editors, noteId) => {
       return {
         ...editors,
@@ -542,9 +566,12 @@ const pasteFromInside = ({
       }
     };
     updateSection(newSection);
-    // updateSection({storyId, sectionId: activeSectionId, section: newSection, userId});
-    // setEditorFocus(undefined);
-    // setTimeout(() => setEditorFocus(editorFocus));
+    setEditorPastingStatus(undefined);
+  }, 500);
+  return true;
+  // updateSection({storyId, sectionId: activeSectionId, section: newSection, userId});
+  // setEditorFocus(undefined);
+  // setTimeout(() => setEditorFocus(editorFocus));
 
 };
 

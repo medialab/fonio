@@ -1,25 +1,37 @@
 import {
   EditorState,
+  // ContentState,
   convertToRaw,
-  SelectionState,
+  // SelectionState,
   Modifier,
 } from 'draft-js';
 
-import {v4 as generateId} from 'uuid';
+import {convertFromHTML} from 'draft-convert';
 
-import {createDefaultResource} from '../../../helpers/schemaUtils';
+// import {v4 as generateId} from 'uuid';
+
+// import {createDefaultResource} from '../../../helpers/schemaUtils';
 
 
-import {
-  constants
-} from 'scholar-draft';
+// import {
+//   // constants,
+//   utils,
+// } from 'scholar-draft';
 
-const {
-  // SCHOLAR_DRAFT_CLIPBOARD_CODE,
-  INLINE_ASSET,
-} = constants;
+
+// const {
+//   insertFragment,
+// } = utils;
+
+import parsePastedLink from './parsePastedLink';
+
+// const {
+//   // SCHOLAR_DRAFT_CLIPBOARD_CODE,
+//   // INLINE_ASSET,
+// } = constants;
 
 const pasteFromOutside = ({
+  html = '',
   activeEditorState,
   updateSection,
   createResource,
@@ -27,7 +39,7 @@ const pasteFromOutside = ({
   createContextualizer,
   updateDraftEditorState,
 
-  editorPastingStatus,
+  // editorPastingStatus,
   setEditorPastingStatus,
 
   userId,
@@ -36,269 +48,190 @@ const pasteFromOutside = ({
   storyId,
   resources,
   editorFocus,
+  // onEditorChange,
+
+  setEditorFocus,
 }) => {
-  console.log('début copie');
 
-  console.time('copie');
+  const editorId = editorFocus === 'main' ? activeSection.id : editorFocus;
+  // console.time('copie');
 
-  setEditorPastingStatus({
-    status: 'initializing'
-  });
-  const activeSectionId = activeSection.id;
-  // replacing pasted links with resources/contextualizers/contextualizations
-    let contentState = activeEditorState.getCurrentContent();
-    // console.log(convertToRaw(contentState))
-    const mods = [];
-    // trying not to duplicate same links
-    const linksMap = {};
-    // const imagesMap = {};
-    contentState
-      .getBlocksAsArray()
-      .map(contentBlock => {
-        let url;
-        // let src;
-        // let alt;
-        let entityKey;
-        let type;
-        contentBlock.findEntityRanges(
-          (character) => {
-            entityKey = character.getEntity();
-            if (entityKey === null) {
-              return false;
-            }
-            type = contentState.getEntity(entityKey).getType();
-            if (
-              type === 'LINK'
-            ) {
-              url = contentState.getEntity(entityKey).getData().url;
-              return true;
-            }
-            else if (
-              type === 'IMAGE'
-              ) {
-               // src = contentState.getEntity(entityKey).getData().src;
-               // alt = contentState.getEntity(entityKey).getData().alt;
-               return true;
-            }
-          },
-          (from, to) => {
-            const text = contentBlock.getText().substring(from, to);
-            const blockKey = contentBlock.getKey();
-            let resId = generateId();
-            let shouldCreateResource;
-            let matchingResourceId;
-            // case LINK entity
-            if (type === 'LINK') {
-              matchingResourceId = Object.keys(resources)
-                .find(resourceId => resources[resourceId].metadata.type === 'webpage' && resources[resourceId].data.url === url);
+  const handle = () => {
+    // console.time('copy');
 
-              /**
-               * avoiding to create duplicate resources
-               */
-              if (linksMap[url]) {
-                resId = linksMap[url];
-                shouldCreateResource = false;
-              }
-              else if (matchingResourceId) {
-                resId = matchingResourceId;
-                shouldCreateResource = false;
-              }
-              else {
-                linksMap[url] = resId;
-                shouldCreateResource = true;
-              }
-            }
-            // case IMAGE entity
-            else if (type === 'IMAGE') {
-              const selectionState = activeEditorState.getSelection().merge({
-                anchorKey: blockKey,
-                focusKey: blockKey,
-                anchorOffset: from,
-                focusOffset: to,
-              });
+    const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
+    const resourcesToAdd = [];
+    const contextualizationsToAdd = [];
+    const contextualizersToAdd = [];
+    const activeSectionId = activeSection.id;
 
-              // we remove the IMAGE entity
-              try {
-                // it sometimes fails
-                // why ? draft-js mystery ...
-                // @todo investigate why it fails in some cases
-                contentState = Modifier.applyEntity(
-                  contentState,
-                  selectionState,
-                  null
-                );
-              }
-              catch (e) {
-                console.warn('An error occured while trying to remove an image from pasted contents:');/* eslint no-console: 0 */
-                console.error(e);/* eslint no-console: 0 */
-              }
+    setEditorFocus(undefined);
+    // console.time('blocks from html');
 
-              // we remove the corresponding text
-              contentState = Modifier.removeRange(
-                contentState,
-                selectionState
-              );
-              return;
-              // shouldCreateResource = true;
-              // imagesMap[src] = {src, alt};
-            }
+    const copiedContentState = convertFromHTML({
+      htmlToEntity: (nodeName, node, createEntity) => {
+        if (nodeName === 'a') {
+          const {
+            contextualization,
+            contextualizer,
+            resource,
+            entity
+          } = parsePastedLink(
+                node,
+                [...resourcesList, ...resourcesToAdd],
+                activeSectionId
+          );
 
-            const contextualizationId = generateId();
-            const contextualizerId = generateId();
-            let resource;
-            let contextualizer;
-            let contextualization;
-            // case IMAGE entity
-            /*if (src) {
-              resource = {
-                id: resId,
-                metadata: {
-                  type: 'image',
-                  createdAt: new Date().getTime(),
-                  lastModifiedAt: new Date().getTime(),
-                  title: alt,
-                  ext: src.split('.').pop() || 'jpeg'
-                },
-                data: {
-                  url: src,
-                }
-              };
-              contextualizer = {
-                id: contextualizerId,
-                type: 'image',
-                insertionType: 'block'
-              };
-              contextualization = {
-                id: contextualizationId,
-                resourceId: resId,
-                contextualizerId,
-                type: 'image',
-                title: alt
-              };
-            }
-            // case LINK entity
-            else */ if (url) {
-              resource = {
-                ...createDefaultResource(),
-                id: resId,
-                metadata: {
-                  type: 'webpage',
-                  createdAt: new Date().getTime(),
-                  lastModifiedAt: new Date().getTime(),
-                  title: text,
-                },
-                data: {
-                  url,
-                }
-              };
-              contextualizer = {
-                id: contextualizerId,
-                type: 'webpage',
-                // alias: text,
-                insertionType: 'inline'
-              };
-              contextualization = {
-                id: contextualizationId,
-                resourceId: resId,
-                contextualizerId,
-                sectionId: activeSectionId,
-                type: 'webpage',
-              };
-            }
-
-            if (shouldCreateResource) {
-              createResource({storyId, resourceId: resId, resource, userId});
-            }
-            createContextualizer({storyId, contextualizerId, contextualizer, userId});
-            createContextualization({storyId, contextualizationId, contextualization, userId});
-            mods.push({
-              from,
-              to,
-              blockKey,
-              contextualizationId,
-              contextualizer,
-            });
+          if (contextualization) {
+            contextualizationsToAdd.push(contextualization);
           }
-        );
-      });
-    // reversing modifications to content state
-    // to avoid messing with indexes
-    mods.reverse().forEach(({from, to, blockKey, contextualizationId, contextualizer}) => {
-      const textSelection = new SelectionState({
-        anchorKey: blockKey,
-        anchorOffset: from,
-        focusKey: blockKey,
-        focusOffset: to,
-        collapsed: true
-      });
-
-      // contentState = Modifier.replaceText(
-      //   contentState,
-      //   textSelection,
-      //   ' ',
-      // );
-      contentState = contentState.createEntity(
-        INLINE_ASSET,
-        contextualizer.type === 'bib' ? 'IMMUTABLE' : 'MUTABLE',
-        {
-          asset: {
-            id: contextualizationId,
+          if (contextualizer) {
+            contextualizersToAdd.push(contextualizer);
+          }
+          if (resource) {
+            resourcesToAdd.push(resource);
+          }
+          if (entity) {
+            return createEntity(entity.type, entity.mutability, entity.data);
           }
         }
-      );
-      const entityKey = contentState.getLastCreatedEntityKey();
-      // update selection
-      // textSelection = textSelection.merge({
-      //   focusOffset: from + 1
-      // });
-      try {
-        contentState = Modifier.applyEntity(
-          contentState,
-          textSelection,
-          entityKey
-        );
+      },
+      htmlToBlock: (nodeName) => {
+        if (nodeName === 'image') {
+          return null;
+        }
       }
-      catch (e) {/* eslint no-empty : 0 */
+    })(html);
 
-      }
-
-    });
-    // applying updated editor state
-    activeEditorState = EditorState.push(
-        activeEditorState,
-        contentState,
-        'apply-entity'
-      );
-    updateDraftEditorState(
-      activeEditorStateId,
-      activeEditorState,
+    const newContentState = Modifier.replaceWithFragment(
+      activeEditorState.getCurrentContent(),
+      activeEditorState.getSelection(),
+      copiedContentState.getBlockMap()
     );
-    // ...then update the section with editorStates convert to serializable raw objects
-    let newSection;
-    // console.log(convertToRaw(activeEditorState.getCurrentContent()));
-    if (editorFocus === 'main') {
-      newSection = {
-        ...activeSection,
-        contents: convertToRaw(activeEditorState.getCurrentContent()),
-      };
-    }
-    else {
-      newSection = {
-        ...activeSection,
-        notes: {
-          ...activeSection.notes,
-          [activeEditorStateId]: {
-            ...activeSection.notes[activeEditorStateId],
-            contents: convertToRaw(activeEditorState.getCurrentContent()),
-          }
+    const newEditorState = EditorState.push(
+      activeEditorState,
+      newContentState,
+      'paste-content'
+    );
+    // console.log('before', convertToRaw(newEditorState.getCurrentContent()))
+
+    Promise.resolve()
+      .then(() => {
+        if (resourcesToAdd.length) {
+          setEditorPastingStatus({
+            status: 'creating-resources',
+            statusParameters: {
+              length: resourcesToAdd.length
+            }
+          });
         }
-      };
-    }
-    updateSection(newSection);
-    console.timeEnd('copie');
-    console.log('fin copie');
-    setEditorPastingStatus(undefined);
-    return;
+        return resourcesToAdd.reduce((cur, next) =>
+          new Promise((resolve, reject) => {
+            createResource({
+              storyId,
+              userId,
+              resourceId: next.id,
+              resource: next
+            }, err => {
+              if (err) {
+                reject(err);
+              }
+              else resolve();
+            });
+          })
+        , Promise.resolve());
+      })
+      .then(() => {
+        if (contextualizersToAdd.length) {
+          setEditorPastingStatus({
+            status: 'attaching-contextualizers',
+            statusParameters: {
+              length: contextualizersToAdd.length
+            }
+          });
+        }
+
+        return contextualizersToAdd.reduce((cur, next) =>
+          new Promise((resolve, reject) => {
+            createContextualizer({
+              storyId,
+              userId,
+              contextualizerId: next.id,
+              contextualizer: next
+            }, err => {
+              if (err) {
+                reject(err);
+              }
+ else resolve();
+            });
+
+          })
+        , Promise.resolve());
+      })
+      .then(() =>
+        contextualizationsToAdd.reduce((cur, next) =>
+          new Promise((resolve, reject) => {
+            createContextualization({
+              storyId,
+              userId,
+              contextualizationId: next.id,
+              contextualization: next
+            }, err => {
+              if (err) {
+                reject(err);
+              }
+ else resolve();
+            });
+          })
+        , Promise.resolve())
+      )
+      .then(() => {
+        setEditorPastingStatus({
+          status: 'updating-contents'
+        });
+
+        let newSection;
+        const contents = convertToRaw(newEditorState.getCurrentContent());
+        if (editorFocus === 'main') {
+          newSection = {
+            ...activeSection,
+            contents,
+          };
+        }
+        else {
+          newSection = {
+            ...activeSection,
+            notes: {
+              ...activeSection.notes,
+              [activeEditorStateId]: {
+                ...activeSection.notes[activeEditorStateId],
+                contents,
+              }
+            }
+          };
+        }
+        // console.log('run on editor change', convertToRaw(newEditorState.getCurrentContent()));
+        // onEditorChange(editorId, newEditorState);
+        setTimeout(() => {
+          updateSection(newSection);
+          updateDraftEditorState(editorId, newEditorState);
+          setEditorFocus(editorFocus);
+          setEditorPastingStatus(undefined);
+        });
+
+        // console.timeEnd('copy');
+      });
+  };
+
+  if (html.length > 1000) {
+    setEditorPastingStatus({
+      status: 'converting-contents'
+    });
+    setTimeout(handle, 500);
+  }
+ else handle();
+
+  return true;
 };
 
 export default pasteFromOutside;

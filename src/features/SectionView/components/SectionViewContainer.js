@@ -8,10 +8,6 @@ import {
 } from 'react-router';
 
 import {
-  ModalCard,
-} from 'quinoa-design-library/components/';
-
-import {
   convertToRaw
 } from 'draft-js';
 
@@ -27,10 +23,11 @@ import {
 } from '../../../helpers/lockUtils';
 
 import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils';
-import {translateNameSpacer} from '../../../helpers/translateUtils';
+// import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultResource} from '../../../helpers/schemaUtils';
 
 import UploadModal from '../../../components/UploadModal';
+import PastingModal from '../../../components/PastingModal';
 
 import DataUrlProvider from '../../../components/DataUrlProvider';
 
@@ -432,9 +429,9 @@ class SectionViewContainer extends Component {
       submitMultiResources,
       embedLastResource,
       onResourceEditAttempt,
-      context: {t},
+      // context: {t},
     } = this;
-    const translate = translateNameSpacer(t, 'Features.SectionViewContainer');
+    // const translate = translateNameSpacer(t, 'Features.SectionViewContainer');
 
     if (editedStory) {
       const section = editedStory.sections[sectionId];
@@ -453,16 +450,7 @@ class SectionViewContainer extends Component {
                 onContextualizeHyperlink={onContextualizeHyperlink}
                 onResourceEditAttempt={onResourceEditAttempt}
                 {...this.props} />
-              <ModalCard
-                isActive={editorPastingStatus !== undefined}
-                headerContent={translate('Please wait...')}
-                mainContent={
-                  <div>
-                    {editorPastingStatus && <p>
-                      {editorPastingStatus.status}
-                    </p>}
-                  </div>
-                } />
+              <PastingModal editorPastingStatus={editorPastingStatus} />
               <UploadModal uploadStatus={uploadStatus} />
             </EditionUiWrapper>
           </DataUrlProvider>

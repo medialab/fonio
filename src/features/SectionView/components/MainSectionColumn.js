@@ -45,6 +45,7 @@ const MainSectionColumn = ({
   mainColumnMode,
   newResourceMode,
   defaultSectionMetadata,
+
   story,
   section,
   userId,
@@ -72,6 +73,9 @@ const MainSectionColumn = ({
   createContextualizer,
   createResource,
   uploadResource,
+
+  setEditorPastingStatus,
+  editorPastingStatus,
 
   leaveBlock,
 
@@ -109,8 +113,8 @@ const MainSectionColumn = ({
   // const {id: sectionId} = section;
   const translate = translateNameSpacer(t, 'Features.SectionView');
 
-  const onUpdateSection = newSection => {
-    updateSection(newSection);
+  const onUpdateSection = (newSection, callback) => {
+    updateSection(newSection, callback);
   };
 
   const onUpdateMetadata = metadata => {
@@ -428,9 +432,12 @@ const MainSectionColumn = ({
                     draggedResourceId={draggedResourceId}
                     disablePaste={(userLockedResourceId || mainColumnMode !== 'edit') && !editorFocus}
 
-                    updateSection={newSection => onUpdateSection(newSection)}
+                    updateSection={(newSection, callback) => onUpdateSection(newSection, callback)}
 
                     summonAsset={summonAsset}
+
+                    setEditorPastingStatus={setEditorPastingStatus}
+                    editorPastingStatus={editorPastingStatus}
 
                     createContextualization={createContextualization}
                     createContextualizer={createContextualizer}

@@ -564,5 +564,13 @@
   "Components.UploadModal.Analyzing contents...": "Analyse des contenus...",
   "Components.UploadModal.Adding \"{n}\"": "Ajout de \"{n}\"",
   "Components.UploadModal.\"{f}\" is too big": "\"{f}\" est trop gros",
-  "Features.DesignView.You will need to use the !important suffix for some rules as you want to override initial rules.": "You will need to use the !important suffix for some rules as you want to override initial rules."
+  "Features.DesignView.You will need to use the !important suffix for some rules as you want to override initial rules.": "You will need to use the !important suffix for some rules as you want to override initial rules.",
+  "Components.PastingModal.Duplicating contents": "Duplication des contenus",
+  "Components.PastingModal.Updating contents": "Mise à jour des contenus",
+  "Components.PastingModal.Converting contents": "Conversion des contenus",
+  "Components.PastingModal.Duplicating {n} contextualizers": "Duplication de {n} mentions",
+  "Components.PastingModal.Duplicating {n} notes": "Duplication de {n} notes",
+  "Components.PastingModal.Creating {n} items": "Création de {n} liens",
+  "Components.PastingModal.Attaching {n} contextualizers": "Intégration de {n} mentions",
+  "Components.PastingModal.Please wait...": "Merci de patienter..."
 }

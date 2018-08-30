@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-8-30\n"
-"PO-Revision-Date: Thu Aug 30 2018 09:40:53 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Aug 30 2018 16:08:49 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4882,6 +4882,30 @@ msgstr "\"{f}\" est trop gros"
 
 msgid "Components.ResourceForm.File is too large ({s} Mb), please choose one under {m} Mb"
 msgstr "File is too large ({s} Mb), please choose one under {m} Mb"
+
+msgid "Components.PastingModal.Duplicating contents"
+msgstr "Duplicating contents"
+
+msgid "Components.PastingModal.Updating contents"
+msgstr "Updating contents"
+
+msgid "Components.PastingModal.Converting contents"
+msgstr "Converting contents"
+
+msgid "Components.PastingModal.Duplicating {n} contextualizers"
+msgstr "Duplicating {n} contextualizers"
+
+msgid "Components.PastingModal.Duplicating {n} notes"
+msgstr "Duplicating {n} notes"
+
+msgid "Components.PastingModal.Creating {n} items"
+msgstr "Creating {n} items"
+
+msgid "Components.PastingModal.Attaching {n} contextualizers"
+msgstr "Attaching {n} contextualizers"
+
+msgid "Components.PastingModal.Please wait..."
+msgstr ""
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
