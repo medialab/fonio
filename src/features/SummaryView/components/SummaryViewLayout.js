@@ -127,7 +127,7 @@ const SummaryViewLayout = ({
 
   let metadataLockStatus;
   let metadataLockMessage;
-  if (userLockedOnMetadataId) {
+  if (userLockedOnMetadataId && activeUsers[userLockedOnMetadataId]) {
     if (userLockedOnMetadataId === userId) {
       metadataLockStatus = 'active';
       metadataLockMessage = translate('edited by you');

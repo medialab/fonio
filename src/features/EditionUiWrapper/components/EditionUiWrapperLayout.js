@@ -66,7 +66,7 @@ const EditionUiWrapperLayout = ({
     designStatus = 'active';
     designMessage = translate('edited by you');
   }
-  else if (userLockedOnDesignId) {
+  else if (userLockedOnDesignId && activeUsers[userLockedOnDesignId]) {
     const userLockedOnDesignInfo = activeUsers[userLockedOnDesignId];
     designStatus = 'locked';
     designMessage = translate('edited by {n}', {n: userLockedOnDesignInfo.name});
