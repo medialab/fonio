@@ -133,13 +133,11 @@ class HomeViewLayout extends Component {
                 <p
                   dangerouslySetInnerHTML={{
                       __html: this.translate('Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.')
-                    }} 
-                />
+                    }} />
                 <p
                   dangerouslySetInnerHTML={{
                       __html: this.translate('Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.')
-                    }} 
-                />
+                    }} />
                 <p>{this.translate('Avatar icons courtesy of ')}<a target="blank" href="https://www.flaticon.com/packs/people-faces">Freepik</a>.</p>
 
               </Content>
@@ -152,7 +150,7 @@ class HomeViewLayout extends Component {
                     dangerouslySetInnerHTML={{
                        __html: this.translate('The source code of Fonio is licensed under free software license ')
                 }} />
-                 <a target="blank" href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3</a>
+                  <a target="blank" href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3</a>
                   {this.translate(' and is hosted on ')}
                   <a target="blank" href="https://github.com/medialab/fonio/">Github</a>.
                 </p>
@@ -160,8 +158,7 @@ class HomeViewLayout extends Component {
                 <p
                   dangerouslySetInnerHTML={{
                     __html: this.translate('For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !')
-                  }}
-                />
+                  }} />
               </Content>
 
             </Column>

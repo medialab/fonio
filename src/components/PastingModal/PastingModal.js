@@ -34,14 +34,16 @@ const UploadModal = ({
     case 'creating-resources':
       if (statusParameters.iteration) {
         message = translate('Creating item {x} of {n}', {x: statusParameters.iteration, n: statusParameters.length});
-      } else {
+      }
+ else {
         message = translate('Creating {n} items', {n: statusParameters.length});
       }
       break;
     case 'attaching-contextualizers':
       if (statusParameters.iteration) {
         message = translate('Attaching contextualizer {x} of {n}', {x: statusParameters.iteration, n: statusParameters.length});
-      } else {
+      }
+ else {
         message = translate('Attaching {n} contextualizers', {n: statusParameters.length});
       }
       break;

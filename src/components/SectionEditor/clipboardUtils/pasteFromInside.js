@@ -97,6 +97,7 @@ const pasteFromInside = ({
 
         const invalidEntities = [];
 
+
         // filter out contextualizations that point to a resource that has been deleted
         data.copiedContextualizations = data.copiedContextualizations.filter(contextualization => {
           const isValid = story.resources[contextualization.resourceId] !== undefined;
@@ -104,9 +105,22 @@ const pasteFromInside = ({
             data.copiedContextualizers = data.copiedContextualizers.filter(contextualizer => {
               return contextualizer.id !== contextualization.contextualizerId;
             });
+            // commented because done below
+            // data.copiedEntities = Object.keys(data.copiedEntities).reduce((result, contentId) => {
+            //   return {
+            //     ...result,
+            //     [contentId]: data.copiedEntities[contentId]
+            //       .filter(entity => {
+            //         if ((entity.entity.type === INLINE_ASSET || entity.entity.type === BLOCK_ASSET) && entity.entity.data && entity.entity.data.asset && entity.entity.data.asset.id) {
+            //           return entity.entity.data.asset.id !== contextualization.id
+            //         } else return true;
+            //       })
+            //   }
+            // }, {})
           }
           return isValid;
         });
+
 
         // paste contextualizers (attributing them a new id)
         if (data.copiedContextualizers) {
@@ -215,7 +229,7 @@ const pasteFromInside = ({
                   entityMap: Object.keys(note.contents.entityMap).reduce((res, entityKey) => {
                     const entity = note.contents.entityMap[entityKey];
                     const assetId = entity.data && entity.data.asset && entity.data.asset.id;
-                    if (entity.type === NOTE_POINTER || !assetId || invalidEntities.length === 0 || invalidEntities.indexOf(assetId) > -1) {
+                    if (entity.type === NOTE_POINTER || !assetId || invalidEntities.length === 0 || invalidEntities.indexOf(assetId) === -1) {
                       return {
                         ...res,
                         [entityKey]: note.contents.entityMap[entityKey]
