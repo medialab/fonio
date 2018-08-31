@@ -35,8 +35,6 @@ import {
   Image,
   Input,
   Level,
-  LevelItem,
-  LevelLeft,
   ModalCard,
   StretchedLayoutContainer,
   StretchedLayoutItem,
@@ -346,8 +344,6 @@ class HomeViewLayout extends Component {
                   <Title isSize={3}>
                     {config.sessionName /* eslint no-undef: 0 */}
                   </Title>
-
-
                   <div>
                     <Button isFullWidth onClick={() => setNewStoryOpen(!newStoryOpen)} isColor={newStoryOpen ? 'primary' : 'info'}>
                       {this.translate('New story')}
@@ -360,21 +356,21 @@ class HomeViewLayout extends Component {
                     <Title isSize={5}>
                       {this.translate('Your profile')} <HelpPin>{this.translate('choose how you will be identified by other writers')}</HelpPin>
                     </Title>
-                    <Level isMobile>
-                      {userInfo && <LevelLeft>
-                        <LevelItem>
+                    {userInfo &&
+                      <StretchedLayoutContainer isDirection="horizontal">
+                        <StretchedLayoutItem>
                           <Image isRounded isSize="64x64" src={require(`../../../sharedAssets/avatars/${userInfo.avatar}`)} />
-                        </LevelItem>
-                        <LevelItem>
+                        </StretchedLayoutItem>
+                        <StretchedLayoutItem style={{paddingRight: '1rem'}} isFlex={1}>
                           {userInfo.name}
-                        </LevelItem>
-                        <LevelItem>
+                        </StretchedLayoutItem>
+                        <StretchedLayoutItem>
                           <Button onClick={() => setIdentificationModalSwitch(true)}>
                             {this.translate('edit')}
                           </Button>
-                        </LevelItem>
-                      </LevelLeft>}
-                    </Level>
+                        </StretchedLayoutItem>
+                      </StretchedLayoutContainer>
+                    }
                   </div>
                   <Level />
                   <div>
@@ -393,18 +389,16 @@ class HomeViewLayout extends Component {
                       .map(thatUserId => ({userId, ...activeUsers[thatUserId]}))
                       .map((user, index) => {
                         return (
-                          <Level key={index}>
-                            <Columns style={{alignItems: 'center'}}>
-                              <Column style={{maxWidth: '3rem', minWidth: '3rem'}} isSize={'1/3'}>
-                                <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
-                              </Column>
-                              <Column isSize={'2/3'}>
-                                <Content>
-                                  {user.name}
-                                </Content>
-                              </Column>
-                            </Columns>
-                          </Level>
+                          <StretchedLayoutContainer style={{marginBottom: '1rem'}} isDirection={'horizontal'} key={index}>
+                            <StretchedLayoutItem style={{maxWidth: '3rem', minWidth: '3rem'}}>
+                              <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
+                            </StretchedLayoutItem>
+                            <StretchedLayoutItem isFlex={1}>
+                              <Content>
+                                {user.name}
+                              </Content>
+                            </StretchedLayoutItem>
+                          </StretchedLayoutContainer>
                         );
                       })
                     }
