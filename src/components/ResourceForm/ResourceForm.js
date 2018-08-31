@@ -357,6 +357,17 @@ class ResourceForm extends Component {
     this.translate = translateNameSpacer(context.t, 'Components.ResourceForm');
   }
 
+  componentDidMount = () => {
+    setTimeout(() => {
+      if (this.form) {
+        const inputs = this.form.getElementsByTagName('input');
+        if (inputs && inputs.length) {
+          inputs[0].focus();
+        }
+      }
+    });
+  }
+
   componentWillReceiveProps = nextProps => {
     if (this.props.resource !== nextProps.resource) {
       const resource = nextProps.resource || createDefaultResource();
@@ -436,6 +447,10 @@ class ResourceForm extends Component {
       }
     };
 
+    const bindRef = form => {
+      this.form = form;
+    };
+
     return (
       <Form
         defaultValues={resource}
@@ -445,7 +460,7 @@ class ResourceForm extends Component {
         onSubmit={handleSubmit}>
         {
           formApi => (
-            <form className="is-wrapper" onSubmit={formApi.submitForm}>
+            <form ref={bindRef} className="is-wrapper" onSubmit={formApi.submitForm}>
               <StretchedLayoutContainer isAbsolute>
                 {showTitle && <StretchedLayoutItem>
                   <Column>
