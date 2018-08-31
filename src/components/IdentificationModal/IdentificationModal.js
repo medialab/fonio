@@ -76,7 +76,7 @@ class IdentificationModal extends Component {
             e.preventDefault(); onSubmit();
             }}>
             <Columns>
-              <Column isSize={'1/3'}>
+              <Column isSize={2}>
                 <Dropdown
                   value={{
                       id: userInfo.avatar
@@ -95,7 +95,7 @@ class IdentificationModal extends Component {
                   <Image isRounded isSize="32x32" src={require(`../../sharedAssets/avatars/${userInfo.avatar}`)} />
                 </Dropdown>
               </Column>
-              <Column isSize={'2/3'}>
+              <Column isSize={10}>
                 <Field>
                   <Label>{translate('Enter a nickname')}</Label>
                   <Control>
