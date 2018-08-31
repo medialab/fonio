@@ -601,7 +601,7 @@ class LibraryViewLayout extends Component {
                                 })),
                               }
                             ]}>
-                            {translate('Options')}
+                            {translate('Filters')}
                           </Dropdown>
                         </LevelItem>
                       </LevelLeft>

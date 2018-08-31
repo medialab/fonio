@@ -573,5 +573,7 @@
   "Features.SectionView.delete this webpage": "supprimer cet hyperlien",
   "Features.HomeView.Contributing and signaling bugs": "Contributing and signaling bugs",
   "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">this page</a> and fill the questionnaire. Thanks !": "For suggesting improvements or signaling bugs, please head to <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">this page</a> and to follow the proposed procedure. Thanks !",
-  "Features.HomeView.The source code of Fonio is licensed under free software license ": "The source code of Fonio is licensed under free software license "
+  "Features.HomeView.The source code of Fonio is licensed under free software license ": "The source code of Fonio is licensed under free software license ",
+  "Features.LibraryView.Filters": "Filters",
+  "Features.SectionView.Filters": "Filters"
 }

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-8-31\n"
-"PO-Revision-Date: Fri Aug 31 2018 10:45:09 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Fri Aug 31 2018 10:47:01 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4957,3 +4957,9 @@ msgstr "\"{f}\" is too big"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "For suggesting improvements or signaling bugs, please head to <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">this page</a> and to follow the proposed procedure. Thanks !"
+
+msgid "Features.LibraryView.Filters"
+msgstr "Filters"
+
+msgid "Features.SectionView.Filters"
+msgstr "Filters"

@@ -233,7 +233,7 @@ class AsideSectionColumn extends Component {
                             })),
                           }
                         ]}>
-                          {translate('Options')}
+                          {translate('Filters')}
                         </Dropdown>
                       </Control>
                     </Field>
