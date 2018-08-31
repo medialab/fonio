@@ -33,6 +33,8 @@ import SortableSectionsList from './SortableSectionsList';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultSection} from '../../../helpers/schemaUtils';
+import {abbrevString} from '../../../helpers/misc';
+
 import {
   getReverseSectionsLockMap,
   getStoryActiveAuthors,
@@ -245,35 +247,36 @@ const SummaryViewLayout = ({
   return (
     <Container style={{position: 'relative', height: '100%'}}>
       <StretchedLayoutContainer isFluid isDirection="horizontal" isAbsolute>
-        <StretchedLayoutItem isFluid isFlex={1} isFlowing>
+        <StretchedLayoutItem style={{marginTop: '1rem'}} isFluid isFlex={1} isFlowing>
           <Column>
-
             <Level>
-              <Collapsable isCollapsed={metadataOpen}>
-                <Title isSize={2}>
-                  {title}
+              <Collapsable maxHeight={'100%'} isCollapsed={metadataOpen}>
+                <Title isSize={3}>
+                  {abbrevString(title, 60)}
                 </Title>
                 {subtitle && <Title isSize={5}>
-                  <i>{subtitle}</i>
+                  <i>{abbrevString(subtitle, 60)}</i>
                   </Title>}
-                {
-                    authors.map((author, index) => (
-                      <Level key={index}>
-                        <LevelLeft>
-                          <LevelItem>
-                            <Icon isSize="small" isAlign="left">
-                              <span className="fa fa-user" aria-hidden="true" />
-                            </Icon>
-                          </LevelItem>
-                          <LevelItem>
-                            {author}
-                          </LevelItem>
-                        </LevelLeft>
-                      </Level>
-                    ))
-                  }
+                  <div  style={{maxHeight: '15rem', overflow: 'auto'}}>
+                  {
+                      authors.map((author, index) => (
+                        <Level key={index}>
+                          <LevelLeft>
+                            <LevelItem>
+                              <Icon isSize="small" isAlign="left">
+                                <span className="fa fa-user" aria-hidden="true" />
+                              </Icon>
+                            </LevelItem>
+                            <LevelItem>
+                              {abbrevString(author, 60)}
+                            </LevelItem>
+                          </LevelLeft>
+                        </Level>
+                      ))
+                    }
+                    </div>
                 <Content>
-                  <i>{abstract}</i>
+                  <i>{abbrevString(abstract, 300)}</i>
                 </Content>
               </Collapsable>
             </Level>
@@ -302,7 +305,7 @@ const SummaryViewLayout = ({
                 }
               </Button>
             </Level>
-            <Collapsable isCollapsed={!metadataOpen} maxHeight={1000}>
+            <Collapsable isCollapsed={!metadataOpen} maxHeight={'100%'}>
               {metadataOpen && <MetadataForm
                 story={story}
                 onSubmit={onMetadataSubmit}
