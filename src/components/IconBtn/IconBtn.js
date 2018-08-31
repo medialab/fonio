@@ -44,7 +44,7 @@ export default class IconBtn extends Component {
             flexFlow: 'column nowrap',
             justifyContent: 'center',
             position: 'absolute'
-          }} isSize={'16x16'} src={src} />
+          }} isSize={'32x32'} src={src} />
         </Button>
       </span>
     );
