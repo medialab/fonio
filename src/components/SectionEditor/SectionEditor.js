@@ -403,6 +403,9 @@ class SectionEditor extends Component {
   }
 
   updateStateFromProps = props => {
+    if (!this || !this.state) {
+      return;
+    }
     const assets = computeAssets(props);
     const citations = buildCitations(assets, props);
 
