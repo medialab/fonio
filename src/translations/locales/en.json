@@ -577,5 +577,6 @@
   "Features.LibraryView.Filters": "Filters",
   "Features.SectionView.Filters": "Filters",
   "Components.PastingModal.Creating item {x} of {n}": "Creating item {x} of {n}",
-  "Components.PastingModal.Attaching contextualizer {x} of {n}": "Attaching mention {x} of {n}"
+  "Components.PastingModal.Attaching contextualizer {x} of {n}": "Attaching mention {x} of {n}",
+  "Components.DeleteStoryModal.Deleting a story cannot be undone. Are you sure ?": " Are you sure ?"
 }

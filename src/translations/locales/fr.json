@@ -577,5 +577,6 @@
   "Features.LibraryView.Filters": "Filtres",
   "Features.SectionView.Filters": "Filtres",
   "Components.PastingModal.Creating item {x} of {n}": "Création de l'item {x} sur {n}",
-  "Components.PastingModal.Attaching contextualizer {x} of {n}": "Intégration de la mention {x} sur {n}"
+  "Components.PastingModal.Attaching contextualizer {x} of {n}": "Intégration de la mention {x} sur {n}",
+  "Components.DeleteStoryModal.Deleting a story cannot be undone. Are you sure ?": "La suppression d'un récit est irréversible. Êtes-vous sûr·e ?"
 }

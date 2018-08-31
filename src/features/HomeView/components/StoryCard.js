@@ -16,7 +16,14 @@ import {
   Image,
   Columns,
   Column,
+  Content,
+  Icon,
 } from 'quinoa-design-library/components/';
+
+
+const InlineIcon = ({
+  icon
+}) => <Icon style={{marginRight: '1rem'}} icon={icon} />;
 
 const StoryCard = ({
   story,
@@ -37,8 +44,9 @@ const StoryCard = ({
             data-tip={(story.metadata.title || '').length > MAX_STR_LEN ? story.metadata.title : undefined}
             isSize={8}>
             <Link style={{color: 'inherit'}} to={`story/${story.id}`}>
-              {abbrevString(story.metadata.title, MAX_STR_LEN)}
+              <b>{abbrevString(story.metadata.title, MAX_STR_LEN)}</b>
             </Link>
+
           </Column>
           <Column style={{maxHeight: '30rem', overflowX: 'auto'}} isSize={4}>
             <div style={{display: 'flex', flexFlow: 'row wrap'}}>
@@ -64,34 +72,55 @@ const StoryCard = ({
         </Columns>
       }
       subtitle={abbrevString(story.metadata.subtitle, MAX_STR_LEN)}
+      bodyContent={
+        <div>
+          {
+          story.metadata.authors && story.metadata.authors.length > 0 &&
+          <Content>
+            <i>{abbrevString(story.metadata.authors.join(', '), MAX_STR_LEN)}</i>
+          </Content>
+        }
+          {
+          story.metadata.abstract && story.metadata.abstract.length > 0 &&
+          <Content>
+            {abbrevString(story.metadata.abstract, 300)}
+          </Content>
+        }
+        </div>
+      }
       statusMessage={story.edited ? `Edited by ${story.metadata.subtitle}` : undefined}
       onAction={onAction}
       footerActions={[
-          {
-            label: translate('change password'),
-            id: 'change password'
-          }
+          // {
+          //   label: translate('change password'),
+          //   id: 'change password'
+          // }
         ]}
       asideActions={[
         {
-          label: translate('open'),
+          label: <span><InlineIcon icon="pencil" /> {translate('open')}</span>,
           isColor: 'primary',
           id: 'open',
         },
         {
-          label: translate('duplicate'),
-          id: 'duplicate',
-        },
-        {
-          label: translate('read'),
+          label: <span><InlineIcon icon="eye" />{translate('read')}</span>,
           id: 'read',
         },
         {
-          label: <span>{translate('delete')}</span>,
+          label: <span><InlineIcon icon="copy" />{translate('duplicate')}</span>,
+          id: 'duplicate',
+        },
+        {
+          label: <span><InlineIcon icon="lock" />{translate('change password')}</span>,
+          id: 'change password'
+        },
+        {
+          label: <span><InlineIcon icon="trash" />{translate('delete')}</span>,
           isColor: 'danger',
           id: 'delete',
           isDisabled: users.length > 0
         },
+
       ]} />
   );
 };

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-8-31\n"
-"PO-Revision-Date: Fri Aug 31 2018 12:17:59 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Fri Aug 31 2018 13:19:23 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4927,6 +4927,9 @@ msgstr "Creating item {x} of {n}"
 
 msgid "Components.PastingModal.Attaching contextualizer {x} of {n}"
 msgstr "Attaching contextualizer {x} of {n}"
+
+msgid "Components.DeleteStoryModal.Deleting a story cannot be undone. Are you sure ?"
+msgstr " Are you sure ?"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
