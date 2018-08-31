@@ -197,7 +197,7 @@ const handleCopy = function(event) {
     copiedEntities = Object.keys(copiedEntities).reduce((result, contentId) => ({
       ...result,
       [contentId]: uniqBy(copiedEntities[contentId], e => e.key)
-    }), {})
+    }), {});
 
     // this object stores all the stuff we need to paste content later on
     const copiedData = {

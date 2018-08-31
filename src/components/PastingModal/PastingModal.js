@@ -32,10 +32,18 @@ const UploadModal = ({
       message = translate('Duplicating {n} notes', {n: statusParameters.length});
       break;
     case 'creating-resources':
-      message = translate('Creating {n} items', {n: statusParameters.length});
+      if (statusParameters.iteration) {
+        message = translate('Creating item {x} of {n}', {x: statusParameters.iteration, n: statusParameters.length});
+      } else {
+        message = translate('Creating {n} items', {n: statusParameters.length});
+      }
       break;
     case 'attaching-contextualizers':
-      message = translate('Attaching {n} contextualizers', {n: statusParameters.length});
+      if (statusParameters.iteration) {
+        message = translate('Attaching contextualizer {x} of {n}', {x: statusParameters.iteration, n: statusParameters.length});
+      } else {
+        message = translate('Attaching {n} contextualizers', {n: statusParameters.length});
+      }
       break;
 
     default:

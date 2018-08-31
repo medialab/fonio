@@ -575,5 +575,7 @@
   "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">this page</a> and fill the questionnaire. Thanks !": "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">cette page</a> et de suivre la procédure proposée. Merci !",
   "Features.HomeView.The source code of Fonio is licensed under free software license ": "Le code source de fonio est placé sous license libre ",
   "Features.LibraryView.Filters": "Filtres",
-  "Features.SectionView.Filters": "Filtres"
+  "Features.SectionView.Filters": "Filtres",
+  "Components.PastingModal.Creating item {x} of {n}": "Création de l'item {x} sur {n}",
+  "Components.PastingModal.Attaching contextualizer {x} of {n}": "Intégration de la mention {x} sur {n}"
 }

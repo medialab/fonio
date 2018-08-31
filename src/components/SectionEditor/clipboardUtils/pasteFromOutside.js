@@ -43,6 +43,7 @@ const pasteFromOutside = ({
     // noisy draft-js editor updates
     setEditorFocus(undefined);
 
+
     const copiedContentState = convertFromHTML({
       htmlToEntity: (nodeName, node, createEntity) => {
         if (nodeName === 'a') {
@@ -107,21 +108,33 @@ const pasteFromOutside = ({
             }
           });
         }
-        return resourcesToAdd.reduce((cur, next) =>
-          new Promise((resolve, reject) => {
-            createResource({
-              storyId,
-              userId,
-              resourceId: next.id,
-              resource: next
-            }, err => {
-              if (err) {
-                reject(err);
-              }
-              else resolve();
+        return resourcesToAdd.reduce((cur, next, index) => {
+          return cur.then(() => {
+            return new Promise((resolve, reject) => {
+               setEditorPastingStatus({
+                status: 'creating-resources',
+                statusParameters: {
+                  length: resourcesToAdd.length,
+                  iteration: index + 1
+                }
+              });
+              createResource({
+                storyId,
+                userId,
+                resourceId: next.id,
+                resource: next
+              }, err => {
+                if (err) {
+                  reject(err);
+                }
+                else {
+                  resolve();
+                }
+              });
             });
-          })
-        , Promise.resolve());
+          });
+        }, Promise.resolve());
+
       })
       .then(() => {
         if (contextualizersToAdd.length) {
@@ -133,40 +146,50 @@ const pasteFromOutside = ({
           });
         }
 
-        return contextualizersToAdd.reduce((cur, next) =>
-          new Promise((resolve, reject) => {
-            createContextualizer({
-              storyId,
-              userId,
-              contextualizerId: next.id,
-              contextualizer: next
-            }, err => {
-              if (err) {
-                reject(err);
-              }
-              else resolve();
-            });
+        return contextualizersToAdd.reduce((cur, next, index) => {
+          return cur.then(() => {
+            return new Promise((resolve, reject) => {
+               setEditorPastingStatus({
+                status: 'attaching-contextualizers',
+                statusParameters: {
+                  length: contextualizersToAdd.length,
+                  iteration: index + 1
+                }
+              });
+              const contextualizationToCreate = contextualizationsToAdd[index];
 
-          })
-        , Promise.resolve());
-      })
-      .then(() =>
-        contextualizationsToAdd.reduce((cur, next) =>
-          new Promise((resolve, reject) => {
-            createContextualization({
-              storyId,
-              userId,
-              contextualizationId: next.id,
-              contextualization: next
-            }, err => {
-              if (err) {
-                reject(err);
-              }
-              else resolve();
+              createContextualizer({
+                storyId,
+                userId,
+                contextualizerId: next.id,
+                contextualizer: next
+              }, err => {
+                if (err) {
+                  reject(err);
+                }
+                // then creating the contextualization
+                else {
+                  createContextualization({
+                    storyId,
+                    userId,
+                    contextualizationId: contextualizationToCreate.id,
+                    contextualization: contextualizationToCreate
+                  }, err2 => {
+                    if (err2) {
+                      reject(err2);
+                    }
+                    else {
+                      resolve();
+                    }
+                  });
+                }
+              });
             });
-          })
-        , Promise.resolve())
-      )
+          });
+        }, Promise.resolve());
+
+
+      })
       .then(() => {
         setEditorPastingStatus({
           status: 'updating-contents'

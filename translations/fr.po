@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-8-31\n"
-"PO-Revision-Date: Fri Aug 31 2018 10:47:01 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Fri Aug 31 2018 11:44:09 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4916,6 +4916,18 @@ msgstr "Contributing and signaling bugs"
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="
 msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">cette page</a> et de suivre la procédure proposée. Merci !"
 
+msgid "Features.LibraryView.Filters"
+msgstr "Filters"
+
+msgid "Features.SectionView.Filters"
+msgstr "Filters"
+
+msgid "Components.PastingModal.Creating item {x} of {n}"
+msgstr "Creating item {x} of {n}"
+
+msgid "Components.PastingModal.Attaching contextualizer {x} of {n}"
+msgstr "Attaching contextualizer {x} of {n}"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
 
@@ -4957,9 +4969,3 @@ msgstr "\"{f}\" est trop gros"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">cette page</a> et de suivre la procédure proposée. Merci !"
-
-msgid "Features.LibraryView.Filters"
-msgstr "Filters"
-
-msgid "Features.SectionView.Filters"
-msgstr "Filters"
