@@ -1,4 +1,5 @@
 
+import {uniqBy} from 'lodash';
 import {renderToStaticMarkup} from 'react-dom/server';
 
 import {
@@ -52,7 +53,7 @@ const handleCopy = function(event) {
       return;
     }
     // we store entities data as a js object in order to reinject them in editor states later one
-    const copiedEntities = {};
+    let copiedEntities = {};
     const copiedNotes = [];
     const copiedContextualizers = [];
     const copiedContextualizations = [];
@@ -191,6 +192,12 @@ const handleCopy = function(event) {
       });
       return true;
     });
+
+    // clean copied entities
+    copiedEntities = Object.keys(copiedEntities).reduce((result, contentId) => ({
+      ...result,
+      [contentId]: uniqBy(copiedEntities[contentId], e => e.key)
+    }), {})
 
     // this object stores all the stuff we need to paste content later on
     const copiedData = {
