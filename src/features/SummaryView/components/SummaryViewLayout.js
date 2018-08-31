@@ -328,14 +328,14 @@ const SummaryViewLayout = ({
                   .map((author, authorIndex) => {
                     return (
                       <StretchedLayoutContainer isDirection="horizontal" key={authorIndex}>
-                          <StretchedLayoutItem style={{marginRight: '1rem'}}>
-                            <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${author.avatar}`)} />
-                          </StretchedLayoutItem>
-                          <StretchedLayoutItem isFlex={1}>
-                            <Help>
-                              {buildAuthorMessage(author)}
-                            </Help>
-                          </StretchedLayoutItem>
+                        <StretchedLayoutItem style={{marginRight: '1rem'}}>
+                          <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${author.avatar}`)} />
+                        </StretchedLayoutItem>
+                        <StretchedLayoutItem isFlex={1}>
+                          <Help>
+                            {buildAuthorMessage(author)}
+                          </Help>
+                        </StretchedLayoutItem>
                       </StretchedLayoutContainer>
                     );
                   })

@@ -26,6 +26,8 @@ import {loadUserInfo} from '../../helpers/localStorageUtils';
 /**
  * ui
  */
+import {RESET_VIEWS_UI} from '../EditionUiWrapper/duck';
+
 const SET_TAB_MODE = 'SET_TAB_MODE';
 const SET_NEW_STORY_OPEN = 'SET_NEW_STORY_OPEN';
 const SET_NEW_STORY_TAB_MODE = 'SET_NEW_STORY_TAB_MODE';
@@ -300,6 +302,9 @@ function ui(state = UI_DEFAULT_STATE, action) {
   const {payload} = action;
   let propName;
   switch (action.type) {
+
+    case RESET_VIEWS_UI:
+      return UI_DEFAULT_STATE;
     case SET_TAB_MODE:
     case SET_SEARCH_STRING:
     case SET_SORTING_MODE:

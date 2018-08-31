@@ -22,6 +22,8 @@ import {CREATE_RESOURCE, UPDATE_SECTION} from '../StoryManager/duck';
 /**
  * UI
  */
+import {RESET_VIEWS_UI} from '../EditionUiWrapper/duck';
+
 const SET_ASIDE_TAB_MODE = 'SET_ASIDE_TAB_MODE';
 const SET_ASIDE_TAB_COLLAPSED = 'SET_ASIDE_TAB_COLLAPSED';
 const SET_MAIN_COLUMN_MODE = 'SET_MAIN_COLUMN_MODE';
@@ -281,6 +283,8 @@ const UI_DEFAULT_STATE = {
 function ui(state = UI_DEFAULT_STATE, action) {
   const {payload} = action;
   switch (action.type) {
+    case RESET_VIEWS_UI:
+      return UI_DEFAULT_STATE;
     case SET_ASIDE_TAB_MODE:
     case SET_ASIDE_TAB_COLLAPSED:
     case SET_MAIN_COLUMN_MODE:

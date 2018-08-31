@@ -23,6 +23,8 @@ const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
 
 const TOGGLE_NAVBAR_OPEN = 'TOGGLE_NAVBAR_OPEN';
 
+export const RESET_VIEWS_UI = 'RESET_VIEWS_UI';
+
 /**
  * ===================================================
  * ACTION CREATORS
@@ -45,6 +47,10 @@ export const setUserInfoTemp = payload => ({
 
 export const toggleNavbarOpen = () => ({
   type: TOGGLE_NAVBAR_OPEN,
+});
+
+export const resetViewsUi = () => ({
+  type: RESET_VIEWS_UI
 });
 
 /**
@@ -72,6 +78,9 @@ const UI_DEFAULT_STATE = {
 function ui(state = UI_DEFAULT_STATE, action) {
   const {payload} = action;
   switch (action.type) {
+
+    case RESET_VIEWS_UI:
+      return UI_DEFAULT_STATE;
 
     case SET_USER_INFO_MODAL_OPEN:
     case SET_EXPORT_MODAL_OPEN:

@@ -21,6 +21,8 @@ import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 /**
  * ui
  */
+import {RESET_VIEWS_UI} from '../EditionUiWrapper/duck';
+
 const SET_MAIN_COLUMN_MODE = 'SET_MAIN_COLUMN_MODE';
 const SET_OPTIONS_VISIBLE = 'SET_OPTIONS_VISIBLE';
 const SET_FILTER_VALUES = 'SET_FILTER_VALUES';
@@ -137,6 +139,8 @@ const UI_DEFAULT_STATE = {
 function ui(state = UI_DEFAULT_STATE, action) {
   const {payload} = action;
   switch (action.type) {
+
+    case RESET_VIEWS_UI:
     case LEAVE_STORY:
       return UI_DEFAULT_STATE;
     case SET_MAIN_COLUMN_MODE:

@@ -37,6 +37,7 @@ import * as storyDuck from '../../StoryManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
 import * as libarayViewDuck from '../../LibraryView/duck';
 import * as errorMessageDuck from '../../ErrorMessageManager/duck';
+import * as editionUiDuck from '../../EditionUiWrapper/duck';
 
 import SectionViewLayout from './SectionViewLayout';
 
@@ -54,6 +55,7 @@ const {maxBatchNumber} = config;
   }),
   dispatch => ({
     actions: bindActionCreators({
+      ...editionUiDuck,
       ...connectionsDuck,
       ...storyDuck,
       ...sectionsManagementDuck,
@@ -187,6 +189,7 @@ class SectionViewContainer extends Component {
     this.unlockOnSection(this.props);
     this.props.actions.setEditedSectionId(undefined);
     this.props.actions.resetDraftEditorsStates();
+    this.props.actions.resetViewsUi();
   }
 
   confirmExit(e) {
