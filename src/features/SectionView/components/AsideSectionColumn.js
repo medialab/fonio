@@ -293,7 +293,7 @@ class AsideSectionColumn extends Component {
                     <Button
                       style={{overflow: 'visible'}}
                       isDisabled={userLockedResourceId !== undefined && mainColumnMode === 'edition'}
-                      onClick={() => setMainColumnMode('newsection')} isColor={'primary'} isFullWidth>
+                      onClick={() => setMainColumnMode(mainColumnMode === 'newsection' ? 'edition' : 'newsection')} isColor={'primary'} isFullWidth>
                       <span style={{paddingRight: '1rem'}}>{translate('New section')}</span>
                     </Button>
                   </Column>
