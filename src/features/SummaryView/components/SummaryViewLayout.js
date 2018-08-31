@@ -104,7 +104,7 @@ const SummaryViewLayout = ({
             const sectionId = locks.sections.blockId;
             const section = sections[sectionId];
             const sectionTitle = section.metadata.title;
-            message = translate('{a} is working on section "{t}"', {a: name, t: sectionTitle});
+            message = translate('{a} is working on section "{t}"', {a: name, t: abbrevString(sectionTitle, 60)});
           }
           else message = translate('{a} is working on a section', {a: name});
         }
@@ -247,7 +247,9 @@ const SummaryViewLayout = ({
   return (
     <Container style={{position: 'relative', height: '100%'}}>
       <StretchedLayoutContainer isFluid isDirection="horizontal" isAbsolute>
-        <StretchedLayoutItem style={{marginTop: '1rem'}} isFluid isFlex={1} isFlowing>
+        <StretchedLayoutItem
+          style={{marginTop: '1rem'}} isFluid isFlex={1}
+          isFlowing>
           <Column>
             <Level>
               <Collapsable maxHeight={'100%'} isCollapsed={metadataOpen}>
@@ -257,7 +259,7 @@ const SummaryViewLayout = ({
                 {subtitle && <Title isSize={5}>
                   <i>{abbrevString(subtitle, 60)}</i>
                   </Title>}
-                  <div  style={{maxHeight: '15rem', overflow: 'auto'}}>
+                <div style={{maxHeight: '15rem', overflow: 'auto'}}>
                   {
                       authors.map((author, index) => (
                         <Level key={index}>
@@ -274,7 +276,7 @@ const SummaryViewLayout = ({
                         </Level>
                       ))
                     }
-                    </div>
+                </div>
                 <Content>
                   <i>{abbrevString(abstract, 300)}</i>
                 </Content>
@@ -325,18 +327,16 @@ const SummaryViewLayout = ({
                   .filter(a => a.userId !== userId)
                   .map((author, authorIndex) => {
                     return (
-                      <Level key={authorIndex}>
-                        <LevelLeft>
-                          <LevelItem>
+                      <StretchedLayoutContainer isDirection="horizontal" key={authorIndex}>
+                          <StretchedLayoutItem style={{marginRight: '1rem'}}>
                             <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${author.avatar}`)} />
-                          </LevelItem>
-                          <LevelItem>
+                          </StretchedLayoutItem>
+                          <StretchedLayoutItem isFlex={1}>
                             <Help>
                               {buildAuthorMessage(author)}
                             </Help>
-                          </LevelItem>
-                        </LevelLeft>
-                      </Level>
+                          </StretchedLayoutItem>
+                      </StretchedLayoutContainer>
                     );
                   })
                 }
