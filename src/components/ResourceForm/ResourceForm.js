@@ -421,7 +421,9 @@ class ResourceForm extends Component {
           }
         });
       }
-      else onSubmit(candidates);
+      else {
+        onSubmit(candidates);
+      }
     };
 
     const onResourceTypeChange = (thatType, formApi) => {

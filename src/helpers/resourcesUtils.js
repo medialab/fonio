@@ -110,37 +110,70 @@ export const validateFiles = (files) => {
  * Generate and submit bib resource
  */
 export const createBibData = (resource, props) =>
-  new Promise((resolve) => {
+  new Promise((resolve, reject) => {
     const {
       userId,
       editedStory: story,
+      uploadStatus = {errors: []},
+      actions: {
+        setUploadStatus
+      }
     } = props;
     const {
       id: storyId
     } = story;
-    resource.data.forEach(datum => {
-      const id = resource.id ? resource.id : genId();
-      const bibData = {
-        [datum.id]: datum
-      };
-      const htmlPreview = renderToStaticMarkup(<Bibliography items={bibData} style={apa} locale={english} />);
-      const item = {
-        ...resource,
-        id,
-        data: [{...datum, htmlPreview}],
-      };
-      const payload = {
-        resourceId: id,
-        resource: item,
-        storyId,
-        userId,
-      };
-      if (validateResource(item).valid) {
-        if (resource.id) props.actions.updateResource(payload);
-        else props.actions.createResource(payload);
-      }
-    });
-    return resolve();
+    resource.data.reduce((cur, datum) => {
+      return cur.then(() => {
+        return new Promise((resolve1, reject1) => {
+          const id = resource.id ? resource.id : genId();
+          const bibData = {
+            [datum.id]: datum
+          };
+          const htmlPreview = renderToStaticMarkup(<Bibliography items={bibData} style={apa} locale={english} />);
+          const item = {
+            ...resource,
+            id,
+            data: [{...datum, htmlPreview}],
+          };
+          const payload = {
+            resourceId: id,
+            resource: item,
+            storyId,
+            userId,
+          };
+
+          if (validateResource(item).valid) {
+
+            if (resource.id) {
+              props.actions.updateResource(payload);
+            }
+            else {
+              if (typeof setUploadStatus === 'function') {
+                const title = item.data && item.data[0] && item.data[0].title;
+                setUploadStatus({
+                  status: 'uploading',
+                  currentFileName: title,
+                  errors: uploadStatus.errors
+                });
+              }
+              props.actions.createResource(payload, err => {
+                if (err) {
+                  reject1(err);
+                }
+ else {
+                  resolve1();
+                }
+              });
+            }
+          }
+ else reject1(validateResource.errors);
+        });
+
+      });
+
+    }, Promise.resolve())
+    .then(resolve)
+    .catch(reject);
   });
 
 /**

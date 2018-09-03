@@ -43,6 +43,8 @@ const MainSectionColumn = ({
   newResourceMode,
   defaultSectionMetadata,
 
+  uploadStatus,
+
   story,
   section,
   userId,
@@ -86,6 +88,8 @@ const MainSectionColumn = ({
   deleteContextualization,
   deleteContextualizer,
   deleteContextualizationFromId,
+
+  setUploadStatus,
 
   setEditorBlocked,
   setStoryIsSaved,
@@ -160,9 +164,11 @@ const MainSectionColumn = ({
           createBibData(resource, {
             editedStory: story,
             userId,
+            uploadStatus,
             actions: {
               createResource,
-              updateResource
+              updateResource,
+              setUploadStatus,
             },
           });
         }
@@ -218,19 +224,28 @@ const MainSectionColumn = ({
             uploadResource(payload, 'create');
           }
           else if (resource.metadata.type === 'bib') {
-            setEditorBlocked(true);
+            setUploadStatus({
+              status: 'initializing',
+              errors: []
+            });
             setTimeout(() => {
                 createBibData(resource, {
                   editedStory: story,
                   userId,
+                  uploadStatus,
                   actions: {
                     createResource,
-                    updateResource
+                    updateResource,
+                    setUploadStatus
                   },
                 })
                 .then(() =>
-                  setEditorBlocked(false)
-                );
+                  setUploadStatus(undefined)
+                )
+                .catch((e) => {
+                  console.error(e);/* eslint no-console : 0 */
+                  setUploadStatus(undefined);
+                });
             }, 100);
 
 

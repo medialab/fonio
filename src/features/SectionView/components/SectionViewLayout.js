@@ -78,6 +78,7 @@ const SectionViewLayout = ({
   newResourceType,
   storyIsSaved,
   selectedContextualizationId,
+  uploadStatus,
 
   actions: {
     setAsideTabMode,
@@ -93,6 +94,7 @@ const SectionViewLayout = ({
 
     setPromptedToDeleteSectionId,
     setPromptedToDeleteResourceId,
+    setUploadStatus,
 
     updateSection,
     createSection,
@@ -575,6 +577,9 @@ const SectionViewLayout = ({
             assetRequestState={assetRequestState}
             draggedResourceId={draggedResourceId}
             setShortcutsHelpVisible={setShortcutsHelpVisible}
+            uploadStatus={uploadStatus}
+
+            setUploadStatus={setUploadStatus}
 
             newResourceMode={newResourceMode}
 

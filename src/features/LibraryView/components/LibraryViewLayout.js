@@ -122,6 +122,8 @@ class LibraryViewLayout extends Component {
         enterBlock,
         leaveBlock,
 
+        setUploadStatus,
+
         createResource,
         updateResource,
         deleteResource,
@@ -534,7 +536,20 @@ class LibraryViewLayout extends Component {
               uploadResource(payload, 'create');
             }
             else if (resource.metadata.type === 'bib') {
-              createBibData(resource, this.props);
+              setUploadStatus({
+                status: 'initializing',
+                errors: []
+              });
+              setTimeout(() => {
+                createBibData(resource, this.props)
+                  .then(() => {
+                    setUploadStatus(undefined);
+                  })
+                  .catch((e) => {
+                    console.error(e);/* eslint no-console : 0 */
+                    setUploadStatus(undefined);
+                  });
+              }, 100);
             }
             else {
               createResource(payload);
