@@ -17,18 +17,35 @@ const SortableItem = SortableElement(({
   onOpenSettings,
   onDeleteSection,
   setSectionLevel,
+
   storyId,
+
+  setSectionIndex,
+  sectionIndex,
+  maxSectionIndex,
+  history,
+
 }) => {
-  const handleDelete = () => {
+  const handleDelete = (event) => {
+    event.stopPropagation();
     onDeleteSection(section.id);
+  };
+  const handleSelect = () => {
+    if (section.lockStatus === 'open') {
+      history.push(`/story/${storyId}/section/${section.id}`);
+    }
   };
   return (
     <Level>
       <Column isSize={12 - section.metadata.level} isOffset={section.metadata.level} >
         <SectionMiniCard
           section={section}
+          setSectionIndex={setSectionIndex}
+          sectionIndex={sectionIndex}
+          maxSectionIndex={maxSectionIndex}
           setSectionLevel={setSectionLevel}
           storyId={storyId}
+          onSelect={handleSelect}
           onDeleteSection={handleDelete}
           onOpenSettings={onOpenSettings} />
       </Column>
@@ -37,7 +54,8 @@ const SortableItem = SortableElement(({
 });
 
 const SortableSectionsList = SortableContainer(({
-  items, ...props
+  items,
+  ...props
 }) => {
   const rowRenderer = ({
     key,
@@ -49,6 +67,7 @@ const SortableSectionsList = SortableContainer(({
         <SortableItem
           {...props}
           index={index}
+          sectionIndex={index}
           value={items[index]} />
       </div>
     );
@@ -59,7 +78,7 @@ const SortableSectionsList = SortableContainer(({
         <List
           height={height}
           rowCount={items.length}
-          rowHeight={200}
+          rowHeight={155}
           rowRenderer={rowRenderer}
           width={width}
           onRowsRendered={() =>

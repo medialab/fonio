@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import {DragSource} from 'react-dnd';
+import MovePad from '../../../components/MovePad';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
@@ -163,12 +164,13 @@ class ResourceCard extends Component {
       else {
          resourceTitle = getTitle(resource) || translate('untitled resource');
       }
-      resourceTitle = abbrevString(resourceTitle, 15);
+      resourceTitle = abbrevString(resourceTitle, 10);
     /**
      * component's callbacks
      */
 
-    const onMDown = () => {
+    const onMDown = (e) => {
+      e.stopPropagation();
       if (typeof onMouseDown === 'function') {
         onMouseDown();
       }
@@ -196,23 +198,32 @@ class ResourceCard extends Component {
       });
      };
 
-     const handleDelete = () => {
+     const handleDelete = (event) => {
+      if (event) {
+        event.stopPropagation();
+      }
       if (lockStatus === 'open') {
-        onDelete();
+        onDelete(event);
       }
      };
-
 
       return connectDragSource(
         <div
           // draggable
           onDragStart={startDrag}
           onDragEnd={endDrag}
-          onMouseDown={onMDown}>
+          onMouseDown={onMDown}
+          style={{cursor: 'move'}}>
           <Card
+            isActive={isActive}
             bodyContent={
-              <div >
-                <Columns style={{minHeight: '4em', maxHeight: '4em', overflow: 'hidden'}}>
+              <div onClick={onEdit}>
+                <Columns style={{
+                  minHeight: '4em',
+                  maxHeight: '4em',
+                  overflow: 'hidden',
+                  marginBottom: 0,
+                }}>
                   <Column
                     isSize={2}>
                     <Icon
@@ -234,27 +245,18 @@ class ResourceCard extends Component {
                       data-for="tooltip">
                       {resourceTitle}
                     </span>
-                  </Column>
-
-                  <Column isSize={2}>
                     <StatusMarker
+                      style={{marginLeft: '1rem'}}
                       lockStatus={lockStatus}
                       statusMessage={lockMessage} />
                   </Column>
+
                 </Columns>
                 <Columns>
-                  <Column isOffset={2} isSize={10}>
+                  <Column style={{paddingTop: '.5rem'}} isOffset={2} isSize={7}>
                     <Button
-                      style={{pointerEvents: 'none'}}
-                      data-place="left"
-                      data-effect="solid"
-                      data-for="tooltip">
-                      <Icon isSize="small" isAlign="left">
-                        <img src={icons.move.black.svg} />
-                      </Icon>
-                    </Button>
-                    <Button
-                      onClick={onEdit} isDisabled={isActive || lockStatus === 'locked'}
+                      onClick={onEdit}
+                      isDisabled={lockStatus === 'locked'}
                       data-place="left"
                       data-effect="solid"
                       data-for="tooltip"
@@ -263,8 +265,10 @@ class ResourceCard extends Component {
                         <img src={icons.settings.black.svg} />
                       </Icon>
                     </Button>
+
                     <Button
-                      onClick={handleDelete} isDisabled={isActive || lockStatus === 'locked'}
+                      onClick={handleDelete}
+                      isDisabled={isActive || lockStatus === 'locked'}
                       data-place="left"
                       data-effect="solid"
                       data-for="tooltip"
@@ -273,6 +277,7 @@ class ResourceCard extends Component {
                         <img src={icons.remove.black.svg} />
                       </Icon>
                     </Button>
+
                     {type === 'image' &&
                       <Button
                         onClick={onSetCoverImage}
@@ -286,6 +291,27 @@ class ResourceCard extends Component {
                         </Icon>
                       </Button>
                     }
+                  </Column>
+                  <Column style={{position: 'relative'}} isSize={2}>
+                    <MovePad
+                      style={{
+                        position: 'absolute',
+                            top: '-4rem',
+                            right: '4rem',
+                      }}
+                      moveComponentToolTip={translate('Drag this item to the editor')}
+                      MoveComponent={
+                        () =>
+                          (<Button
+                            style={{pointerEvents: 'none'}}
+                            data-place="left"
+                            data-effect="solid"
+                            data-for="tooltip">
+                            <Icon isSize="small" isAlign="left">
+                              <img src={icons.move.black.svg} />
+                            </Icon>
+                          </Button>)
+                      } />
                   </Column>
                 </Columns>
               </div>

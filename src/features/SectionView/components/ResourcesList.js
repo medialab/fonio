@@ -24,7 +24,6 @@ class ResourceCardWrapper extends Component {
   render = () => {
     const {
       resource,
-      userId,
       handleDelete,
       getResourceTitle,
       reverseResourcesLockMap,
@@ -41,7 +40,7 @@ class ResourceCardWrapper extends Component {
         onSetCoverImage={onSetCoverImage}
         coverImageId={coverImageId}
         lockData={reverseResourcesLockMap[resource.id]}
-        isActive={userLockedResourceId === userId}
+        isActive={userLockedResourceId === resource.id}
         onEdit={handleEdit} />
     </Column>);
   }
@@ -65,6 +64,7 @@ export default class ResourcesList extends Component {
       reverseResourcesLockMap,
       userLockedResourceId,
       getResourceTitle,
+      onCloseSettings,
     } = this.props;
 
     const rowRenderer = ({
@@ -72,18 +72,26 @@ export default class ResourcesList extends Component {
       index,
       style,
     }) => {
-      const handleDelete = () => {
+      const handleDelete = (e) => {
+        e.stopPropagation();
         onDeleteResource(resources[index].id);
       };
-      const handleEdit = () => {
-        onResourceEditAttempt(resources[index].id);
+      const handleEdit = (e) => {
+        e.stopPropagation();
+        if (userLockedResourceId === resources[index].id) {
+          onCloseSettings();
+        }
+ else {
+          onResourceEditAttempt(resources[index].id);
+        }
       };
-      const handleSetCover = () => {
+      const handleSetCover = (e) => {
+        e.stopPropagation();
         const id = resources[index].id;
         if (coverImageId === id) {
           onSetCoverImage(undefined);
         }
- else {
+        else {
           onSetCoverImage(resources[index].id);
         }
       };
@@ -108,7 +116,7 @@ export default class ResourcesList extends Component {
           <List
             height={height}
             rowCount={resources.length}
-            rowHeight={210}
+            rowHeight={155}
             rowRenderer={rowRenderer}
             width={width}
             onRowsRendered={() =>
