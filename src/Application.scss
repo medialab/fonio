@@ -96,6 +96,17 @@
   flex-flow: row nowrap;
 }
 
+.hero.is-success .navbar-burger{
+  color: black;
+}
+
+.hero.is-success .navbar-menu{
+  background: inherit;
+  .navbar-item{
+    color: black;
+  }
+}
+
 @media print
 {
   .navbar,

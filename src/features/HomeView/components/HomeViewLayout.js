@@ -659,12 +659,14 @@ class HomeViewLayout extends Component {
         identificationModalSwitch,
         userInfoTemp,
         userId,
+        navbarOpen,
         actions: {
           setTabMode,
           setIdentificationModalSwitch,
           setUserInfoTemp,
           setUserInfo,
           createUser,
+          toggleNavbarOpen,
         }
       },
       renderContent,
@@ -678,6 +680,7 @@ class HomeViewLayout extends Component {
       setUserInfo(userInfoTemp);
       setIdentificationModalSwitch(false);
     };
+
     return (
       <section>
         <Hero
@@ -693,7 +696,8 @@ class HomeViewLayout extends Component {
               }}>
           <HeroHeader>
             <Navbar
-              isOpen={false}
+              isOpen={navbarOpen === true}
+              onToggle={toggleNavbarOpen}
               isFixed
               brandImage={icons.fonioBrand.svg}
 
