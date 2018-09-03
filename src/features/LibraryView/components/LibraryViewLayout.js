@@ -132,6 +132,7 @@ class LibraryViewLayout extends Component {
         setResourcesPromptedToDelete,
         setIsBatchDeleting,
         setResourceDeleteStep,
+        setCoverImage,
       },
       submitMultiResources,
     } = this.props;
@@ -141,8 +142,13 @@ class LibraryViewLayout extends Component {
     const {
       resources = {},
       contextualizations = {},
-      id: storyId
+      id: storyId,
+      metadata: {
+        coverImage = {}
+      }
     } = story;
+
+    const coverImageId = coverImage.resourceId;
 
     const translate = translateNameSpacer(t, 'Features.LibraryView');
     const activeFilters = Object.keys(filterValues).filter(key => filterValues[key]);
@@ -315,6 +321,24 @@ class LibraryViewLayout extends Component {
       setPromptedToDeleteResourceId(undefined);
     };
 
+    const onSetCoverImage = resourceId => {
+      if (resourceId !== coverImageId) {
+        setCoverImage({
+          storyId,
+          resourceId,
+          userId
+        });
+      }
+ else {
+        setCoverImage({
+          storyId,
+          resourceId: undefined,
+          userId
+        });
+      }
+    };
+
+
     const onDeleteResourcesPromptedToDelete = () => {
       setIsBatchDeleting(true);
       // cannot mutualize with single resource deletion for now
@@ -396,7 +420,7 @@ class LibraryViewLayout extends Component {
             if (err) {
               reject(err);
             }
- else resolve();
+            else resolve();
           });
         }));
 
@@ -610,7 +634,7 @@ class LibraryViewLayout extends Component {
                           <Button
                             onClick={() => setSelectedResourcesIds(visibleResources.map(res => res.id).filter(id => !resourcesLockMap[id]))}
                             isDisabled={selectedResourcesIds.length === visibleResources.length}>
-                            {translate('Select all')}
+                            {translate('Select all')} ({visibleResources.length})
                           </Button>
                         </LevelItem>
                         <LevelItem>
@@ -672,6 +696,8 @@ class LibraryViewLayout extends Component {
                               onClick={handleClick}
                               onEdit={handleEdit}
                               onDelete={handleDelete}
+                              coverImageId={coverImageId}
+                              onSetCoverImage={onSetCoverImage}
                               resource={resource}
                               getTitle={getResourceTitle}
                               lockData={resourcesLockMap[resource.id]}
