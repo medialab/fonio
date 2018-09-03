@@ -1,7 +1,12 @@
 /* eslint  react/no-set-state : 0 */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import FlipMove from 'react-flip-move';
+// import FlipMove from 'react-flip-move';
+
+import Tooltip from 'react-tooltip';
+
+import Masonry from 'react-masonry-css';
+
 
 import {translateNameSpacer} from '../../helpers/translateUtils';
 
@@ -25,6 +30,9 @@ export default class PaginatedList extends Component {
 
   componentDidMount = () => {
     this.updatePaginationItems(this.props);
+    setTimeout(() => {
+      Tooltip.rebuild();
+    });
   }
 
 
@@ -32,6 +40,7 @@ export default class PaginatedList extends Component {
     if (this.props.items.length !== nextProps.length) {
       this.updatePaginationItems(nextProps);
     }
+    Tooltip.rebuild();
   }
 
   updatePaginationItems = ({
@@ -102,7 +111,13 @@ export default class PaginatedList extends Component {
 
   setPaginationPosition = paginationPosition => {
     this.setState({paginationPosition});
-    setTimeout(() => this.updatePaginationItems(this.props));
+    setTimeout(() => {
+      this.updatePaginationItems(this.props);
+      if (this.scrollContainer) {
+        this.scrollContainer.scrollTop = 0;
+      }
+    });
+
   }
 
   onPaginationClick = item => {
@@ -135,7 +150,9 @@ export default class PaginatedList extends Component {
       },
       state: {
         displayedItems = [],
-        displayedPaginationItems
+        displayedPaginationItems,
+        paginationPosition,
+        numberOfPages,
       },
       context: {t},
       onPaginationClick,
@@ -145,24 +162,44 @@ export default class PaginatedList extends Component {
 
     const translate = translateNameSpacer(t, 'Components.PaginatedList');
 
+    const bindScrollContainer = scrollContainer => {
+      this.scrollContainer = scrollContainer;
+    };
+
     return (
       <div style={style} id={id} className={`fonio-PaginatedList ${className}`}>
-        <div className={`items-container is-flex-1 is-scrollable ${itemsContainerClassName}`}>
-          <FlipMove>
+        <div ref={bindScrollContainer} className={`items-container is-flex-1 is-scrollable ${itemsContainerClassName}`}>
+          <Masonry
+            breakpointCols={{
+              default: 3,
+              1024: 2,
+              // 768: 2,
+              500: 1
+            }}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column">
             {
             displayedItems.length ?
               displayedItems.map(renderItem)
             : renderNoItem()
-          }
-          </FlipMove>
+            }
+          </Masonry>
+          {/*<FlipMove>
+            {
+            displayedItems.length ?
+              displayedItems.map(renderItem)
+            : renderNoItem()
+            }
+          </FlipMove>*/}
+          <Tooltip id="tooltip" />
         </div>
         {displayedPaginationItems &&
           displayedPaginationItems.length > 1 ?
             <nav className="pagination is-rounded is-centered" role="navigation" aria-label="pagination">
-              <a onClick={onPaginationPrev} className="pagination-previous">
+              <a onClick={onPaginationPrev} className={`pagination-previous ${paginationPosition === 0 ? 'is-disabled' : ''}`}>
                 {minified ? <i className="fas fa-chevron-left" /> : translate('previous')}
               </a>
-              <a onClick={onPaginationNext} className="pagination-next">
+              <a onClick={onPaginationNext} className={`pagination-next ${paginationPosition === numberOfPages - 1 ? 'is-disabled' : ''}`}>
                 {minified ? <i className="fas fa-chevron-right" /> : translate('next')}
               </a>
               <ul className="pagination-list">
