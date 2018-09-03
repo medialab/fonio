@@ -12,6 +12,25 @@ import config from '../../../config';
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import DataUrlProvider from '../../../components/DataUrlProvider';
 
+import {
+  Button,
+  Icon
+} from 'quinoa-design-library/components';
+
+
+const HomeBtn = () => (
+  <Button
+    isRounded
+    style={{
+      position: 'fixed',
+      bottom: '1rem',
+      right: '1rem'
+    }}
+    href="/">
+    <Icon icon="home" />
+  </Button>
+);
+
 
 const Centered = ({children}) => (
   <div style={{
@@ -90,6 +109,7 @@ class ReadStoryViewContainer extends Component {
         return (
           <DataUrlProvider storyId={story.id} serverUrl={config.apiUrl} >
             <StoryPlayer story={story} />
+            <HomeBtn />
           </DataUrlProvider>
           );
       case 'error':
