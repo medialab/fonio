@@ -81,7 +81,7 @@ export default class ResourcesList extends Component {
         if (userLockedResourceId === resources[index].id) {
           onCloseSettings();
         }
- else {
+        else {
           onResourceEditAttempt(resources[index].id);
         }
       };
@@ -116,7 +116,7 @@ export default class ResourcesList extends Component {
           <List
             height={height}
             rowCount={resources.length}
-            rowHeight={155}
+            rowHeight={170}
             rowRenderer={rowRenderer}
             width={width}
             onRowsRendered={() =>

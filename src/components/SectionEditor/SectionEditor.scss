@@ -138,6 +138,8 @@
                 }
                 .public-DraftStyleDefault-ltr{
                     margin-bottom: 0;
+                    // display: flex;
+                    // flex-flow: row nowrap;
                 }
             }
 
@@ -252,6 +254,12 @@
 
         span{
            word-break: break-all;
+        }
+
+        &.hide-placeholder{
+            .public-DraftEditorPlaceholder-root {
+              display: none;
+            }
         }
     }
     .editor-bibliography
