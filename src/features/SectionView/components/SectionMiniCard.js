@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {SortableHandle} from 'react-sortable-hoc';
+
 import config from '../../../config';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
-
+import MovePad from '../../../components/MovePad';
 
 import {
   Button,
@@ -32,6 +34,11 @@ const SectionMiniCard = ({
   onDeleteSection,
   onOpenSettings,
   setSectionLevel,
+
+  setSectionIndex,
+  sectionIndex,
+  maxSectionIndex,
+  onSelect,
 }, {t}) => {
   const translate = translateNameSpacer(t, 'Features.SectionView');
   const lockStatusMessage = () => {
@@ -46,13 +53,6 @@ const SectionMiniCard = ({
     }
   };
 
-  const onHigher = () => {
-    setSectionLevel({sectionId: section.id, level: section.metadata.level - 1});
-  };
-  const onLower = () => {
-    setSectionLevel({sectionId: section.id, level: section.metadata.level + 1});
-  };
-
   const cardStyle = {
     pointerEvents: section.lockStatus === 'locked' ? 'none' : 'all'
   };
@@ -61,20 +61,21 @@ const SectionMiniCard = ({
     data-place="right"
     data-html
     data-tip={`<div class="content"><h5 style="color: white">${section.metadata.title}</h5><p>${computeSectionFirstWords(section)}</p></div>`}>
-    {abbrevString(section.metadata.title || translate('Untitled section'), 15)}
+    {abbrevString(section.metadata.title || translate('Untitled section'), 10)}
   </span>);
   return (
     <Card
+      isActive={section.lockStatus === 'active'}
       bodyContent={
-        <div>
-          <Columns>
+        <div style={{cursor: 'pointer'}} onClick={onSelect}>
+          <Columns style={{marginBottom: 0}}>
             <Column isSize={2}>
               <Icon isSize="medium" isAlign="left">
                 <img src={icons.section.black.svg} />
               </Icon>
             </Column>
 
-            <Column isSize={8}>
+            <Column style={{paddingBottom: 0}} isSize={8}>
               {
                 section.lockStatus !== 'active' &&
                 <Link style={cardStyle} to={`/story/${storyId}/section/${section.id}`}>
@@ -84,17 +85,15 @@ const SectionMiniCard = ({
               {section.lockStatus === 'active' &&
               <b>{sectionTitle}</b>
               }
-            </Column>
-
-            <Column isSize={2}>
               <StatusMarker
+                style={{marginLeft: '1rem'}}
                 lockStatus={section.lockStatus}
                 statusMessage={lockStatusMessage()} />
             </Column>
           </Columns>
           <Columns>
-            <Column isOffset={2} isSize={10}>
-              <Button
+            <Column style={{paddingTop: 0}} isOffset={2} isSize={7}>
+              {/*<Button
                 data-tip={translate('drag to change section order')}
                 data-effect="solid"
                 data-place="left"
@@ -103,7 +102,7 @@ const SectionMiniCard = ({
                 <Icon isSize="small" isAlign="left">
                   <img src={icons.move.black.svg} />
                 </Icon>
-              </Button>
+              </Button>*/}
               <Button
                 onClick={onOpenSettings}
                 isDisabled={section.lockStatus !== 'active'}
@@ -126,31 +125,81 @@ const SectionMiniCard = ({
                   <img src={icons.remove.black.svg} />
                 </Icon>
               </Button>
-
-              <Button
-                onClick={onHigher}
-                isDisabled={section.metadata.level <= 0}
-                data-effect="solid"
-                data-place="left"
-                data-for="tooltip"
-                data-tip={translate('higher level of importance')}>
-                <Icon isSize="small" isAlign="left">
-                  <span className="fa fa-chevron-left" aria-hidden="true" />
-                </Icon>
-              </Button>
-              <Button
-                onClick={onLower}
-                isDisabled={section.metadata.level >= config.maxSectionLevel - 1}
-                data-effect="solid"
-                data-place="left"
-                data-for="tooltip"
-                data-tip={translate('lower level of importance')}>
-                <Icon isSize="small" isAlign="left">
-                  <span className="fa fa-chevron-right" aria-hidden="true" />
-                </Icon>
-              </Button>
-
             </Column>
+
+            <Column style={{position: 'relative'}} isSize={2}>
+              <MovePad
+                style={{
+                    position: 'absolute',
+                        top: '-4rem',
+                        right: '5rem',
+                  }}
+                chevronsData={{
+                    left: {
+                      tooltip: translate('Title level {n}', {n: section.metadata.level}),
+                      isDisabled: section.metadata.level === 0,
+                      onClick: e => {
+                        e.stopPropagation();
+                        setSectionLevel({sectionId: section.id, level: section.metadata.level - 1});
+                      }
+                    },
+                    right: {
+                      tooltip: translate('Title level {n}', {n: section.metadata.level + 2}),
+                      isDisabled: section.metadata.level >= config.maxSectionLevel - 1,
+                      onClick: e => {
+                        e.stopPropagation();
+                        setSectionLevel({sectionId: section.id, level: section.metadata.level + 1});
+                      }
+                    },
+                    up: {
+                      isDisabled: sectionIndex === 0,
+                      tooltip: translate('Move up in the summary'),
+                      onClick: e => {
+                        e.stopPropagation();
+                        setSectionIndex(sectionIndex, sectionIndex - 1);
+                      }
+                    },
+                    down: {
+                      isDisabled: sectionIndex === maxSectionIndex,
+                      tooltip: translate('Move down in the summary'),
+                      onClick: e => {
+                        e.stopPropagation();
+                        setSectionIndex(sectionIndex, sectionIndex + 1);
+                      }
+                    }
+                  }}
+                moveComponentToolTip={translate('Move section in summary')}
+                MoveComponent={SortableHandle(() =>
+                    (<span
+                      onClick={e => {
+e.preventDefault(); e.stopPropagation();
+}}
+                      onMouseUp={e => {
+e.preventDefault(); e.stopPropagation();
+}}
+                      onMouseDown={e => {
+e.preventDefault(); e.stopPropagation();
+}}
+                      style={{cursor: 'move'}}
+                      className="button">
+                      <Icon icon={'arrows-alt'} />
+                    </span>)
+                  )
+
+                    // () =>
+                    // <Button
+                    //   data-tip={translate('drag to change section order')}
+                    //   data-effect="solid"
+                    //   data-place="left"
+                    //   data-for="tooltip"
+                    //   style={{cursor: 'pointer', pointerEvents: 'none'}}>
+                    //   <Icon isSize="small" isAlign="left">
+                    //     <img src={icons.move.black.svg} />
+                    //   </Icon>
+                    // </Button>
+                  } />
+            </Column>
+
           </Columns>
         </div>
       } />

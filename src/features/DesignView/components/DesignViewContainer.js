@@ -14,6 +14,7 @@ import * as duck from '../duck';
 
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as storyDuck from '../../StoryManager/duck';
+import * as editionUiDuck from '../../EditionUiWrapper/duck';
 
 import DesignViewLayout from './DesignViewLayout';
 
@@ -29,6 +30,7 @@ import DataUrlProvider from '../../../components/DataUrlProvider';
   }),
   dispatch => ({
     actions: bindActionCreators({
+      ...editionUiDuck,
       ...connectionsDuck,
       ...storyDuck,
       ...duck,
@@ -85,6 +87,7 @@ class DesignViewContainer extends Component {
     this.onUpdateCss.cancel();
     this.unlockOnDesign(this.props);
     this.props.actions.setCssHelpVisible(false);
+    this.props.actions.resetViewsUi();
   }
 
   unlockOnDesign = props => {

@@ -26,7 +26,7 @@
 .stretched-layout-container,
 .stretched-layout-item
 {
-  transition: all .5s ease;
+  transition: all .2s ease;
 }
 
 .csl-entry{
@@ -39,10 +39,6 @@
   }
 }
 
-.card-content-fading{
-  max-height: 4rem;
-  overflow: hidden;
-}
 
 .scholar-draft-SideToolbar{
   z-index: 2;

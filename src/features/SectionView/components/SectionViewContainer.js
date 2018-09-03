@@ -8,10 +8,6 @@ import {
 } from 'react-router';
 
 import {
-  ModalCard,
-} from 'quinoa-design-library/components/';
-
-import {
   convertToRaw
 } from 'draft-js';
 
@@ -27,10 +23,10 @@ import {
 } from '../../../helpers/lockUtils';
 
 import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils';
-import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultResource} from '../../../helpers/schemaUtils';
 
 import UploadModal from '../../../components/UploadModal';
+import PastingModal from '../../../components/PastingModal';
 
 import DataUrlProvider from '../../../components/DataUrlProvider';
 
@@ -41,6 +37,7 @@ import * as storyDuck from '../../StoryManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
 import * as libarayViewDuck from '../../LibraryView/duck';
 import * as errorMessageDuck from '../../ErrorMessageManager/duck';
+import * as editionUiDuck from '../../EditionUiWrapper/duck';
 
 import SectionViewLayout from './SectionViewLayout';
 
@@ -58,6 +55,7 @@ const {maxBatchNumber} = config;
   }),
   dispatch => ({
     actions: bindActionCreators({
+      ...editionUiDuck,
       ...connectionsDuck,
       ...storyDuck,
       ...sectionsManagementDuck,
@@ -191,6 +189,7 @@ class SectionViewContainer extends Component {
     this.unlockOnSection(this.props);
     this.props.actions.setEditedSectionId(undefined);
     this.props.actions.resetDraftEditorsStates();
+    this.props.actions.resetViewsUi();
   }
 
   confirmExit(e) {
@@ -423,7 +422,7 @@ class SectionViewContainer extends Component {
             storyId,
           }
         },
-        editorBlocked,
+        editorPastingStatus,
       },
       goToSection,
       onSummonAsset,
@@ -432,9 +431,7 @@ class SectionViewContainer extends Component {
       submitMultiResources,
       embedLastResource,
       onResourceEditAttempt,
-      context: {t},
     } = this;
-    const translate = translateNameSpacer(t, 'Features.SectionViewContainer');
 
     if (editedStory) {
       const section = editedStory.sections[sectionId];
@@ -453,16 +450,7 @@ class SectionViewContainer extends Component {
                 onContextualizeHyperlink={onContextualizeHyperlink}
                 onResourceEditAttempt={onResourceEditAttempt}
                 {...this.props} />
-              <ModalCard
-                isActive={editorBlocked}
-                headerContent={translate('Please wait...')}
-                mainContent={
-                  <div>
-                    <p>
-                      {translate('copying content...')}
-                    </p>
-                  </div>
-                } />
+              <PastingModal editorPastingStatus={editorPastingStatus} />
               <UploadModal uploadStatus={uploadStatus} />
             </EditionUiWrapper>
           </DataUrlProvider>

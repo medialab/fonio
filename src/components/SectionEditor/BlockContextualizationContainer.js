@@ -8,6 +8,15 @@ import PropTypes from 'prop-types';
 
 import AssetPreview from '../AssetPreview';
 
+import {translateNameSpacer} from '../../helpers/translateUtils';
+
+import {
+  Button,
+  Icon
+} from 'quinoa-design-library/components';
+
+import icons from 'quinoa-design-library/src/themes/millet/icons';
+
 
 /**
  * BlockContainer class for building react component instances
@@ -43,11 +52,19 @@ class BlockContainer extends Component {
   render() {
     const {
       asset,
+      customContext = {},
     } = this.props;
 
     const {
+      selectedContextualizationId
+    } = customContext;
+
+    const {
       startExistingResourceConfiguration,
-      deleteContextualizationFromId
+      deleteContextualizationFromId,
+      setSelectedContextualizationId,
+      t,
+      // selectedContextualizationId,
     } = this.context;
 
     const {
@@ -55,24 +72,74 @@ class BlockContainer extends Component {
       id
     } = asset;
 
-    const onEditRequest = () => {
+    const onEditRequest = (event) => {
+      event.stopPropagation();
       if (typeof startExistingResourceConfiguration === 'function') {
         startExistingResourceConfiguration(resource.id);
       }
     };
 
-    const onDeleteRequest = () => {
+    const onDeleteRequest = (event) => {
+      event.stopPropagation();
       if (typeof startExistingResourceConfiguration === 'function') {
         deleteContextualizationFromId(id);
       }
     };
 
+    const onClick = (event) => {
+      if (event) {
+        event.stopPropagation();
+      }
+      if (typeof setSelectedContextualizationId === 'function') {
+        if (selectedContextualizationId === asset.id) {
+          setSelectedContextualizationId(undefined);
+        }
+ else {
+          setSelectedContextualizationId(asset.id);
+        }
+      }
+    };
+
+    const isActive = selectedContextualizationId === asset.id;
+
+    const translate = translateNameSpacer(t, 'Components.BlockContextualization');
+
     return (resource.data ?
-      <AssetPreview
-        resource={resource}
-        onEditRequest={onEditRequest}
-        onDeleteRequest={onDeleteRequest}
-        showPannel /> : null
+      [
+        <div className={`block-asset-side-toolbar ${isActive ? 'is-active' : ''}`} key={0}>
+          <Button
+            isRounded
+            isColor={'danger'}
+            onClick={onDeleteRequest}
+            data-for="tooltip"
+            data-place="right"
+            data-effect="solid"
+            data-tip={translate(`delete mention (the ${resource.metadata.type} will not be delete from the library)`)}>
+            <Icon icon={'trash'} />
+          </Button>
+          <Button
+            isRounded
+            onClick={onEditRequest}
+            data-for="tooltip"
+            data-place="right"
+            data-effect="solid"
+            data-tip={translate(`edit ${resource.metadata.type}`)}>
+            <Icon>
+              <img src={icons.settings.black.svg} />
+            </Icon>
+          </Button>
+        </div>,
+        <AssetPreview
+          key={1}
+          resource={resource}
+          onEditRequest={onEditRequest}
+          onDeleteRequest={onDeleteRequest}
+          style={{cursor: 'pointer'}}
+          isActive={isActive}
+          onClick={onClick}
+          showPannel />
+
+      ] : null
       );
   }
 }
@@ -100,7 +167,9 @@ BlockContainer.contextTypes = {
    * within the asset component
    */
   startExistingResourceConfiguration: PropTypes.func,
-
-  deleteContextualizationFromId: PropTypes.func
+  deleteContextualizationFromId: PropTypes.func,
+  setSelectedContextualizationId: PropTypes.func,
+  selectedContextualizationId: PropTypes.string,
+  t: PropTypes.func,
 };
 export default BlockContainer;

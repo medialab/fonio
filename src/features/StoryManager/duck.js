@@ -102,6 +102,7 @@ export const updateStory = (TYPE, payload, callback) => {
   let blockType;
   let blockId;
 
+
   // TODO: refactor validation schema more modular
   let payloadSchema = DEFAULT_PAYLOAD_SCHEMA;
   const sectionSchema = storySchema.properties.sections.patternProperties['[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'];
@@ -299,26 +300,26 @@ export const updateStory = (TYPE, payload, callback) => {
 /**
  * Action creators related to socket-based edited story data edition
  */
-export const updateStoryMetadata = payload => updateStory(UPDATE_STORY_METADATA, payload);
-export const updateStorySettings = payload => updateStory(UPDATE_STORY_SETTINGS, payload);
-export const updateSectionsOrder = payload => updateStory(UPDATE_SECTIONS_ORDER, payload);
+export const updateStoryMetadata = (payload, callback) => updateStory(UPDATE_STORY_METADATA, payload, callback);
+export const updateStorySettings = (payload, callback) => updateStory(UPDATE_STORY_SETTINGS, payload, callback);
+export const updateSectionsOrder = (payload, callback) => updateStory(UPDATE_SECTIONS_ORDER, payload, callback);
 
-export const createSection = payload => updateStory(CREATE_SECTION, payload);
+export const createSection = (payload, callback) => updateStory(CREATE_SECTION, payload, callback);
 export const updateSection = (payload, callback) => updateStory(UPDATE_SECTION, payload, callback);
 export const deleteSection = (payload, callback) => updateStory(DELETE_SECTION, payload, callback);
 export const setSectionLevel = (payload, callback) => updateStory(SET_SECTION_LEVEL, payload, callback);
 
-export const createResource = payload => updateStory(CREATE_RESOURCE, payload);
-export const updateResource = payload => updateStory(UPDATE_RESOURCE, payload);
+export const createResource = (payload, callback) => updateStory(CREATE_RESOURCE, payload, callback);
+export const updateResource = (payload, callback) => updateStory(UPDATE_RESOURCE, payload, callback);
 export const deleteResource = (payload, callback) => updateStory(DELETE_RESOURCE, payload, callback);
 
-export const createContextualizer = payload => updateStory(CREATE_CONTEXTUALIZER, payload);
-export const updateContextualizer = payload => updateStory(UPDATE_CONTEXTUALIZER, payload);
-export const deleteContextualizer = payload => updateStory(DELETE_CONTEXTUALIZER, payload);
+export const createContextualizer = (payload, callback) => updateStory(CREATE_CONTEXTUALIZER, payload, callback);
+export const updateContextualizer = (payload, callback) => updateStory(UPDATE_CONTEXTUALIZER, payload, callback);
+export const deleteContextualizer = (payload, callback) => updateStory(DELETE_CONTEXTUALIZER, payload, callback);
 
-export const createContextualization = payload => updateStory(CREATE_CONTEXTUALIZATION, payload);
-export const updateContextualization = payload => updateStory(UPDATE_CONTEXTUALIZATION, payload);
-export const deleteContextualization = payload => updateStory(DELETE_CONTEXTUALIZATION, payload);
+export const createContextualization = (payload, callback) => updateStory(CREATE_CONTEXTUALIZATION, payload, callback);
+export const updateContextualization = (payload, callback) => updateStory(UPDATE_CONTEXTUALIZATION, payload, callback);
+export const deleteContextualization = (payload, callback) => updateStory(DELETE_CONTEXTUALIZATION, payload, callback);
 
 export const setCoverImage = payload => updateStory(SET_COVER_IMAGE, payload);
 /**

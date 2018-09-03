@@ -35,8 +35,6 @@ import {
   Image,
   Input,
   Level,
-  LevelItem,
-  LevelLeft,
   ModalCard,
   StretchedLayoutContainer,
   StretchedLayoutItem,
@@ -72,7 +70,8 @@ class StoryCardWrapper extends Component {
     const {
       story,
       users,
-      onAction
+      onAction,
+      onClick,
     } = this.props;
     return (
       <Level>
@@ -80,6 +79,7 @@ class StoryCardWrapper extends Component {
           <StoryCard
             story={story}
             users={users}
+            onClick={onClick}
             onAction={onAction} />
         </Column>
       </Level>
@@ -131,6 +131,38 @@ class HomeViewLayout extends Component {
                   {this.translate('about fonio details')}
                 </p>
               </Content>
+              <Content>
+                <p
+                  dangerouslySetInnerHTML={{
+                      __html: this.translate('Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.')
+                    }} />
+                <p
+                  dangerouslySetInnerHTML={{
+                      __html: this.translate('Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.')
+                    }} />
+                <p>{this.translate('Avatar icons courtesy of ')}<a target="blank" href="https://www.flaticon.com/packs/people-faces">Freepik</a>.</p>
+
+              </Content>
+              <Title>
+                {this.translate('Contributing and signaling bugs')}
+              </Title>
+              <Content>
+                <p>
+                  <span
+                    dangerouslySetInnerHTML={{
+                       __html: this.translate('The source code of Fonio is licensed under free software license ')
+                }} />
+                  <a target="blank" href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3</a>
+                  {this.translate(' and is hosted on ')}
+                  <a target="blank" href="https://github.com/medialab/fonio/">Github</a>.
+                </p>
+
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: this.translate('For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !')
+                  }} />
+              </Content>
+
             </Column>
           </Container>
         );
@@ -346,8 +378,6 @@ class HomeViewLayout extends Component {
                   <Title isSize={3}>
                     {config.sessionName /* eslint no-undef: 0 */}
                   </Title>
-
-
                   <div>
                     <Button isFullWidth onClick={() => setNewStoryOpen(!newStoryOpen)} isColor={newStoryOpen ? 'primary' : 'info'}>
                       {this.translate('New story')}
@@ -360,21 +390,21 @@ class HomeViewLayout extends Component {
                     <Title isSize={5}>
                       {this.translate('Your profile')} <HelpPin>{this.translate('choose how you will be identified by other writers')}</HelpPin>
                     </Title>
-                    <Level isMobile>
-                      {userInfo && <LevelLeft>
-                        <LevelItem>
+                    {userInfo &&
+                      <StretchedLayoutContainer isDirection="horizontal">
+                        <StretchedLayoutItem>
                           <Image isRounded isSize="64x64" src={require(`../../../sharedAssets/avatars/${userInfo.avatar}`)} />
-                        </LevelItem>
-                        <LevelItem>
+                        </StretchedLayoutItem>
+                        <StretchedLayoutItem style={{paddingRight: '1rem', paddingLeft: '1rem'}} isFlex={1}>
                           {userInfo.name}
-                        </LevelItem>
-                        <LevelItem>
+                        </StretchedLayoutItem>
+                        <StretchedLayoutItem>
                           <Button onClick={() => setIdentificationModalSwitch(true)}>
                             {this.translate('edit')}
                           </Button>
-                        </LevelItem>
-                      </LevelLeft>}
-                    </Level>
+                        </StretchedLayoutItem>
+                      </StretchedLayoutContainer>
+                    }
                   </div>
                   <Level />
                   <div>
@@ -393,18 +423,16 @@ class HomeViewLayout extends Component {
                       .map(thatUserId => ({userId, ...activeUsers[thatUserId]}))
                       .map((user, index) => {
                         return (
-                          <Level key={index}>
-                            <Columns style={{alignItems: 'center'}}>
-                              <Column style={{maxWidth: '3rem', minWidth: '3rem'}} isSize={'1/3'}>
-                                <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
-                              </Column>
-                              <Column isSize={'2/3'}>
-                                <Content>
-                                  {user.name}
-                                </Content>
-                              </Column>
-                            </Columns>
-                          </Level>
+                          <StretchedLayoutContainer style={{marginBottom: '1rem'}} isDirection={'horizontal'} key={index}>
+                            <StretchedLayoutItem style={{maxWidth: '3rem', minWidth: '3rem'}}>
+                              <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
+                            </StretchedLayoutItem>
+                            <StretchedLayoutItem isFlex={1}>
+                              <Content>
+                                {user.name}
+                              </Content>
+                            </StretchedLayoutItem>
+                          </StretchedLayoutContainer>
                         );
                       })
                     }
@@ -466,7 +494,8 @@ class HomeViewLayout extends Component {
 
                       {
                             visibleStoriesList.map((story) => {
-                              const onAction = (id) => {
+                              const onAction = (id, event) => {
+                                event.stopPropagation();
                                 switch (id) {
                                   case 'open':
                                     history.push({
@@ -505,11 +534,17 @@ class HomeViewLayout extends Component {
                                     };
                                   })
                               : [];
+
+                              const handleClick = e => {
+                                e.stopPropagation();
+                                history.push(`/story/${story.id}`);
+                              };
                               return (
                                 <StoryCardWrapper
                                   key={story.id}
                                   story={story}
                                   users={users}
+                                  onClick={handleClick}
                                   onAction={onAction} />
                               );
                             })
@@ -718,8 +753,9 @@ class HomeViewLayout extends Component {
               <p>
                 <span
                   dangerouslySetInnerHTML={{
-                __html: this.translate('The source code of Fonio is licensed under free software license <a target="blank" href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3</a>')
+                __html: this.translate('The source code of Fonio is licensed under free software license ')
               }} />
+                <a target="blank" href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3</a>
                 {this.translate(' and is hosted on ')}
                 <a target="blank" href="https://github.com/medialab/fonio/">Github</a>.</p>
             </Content>

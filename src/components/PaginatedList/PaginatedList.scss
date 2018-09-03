@@ -1,25 +1,41 @@
 
 
-.fonio-PaginatedList{
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: stretch;
-  overflow: hidden;
-  .items-container{
-    flex: 1;
-    overflow: auto;
-    // max-height: calc(100% - 2rem);
-    > div{
-      overflow-y: auto;
-      display: flex;
-      flex-flow: row wrap;
-    }
-  }
-  .pagination{
-    min-height: 5rem;
-  }
+.fonio-PaginatedList
+{
+    display: flex;
+    overflow: hidden;
 
-  .pagination-list
+    flex-flow: column nowrap;
+    justify-content: stretch;
+    .items-container
+    {
+        overflow: auto;
+
+        flex: 1;
+        // max-height: calc(100% - 2rem);
+         > div
+        {
+            display: flex;
+            overflow-y: auto;
+
+            flex-flow: row wrap;
+        }
+    }
+    .pagination
+    {
+        min-height: 5rem;
+    }
+
+    .pagination-previous,
+    .pagination-next{
+        &.is-disabled{
+            opacity: .5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    }
+
+    .pagination-list
     {
         li
         {
@@ -32,5 +48,25 @@
                 }
             }
         }
+    }
+
+
+    .my-masonry-grid
+    {
+        display: flex;
+
+        width: auto;
+        margin-left: -1rem; /* gutter size offset */
+    }
+    .my-masonry-grid_column
+    {
+        padding-left: 1rem; /* gutter size */
+
+        background-clip: padding-box;
+    }
+
+    .my-masonry-grid_column > div
+    {
+        width: 100%;
     }
 }

@@ -5,6 +5,9 @@ import {arrayMove} from 'react-sortable-hoc';
 
 import {v4 as genId} from 'uuid';
 
+import ReactTooltip from 'react-tooltip';
+
+
 import {
   Button,
   Column,
@@ -33,6 +36,8 @@ import SortableSectionsList from './SortableSectionsList';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import {createDefaultSection} from '../../../helpers/schemaUtils';
+import {abbrevString} from '../../../helpers/misc';
+
 import {
   getReverseSectionsLockMap,
   getStoryActiveAuthors,
@@ -66,6 +71,7 @@ const SummaryViewLayout = ({
 
 
   const translate = translateNameSpacer(t, 'Features.SummaryView');
+
 
   const {
     metadata: {
@@ -102,7 +108,7 @@ const SummaryViewLayout = ({
             const sectionId = locks.sections.blockId;
             const section = sections[sectionId];
             const sectionTitle = section.metadata.title;
-            message = translate('{a} is working on section "{t}"', {a: name, t: sectionTitle});
+            message = translate('{a} is working on section "{t}"', {a: name, t: abbrevString(sectionTitle, 60)});
           }
           else message = translate('{a} is working on a section', {a: name});
         }
@@ -127,7 +133,7 @@ const SummaryViewLayout = ({
 
   let metadataLockStatus;
   let metadataLockMessage;
-  if (userLockedOnMetadataId) {
+  if (userLockedOnMetadataId && activeUsers[userLockedOnMetadataId]) {
     if (userLockedOnMetadataId === userId) {
       metadataLockStatus = 'active';
       metadataLockMessage = translate('edited by you');
@@ -216,6 +222,7 @@ const SummaryViewLayout = ({
   };
 
   const onSortEnd = ({oldIndex, newIndex}) => {
+    setIsSorting(false);
     const sectionsIds = sectionsList.map(section => section.id);
     const newSectionsOrder = arrayMove(sectionsIds, oldIndex, newIndex);
     updateSectionsOrder({
@@ -223,13 +230,17 @@ const SummaryViewLayout = ({
       userId,
       sectionsOrder: newSectionsOrder
     });
-    // setTempSectionsOrder(newSectionsOrder);
-    // // get lock on sections order
-    // enterBlock({
-    //   storyId,
-    //   userId,
-    //   blockType: 'sectionsOrder',
-    // });
+    ReactTooltip.rebuild();
+  };
+
+  const setSectionIndex = (oldIndex, newIndex) => {
+    const sectionsIds = sectionsList.map(section => section.id);
+    const newSectionsOrder = arrayMove(sectionsIds, oldIndex, newIndex);
+    updateSectionsOrder({
+      storyId,
+      userId,
+      sectionsOrder: newSectionsOrder
+    });
     setIsSorting(false);
   };
 
@@ -245,35 +256,38 @@ const SummaryViewLayout = ({
   return (
     <Container style={{position: 'relative', height: '100%'}}>
       <StretchedLayoutContainer isFluid isDirection="horizontal" isAbsolute>
-        <StretchedLayoutItem isFluid isFlex={1} isFlowing>
+        <StretchedLayoutItem
+          style={{marginTop: '1rem'}} isFluid isFlex={1}
+          isFlowing>
           <Column>
-
-            <Level>
-              <Collapsable isCollapsed={metadataOpen}>
-                <Title isSize={2}>
-                  {title}
+            <Level style={{marginBottom: '.4rem'}}>
+              <Collapsable maxHeight={'100%'} isCollapsed={metadataOpen}>
+                <Title isSize={3}>
+                  {abbrevString(title, 60)}
                 </Title>
                 {subtitle && <Title isSize={5}>
-                  <i>{subtitle}</i>
+                  <i>{abbrevString(subtitle, 60)}</i>
                   </Title>}
-                {
-                    authors.map((author, index) => (
-                      <Level key={index}>
-                        <LevelLeft>
-                          <LevelItem>
-                            <Icon isSize="small" isAlign="left">
-                              <span className="fa fa-user" aria-hidden="true" />
-                            </Icon>
-                          </LevelItem>
-                          <LevelItem>
-                            {author}
-                          </LevelItem>
-                        </LevelLeft>
-                      </Level>
-                    ))
-                  }
+                <div style={{maxHeight: '15rem', overflow: 'auto'}}>
+                  {
+                      authors.map((author, index) => (
+                        <Level key={index}>
+                          <LevelLeft>
+                            <LevelItem>
+                              <Icon isSize="small" isAlign="left">
+                                <span className="fa fa-user" aria-hidden="true" />
+                              </Icon>
+                            </LevelItem>
+                            <LevelItem>
+                              {abbrevString(author, 60)}
+                            </LevelItem>
+                          </LevelLeft>
+                        </Level>
+                      ))
+                    }
+                </div>
                 <Content>
-                  <i>{abstract}</i>
+                  <i>{abbrevString(abstract, 300)}</i>
                 </Content>
               </Collapsable>
             </Level>
@@ -302,11 +316,16 @@ const SummaryViewLayout = ({
                 }
               </Button>
             </Level>
-            <Collapsable isCollapsed={!metadataOpen} maxHeight={1000}>
-              {metadataOpen && <MetadataForm
-                story={story}
-                onSubmit={onMetadataSubmit}
-                onCancel={toggleMetadataEdition} />}
+            <Collapsable isCollapsed={!metadataOpen} maxHeight={'100%'}>
+              {
+                metadataOpen &&
+                <div style={{marginTop: '1rem'}}>
+                  <MetadataForm
+                    story={story}
+                    onSubmit={onMetadataSubmit}
+                    onCancel={toggleMetadataEdition} />
+                </div>
+              }
             </Collapsable>
             <Level />
             <Level />
@@ -322,18 +341,16 @@ const SummaryViewLayout = ({
                   .filter(a => a.userId !== userId)
                   .map((author, authorIndex) => {
                     return (
-                      <Level key={authorIndex}>
-                        <LevelLeft>
-                          <LevelItem>
-                            <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${author.avatar}`)} />
-                          </LevelItem>
-                          <LevelItem>
-                            <Help>
-                              {buildAuthorMessage(author)}
-                            </Help>
-                          </LevelItem>
-                        </LevelLeft>
-                      </Level>
+                      <StretchedLayoutContainer isDirection="horizontal" key={authorIndex}>
+                        <StretchedLayoutItem style={{marginRight: '1rem'}}>
+                          <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${author.avatar}`)} />
+                        </StretchedLayoutItem>
+                        <StretchedLayoutItem isFlex={1}>
+                          <Help>
+                            {buildAuthorMessage(author)}
+                          </Help>
+                        </StretchedLayoutItem>
+                      </StretchedLayoutContainer>
                     );
                   })
                 }
@@ -347,7 +364,7 @@ const SummaryViewLayout = ({
                   <StretchedLayoutContainer isAbsolute isDirection="vertical">
                     <StretchedLayoutItem>
                       <Title isSize={2}>
-                        <StretchedLayoutContainer isDirection={'horizontal'}>
+                        <StretchedLayoutContainer style={{paddingTop: '1rem'}} isDirection={'horizontal'}>
                           <StretchedLayoutItem isFlex={11}>
                             {translate('New section')}
                           </StretchedLayoutItem>
@@ -388,6 +405,7 @@ const SummaryViewLayout = ({
                   story={story}
                   onSortEnd={onSortEnd}
                   goToSection={goToSection}
+                  setSectionIndex={setSectionIndex}
                   onSortStart={() => setIsSorting(true)}
                   isSorting={isSorting}
                   onDelete={onDeleteSection}

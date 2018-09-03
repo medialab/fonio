@@ -5,6 +5,7 @@ import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import {
   Button,
+  Content,
   ModalCard,
   Field,
   Label,
@@ -41,6 +42,9 @@ const DeleteStoryModal = ({
               onClose={onCancel}
               mainContent={
                 <Field>
+                  <Content>
+                    {translate('Deleting a story cannot be undone. Are you sure ?')}
+                  </Content>
                   <Label>
                     {translate('Enter password of the story')}
                     <HelpPin place="right">

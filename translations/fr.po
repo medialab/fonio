@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-8-30\n"
-"PO-Revision-Date: Thu Aug 30 2018 11:23:06 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-9-3\n"
+"PO-Revision-Date: Mon Sep 03 2018 13:28:29 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4883,6 +4883,105 @@ msgstr "\"{f}\" est trop gros"
 msgid "Components.ResourceForm.File is too large ({s} Mb), please choose one under {m} Mb"
 msgstr "File is too large ({s} Mb), please choose one under {m} Mb"
 
+msgid "Components.PastingModal.Duplicating contents"
+msgstr "Duplicating contents"
+
+msgid "Components.PastingModal.Updating contents"
+msgstr "Updating contents"
+
+msgid "Components.PastingModal.Converting contents"
+msgstr "Converting contents"
+
+msgid "Components.PastingModal.Duplicating {n} contextualizers"
+msgstr "Duplicating {n} contextualizers"
+
+msgid "Components.PastingModal.Duplicating {n} notes"
+msgstr "Duplicating {n} notes"
+
+msgid "Components.PastingModal.Creating {n} items"
+msgstr "Creating {n} items"
+
+msgid "Components.PastingModal.Attaching {n} contextualizers"
+msgstr "Attaching {n} contextualizers"
+
+msgid "Components.PastingModal.Please wait..."
+msgstr ""
+
+msgid "Features.ErrorMessageContainer.Your story file is larger than maximum file size allowed"
+msgstr "Your story file is larger than maximum file size allowed"
+
+msgid "Features.HomeView.Contributing and signaling bugs"
+msgstr "Contributing and signaling bugs"
+
+msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="
+msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">cette page</a> et de suivre la procédure proposée. Merci !"
+
+msgid "Features.LibraryView.Filters"
+msgstr "Filters"
+
+msgid "Features.SectionView.Filters"
+msgstr "Filters"
+
+msgid "Components.PastingModal.Creating item {x} of {n}"
+msgstr "Creating item {x} of {n}"
+
+msgid "Components.PastingModal.Attaching contextualizer {x} of {n}"
+msgstr "Attaching contextualizer {x} of {n}"
+
+msgid "Components.DeleteStoryModal.Deleting a story cannot be undone. Are you sure ?"
+msgstr " Are you sure ?"
+
+msgid "Components.BlockContextualization.trash"
+msgstr "trash"
+
+msgid "Components.BlockContextualization.pointer"
+msgstr "pointer"
+
+msgid "Features.LibraryView.settings"
+msgstr "settings"
+
+msgid "Features.LibraryView.use as cover image"
+msgstr "use as cover image"
+
+msgid "Features.SectionView.Section title"
+msgstr "Section title"
+
+msgid "Features.SectionView.Drag this item to the editor"
+msgstr "Drag this item to the editor"
+
+msgid "Features.SectionView.Title level {n}"
+msgstr "Title level {n}"
+
+msgid "Features.SectionView.Move up in the summary"
+msgstr "Move up in the summary"
+
+msgid "Features.SectionView.Move down in the summary"
+msgstr "Move down in the summary"
+
+msgid "Features.SectionView.Move section in summary"
+msgstr "Move section in summary"
+
+msgid "Components.SectionCard.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "Components.SectionCard.open to edition"
+msgstr "open to edition"
+
+msgid "Components.SectionCard.edit section"
+msgstr "edit section"
+
+msgid "Components.SectionCard.delete this section"
+msgstr "delete this section"
+
+msgid "Components.SectionCard.Move up in the summary"
+msgstr "Move up in the summary"
+
+msgid "Components.SectionCard.Move down in the summary"
+msgstr "Move down in the summary"
+
+msgid "Components.SectionCard.Move section in summary"
+msgstr "Move section in summary"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
 
@@ -4916,17 +5015,11 @@ msgstr "« > » puis espace"
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} travaille sur la section « {t} »"
 
-msgid "Features.HomeView.The source code of Fonio is licensed under free software licenses <a target="blank" href="http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.html">CeCILL-B</a> and <a target="blank" href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3</a>"
-msgstr "Le code source de Fonio est partagé selon les licenses libres <a target=\"blank\" href=\"http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.html\">CeCILL-B</a> et <a target=\"blank\" href=\"http://www.gnu.org/licenses/agpl-3.0.html\">AGPL v3</a>"
-
-msgid "Features.HomeView.The source code of Fonio is licensed under free software license <a target="blank" href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3</a>"
-msgstr "html\">AGPL v3</a>"
-
 msgid "Components.UploadModal.Adding "{n}""
 msgstr "Ajout de \"{n}\""
 
 msgid "Components.UploadModal."{f}" is too big"
 msgstr "\"{f}\" est trop gros"
 
-msgid "Features.ErrorMessageContainer.Your story file is larger than maximum file size allowed"
-msgstr "Your story file is larger than maximum file size allowed"
+msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
+msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">cette page</a> et de suivre la procédure proposée. Merci !"

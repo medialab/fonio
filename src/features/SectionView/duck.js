@@ -22,6 +22,8 @@ import {CREATE_RESOURCE, UPDATE_SECTION} from '../StoryManager/duck';
 /**
  * UI
  */
+import {RESET_VIEWS_UI} from '../EditionUiWrapper/duck';
+
 const SET_ASIDE_TAB_MODE = 'SET_ASIDE_TAB_MODE';
 const SET_ASIDE_TAB_COLLAPSED = 'SET_ASIDE_TAB_COLLAPSED';
 const SET_MAIN_COLUMN_MODE = 'SET_MAIN_COLUMN_MODE';
@@ -36,6 +38,8 @@ const SET_DRAGGED_RESOURCE_ID = 'SET_DRAGGED_RESOURCE_ID';
 const SET_SHORTCUTS_HELP_VISIBLE = 'SET_SHORTCUTS_HELP_VISIBLE';
 const SET_LINK_MODAL_FOCUS_ID = 'SET_LINK_MODAL_FOCUS_ID';
 const SET_UPLOAD_STATUS = 'SET_UPLOAD_STATUS';
+const SET_EDITOR_PASTING_STATUS = 'SET_EDITOR_PASTING_STATUS';
+const SET_SELECTED_CONTEXTUALIZATION_ID = 'SET_SELECTED_CONTEXTUALIZATION_ID';
 
 /**
  * actions related to resources edition parameters
@@ -144,6 +148,17 @@ export const setLinkModalFocusId = payload => ({
 export const setUploadStatus = payload => ({
   type: SET_UPLOAD_STATUS,
   payload
+});
+
+
+export const setEditorPastingStatus = payload => ({
+  type: SET_EDITOR_PASTING_STATUS,
+  payload
+});
+
+export const setSelectedContextualizationId = payload => ({
+  type: SET_SELECTED_CONTEXTUALIZATION_ID,
+  payload,
 });
 
 
@@ -261,6 +276,8 @@ const UI_DEFAULT_STATE = {
   shortcutsHelpVisible: false,
   linkModalFocusId: undefined,
   uploadStatus: undefined,
+  editorPastingStatus: undefined,
+  selectedContextualizationId: undefined,
 };
 
 /**
@@ -272,6 +289,8 @@ const UI_DEFAULT_STATE = {
 function ui(state = UI_DEFAULT_STATE, action) {
   const {payload} = action;
   switch (action.type) {
+    case RESET_VIEWS_UI:
+      return UI_DEFAULT_STATE;
     case SET_ASIDE_TAB_MODE:
     case SET_ASIDE_TAB_COLLAPSED:
     case SET_MAIN_COLUMN_MODE:
@@ -287,6 +306,8 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_STORY_IS_SAVED:
     case SET_LINK_MODAL_FOCUS_ID:
     case SET_UPLOAD_STATUS:
+    case SET_EDITOR_PASTING_STATUS:
+    case SET_SELECTED_CONTEXTUALIZATION_ID:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -475,7 +496,7 @@ const editorFocusState = (state = EDITOR_FOCUS_DEFAULT_STATE, action) => {
       return {
         ...state,
         editorFocus: payload.editorFocus,
-        previousEditorFocus: payload.editorFocus
+        previousEditorFocus: payload.editorFocus ? payload.editorFocus : state.editorFocus
       };
     default:
       return state;
@@ -515,6 +536,8 @@ const storyIsSaved = state => state.ui.storyIsSaved;
 const shortcutsHelpVisible = state => state.ui.shortcutsHelpVisible;
 const linkModalFocusId = state => state.ui.linkModalFocusId;
 const uploadStatus = state => state.ui.uploadStatus;
+const editorPastingStatus = state => state.ui.editorPastingStatus;
+const selectedContextualizationId = state => state.ui.selectedContextualizationId;
 
 const editorStates = state => state.editorstates;
 const assetRequestState = state => state.assetRequeststate;
@@ -538,6 +561,8 @@ export const selector = createStructuredSelector({
   shortcutsHelpVisible,
   linkModalFocusId,
   uploadStatus,
+  editorPastingStatus,
+  selectedContextualizationId,
 
   resourceOptionsVisible,
   resourceFilterValues,

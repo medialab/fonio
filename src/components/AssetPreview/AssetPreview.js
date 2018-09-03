@@ -15,13 +15,13 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {
   Box,
-  Button,
+  // Button,
   Content,
   Columns,
   Column,
   Image,
   Level,
-  HelpPin,
+  // HelpPin,
   Title,
 } from 'quinoa-design-library/components';
 
@@ -31,6 +31,8 @@ import BibliographicPreview from '../BibliographicPreview';
 import {translateNameSpacer} from '../../helpers/translateUtils';
 import {loadResourceData} from '../../helpers/assetsUtils';
 import {abbrevString} from '../../helpers/misc';
+
+import './AssetPreview.scss';
 
 
 /**
@@ -68,6 +70,7 @@ class EmbedContainer extends Component {
       html
     } = this.props;
     return (<div
+      style={{background: '#FFF'}}
       dangerouslySetInnerHTML={{
             __html: html
           }} />);
@@ -221,59 +224,78 @@ class AssetPreview extends Component {
     }
   }
 
-  onClickBox (e) {
+  onClickBox = (e) => {
     e.stopPropagation(); //cause lockingMap state not be updated
+    if (typeof this.props.onClick === 'function') {
+      this.props.onClick(e);
+    }
   }
   render() {
     const translate = translateNameSpacer(this.context.t, 'Components.AssetPreview');
-    const {showPannel, resource} = this.props;
+    const {
+      showPannel,
+      resource,
+      style = {},
+      isActive,
+      silentPreviewClick = true,
+    } = this.props;
     const {metadata, data} = resource;
     const {isInfoShown} = this.state;
+
+    const silentEvent = event => {
+      event.stopPropagation();
+    };
+
+    const handlePreviewClick = event => {
+      if (silentPreviewClick) {
+        silentEvent(event);
+      }
+    };
     return (
       showPannel ?
         <Box
           onClick={this.onClickBox}
-          style={{background: 'rgb(240,240,240)'}}
+          style={{
+            background: isActive ? '#3F51B5' : 'rgb(240,240,240)',
+            color: isActive ? '#FFF' : '#333',
+            padding: 0,
+            paddingBottom: '.3rem',
+            ...style,
+          }}
           className="fonio-AssetPreview">
           <div className="preview-container">
             {data && this.renderPreview()}
           </div>
           <div>
-            <Level />
-            <Level>
-              <Columns>
-                <Column>
+            <Level style={{margin: '1rem', marginBottom: 0}}>
+              <Columns isMobile>
+                <Column isSize={1}>
                   <Image isSize={'24x24'} className="type-icon" src={icons[metadata.type].black.svg} />
                 </Column>
                 <Column isSize={11}>
-                  <Title isSize={4}>{metadata.title || translate('Unnamed resource')}</Title>
+                  <Title style={{paddingTop: '.2rem', color: 'inherit'}} isSize={6}>{metadata.title || translate('Unnamed resource')}</Title>
                 </Column>
               </Columns>
             </Level>
-            <div>
-              <div style={{width: '100%'}}>
-                <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
-                  <Button
-                    isFullWidth style={{overflow: 'visible'}} isColor="warning"
-                    onClick={this.onClickDelete}>
-                    <span style={{marginRight: '1em'}}>{translate('delete mention')}</span>
-                    <HelpPin>
-                      {translate(`The ${metadata.type} will not be delete from the library`)}
-                    </HelpPin>
-                  </Button>
-                </Column>
-                <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
-                  <Button isFullWidth isColor="primary" onClick={this.onClickEdit}>
-                    {translate(`edit ${metadata.type}`)}
-                  </Button>
-                </Column>
-                {/*(metadata.description || metadata.source) && <Column>
-                  <Button isColor={isInfoShown ? 'primary' : 'info'} onClick={() => this.setState({isInfoShown: !isInfoShown})}>
-                    {translate('show info')}
-                  </Button>
-                </Column>*/}
-              </div>
-            </div>
+            {/*<div>
+                          <div style={{width: '100%'}}>
+                            <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
+                              <Button
+                                isFullWidth style={{overflow: 'visible'}} isColor="warning"
+                                onClick={this.onClickDelete}>
+                                <span style={{marginRight: '1em'}}>{translate('delete mention')}</span>
+                                <HelpPin>
+                                  {translate(`The ${metadata.type} will not be delete from the library`)}
+                                </HelpPin>
+                              </Button>
+                            </Column>
+                            <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
+                              <Button isFullWidth isColor="primary" onClick={this.onClickEdit}>
+                                {translate(`edit ${metadata.type}`)}
+                              </Button>
+                            </Column>
+                          </div>
+                        </div>*/}
             {(metadata.description || metadata.source) && isInfoShown &&
               <Level>
                 <Columns>
@@ -300,7 +322,7 @@ class AssetPreview extends Component {
           </div>
         </Box> :
         <div className="fonio-AssetPreview">
-          <div className="preview-container">
+          <div onClick={handlePreviewClick} className="preview-container">
             {data && this.renderPreview()}
           </div>
         </div>

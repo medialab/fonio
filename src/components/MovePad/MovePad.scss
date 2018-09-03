@@ -1,0 +1,115 @@
+
+
+.move-pad{
+  $unit : 2.5rem;
+  position : relative;
+  .move-item{
+    position : absolute;
+
+    &.is-disabled{
+      opacity: .1;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+  }
+
+  .chevron-icon-up,
+  .chevron-icon-right,
+  .chevron-icon-left,
+  .chevron-icon-down{
+    width: $unit;
+    height: $unit;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .3s ease;
+
+    opacity: .5;
+
+    &:not(.is-disabled):hover{
+      opacity: 1;
+    }
+
+    .icon
+    {
+    transition: all .3s ease;
+    }
+  }
+
+  .chevron-icon-up{
+    .icon{
+      left: -.1rem;
+      top: .4rem;
+      position: relative;
+    }
+    &:not(.is-disabled):hover{
+      .icon{
+        top: 0rem;
+      }
+    }
+  }
+
+  .chevron-icon-down{
+    .icon{
+      left: -.1rem;
+      position: relative;
+      top: -.4rem;
+    }
+    &:not(.is-disabled):hover{
+      .icon{
+        top: 0rem;
+      }
+    }
+  }
+
+  .chevron-icon-left{
+    .icon{
+      left: .2rem;
+      position: relative;
+    }
+    &:not(.is-disabled):hover{
+      .icon{
+        left: -.2rem;
+      }
+    }
+  }
+  .chevron-icon-right{
+    .icon{
+      left: -.4rem;
+      position: relative;
+    }
+    &:not(.is-disabled):hover{
+      .icon{
+        left: 0rem;
+      }
+    }
+  }
+
+  .chevron-icon-left {
+    top: $unit;
+    left: 0;
+  }
+  .chevron-icon-up,
+  .move-button,
+  .chevron-icon-down {
+    left: $unit;
+  }
+  .chevron-icon-right{
+    left: $unit * 2;
+    top: $unit;
+  }
+
+  .chevron-icon-up{
+    top: 0;
+  }
+
+  .move-button{
+    top: $unit;
+  }
+
+  .chevron-icon-down{
+    top: $unit * 2;
+  }
+}

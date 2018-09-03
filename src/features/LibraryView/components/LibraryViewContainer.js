@@ -9,6 +9,7 @@ import * as editedStoryDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
 import * as errorMessageDuck from '../../ErrorMessageManager/duck';
+import * as editionUiDuck from '../../EditionUiWrapper/duck';
 
 import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils';
 
@@ -30,6 +31,7 @@ const {maxBatchNumber} = config;
   }),
   dispatch => ({
     actions: bindActionCreators({
+      ...editionUiDuck,
       ...connectionsDuck,
       ...editedStoryDuck,
       ...sectionsManagementDuck,
@@ -51,6 +53,7 @@ class LibraryViewContainer extends Component {
    */
   componentWillUnmount = () => {
     this.leaveLockedBlocks();
+    this.props.actions.resetViewsUi();
   }
 
   leaveLockedBlocks = () => {
