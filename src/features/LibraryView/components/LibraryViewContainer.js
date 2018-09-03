@@ -95,11 +95,13 @@ class LibraryViewContainer extends Component {
       const {setErrorMessage} = this.props.actions;
       if (files.length > maxBatchNumber) {
         setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded'});
+        this.props.actions.setUploadStatus(undefined);
         return;
       }
       const validFiles = validateFiles(files);
       if (validFiles.length === 0) {
         setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'No valid files to upload'});
+        this.props.actions.setUploadStatus(undefined);
         return;
       }
       if (validFiles.length < files.length) {
