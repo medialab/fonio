@@ -65,7 +65,9 @@ const SectionCard = ({
 
   const onClick = e => {
     e.stopPropagation();
-    goTo(section.id);
+    if (!lockData) {
+      goTo(section.id);
+    }
   };
 
   const lockStatusMessage = () => {
