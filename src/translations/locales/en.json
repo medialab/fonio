@@ -320,7 +320,7 @@
   "Features.ErrorMessageContainer.It is edited by {a}": "It is edited by {a}",
   "Features.ErrorMessageContainer.Please check your internet connection or contact your teacher": "Please check your internet connection or contact your teacher",
   "Features.ErrorMessageContainer.Please contact your teachers so that a backup version of this story is reset.": "Please contact your teachers so that a backup version of this story is reset.",
-  "Features.ErrorMessageContainer.Please download the last version of firefox or chrome or use this tool at your risks !": "Please download the last version of firefox or chrome !",
+  "Features.ErrorMessageContainer.Please download the last version of firefox or chrome or use this tool at your risks !": "Please download the latest version of firefox or chrome !",
   "Features.ErrorMessageContainer.Please split your uploads in smaller groups !": "Please split your uploads in smaller groups !",
   "Features.ErrorMessageContainer.Some files are larger than the maximum file size allowed, they were not added to the library.": "Some files are larger than the maximum file size allowed, they were not added to the library.",
   "Features.ErrorMessageContainer.Something went wrong": "Something went wrong",

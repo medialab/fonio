@@ -31,7 +31,7 @@ export const getBrowserInfo = () => {
     if (/edge/gi.test(ua)) {
       return {
         name: 'Edge',
-        version: 0,
+        version: 'unknown',
       };
     }
     if (M[1] === 'Chrome') {
