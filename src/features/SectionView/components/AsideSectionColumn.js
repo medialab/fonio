@@ -148,7 +148,11 @@ class AsideSectionColumn extends Component {
 
       onDeleteSection,
       onOpenSectionSettings,
+      onCloseSectionSettings,
+      onCloseActiveResource,
       onSortEnd,
+      setSectionIndex,
+      history,
     } = this.props;
     const {t} = this.context;
     const translate = translateNameSpacer(t, 'Features.SectionView');
@@ -249,6 +253,7 @@ class AsideSectionColumn extends Component {
                     coverImageId={coverImageId}
                     storyId={storyId}
                     userId={userId}
+                    onCloseSettings={onCloseActiveResource}
                     onResourceEditAttempt={onResourceEditAttempt}
                     reverseResourcesLockMap={reverseResourcesLockMap}
                     getResourceTitle={getResourceTitle}
@@ -256,8 +261,8 @@ class AsideSectionColumn extends Component {
                 </Column>
               </StretchedLayoutItem>
               <StretchedLayoutItem>
-                <Column>
-                  <Column>
+                <Column style={{paddingTop: 0}}>
+                  <Column style={{paddingTop: 0}}>
                     <Button
                       isFullWidth
                       style={{overflow: 'visible'}}
@@ -281,15 +286,25 @@ class AsideSectionColumn extends Component {
                     storyId={storyId}
                     items={sections}
                     onSortEnd={onSortEnd}
-                    onOpenSettings={thatSection => onOpenSectionSettings(thatSection.id)}
+                    history={history}
+                    setSectionIndex={setSectionIndex}
+                    maxSectionIndex={sections.length - 1}
+                    onOpenSettings={thatSection => {
+                      if (mainColumnMode === 'editmetadata') {
+                       onCloseSectionSettings();
+                      }
+                      else {
+                       onOpenSectionSettings(thatSection.id);
+                      }
+                    }}
                     onDeleteSection={onDeleteSection}
                     setSectionLevel={setSectionLevel}
-                    pressDelay={150} />
+                    useDragHandle />
                 </Column>
               </StretchedLayoutItem>
               <StretchedLayoutItem >
-                <Column>
-                  <Column>
+                <Column style={{paddingTop: 0}}>
+                  <Column style={{paddingTop: 0}}>
                     <Button
                       style={{overflow: 'visible'}}
                       isDisabled={userLockedResourceId !== undefined && mainColumnMode === 'edition'}
