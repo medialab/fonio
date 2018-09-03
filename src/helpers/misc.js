@@ -28,6 +28,12 @@ export const getBrowserInfo = () => {
       tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
       return {name: 'IE ', version: (tem[1] || '')};
     }
+    if (/edge/gi.test(ua)) {
+      return {
+        name: 'Edge',
+        version: 0,
+      };
+    }
     if (M[1] === 'Chrome') {
       tem = ua.match(/\bOPR\/(\d+)/);
       if (tem != null) {/* eslint eqeqeq : 0 */
