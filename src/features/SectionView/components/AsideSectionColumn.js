@@ -200,9 +200,10 @@ class AsideSectionColumn extends Component {
                         <Dropdown
                           closeOnChange={false}
                           menuAlign={'right'}
+                          isColor={Object.keys(resourceFilterValues).filter(f => resourceFilterValues[f]).length > 0 ? 'info' : ''}
                           onToggle={() => {
-                          setResourceOptionsVisible(!resourceOptionsVisible);
-                        }}
+                            setResourceOptionsVisible(!resourceOptionsVisible);
+                          }}
                           onChange={setOption}
                           isActive={resourceOptionsVisible}
                           value={{

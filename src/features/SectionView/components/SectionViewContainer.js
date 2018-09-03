@@ -206,6 +206,7 @@ class SectionViewContainer extends Component {
   }
 
   setLinkModalFocusId = (focusId) => {
+    console.log('on link modal focus id', this.props.editorStates[focusId])
     this.props.actions.setLinkModalFocusId(focusId);
   }
 

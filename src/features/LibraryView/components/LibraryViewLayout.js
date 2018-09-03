@@ -331,7 +331,7 @@ class LibraryViewLayout extends Component {
           userId
         });
       }
- else {
+      else {
         setCoverImage({
           storyId,
           resourceId: undefined,
@@ -597,6 +597,7 @@ class LibraryViewLayout extends Component {
                             }}
                             onChange={setOption}
                             isActive={optionsVisible}
+                            isColor={Object.keys(filterValues).filter(f => filterValues[f]).length > 0 ? 'info' : ''}
                             value={{
                               sort: {
                                 value: sortValue,
