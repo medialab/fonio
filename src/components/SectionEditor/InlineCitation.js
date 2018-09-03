@@ -179,14 +179,14 @@ class InlineCitation extends Component {
         }
         footerContent={[
           <Button
-            onClick={toggleContextualizer} isFullWidth key={1}
-            isColor="warning">{translate('Close')}</Button>,
-          <Button
             type="submit"
             isFullWidth
             key={0}
             onClick={onClickEdit}
-            isColor="primary">{translate('Edit reference')}</Button>,
+            isColor="info">{translate('Edit reference')}</Button>,
+          <Button
+            onClick={toggleContextualizer} isFullWidth key={1}
+            isColor="warning">{translate('Close')}</Button>,
         ]} />
     ];
   }
