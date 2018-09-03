@@ -364,6 +364,13 @@ class ResourceForm extends Component {
         if (inputs && inputs.length) {
           inputs[0].focus();
         }
+        const flowing = this.form.getElementsByClassName('is-flowing');
+        if (flowing && flowing.length) {
+          Array.prototype.forEach.call(flowing, el => {
+            el.scrollTop = 0;
+          });
+        }
+
       }
     });
   }
