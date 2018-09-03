@@ -17,6 +17,7 @@ import * as duck from '../duck';
 import * as userInfoDuck from '../../UserInfoManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as authDuck from '../../AuthManager/duck';
+import * as editionDuck from '../../EditionUiWrapper/duck';
 import * as errorMessageDuck from '../../ErrorMessageManager/duck';
 
 /**
@@ -24,6 +25,7 @@ import * as errorMessageDuck from '../../ErrorMessageManager/duck';
  */
 @connect(
   state => ({
+    ...editionDuck.selector(state.editionUiWrapper),
     ...duck.selector(state.home),
     lang: state.i18nState.lang,
     ...userInfoDuck.selector(state.userInfo),
@@ -32,11 +34,12 @@ import * as errorMessageDuck from '../../ErrorMessageManager/duck';
   }),
   dispatch => ({
     actions: bindActionCreators({
-      ...duck,
+      ...editionDuck,
       ...userInfoDuck,
       ...connectionsDuck,
       ...authDuck,
       ...errorMessageDuck,
+      ...duck,
       setLanguage,
     }, dispatch)
   })

@@ -595,5 +595,6 @@
   "Components.SectionCard.Move down in the summary": "Rabaisser dans le sommaire",
   "Components.SectionCard.Move section in summary": "Déplacer la section dans le sommaire",
   "Components.BlockContextualization.trash": "trash",
-  "Components.BlockContextualization.pointer": "pointer"
+  "Components.BlockContextualization.pointer": "pointer",
+  "Components.InlineCitation.Validate": "Valider"
 }

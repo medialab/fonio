@@ -66,6 +66,9 @@ class PreviewWrapper extends Component {
             }}
             usedDocument={contentDocument}
             usedWindow={contentWindow} />
+          <style>
+            {'@import url(\'https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i|Roboto:400,400i,700,700i,900\')'}
+          </style>
         </ContextProvider>
         , mount);
     }

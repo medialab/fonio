@@ -182,11 +182,25 @@ class InlineCitation extends Component {
             type="submit"
             isFullWidth
             key={0}
-            onClick={onClickEdit}
-            isColor="info">{translate('Edit reference')}</Button>,
+            onClick={toggleContextualizer}
+            isColor="primary">
+            {translate('Validate')}
+          </Button>,
           <Button
-            onClick={toggleContextualizer} isFullWidth key={1}
-            isColor="warning">{translate('Close')}</Button>,
+            type="submit"
+            isFullWidth
+            key={1}
+            onClick={onClickEdit}
+            isColor="info">
+            {translate('Edit reference')}
+          </Button>,
+          <Button
+            onClick={toggleContextualizer}
+            isFullWidth
+            key={2}
+            isColor="warning">
+            {translate('Close')}
+          </Button>,
         ]} />
     ];
   }

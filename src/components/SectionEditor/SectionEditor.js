@@ -469,6 +469,23 @@ class SectionEditor extends Component {
     updateNotesFromSectionEditor(this.props);
   }
 
+    /**
+     * Determines whether the editor should show its placeholder.
+     * See https://draftjs.org/docs/api-reference-editor.html#placeholder
+     * for details on why this is useful.
+     * // Taken from https://github.com/springload/draftail/blob/4ff6be3b8134881deaf51cda02f076183be7f358/lib/api/DraftUtils.js#L234-L243
+     */
+    shouldHidePlaceholder(editorState) {
+      const contentState = editorState.getCurrentContent();
+      return (
+          contentState.hasText() ||
+          contentState
+              .getBlockMap()
+              .first()
+              .getType() !== 'UNSTYLED'
+      );
+    }
+
   deleteNote = id => {
     const {
       editorStates,
@@ -1071,6 +1088,14 @@ class SectionEditor extends Component {
 
     const inlineButtons = this.inlineButtons();
 
+    let shouldHidePlaceholder;
+    if (focusedEditorId) {
+      const editorState = focusedEditorId === 'main' ? mainEditorState : notes[focusedEditorId].editorState;
+      if (editorState) {
+        shouldHidePlaceholder = this.shouldHidePlaceholder(editorState);
+      }
+    }
+
     const bindRef = component => {
       this.component = component;
     };
@@ -1080,7 +1105,7 @@ class SectionEditor extends Component {
       <Content style={componentStyle} className="fonio-SectionEditor">
         <div
           ref={bindRef}
-          className="editor-wrapper"
+          className={`editor-wrapper ${shouldHidePlaceholder ? 'hide-placeholder' : ''}`}
           onScroll={onScroll}>
           <ReferencesManager
             style={style}

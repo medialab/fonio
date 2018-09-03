@@ -91,6 +91,22 @@
 //   outline: 1px solid #29B6F6;
 // }
 
+.navbar .navbar-item > span{
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.hero.is-success .navbar-burger{
+  color: black;
+}
+
+.hero.is-success .navbar-menu{
+  background: inherit;
+  .navbar-item{
+    color: black;
+  }
+}
+
 @media print
 {
   .navbar,

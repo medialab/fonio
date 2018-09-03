@@ -50,6 +50,7 @@
   "homepage": "https://github.com/medialab/fonio#readme",
   "dependencies": {
     "ajv": "^6.1.1",
+    "approved-browser": "^1.0.2",
     "axios": "^0.18.0",
     "citation-js": "^0.4.0-6",
     "codemirror": "^5.35.0",
@@ -69,7 +70,7 @@
     "postcss": "^6.0.19",
     "postcss-prefix-selector": "^1.6.0",
     "pouchdb": "^6.3.4",
-    "quinoa-design-library": "0.0.23",
+    "quinoa-design-library": "0.0.24",
     "quinoa-schemas": "0.0.20",
     "react": "^16.4.1",
     "react-citeproc": "^0.1.10",

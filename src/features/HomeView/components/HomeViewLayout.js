@@ -392,13 +392,13 @@ class HomeViewLayout extends Component {
                     </Title>
                     {userInfo &&
                       <StretchedLayoutContainer isDirection="horizontal">
-                        <StretchedLayoutItem>
+                        <StretchedLayoutItem style={{display: 'flex', alignItems: 'center'}}>
                           <Image isRounded isSize="64x64" src={require(`../../../sharedAssets/avatars/${userInfo.avatar}`)} />
                         </StretchedLayoutItem>
-                        <StretchedLayoutItem style={{paddingRight: '1rem', paddingLeft: '1rem'}} isFlex={1}>
+                        <StretchedLayoutItem style={{paddingRight: '1rem', paddingLeft: '1rem', display: 'flex', alignItems: 'center'}} isFlex={1}>
                           {userInfo.name}
                         </StretchedLayoutItem>
-                        <StretchedLayoutItem>
+                        <StretchedLayoutItem style={{display: 'flex', alignItems: 'center'}}>
                           <Button onClick={() => setIdentificationModalSwitch(true)}>
                             {this.translate('edit')}
                           </Button>
@@ -659,12 +659,14 @@ class HomeViewLayout extends Component {
         identificationModalSwitch,
         userInfoTemp,
         userId,
+        navbarOpen,
         actions: {
           setTabMode,
           setIdentificationModalSwitch,
           setUserInfoTemp,
           setUserInfo,
           createUser,
+          toggleNavbarOpen,
         }
       },
       renderContent,
@@ -678,6 +680,7 @@ class HomeViewLayout extends Component {
       setUserInfo(userInfoTemp);
       setIdentificationModalSwitch(false);
     };
+
     return (
       <section>
         <Hero
@@ -693,7 +696,8 @@ class HomeViewLayout extends Component {
               }}>
           <HeroHeader>
             <Navbar
-              isOpen={false}
+              isOpen={navbarOpen === true}
+              onToggle={toggleNavbarOpen}
               isFixed
               brandImage={icons.fonioBrand.svg}
 

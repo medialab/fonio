@@ -7,6 +7,8 @@ import {
   withRouter,
 } from 'react-router';
 
+import {EditorState} from 'draft-js';
+
 import {
   convertToRaw
 } from 'draft-js';
@@ -70,7 +72,7 @@ class SectionViewContainer extends Component {
 
   static childContextTypes = {
     setDraggedResourceId: PropTypes.func,
-    setLinkModalFocusId: PropTypes.func,
+    setLinkModalFocusData: PropTypes.func,
     editorFocus: PropTypes.string,
   }
 
@@ -85,7 +87,7 @@ class SectionViewContainer extends Component {
 
   getChildContext = () => ({
     setDraggedResourceId: this.setDraggedResourceId,
-    setLinkModalFocusId: this.setLinkModalFocusId,
+    setLinkModalFocusData: this.setLinkModalFocusData,
     editorFocus: this.props.editorFocus,
   })
 
@@ -171,7 +173,7 @@ class SectionViewContainer extends Component {
         nextProps.actions.setPendingContextualization(undefined);
         setTimeout(() => {
           this.onSummonAsset(contentId, resourceId);
-          nextProps.actions.setLinkModalFocusId(undefined);
+          nextProps.actions.setLinkModalFocusData(undefined);
         });
       }
     }
@@ -205,8 +207,18 @@ class SectionViewContainer extends Component {
     this.props.actions.setDraggedResourceId(resourceId);
   }
 
-  setLinkModalFocusId = (focusId) => {
-    this.props.actions.setLinkModalFocusId(focusId);
+  setLinkModalFocusData = (focusId) => {
+    const {
+      match: {
+        params: {
+          sectionId,
+          // storyId
+        }
+      },
+    } = this.props;
+    const editorId = focusId === 'main' ? sectionId : focusId;
+    const selection = this.props.editorStates[editorId].getSelection();
+    this.props.actions.setLinkModalFocusData({focusId, selection});
   }
 
 
@@ -282,11 +294,13 @@ class SectionViewContainer extends Component {
       const {setErrorMessage} = this.props.actions;
       if (files.length > maxBatchNumber) {
         setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded'});
+        this.props.actions.setUploadStatus(undefined);
         return;
       }
       const validFiles = validateFiles(files);
       if (validFiles.length === 0) {
         setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'No valid files to upload'});
+        this.props.actions.setUploadStatus(undefined);
         return;
       }
       if (validFiles.length < files.length) {
@@ -331,11 +345,12 @@ class SectionViewContainer extends Component {
 
   onSummonAsset = (contentId, resourceId) => summonAsset(contentId, resourceId, this.props);
 
-  onCreateHyperlink = ({title, url}, contentId) => {
+  onCreateHyperlink = ({title, url}, contentId, selection) => {
     const {
       match: {
         params: {
           storyId,
+          sectionId,
         }
       },
       userId,
@@ -343,6 +358,12 @@ class SectionViewContainer extends Component {
         createResource,
       }
     } = this.props;
+    const editorStateId = contentId === 'main' ? sectionId : contentId;
+    if (selection) {
+      let editorState = this.props.editorStates[editorStateId];
+      editorState = EditorState.acceptSelection(editorState, selection);
+      this.props.actions.updateDraftEditorState(editorStateId, editorState);
+    }
     const id = genId();
     const resource = {
       ...createDefaultResource(),
@@ -363,15 +384,33 @@ class SectionViewContainer extends Component {
       userId,
       resource
     });
-    this.props.actions.setPendingContextualization({
-      resourceId: id,
-      contentId
+    setTimeout(() => {
+      this.props.actions.setPendingContextualization({
+        resourceId: id,
+        contentId
+      });
     });
+
   }
 
-  onContextualizeHyperlink = (resourceId, contentId) => {
-    this.onSummonAsset(contentId, resourceId);
-    this.props.actions.setLinkModalFocusId(undefined);
+  onContextualizeHyperlink = (resourceId, contentId, selection) => {
+    const {
+      match: {
+        params: {
+          sectionId,
+        }
+      },
+    } = this.props;
+    const editorStateId = contentId === 'main' ? sectionId : contentId;
+    if (selection) {
+      let editorState = this.props.editorStates[editorStateId];
+      editorState = EditorState.acceptSelection(editorState, selection);
+      this.props.actions.updateDraftEditorState(editorStateId, editorState);
+    }
+    setTimeout(() => {
+      this.onSummonAsset(contentId, resourceId);
+      this.props.actions.setLinkModalFocusData(undefined);
+    });
   }
 
   embedLastResource = () => {
