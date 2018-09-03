@@ -91,6 +91,11 @@
 //   outline: 1px solid #29B6F6;
 // }
 
+.navbar .navbar-item > span{
+  display: flex;
+  flex-flow: row nowrap;
+}
+
 @media print
 {
   .navbar,
