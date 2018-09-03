@@ -52,7 +52,7 @@ class LinkModal extends Component {
         isActive,
         onCreateHyperlink,
         onContextualizeHyperlink,
-        focusId
+        focusData
       },
       state: {
         dropdownOpen,
@@ -68,10 +68,10 @@ class LinkModal extends Component {
 
     const onConfirm = () => {
       if (url && url.length) {
-        onCreateHyperlink({url, title}, focusId);
+        onCreateHyperlink({url, title}, focusData.focusId, focusData.selection);
       }
- else {
-        onContextualizeHyperlink(choosenResource, focusId);
+      else {
+        onContextualizeHyperlink(choosenResource, focusData.focusId, focusData.selection);
       }
     };
 

@@ -13,14 +13,14 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 const LinkButton = ({tooltip}, {
   // startNewResourceConfiguration,
-  setLinkModalFocusId,
+  setLinkModalFocusData,
   editorFocus
 }) => {
   const onClick = e => {
     e.preventDefault();
     e.stopPropagation();
     // startNewResourceConfiguration(true, 'webpage');
-    setLinkModalFocusId(editorFocus);
+    setLinkModalFocusData(editorFocus);
   };
   return (
     <Button
@@ -34,7 +34,7 @@ const LinkButton = ({tooltip}, {
 
 
 LinkButton.contextTypes = {
-  setLinkModalFocusId: PropTypes.func,
+  setLinkModalFocusData: PropTypes.func,
   editorFocus: PropTypes.string,
   // startNewResourceConfiguration: PropTypes.func,
 };

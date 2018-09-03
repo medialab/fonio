@@ -184,7 +184,7 @@ class InlineCitation extends Component {
             key={0}
             onClick={toggleContextualizer}
             isColor="primary">
-              {translate('Validate')}
+            {translate('Validate')}
           </Button>,
           <Button
             type="submit"
@@ -192,14 +192,14 @@ class InlineCitation extends Component {
             key={1}
             onClick={onClickEdit}
             isColor="info">
-              {translate('Edit reference')}
+            {translate('Edit reference')}
           </Button>,
           <Button
-            onClick={toggleContextualizer} 
-            isFullWidth 
+            onClick={toggleContextualizer}
+            isFullWidth
             key={2}
             isColor="warning">
-              {translate('Close')}
+            {translate('Close')}
           </Button>,
         ]} />
     ];

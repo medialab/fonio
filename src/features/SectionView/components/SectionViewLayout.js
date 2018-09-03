@@ -55,7 +55,7 @@ const SectionViewLayout = ({
   resourceFilterValues,
   resourceSortValue,
   resourceSearchString,
-  linkModalFocusId,
+  linkModalFocusData,
   previousEditorFocus,
 
   lockingMap = {},
@@ -89,7 +89,7 @@ const SectionViewLayout = ({
     setResourceSortValue,
     setResourceSearchString,
     setNewResourceMode,
-    setLinkModalFocusId,
+    setLinkModalFocusData,
     setEditorPastingStatus,
 
     setPromptedToDeleteSectionId,
@@ -223,7 +223,7 @@ const SectionViewLayout = ({
             return -1;
         }
       });
-  const hyperlinks = linkModalFocusId ? Object.keys(story.resources)
+  const hyperlinks = linkModalFocusData ? Object.keys(story.resources)
     .filter(resourceId => story.resources[resourceId].metadata.type === 'webpage')
     .map(resourceId => story.resources[resourceId]) : [];
 
@@ -652,9 +652,9 @@ const SectionViewLayout = ({
             onDeleteConfirm={onDeleteResourceConfirm} />
         }
       <LinkModal
-        isActive={linkModalFocusId !== undefined}
-        focusId={linkModalFocusId}
-        onClose={() => setLinkModalFocusId(undefined)}
+        isActive={linkModalFocusData !== undefined}
+        focusData={linkModalFocusData}
+        onClose={() => setLinkModalFocusData(undefined)}
         hyperlinks={hyperlinks}
         onCreateHyperlink={onCreateHyperlink}
         onContextualizeHyperlink={onContextualizeHyperlink} />
