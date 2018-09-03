@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-8-31\n"
-"PO-Revision-Date: Fri Aug 31 2018 13:19:23 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-9-3\n"
+"PO-Revision-Date: Mon Sep 03 2018 11:13:07 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4930,6 +4930,57 @@ msgstr "Attaching contextualizer {x} of {n}"
 
 msgid "Components.DeleteStoryModal.Deleting a story cannot be undone. Are you sure ?"
 msgstr " Are you sure ?"
+
+msgid "Components.BlockContextualization.trash"
+msgstr "trash"
+
+msgid "Components.BlockContextualization.pointer"
+msgstr "pointer"
+
+msgid "Features.LibraryView.settings"
+msgstr "settings"
+
+msgid "Features.LibraryView.use as cover image"
+msgstr "use as cover image"
+
+msgid "Features.SectionView.Section title"
+msgstr "Section title"
+
+msgid "Features.SectionView.Drag this item to the editor"
+msgstr "Drag this item to the editor"
+
+msgid "Features.SectionView.Title level {n}"
+msgstr "Title level {n}"
+
+msgid "Features.SectionView.Move up in the summary"
+msgstr "Move up in the summary"
+
+msgid "Features.SectionView.Move down in the summary"
+msgstr "Move down in the summary"
+
+msgid "Features.SectionView.Move section in summary"
+msgstr "Move section in summary"
+
+msgid "Components.SectionCard.edited by {a}"
+msgstr "edited by {a}"
+
+msgid "Components.SectionCard.open to edition"
+msgstr "open to edition"
+
+msgid "Components.SectionCard.edit section"
+msgstr "edit section"
+
+msgid "Components.SectionCard.delete this section"
+msgstr "delete this section"
+
+msgid "Components.SectionCard.Move up in the summary"
+msgstr "Move up in the summary"
+
+msgid "Components.SectionCard.Move down in the summary"
+msgstr "Move down in the summary"
+
+msgid "Components.SectionCard.Move section in summary"
+msgstr "Move section in summary"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
