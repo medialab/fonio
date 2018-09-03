@@ -8,13 +8,19 @@ import {Link} from 'react-router-dom';
 import config from '../../../config';
 
 import {
+  Button,
   Card,
   Icon,
-    StretchedLayoutContainer,
-  StretchedLayoutItem,
+  StatusMarker,
+  Columns,
+  Column,
+  Title,
 } from 'quinoa-design-library/components/';
 
+import icons from 'quinoa-design-library/src/themes/millet/icons';
+
 import {translateNameSpacer} from '../../../helpers/translateUtils';
+import MovePad from '../../../components/MovePad';
 
 import {
   abbrevString,
@@ -26,14 +32,19 @@ const SectionCard = ({
   goTo,
   lockData,
   setSectionLevel,
+  sectionIndex,
+  maxSectionIndex,
   // minified,
   story,
-  onDelete
+  onDelete,
+  setSectionIndex,
 }, {t}) => {
+
 
   const translate = translateNameSpacer(t, 'Components.SectionCard');
 
-  const onAction = action => {
+  const onAction = (action, event) => {
+    event.stopPropagation();
     switch (action) {
       case 'delete':
         onDelete(section.id);
@@ -52,87 +63,157 @@ const SectionCard = ({
     }
   };
 
+  const onClick = e => {
+    e.stopPropagation();
+    goTo(section.id);
+  };
+
+  const lockStatusMessage = () => {
+    if (lockData) {
+      return translate('edited by {a}', {a: lockData.name});
+    }
+ else {
+      return translate('open to edition');
+    }
+  };
+
+  const MAX_TITLE_LEN = 15;
+
+  const sectionTitle = (<span
+    data-for="tooltip"
+    data-place="right"
+    data-html
+    data-tip={`<div class="content"><h5 style="color: white">${section.metadata.title}</h5><p>${computeSectionFirstWords(section)}</p></div>`}>
+    {abbrevString(section.metadata.title || translate('Untitled section'), MAX_TITLE_LEN)}
+  </span>);
+
+  const titleSize = 5;
+
   return (
-    <Card
-      title={
-        <Link
-          to={`/story/${story.id}/section/${section.id}`}
-          data-tip={section.metadata.title}
-          data-for="tooltip"
-          data-place="bottom">
-          <span>
-            {abbrevString(section.metadata.title || translate('Untitled section'), 30)}
-          </span></Link>}
-      subtitle={translate('Title level {n}', {n: section.metadata.level + 1})}
-      lockStatus={lockData ? 'locked' : 'open'}
-      statusMessage={lockData ? translate('edited by {n}', {n: lockData.name}) : translate('open for edition')}
-      onAction={onAction}
-      bodyContent={<div style={{paddingLeft: '2.5rem'}}><i>{computeSectionFirstWords(section)}</i></div>}
-      asideActions={[
-        {
-          label: translate('edit'),
-          id: 'edit',
-          isColor: 'primary',
-          isDisabled: lockData
-        }, {
-          label: translate('move'),
-          isColor: 'info',
-          id: 'move',
-          component: SortableHandle(() =>
-            (<span style={{cursor: 'move'}} className="button is-fullwidth is-info">
-              {translate('move')}
-            </span>)
-          )
-        },
-        {
-          label: translate('delete'),
-          isColor: 'danger',
-          id: 'delete',
-          isDisabled: lockData
-        },
-
-        // {
-        //   label: translate('duplicate'),
-        //   id: 'duplicate'
-        // }
-      ]}
-
-      footerActions={[
-        {
-          label: (
-            <StretchedLayoutContainer style={{alignItems: 'center', padding: '1rem'}} isAbsolute isDirection="horizontal">
-              <StretchedLayoutItem>
-                <Icon isSize="small" isAlign="left">
-                  <span className="fa fa-chevron-left" aria-hidden="true" />
+    <div style={{cursor: 'pointer'}} onClick={onClick}>
+      <Card
+        onAction={onAction}
+        bodyContent={
+          <div>
+            <Columns style={{marginBottom: 0}}>
+              <Column style={{paddingBottom: 0}} isSize={1}>
+                <Icon isSize="medium" isAlign="left">
+                  <img src={icons.section.black.svg} />
                 </Icon>
-              </StretchedLayoutItem>
-              <StretchedLayoutItem isFlex={1}>
-                {translate('Title level {n}', {n: section.metadata.level})}
-              </StretchedLayoutItem>
-            </StretchedLayoutContainer>
-          ),
-          isDisabled: section.metadata.level === 0,
-          isColor: 'info',
-          id: 'higher'
-        },
-        {
-          label: (
-            <StretchedLayoutContainer style={{alignItems: 'center', padding: '1rem'}} isAbsolute isDirection="horizontal">
-              <StretchedLayoutItem isFlex={1}>
-                {translate('Title level {n}', {n: section.metadata.level + 2})}
-              </StretchedLayoutItem>
-              <StretchedLayoutItem>
-                <Icon isSize="small" isAlign="left">
-                  <span className="fa fa-chevron-right" aria-hidden="true" />
-                </Icon>
-              </StretchedLayoutItem>
-            </StretchedLayoutContainer>
-          ),
-          isDisabled: section.metadata.level >= config.maxSectionLevel - 1,
-          isColor: 'info',
-          id: 'lower'
-        }
-      ]} />
+              </Column>
+
+              <Column style={{paddingBottom: 0}} isSize={7}>
+                {
+                    lockData === undefined &&
+                    <Title isSize={titleSize}>
+                      <Link
+                        to={`/story/${story.id}/section/${section.id}`}
+                        data-tip={section.metadata.title.length > MAX_TITLE_LEN ? section.metadata.title : undefined}
+                        data-for="tooltip"
+                        data-place="bottom">
+                        <span>
+                          {abbrevString(section.metadata.title || translate('Untitled section'), 30)}
+                        </span>
+                      </Link>
+                      <StatusMarker
+                        style={{marginLeft: '1rem'}}
+                        lockStatus={lockData ? 'locked' : 'open'}
+                        statusMessage={lockStatusMessage()} />
+                    </Title>
+                  }
+                {lockData !== undefined &&
+                  <Title isSize={titleSize}>
+                    <span
+                      data-tip={section.metadata.title.length > MAX_TITLE_LEN ? section.metadata.title : undefined}
+                      data-for="tooltip"
+                      data-place="bottom">
+                      {sectionTitle}
+                    </span>
+                    <StatusMarker
+                      style={{marginLeft: '1rem'}}
+                      lockStatus={lockData ? 'locked' : 'open'}
+                      statusMessage={lockStatusMessage()} />
+                  </Title>
+                  }
+              </Column>
+            </Columns>
+            <Columns>
+              <Column isOffset={1} isSize={7}>
+                <i>{computeSectionFirstWords(section)}</i>
+                <div style={{marginTop: '1rem'}}>
+                  <Button
+                    onClick={(e) => onAction('edit', e)}
+                    isDisabled={lockData !== undefined}
+                    data-effect="solid"
+                    data-place="left"
+                    data-for="tooltip"
+                    data-tip={lockData === undefined && translate('edit section')}>
+                    <Icon isSize="small" isAlign="left">
+                      <img src={icons.edit.black.svg} />
+                    </Icon>
+                  </Button>
+                  <Button
+                    onClick={(e) => onAction('delete', e)}
+                    isDisabled={lockData !== undefined}
+                    data-effect="solid"
+                    data-place="left"
+                    data-for="tooltip"
+                    data-tip={lockData === undefined && translate('delete this section')}>
+                    <Icon isSize="small" isAlign="left">
+                      <img src={icons.remove.black.svg} />
+                    </Icon>
+                  </Button>
+                </div>
+              </Column>
+              <Column style={{position: 'relative'}} isSize={2}>
+                <MovePad
+                  style={{
+                      position: 'absolute',
+                      top: '-3rem',
+                      right: '1rem'
+                    }}
+                  chevronsData={{
+                      left: {
+                        tooltip: translate('Title level {n}', {n: section.metadata.level}),
+                        isDisabled: section.metadata.level === 0,
+                        onClick: () => setSectionLevel({sectionId: section.id, level: section.metadata.level - 1})
+                      },
+                      right: {
+                        tooltip: translate('Title level {n}', {n: section.metadata.level + 2}),
+                        isDisabled: section.metadata.level >= config.maxSectionLevel - 1,
+                        onClick: () => setSectionLevel({sectionId: section.id, level: section.metadata.level + 1})
+                      },
+                      up: {
+                        isDisabled: sectionIndex === 0,
+                        tooltip: translate('Move up in the summary'),
+                        onClick: () => setSectionIndex(sectionIndex, sectionIndex - 1)
+                      },
+                      down: {
+                        isDisabled: sectionIndex === maxSectionIndex,
+                        tooltip: translate('Move down in the summary'),
+                        onClick: () => setSectionIndex(sectionIndex, sectionIndex + 1)
+                      }
+                    }}
+                  moveComponentToolTip={translate('Move section in summary')}
+                  MoveComponent={SortableHandle(() =>
+                      (<span
+                        onClick={e => {
+e.preventDefault(); e.stopPropagation();
+}}
+                        onMouseUp={e => {
+e.preventDefault(); e.stopPropagation();
+}}
+                          // onMouseDown={e => {e.preventDefault(); e.stopPropagation()}}
+                        style={{cursor: 'move'}}
+                        className="button">
+                        <Icon icon={'arrows-alt'} />
+                      </span>)
+                    )} />
+              </Column>
+            </Columns>
+          </div>
+        } />
+    </div>
   );
 };
 

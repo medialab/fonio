@@ -5,6 +5,9 @@ import {arrayMove} from 'react-sortable-hoc';
 
 import {v4 as genId} from 'uuid';
 
+import ReactTooltip from 'react-tooltip';
+
+
 import {
   Button,
   Column,
@@ -68,6 +71,7 @@ const SummaryViewLayout = ({
 
 
   const translate = translateNameSpacer(t, 'Features.SummaryView');
+
 
   const {
     metadata: {
@@ -218,6 +222,7 @@ const SummaryViewLayout = ({
   };
 
   const onSortEnd = ({oldIndex, newIndex}) => {
+    setIsSorting(false);
     const sectionsIds = sectionsList.map(section => section.id);
     const newSectionsOrder = arrayMove(sectionsIds, oldIndex, newIndex);
     updateSectionsOrder({
@@ -225,13 +230,17 @@ const SummaryViewLayout = ({
       userId,
       sectionsOrder: newSectionsOrder
     });
-    // setTempSectionsOrder(newSectionsOrder);
-    // // get lock on sections order
-    // enterBlock({
-    //   storyId,
-    //   userId,
-    //   blockType: 'sectionsOrder',
-    // });
+    ReactTooltip.rebuild();
+  };
+
+  const setSectionIndex = (oldIndex, newIndex) => {
+    const sectionsIds = sectionsList.map(section => section.id);
+    const newSectionsOrder = arrayMove(sectionsIds, oldIndex, newIndex);
+    updateSectionsOrder({
+      storyId,
+      userId,
+      sectionsOrder: newSectionsOrder
+    });
     setIsSorting(false);
   };
 
@@ -251,7 +260,7 @@ const SummaryViewLayout = ({
           style={{marginTop: '1rem'}} isFluid isFlex={1}
           isFlowing>
           <Column>
-            <Level>
+            <Level style={{marginBottom: '.4rem'}}>
               <Collapsable maxHeight={'100%'} isCollapsed={metadataOpen}>
                 <Title isSize={3}>
                   {abbrevString(title, 60)}
@@ -308,10 +317,15 @@ const SummaryViewLayout = ({
               </Button>
             </Level>
             <Collapsable isCollapsed={!metadataOpen} maxHeight={'100%'}>
-              {metadataOpen && <MetadataForm
-                story={story}
-                onSubmit={onMetadataSubmit}
-                onCancel={toggleMetadataEdition} />}
+              {
+                metadataOpen &&
+                <div style={{marginTop: '1rem'}}>
+                  <MetadataForm
+                    story={story}
+                    onSubmit={onMetadataSubmit}
+                    onCancel={toggleMetadataEdition} />
+                </div>
+              }
             </Collapsable>
             <Level />
             <Level />
@@ -350,7 +364,7 @@ const SummaryViewLayout = ({
                   <StretchedLayoutContainer isAbsolute isDirection="vertical">
                     <StretchedLayoutItem>
                       <Title isSize={2}>
-                        <StretchedLayoutContainer isDirection={'horizontal'}>
+                        <StretchedLayoutContainer style={{paddingTop: '1rem'}} isDirection={'horizontal'}>
                           <StretchedLayoutItem isFlex={11}>
                             {translate('New section')}
                           </StretchedLayoutItem>
@@ -391,6 +405,7 @@ const SummaryViewLayout = ({
                   story={story}
                   onSortEnd={onSortEnd}
                   goToSection={goToSection}
+                  setSectionIndex={setSectionIndex}
                   onSortStart={() => setIsSorting(true)}
                   isSorting={isSorting}
                   onDelete={onDeleteSection}
