@@ -196,6 +196,10 @@
             }
             .scholar-draft-InlineAssetContainer{
                 word-break: break-all;
+                // for embedded modals
+                > div{
+                    display: inline;
+                }
                 // display: inline-block;
             }
             .scholar-draft-NotePointer
