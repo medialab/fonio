@@ -22,7 +22,9 @@ class LinkContextualization extends Component {
       children,
     } = this.props;
 
-    return <span style={{color: 'blue'}}>{children}</span>;
+    return (<span style={{color: 'blue', position: 'relative'}}>
+      {children}
+    </span>);
   }
 }
 

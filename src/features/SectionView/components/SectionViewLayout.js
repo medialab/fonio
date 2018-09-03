@@ -56,6 +56,7 @@ const SectionViewLayout = ({
   resourceSortValue,
   resourceSearchString,
   linkModalFocusId,
+  previousEditorFocus,
 
   lockingMap = {},
   activeUsers,
@@ -76,6 +77,8 @@ const SectionViewLayout = ({
   embedResourceAfterCreation,
   newResourceType,
   storyIsSaved,
+  selectedContextualizationId,
+
   actions: {
     setAsideTabMode,
     setAsideTabCollapsed,
@@ -126,6 +129,7 @@ const SectionViewLayout = ({
     setEmbedResourceAfterCreation,
     setStoryIsSaved,
     setErrorMessage,
+    setSelectedContextualizationId,
   },
   goToSection,
   summonAsset,
@@ -134,6 +138,7 @@ const SectionViewLayout = ({
   onCreateHyperlink,
   onContextualizeHyperlink,
   onResourceEditAttempt,
+  history,
 }, {t}) => {
 
   const translate = translateNameSpacer(t, 'Features.SectionView');
@@ -399,8 +404,30 @@ const SectionViewLayout = ({
   const onOpenSectionSettings = () => {
     setMainColumnMode('editmetadata');
   };
+  const onCloseSectionSettings = () => {
+    setMainColumnMode('edition');
+  };
+
+  const onCloseActiveResource = () => {
+      leaveBlock({
+        storyId,
+        userId,
+        blockType: 'resources',
+        blockId: userLockedResourceId
+      });
+    };
 
   const onSectionsSortEnd = ({oldIndex, newIndex}) => {
+    const sectionsIds = sectionsList.map(thatSection => thatSection.id);
+    const newSectionsOrder = arrayMove(sectionsIds, oldIndex, newIndex);
+
+    updateSectionsOrder({
+      storyId,
+      userId,
+      sectionsOrder: newSectionsOrder,
+    });
+  };
+  const setSectionIndex = (oldIndex, newIndex) => {
     const sectionsIds = sectionsList.map(thatSection => thatSection.id);
     const newSectionsOrder = arrayMove(sectionsIds, oldIndex, newIndex);
 
@@ -471,6 +498,17 @@ const SectionViewLayout = ({
     });
   };
 
+  const onSetEditorFocus = editorId => {
+    if (selectedContextualizationId) {
+      setTimeout(() => setSelectedContextualizationId(undefined));
+    }
+    setEditorFocus(editorId);
+  };
+
+  const onSetSelectedContextualizationId = contextualizationId => {
+    setEditorFocus(undefined);
+    setSelectedContextualizationId(contextualizationId);
+  };
 
   return (
     <StretchedLayoutContainer isAbsolute isFluid isDirection="horizontal">
@@ -505,13 +543,17 @@ const SectionViewLayout = ({
 
           onResourceEditAttempt={onResourceEditAttempt}
           onSetCoverImage={onSetCoverImage}
+          onCloseActiveResource={onCloseActiveResource}
+          history={history}
 
           onOpenSectionSettings={onOpenSectionSettings}
+          onCloseSectionSettings={onCloseSectionSettings}
           setResourceOptionsVisible={setResourceOptionsVisible}
           setAsideTabMode={setAsideTabMode}
           setAsideTabCollapsed={setAsideTabCollapsed}
           setMainColumnMode={setMainColumnMode}
           onSortEnd={onSectionsSortEnd}
+          setSectionIndex={setSectionIndex}
 
           onDeleteSection={onDeleteSection} />
       </StretchedLayoutItem>
@@ -524,9 +566,12 @@ const SectionViewLayout = ({
             section={section}
             story={story}
             userId={userId}
+            selectedContextualizationId={selectedContextualizationId}
+            setSelectedContextualizationId={onSetSelectedContextualizationId}
             defaultSectionMetadata={defaultSection.metadata}
             editorStates={editorStates}
             editorFocus={editorFocus}
+            previousEditorFocus={previousEditorFocus}
             assetRequestState={assetRequestState}
             draggedResourceId={draggedResourceId}
             setShortcutsHelpVisible={setShortcutsHelpVisible}
@@ -539,7 +584,7 @@ const SectionViewLayout = ({
 
             promptAssetEmbed={promptAssetEmbed}
             unpromptAssetEmbed={unpromptAssetEmbed}
-            setEditorFocus={setEditorFocus}
+            setEditorFocus={onSetEditorFocus}
 
 
             setNewResourceMode={setNewResourceMode}

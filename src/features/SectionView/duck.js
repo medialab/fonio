@@ -39,6 +39,7 @@ const SET_SHORTCUTS_HELP_VISIBLE = 'SET_SHORTCUTS_HELP_VISIBLE';
 const SET_LINK_MODAL_FOCUS_ID = 'SET_LINK_MODAL_FOCUS_ID';
 const SET_UPLOAD_STATUS = 'SET_UPLOAD_STATUS';
 const SET_EDITOR_PASTING_STATUS = 'SET_EDITOR_PASTING_STATUS';
+const SET_SELECTED_CONTEXTUALIZATION_ID = 'SET_SELECTED_CONTEXTUALIZATION_ID';
 
 /**
  * actions related to resources edition parameters
@@ -153,6 +154,11 @@ export const setUploadStatus = payload => ({
 export const setEditorPastingStatus = payload => ({
   type: SET_EDITOR_PASTING_STATUS,
   payload
+});
+
+export const setSelectedContextualizationId = payload => ({
+  type: SET_SELECTED_CONTEXTUALIZATION_ID,
+  payload,
 });
 
 
@@ -271,7 +277,7 @@ const UI_DEFAULT_STATE = {
   linkModalFocusId: undefined,
   uploadStatus: undefined,
   editorPastingStatus: undefined,
-
+  selectedContextualizationId: undefined,
 };
 
 /**
@@ -301,6 +307,7 @@ function ui(state = UI_DEFAULT_STATE, action) {
     case SET_LINK_MODAL_FOCUS_ID:
     case SET_UPLOAD_STATUS:
     case SET_EDITOR_PASTING_STATUS:
+    case SET_SELECTED_CONTEXTUALIZATION_ID:
       const propName = getStatePropFromActionSet(action.type);
       return {
         ...state,
@@ -489,7 +496,7 @@ const editorFocusState = (state = EDITOR_FOCUS_DEFAULT_STATE, action) => {
       return {
         ...state,
         editorFocus: payload.editorFocus,
-        previousEditorFocus: payload.editorFocus
+        previousEditorFocus: payload.editorFocus ? payload.editorFocus : state.editorFocus
       };
     default:
       return state;
@@ -530,6 +537,7 @@ const shortcutsHelpVisible = state => state.ui.shortcutsHelpVisible;
 const linkModalFocusId = state => state.ui.linkModalFocusId;
 const uploadStatus = state => state.ui.uploadStatus;
 const editorPastingStatus = state => state.ui.editorPastingStatus;
+const selectedContextualizationId = state => state.ui.selectedContextualizationId;
 
 const editorStates = state => state.editorstates;
 const assetRequestState = state => state.assetRequeststate;
@@ -554,6 +562,7 @@ export const selector = createStructuredSelector({
   linkModalFocusId,
   uploadStatus,
   editorPastingStatus,
+  selectedContextualizationId,
 
   resourceOptionsVisible,
   resourceFilterValues,

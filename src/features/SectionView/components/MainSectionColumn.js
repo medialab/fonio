@@ -8,19 +8,19 @@ import NewSectionForm from '../../../components/NewSectionForm';
 import ResourceForm from '../../../components/ResourceForm';
 import {createBibData} from '../../../helpers/resourcesUtils';
 
+import SectionHeader from './SectionHeader';
+
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 
 import config from '../../../config';
 
 import {
-  Button,
   Column,
   Delete,
   DropZone,
   HelpPin,
   Tab,
   Level,
-  Image,
   TabLink,
   TabList,
   Tabs,
@@ -29,10 +29,7 @@ import {
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 
-import icons from 'quinoa-design-library/src/themes/millet/icons';
-
 import {
-  abbrevString,
   base64ToBytesLength
 } from '../../../helpers/misc';
 
@@ -54,6 +51,7 @@ const MainSectionColumn = ({
   editorFocus,
   assetRequestState,
   draggedResourceId,
+  previousEditorFocus,
 
   newResourceType,
   storyIsSaved,
@@ -101,6 +99,9 @@ const MainSectionColumn = ({
   onOpenSectionSettings,
 
   summonAsset,
+
+  selectedContextualizationId,
+  setSelectedContextualizationId,
 }, {
   t
 }) => {
@@ -126,6 +127,19 @@ const MainSectionColumn = ({
       }
     });
     setMainColumnMode('edition');
+  };
+
+  const onTitleBlur = title => {
+    if (title.length) {
+      const newSection = {
+        ...section,
+        metadata: {
+          ...section.metadata,
+          title
+        }
+      };
+      onUpdateSection(newSection);
+    }
   };
 
 
@@ -228,7 +242,7 @@ const MainSectionColumn = ({
         };
         return (
           <Column isWrapper style={{background: 'white', zIndex: 2}}>
-            <StretchedLayoutContainer isAbsolute>
+            <StretchedLayoutContainer style={{paddingTop: '1rem'}} isAbsolute>
               <StretchedLayoutItem>
                 <StretchedLayoutItem>
                   <Column>
@@ -298,7 +312,7 @@ const MainSectionColumn = ({
       case 'newsection':
         return (
           <Column isWrapper style={{background: 'white', zIndex: 1000}}>
-            <StretchedLayoutContainer isAbsolute>
+            <StretchedLayoutContainer style={{paddingTop: '1rem'}} isAbsolute>
               <StretchedLayoutItem>
                 <Column>
                   <Title isSize={3}>
@@ -326,7 +340,7 @@ const MainSectionColumn = ({
         );
       case 'editmetadata':
         return (<Column isWrapper style={{background: 'white', zIndex: 1000}}>
-          <StretchedLayoutContainer isAbsolute>
+          <StretchedLayoutContainer style={{paddingTop: '1rem'}} isAbsolute>
             <StretchedLayoutItem>
               <Column>
                 <Title isSize={3}>
@@ -361,7 +375,7 @@ const MainSectionColumn = ({
     if (mainColumnMode !== 'editmetadata') {
       onOpenSectionSettings(section.id);
     }
- else {
+    else {
       setMainColumnMode('edition');
     }
   };
@@ -392,10 +406,25 @@ const MainSectionColumn = ({
               <StretchedLayoutItem>
                 <Column
                   isSize={editorWidth}
-                  isOffset={editorX} isWrapper>
+                  isOffset={editorX}
+                  style={{paddingBottom: 0}}
+                  isWrapper>
                   {/* editor header*/}
-                  <StretchedLayoutContainer isFluid isDirection={'horizontal'}>
-                    <StretchedLayoutItem isFlex={1}>
+                  <StretchedLayoutContainer style={{overflow: 'visible'}} isFluid isDirection={'horizontal'}>
+                    <StretchedLayoutItem
+                      style={{overflow: 'visible'}} isFlex={1}>
+                      <SectionHeader
+                        title={section.metadata.title}
+                        onEdit={onEditMetadataClick}
+                        onBlur={onTitleBlur}
+                        placeHolder={translate('Section title')}
+
+                        isDisabled={userLockedResourceId || (mainColumnMode !== 'edition' && mainColumnMode !== 'editmetadata')}
+                        isColor={mainColumnMode === 'editmetadata' ? 'primary' : ''}
+                        editTip={translate('Edit section metadata')}
+                        inputTip={translate('Section title')} />
+                    </StretchedLayoutItem>
+                    {/*<StretchedLayoutItem isFlex={1}>
                       <Title isSize={2}>
                         {abbrevString(section.metadata.title, 20)}
                       </Title>
@@ -410,7 +439,7 @@ const MainSectionColumn = ({
                         onClick={onEditMetadataClick}>
                         <Image isSize={'24x24'} src={mainColumnMode === 'editmetadata' ? icons.edit.white.svg : icons.edit.black.svg} />
                       </Button>
-                    </StretchedLayoutItem>
+                    </StretchedLayoutItem>*/}
                   </StretchedLayoutContainer>
                 </Column>
               </StretchedLayoutItem>
@@ -428,6 +457,7 @@ const MainSectionColumn = ({
                     updateDraftEditorState={updateDraftEditorState}
                     updateDraftEditorsStates={updateDraftEditorsStates}
                     editorFocus={editorFocus}
+                    previousEditorFocus={previousEditorFocus}
                     userId={userId}
                     draggedResourceId={draggedResourceId}
                     disablePaste={(userLockedResourceId || mainColumnMode !== 'edit') && !editorFocus}
@@ -442,6 +472,9 @@ const MainSectionColumn = ({
                     createContextualization={createContextualization}
                     createContextualizer={createContextualizer}
                     createResource={createResource}
+
+                    selectedContextualizationId={selectedContextualizationId}
+                    setSelectedContextualizationId={setSelectedContextualizationId}
 
                     updateContextualizer={updateContextualizer}
                     updateResource={updateResource}

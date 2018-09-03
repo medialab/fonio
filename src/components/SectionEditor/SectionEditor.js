@@ -194,7 +194,7 @@ class NoteLayout extends Component {/* eslint react/prefer-stateless-function : 
       <div id={id}>
         <Column onClick={onHeaderClick}>
           <StretchedLayoutContainer isDirection="horizontal">
-            <StretchedLayoutItem isFlex={1}>
+            <StretchedLayoutItem style={{marginRight: '1rem'}} isFlex={1}>
               <Button
                 data-tip={translate('Go to note')} isColor={'info'} isRounded
                 onClick={onClickToRetroLink}>↑</Button>
@@ -282,6 +282,8 @@ class SectionEditor extends Component {
     startNewResourceConfiguration: this.props.startNewResourceConfiguration,
     deleteContextualizationFromId: this.props.deleteContextualizationFromId,
     removeFormattingForSelection: this.removeFormattingForSelection,
+    selectedContextualizationId: this.props.selectedContextualizationId,
+    setSelectedContextualizationId: this.props.setSelectedContextualizationId,
   })
 
 
@@ -310,8 +312,12 @@ class SectionEditor extends Component {
       }
     });
 
+    document.addEventListener('keyup', this.onKeyUp);
+
 
     this.updateStateFromProps(this.props);
+
+    this.props.setEditorFocus('main');
   }
 
 
@@ -332,16 +338,21 @@ class SectionEditor extends Component {
       setTimeout(() => this.props.setEditorFocus('main'));
     }
 
-    if (this.props.story && nextProps.story &&
+    if (this.props.story &&
+      nextProps.story &&
         (
           this.props.story.resources !== nextProps.story.resources ||
           this.props.story.contextualizers !== nextProps.story.contextualizers ||
           this.props.story.contextualizations !== nextProps.story.contextualizations ||
-          this.props.activeSection.id !== nextProps.activeSection.id
+          this.props.activeSection.id !== nextProps.activeSection.id ||
+          this.props.selectedContextualizationId !== nextProps.selectedContextualizationId
         )
       ) {
       setTimeout(() => {
         this.updateStateFromProps(this.props);
+        /**
+         * @todo ouuuu ugly
+         */
         setTimeout(() => {
           this.updateStateFromProps(this.props);
         }, 500);
@@ -376,6 +387,8 @@ class SectionEditor extends Component {
     document.removeEventListener('copy', this.onCopy);
     document.removeEventListener('cut', this.onCopy);
     document.removeEventListener('paste', this.onPaste);
+    document.removeEventListener('keyup', this.onKeyUp);
+
     this.updateSectionRawContentDebounced.cancel();
     this.debouncedCleanStuffFromEditorInspection.cancel();
   }
@@ -412,12 +425,24 @@ class SectionEditor extends Component {
     this.setState({/* eslint react/no-set-state : 0 */
       assets,
       assetChoiceProps: computeAssetChoiceProps(props),
+      customContext: {
+        citations,
+        selectedContextualizationId: props.selectedContextualizationId,
+      },
       citations,
     });
   }
 
   ElementLayoutComponent = ({children}) => <ElementLayout isSize={this.props.editorWidth} isOffset={this.props.editorOffset}>{children}</ElementLayout>
 
+
+  onKeyUp = e => {
+    // backspace -> delete contextualization if selected
+    if (e.keyCode && this.props.selectedContextualizationId) {
+      this.props.deleteContextualizationFromId(this.props.selectedContextualizationId);
+      this.props.setEditorFocus(this.props.previousEditorFocus);
+    }
+  }
 
   /**
    * Handles user cmd+c like command (storing stashed contextualizations among other things)
@@ -683,8 +708,13 @@ class SectionEditor extends Component {
     this.props.updateSection(newSection);
     // checking that component is mounted
     if (this.component) {
+      const citations = buildCitations(this.state.assets, this.props);
       this.setState({
-        citations: buildCitations(this.state.assets, this.props)
+        citations,
+        customContext: {
+          citations,
+          selectedContextualizationId: this.props.selectedContextualizationId
+        }
       });
     }
   }
@@ -832,6 +862,7 @@ class SectionEditor extends Component {
       cancelAssetRequest,
       summonAsset,
       draggedResourceId,
+      // selectedContextualizationId,
       // editorWidth,
       // editorOffset,
       style: componentStyle = {},
@@ -841,7 +872,8 @@ class SectionEditor extends Component {
       clipboard,
       assets = {},
       assetChoiceProps = {},
-      citations
+      citations,
+      customContext,
     } = state;
 
     const {
@@ -1043,6 +1075,7 @@ class SectionEditor extends Component {
       this.component = component;
     };
 
+
     return (
       <Content style={componentStyle} className="fonio-SectionEditor">
         <div
@@ -1056,7 +1089,7 @@ class SectionEditor extends Component {
             citations={citationData}>
             <Editor
               mainEditorState={mainEditorState}
-              customContext={citations}
+              customContext={customContext}
               notes={notes}
               notesOrder={notesOrder}
               assets={assets}
@@ -1191,6 +1224,8 @@ SectionEditor.childContextTypes = {
   startNewResourceConfiguration: PropTypes.func,
   deleteContextualizationFromId: PropTypes.func,
   removeFormattingForSelection: PropTypes.func,
+  setSelectedContextualizationId: PropTypes.func,
+  selectedContextualizationId: PropTypes.string,
 };
 
 export default SectionEditor;
