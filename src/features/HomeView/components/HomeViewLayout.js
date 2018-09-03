@@ -70,7 +70,8 @@ class StoryCardWrapper extends Component {
     const {
       story,
       users,
-      onAction
+      onAction,
+      onClick,
     } = this.props;
     return (
       <Level>
@@ -78,6 +79,7 @@ class StoryCardWrapper extends Component {
           <StoryCard
             story={story}
             users={users}
+            onClick={onClick}
             onAction={onAction} />
         </Column>
       </Level>
@@ -393,7 +395,7 @@ class HomeViewLayout extends Component {
                         <StretchedLayoutItem>
                           <Image isRounded isSize="64x64" src={require(`../../../sharedAssets/avatars/${userInfo.avatar}`)} />
                         </StretchedLayoutItem>
-                        <StretchedLayoutItem style={{paddingRight: '1rem'}} isFlex={1}>
+                        <StretchedLayoutItem style={{paddingRight: '1rem', paddingLeft: '1rem'}} isFlex={1}>
                           {userInfo.name}
                         </StretchedLayoutItem>
                         <StretchedLayoutItem>
@@ -492,7 +494,8 @@ class HomeViewLayout extends Component {
 
                       {
                             visibleStoriesList.map((story) => {
-                              const onAction = (id) => {
+                              const onAction = (id, event) => {
+                                event.stopPropagation();
                                 switch (id) {
                                   case 'open':
                                     history.push({
@@ -531,11 +534,17 @@ class HomeViewLayout extends Component {
                                     };
                                   })
                               : [];
+
+                              const handleClick = e => {
+                                e.stopPropagation();
+                                history.push(`/story/${story.id}`);
+                              };
                               return (
                                 <StoryCardWrapper
                                   key={story.id}
                                   story={story}
                                   users={users}
+                                  onClick={handleClick}
                                   onAction={onAction} />
                               );
                             })
