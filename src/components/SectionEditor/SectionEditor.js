@@ -482,7 +482,7 @@ class SectionEditor extends Component {
           contentState
               .getBlockMap()
               .first()
-              .getType() !== 'UNSTYLED'
+              .getType() === 'unordered-list-item'
       );
     }
 
