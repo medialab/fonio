@@ -160,13 +160,13 @@ export const createBibData = (resource, props) =>
                 if (err) {
                   reject1(err);
                 }
- else {
+                else {
                   resolve1();
                 }
               });
             }
           }
- else reject1(validateResource.errors);
+          else reject1(validateResource.errors);
         });
 
       });
@@ -184,6 +184,10 @@ export const createResourceData = (file, props) =>
     const {
       userId,
       editedStory: story,
+      actions: {
+        setUploadStatus
+      },
+      uploadStatus = {errors: []}
     } = props;
     const {
       id: storyId
@@ -261,32 +265,49 @@ export const createResourceData = (file, props) =>
         return getFileAsText(file)
           .then((text) => {
             data = parseBibTeXToCSLJSON(text);
-            data.forEach(datum => {
-              id = genId();
-              const bibData = {
-                [datum.id]: datum
-              };
-              const htmlPreview = renderToStaticMarkup(<Bibliography items={bibData} style={apa} locale={english} />);
-              resource = {
-                ...createDefaultResource(),
-                id,
-                metadata: {
-                  ...createDefaultResource().metadata,
-                  type: 'bib',
-                },
-                data: [{...datum, htmlPreview}],
-              };
-              payload = {
-                resourceId: id,
-                resource,
-                storyId,
-                userId,
-              };
-              if (validateResource(resource).valid) {
-                props.actions.createResource(payload);
-              }
-              else resolve({id, success: false, error: validateResource(resource).errors});
-            });
+            return data.reduce((cur, datum) => {
+              return cur.then(() => new Promise((resolve1) => {
+                id = genId();
+                const bibData = {
+                  [datum.id]: datum
+                };
+                const htmlPreview = renderToStaticMarkup(<Bibliography items={bibData} style={apa} locale={english} />);
+                resource = {
+                  ...createDefaultResource(),
+                  id,
+                  metadata: {
+                    ...createDefaultResource().metadata,
+                    type: 'bib',
+                  },
+                  data: [{...datum, htmlPreview}],
+                };
+                payload = {
+                  resourceId: id,
+                  resource,
+                  storyId,
+                  userId,
+                };
+                if (validateResource(resource).valid) {
+                  if (typeof setUploadStatus === 'function') {
+                    const title = datum && datum.title;
+                    setUploadStatus({
+                      status: 'uploading',
+                      currentFileName: title,
+                      errors: uploadStatus.errors
+                    });
+                  }
+                  props.actions.createResource(payload, err => {
+                    if (err) {
+                      resolve1();
+                    }
+                    else {
+                      resolve1();
+                    }
+                  });
+                }
+                else resolve({id, success: false, error: validateResource(resource).errors});
+              }));
+            }, Promise.resolve());
           })
           .then(() => resolve({id, success: true}))
           .catch((error) => resolve({id, success: false, error}));
