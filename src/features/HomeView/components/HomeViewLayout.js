@@ -392,13 +392,13 @@ class HomeViewLayout extends Component {
                     </Title>
                     {userInfo &&
                       <StretchedLayoutContainer isDirection="horizontal">
-                        <StretchedLayoutItem>
+                        <StretchedLayoutItem style={{display: 'flex', alignItems: 'center'}}>
                           <Image isRounded isSize="64x64" src={require(`../../../sharedAssets/avatars/${userInfo.avatar}`)} />
                         </StretchedLayoutItem>
-                        <StretchedLayoutItem style={{paddingRight: '1rem', paddingLeft: '1rem'}} isFlex={1}>
+                        <StretchedLayoutItem style={{paddingRight: '1rem', paddingLeft: '1rem', display: 'flex', alignItems: 'center'}} isFlex={1}>
                           {userInfo.name}
                         </StretchedLayoutItem>
-                        <StretchedLayoutItem>
+                        <StretchedLayoutItem style={{display: 'flex', alignItems: 'center'}}>
                           <Button onClick={() => setIdentificationModalSwitch(true)}>
                             {this.translate('edit')}
                           </Button>
