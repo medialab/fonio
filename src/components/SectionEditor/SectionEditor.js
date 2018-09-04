@@ -317,7 +317,10 @@ class SectionEditor extends Component {
 
     this.updateStateFromProps(this.props);
 
-    this.props.setEditorFocus('main');
+    // wrapped in setTimeout to prevent firefox "DOM Not found" bug
+    setTimeout(() => {
+      this.props.setEditorFocus('main');
+    }, 500);
   }
 
 
