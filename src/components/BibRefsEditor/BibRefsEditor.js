@@ -18,7 +18,9 @@ class BibRefsEditor extends Component {
     this.updateBibInput(this.props.data);
   }
   componentWillReceiveProps = nextProps => {
+    console.log('receive data', nextProps.data);
     if (this.props.data !== nextProps.data) {
+      console.log('update data');
       this.updateBibInput(nextProps.data);
     }
   }
@@ -35,7 +37,10 @@ class BibRefsEditor extends Component {
   }
 
   render = () => {
-    const {onChange} = this.props;
+    const {
+      onChange,
+      style,
+    } = this.props;
     const {refsInput} = this.state;
 
     const onBibTeXInputChange = value => {
@@ -45,9 +50,9 @@ class BibRefsEditor extends Component {
       onChange(value);
     };
 
-    return (<CodeEditor
+    return (<div style={style}><CodeEditor
       onChange={onBibTeXInputChange}
-      value={refsInput} />);
+      value={refsInput} /></div>);
   }
 }
 
