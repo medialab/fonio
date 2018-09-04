@@ -194,13 +194,13 @@ class InlineCitation extends Component {
             isColor="info">
             {translate('Edit reference')}
           </Button>,
-          <Button
-            onClick={toggleContextualizer}
-            isFullWidth
-            key={2}
-            isColor="warning">
-            {translate('Close')}
-          </Button>,
+          // <Button
+          //   onClick={toggleContextualizer}
+          //   isFullWidth
+          //   key={2}
+          //   isColor="warning">
+          //   {translate('Close')}
+          // </Button>,
         ]} />
     ];
   }
