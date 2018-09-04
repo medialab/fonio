@@ -430,7 +430,7 @@ class LibraryViewLayout extends Component {
       .then(() => {
         return actualResourcesPromptedToDelete.reduce((cur, resourceId, index) => {
           return cur.then(() => {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
               const resource = resources[resourceId];
               const payload = {
                 storyId,
@@ -442,7 +442,8 @@ class LibraryViewLayout extends Component {
               if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
                 deleteUploadedResource(payload, (err) => {
                   if (err) {
-                    reject(err);
+                    // reject(err);
+                    console.error(err);/* eslint no-console : 0*/
                   }
                   else resolve();
                 });
@@ -450,7 +451,8 @@ class LibraryViewLayout extends Component {
               else {
                 deleteResource(payload, (err) => {
                   if (err) {
-                    reject(err);
+                    console.error(err);/* eslint no-console : 0*/
+                    // reject(err);
                   }
                   else resolve();
                 });
@@ -466,6 +468,9 @@ class LibraryViewLayout extends Component {
         setSelectedResourcesIds([]);
         setIsBatchDeleting(false);
         setPromptedToDeleteResourceId(undefined);
+      })
+      .catch(err => {
+        console.error(err);/* eslint no-console : 0 */
       });
 
     };
