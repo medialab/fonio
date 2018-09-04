@@ -596,5 +596,6 @@
   "Components.SectionCard.Move section in summary": "Déplacer la section dans le sommaire",
   "Components.InlineCitation.Validate": "Valider",
   "Components.BlockContextualization.trash": "trash",
-  "Components.BlockContextualization.pointer": "pointer"
+  "Components.BlockContextualization.pointer": "pointer",
+  "Features.ErrorMessageContainer.The story could not be saved": "Le récit n'a pas pu être sauvegardé"
 }

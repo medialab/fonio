@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-9-4\n"
-"PO-Revision-Date: Tue Sep 04 2018 15:07:21 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Tue Sep 04 2018 15:21:16 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4984,6 +4984,9 @@ msgstr "Move section in summary"
 
 msgid "Components.InlineCitation.Validate"
 msgstr "Validate"
+
+msgid "Features.ErrorMessageContainer.The story could not be saved"
+msgstr "The story could not be saved"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"

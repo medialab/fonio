@@ -596,5 +596,6 @@
   "Components.SectionCard.Move section in summary": "Move section in summary",
   "Components.InlineCitation.Validate": "Validate",
   "Components.BlockContextualization.trash": "trash",
-  "Components.BlockContextualization.pointer": "pointer"
+  "Components.BlockContextualization.pointer": "pointer",
+  "Features.ErrorMessageContainer.The story could not be saved": "The story could not be saved"
 }
