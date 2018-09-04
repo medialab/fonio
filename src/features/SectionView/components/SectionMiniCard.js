@@ -67,7 +67,7 @@ const SectionMiniCard = ({
     <Card
       isActive={section.lockStatus === 'active'}
       bodyContent={
-        <div style={{cursor: 'pointer'}} onClick={onSelect}>
+        <div style={{cursor: section.lockStatus === 'active' ? undefined : 'pointer'}} onClick={onSelect}>
           <Columns style={{marginBottom: 0}}>
             <Column isSize={2}>
               <Icon isSize="medium" isAlign="left">
