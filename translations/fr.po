@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-9-4\n"
-"PO-Revision-Date: Tue Sep 04 2018 16:51:36 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Tue Sep 04 2018 17:21:45 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4993,6 +4993,9 @@ msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Êtes-vous sûr·e de vouloir supprimer la section « {s} » ? Tous ses contenus seront perdus sans possibilité de les récupérer."
+
+msgid "Components.ResourceForm.Authors of the table"
+msgstr "Authors of the table"
 
 msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
 msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"

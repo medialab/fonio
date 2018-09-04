@@ -401,7 +401,7 @@ class HomeViewLayout extends Component {
                         <StretchedLayoutItem style={{paddingRight: '1rem', paddingLeft: '1rem', display: 'flex', alignItems: 'center'}} isFlex={1}>
                           {userInfo.name}
                         </StretchedLayoutItem>
-                        <StretchedLayoutItem style={{display: 'flex', alignItems: 'center'}}>
+                        <StretchedLayoutItem style={{display: 'flex', alignItems: 'center', paddingRight: '1rem'}}>
                           <Button onClick={() => setIdentificationModalSwitch(true)}>
                             {this.translate('edit')}
                           </Button>
