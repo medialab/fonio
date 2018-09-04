@@ -1067,7 +1067,7 @@ class SectionEditor extends Component {
       {
         strategy: this.findDraftDropPlaceholder,
         component: ({children}) =>
-          (<Tag className="is-rounded" isColor={'dark'}>
+          (<Tag style={{pointerEvents: 'none'}} className="is-rounded" isColor={'dark'}>
             {this.translate('loading')}
             <span style={{display: 'none'}}>{children}</span>
           </Tag>)

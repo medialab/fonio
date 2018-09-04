@@ -18,9 +18,7 @@ class BibRefsEditor extends Component {
     this.updateBibInput(this.props.data);
   }
   componentWillReceiveProps = nextProps => {
-    console.log('receive data', nextProps.data);
     if (this.props.data !== nextProps.data) {
-      console.log('update data');
       this.updateBibInput(nextProps.data);
     }
   }

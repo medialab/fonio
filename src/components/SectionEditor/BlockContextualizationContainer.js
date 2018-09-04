@@ -94,7 +94,7 @@ class BlockContainer extends Component {
         if (selectedContextualizationId === asset.id) {
           setSelectedContextualizationId(undefined);
         }
- else {
+        else {
           setSelectedContextualizationId(asset.id);
         }
       }
@@ -103,7 +103,6 @@ class BlockContainer extends Component {
     const isActive = selectedContextualizationId === asset.id;
 
     const translate = translateNameSpacer(t, 'Components.BlockContextualization');
-
     return (resource.data ?
       [
         <div className={`block-asset-side-toolbar ${isActive ? 'is-active' : ''}`} key={0}>
