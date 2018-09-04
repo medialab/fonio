@@ -71,6 +71,10 @@ class BlockContainer extends Component {
       resource = {},
       id
     } = asset;
+    const {
+      metadata = {}
+    } = resource;
+    const {type} = metadata;
 
     const onEditRequest = (event) => {
       event.stopPropagation();
@@ -90,7 +94,7 @@ class BlockContainer extends Component {
       if (event) {
         event.stopPropagation();
       }
-      if (typeof setSelectedContextualizationId === 'function') {
+      if (!['video', 'table'].includes(type) && typeof setSelectedContextualizationId === 'function') {
         if (selectedContextualizationId === asset.id) {
           setSelectedContextualizationId(undefined);
         }
