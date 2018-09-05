@@ -1,6 +1,7 @@
 /* eslint react/no-set-state : 0 */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import ReactTooltip from 'react-tooltip';
 
 import {v4 as genId} from 'uuid';
 import {isEmpty, debounce, uniq} from 'lodash';
@@ -81,6 +82,12 @@ class LibraryViewLayout extends Component {
     this.setState({
       searchString
     });
+  }
+
+  componentWillReceiveProps = nextProps => {
+    if (this.props.lockingMap !== nextProps.lockingMap) {
+        ReactTooltip.hide();
+    }
   }
 
   setResourceSearchString = (value) => this.props.actions.setSearchString(value)
@@ -430,7 +437,7 @@ class LibraryViewLayout extends Component {
       .then(() => {
         return actualResourcesPromptedToDelete.reduce((cur, resourceId, index) => {
           return cur.then(() => {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
               const resource = resources[resourceId];
               const payload = {
                 storyId,
@@ -442,7 +449,8 @@ class LibraryViewLayout extends Component {
               if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
                 deleteUploadedResource(payload, (err) => {
                   if (err) {
-                    reject(err);
+                    // reject(err);
+                    console.error(err);/* eslint no-console : 0*/
                   }
                   else resolve();
                 });
@@ -450,7 +458,8 @@ class LibraryViewLayout extends Component {
               else {
                 deleteResource(payload, (err) => {
                   if (err) {
-                    reject(err);
+                    console.error(err);/* eslint no-console : 0*/
+                    // reject(err);
                   }
                   else resolve();
                 });
@@ -466,6 +475,9 @@ class LibraryViewLayout extends Component {
         setSelectedResourcesIds([]);
         setIsBatchDeleting(false);
         setPromptedToDeleteResourceId(undefined);
+      })
+      .catch(err => {
+        console.error(err);/* eslint no-console : 0 */
       });
 
     };
@@ -581,96 +593,95 @@ class LibraryViewLayout extends Component {
           return (
             <StretchedLayoutContainer isAbsolute>
               <StretchedLayoutItem>
-                <Column>
-                  <Column>
-                    <Level style={{flexFlow: 'row wrap'}}>
-                      <LevelLeft>
-                        <Field hasAddons>
-                          <Input value={this.state.searchString} onChange={e => this.setResourceSearchStringDebounce(e.target.value)} placeholder={translate('Find a resource')} />
-                        </Field>
-                        <LevelItem>
-                          <Dropdown
-                            closeOnChange={false}
-                            menuAlign="left"
-                            onToggle={() => {
-                              setOptionsVisible(!optionsVisible);
-                            }}
-                            onChange={setOption}
-                            isActive={optionsVisible}
-                            isColor={Object.keys(filterValues).filter(f => filterValues[f]).length > 0 ? 'info' : ''}
-                            value={{
-                              sort: {
-                                value: sortValue,
-                              },
-                              filter: {
-                                value: Object.keys(filterValues).filter(f => filterValues[f]),
-                              },
-                              status: {
-                                value: statusFilterValue,
-                              }
-                            }}
-                            options={[
-                              {
-                                label: translate('Sort items by'),
-                                id: 'sort',
-                                options: [
-                                  {
-                                    id: 'edited recently',
-                                    label: translate('edited recently')
-                                  },
-                                  {
-                                    id: 'title',
-                                    label: translate('title')
-                                  },
-                                ]
-                              },
-                              {
-                                label: translate('Show items of type'),
-                                id: 'filter',
-                                options: resourceTypes.map(type => ({
-                                  id: type,
-                                  label: <span style={{display: 'flex', flexFlow: 'row nowrap', alignItems: 'center'}}><Image style={{display: 'inline-block', marginRight: '1em'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
-                                })),
-                              },
-                              {
-                                label: translate('Show ...'),
-                                id: 'status',
-                                options: statusFilterValues.map(type => ({
-                                  id: type.id,
-                                  label: type.label
-                                })),
-                              }
-                            ]}>
-                            {translate('Filters')}
-                          </Dropdown>
-                        </LevelItem>
-                      </LevelLeft>
-                      <LevelRight>
-                        <LevelItem>
-                          <Button
-                            onClick={() => setSelectedResourcesIds(visibleResources.map(res => res.id).filter(id => !resourcesLockMap[id]))}
-                            isDisabled={selectedResourcesIds.length === visibleResources.length}>
-                            {translate('Select all')} ({visibleResources.length})
-                          </Button>
-                        </LevelItem>
-                        <LevelItem>
-                          <Button
-                            onClick={() => setSelectedResourcesIds([])}
-                            isDisabled={selectedResourcesIds.length === 0}>
-                            {translate('Deselect all')}
-                          </Button>
-                        </LevelItem>
-                        <LevelItem>
-                          <Button
-                            isColor="danger"
-                            onClick={() => setResourcesPromptedToDelete([...selectedResourcesIds])}
-                            isDisabled={selectedResourcesIds.length === 0}>
-                            {translate('Delete selection')}
-                          </Button>
-                        </LevelItem>
-                      </LevelRight>
-                    </Level>
-                  </Column>
+                <Level />
+                <Column style={{paddingRight: 0}}>
+                  <Level isMobile style={{flexFlow: 'row wrap'}}>
+                    <LevelLeft>
+                      <Field hasAddons>
+                        <Input value={this.state.searchString} onChange={e => this.setResourceSearchStringDebounce(e.target.value)} placeholder={translate('Find a resource')} />
+                      </Field>
+                      <LevelItem>
+                        <Dropdown
+                          closeOnChange={false}
+                          menuAlign="left"
+                          onToggle={() => {
+                            setOptionsVisible(!optionsVisible);
+                          }}
+                          onChange={setOption}
+                          isActive={optionsVisible}
+                          isColor={Object.keys(filterValues).filter(f => filterValues[f]).length > 0 ? 'info' : ''}
+                          value={{
+                            sort: {
+                              value: sortValue,
+                            },
+                            filter: {
+                              value: Object.keys(filterValues).filter(f => filterValues[f]),
+                            },
+                            status: {
+                              value: statusFilterValue,
+                            }
+                          }}
+                          options={[
+                            {
+                              label: translate('Sort items by'),
+                              id: 'sort',
+                              options: [
+                                {
+                                  id: 'edited recently',
+                                  label: translate('edited recently')
+                                },
+                                {
+                                  id: 'title',
+                                  label: translate('title')
+                                },
+                              ]
+                            },
+                            {
+                              label: translate('Show items of type'),
+                              id: 'filter',
+                              options: resourceTypes.map(type => ({
+                                id: type,
+                                label: <span style={{display: 'flex', flexFlow: 'row nowrap', alignItems: 'center'}}><Image style={{display: 'inline-block', marginRight: '1em'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
+                              })),
+                            },
+                            {
+                              label: translate('Show ...'),
+                              id: 'status',
+                              options: statusFilterValues.map(type => ({
+                                id: type.id,
+                                label: type.label
+                              })),
+                            }
+                          ]}>
+                          {translate('Filters')}
+                        </Dropdown>
+                      </LevelItem>
+                    </LevelLeft>
+                    <LevelRight>
+                      <LevelItem>
+                        <Button
+                          onClick={() => setSelectedResourcesIds(visibleResources.map(res => res.id).filter(id => !resourcesLockMap[id]))}
+                          isDisabled={selectedResourcesIds.length === visibleResources.length}>
+                          {translate('Select all')} ({visibleResources.length})
+                        </Button>
+                      </LevelItem>
+                      <LevelItem>
+                        <Button
+                          onClick={() => setSelectedResourcesIds([])}
+                          isDisabled={selectedResourcesIds.length === 0}>
+                          {translate('Deselect all')}
+                        </Button>
+                      </LevelItem>
+                      <LevelItem>
+                        <Button
+                          isColor="danger"
+                          onClick={() => setResourcesPromptedToDelete([...selectedResourcesIds])}
+                          isDisabled={selectedResourcesIds.length === 0}>
+                          {translate('Delete selection')}
+                        </Button>
+                      </LevelItem>
+                    </LevelRight>
+                  </Level>
                 </Column>
               </StretchedLayoutItem>
               <StretchedLayoutItem isFlex={1}>

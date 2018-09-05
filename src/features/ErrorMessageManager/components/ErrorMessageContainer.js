@@ -32,7 +32,8 @@ import {
   UPLOAD_RESOURCE,
   DELETE_UPLOADED_RESOURCE,
   DELETE_SECTION,
-  DELETE_RESOURCE
+  DELETE_RESOURCE,
+  SAVE_STORY,
 } from '../../StoryManager/duck';
 
 // const ACCEPTED_BROWSERS = [
@@ -189,6 +190,9 @@ class ErrorMessageContainer extends Component {
     },
     [`${CREATE_STORY}_FAIL`]: {
       title: () => this.translate('The story could not be created')
+    },
+    [`${SAVE_STORY}_FAIL`]: {
+      title: () => this.translate('The story could not be saved')
     },
     [`${OVERRIDE_STORY}_FAIL`]: {
       title: () => this.translate('The story could not be overriden')

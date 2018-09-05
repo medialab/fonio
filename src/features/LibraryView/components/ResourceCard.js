@@ -103,7 +103,7 @@ class ResourceCard extends Component {
             isActive={isActive}
             onClick={onClick}
             bodyContent={
-              <div className="fonio-ResourceCard" style={{cursor: 'pointer'}}>
+              <div className="fonio-ResourceCard" style={{cursor: lockData ? undefined : 'pointer'}}>
                 <Columns style={{marginBottom: 0}}>
                   <Column isSize={2}>
                     <Icon isSize="medium" isAlign="left">

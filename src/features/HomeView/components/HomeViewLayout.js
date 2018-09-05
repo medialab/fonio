@@ -16,6 +16,9 @@ import {v4 as genId} from 'uuid';
 
 import ReactTooltip from 'react-tooltip';
 
+import pdfFr from 'file-loader!../assets/user-guide-fr.pdf';
+import pdfEn from 'file-loader!../assets/user-guide-fr.pdf';
+
 import {
   Button,
   Column,
@@ -106,7 +109,7 @@ class HomeViewLayout extends Component {
     }
   }
 
-  renderContent = mode => {
+  renderContent = (mode, lang = 'en') => {
     switch (mode) {
       case 'learn':
         return (
@@ -114,9 +117,9 @@ class HomeViewLayout extends Component {
             <Column>
               <Content>
                 <h1>{this.translate('Learn fonio')}</h1>
-                <p>
-                  {this.translate('learn fonio detail')}
-                </p>
+                <iframe
+                  style={{width: '100%', minHeight: '80vh'}}
+                  src={lang === 'en' ? pdfEn : pdfFr} />
               </Content>
             </Column>
           </Container>
@@ -398,7 +401,7 @@ class HomeViewLayout extends Component {
                         <StretchedLayoutItem style={{paddingRight: '1rem', paddingLeft: '1rem', display: 'flex', alignItems: 'center'}} isFlex={1}>
                           {userInfo.name}
                         </StretchedLayoutItem>
-                        <StretchedLayoutItem style={{display: 'flex', alignItems: 'center'}}>
+                        <StretchedLayoutItem style={{display: 'flex', alignItems: 'center', paddingRight: '1rem'}}>
                           <Button onClick={() => setIdentificationModalSwitch(true)}>
                             {this.translate('edit')}
                           </Button>
@@ -660,6 +663,7 @@ class HomeViewLayout extends Component {
         userInfoTemp,
         userId,
         navbarOpen,
+        lang,
         actions: {
           setTabMode,
           setIdentificationModalSwitch,
@@ -671,6 +675,7 @@ class HomeViewLayout extends Component {
       },
       renderContent,
     } = this;
+
 
     const onSubmitUserInfo = () => {
       createUser({
@@ -727,7 +732,7 @@ class HomeViewLayout extends Component {
               <Container>
                 <TabList>
                   <Tab onClick={() => setTabMode('stories')} isActive={tabMode === 'stories'}><TabLink>{this.translate('Stories')}</TabLink></Tab>
-                  {/*<Tab onClick={() => setTabMode('learn')} isActive={tabMode === 'learn'}><TabLink>{this.translate('Learn')}</TabLink></Tab>*/}
+                  <Tab onClick={() => setTabMode('learn')} isActive={tabMode === 'learn'}><TabLink>{this.translate('Learn')}</TabLink></Tab>
                   <Tab onClick={() => setTabMode('about')} isActive={tabMode === 'about'}><TabLink>{this.translate('About')}</TabLink></Tab>
                 </TabList>
               </Container>
@@ -737,7 +742,7 @@ class HomeViewLayout extends Component {
 
         <Container>
           <Level />
-          {renderContent(tabMode)}
+          {renderContent(tabMode, lang)}
           <Level />
           <Level />
         </Container>

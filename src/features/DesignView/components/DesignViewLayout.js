@@ -112,7 +112,7 @@ const DesignViewLayout = ({
                     return (
                       <tr key={index}>
                         <th>{example.action}</th>
-                        <th><pre><code>{example.code}</code></pre></th>
+                        <th style={{maxWidth: '20rem'}}><pre><code>{example.code}</code></pre></th>
                         <th><Button onClick={onAddCode}>{translate('add')}</Button></th>
                       </tr>
                     );

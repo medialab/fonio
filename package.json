@@ -100,7 +100,7 @@
     "redux-i18n": "^1.1.4",
     "redux-pouchdb": "^0.1.1",
     "reselect": "^3.0.0",
-    "scholar-draft": "^0.2.50",
+    "scholar-draft": "^0.2.51",
     "socket.io-client": "^2.1.1",
     "unicode-byte-truncate": "^1.0.0",
     "uuid": "^3.0.1"

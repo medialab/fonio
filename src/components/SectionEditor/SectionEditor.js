@@ -317,7 +317,10 @@ class SectionEditor extends Component {
 
     this.updateStateFromProps(this.props);
 
-    this.props.setEditorFocus('main');
+    // wrapped in setTimeout to prevent firefox "DOM Not found" bug
+    setTimeout(() => {
+      this.props.setEditorFocus('main');
+    }, 500);
   }
 
 
@@ -482,7 +485,7 @@ class SectionEditor extends Component {
           contentState
               .getBlockMap()
               .first()
-              .getType() !== 'UNSTYLED'
+              .getType() === 'unordered-list-item'
       );
     }
 
@@ -1064,7 +1067,7 @@ class SectionEditor extends Component {
       {
         strategy: this.findDraftDropPlaceholder,
         component: ({children}) =>
-          (<Tag className="is-rounded" isColor={'dark'}>
+          (<Tag style={{pointerEvents: 'none'}} className="is-rounded" isColor={'dark'}>
             {this.translate('loading')}
             <span style={{display: 'none'}}>{children}</span>
           </Tag>)

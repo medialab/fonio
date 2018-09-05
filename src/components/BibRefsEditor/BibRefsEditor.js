@@ -35,7 +35,10 @@ class BibRefsEditor extends Component {
   }
 
   render = () => {
-    const {onChange} = this.props;
+    const {
+      onChange,
+      style,
+    } = this.props;
     const {refsInput} = this.state;
 
     const onBibTeXInputChange = value => {
@@ -45,9 +48,9 @@ class BibRefsEditor extends Component {
       onChange(value);
     };
 
-    return (<CodeEditor
+    return (<div style={style}><CodeEditor
       onChange={onBibTeXInputChange}
-      value={refsInput} />);
+      value={refsInput} /></div>);
   }
 }
 

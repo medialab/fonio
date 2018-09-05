@@ -187,7 +187,10 @@ class DataForm extends Component {
                   onDrop={onDropFiles}>
                   {translate('Drop a bib file')}
                 </DropZone> :
-                <BibRefsEditor data={resource.data} onChange={onEditBib} />
+                <BibRefsEditor
+                  style={{minWidth: '10rem'}}
+                  data={resource.data}
+                  onChange={onEditBib} />
             }
           </Control>
           {

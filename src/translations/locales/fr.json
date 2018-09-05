@@ -139,6 +139,7 @@
   "Components.ResourceForm.Authors of the image": "Auteur·e·s de l'image",
   "Components.ResourceForm.Authors of the video": "Auteur·e·s de la vidéo",
   "Components.ResourceForm.Authors of the webpage": "Auteur·e·s de la page web",
+  "Components.ResourceForm.Authors of the table": "Authors of the table",
   "Components.ResourceForm.Bib file": "Fichier bibtex",
   "Components.ResourceForm.Cancel": "Annuler",
   "Components.ResourceForm.Date of creation of the resource": "Date de creation de l'item",
@@ -594,7 +595,8 @@
   "Components.SectionCard.Move up in the summary": "Remonter dans le sommaire",
   "Components.SectionCard.Move down in the summary": "Rabaisser dans le sommaire",
   "Components.SectionCard.Move section in summary": "Déplacer la section dans le sommaire",
+  "Components.InlineCitation.Validate": "Valider",
   "Components.BlockContextualization.trash": "trash",
   "Components.BlockContextualization.pointer": "pointer",
-  "Components.InlineCitation.Validate": "Valider"
+  "Features.ErrorMessageContainer.The story could not be saved": "Le récit n'a pas pu être sauvegardé"
 }
