@@ -42,13 +42,12 @@ class SummaryViewContainer extends Component {
     const {
       lockingMap,
       userId,
-      editedStory: {
-        id
-      },
+      editedStory = {},
       actions: {
         leaveBlock
       }
     } = this.props;
+    const {id} = editedStory;
     const userLockedOnMetadataId = lockingMap[id] && lockingMap[id].locks &&
       Object.keys(lockingMap[id].locks)
         .find(thatUserId => lockingMap[id].locks[thatUserId].storyMetadata !== undefined);
