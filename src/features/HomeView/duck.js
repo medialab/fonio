@@ -162,7 +162,13 @@ export const importStory = file => ({
     new Promise((resolve, reject) => {
       return getFileAsText(file)
              .then((text) => {
-                const story = JSON.parse(text);
+                let story;
+                try {
+                  story = JSON.parse(text);
+                }
+                catch (jsonError) {
+                  return reject('malformed json');
+                }
                 const validation = validateStory(story);
                 if (validation.valid) {
                   resolve(story);

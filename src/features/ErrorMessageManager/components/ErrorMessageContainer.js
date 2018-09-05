@@ -201,6 +201,8 @@ class ErrorMessageContainer extends Component {
       title: () => this.translate('The story could not be imported'),
       details: (payload = {}) => {
         switch (payload.error) {
+          case 'malformed json':
+            return this.translate('The file format (JSON) of the imported story is not valid.');
           case 'file is too large':
             return this.translate('Your story file is larger than maximum file size allowed');
           default:
