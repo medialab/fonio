@@ -78,7 +78,9 @@ class BlockContainer extends Component {
 
     const onEditRequest = (event) => {
       event.stopPropagation();
+
       if (typeof startExistingResourceConfiguration === 'function') {
+        setSelectedContextualizationId(undefined);
         startExistingResourceConfiguration(resource.id);
       }
     };
@@ -94,7 +96,7 @@ class BlockContainer extends Component {
       if (event) {
         event.stopPropagation();
       }
-      if (!['video', 'table'].includes(type) && typeof setSelectedContextualizationId === 'function') {
+      if (!['video', 'table', 'embed'].includes(type) && typeof setSelectedContextualizationId === 'function') {
         if (selectedContextualizationId === asset.id) {
           setSelectedContextualizationId(undefined);
         }
