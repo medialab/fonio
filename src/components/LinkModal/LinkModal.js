@@ -111,14 +111,13 @@ class LinkModal extends Component {
                             .map(resource => ({
                             id: resource.id,
                             label: (
-                              <span 
+                              <span
 
                                 style={{display: 'flex', flexFlow: 'row nowrap', alignItems: 'center'}}>
-                                <Image 
-                                  style={{display: 'inline-block', marginRight: '1em'}} 
-                                  isSize={'16x16'} 
-                                  src={icons.webpage.black.svg} 
-                                />
+                                <Image
+                                  style={{display: 'inline-block', marginRight: '1em'}}
+                                  isSize={'16x16'}
+                                  src={icons.webpage.black.svg} />
                                 <span >
                                   {`${abbrevString(resource.metadata.title, 30)} (${abbrevString(resource.data.url, 30)})`}
                                 </span>
