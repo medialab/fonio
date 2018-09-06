@@ -598,5 +598,6 @@
   "Components.InlineCitation.Validate": "Validate",
   "Components.BlockContextualization.trash": "trash",
   "Components.BlockContextualization.pointer": "pointer",
-  "Features.ErrorMessageContainer.The story could not be saved": "The story could not be saved"
+  "Features.ErrorMessageContainer.The story could not be saved": "The story could not be saved",
+  "Features.ErrorMessageContainer.The file format (JSON) of the imported story is not valid.": "The file format (JSON) of the imported story is not valid."
 }

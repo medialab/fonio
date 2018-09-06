@@ -132,7 +132,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
         ...state,
         requestFail: action.type,
         needsReload,
-        lastError: action.payload,
+        lastError: action.payload || {error: action.error},
         lastErrorTime: new Date().getTime()
       };
 

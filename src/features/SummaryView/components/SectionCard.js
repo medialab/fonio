@@ -126,7 +126,7 @@ const SectionCard = ({
                 {lockData !== undefined &&
                   <Title isSize={titleSize}>
                     <span
-                      data-tip={section.metadata.title.length > MAX_TITLE_LEN ? section.metadata.title : undefined}
+                      data-tip={section.metadata.title.length > MAX_TITLE_LEN ? undefined : section.metadata.title}
                       data-for="tooltip"
                       data-place="bottom">
                       {sectionTitle}
