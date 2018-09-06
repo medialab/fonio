@@ -45,7 +45,7 @@ class AuthorsManager extends Component {
 
     const onAddAuthor = e => {
       e.preventDefault();
-      e.stopPropagation();
+      // e.stopPropagation();
       const newAuthors = [
         ...authors,
         ''
@@ -55,7 +55,7 @@ class AuthorsManager extends Component {
     };
 
     const handleSubmit = e => {
-      onAddAuthor(e);
+      // onAddAuthor(e);
     };
     return (
       <Field>
