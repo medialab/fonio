@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-9-6\n"
-"PO-Revision-Date: Thu Sep 06 2018 14:32:12 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Sep 06 2018 16:31:34 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5029,6 +5029,9 @@ msgstr "« > » puis espace"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} travaille sur la section « {t} »"
+
+msgid "Features.ErrorMessageContainer.This type of item cannot be added into note"
+msgstr "Ce type d'item ne peut pas être mentionné dans une note."
 
 msgid "Components.UploadModal.Adding "{n}""
 msgstr "Ajout de \"{n}\""
