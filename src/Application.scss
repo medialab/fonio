@@ -78,6 +78,14 @@
   }
 }
 
+.aside-actions .button > span{
+  max-width: 100%;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
 // ::-webkit-scrollbar {
 //     width: .3rem;
 // }
