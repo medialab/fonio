@@ -599,5 +599,6 @@
   "Components.BlockContextualization.trash": "trash",
   "Components.BlockContextualization.pointer": "pointer",
   "Features.ErrorMessageContainer.The story could not be saved": "Le récit n'a pas pu être sauvegardé",
-  "Features.ErrorMessageContainer.The file format (JSON) of the imported story is not valid.": "Le formatage du fichier (JSON) du récit importé n'est pas valide."
+  "Features.ErrorMessageContainer.The file format (JSON) of the imported story is not valid.": "Le formatage du fichier (JSON) du récit importé n'est pas valide.",
+  "Features.HomeView.Story exists, do you want to override it?": "Story exists, do you want to override it?"
 }
