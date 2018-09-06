@@ -54,7 +54,7 @@ class AuthorsManager extends Component {
       setTimeout(this.focusOnLastInput);
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = () => {
       // onAddAuthor(e);
     };
     return (

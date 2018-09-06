@@ -69,7 +69,7 @@
   "Components.EnterPasswordModal.Create story": "Créer un récit",
   "Components.EnterPasswordModal.Create": "Créer",
   "Components.EnterPasswordModal.Enter password of the story": "Entrer le mot de passe du récit",
-  "Components.EnterPasswordModal.Explanation about the password": "Mot de passe défini lors de la création du récit",
+  "Components.EnterPasswordModal.Explanation about the password": "Mot de passe défini lors de la création du récit (6 caractères minimum)",
   "Components.EnterPasswordModal.Override story": "Écraser le récit",
   "Components.EnterPasswordModal.Override": "Écraser",
   "Components.EnterPasswordModal.Password is not valid": "Mot de passe invalide",
