@@ -541,7 +541,7 @@
   "Features.LibraryView.edit": "éditer",
   "Features.LibraryView.delete": "supprimer",
   "Features.ErrorMessageContainer.This contextualization could not be added into note": "Cette mention n'a pas pu être ajoutée à la note.",
-  "Features.ErrorMessageContainer.This asset could not be added into note": "Cet élément n'a pas pu être ajouté à la note.",
+  "Features.ErrorMessageContainer.This type of item cannot be added into note": "Ce type d'item ne peut pas être mentionné dans une note.",
   "Features.SectionView.Untitled section": "Section sans titre",
   "Components.SectionCard.Untitled section": "Section sans titre",
   "Components.SectionCard.Title level {n}": "Niveau de titre {n}",
