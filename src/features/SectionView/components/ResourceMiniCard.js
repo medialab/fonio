@@ -159,7 +159,14 @@ class ResourceCard extends Component {
 
       let resourceTitle;
       if (type === 'bib' && data && data[0]) {
-        resourceTitle = <div className="bib-wrapper-mini" dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} />;
+        resourceTitle = <div 
+                          data-for="tooltip" 
+                          data-place="right"
+                          data-html={true} 
+                          data-tip={data[0].htmlPreview} 
+                          className="bib-wrapper-mini" 
+                          dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} 
+                          />;
       }
       else {
          resourceTitle = getTitle(resource) || translate('untitled resource');
