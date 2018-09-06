@@ -23,7 +23,7 @@ import {
 
 const InlineIcon = ({
   icon
-}) => <Icon style={{marginRight: '1rem'}} icon={icon} />;
+}) => <Icon style={{marginLeft: '.5rem', marginRight: '1rem'}} icon={icon} />;
 
 const StoryCard = ({
   story,
