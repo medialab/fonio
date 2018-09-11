@@ -143,7 +143,7 @@
   "Components.ResourceForm.Bib file": "Fichier bibtex",
   "Components.ResourceForm.Cancel": "Annuler",
   "Components.ResourceForm.Date of creation of the resource": "Date de creation de l'item",
-  "Components.ResourceForm.Date of creation": "Date de création",
+  "Components.ResourceForm.Date of publication": "Date de publication",
   "Components.ResourceForm.Description of the resource": "Description",
   "Components.ResourceForm.Drop a bib file ({l} Mb max)": "Déposer un fichier .bib ici ({l} Mo max)",
   "Components.ResourceForm.Drop an bib file": "Déposer un fichier .bib",

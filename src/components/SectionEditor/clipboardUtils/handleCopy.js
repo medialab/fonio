@@ -337,9 +337,6 @@ const handleCopy = function(event) {
        ${JSON.stringify(copiedData)}
       </script>
     `.split('\n').join('').trim();
-    event.clipboardData.setData('text/plain', plainText);
-    event.clipboardData.setData('text/html', clipboardHtml);
-
 
     /**
      * Finally store copied data
@@ -349,7 +346,11 @@ const handleCopy = function(event) {
      * Update loaded elements in state
      */
     setState(stateDiff);
-    event.preventDefault();
+    if (event) {
+      event.clipboardData.setData('text/plain', plainText);
+      event.clipboardData.setData('text/html', clipboardHtml);
+      event.preventDefault();
+    }
   };
 
 export default handleCopy;

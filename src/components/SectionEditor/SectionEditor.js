@@ -286,7 +286,6 @@ class SectionEditor extends Component {
     setSelectedContextualizationId: this.props.setSelectedContextualizationId,
   })
 
-
   /**
    * Executes code just after component mounted
    */
@@ -306,11 +305,7 @@ class SectionEditor extends Component {
     }
     document.addEventListener('copy', this.onCopy);
     document.addEventListener('cut', this.onCopy);
-    document.addEventListener('paste', e => {
-      if (this.props.editorFocus) {
-        e.preventDefault();
-      }
-    });
+    document.addEventListener('paste', this.onPaste);
 
     document.addEventListener('keyup', this.onKeyUp);
 
@@ -457,9 +452,11 @@ class SectionEditor extends Component {
   /**
    * Handles user cmd+v like command (restoring stashed contextualizations among other things)
    */
-  // onPaste = e => {
-  //   this.handlePaste(e);
-  // }
+  onPaste = e => {
+    if (this.props.editorFocus) {
+      e.preventDefault();
+    }
+  }
 
 
   /**
