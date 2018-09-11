@@ -69,7 +69,7 @@
   "Components.EnterPasswordModal.Create story": "Créer un récit",
   "Components.EnterPasswordModal.Create": "Créer",
   "Components.EnterPasswordModal.Enter password of the story": "Entrer le mot de passe du récit",
-  "Components.EnterPasswordModal.Explanation about the password": "Mot de passe défini lors de la création du récit",
+  "Components.EnterPasswordModal.Explanation about the password": "Mot de passe défini lors de la création du récit (6 caractères minimum)",
   "Components.EnterPasswordModal.Override story": "Écraser le récit",
   "Components.EnterPasswordModal.Override": "Écraser",
   "Components.EnterPasswordModal.Password is not valid": "Mot de passe invalide",
@@ -541,7 +541,7 @@
   "Features.LibraryView.edit": "éditer",
   "Features.LibraryView.delete": "supprimer",
   "Features.ErrorMessageContainer.This contextualization could not be added into note": "Cette mention n'a pas pu être ajoutée à la note.",
-  "Features.ErrorMessageContainer.This asset could not be added into note": "Cet élément n'a pas pu être ajouté à la note.",
+  "Features.ErrorMessageContainer.This type of item cannot be added into note": "Ce type d'item ne peut pas être mentionné dans une note.",
   "Features.SectionView.Untitled section": "Section sans titre",
   "Components.SectionCard.Untitled section": "Section sans titre",
   "Components.SectionCard.Title level {n}": "Niveau de titre {n}",
@@ -599,5 +599,6 @@
   "Components.BlockContextualization.trash": "trash",
   "Components.BlockContextualization.pointer": "pointer",
   "Features.ErrorMessageContainer.The story could not be saved": "Le récit n'a pas pu être sauvegardé",
-  "Features.ErrorMessageContainer.The file format (JSON) of the imported story is not valid.": "Le formatage du fichier (JSON) du récit importé n'est pas valide."
+  "Features.ErrorMessageContainer.The file format (JSON) of the imported story is not valid.": "Le formatage du fichier (JSON) du récit importé n'est pas valide.",
+  "Features.HomeView.Story exists, do you want to override it?": "Story exists, do you want to override it?"
 }

@@ -974,7 +974,9 @@ class SectionEditor extends Component {
       setEditorFocus(undefined);
       setTimeout(() => {
         setEditorFocus(targetedEditorId);
-      }, timers.short);
+        this.updateStateFromProps(this.props);
+        setTimeout(() => this.updateStateFromProps(this.props));
+      }, timers.medium);
     };
     const blockAssetTypes = ['image', 'table', 'video', 'embed'];
     const onDrop = (contentId, payload, selection) => {

@@ -183,7 +183,7 @@ class ErrorMessageContainer extends Component {
       title: () => this.translate('The section could not be updated with your last changes')
     },
     [`${'CREATE_CONTEXTUALIZATION_NOTE_FAIL'}`]: {
-      title: () => this.translate('This asset could not be added into note')
+      title: () => this.translate('This type of item cannot be added into note')
     },
     [`${FETCH_STORIES}_FAIL`]: {
       title: () => this.translate('The list of stories could not be retrieved')

@@ -85,7 +85,7 @@ export const getResourceTitle = (resource) => {
  */
 export const searchResources = (items, string) => {
   const options = {
-    keys: ['metadata.title', 'data.name', 'data.title'],
+    keys: ['metadata.title', 'data.name', 'data.title', 'metadata.type'],
     threshold: 0.5
   };
   const fuse = new Fuse(items, options);

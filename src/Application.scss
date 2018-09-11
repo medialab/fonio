@@ -37,7 +37,11 @@
   &.is-active{
     z-index: 1000;
   }
+  .modal-card-title{
+    font-size: 2rem;
+  }
 }
+
 
 
 .scholar-draft-SideToolbar{
@@ -76,6 +80,20 @@
   &.active{
     background: rgba(0,0,0,.1);
   }
+}
+
+.aside-actions .button > span{
+  max-width: 100%;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.fonio-AssetPreview .preview-container .content{
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 // ::-webkit-scrollbar {

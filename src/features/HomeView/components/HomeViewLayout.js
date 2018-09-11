@@ -336,9 +336,10 @@ class HomeViewLayout extends Component {
           });
         };
 
-        const OnCreateExistStory = (password) => {
+        const onCreateExistingStory = (password) => {
           createStory({
-            payload: newStory, password
+            payload: newStory,
+            password
           })
           .then((res) => {
             if (res.result) {
@@ -352,7 +353,7 @@ class HomeViewLayout extends Component {
           });
         };
 
-        const OnOverrideExistStory = (password) => {
+        const onOverrideExistingStory = (password) => {
           loginStory({storyId: newStory.id, password})
           .then((res) => {
             if (res.result && res.result.data) {
@@ -613,7 +614,7 @@ class HomeViewLayout extends Component {
                                     headerContent={this.translate('Override story')}
                                     onClose={() => setOverrideImport(false)}
                                     mainContent={
-                                      <Help isColor="danger">{this.translate('story is exist, do you want to override it?')}
+                                      <Help isColor="danger">{this.translate('Story exists, do you want to override it?')}
                                       </Help>}
                                     footerContent={[
                                       <Button
@@ -646,7 +647,7 @@ class HomeViewLayout extends Component {
                   mode={overrideStoryMode}
                   status={overrideStoryMode === 'create' ? createStoryStatus : overrideStoryStatus}
                   loginStatus={loginStatus}
-                  onSubmitPassword={overrideStoryMode === 'create' ? OnCreateExistStory : OnOverrideExistStory}
+                  onSubmitPassword={overrideStoryMode === 'create' ? onCreateExistingStory : onOverrideExistingStory}
                   onCancel={() => setPasswordModalOpen(false)} />
               }
             </Columns>

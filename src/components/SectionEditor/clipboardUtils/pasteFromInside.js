@@ -97,7 +97,6 @@ const pasteFromInside = ({
 
         const invalidEntities = [];
 
-
         // filter out contextualizations that point to a resource that has been deleted
         data.copiedContextualizations = data.copiedContextualizations.filter(contextualization => {
           const isValid = story.resources[contextualization.resourceId] !== undefined;
@@ -105,21 +104,20 @@ const pasteFromInside = ({
             data.copiedContextualizers = data.copiedContextualizers.filter(contextualizer => {
               return contextualizer.id !== contextualization.contextualizerId;
             });
-            // commented because done below
-            // data.copiedEntities = Object.keys(data.copiedEntities).reduce((result, contentId) => {
-            //   return {
-            //     ...result,
-            //     [contentId]: data.copiedEntities[contentId]
-            //       .filter(entity => {
-            //         if ((entity.entity.type === INLINE_ASSET || entity.entity.type === BLOCK_ASSET) && entity.entity.data && entity.entity.data.asset && entity.entity.data.asset.id) {
-            //           return entity.entity.data.asset.id !== contextualization.id
-            //         } else return true;
-            //       })
-            //   }
-            // }, {})
           }
           return isValid;
         });
+
+        // if target is a note filter out all block contextualizations
+        if (editorFocus !== 'main') {
+          data.copiedContextualizations = data.copiedContextualizations.filter(contextualization => {
+            const thatContextualizer = data.copiedContextualizers.find(contextualizer => contextualizer.id === contextualization.contextualizerId);
+            if (thatContextualizer && ['image', 'embed', 'video', 'table'].includes(thatContextualizer.type)) {
+              return false;
+            }
+            return true;
+          });
+        }
 
 
         // paste contextualizers (attributing them a new id)
