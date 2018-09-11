@@ -124,7 +124,7 @@ class LinkModal extends Component {
                               </span>
                               )
                           }))}>
-                    {choosenResource && activeResource ? `${activeResource.metadata.title} (${activeResource.data.url})` : translate('Choose an existing hyperlink')}
+                    {choosenResource && activeResource ? abbrevString(`${activeResource.metadata.title} (${activeResource.data.url})`, 60) : translate('Choose an existing hyperlink')}
                   </Dropdown>
                 </Control>
               </Field>
