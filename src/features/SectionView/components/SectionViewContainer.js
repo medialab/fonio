@@ -189,6 +189,7 @@ class SectionViewContainer extends Component {
 
   componentWillUnmount = () => {
     this.unlockOnSection(this.props);
+    this.props.actions.setEditorFocus(undefined);
     this.props.actions.setEditedSectionId(undefined);
     this.props.actions.resetDraftEditorsStates();
     this.props.actions.resetViewsUi();
