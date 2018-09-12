@@ -121,12 +121,13 @@ const EditionUiWrapperLayout = ({
 
   let realActiveSectionTitle;
   if (activeSectionTitle.length) {
-    realActiveSectionTitle =  activeSectionTitle.length > 10 ? activeSectionTitle.substr(0, 10) + '...' : activeSectionTitle;;
-  } else {
+    realActiveSectionTitle = activeSectionTitle.length > 10 ? activeSectionTitle.substr(0, 10) + '...' : activeSectionTitle;
+  }
+ else {
     realActiveSectionTitle = translate('Untitled section');
   }
 
- 
+
   return (
     <StretchedLayoutContainer isAbsolute>
       <Navbar
