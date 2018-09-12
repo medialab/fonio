@@ -333,7 +333,7 @@ class SectionViewContainer extends Component {
         if (errors.length > 0) {
           setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: errors});
         }
-        this.props.actions.setMainColumnMode('edition');
+        // this.props.actions.setMainColumnMode('edition');
         this.props.actions.setUploadStatus(undefined);
       })
       .catch((error) => {

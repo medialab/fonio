@@ -259,7 +259,7 @@
   "Components.StoryCard.delete": "delete",
   "Components.StoryCard.duplicate": "duplicate",
   "Components.StoryCard.edited by {a}": "edited by {a}",
-  "Components.StoryCard.open": "open",
+  "Components.StoryCard.edit": "edit",
   "Components.StoryCard.read": "read",
   "Features.AuthManager.Back to home": "Back to home",
   "Features.AuthManager.Connect to a story": "Connect to a story",
@@ -600,5 +600,9 @@
   "Components.BlockContextualization.pointer": "pointer",
   "Features.ErrorMessageContainer.The story could not be saved": "The story could not be saved",
   "Features.ErrorMessageContainer.The file format (JSON) of the imported story is not valid.": "The file format (JSON) of the imported story is not valid.",
-  "Features.HomeView.Story exists, do you want to override it?": "Story exists, do you want to override it?"
+  "Features.HomeView.Story exists, do you want to override it?": "Story exists, do you want to override it?",
+  "Features.EditionUiWrapper.Untitled section": "Untitled section",
+  "Features.EditionUiWrapper.Overview": "Overview",
+  "Features.SectionView.One item": "One item",
+  "Features.SectionView.Several items": "Several items"
 }

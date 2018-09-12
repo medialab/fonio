@@ -100,7 +100,7 @@ const StoryCard = ({
           ]}
         asideActions={[
           {
-            label: <span><InlineIcon icon="pencil" /> {translate('open')}</span>,
+            label: <span><InlineIcon icon="pencil" /> {translate('edit')}</span>,
             isColor: 'primary',
             id: 'open',
           },

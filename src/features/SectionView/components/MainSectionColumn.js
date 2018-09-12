@@ -146,6 +146,20 @@ const MainSectionColumn = ({
     }
   };
 
+  const guessTitle = (title = '') => {
+    const endNumberRegexp = /([0-9]+)$/;
+    const numberMatch = title.match(endNumberRegexp);
+    if (numberMatch) {
+      const number = +numberMatch[1];
+      if (!isNaN(number)) {
+        const newNumber = number + 1;
+        const newTitle = title.replace(endNumberRegexp, newNumber + '');
+        return newTitle;
+      }
+    }
+    return '';
+  };
+
 
   const renderMain = () => {
     if (userLockedResourceId) {
@@ -283,12 +297,12 @@ const MainSectionColumn = ({
                     <TabList>
                       <Tab onClick={() => setNewResourceMode('manually')} isActive={newResourceMode === 'manually'}>
                         <TabLink>
-                          {translate('Manually')}
+                          {translate('One item')}
                         </TabLink>
                       </Tab>
                       <Tab onClick={() => setNewResourceMode('drop')} isActive={newResourceMode === 'drop'}>
                         <TabLink>
-                          {translate('From files drop')}
+                          {translate('Several items')}
                         </TabLink>
                       </Tab>
                     </TabList>
@@ -345,7 +359,10 @@ const MainSectionColumn = ({
               <StretchedLayoutItem isFlowing isFlex={1}>
                 <Column>
                   <NewSectionForm
-                    metadata={{...defaultSectionMetadata}}
+                    metadata={{
+                      ...defaultSectionMetadata,
+                      title: guessTitle(section.metadata.title)
+                    }}
                     onSubmit={onNewSectionSubmit}
                     onCancel={() => setMainColumnMode('edition')} />
                 </Column>

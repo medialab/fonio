@@ -496,8 +496,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
               }
             },
             sectionsOrder: [
-              ...state.story.sectionsOrder,
-              payload.sectionId
+              ...state.story.sectionsOrder.slice(0, payload.sectionOrder),
+              payload.sectionId,
+              ...state.story.sectionsOrder.slice(payload.sectionOrder)
             ],
             lastUpdateAt: payload.lastUpdateAt,
           }

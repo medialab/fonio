@@ -50,7 +50,7 @@ const EditionUiWrapperLayout = ({
     toggleNavbarOpen,
   },
   children,
-  activeSectionTitle,
+  activeSectionTitle = '',
 }, {
   t
 }) => {
@@ -86,7 +86,7 @@ const EditionUiWrapperLayout = ({
   };
   const computeTitle = () => {
     if (editedStory && editedStory.metadata && editedStory.metadata.title) {
-      return abbrevString(editedStory.metadata.title);
+      return abbrevString(editedStory.metadata.title, 25);
     }
     else return translate('Unnamed story');
   };
@@ -118,6 +118,16 @@ const EditionUiWrapperLayout = ({
         break;
     }
   };
+
+  let realActiveSectionTitle;
+  if (activeSectionTitle.length) {
+    realActiveSectionTitle = activeSectionTitle.length > 10 ? activeSectionTitle.substr(0, 10) + '...' : activeSectionTitle;
+  }
+ else {
+    realActiveSectionTitle = translate('Untitled section');
+  }
+
+
   return (
     <StretchedLayoutContainer isAbsolute>
       <Navbar
@@ -150,7 +160,7 @@ const EditionUiWrapperLayout = ({
             {
               href: `/story/${storyId}`,
               isActive: navLocation === 'summary',
-              content: `${translate('Summary')}`,
+              content: `${translate('Overview')}`,
               // subItems: [
               //   {
               //     href: '/',
@@ -173,7 +183,7 @@ const EditionUiWrapperLayout = ({
             navLocation === 'editor' ?
             {
               isActive: true,
-              content: `/ ${activeSectionTitle.length > 10 ? activeSectionTitle.substr(0, 10) + '...' : activeSectionTitle}`,
+              content: `/ ${realActiveSectionTitle}`,
               href: `/story/${storyId}/section/${sectionId}`,
             }
             : undefined,
@@ -188,10 +198,7 @@ const EditionUiWrapperLayout = ({
               content: translate('Design'),
               lockStatus: designStatus,
               statusMessage: designMessage
-
-              // lockStatus: 'locked',
-              // statusMessage: 'Edited by fred'
-            }
+            },
           ].filter(d => d)}
         actionOptions={[{
             content: <Button onClick={() => setExportModalOpen(true)} className="button">{translate('Export')}</Button>
