@@ -452,7 +452,7 @@ class LibraryViewLayout extends Component {
                     // reject(err);
                     console.error(err);/* eslint no-console : 0*/
                   }
-                  else resolve();
+                  resolve();
                 });
               }
               else {
@@ -461,7 +461,7 @@ class LibraryViewLayout extends Component {
                     console.error(err);/* eslint no-console : 0*/
                     // reject(err);
                   }
-                  else resolve();
+                  resolve();
                 });
               }
             });
@@ -477,6 +477,11 @@ class LibraryViewLayout extends Component {
         setPromptedToDeleteResourceId(undefined);
       })
       .catch(err => {
+        setResourceDeleteStep(0);
+        setResourcesPromptedToDelete([]);
+        setSelectedResourcesIds([]);
+        setIsBatchDeleting(false);
+        setPromptedToDeleteResourceId(undefined);
         console.error(err);/* eslint no-console : 0 */
       });
 
