@@ -283,12 +283,12 @@ const MainSectionColumn = ({
                     <TabList>
                       <Tab onClick={() => setNewResourceMode('manually')} isActive={newResourceMode === 'manually'}>
                         <TabLink>
-                          {translate('Manually')}
+                          {translate('One item')}
                         </TabLink>
                       </Tab>
                       <Tab onClick={() => setNewResourceMode('drop')} isActive={newResourceMode === 'drop'}>
                         <TabLink>
-                          {translate('From files drop')}
+                          {translate('Several items')}
                         </TabLink>
                       </Tab>
                     </TabList>
