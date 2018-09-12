@@ -833,7 +833,7 @@ class SectionEditor extends Component {
     // update active immutable editor state
     updateDraftEditorState(editorStateId, editorState);
     const currentEditorState = editorStates[editorStateId];
-    if (currentEditorState.getCurrentContent() !== editorState.getCurrentContent()) {
+    if (currentEditorState && currentEditorState.getCurrentContent() !== editorState.getCurrentContent()) {
       setStoryIsSaved(false);
       updateSectionRawContentDebounced(editorId, activeStoryId, sectionId);
     }
