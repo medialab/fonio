@@ -72,9 +72,8 @@ class ErrorMessageContainer extends Component {
     store: PropTypes.object,
   }
 
-  constructor(props, context) {
+  constructor(props) {
     super(props);
-    this.translate = translateNameSpacer(context.t, 'Features.ErrorMessageContainer');
   }
 
   componentDidMount = () => {
@@ -162,82 +161,84 @@ class ErrorMessageContainer extends Component {
   messages = {
     [`${'SUBMIT_MULTI_RESOURCES_FAIL'}`]: {
       title: () => {
-        return this.translate('Upload went wrong');
+        const translate = translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer');
+        return translate('Upload went wrong');
       },
       details: (payload) => {
+        const translate = translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer');
         switch (payload.error) {
           case 'Too many files uploaded':
-            return this.translate('You tried to upload too many files at the same time. ') + this.translate('Please split your uploads in smaller groups !');
+            return translate('You tried to upload too many files at the same time. ') + translate('Please split your uploads in smaller groups !');
           case 'Files extends maximum size to upload':
-            return this.translate('The total length of the files you tried to upload extends maximum size to upload. ') + this.translate('Please split your uploads in smaller groups !');
+            return translate('The total length of the files you tried to upload extends maximum size to upload. ') + translate('Please split your uploads in smaller groups !');
           case 'No valid files to upload':
-            return this.translate('No valid files to upload, your files are either too big or not in the right format.');
+            return translate('No valid files to upload, your files are either too big or not in the right format.');
           case 'Some files larger than maximum size':
-            return this.translate('Some files are larger than the maximum file size allowed, they were not added to the library.');
+            return translate('Some files are larger than the maximum file size allowed, they were not added to the library.');
           default:
             return undefined;
         }
       }
     },
     [`${'UPDATE_SECTION_FAIL'}`]: {
-      title: () => this.translate('The section could not be updated with your last changes')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('The section could not be updated with your last changes')
     },
     [`${'CREATE_CONTEXTUALIZATION_NOTE_FAIL'}`]: {
-      title: () => this.translate('This type of item cannot be added into note')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('This type of item cannot be added into note')
     },
     [`${FETCH_STORIES}_FAIL`]: {
-      title: () => this.translate('The list of stories could not be retrieved')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('The list of stories could not be retrieved')
     },
     [`${CREATE_STORY}_FAIL`]: {
-      title: () => this.translate('The story could not be created')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('The story could not be created')
     },
     [`${SAVE_STORY}_FAIL`]: {
-      title: () => this.translate('The story could not be saved')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('The story could not be saved')
     },
     [`${OVERRIDE_STORY}_FAIL`]: {
-      title: () => this.translate('The story could not be overriden')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('The story could not be overriden')
     },
     [`${IMPORT_STORY}_FAIL`]: {
-      title: () => this.translate('The story could not be imported'),
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('The story could not be imported'),
       details: (payload = {}) => {
         switch (payload.error) {
           case 'malformed json':
-            return this.translate('The file format (JSON) of the imported story is not valid.');
+            return translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('The file format (JSON) of the imported story is not valid.');
           case 'file is too large':
-            return this.translate('Your story file is larger than maximum file size allowed');
+            return translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('Your story file is larger than maximum file size allowed');
           default:
             return undefined;
         }
       }
     },
     [`${DUPLICATE_STORY}_FAIL`]: {
-      title: () => this.translate('The story could not be duplicated')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('The story could not be duplicated')
     },
     [`${DELETE_STORY}_FAIL`]: {
-      title: () => this.translate('The story could not be deleted')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('The story could not be deleted')
     },
     [`${CHANGE_PASSWORD}_FAIL`]: {
-      title: () => this.translate('The password could not be changed')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('The password could not be changed')
     },
     [`${ACTIVATE_STORY}_FAIL`]: {
-      title: () => this.translate('The story could not be opened')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('The story could not be opened')
     },
     [`${UPLOAD_RESOURCE}_FAIL`]: {
-      title: () => this.translate('An item could not be uploaded'),
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('An item could not be uploaded'),
       details: (payload) => {
         const fileName = payload.resource && payload.resource.metadata &&
           `${payload.resource.metadata.title}.${payload.resource.metadata.ext}`;
-        return this.translate('{n} is too big', {n: fileName});
+        return translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('{n} is too big', {n: fileName});
       }
     },
     [`${DELETE_UPLOADED_RESOURCE}_FAIL`]: {
-      title: () => this.translate('An item could not be deleted')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('An item could not be deleted')
     },
     [`${DELETE_SECTION}_FAIL`]: {
-      title: () => this.translate('A section could not be deleted')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('A section could not be deleted')
     },
     [`${DELETE_RESOURCE}_FAIL`]: {
-      title: () => this.translate('An item could not be deleted')
+      title: () => translateNameSpacer(this.context.t, 'Features.ErrorMessageContainer')('An item could not be deleted')
     }
   }
 
