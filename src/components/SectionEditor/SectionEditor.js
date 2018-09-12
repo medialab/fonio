@@ -23,6 +23,7 @@ import {
   // Level,
   Title,
   Button,
+  Image,
   Column,
   HelpPin,
   StretchedLayoutContainer,
@@ -31,6 +32,8 @@ import {
 } from 'quinoa-design-library/components';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
+
+import {abbrevString} from '../../helpers/misc';
 
 const timers = {
   short: 100
@@ -370,6 +373,7 @@ class SectionEditor extends Component {
   componentDidUpdate = (prevProps) => {
     if (this.props.editorStates[this.props.activeSection.id] !== prevProps.editorStates[this.props.activeSection.id]) {
       this.debouncedCleanStuffFromEditorInspection(this.props.activeSection.id);
+      this.updateLinkPopupData();
     }
     // console.timeEnd('editor update time');/* eslint no-console: 0 */
   }
@@ -389,6 +393,67 @@ class SectionEditor extends Component {
 
     this.updateSectionRawContentDebounced.cancel();
     this.debouncedCleanStuffFromEditorInspection.cancel();
+  }
+
+  updateLinkPopupData = () => {
+    if (this.props.editorStates[this.props.activeSection.id]) {
+      const entityAtSelection = this.getEntityAtSelection(this.props.editorStates[this.props.activeSection.id]);
+      if (entityAtSelection) {
+        const data = entityAtSelection.getData();
+        const contextualizationId = data.asset.id;
+        const contextualization = this.props.story.contextualizations[contextualizationId];
+        const resource = this.props.story.resources[contextualization.resourceId];
+        if (resource.metadata.type === 'webpage') {
+          try {
+            const selection = window.getSelection();
+            const selectionPosition = selection.getRangeAt(0).getBoundingClientRect();
+            const componentPosition = this.component.getBoundingClientRect();
+            if (selectionPosition) {
+              return this.setState({
+                linkPopupData: {
+                  x: selectionPosition.x - componentPosition.x,
+                  y: selectionPosition.y - componentPosition.y - 20,
+                  href: resource.data.url,
+                }
+              });
+            }
+          }
+          catch (e) {
+            console.error(e);/* eslint no-console : 0 */
+          }
+
+        }
+
+      }
+      else if (this.state.linkPopupData) {
+        setTimeout(() => {
+          if (this.state.linkPopupData) {
+            this.setState({
+              linkPopupData: undefined
+            });
+          }
+        }, 500);
+      }
+    }
+  }
+
+  getEntityAtSelection(editorState) {
+
+    if (!editorState) {
+      return undefined;
+    }
+    const selection = editorState.getSelection();
+    if (!selection.getHasFocus()) {
+      return undefined;
+    }
+
+    const contentState = editorState.getCurrentContent();
+    const block = contentState.getBlockForKey(selection.getStartKey());
+    if (!!block.getEntityAt(selection.getStartOffset() - 1)) {
+      const entityKey = block.getEntityAt(selection.getStartOffset() - 1);
+      return contentState.getEntity(entityKey);
+    }
+    return undefined;
   }
 
   clearNotesAndContext = () => {
@@ -891,6 +956,7 @@ class SectionEditor extends Component {
       assetChoiceProps = {},
       citations,
       customContext,
+      linkPopupData,
     } = state;
 
     const {
@@ -1044,6 +1110,9 @@ class SectionEditor extends Component {
       else if (focusedEditorId && this.editor.notes[focusedEditorId]) {
         this.editor.notes[focusedEditorId].editor.updateSelection();
       }
+      if (this.state.linkPopupData) {
+        this.updateLinkPopupData();
+      }
     };
 
     const onAssetRequestCancel = () => {
@@ -1175,6 +1244,23 @@ class SectionEditor extends Component {
               inlineEntities={additionalInlineEntities} />
           </ReferencesManager>
         </div>
+        {
+          <span
+            className="tag"
+            style={{
+              position: 'absolute',
+              left: linkPopupData ? linkPopupData.x : 0,
+              top: linkPopupData ? linkPopupData.y : 0,
+              display: linkPopupData ? 'flex' : 'none',
+              flexFlow: 'row nowrap',
+              alignItems: 'center',
+            }}>
+            <a target="blank" href={linkPopupData ? linkPopupData.href : ''}>
+              {linkPopupData ? abbrevString(linkPopupData.href, 30) : ''}
+            </a>
+            <Image style={{margin: 0, padding: 0}} isSize={'16x16'} src={icons.webpage.black.svg} />
+          </span>
+        }
         <ReactTooltip
           id="style-button"
           place="top"
