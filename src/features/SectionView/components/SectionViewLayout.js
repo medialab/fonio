@@ -147,7 +147,12 @@ const SectionViewLayout = ({
 
   // console.time('preparation');
 
-  const {id: storyId, resources, contextualizations} = story;
+  const {
+    id: storyId,
+    resources,
+    contextualizations,
+    sectionsOrder,
+  } = story;
   const {id: sectionId} = section;
   const defaultSection = createDefaultSection();
 
@@ -237,18 +242,26 @@ const SectionViewLayout = ({
   const onNewSectionSubmit = (metadata) => {
     const newSection = {
       ...defaultSection,
-      metadata,
+      metadata: {
+        ...metadata,
+        level: section.metadata.level,
+      },
       id: genId()
     };
 
+    const currentSectionOrder = sectionsOrder.indexOf(section.id) || 0;
     createSection({
       section: newSection,
       sectionId: newSection.id,
       storyId,
+      sectionOrder: currentSectionOrder + 1,
       userId
+    }, (err) => {
+      if (!err) {
+        goToSection(newSection.id);
+      }
     });
     setMainColumnMode('edition');
-    goToSection(newSection.id);
   };
 
   /**
