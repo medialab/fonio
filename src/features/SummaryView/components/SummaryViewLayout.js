@@ -195,6 +195,7 @@ const SummaryViewLayout = ({
       section: newSection,
       storyId,
       userId,
+      sectionIndex: sectionsList.length - 1
     });
     setNewSectionOpen(false);
     goToSection(newSection.id);

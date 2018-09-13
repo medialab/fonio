@@ -400,26 +400,28 @@ class SectionEditor extends Component {
       const entityAtSelection = this.getEntityAtSelection(this.props.editorStates[this.props.activeSection.id]);
       if (entityAtSelection) {
         const data = entityAtSelection.getData();
-        const contextualizationId = data.asset.id;
-        const contextualization = this.props.story.contextualizations[contextualizationId];
-        const resource = this.props.story.resources[contextualization.resourceId];
-        if (resource.metadata.type === 'webpage') {
-          try {
-            const selection = window.getSelection();
-            const selectionPosition = selection.getRangeAt(0).getBoundingClientRect();
-            const componentPosition = this.component.getBoundingClientRect();
-            if (selectionPosition) {
-              return this.setState({
-                linkPopupData: {
-                  x: selectionPosition.x - componentPosition.x,
-                  y: selectionPosition.y - componentPosition.y - 20,
-                  href: resource.data.url,
-                }
-              });
+        if (data && data.asset) {
+          const contextualizationId = data.asset.id;
+          const contextualization = this.props.story.contextualizations[contextualizationId];
+          const resource = this.props.story.resources[contextualization.resourceId];
+          if (resource.metadata.type === 'webpage') {
+            try {
+              const selection = window.getSelection();
+              const selectionPosition = selection.getRangeAt(0).getBoundingClientRect();
+              const componentPosition = this.component.getBoundingClientRect();
+              if (selectionPosition) {
+                return this.setState({
+                  linkPopupData: {
+                    x: selectionPosition.x - componentPosition.x,
+                    y: selectionPosition.y - componentPosition.y - 20,
+                    href: resource.data.url,
+                  }
+                });
+              }
             }
-          }
-          catch (e) {
-            console.error(e);/* eslint no-console : 0 */
+            catch (e) {
+              console.error(e);/* eslint no-console : 0 */
+            }
           }
 
         }
