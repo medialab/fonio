@@ -537,6 +537,7 @@ const SectionViewLayout = ({
           sections={sectionsList}
 
           getResourceTitle={getResourceTitle}
+          setEditorFocus={onSetEditorFocus}
 
           userId={userId}
           lockingMap={lockingMap}
