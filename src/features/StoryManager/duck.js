@@ -396,6 +396,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
   let contextualizers;
   let contextualizersToDeleteIds;
   let contextualizationsToDeleteIds;
+  let newSectionsOrder;
   switch (action.type) {
     case LEAVE_STORY:
       return {
@@ -448,7 +449,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
         return state;
       }
       const oldSectionsOrder = [...state.story.sectionsOrder];
-      const newSectionsOrder = [...payload.sectionsOrder];
+      newSectionsOrder = [...payload.sectionsOrder];
       let resolvedSectionsOrder = [...payload.sectionsOrder];
       // new order is bigger than older order
       // (probably because a user deleted a section in the meantime)
@@ -483,6 +484,17 @@ function story(state = STORY_DEFAULT_STATE, action) {
       if (!state.story) {
         return state;
       }
+      newSectionsOrder = payload.sectionOrder < state.story.sectionsOrder.length ?
+            [
+              ...state.story.sectionsOrder.slice(0, payload.sectionOrder),
+              payload.sectionId,
+              ...state.story.sectionsOrder.slice(payload.sectionOrder)
+            ]
+            :
+            [
+              ...state.story.sectionsOrder,
+              payload.sectionId
+            ];
       return {
           ...state,
           story: {
@@ -495,11 +507,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
                 createdAt: payload.lastUpdateAt,
               }
             },
-            sectionsOrder: [
-              ...state.story.sectionsOrder.slice(0, payload.sectionOrder),
-              payload.sectionId,
-              ...state.story.sectionsOrder.slice(payload.sectionOrder)
-            ],
+            sectionsOrder: newSectionsOrder,
             lastUpdateAt: payload.lastUpdateAt,
           }
       };
