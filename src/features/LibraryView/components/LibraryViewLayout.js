@@ -383,7 +383,7 @@ class LibraryViewLayout extends Component {
                   sectionChanged = true;
                 }
                 return result;
-              }, {...section.contents}),
+              }, {...(section.contents || {})}),
               notes: Object.keys(section.notes).reduce((temp1, noteId) => ({
                 ...temp1,
                 [noteId]: {
@@ -417,7 +417,7 @@ class LibraryViewLayout extends Component {
         return tempFinalSections;
       }, {});
 
-      Object.keys(finalChangedSections).reduce((cur, sectionId) => {
+      Object.keys(finalChangedSections || {}).reduce((cur, sectionId) => {
         return cur.
         then(() => new Promise((resolve, reject) => {
           updateSection({
