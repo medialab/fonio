@@ -56,7 +56,7 @@ class AsideSectionColumn extends Component {
       'resourceOptionsVisible',
       'mainColumnMode',
       'activeUsers',
-      'lockMap',
+      'lockingMap',
       'userLockedResourceId',
       // 'sections',
 
