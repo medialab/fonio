@@ -318,9 +318,8 @@ class SectionEditor extends Component {
     // wrapped in setTimeout to prevent firefox "DOM Not found" bug
     setTimeout(() => {
       this.props.setEditorFocus('main');
-    }, 500);
+    });
   }
-
 
   /**
    * Executes code when component receives new properties
@@ -394,6 +393,11 @@ class SectionEditor extends Component {
     this.updateSectionRawContentDebounced.cancel();
     this.debouncedCleanStuffFromEditorInspection.cancel();
   }
+
+  componentDidCatch(error, info) {
+    console.log(error, info);/* eslint no-console: 0 */
+  }
+
 
   updateLinkPopupData = () => {
     if (this.props.editorStates[this.props.activeSection.id]) {

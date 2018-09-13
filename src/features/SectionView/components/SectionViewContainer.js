@@ -442,6 +442,8 @@ class SectionViewContainer extends Component {
     } = this.props;
     const userLockedResourceId = getUserResourceLockId(lockingMap, userId, storyId);
     if (userLockedResourceId !== resourceId) {
+      this.props.actions.setEditorFocus(undefined);
+      setTimeout(() => this.props.actions.setSelectedContextualizationId(undefined));
       this.props.actions.enterBlock({
         storyId,
         userId,

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-9-13\n"
-"PO-Revision-Date: Thu Sep 13 2018 12:47:06 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Sep 13 2018 18:07:08 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5014,6 +5014,30 @@ msgstr "One item"
 
 msgid "Features.SectionView.Several items"
 msgstr "Several items"
+
+msgid "Components.BlockContextualization.delete mention (the image will not be delete from the library)"
+msgstr "supprimer la mention (l'image ne sera pas supprimée de la bibliothèque)"
+
+msgid "Components.BlockContextualization.delete mention (the video will not be delete from the library)"
+msgstr "supprimer la mention (la vidéo ne sera pas supprimée de la bibliothèque)"
+
+msgid "Components.BlockContextualization.delete mention (the embed will not be delete from the library)"
+msgstr "supprimer la mention (le code à embarquer ne sera pas supprimé de la bibliothèque)"
+
+msgid "Components.BlockContextualization.delete mention (the table will not be delete from the library)"
+msgstr "supprimer la mention (le tableau ne sera pas supprimé de la bibliothèque)"
+
+msgid "Components.BlockContextualization.edit image"
+msgstr "éditer l'image"
+
+msgid "Components.BlockContextualization.edit video"
+msgstr "éditer la vidéo"
+
+msgid "Components.BlockContextualization.edit embed"
+msgstr "éditer le code"
+
+msgid "Components.BlockContextualization.edit table"
+msgstr "éditer le tableau"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"

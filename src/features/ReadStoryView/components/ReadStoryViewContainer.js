@@ -11,7 +11,7 @@ import config from '../../../config';
 
 import {translateNameSpacer} from '../../../helpers/translateUtils';
 import DataUrlProvider from '../../../components/DataUrlProvider';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import {
   Button,
@@ -27,7 +27,7 @@ const HomeBtn = () => (
       bottom: '1rem',
       right: '1rem'
     }}>
-    <Link to="/">
+    <Link style={{color: 'black'}} to="/">
       <Icon icon="home" />
     </Link>
   </Button>

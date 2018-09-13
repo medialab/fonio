@@ -213,6 +213,12 @@ class ResourceCard extends Component {
       }
      };
 
+     const handleClick = event => {
+      if (lockStatus !== 'locked') {
+        onEdit(event);
+      }
+     };
+
       return connectDragSource(
         <div
           // draggable
@@ -223,7 +229,7 @@ class ResourceCard extends Component {
           <Card
             isActive={isActive}
             bodyContent={
-              <div onClick={onEdit}>
+              <div onClick={handleClick}>
                 <Columns style={{
                   minHeight: '4em',
                   maxHeight: '4em',

@@ -225,6 +225,7 @@ class AssetPreview extends Component {
   }
 
   onClickBox = (e) => {
+    e.preventDefault();
     e.stopPropagation(); //cause lockingMap state not be updated
     if (typeof this.props.onClick === 'function') {
       this.props.onClick(e);

@@ -56,7 +56,7 @@ class AsideSectionColumn extends Component {
       'resourceOptionsVisible',
       'mainColumnMode',
       'activeUsers',
-      'lockMap',
+      'lockingMap',
       'userLockedResourceId',
       // 'sections',
 
@@ -131,6 +131,7 @@ class AsideSectionColumn extends Component {
       setResourceOptionsVisible,
       setMainColumnMode,
       setSectionLevel,
+      setEditorFocus,
 
       visibleResources,
       // resourceSearchString,
@@ -267,7 +268,13 @@ class AsideSectionColumn extends Component {
                     <Button
                       isFullWidth
                       style={{overflow: 'visible'}}
-                      onClick={() => setMainColumnMode(mainColumnMode === 'newresource' ? 'edition' : 'newresource')}
+                      onClick={() => {
+                        if (mainColumnMode === 'edition') {
+                          setEditorFocus(undefined);
+                        }
+
+                        setMainColumnMode(mainColumnMode === 'newresource' ? 'edition' : 'newresource');
+                      }}
                       isColor={mainColumnMode === 'newresource' ? 'primary' : 'info'}
                       isDisabled={userLockedResourceId !== undefined}>
                       <span style={{paddingRight: '1rem'}}>{translate('Add items to library')}</span>
@@ -291,6 +298,7 @@ class AsideSectionColumn extends Component {
                     setSectionIndex={setSectionIndex}
                     maxSectionIndex={sections.length - 1}
                     onOpenSettings={thatSection => {
+                      setEditorFocus(undefined);
                       if (mainColumnMode === 'editmetadata') {
                        onCloseSectionSettings();
                       }
@@ -309,7 +317,14 @@ class AsideSectionColumn extends Component {
                     <Button
                       style={{overflow: 'visible'}}
                       isDisabled={userLockedResourceId !== undefined && mainColumnMode === 'edition'}
-                      onClick={() => setMainColumnMode(mainColumnMode === 'newsection' ? 'edition' : 'newsection')} isColor={'primary'} isFullWidth>
+                      onClick={() => {
+                        if (mainColumnMode === 'edition') {
+                          setEditorFocus(undefined);
+                        }
+                        setMainColumnMode(mainColumnMode === 'newsection' ? 'edition' : 'newsection');
+                      }}
+                      isColor={'primary'}
+                      isFullWidth>
                       <span style={{paddingRight: '1rem'}}>{translate('New section')}</span>
                     </Button>
                   </Column>
