@@ -71,10 +71,10 @@ class BlockContainer extends Component {
       resource = {},
       id
     } = asset;
-    const {
-      metadata = {}
-    } = resource;
-    const {type} = metadata;
+    // const {
+    //   metadata = {}
+    // } = resource;
+    // const {type} = metadata;
 
     const onEditRequest = (event) => {
       event.stopPropagation();
@@ -96,7 +96,7 @@ class BlockContainer extends Component {
       if (event) {
         event.stopPropagation();
       }
-      if (!['video', 'table', 'embed'].includes(type) && typeof setSelectedContextualizationId === 'function') {
+      if (/*!['video', 'table', 'embed'].includes(type) &&*/ typeof setSelectedContextualizationId === 'function') {
         if (selectedContextualizationId === asset.id) {
           setSelectedContextualizationId(undefined);
         }
@@ -111,7 +111,7 @@ class BlockContainer extends Component {
     const translate = translateNameSpacer(t, 'Components.BlockContextualization');
     return (resource.data ?
       [
-        <div className={`block-asset-side-toolbar ${isActive ? 'is-active' : ''}`} key={0}>
+        <div contentEditable={false} className={`block-asset-side-toolbar ${isActive ? 'is-active' : ''}`} key={0}>
           <Button
             isRounded
             isColor={'danger'}
