@@ -250,7 +250,7 @@
   "Components.SectionEditor.native link to {u}": "native link to {u}",
   "Components.SectionEditor.ordered list": "ordered list",
   "Components.SectionEditor.quote": "quote",
-  "Components.SectionEditor.remove formatting for selection": "remove formatting for selection",
+  "Components.SectionEditor.remove formatting for selection": "remove formatting (italic, bold,...) for selection",
   "Components.SectionEditor.small title": "small title",
   "Components.SectionEditor.start writing": "start writing",
   "Components.SectionEditor.summon-asset": "summon-asset",

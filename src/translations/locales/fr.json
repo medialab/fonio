@@ -251,7 +251,7 @@
   "Components.SectionEditor.native link to {u}": "lien natif vers {u}",
   "Components.SectionEditor.ordered list": "liste numérotée",
   "Components.SectionEditor.quote": "citation",
-  "Components.SectionEditor.remove formatting for selection": "supprimer le formattage pour la sélection",
+  "Components.SectionEditor.remove formatting for selection": "supprimer le formattage (gras, italiques, ...) pour la sélection",
   "Components.SectionEditor.small title": "petit titre",
   "Components.SectionEditor.start writing": "Commencer à écrire",
   "Components.SectionEditor.summon-asset": "mentionner un item",
