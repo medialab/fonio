@@ -146,6 +146,10 @@ const MainSectionColumn = ({
     }
   };
 
+  const onTitleFocus = () => {
+    setEditorFocus(undefined);
+  };
+
   const guessTitle = (title = '') => {
     const endNumberRegexp = /([0-9]+)$/;
     const numberMatch = title.match(endNumberRegexp);
@@ -449,6 +453,7 @@ const MainSectionColumn = ({
                         title={section.metadata.title}
                         onEdit={onEditMetadataClick}
                         onBlur={onTitleBlur}
+                        onFocus={onTitleFocus}
                         placeHolder={translate('Section title')}
 
                         isDisabled={userLockedResourceId || (mainColumnMode !== 'edition' && mainColumnMode !== 'editmetadata')}
