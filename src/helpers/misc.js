@@ -2,7 +2,7 @@ import trunc from 'unicode-byte-truncate';
 
 export const abbrevString = (str = '', maxLength = 10) => {
   if (str.length > maxLength) {
-   return trunc(str, maxLength) + '...';
+   return `${trunc(str, maxLength) }...`;
   }
   return str;
 };
@@ -12,7 +12,7 @@ export const splitPathnameForSockets = (url) => {
         p = h.slice(-1)[0].split('/');
 
   return [
-    (h.length > 1 ? (h[0] + '//') : '') + p[0],
+    (h.length > 1 ? (`${h[0] }//`) : '') + p[0],
     p.slice(1).filter(i => i)
   ];
 };

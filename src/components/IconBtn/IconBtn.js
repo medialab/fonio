@@ -28,9 +28,9 @@ export default class IconBtn extends Component {
         ref={bindRef}>
         <Button
           data-tip={dataTip}
-          data-for="icon-btn-tooltip"
-          data-effect="solid"
-          data-place="top"
+          data-for={'icon-btn-tooltip'}
+          data-effect={'solid'}
+          data-place={'top'}
           isColor={isColor}
           isRounded
           onClick={onClick}

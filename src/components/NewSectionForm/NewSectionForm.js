@@ -84,26 +84,26 @@ class NewSectionForm extends Component {
                     <Control>
                       <Label>
                         {translate('Section title')}
-                        <HelpPin place="right">
+                        <HelpPin place={'right'}>
                           {translate('Explanation about the section title')}
                         </HelpPin>
                       </Label>
                       <Text
-                        className="input"
-                        field="title" id="title" type="text"
+                        className={'input'}
+                        field={'title'} id={'title'} type={'text'}
                         placeholder={translate('Section title')} />
                     </Control>
                   </Field>
                   {
                     formApi.errors && formApi.errors.title &&
                     <Help
-                      isColor="danger">
+                      isColor={'danger'}>
                       {formApi.errors.title}
                     </Help>
                   }
                   <AuthorsManager
-                    field="authors"
-                    id="authors"
+                    field={'authors'}
+                    id={'authors'}
                     title={translate('Section authors')}
                     titleHelp={translate('help about section authors')}
                     onChange={(authors) => formApi.setValue('authors', authors)}
@@ -111,19 +111,19 @@ class NewSectionForm extends Component {
                 </Column>
               </StretchedLayoutItem>
               <StretchedLayoutItem>
-                <StretchedLayoutContainer isDirection="horizontal">
+                <StretchedLayoutContainer isDirection={'horizontal'}>
                   <StretchedLayoutItem isFlex={1}>
                     <Column>
                       <Button
-                        isDisabled={!formApi.getValue('title').length} isFullWidth type="submit"
-                        isColor="success">
+                        isDisabled={!formApi.getValue('title').length} isFullWidth type={'submit'}
+                        isColor={'success'}>
                         {submitMessage || translate('Create and start editing')}
                       </Button>
                     </Column>
                   </StretchedLayoutItem>
                   <StretchedLayoutItem isFlex={1}>
                     <Column>
-                      <Button onClick={onCancel} isFullWidth isColor="danger">
+                      <Button onClick={onCancel} isFullWidth isColor={'danger'}>
                         {translate('Cancel')}
                       </Button>
                     </Column>

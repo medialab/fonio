@@ -71,7 +71,7 @@ class BlockButton extends Component {
         onMouseDown={onMouseDown}
         isColor={selected ? 'info' : ''}
         data-tip={tooltip}
-        data-for="style-button">
+        data-for={'style-button'}>
         {React.Children.map(
           children,
           child => React.cloneElement(child, {

@@ -27,10 +27,10 @@ export default () => ({dispatch, getState}) => (next) => (action) => {
     return next(action);
   }
   // build constants that will be used to dispatch actions
-  const REQUEST = type + '_PENDING';
-  const SUCCESS = type + '_SUCCESS';
-  const FAIL = type + '_FAIL';
-  const RESET = type + '_RESET';
+  const REQUEST = `${type }_PENDING`;
+  const SUCCESS = `${type }_SUCCESS`;
+  const FAIL = `${type }_FAIL`;
+  const RESET = `${type }_RESET`;
 
   // Trigger the action once to dispatch
   // the fact promise is starting resolving (for loading indication for instance)

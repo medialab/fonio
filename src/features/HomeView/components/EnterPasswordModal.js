@@ -41,7 +41,7 @@ const EnterPasswordModal = ({
     <Form onSubmit={onSumitForm} validate={errorValidator}>
       {
         formApi => (
-          <form onSubmit={formApi.submitForm} className="fonio-form">
+          <form onSubmit={formApi.submitForm} className={'fonio-form'}>
             <ModalCard
               isActive
               headerContent={mode === 'create' ? translate('Create story') : translate('Override story')}
@@ -50,31 +50,31 @@ const EnterPasswordModal = ({
                 <Field>
                   <Label>
                     {mode === 'create' ? translate('Create a story password') : translate('Enter password of the story')}
-                    <HelpPin place="right">
+                    <HelpPin place={'right'}>
                       {translate('Explanation about the password')}
                     </HelpPin>
                   </Label>
                   <Control hasIcons>
                     <Text
-                      className="input" field="password" id="password"
-                      type="password" />
+                      className={'input'} field={'password'} id={'password'}
+                      type={'password'} />
                     {/*<Input
                       isColor="success" placeholder="Text Input" value="bloomer"
                       type="password" />*/}
-                    <Icon isSize="small" isAlign="left">
-                      <span className="fa fa-lock" aria-hidden="true" />
+                    <Icon isSize={'small'} isAlign={'left'}>
+                      <span className={'fa fa-lock'} aria-hidden={'true'} />
                     </Icon>
                   </Control>
                   {
                     formApi.touched.password && formApi.errors && formApi.errors.password &&
-                      <Help isColor="danger">{formApi.errors.password}</Help>
+                      <Help isColor={'danger'}>{formApi.errors.password}</Help>
                   }
                   {
                     mode === 'override' && loginStatus === 'fail' &&
-                    <Help isColor="danger">{translate('Password is not valid')}</Help>
+                    <Help isColor={'danger'}>{translate('Password is not valid')}</Help>
                   }
                   {status === 'fail' &&
-                    <Help isColor="danger">
+                    <Help isColor={'danger'}>
                       { mode === 'create' ?
                         translate('Story could not be created') :
                         translate('Story could not be overrided')
@@ -85,8 +85,9 @@ const EnterPasswordModal = ({
             }
               footerContent={[
                 <Button
-                  type="submit" isFullWidth key={0}
-                  isColor="danger">{mode === 'create' ? translate('Create') : translate('Override')}</Button>,
+                  type={'submit'} isFullWidth key={0}
+                  isColor={'danger'}>{mode === 'create' ? translate('Create') : translate('Override')}
+                </Button>,
                 <Button isFullWidth key={2} onClick={onCancel} >
                   {translate('Cancel')}
                 </Button>

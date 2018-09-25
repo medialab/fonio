@@ -10,5 +10,5 @@ import FileSaver from 'file-saver';
  */
 export default function downloadFile(text, extension = 'txt', fileName = 'fonio') {
   const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
-  FileSaver.saveAs(blob, fileName + '.' + extension);
+  FileSaver.saveAs(blob, `${fileName }.${ extension}`);
 }

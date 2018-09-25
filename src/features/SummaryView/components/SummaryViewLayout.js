@@ -256,7 +256,7 @@ const SummaryViewLayout = ({
 
   return (
     <Container style={{position: 'relative', height: '100%'}}>
-      <StretchedLayoutContainer isFluid isDirection="horizontal" isAbsolute>
+      <StretchedLayoutContainer isFluid isDirection={'horizontal'} isAbsolute>
         <StretchedLayoutItem
           style={{marginTop: '1rem'}} isFluid isFlex={1}
           isFlowing>
@@ -266,17 +266,19 @@ const SummaryViewLayout = ({
                 <Title isSize={3}>
                   {abbrevString(title, 60)}
                 </Title>
-                {subtitle && <Title isSize={5}>
-                  <i>{abbrevString(subtitle, 60)}</i>
-                  </Title>}
+                {subtitle &&
+                  <Title isSize={5}>
+                    <i>{abbrevString(subtitle, 60)}</i>
+                  </Title>
+                }
                 <div style={{maxHeight: '15rem', overflow: 'auto'}}>
                   {
                       authors.map((author, index) => (
                         <Level key={index}>
                           <LevelLeft>
                             <LevelItem>
-                              <Icon isSize="small" isAlign="left">
-                                <span className="fa fa-user" aria-hidden="true" />
+                              <Icon isSize={'small'} isAlign={'left'}>
+                                <span className={'fa fa-user'} aria-hidden={'true'} />
                               </Icon>
                             </LevelItem>
                             <LevelItem>
@@ -301,7 +303,7 @@ const SummaryViewLayout = ({
                 onClick={toggleMetadataEdition}>
 
                 {
-                  <StretchedLayoutContainer isAbsolute style={{alignItems: 'center', justifyContent: 'space-around', padding: '1rem'}} isDirection="horizontal">
+                  <StretchedLayoutContainer isAbsolute style={{alignItems: 'center', justifyContent: 'space-around', padding: '1rem'}} isDirection={'horizontal'}>
                     <StretchedLayoutItem>
                       <StatusMarker
                         lockStatus={metadataLockStatus}
@@ -310,9 +312,11 @@ const SummaryViewLayout = ({
                     <StretchedLayoutItem isFlex={1}>
                       {metadataOpen ? translate('Close story settings') : translate('Edit story settings')}
                     </StretchedLayoutItem>
-                    {metadataOpen && <StretchedLayoutItem>
-                      <Delete isSize="medium" />
-                    </StretchedLayoutItem>}
+                    {metadataOpen &&
+                      <StretchedLayoutItem>
+                        <Delete isSize={'medium'} />
+                      </StretchedLayoutItem>
+                    }
                   </StretchedLayoutContainer>
                 }
               </Button>
@@ -342,9 +346,9 @@ const SummaryViewLayout = ({
                   .filter(a => a.userId !== userId)
                   .map((author, authorIndex) => {
                     return (
-                      <StretchedLayoutContainer isDirection="horizontal" key={authorIndex}>
+                      <StretchedLayoutContainer isDirection={'horizontal'} key={authorIndex}>
                         <StretchedLayoutItem style={{marginRight: '1rem'}}>
-                          <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${author.avatar}`)} />
+                          <Image isRounded isSize={'32x32'} src={require(`../../../sharedAssets/avatars/${author.avatar}`)} />
                         </StretchedLayoutItem>
                         <StretchedLayoutItem isFlex={1}>
                           <Help>
@@ -362,7 +366,7 @@ const SummaryViewLayout = ({
             <StretchedLayoutItem isFluid isFlex={2}isFlowing>
               <Column isWrapper>
                 <Column isWrapper>
-                  <StretchedLayoutContainer isAbsolute isDirection="vertical">
+                  <StretchedLayoutContainer isAbsolute isDirection={'vertical'}>
                     <StretchedLayoutItem>
                       <Title isSize={2}>
                         <StretchedLayoutContainer style={{paddingTop: '1rem'}} isDirection={'horizontal'}>
@@ -396,7 +400,7 @@ const SummaryViewLayout = ({
                 </Column>
                 <Level>
                   <Column>
-                    <Button onClick={() => setNewSectionOpen(true)} isFullWidth isColor="primary">
+                    <Button onClick={() => setNewSectionOpen(true)} isFullWidth isColor={'primary'}>
                       {translate('New section')}
                     </Button>
                   </Column>

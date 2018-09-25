@@ -40,7 +40,7 @@ const ChangePasswordModal = ({
     <Form onSubmit={onSumitForm} validate={errorValidator}>
       {
         formApi => (
-          <form onSubmit={formApi.submitForm} id="login-form" className="fonio-form">
+          <form onSubmit={formApi.submitForm} id={'login-form'} className={'fonio-form'}>
             <ModalCard
               isActive
               headerContent={translate('Change password')}
@@ -49,60 +49,61 @@ const ChangePasswordModal = ({
                 <Field>
                   <Label>
                     {translate('Old password')}
-                    <HelpPin place="right">
+                    <HelpPin place={'right'}>
                       {translate('Explanation about the password')}
                     </HelpPin>
                   </Label>
                   <Control hasIcons>
                     <Text
-                      className="input" field="oldPassword" id="oldPassword"
-                      type="password" />
-                    <Icon isSize="small" isAlign="left">
-                      <span className="fa fa-lock" aria-hidden="true" />
+                      className={'input'} field={'oldPassword'} id={'oldPassword'}
+                      type={'password'} />
+                    <Icon isSize={'small'} isAlign={'left'}>
+                      <span className={'fa fa-lock'} aria-hidden={'true'} />
                     </Icon>
                   </Control>
                   {
                     formApi.touched.oldPassword && formApi.errors && formApi.errors.oldPassword &&
-                      <Help isColor="danger">{formApi.errors.oldPassword}</Help>
+                      <Help isColor={'danger'}>{formApi.errors.oldPassword}</Help>
                   }
                   <Label>
                     {translate('New password')}
                   </Label>
                   <Control hasIcons>
                     <Text
-                      className="input" field="newPassword" id="newPassword"
-                      type="password" />
-                    <Icon isSize="small" isAlign="left">
-                      <span className="fa fa-lock" aria-hidden="true" />
+                      className={'input'} field={'newPassword'} id={'newPassword'}
+                      type={'password'} />
+                    <Icon isSize={'small'} isAlign={'left'}>
+                      <span className={'fa fa-lock'} aria-hidden={'true'} />
                     </Icon>
                   </Control>
                   {
                     formApi.touched.newPassword && formApi.errors && formApi.errors.newPassword &&
-                      <Help isColor="danger">{formApi.errors.newPassword}</Help>
+                      <Help isColor={'danger'}>{formApi.errors.newPassword}</Help>
                   }
                   <Label>
                     {translate('Confirm password')}
                   </Label>
                   <Control hasIcons>
                     <Text
-                      className="input" field="confirmPassword" id="confirmPassword"
-                      type="password" />
-                    <Icon isSize="small" isAlign="left">
-                      <span className="fa fa-lock" aria-hidden="true" />
+                      className={'input'} field={'confirmPassword'} id={'confirmPassword'}
+                      type={'password'} />
+                    <Icon isSize={'small'} isAlign={'left'}>
+                      <span className={'fa fa-lock'} aria-hidden={'true'} />
                     </Icon>
                   </Control>
                   {
                     formApi.touched.confirmPassword && formApi.errors && formApi.errors.confirmPassword &&
-                      <Help isColor="danger">{formApi.errors.confirmPassword}</Help>
+                      <Help isColor={'danger'}>{formApi.errors.confirmPassword}</Help>
                   }
                   {changePasswordStatus === 'processing' && <Help>{translate('Submitting password')}</Help>}
-                  {changePasswordStatus === 'fail' && <Help isColor="danger">{translate('Old password is not valid')}</Help>}
+                  {changePasswordStatus === 'fail' && <Help isColor={'danger'}>{translate('Old password is not valid')}</Help>}
                 </Field>
             }
               footerContent={[
                 <Button
-                  type="submit" isFullWidth key={0}
-                  isColor="success">{translate('Change Password')}</Button>,
+                  type={'submit'} isFullWidth key={0}
+                  isColor={'success'}>{translate('Change Password')}
+                </Button>,
                 <Button isFullWidth key={2} onClick={onCancel} >
                   {translate('Cancel')}
                 </Button>

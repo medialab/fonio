@@ -59,7 +59,7 @@ const DesignViewLayout = ({
   ];
 
   return (
-    <StretchedLayoutContainer isDirection="horizontal" isAbsolute>
+    <StretchedLayoutContainer isDirection={'horizontal'} isAbsolute>
       <AsideDesignColumn
         story={story}
         designAsideTabCollapsed={designAsideTabCollapsed}

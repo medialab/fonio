@@ -30,7 +30,7 @@ const ExportModal = ({
       headerContent={translate('Export story')}
       onClose={onClose}
       mainContent={
-        <StretchedLayoutContainer isDirection="vertical">
+        <StretchedLayoutContainer isDirection={'vertical'}>
           <StretchedLayoutItem isFlex={1}>
             <Column>
               <BigSelect
@@ -51,11 +51,13 @@ const ExportModal = ({
                 ]} />
             </Column>
           </StretchedLayoutItem>
-          {status === 'success' && <StretchedLayoutItem>
-            <Notification isColor="success">
-              {translate('Story was bundled successfully')}
-            </Notification>
-          </StretchedLayoutItem>}
+          {status === 'success' &&
+            <StretchedLayoutItem>
+              <Notification isColor={'success'}>
+                {translate('Story was bundled successfully')}
+              </Notification>
+            </StretchedLayoutItem>
+          }
         </StretchedLayoutContainer>
       } />
   );

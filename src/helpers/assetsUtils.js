@@ -255,7 +255,7 @@ export function retrieveMediaMetadata (url, credentials = {}) {
                   url,
                   metadata: {
                     description: info.description,
-                    source: info.channelTitle + ` (youtube: ${url})`,
+                    source: `${info.channelTitle } (youtube: ${url})`,
                     title: info.title,
                     videoUrl: url,
                     authors: [info.channelTitle]
@@ -278,14 +278,14 @@ export function retrieveMediaMetadata (url, credentials = {}) {
     }
     // case vimeo: go through the oembed endpoint of vimeo api
     else if (url.match(vimeoRegexp)) {
-      const endpoint = 'https://vimeo.com/api/oembed.json?url=' + url;
+      const endpoint = `https://vimeo.com/api/oembed.json?url=${ url}`;
       get(endpoint)
       .then(res => {
         const data = res.data;
         resolve({
           url,
           metadata: {
-            source: data.author_name + ` (vimeo: ${url})`,
+            source: `${data.author_name } (vimeo: ${url})`,
             title: data.title,
             description: data.description,
             videoUrl: url

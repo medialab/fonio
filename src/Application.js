@@ -124,11 +124,11 @@ export default class Application extends Component {
     return (
       <ErrorMessageContainer>
         <Router basename={config.urlPrefix || '/'}>
-          <div id="wrapper" className="fonio">
+          <div id={'wrapper'} className={'fonio'}>
             {userId &&
               <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/story/:storyId" component={ProtectedRoutes} />
+                <Route exact path={'/'} component={Home} />
+                <Route path={'/story/:storyId'} component={ProtectedRoutes} />
                 <Route exact path={'/read/:storyId'} component={ReadStory} />
                 <Route render={(props) => (
                   <PageNotFound pathName={props.location.pathname} />
@@ -139,9 +139,9 @@ export default class Application extends Component {
               timeOut={6000}
               newestOnTop={false}
               preventDuplicates
-              position="top-right"
-              transitionIn="fadeIn"
-              transitionOut="fadeOut" />
+              position={'top-right'}
+              transitionIn={'fadeIn'}
+              transitionOut={'fadeOut'} />
           </div>
         </Router>
       </ErrorMessageContainer>

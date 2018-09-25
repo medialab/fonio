@@ -137,7 +137,7 @@ class LinkModal extends Component {
                 <Label>{translate('URL address')}</Label>
                 <Control>
                   <input
-                    className="input"
+                    className={'input'}
                     placeholder={translate('Hyperlink URL')}
                     value={url}
                     onChange={e => this.setState({url: e.target.value})} />
@@ -147,7 +147,7 @@ class LinkModal extends Component {
                 <Label>{translate('Title of the webpage')}</Label>
                 <Control>
                   <input
-                    className="input"
+                    className={'input'}
                     placeholder={translate('Hyperlink title')}
                     value={title}
                     onChange={e => this.setState({title: e.target.value})} />
@@ -158,15 +158,17 @@ class LinkModal extends Component {
         }
         footerContent={[
           <Button
-            type="submit"
+            type={'submit'}
             isFullWidth
             key={0}
             onClick={onConfirm}
             isDisabled={!choosenResource && !(url && url.length)}
-            isColor="primary">{translate('Add hyperlink')}</Button>,
+            isColor={'primary'}>{translate('Add hyperlink')}
+          </Button>,
           <Button
             onClick={onClose} isFullWidth key={1}
-            isColor="warning">{translate('Cancel')}</Button>,
+            isColor={'warning'}>{translate('Cancel')}
+          </Button>,
         ]} />
     );
   }

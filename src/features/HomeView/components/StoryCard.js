@@ -41,8 +41,8 @@ const StoryCard = ({
         title={
           <Columns>
             <Column
-              data-effect="solid"
-              data-for="tooltip"
+              data-effect={'solid'}
+              data-for={'tooltip'}
               data-tip={(story.metadata.title || '').length > MAX_STR_LEN ? story.metadata.title : undefined}
               isSize={8}>
               <Link style={{color: 'inherit'}} to={`story/${story.id}`}>
@@ -60,11 +60,11 @@ const StoryCard = ({
                     data-for={`card-author-${user.userId}`}
                     data-tip={translate('edited by {a}', {a: user.name})}
                     isRounded
-                    isSize="16x16"
+                    isSize={'16x16'}
                     src={user.avatar && require(`../../../sharedAssets/avatars/${user.avatar}`)} />
                   <ReactTooltip
-                    place="right"
-                    effect="solid"
+                    place={'right'}
+                    effect={'solid'}
                     id={`card-author-${user.userId}`} />
                 </div>
               ))
@@ -100,24 +100,24 @@ const StoryCard = ({
           ]}
         asideActions={[
           {
-            label: <span><InlineIcon icon="pencil" /> {translate('edit')}</span>,
+            label: <span><InlineIcon icon={'pencil'} /> {translate('edit')}</span>,
             isColor: 'primary',
             id: 'open',
           },
           {
-            label: <span><InlineIcon icon="eye" />{translate('read')}</span>,
+            label: <span><InlineIcon icon={'eye'} />{translate('read')}</span>,
             id: 'read',
           },
           {
-            label: <span><InlineIcon icon="copy" />{translate('duplicate')}</span>,
+            label: <span><InlineIcon icon={'copy'} />{translate('duplicate')}</span>,
             id: 'duplicate',
           },
           {
-            label: <span><InlineIcon icon="lock" />{translate('change password')}</span>,
+            label: <span><InlineIcon icon={'lock'} />{translate('change password')}</span>,
             id: 'change password'
           },
           {
-            label: <span><InlineIcon icon="trash" />{translate('delete')}</span>,
+            label: <span><InlineIcon icon={'trash'} />{translate('delete')}</span>,
             isColor: 'danger',
             id: 'delete',
             isDisabled: users.length > 0

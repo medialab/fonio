@@ -37,7 +37,7 @@ const realMaxFileSize = base64ToBytesLength(maxResourceSize);
  * @return {Promise} resolver - promise wrapping the request
  */
 export const getCitationStylesListFromServer = () => {
-  const endPoint = restUrl + '/citation-styles/';
+  const endPoint = `${restUrl }/citation-styles/`;
   return get(endPoint);
 };
 
@@ -46,7 +46,7 @@ export const getCitationStylesListFromServer = () => {
  * @return {Promise} resolver - promise wrapping the request
  */
 export const getCitationStyleFromServer = (styleId) => {
-  const endPoint = restUrl + '/citation-styles/' + styleId;
+  const endPoint = `${restUrl }/citation-styles/${ styleId}`;
   return get(endPoint);
 };
 
@@ -55,7 +55,7 @@ export const getCitationStyleFromServer = (styleId) => {
  * @return {Promise} resolver - promise wrapping the request
  */
 export const getCitationLocalesListFromServer = () => {
-  const endPoint = restUrl + '/citation-locales/';
+  const endPoint = `${restUrl }/citation-locales/`;
   return get(endPoint);
 };
 
@@ -65,7 +65,7 @@ export const getCitationLocalesListFromServer = () => {
  * @return {Promise} resolver - promise wrapping the request
  */
 export const getCitationLocaleFromServer = (localeId) => {
-  const endPoint = restUrl + '/citation-locales/' + localeId;
+  const endPoint = `${restUrl }/citation-locales/${ localeId}`;
   return get(endPoint);
 };
 

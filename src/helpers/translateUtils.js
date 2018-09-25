@@ -14,11 +14,11 @@ export const translateNameSpacer = (translateFn, nameSpace) => {
     if (Array.isArray(key)) {
       return translateFn(key.map(k => {
         if (k.length > 1) {
-          return nameSpace + '.' + k;
+          return `${nameSpace }.${ k}`;
         }
         return k;
       }), props);
     }
-    return translateFn(nameSpace + '.' + key, props);
+    return translateFn(`${nameSpace }.${ key}`, props);
   };
 };

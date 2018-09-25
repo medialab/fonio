@@ -88,11 +88,11 @@ class IdentificationModal extends Component {
                       avatars
                       .map(fileName => ({
                         id: fileName,
-                        label: <Image isRounded isSize="32x32" src={require(`../../sharedAssets/avatars/${fileName}`)} />
+                        label: <Image isRounded isSize={'32x32'} src={require(`../../sharedAssets/avatars/${fileName}`)} />
                       }))
 
                     }>
-                  <Image isRounded isSize="32x32" src={require(`../../sharedAssets/avatars/${userInfo.avatar}`)} />
+                  <Image isRounded isSize={'32x32'} src={require(`../../sharedAssets/avatars/${userInfo.avatar}`)} />
                 </Dropdown>
               </Column>
               <Column isSize={10}>
@@ -100,8 +100,8 @@ class IdentificationModal extends Component {
                   <Label>{translate('Enter a nickname')}</Label>
                   <Control>
                     <Input
-                      onChange={onNameChange} value={userInfo.name} type="text"
-                      placeholder="Enter a nickname" />
+                      onChange={onNameChange} value={userInfo.name} type={'text'}
+                      placeholder={'Enter a nickname'} />
                   </Control>
                 </Field>
               </Column>
@@ -111,10 +111,12 @@ class IdentificationModal extends Component {
         footerContent={[
           <Button
             isFullWidth key={0} onClick={onSubmit}
-            isColor="success">{translate('Submit new information')}</Button>,
+            isColor={'success'}>{translate('Submit new information')}
+          </Button>,
           <Button
             isFullWidth onClick={onClose} key={1}
-            isColor="warning">{translate('Cancel')}</Button>
+            isColor={'warning'}>{translate('Cancel')}
+          </Button>
             ]} />
     ) : null;
 

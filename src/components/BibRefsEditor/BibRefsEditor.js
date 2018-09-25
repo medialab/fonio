@@ -48,9 +48,14 @@ class BibRefsEditor extends Component {
       onChange(value);
     };
 
-    return (<div style={style}><CodeEditor
-      onChange={onBibTeXInputChange}
-      value={refsInput} /></div>);
+    return (
+      <div
+        style={style}>
+        <CodeEditor
+          onChange={onBibTeXInputChange}
+          value={refsInput} />
+      </div>
+    );
   }
 }
 

@@ -32,17 +32,19 @@ class ResourceCardWrapper extends Component {
       coverImageId,
       handleEdit
     } = this.props;
-    return (<Column key={resource.id}>
-      <ResourceMiniCard
-        resource={resource}
-        onDelete={handleDelete}
-        getTitle={getResourceTitle}
-        onSetCoverImage={onSetCoverImage}
-        coverImageId={coverImageId}
-        lockData={reverseResourcesLockMap[resource.id]}
-        isActive={userLockedResourceId === resource.id}
-        onEdit={handleEdit} />
-    </Column>);
+    return (
+      <Column key={resource.id}>
+        <ResourceMiniCard
+          resource={resource}
+          onDelete={handleDelete}
+          getTitle={getResourceTitle}
+          onSetCoverImage={onSetCoverImage}
+          coverImageId={coverImageId}
+          lockData={reverseResourcesLockMap[resource.id]}
+          isActive={userLockedResourceId === resource.id}
+          onEdit={handleEdit} />
+      </Column>
+    );
   }
 }
 

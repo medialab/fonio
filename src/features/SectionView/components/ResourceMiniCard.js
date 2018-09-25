@@ -160,11 +160,11 @@ class ResourceCard extends Component {
       let resourceTitle;
       if (type === 'bib' && data && data[0]) {
         resourceTitle = (<div
-          data-for="tooltip"
-          data-place="right"
+          data-for={'tooltip'}
+          data-place={'right'}
           data-html
           data-tip={data[0].htmlPreview}
-          className="bib-wrapper-mini"
+          className={'bib-wrapper-mini'}
           dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} />);
       }
       else {
@@ -240,10 +240,10 @@ class ResourceCard extends Component {
                     isSize={2}>
                     <Icon
                       data-tip={translate(resource.metadata.type)}
-                      data-for="tooltip"
-                      isSize="medium"
-                      data-effect="solid"
-                      isAlign="left">
+                      data-for={'tooltip'}
+                      isSize={'medium'}
+                      data-effect={'solid'}
+                      isAlign={'left'}>
                       <img src={icons[type].black.svg} />
                     </Icon>
                   </Column>
@@ -252,9 +252,9 @@ class ResourceCard extends Component {
                     isSize={8}>
                     <span
                       data-html
-                      data-place="bottom"
+                      data-place={'bottom'}
                       data-tip={resource.metadata.type === 'image' ? `<img style="max-width:10rem;max-height:10rem;" src="${getResourceDataUrl(resource.data)}"></img>` : undefined}
-                      data-for="tooltip">
+                      data-for={'tooltip'}>
                       {resourceTitle}
                     </span>
                     <StatusMarker
@@ -269,11 +269,11 @@ class ResourceCard extends Component {
                     <Button
                       onClick={onEdit}
                       isDisabled={lockStatus === 'locked'}
-                      data-place="left"
-                      data-effect="solid"
-                      data-for="tooltip"
+                      data-place={'left'}
+                      data-effect={'solid'}
+                      data-for={'tooltip'}
                       data-tip={translate('settings')}>
-                      <Icon isSize="small" isAlign="left">
+                      <Icon isSize={'small'} isAlign={'left'}>
                         <img src={icons.settings.black.svg} />
                       </Icon>
                     </Button>
@@ -281,11 +281,11 @@ class ResourceCard extends Component {
                     <Button
                       onClick={handleDelete}
                       isDisabled={isActive || lockStatus === 'locked'}
-                      data-place="left"
-                      data-effect="solid"
-                      data-for="tooltip"
+                      data-place={'left'}
+                      data-effect={'solid'}
+                      data-for={'tooltip'}
                       data-tip={translate(`delete this ${type}`)}>
-                      <Icon isSize="small" isAlign="left">
+                      <Icon isSize={'small'} isAlign={'left'}>
                         <img src={icons.remove.black.svg} />
                       </Icon>
                     </Button>
@@ -293,12 +293,12 @@ class ResourceCard extends Component {
                     {type === 'image' &&
                       <Button
                         onClick={onSetCoverImage}
-                        data-place="left"
-                        data-effect="solid"
-                        data-for="tooltip"
+                        data-place={'left'}
+                        data-effect={'solid'}
+                        data-for={'tooltip'}
                         isColor={coverImageId === resource.id ? 'info' : undefined}
                         data-tip={translate('use as cover image')}>
-                        <Icon isSize="small" isAlign="left">
+                        <Icon isSize={'small'} isAlign={'left'}>
                           <img src={icons.cover.black.svg} />
                         </Icon>
                       </Button>
@@ -314,15 +314,17 @@ class ResourceCard extends Component {
                       moveComponentToolTip={translate('Drag this item to the editor')}
                       MoveComponent={
                         () =>
-                          (<Button
-                            style={{pointerEvents: 'none'}}
-                            data-place="left"
-                            data-effect="solid"
-                            data-for="tooltip">
-                            <Icon isSize="small" isAlign="left">
-                              <img src={icons.move.black.svg} />
-                            </Icon>
-                          </Button>)
+                          (
+                            <Button
+                              style={{pointerEvents: 'none'}}
+                              data-place={'left'}
+                              data-effect={'solid'}
+                              data-for={'tooltip'}>
+                              <Icon isSize={'small'} isAlign={'left'}>
+                                <img src={icons.move.black.svg} />
+                              </Icon>
+                            </Button>
+                          )
                       } />
                   </Column>
                 </Columns>

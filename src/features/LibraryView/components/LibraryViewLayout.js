@@ -608,7 +608,7 @@ class LibraryViewLayout extends Component {
                       <LevelItem>
                         <Dropdown
                           closeOnChange={false}
-                          menuAlign="left"
+                          menuAlign={'left'}
                           onToggle={() => {
                             setOptionsVisible(!optionsVisible);
                           }}
@@ -679,7 +679,7 @@ class LibraryViewLayout extends Component {
                       </LevelItem>
                       <LevelItem>
                         <Button
-                          isColor="danger"
+                          isColor={'danger'}
                           onClick={() => setResourcesPromptedToDelete([...selectedResourcesIds])}
                           isDisabled={selectedResourcesIds.length === 0}>
                           {translate('Delete selection')}
@@ -690,7 +690,7 @@ class LibraryViewLayout extends Component {
                 </Column>
               </StretchedLayoutItem>
               <StretchedLayoutItem isFlex={1}>
-                <StretchedLayoutContainer isAbsolute isDirection="vertical">
+                <StretchedLayoutContainer isAbsolute isDirection={'vertical'}>
                   <PaginatedList
                     items={visibleResources}
                     itemsPerPage={30}
@@ -778,14 +778,16 @@ class LibraryViewLayout extends Component {
                 }
                 footerContent={[
                   <Button
-                    type="submit"
+                    type={'submit'}
                     isFullWidth
                     key={0}
                     onClick={onDeleteResourcesPromptedToDelete}
-                    isColor="danger">{translate('Delete')}</Button>,
+                    isColor={'danger'}>{translate('Delete')}
+                  </Button>,
                   <Button
                     onClick={() => setResourcesPromptedToDelete([])} isFullWidth key={1}
-                    isColor="warning">{translate('Cancel')}</Button>,
+                    isColor={'warning'}>{translate('Cancel')}
+                  </Button>,
                 ]} />
             </StretchedLayoutContainer>
         );
@@ -800,8 +802,8 @@ class LibraryViewLayout extends Component {
     };
     return (
       <Container style={{position: 'relative', height: '100%'}}>
-        <StretchedLayoutContainer isFluid isDirection="horizontal" isAbsolute>
-          <StretchedLayoutItem className="is-hidden-mobile" isFlex={'1'}>
+        <StretchedLayoutContainer isFluid isDirection={'horizontal'} isAbsolute>
+          <StretchedLayoutItem className={'is-hidden-mobile'} isFlex={'1'}>
             <Column>
               <Level />
               <Level>
@@ -819,9 +821,9 @@ class LibraryViewLayout extends Component {
               <Level>
                 <DropZone
                   onDrop={submitMultiResources}
-                  accept=".jpeg,.jpg,.gif,.png,.csv,.tsv,.bib">
+                  accept={'.jpeg,.jpg,.gif,.png,.csv,.tsv,.bib'}>
                   {translate('Drop files to include in your library')}
-                  <HelpPin place="right">
+                  <HelpPin place={'right'}>
                     {`${translate('Accepted file formats: jpeg, jpg, gif, png, csv, tsv, bib')}. ${translate('Up to {n} files, with a maximum size of {s} Mb each', {
                         n: maxBatchNumber,
                         s: Math.floor(realMaxFileSize / 1000000)

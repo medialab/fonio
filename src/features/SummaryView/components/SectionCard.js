@@ -81,13 +81,15 @@ const SectionCard = ({
 
   const MAX_TITLE_LEN = 15;
 
-  const sectionTitle = (<span
-    data-for="tooltip"
-    data-place="right"
-    data-html
-    data-tip={`<div class="content"><h5 style="color: white">${section.metadata.title}</h5><p>${computeSectionFirstWords(section)}</p></div>`}>
-    {abbrevString(section.metadata.title || translate('Untitled section'), MAX_TITLE_LEN)}
-  </span>);
+  const sectionTitle = (
+    <span
+      data-for={'tooltip'}
+      data-place={'right'}
+      data-html
+      data-tip={`<div class="content"><h5 style="color: white">${section.metadata.title}</h5><p>${computeSectionFirstWords(section)}</p></div>`}>
+      {abbrevString(section.metadata.title || translate('Untitled section'), MAX_TITLE_LEN)}
+    </span>
+  );
 
   const titleSize = 5;
 
@@ -99,7 +101,7 @@ const SectionCard = ({
           <div>
             <Columns style={{marginBottom: 0}}>
               <Column style={{paddingBottom: 0}} isSize={1}>
-                <Icon isSize="medium" isAlign="left">
+                <Icon isSize={'medium'} isAlign={'left'}>
                   <img src={icons.section.black.svg} />
                 </Icon>
               </Column>
@@ -111,8 +113,8 @@ const SectionCard = ({
                       <Link
                         to={`/story/${story.id}/section/${section.id}`}
                         data-tip={section.metadata.title.length > MAX_TITLE_LEN ? section.metadata.title : undefined}
-                        data-for="tooltip"
-                        data-place="bottom">
+                        data-for={'tooltip'}
+                        data-place={'bottom'}>
                         <span>
                           {abbrevString(section.metadata.title || translate('Untitled section'), 30)}
                         </span>
@@ -127,8 +129,8 @@ const SectionCard = ({
                   <Title isSize={titleSize}>
                     <span
                       data-tip={section.metadata.title.length > MAX_TITLE_LEN ? undefined : section.metadata.title}
-                      data-for="tooltip"
-                      data-place="bottom">
+                      data-for={'tooltip'}
+                      data-place={'bottom'}>
                       {sectionTitle}
                     </span>
                     <StatusMarker
@@ -146,22 +148,22 @@ const SectionCard = ({
                   <Button
                     onClick={(e) => onAction('edit', e)}
                     isDisabled={lockData !== undefined}
-                    data-effect="solid"
-                    data-place="left"
-                    data-for="tooltip"
+                    data-effect={'solid'}
+                    data-place={'left'}
+                    data-for={'tooltip'}
                     data-tip={lockData === undefined && translate('edit section')}>
-                    <Icon isSize="small" isAlign="left">
+                    <Icon isSize={'small'} isAlign={'left'}>
                       <img src={icons.edit.black.svg} />
                     </Icon>
                   </Button>
                   <Button
                     onClick={(e) => onAction('delete', e)}
                     isDisabled={lockData !== undefined}
-                    data-effect="solid"
-                    data-place="left"
-                    data-for="tooltip"
+                    data-effect={'solid'}
+                    data-place={'left'}
+                    data-for={'tooltip'}
                     data-tip={lockData === undefined && translate('delete this section')}>
-                    <Icon isSize="small" isAlign="left">
+                    <Icon isSize={'small'} isAlign={'left'}>
                       <img src={icons.remove.black.svg} />
                     </Icon>
                   </Button>
@@ -198,18 +200,19 @@ const SectionCard = ({
                     }}
                   moveComponentToolTip={translate('Move section in summary')}
                   MoveComponent={SortableHandle(() =>
-                      (<span
-                        onClick={e => {
-e.preventDefault(); e.stopPropagation();
-}}
-                        onMouseUp={e => {
-e.preventDefault(); e.stopPropagation();
-}}
-                          // onMouseDown={e => {e.preventDefault(); e.stopPropagation()}}
-                        style={{cursor: 'move'}}
-                        className="button">
-                        <Icon icon={'arrows-alt'} />
-                      </span>)
+                      (
+                        <span
+                          onClick={e => {
+                          e.preventDefault(); e.stopPropagation();
+                          }}
+                          onMouseUp={e => {
+                          e.preventDefault(); e.stopPropagation();
+                          }}
+                          style={{cursor: 'move'}}
+                          className={'button'}>
+                          <Icon icon={'arrows-alt'} />
+                        </span>
+                      )
                     )} />
               </Column>
             </Columns>

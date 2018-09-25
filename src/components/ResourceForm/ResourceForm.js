@@ -140,12 +140,12 @@ class DataForm extends Component {
           <Control>
             <Label>
               {translate('Image file')}
-              <HelpPin place="right">
+              <HelpPin place={'right'}>
                 {translate('Explanation about the image')}
               </HelpPin>
             </Label>
             <DropZone
-              accept=".jpg,.jpeg,.png,.gif"
+              accept={'.jpg,.jpeg,.png,.gif'}
               onDrop={onDropFiles}>
               {translate('Drop an image file')}
             </DropZone>
@@ -158,12 +158,12 @@ class DataForm extends Component {
           <Control>
             <Label>
               {translate('Table')}
-              <HelpPin place="right">
+              <HelpPin place={'right'}>
                 {translate('Explanation about the table')}
               </HelpPin>
             </Label>
             <DropZone
-              accept=".csv,.tsv"
+              accept={'.csv,.tsv'}
               onDrop={onDropFiles}>
               {translate('Drop an table file(csv, tsv)')}
             </DropZone>
@@ -176,14 +176,14 @@ class DataForm extends Component {
           <Control>
             <Label>
               {translate('Bib file')}
-              <HelpPin place="right">
+              <HelpPin place={'right'}>
                 {translate('Explanation about the bib')}
               </HelpPin>
             </Label>
             {
               asNewResource ?
                 <DropZone
-                  accept=".bib,.txt"
+                  accept={'.bib,.txt'}
                   onDrop={onDropFiles}>
                   {translate('Drop a bib file')}
                 </DropZone> :
@@ -195,7 +195,7 @@ class DataForm extends Component {
           </Control>
           {
             formApi.errors && formApi.errors.data &&
-              <Help isColor="danger">{formApi.errors.data}</Help>
+              <Help isColor={'danger'}>{formApi.errors.data}</Help>
           }
         </Field>
       );
@@ -217,20 +217,20 @@ class DataForm extends Component {
           <Control>
             <Label>
               {translate('Url of the video')}
-              <HelpPin place="right">
+              <HelpPin place={'right'}>
                 {translate('Explanation about the video url')}
               </HelpPin>
             </Label>
             <Text
-              className="input"
-              field="url" id="url"
+              className={'input'}
+              field={'url'} id={'url'}
               onChange={onVideoUrlChange}
-              type="text"
+              type={'text'}
               placeholder={translate('Video url')} />
           </Control>
           {
             formApi.errors && formApi.errors.url &&
-              <Help isColor="danger">{formApi.errors.url}</Help>
+              <Help isColor={'danger'}>{formApi.errors.url}</Help>
           }
         </Field>
       );
@@ -240,19 +240,19 @@ class DataForm extends Component {
           <Control>
             <Label>
               {translate('Embed code')}
-              <HelpPin place="right">
+              <HelpPin place={'right'}>
                 {translate('Explanation about the embed')}
               </HelpPin>
             </Label>
             <TextArea
-              className="textarea"
-              field="html" id="html"
-              type="text"
+              className={'textarea'}
+              field={'html'} id={'html'}
+              type={'text'}
               placeholder={translate('Embed code')} />
           </Control>
           {
             formApi.errors && formApi.errors.html &&
-              <Help isColor="danger">{formApi.errors.html}</Help>
+              <Help isColor={'danger'}>{formApi.errors.html}</Help>
           }
         </Field>
       );
@@ -282,20 +282,20 @@ class DataForm extends Component {
             <Control>
               <Label>
                 {translate('hyperlink')}
-                <HelpPin place="right">
+                <HelpPin place={'right'}>
                   {translate('Explanation about the hyperlink')}
                 </HelpPin>
               </Label>
               <Text
-                className="input"
-                field="url" id="url"
-                type="text"
+                className={'input'}
+                field={'url'} id={'url'}
+                type={'text'}
                 onChange={onWebpageUrlChange}
                 placeholder={translate('http://')} />
             </Control>
             {
               formApi.errors && formApi.errors.url &&
-                <Help isColor="danger">{formApi.errors.url}</Help>
+                <Help isColor={'danger'}>{formApi.errors.url}</Help>
             }
           </Field>
         </div>
@@ -307,34 +307,34 @@ class DataForm extends Component {
             <Control>
               <Label>
                 {translate('Glossary name')}
-                <HelpPin place="right">
+                <HelpPin place={'right'}>
                   {translate('Explanation about the glossary')}
                 </HelpPin>
               </Label>
               <Text
-                className="input"
-                field="name" id="name"
-                type="text"
+                className={'input'}
+                field={'name'} id={'name'}
+                type={'text'}
                 placeholder={translate('glossary name')} />
             </Control>
             {
               formApi.errors && formApi.errors.name &&
-                <Help isColor="danger">{formApi.errors.name}</Help>
+                <Help isColor={'danger'}>{formApi.errors.name}</Help>
             }
           </Field>
           <Field>
             <Control>
               <Label>
                 {translate('Glossary description')}
-                <HelpPin place="right">
+                <HelpPin place={'right'}>
                   {translate('Explanation about the glossary description')}
                 </HelpPin>
               </Label>
               <TextArea
-                className="textarea"
-                type="text"
-                field="description"
-                id="description"
+                className={'textarea'}
+                type={'text'}
+                field={'description'}
+                id={'description'}
                 placeholder={translate('glossary description')} />
             </Control>
           </Field>
@@ -472,25 +472,27 @@ class ResourceForm extends Component {
         onSubmit={handleSubmit}>
         {
           formApi => (
-            <form ref={bindRef} className="is-wrapper" onSubmit={formApi.submitForm}>
+            <form ref={bindRef} className={'is-wrapper'} onSubmit={formApi.submitForm}>
               <StretchedLayoutContainer isAbsolute>
-                {showTitle && <StretchedLayoutItem>
-                  <Column>
-                    <Title isSize={3}>
-                      <StretchedLayoutContainer isDirection="horizontal">
-                        <StretchedLayoutItem isFlex={1}>
-                          {asNewResource ? translate(`Add ${(resource && resource.metadata.type) || 'item'} to the library`) : translate(`Edit ${resource && resource.metadata.type}`)}
-                        </StretchedLayoutItem>
-                        <StretchedLayoutItem>
-                          <Delete onClick={
-                          () => onCancel()
-                        } />
-                        </StretchedLayoutItem>
-                      </StretchedLayoutContainer>
-                    </Title>
-                    <Level />
-                  </Column>
-                </StretchedLayoutItem>}
+                {showTitle &&
+                  <StretchedLayoutItem>
+                    <Column>
+                      <Title isSize={3}>
+                        <StretchedLayoutContainer isDirection={'horizontal'}>
+                          <StretchedLayoutItem isFlex={1}>
+                            {asNewResource ? translate(`Add ${(resource && resource.metadata.type) || 'item'} to the library`) : translate(`Edit ${resource && resource.metadata.type}`)}
+                          </StretchedLayoutItem>
+                          <StretchedLayoutItem>
+                            <Delete onClick={
+                            () => onCancel()
+                          } />
+                          </StretchedLayoutItem>
+                        </StretchedLayoutContainer>
+                      </Title>
+                      <Level />
+                    </Column>
+                  </StretchedLayoutItem>
+                }
                 <StretchedLayoutItem isFlowing isFlex={1}>
                   {asNewResource && !resourceType &&
                     <Column>
@@ -519,7 +521,7 @@ class ResourceForm extends Component {
                                   iconUrl: icons[thatType].black.svg
                                 }))
                               } />
-                      </Column>
+                    </Column>
                     }
 
                   {(formApi.getValue('metadata.type') !== 'glossary' &&
@@ -534,23 +536,25 @@ class ResourceForm extends Component {
                           resource={formApi.values} />
                       </Column>
                     }
-                  {formApi.getValue('metadata.type') && <Column>
+                  {formApi.getValue('metadata.type') &&
                     <Column>
-                      <NestedField defaultValues={resource.data} field="data">
-                        <DataForm
-                          asNewResource={asNewResource}
-                          resource={resource}
-                          resourceType={resource.metadata.type ? resource.metadata.type : formApi.getValue('metadata.type')}
-                          formApi={formApi} />
-                        {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
-                      </NestedField>
-                      {
-                        formApi.errors && formApi.errors.maxSize &&
-                          <Help isColor="danger">{formApi.errors.maxSize}</Help>
-                      }
-                    </Column>
+                      <Column>
+                        <NestedField defaultValues={resource.data} field={'data'}>
+                          <DataForm
+                            asNewResource={asNewResource}
+                            resource={resource}
+                            resourceType={resource.metadata.type ? resource.metadata.type : formApi.getValue('metadata.type')}
+                            formApi={formApi} />
+                          {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
+                        </NestedField>
+                        {
+                          formApi.errors && formApi.errors.maxSize &&
+                            <Help isColor={'danger'}>{formApi.errors.maxSize}</Help>
+                        }
+                      </Column>
 
-                    </Column>}
+                    </Column>
+                  }
                   {formApi.getValue('metadata.type') &&
                   resourceSchema.definitions[formApi.getValue('metadata.type')].showMetadata &&
                   <Column>
@@ -559,15 +563,15 @@ class ResourceForm extends Component {
                         <Control>
                           <Label>
                             {translate('Title of the resource')}
-                            <HelpPin place="right">
+                            <HelpPin place={'right'}>
                               {translate('Explanation about the resource title')}
                             </HelpPin>
                           </Label>
                           <Text
-                            className="input"
-                            type="text"
-                            id="metadata.title"
-                            field="metadata.title"
+                            className={'input'}
+                            type={'text'}
+                            id={'metadata.title'}
+                            field={'metadata.title'}
                             placeholder={translate('Resource title')} />
                         </Control>
                       </Field>
@@ -575,23 +579,23 @@ class ResourceForm extends Component {
                         <Control>
                           <Label>
                             {translate('Source of the resource')}
-                            <HelpPin place="right">
+                            <HelpPin place={'right'}>
                               {translate('Explanation about the resource source')}
                             </HelpPin>
                           </Label>
                           <Text
-                            className="input"
-                            type="text"
-                            id="metadata.source"
-                            field="metadata.source"
+                            className={'input'}
+                            type={'text'}
+                            id={'metadata.source'}
+                            field={'metadata.source'}
                             placeholder={translate('Resource source')} />
                         </Control>
                       </Field>
                       <Field>
                         <Control>
                           <AuthorsManager
-                            field="metadata.authors"
-                            id="metadata.authors"
+                            field={'metadata.authors'}
+                            id={'metadata.authors'}
                             title={translate(`Authors of the ${formApi.getValue('metadata.type')}`)}
                             titleHelp={translate(`help about ${formApi.getValue('metadata.type')} authors`)}
                             onChange={(authors) => formApi.setValue('metadata.authors', authors)}
@@ -602,15 +606,15 @@ class ResourceForm extends Component {
                         <Control>
                           <Label>
                             {translate('Date of publication')}
-                            <HelpPin place="right">
+                            <HelpPin place={'right'}>
                               {translate('Explanation about the date')}
                             </HelpPin>
                           </Label>
                           <Text
-                            className="input"
-                            type="text"
-                            id="metadata.date"
-                            field="metadata.date"
+                            className={'input'}
+                            type={'text'}
+                            id={'metadata.date'}
+                            field={'metadata.date'}
                             placeholder={translate('Resource date')} />
                         </Control>
                       </Field>
@@ -622,15 +626,15 @@ class ResourceForm extends Component {
                         <Control>
                           <Label>
                             {translate('Description of the resource')}
-                            <HelpPin place="right">
+                            <HelpPin place={'right'}>
                               {translate('Explanation about the resource description')}
                             </HelpPin>
                           </Label>
                           <TextArea
-                            className="textarea"
-                            type="text"
-                            field="metadata.description"
-                            id="metadata.description"
+                            className={'textarea'}
+                            type={'text'}
+                            field={'metadata.description'}
+                            id={'metadata.description'}
                             placeholder={translate('Resource description')} />
                         </Control>
                       </Field>
@@ -651,18 +655,18 @@ class ResourceForm extends Component {
                         <Columns>
                           <Column isSize={6}>
                             <Button
-                              type="submit"
+                              type={'submit'}
                               isFullWidth
                               onClick={formApi.submitForm}
                               isDisabled={!formApi.getValue('metadata.type') || isEmpty(formApi.getValue('data'))}
-                              isColor="success">
+                              isColor={'success'}>
                               {asNewResource ? translate(`Add ${formApi.getValue('metadata.type') || 'item'} to library`) : translate(`Update ${(resource && resource.metadata.type) || 'item'}`)}
                             </Button>
                           </Column>
                           <Column isSize={6}>
                             <Button
                               isFullWidth
-                              isColor="danger"
+                              isColor={'danger'}
                               onClick={onCancel}>
                               {translate('Cancel')}
                             </Button>

@@ -72,7 +72,7 @@ export default class PaginatedList extends Component {
         paginationPosition > 0 ? paginationItems[0] : undefined,
         paginationPosition > 2 ? {
           index: paginationPosition - 2,
-          content: <span className="pagination-ellipsis">&hellip;</span>
+          content: <span className={'pagination-ellipsis'}>&hellip;</span>
         } : undefined,
         paginationPosition > 1 ? paginationItems[paginationPosition - 1] : undefined,
         paginationItems[paginationPosition],
@@ -80,7 +80,7 @@ export default class PaginatedList extends Component {
           paginationItems[paginationPosition + 1] : undefined,
         paginationPosition < paginationItems.length - 4 ? {
           index: paginationPosition + 4,
-          content: <span className="pagination-ellipsis">&hellip;</span>
+          content: <span className={'pagination-ellipsis'}>&hellip;</span>
         } : undefined,
         // paginationPosition + 1 < paginationItems.length - 1 ? paginationItems[paginationItems.length + 1] : undefined,
         paginationPosition < paginationItems.length - 2 ?
@@ -142,7 +142,7 @@ export default class PaginatedList extends Component {
         // itemsPerPage = DEFAULT_ITEMS_PER_PAGE_NUMBER,
         renderItem,
         minified,
-        renderNoItem = () => <div>'No items to display'</div>,
+        renderNoItem = () => <div>No items to display</div>,
         className = '',
         itemsContainerClassName = '',
         style,
@@ -176,8 +176,8 @@ export default class PaginatedList extends Component {
               // 768: 2,
               500: 1
             }}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column">
+            className={'my-masonry-grid'}
+            columnClassName={'my-masonry-grid_column'}>
             {
             displayedItems.length ?
               displayedItems.map(renderItem)
@@ -191,18 +191,18 @@ export default class PaginatedList extends Component {
             : renderNoItem()
             }
           </FlipMove>*/}
-          <Tooltip id="tooltip" />
+          <Tooltip id={'tooltip'} />
         </div>
         {displayedPaginationItems &&
           displayedPaginationItems.length > 1 ?
-            <nav className="pagination is-rounded is-centered" role="navigation" aria-label="pagination">
+            <nav className={'pagination is-rounded is-centered'} role={'navigation'} aria-label={'pagination'}>
               <a onClick={onPaginationPrev} className={`pagination-previous ${paginationPosition === 0 ? 'is-disabled' : ''}`}>
-                {minified ? <i className="fas fa-chevron-left" /> : translate('previous')}
+                {minified ? <i className={'fas fa-chevron-left'} /> : translate('previous')}
               </a>
               <a onClick={onPaginationNext} className={`pagination-next ${paginationPosition === numberOfPages - 1 ? 'is-disabled' : ''}`}>
-                {minified ? <i className="fas fa-chevron-right" /> : translate('next')}
+                {minified ? <i className={'fas fa-chevron-right'} /> : translate('next')}
               </a>
-              <ul className="pagination-list">
+              <ul className={'pagination-list'}>
                 {
                 displayedPaginationItems.map((item, index) => {
                   const onClick = () => {
@@ -210,7 +210,7 @@ export default class PaginatedList extends Component {
                   };
                   return (
                     <li className={item.active ? 'is-current' : ''} key={index} onClick={onClick}>
-                      <a className="pagination-link">{item.content}</a>
+                      <a className={'pagination-link'}>{item.content}</a>
                     </li>
                   );
                 })

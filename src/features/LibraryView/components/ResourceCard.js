@@ -68,7 +68,7 @@ class ResourceCard extends Component {
         //   [data[0].id]: data[0]
         // };
         // resourceTitle = <Bibliography items={bibData} style={apa} locale={english} />;
-        title = <div className="bib-wrapper" dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} />;
+        title = <div className={'bib-wrapper'} dangerouslySetInnerHTML={{__html: data[0].htmlPreview}} />;
       }
       else title = abbrevString(getTitle(resource) || translate('untitled resource'), 40);
 
@@ -103,10 +103,10 @@ class ResourceCard extends Component {
             isActive={isActive}
             onClick={onClick}
             bodyContent={
-              <div className="fonio-ResourceCard" style={{cursor: lockData ? undefined : 'pointer'}}>
+              <div className={'fonio-ResourceCard'} style={{cursor: lockData ? undefined : 'pointer'}}>
                 <Columns style={{marginBottom: 0}}>
                   <Column isSize={2}>
-                    <Icon isSize="medium" isAlign="left">
+                    <Icon isSize={'medium'} isAlign={'left'}>
                       <img src={icons[type].black.svg} />
                     </Icon>
                   </Column>
@@ -118,9 +118,9 @@ class ResourceCard extends Component {
                         {
                             ['webpage', 'video'].includes(resource.metadata.type) ?
                               <a
-                                style={{marginLeft: '.5rem'}} onClick={e => e.stopPropagation()} target="blank"
+                                style={{marginLeft: '.5rem'}} onClick={e => e.stopPropagation()} target={'blank'}
                                 href={url}>
-                                <Icon icon="external-link" />
+                                <Icon icon={'external-link'} />
                               </a>
                             :
                               null
@@ -134,23 +134,25 @@ class ResourceCard extends Component {
                     </Title>
                   </Column>
                 </Columns>
-                {!['webpage', 'glossary', 'bib'].includes(resource.metadata.type) && <Columns>
-                  <Column style={{position: 'relative'}} isSize={12}>
-                    <div style={{maxWidth: '100%', overflow: 'hidden', maxHeight: '20rem'}}>
-                      <AssetPreview resource={resource} silentPreviewClick={false} />
-                    </div>
-                  </Column>
-                  </Columns>}
+                {!['webpage', 'glossary', 'bib'].includes(resource.metadata.type) &&
+                  <Columns>
+                    <Column style={{position: 'relative'}} isSize={12}>
+                      <div style={{maxWidth: '100%', overflow: 'hidden', maxHeight: '20rem'}}>
+                        <AssetPreview resource={resource} silentPreviewClick={false} />
+                      </div>
+                    </Column>
+                  </Columns>
+                }
                 <Columns>
                   <Column style={{paddingTop: 0}} isOffset={2} isSize={7}>
                     <Button
                       onClick={onEdit}
                       isDisabled={lockData}
-                      data-place="left"
-                      data-effect="solid"
-                      data-for="tooltip"
+                      data-place={'left'}
+                      data-effect={'solid'}
+                      data-for={'tooltip'}
                       data-tip={translate('settings')}>
-                      <Icon isSize="small" isAlign="left">
+                      <Icon isSize={'small'} isAlign={'left'}>
                         <img src={icons.settings.black.svg} />
                       </Icon>
                     </Button>
@@ -158,11 +160,11 @@ class ResourceCard extends Component {
                     <Button
                       onClick={onDelete}
                       isDisabled={lockData}
-                      data-place="left"
-                      data-effect="solid"
-                      data-for="tooltip"
+                      data-place={'left'}
+                      data-effect={'solid'}
+                      data-for={'tooltip'}
                       data-tip={translate(`delete this ${type}`)}>
-                      <Icon isSize="small" isAlign="left">
+                      <Icon isSize={'small'} isAlign={'left'}>
                         <img src={icons.remove.black.svg} />
                       </Icon>
                     </Button>
@@ -173,12 +175,12 @@ class ResourceCard extends Component {
                           e.stopPropagation();
                           onSetCoverImage(resource.id);
                         }}
-                        data-place="left"
-                        data-effect="solid"
-                        data-for="tooltip"
+                        data-place={'left'}
+                        data-effect={'solid'}
+                        data-for={'tooltip'}
                         isColor={coverImageId === resource.id ? 'info' : undefined}
                         data-tip={translate('use as cover image')}>
-                        <Icon isSize="small" isAlign="left">
+                        <Icon isSize={'small'} isAlign={'left'}>
                           <img src={icons.cover.black.svg} />
                         </Icon>
                       </Button>

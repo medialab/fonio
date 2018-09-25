@@ -57,9 +57,11 @@ const UploadModal = ({
       headerContent={translate('Please wait...')}
       mainContent={
         <div>
-          {message && <p>
-            {message}
-          </p>}
+          {message &&
+            <p>
+              {message}
+            </p>
+          }
         </div>
     } />
   );

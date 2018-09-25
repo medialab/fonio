@@ -99,9 +99,9 @@ class SectionHeader extends Component {
               paddingLeft: '1rem',
             }}
             data-tip={inputTip}
-            data-for="tooltip"
-            data-effect="solid"
-            data-place="bottom"
+            data-for={'tooltip'}
+            data-effect={'solid'}
+            data-place={'bottom'}
             ref={bindInput}
             value={isFocused ? title : abbrevString(title, 30)}
             onFocus={onFocus}
@@ -113,7 +113,7 @@ class SectionHeader extends Component {
           isRounded
           onClick={onEdit}
           data-tip={editTip}
-          data-for="tooltip"
+          data-for={'tooltip'}
           isColor={isColor}
           isDisabled={isDisabled}
           style={{

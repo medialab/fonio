@@ -196,11 +196,12 @@ class NoteLayout extends Component {/* eslint react/prefer-stateless-function : 
     return (
       <div id={id}>
         <Column onClick={onHeaderClick}>
-          <StretchedLayoutContainer isDirection="horizontal">
+          <StretchedLayoutContainer isDirection={'horizontal'}>
             <StretchedLayoutItem style={{marginRight: '1rem'}} isFlex={1}>
               <Button
                 data-tip={translate('Go to note')} isColor={'info'} isRounded
-                onClick={onClickToRetroLink}>↑</Button>
+                onClick={onClickToRetroLink}>↑
+              </Button>
             </StretchedLayoutItem>
 
             <StretchedLayoutItem isFlex={10}>
@@ -1141,24 +1142,28 @@ class SectionEditor extends Component {
       {
         strategy: this.findDraftDropPlaceholder,
         component: ({children}) =>
-          (<Tag style={{pointerEvents: 'none'}} className="is-rounded" isColor={'dark'}>
-            {this.translate('loading')}
-            <span style={{display: 'none'}}>{children}</span>
-          </Tag>)
+          (
+            <Tag style={{pointerEvents: 'none'}} className={'is-rounded'} isColor={'dark'}>
+              {this.translate('loading')}
+              <span style={{display: 'none'}}>{children}</span>
+            </Tag>
+          )
       },
       {
         strategy: this.findLink,
         component: ({children, url}) => {
-          return (<span className="native-link">
-            <span className="link-content">
-              <span>{children}</span>
-              <span className="pin-container">
-                <HelpPin>
-                  {this.translate('native link to {u}', {u: url})}
-                </HelpPin>
+          return (
+            <span className={'native-link'}>
+              <span className={'link-content'}>
+                <span>{children}</span>
+                <span className={'pin-container'}>
+                  <HelpPin>
+                    {this.translate('native link to {u}', {u: url})}
+                  </HelpPin>
+                </span>
               </span>
             </span>
-          </span>);
+          );
         }
       }
     ];
@@ -1179,7 +1184,7 @@ class SectionEditor extends Component {
 
 
     return (
-      <Content style={componentStyle} className="fonio-SectionEditor">
+      <Content style={componentStyle} className={'fonio-SectionEditor'}>
         <div
           ref={bindRef}
           className={`editor-wrapper ${shouldHidePlaceholder ? 'hide-placeholder' : ''}`}
@@ -1252,7 +1257,7 @@ class SectionEditor extends Component {
         </div>
         {
           <span
-            className="tag"
+            className={'tag'}
             style={{
               position: 'absolute',
               left: linkPopupData ? linkPopupData.x : 0,
@@ -1261,18 +1266,18 @@ class SectionEditor extends Component {
               flexFlow: 'row nowrap',
               alignItems: 'center',
             }}>
-            <a target="blank" href={linkPopupData ? linkPopupData.href : ''}>
+            <a target={'blank'} href={linkPopupData ? linkPopupData.href : ''}>
               {linkPopupData ? abbrevString(linkPopupData.href, 30) : ''}
             </a>
             <Image style={{margin: 0, padding: 0}} isSize={'16x16'} src={icons.webpage.black.svg} />
           </span>
         }
         <ReactTooltip
-          id="style-button"
-          place="top"
-          effect="solid" />
+          id={'style-button'}
+          place={'top'}
+          effect={'solid'} />
         <ReactTooltip
-          id="icon-btn-tooltip" />
+          id={'icon-btn-tooltip'} />
       </Content>
     );
   }

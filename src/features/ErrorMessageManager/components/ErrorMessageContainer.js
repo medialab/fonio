@@ -273,7 +273,7 @@ class ErrorMessageContainer extends Component {
               <p>
                 {translate('Would you be kind enough to report what happened before this screen ')}
                 <a
-                  target="blank"
+                  target={'blank'}
                   href={
                     'https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link'
                    // `https://github.com/medialab/fonio/issues/new?title=save+story+failed&body=${encodeURIComponent('My editor failed to save story with error message:\n```\n' + JSON.stringify(lastError) + '\n```\n\nJust before that, here is what I was doing:\n\n')}`
@@ -294,7 +294,7 @@ class ErrorMessageContainer extends Component {
               <p>
                 {translate('Please contact your teachers so that a backup version of this story is reset.')}
                 <a
-                  target="blank"
+                  target={'blank'}
                   href={'/'}>
                   {translate('Come back to classroom home')}
                 </a> ?

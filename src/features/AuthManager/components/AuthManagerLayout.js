@@ -68,7 +68,7 @@ const AuthManagerLayout = ({
     <Form onSubmit={loginSubmit}>
       {
         formApi => (
-          <form onSubmit={formApi.submitForm} id="login-form" className="fonio-form">
+          <form onSubmit={formApi.submitForm} id={'login-form'} className={'fonio-form'}>
             <ModalCard
               isActive
               onClose={goBackHome}
@@ -77,32 +77,34 @@ const AuthManagerLayout = ({
                 <Field>
                   <Label>
                     {translate('Enter your password')}
-                    <HelpPin place="right">
+                    <HelpPin place={'right'}>
                       {translate('Explanation about the password')}
                     </HelpPin>
                   </Label>
                   <Control hasIcons>
                     <Text
-                      className="input" field="password" id="password"
-                      type="password" />
+                      className={'input'} field={'password'} id={'password'}
+                      type={'password'} />
                     {/*<Input
                       isColor="success" placeholder="Text Input" value="bloomer"
                       type="password" />*/}
-                    <Icon isSize="small" isAlign="left">
-                      <span className="fa fa-lock" aria-hidden="true" />
+                    <Icon isSize={'small'} isAlign={'left'}>
+                      <span className={'fa fa-lock'} aria-hidden={'true'} />
                     </Icon>
                   </Control>
                   {loginStatus === 'processing' && <Help>{translate('Submitting password')}</Help>}
-                  {loginStatus === 'fail' && <Help isColor="danger">{translate('Password is not valid')}</Help>}
+                  {loginStatus === 'fail' && <Help isColor={'danger'}>{translate('Password is not valid')}</Help>}
                 </Field>
             }
               footerContent={[
                 <Button
-                  type="submit" isFullWidth key={0}
-                  isColor="success">{translate('Enter')}</Button>,
+                  type={'submit'} isFullWidth key={0}
+                  isColor={'success'}>{translate('Enter')}
+                </Button>,
                 <Button
                   isFullWidth key={1} onClick={goReadStory}
-                  isColor="warning">{translate('Read')}</Button>,
+                  isColor={'warning'}>{translate('Read')}
+                </Button>,
                 <Button isFullWidth key={2} onClick={goBackHome}>
                   {translate('Back to home')}
                 </Button>

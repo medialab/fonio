@@ -11,7 +11,7 @@ export const processCustomCss = (css = '') => {
         // Optional transform callback for case-by-case overrides
         transform (prefix, selector, prefixedSelector) {
           if (selector === 'body') {
-            return 'body.' + prefix;
+            return `body.${ prefix}`;
           }
           else {
             return prefixedSelector;

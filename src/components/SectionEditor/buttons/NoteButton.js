@@ -14,14 +14,14 @@ const NoteButton = ({
 
   return (
     <div
-      className="scholar-draft-NoteButton"
+      className={'scholar-draft-NoteButton'}
       onClick={onClick}
       onMouseDown={onMouseDown}
       data-tip={message}
       {...otherProps}>
       {iconMap.note}
       <ReactTooltip
-        place="right" />
+        place={'right'} />
     </div>
   );
 };

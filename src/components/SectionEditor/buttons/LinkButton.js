@@ -25,7 +25,7 @@ const LinkButton = ({tooltip}, {
   return (
     <Button
       data-tip={tooltip}
-      data-for="style-button"
+      data-for={'style-button'}
       onMouseDown={onClick}>
       <Image style={{marginLeft: 0, marginRight: 0}} isSize={'24x24'} src={icons.webpage.black.svg} />
     </Button>

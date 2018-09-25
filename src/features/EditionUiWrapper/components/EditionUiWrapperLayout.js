@@ -121,7 +121,7 @@ const EditionUiWrapperLayout = ({
 
   let realActiveSectionTitle;
   if (activeSectionTitle.length) {
-    realActiveSectionTitle = activeSectionTitle.length > 10 ? activeSectionTitle.substr(0, 10) + '...' : activeSectionTitle;
+    realActiveSectionTitle = activeSectionTitle.length > 10 ? `${activeSectionTitle.substr(0, 10) }...` : activeSectionTitle;
   }
  else {
     realActiveSectionTitle = translate('Untitled section');
@@ -201,7 +201,7 @@ const EditionUiWrapperLayout = ({
             },
           ].filter(d => d)}
         actionOptions={[{
-            content: <Button onClick={() => setExportModalOpen(true)} className="button">{translate('Export')}</Button>
+            content: <Button onClick={() => setExportModalOpen(true)} className={'button'}>{translate('Export')}</Button>
           },
           {
             content: <LanguageToggler />
@@ -227,7 +227,7 @@ const EditionUiWrapperLayout = ({
         isActive={exportModalOpen}
         onClose={() => setExportModalOpen(false)}
         onChange={exportToFile} />
-      <ReactTooltip id="tooltip" />
+      <ReactTooltip id={'tooltip'} />
     </StretchedLayoutContainer>
   );
 };

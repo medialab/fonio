@@ -14,6 +14,6 @@ const CONFIG = typeof FONIO_CONFIG !== 'undefined' ? FONIO_CONFIG : {};
 if (!Object.keys(CONFIG).length)
   console.warn('WARNING: FONIO_CONFIG is absent.');
 
-CONFIG.restUrl = CONFIG.apiUrl + '/api';
+CONFIG.restUrl = `${CONFIG.apiUrl }/api`;
 
 export default CONFIG;

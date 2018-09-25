@@ -175,12 +175,14 @@ class AssetPreview extends Component {
           ofText={translate('table-of')}
           rowsText={translate('table-row')} />);
       case 'image':
-        return (<div className="image-container">
-          <img src={data.base64 ? data.base64 : `${getResourceDataUrl(data)}?${lastUpdateAt}`} />
-        </div>);
+        return (
+          <div className={'image-container'}>
+            <img src={data.base64 ? data.base64 : `${getResourceDataUrl(data)}?${lastUpdateAt}`} />
+          </div>
+        );
       case 'video':
         return (
-          <div className="player-container"><Player url={data.url} /></div>
+          <div className={'player-container'}><Player url={data.url} /></div>
         );
       // case 'data-presentation':
       //   return (
@@ -263,15 +265,15 @@ class AssetPreview extends Component {
             paddingBottom: '.3rem',
             ...style,
           }}
-          className="fonio-AssetPreview">
-          <div className="preview-container">
+          className={'fonio-AssetPreview'}>
+          <div className={'preview-container'}>
             {data && this.renderPreview()}
           </div>
           <div>
             <Level style={{margin: '1rem', marginBottom: 0}}>
               <Columns isMobile>
                 <Column isSize={1}>
-                  <Image isSize={'24x24'} className="type-icon" src={icons[metadata.type].black.svg} />
+                  <Image isSize={'24x24'} className={'type-icon'} src={icons[metadata.type].black.svg} />
                 </Column>
                 <Column isSize={11}>
                   <Title style={{paddingTop: '.2rem', color: 'inherit'}} isSize={6}>{metadata.title || translate('Unnamed resource')}</Title>
@@ -322,8 +324,8 @@ class AssetPreview extends Component {
 
           </div>
         </Box> :
-        <div className="fonio-AssetPreview">
-          <div onClick={handlePreviewClick} className="preview-container">
+        <div className={'fonio-AssetPreview'}>
+          <div onClick={handlePreviewClick} className={'preview-container'}>
             {data && this.renderPreview()}
           </div>
         </div>

@@ -56,13 +56,15 @@ const SectionMiniCard = ({
   const cardStyle = {
     pointerEvents: section.lockStatus === 'locked' ? 'none' : 'all'
   };
-  const sectionTitle = (<span
-    data-for="tooltip"
-    data-place="right"
-    data-html
-    data-tip={`<div class="content"><h5 style="color: white">${section.metadata.title}</h5><p>${computeSectionFirstWords(section)}</p></div>`}>
-    {abbrevString(section.metadata.title || translate('Untitled section'), 10)}
-  </span>);
+  const sectionTitle = (
+    <span
+      data-for={'tooltip'}
+      data-place={'right'}
+      data-html
+      data-tip={`<div class="content"><h5 style="color: white">${section.metadata.title}</h5><p>${computeSectionFirstWords(section)}</p></div>`}>
+      {abbrevString(section.metadata.title || translate('Untitled section'), 10)}
+    </span>
+  );
   return (
     <Card
       isActive={section.lockStatus === 'active'}
@@ -70,7 +72,7 @@ const SectionMiniCard = ({
         <div style={{cursor: section.lockStatus === 'active' ? undefined : 'pointer'}} onClick={onSelect}>
           <Columns style={{marginBottom: 0}}>
             <Column isSize={2}>
-              <Icon isSize="medium" isAlign="left">
+              <Icon isSize={'medium'} isAlign={'left'}>
                 <img src={icons.section.black.svg} />
               </Icon>
             </Column>
@@ -106,22 +108,22 @@ const SectionMiniCard = ({
               <Button
                 onClick={onOpenSettings}
                 isDisabled={section.lockStatus !== 'active'}
-                data-effect="solid"
-                data-place="left"
-                data-for="tooltip"
+                data-effect={'solid'}
+                data-place={'left'}
+                data-for={'tooltip'}
                 data-tip={translate('section settings')}>
-                <Icon isSize="small" isAlign="left">
+                <Icon isSize={'small'} isAlign={'left'}>
                   <img src={icons.settings.black.svg} />
                 </Icon>
               </Button>
               <Button
                 onClick={onDeleteSection}
                 isDisabled={section.lockStatus === 'locked' || section.lockStatus === 'active'}
-                data-effect="solid"
-                data-place="left"
-                data-for="tooltip"
+                data-effect={'solid'}
+                data-place={'left'}
+                data-for={'tooltip'}
                 data-tip={translate('delete this section')}>
-                <Icon isSize="small" isAlign="left">
+                <Icon isSize={'small'} isAlign={'left'}>
                   <img src={icons.remove.black.svg} />
                 </Icon>
               </Button>
@@ -170,33 +172,23 @@ const SectionMiniCard = ({
                   }}
                 moveComponentToolTip={translate('Move section in summary')}
                 MoveComponent={SortableHandle(() =>
-                    (<span
-                      onClick={e => {
-e.preventDefault(); e.stopPropagation();
-}}
-                      onMouseUp={e => {
-e.preventDefault(); e.stopPropagation();
-}}
-                      onMouseDown={e => {
-e.preventDefault(); e.stopPropagation();
-}}
-                      style={{cursor: 'move'}}
-                      className="button">
-                      <Icon icon={'arrows-alt'} />
-                    </span>)
+                    (
+                      <span
+                        onClick={e => {
+  e.preventDefault(); e.stopPropagation();
+  }}
+                        onMouseUp={e => {
+  e.preventDefault(); e.stopPropagation();
+  }}
+                        onMouseDown={e => {
+  e.preventDefault(); e.stopPropagation();
+  }}
+                        style={{cursor: 'move'}}
+                        className={'button'}>
+                        <Icon icon={'arrows-alt'} />
+                      </span>
+                    )
                   )
-
-                    // () =>
-                    // <Button
-                    //   data-tip={translate('drag to change section order')}
-                    //   data-effect="solid"
-                    //   data-place="left"
-                    //   data-for="tooltip"
-                    //   style={{cursor: 'pointer', pointerEvents: 'none'}}>
-                    //   <Icon isSize="small" isAlign="left">
-                    //     <img src={icons.move.black.svg} />
-                    //   </Icon>
-                    // </Button>
                   } />
             </Column>
 

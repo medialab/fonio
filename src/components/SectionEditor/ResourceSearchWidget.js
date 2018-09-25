@@ -135,7 +135,7 @@ class ResourceSearchWidget extends Component {
     }
     // else interpret input as text to insert within contents
    else {
-      this.props.addPlainText('@' + this.state.searchTerm, this.props.contentId);
+      this.props.addPlainText(`@${ this.state.searchTerm}`, this.props.contentId);
     }
   }
 
@@ -187,16 +187,16 @@ class ResourceSearchWidget extends Component {
       this.element = element;
     };
     return (
-      <div ref={bindElement} style={{paddingLeft: '1rem'}} className="fonio-ResourceSearchWidget">
+      <div ref={bindElement} style={{paddingLeft: '1rem'}} className={'fonio-ResourceSearchWidget'}>
         <DropdownContent>
           <Column>
             <StretchedLayoutContainer>
               <StretchedLayoutItem>
-                <form className="search-form" onSubmit={this.onSubmit}>
+                <form className={'search-form'} onSubmit={this.onSubmit}>
                   {/* <span className="arobase">@</span>*/}
                   <input
                     ref={bindRef}
-                    className="input"
+                    className={'input'}
                     value={this.state.searchTerm}
                     onBlur={this.onBlur}
                     onChange={this.onTermChange}
@@ -210,7 +210,7 @@ class ResourceSearchWidget extends Component {
                 {
               filteredOptions.length > 0 ?
 
-                <div className="choice-options-container" style={{maxHeight: '10rem', overflowX: 'hidden', overflowY: 'auto'}}>
+                <div className={'choice-options-container'} style={{maxHeight: '10rem', overflowX: 'hidden', overflowY: 'auto'}}>
                   {
                 filteredOptions
                 .map((option, index) => {
@@ -232,7 +232,7 @@ class ResourceSearchWidget extends Component {
                   return (
                     <DropdownItem
                       isFullWidth
-                      href="#"
+                      href={'#'}
                       isActive={index === this.state.selectedItemIndex}
                       key={index}
                       onClick={onC}>

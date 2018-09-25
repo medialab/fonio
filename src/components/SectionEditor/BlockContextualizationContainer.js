@@ -116,18 +116,18 @@ class BlockContainer extends Component {
             isRounded
             isColor={'danger'}
             onClick={onDeleteRequest}
-            data-for="tooltip"
-            data-place="right"
-            data-effect="solid"
+            data-for={'tooltip'}
+            data-place={'right'}
+            data-effect={'solid'}
             data-tip={translate(`delete mention (the ${resource.metadata.type} will not be delete from the library)`)}>
             <Icon icon={'trash'} />
           </Button>
           <Button
             isRounded
             onClick={onEditRequest}
-            data-for="tooltip"
-            data-place="right"
-            data-effect="solid"
+            data-for={'tooltip'}
+            data-place={'right'}
+            data-effect={'solid'}
             data-tip={translate(`edit ${resource.metadata.type}`)}>
             <Icon>
               <img src={icons.settings.black.svg} />

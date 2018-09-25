@@ -27,8 +27,8 @@ const HomeBtn = () => (
       bottom: '1rem',
       right: '1rem'
     }}>
-    <Link style={{color: 'black'}} to="/">
-      <Icon icon="home" />
+    <Link style={{color: 'black'}} to={'/'}>
+      <Icon icon={'home'} />
     </Link>
   </Button>
 );

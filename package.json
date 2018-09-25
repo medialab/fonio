@@ -152,20 +152,5 @@
       "es2015",
       "react"
     ]
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": [
-      "@yomguithereal/eslint-config/es7",
-      "@yomguithereal/eslint-config/react"
-    ],
-    "rules": {
-      "require-jsdoc": 2,
-      "react/forbid-prop-types": 0,
-      "react/jsx-no-bind": 0
-    },
-    "globals": {
-      "FONIO_CONFIG": true
-    }
   }
 }

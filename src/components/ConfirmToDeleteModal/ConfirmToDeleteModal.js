@@ -62,15 +62,17 @@ const ConfirmToDeleteModal = ({
       }
       footerContent={[
         <Button
-          type="submit"
+          type={'submit'}
           isFullWidth
           key={0}
           onClick={onDeleteConfirm}
           isDisabled={isDisabled}
-          isColor="danger">{translate('Delete')}</Button>,
+          isColor={'danger'}>{translate('Delete')}
+        </Button>,
         <Button
           onClick={onClose} isFullWidth key={1}
-          isColor="warning">{translate('Cancel')}</Button>,
+          isColor={'warning'}>{translate('Cancel')}
+        </Button>,
       ]} />
   );
 };

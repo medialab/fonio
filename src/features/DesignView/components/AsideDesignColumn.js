@@ -120,8 +120,8 @@ const AsideDesignColumn = ({
                     <Label>{translate('Notes position')}</Label>
                     <Control>
                       <Select onChange={e => onOptionChange('notesPosition', e.target.value)} value={options.notesPosition}>
-                        <option value="aside" >{translate('side notes')}</option>
-                        <option value="foot">{translate('foot notes')}</option>
+                        <option value={'aside'} >{translate('side notes')}</option>
+                        <option value={'foot'}>{translate('foot notes')}</option>
                       </Select>
                     </Control>
                   </Field>
@@ -160,8 +160,8 @@ const AsideDesignColumn = ({
                     <Label>{translate('What items to show in references')}</Label>
                     <Control>
                       <Select onChange={e => onOptionChange('referenceStatus', e.target.value)} value={options.referenceStatus}>
-                        <option value="cited">{translate('cited items only')}</option>
-                        <option value="all">{translate('all items')}</option>
+                        <option value={'cited'}>{translate('cited items only')}</option>
+                        <option value={'all'}>{translate('all items')}</option>
                       </Select>
                     </Control>
                   </Field>
@@ -258,9 +258,9 @@ const AsideDesignColumn = ({
 
   return (
     <Column
-      style={style} className="is-hidden-mobile aside-design-container" isSize={designAsideTabCollapsed ? 1 : '1/4'}
+      style={style} className={'is-hidden-mobile aside-design-container'} isSize={designAsideTabCollapsed ? 1 : '1/4'}
       isWrapper>
-      <StretchedLayoutContainer isDirection="vertical" isAbsolute>
+      <StretchedLayoutContainer isDirection={'vertical'} isAbsolute>
         <StretchedLayoutItem>
           <Column>
             <Tabs isBoxed isFullWidth style={{overflow: 'hidden'}}>
@@ -281,7 +281,7 @@ const AsideDesignColumn = ({
                   </Tab>
                 }
                 <Tab
-                  className="is-hidden-mobile"
+                  className={'is-hidden-mobile'}
                   onClick={() => setDesignAsideTabCollapsed(!designAsideTabCollapsed)}
                   isActive={designAsideTabCollapsed}>
                   <TabLink
@@ -290,9 +290,9 @@ const AsideDesignColumn = ({
                           transform: designAsideTabCollapsed ? 'rotate(180deg)' : undefined,
                           transition: 'all .5s ease'
                         }}
-                    data-for="tooltip"
-                    data-effect="solid"
-                    data-place="right"
+                    data-for={'tooltip'}
+                    data-effect={'solid'}
+                    data-place={'right'}
                     data-tip={designAsideTabCollapsed ? translate('show settings pannels') : translate('hide settings pannels')}>
                       ◀
                   </TabLink>

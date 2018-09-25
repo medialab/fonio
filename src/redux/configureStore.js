@@ -26,7 +26,7 @@ import {splitPathnameForSockets} from '../helpers/misc';
  * @todo: fetch that from config
  */
 const [apiOrigin, apiPathname] = splitPathnameForSockets(config.apiUrl);
-const path = '/' + apiPathname.concat('sockets').join('/');
+const path = `/${ apiPathname.concat('sockets').join('/')}`;
 
 const socket = io(apiOrigin, {path});
 

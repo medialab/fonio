@@ -143,7 +143,7 @@ class HomeViewLayout extends Component {
                   dangerouslySetInnerHTML={{
                       __html: this.translate('Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.')
                     }} />
-                <p>{this.translate('Avatar icons courtesy of ')}<a target="blank" href="https://www.flaticon.com/packs/people-faces">Freepik</a>.</p>
+                <p>{this.translate('Avatar icons courtesy of ')}<a target={'blank'} href={'https://www.flaticon.com/packs/people-faces'}>Freepik</a>.</p>
 
               </Content>
               <Title>
@@ -155,9 +155,9 @@ class HomeViewLayout extends Component {
                     dangerouslySetInnerHTML={{
                        __html: this.translate('The source code of Fonio is licensed under free software license ')
                 }} />
-                  <a target="blank" href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3</a>
+                  <a target={'blank'} href={'http://www.gnu.org/licenses/agpl-3.0.html'}>AGPL v3</a>
                   {this.translate(' and is hosted on ')}
-                  <a target="blank" href="https://github.com/medialab/fonio/">Github</a>.
+                  <a target={'blank'} href={'https://github.com/medialab/fonio/'}>Github</a>.
                 </p>
 
                 <p
@@ -395,9 +395,9 @@ class HomeViewLayout extends Component {
                       {this.translate('Your profile')} <HelpPin>{this.translate('choose how you will be identified by other writers')}</HelpPin>
                     </Title>
                     {userInfo &&
-                      <StretchedLayoutContainer isDirection="horizontal">
+                      <StretchedLayoutContainer isDirection={'horizontal'}>
                         <StretchedLayoutItem style={{display: 'flex', alignItems: 'center'}}>
-                          <Image isRounded isSize="64x64" src={require(`../../../sharedAssets/avatars/${userInfo.avatar}`)} />
+                          <Image isRounded isSize={'64x64'} src={require(`../../../sharedAssets/avatars/${userInfo.avatar}`)} />
                         </StretchedLayoutItem>
                         <StretchedLayoutItem style={{paddingRight: '1rem', paddingLeft: '1rem', display: 'flex', alignItems: 'center'}} isFlex={1}>
                           {userInfo.name}
@@ -429,7 +429,7 @@ class HomeViewLayout extends Component {
                         return (
                           <StretchedLayoutContainer style={{marginBottom: '1rem'}} isDirection={'horizontal'} key={index}>
                             <StretchedLayoutItem style={{maxWidth: '3rem', minWidth: '3rem'}}>
-                              <Image isRounded isSize="32x32" src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
+                              <Image isRounded isSize={'32x32'} src={require(`../../../sharedAssets/avatars/${user.avatar}`)} />
                             </StretchedLayoutItem>
                             <StretchedLayoutItem isFlex={1}>
                               <Content>
@@ -453,7 +453,7 @@ class HomeViewLayout extends Component {
                 storiesList.length ?
                   <Column isHidden={newStoryOpen} isSize={'2/3'}>
                     <Column>
-                      <StretchedLayoutContainer isFluid isDirection="horizontal">
+                      <StretchedLayoutContainer isFluid isDirection={'horizontal'}>
                         <StretchedLayoutItem isFluid isFlex={1}>
                           <Field hasAddons>
                             <Control>
@@ -463,31 +463,40 @@ class HomeViewLayout extends Component {
                         </StretchedLayoutItem>
                         <StretchedLayoutItem isFluid>
                           <Column>
-                            <StretchedLayoutContainer isDirection="horizontal" isFluid>
+                            <StretchedLayoutContainer isDirection={'horizontal'} isFluid>
                               <StretchedLayoutItem><i>{this.translate('sort by')}</i></StretchedLayoutItem>
                               <StretchedLayoutItem>
-                                <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('edited by me')}>{
-                                  sortingMode === 'edited by me' ?
-                                    <strong>{this.translate('edited by me')}</strong>
-                                    :
-                                    this.translate('edited by me')
-                                }</a>
+                                <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} />
+                                <a onClick={() => setSortingMode('edited by me')}>
+                                  {
+                                    sortingMode === 'edited by me' ?
+                                      <strong>{this.translate('edited by me')}</strong>
+                                      :
+                                      this.translate('edited by me')
+                                  }
+                                </a>
                               </StretchedLayoutItem>
                               <StretchedLayoutItem>
-                                <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('edited recently')}>{
-                                  sortingMode === 'edited recently' ?
-                                    <strong>{this.translate('edited recently')}</strong>
-                                    :
-                                    this.translate('edited recently')
-                                }</a>
+                                <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} />
+                                <a onClick={() => setSortingMode('edited recently')}>
+                                  {
+                                    sortingMode === 'edited recently' ?
+                                      <strong>{this.translate('edited recently')}</strong>
+                                      :
+                                      this.translate('edited recently')
+                                  }
+                                </a>
                               </StretchedLayoutItem>
                               <StretchedLayoutItem>
-                                <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} /><a onClick={() => setSortingMode('title')}>{
-                                  sortingMode === 'title' ?
-                                    <strong>{this.translate('title')}</strong>
-                                    :
-                                    this.translate('title')
-                                }</a>
+                                <span style={{paddingLeft: '1rem', paddingRight: '.1rem'}} />
+                                <a onClick={() => setSortingMode('title')}>
+                                  {
+                                    sortingMode === 'title' ?
+                                      <strong>{this.translate('title')}</strong>
+                                      :
+                                      this.translate('title')
+                                  }
+                                </a>
                               </StretchedLayoutItem>
                             </StretchedLayoutContainer>
                           </Column>
@@ -604,29 +613,29 @@ class HomeViewLayout extends Component {
                                     :
                                 <Column>
                                   <DropZone
-                                    accept="application/json"
+                                    accept={'application/json'}
                                     onDrop={onDropFiles}>
                                     {this.translate('Drop a fonio file')}
                                   </DropZone>
-                                  {importStoryStatus === 'fail' && <Help isColor="danger">{this.translate('Story is not valid')}</Help>}
+                                  {importStoryStatus === 'fail' && <Help isColor={'danger'}>{this.translate('Story is not valid')}</Help>}
                                   <ModalCard
                                     isActive={overrideImport}
                                     headerContent={this.translate('Override story')}
                                     onClose={() => setOverrideImport(false)}
                                     mainContent={
-                                      <Help isColor="danger">{this.translate('Story exists, do you want to override it?')}
+                                      <Help isColor={'danger'}>{this.translate('Story exists, do you want to override it?')}
                                       </Help>}
                                     footerContent={[
                                       <Button
                                         isFullWidth key={0}
                                         onClick={() => confirmImport('override')}
                                         isDisabled={lockingMap[newStory.id] && Object.keys(lockingMap[newStory.id].locks).length > 0}
-                                        isColor="danger">{this.translate('Override exist story')}
+                                        isColor={'danger'}>{this.translate('Override exist story')}
                                       </Button>,
                                       <Button
                                         isFullWidth key={1}
                                         onClick={() => confirmImport('create')}
-                                        isColor="warning">{this.translate('Create new story')}
+                                        isColor={'warning'}>{this.translate('Create new story')}
                                       </Button>,
                                       <Button
                                         isFullWidth key={2}
@@ -690,8 +699,8 @@ class HomeViewLayout extends Component {
     return (
       <section>
         <Hero
-          isColor="success"
-          isSize="large"
+          isColor={'success'}
+          isSize={'large'}
           style={{
                 background: config.backgroundColor || DEFAULT_BACKGROUND_COLOR, // `url(${require('../../../sharedAssets/cover_forccast.jpg')})`,
                 // backgroundPosition: 'center center',
@@ -723,7 +732,7 @@ class HomeViewLayout extends Component {
           </HeroHeader>
 
           <HeroBody>
-            <Container hasTextAlign="centered">
+            <Container hasTextAlign={'centered'}>
               <Title>{config.sessionName /* eslint no-undef: 0 */}</Title>
             </Container>
           </HeroBody>
@@ -748,9 +757,9 @@ class HomeViewLayout extends Component {
           <Level />
         </Container>
 
-        <Footer id="footer">
+        <Footer id={'footer'}>
           <Container>
-            <Content isSize="small">
+            <Content isSize={'small'}>
               <p
                 dangerouslySetInnerHTML={{
                     __html: this.translate('Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.')
@@ -759,15 +768,16 @@ class HomeViewLayout extends Component {
                 dangerouslySetInnerHTML={{
                     __html: this.translate('Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.')
                   }} />
-              <p>{this.translate('Avatar icons courtesy of ')}<a target="blank" href="https://www.flaticon.com/packs/people-faces">Freepik</a>.</p>
+              <p>{this.translate('Avatar icons courtesy of ')}<a target={'blank'} href={'https://www.flaticon.com/packs/people-faces'}>Freepik</a>.</p>
               <p>
                 <span
                   dangerouslySetInnerHTML={{
                 __html: this.translate('The source code of Fonio is licensed under free software license ')
               }} />
-                <a target="blank" href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3</a>
+                <a target={'blank'} href={'http://www.gnu.org/licenses/agpl-3.0.html'}>AGPL v3</a>
                 {this.translate(' and is hosted on ')}
-                <a target="blank" href="https://github.com/medialab/fonio/">Github</a>.</p>
+                <a target={'blank'} href={'https://github.com/medialab/fonio/'}>Github</a>.
+              </p>
             </Content>
           </Container>
         </Footer>
@@ -781,7 +791,7 @@ class HomeViewLayout extends Component {
           onClose={() => setIdentificationModalSwitch(false)}
           onSubmit={onSubmitUserInfo} />
 
-        <ReactTooltip id="tooltip" />
+        <ReactTooltip id={'tooltip'} />
 
       </section>
     );

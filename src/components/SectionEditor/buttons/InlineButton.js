@@ -83,7 +83,7 @@ class InlineButton extends Component {
         isColor={selected ? 'info' : ''}
         // className={className}
         data-tip={tooltip}
-        data-for="style-button"
+        data-for={'style-button'}
         {...otherProps}>
         {React.Children.map(
           this.props.children,

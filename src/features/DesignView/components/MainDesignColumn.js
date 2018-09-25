@@ -79,7 +79,7 @@ class PreviewWrapper extends Component {
     };
 
     return (<iframe
-      name="preview" id="preview" style={{width: '100%', height: '100%'}}
+      name={'preview'} id={'preview'} style={{width: '100%', height: '100%'}}
       ref={bindRef} />);
   }
 }
@@ -109,13 +109,13 @@ const MainDesignColumn = ({
           right: '1rem',
           bottom: '1rem'
         }}
-        className="is-rounded"
+        className={'is-rounded'}
         onClick={() => {
           window.frames.preview.focus();
           window.frames.preview.print();
         }}>
-        <Icon isSize="small" isAlign="left">
-          <span className="fa fa-print" aria-hidden="true" />
+        <Icon isSize={'small'} isAlign={'left'}>
+          <span className={'fa fa-print'} aria-hidden={'true'} />
         </Icon>
       </Button>
     </Column>

@@ -157,7 +157,7 @@ const MainSectionColumn = ({
       const number = +numberMatch[1];
       if (!isNaN(number)) {
         const newNumber = number + 1;
-        const newTitle = title.replace(endNumberRegexp, newNumber + '');
+        const newTitle = title.replace(endNumberRegexp, `${newNumber }`);
         return newTitle;
       }
     }
@@ -280,7 +280,7 @@ const MainSectionColumn = ({
                 <StretchedLayoutItem>
                   <Column>
                     <Title isSize={3}>
-                      <StretchedLayoutContainer isDirection="horizontal">
+                      <StretchedLayoutContainer isDirection={'horizontal'}>
                         <StretchedLayoutItem isFlex={10}>
                           {translate('Add items to the library')}
                         </StretchedLayoutItem>
@@ -313,32 +313,36 @@ const MainSectionColumn = ({
                   </Tabs>
                 </Column>
               </StretchedLayoutItem>
-              {newResourceMode === 'manually' && <StretchedLayoutItem isFlex={1}>
-                <Column isWrapper>
-                  <ResourceForm
-                    showTitle={false}
-                    resourceType={newResourceType}
-                    onCancel={() => setMainColumnMode('edition')}
-                    onSubmit={handleSubmit}
-                    asNewResource />
-                </Column>
-              </StretchedLayoutItem>}
-              {newResourceMode === 'drop' && <StretchedLayoutItem>
-                <Column>
-                  <DropZone
-                    accept=".jpeg,.jpg,.gif,.png,.csv,.tsv,.bib"
-                    style={{height: '5rem'}}
-                    onDrop={submitMultiResources}>
-                    {translate('Drop files here to include in your library')}
-                    <HelpPin>
-                      {`${translate('Accepted file formats: jpeg, jpg, gif, png, csv, tsv, bib')}. ${translate('Up to {n} files, with a maximum size of {s} Mb each', {
-                        n: maxBatchNumber,
-                        s: Math.floor(realMaxFileSize / 1000000)
-                      })}`}
-                    </HelpPin>
-                  </DropZone>
-                </Column>
-              </StretchedLayoutItem>}
+              {newResourceMode === 'manually' &&
+                <StretchedLayoutItem isFlex={1}>
+                  <Column isWrapper>
+                    <ResourceForm
+                      showTitle={false}
+                      resourceType={newResourceType}
+                      onCancel={() => setMainColumnMode('edition')}
+                      onSubmit={handleSubmit}
+                      asNewResource />
+                  </Column>
+                </StretchedLayoutItem>
+              }
+              {newResourceMode === 'drop' &&
+                <StretchedLayoutItem>
+                  <Column>
+                    <DropZone
+                      accept={'.jpeg,.jpg,.gif,.png,.csv,.tsv,.bib'}
+                      style={{height: '5rem'}}
+                      onDrop={submitMultiResources}>
+                      {translate('Drop files here to include in your library')}
+                      <HelpPin>
+                        {`${translate('Accepted file formats: jpeg, jpg, gif, png, csv, tsv, bib')}. ${translate('Up to {n} files, with a maximum size of {s} Mb each', {
+                          n: maxBatchNumber,
+                          s: Math.floor(realMaxFileSize / 1000000)
+                        })}`}
+                      </HelpPin>
+                    </DropZone>
+                  </Column>
+                </StretchedLayoutItem>
+              }
             </StretchedLayoutContainer>
           </Column>
         );
@@ -349,7 +353,7 @@ const MainSectionColumn = ({
               <StretchedLayoutItem>
                 <Column>
                   <Title isSize={3}>
-                    <StretchedLayoutContainer isDirection="horizontal">
+                    <StretchedLayoutContainer isDirection={'horizontal'}>
                       <StretchedLayoutItem isFlex={10}>
                         {translate('New section')}
                       </StretchedLayoutItem>
@@ -375,33 +379,35 @@ const MainSectionColumn = ({
           </Column>
         );
       case 'editmetadata':
-        return (<Column isWrapper style={{background: 'white', zIndex: 1000}}>
-          <StretchedLayoutContainer style={{paddingTop: '1rem'}} isAbsolute>
-            <StretchedLayoutItem>
-              <Column>
-                <Title isSize={3}>
-                  <StretchedLayoutContainer isDirection="horizontal">
-                    <StretchedLayoutItem isFlex={10}>
-                      {translate('Edit section metadata')}
-                    </StretchedLayoutItem>
-                    <StretchedLayoutItem>
-                      <Delete onClick={() => setMainColumnMode('edition')} />
-                    </StretchedLayoutItem>
-                  </StretchedLayoutContainer>
-                </Title>
-              </Column>
-            </StretchedLayoutItem>
-            <StretchedLayoutItem isFlowing isFlex={1}>
-              <Column>
-                <NewSectionForm
-                  submitMessage={translate('Save changes')}
-                  metadata={{...section.metadata}}
-                  onSubmit={onUpdateMetadata}
-                  onCancel={() => setMainColumnMode('edition')} />
-              </Column>
-            </StretchedLayoutItem>
-          </StretchedLayoutContainer>
-        </Column>);
+        return (
+          <Column isWrapper style={{background: 'white', zIndex: 1000}}>
+            <StretchedLayoutContainer style={{paddingTop: '1rem'}} isAbsolute>
+              <StretchedLayoutItem>
+                <Column>
+                  <Title isSize={3}>
+                    <StretchedLayoutContainer isDirection={'horizontal'}>
+                      <StretchedLayoutItem isFlex={10}>
+                        {translate('Edit section metadata')}
+                      </StretchedLayoutItem>
+                      <StretchedLayoutItem>
+                        <Delete onClick={() => setMainColumnMode('edition')} />
+                      </StretchedLayoutItem>
+                    </StretchedLayoutContainer>
+                  </Title>
+                </Column>
+              </StretchedLayoutItem>
+              <StretchedLayoutItem isFlowing isFlex={1}>
+                <Column>
+                  <NewSectionForm
+                    submitMessage={translate('Save changes')}
+                    metadata={{...section.metadata}}
+                    onSubmit={onUpdateMetadata}
+                    onCancel={() => setMainColumnMode('edition')} />
+                </Column>
+              </StretchedLayoutItem>
+            </StretchedLayoutContainer>
+          </Column>
+        );
       default:
         return null;
     }
@@ -429,7 +435,7 @@ const MainSectionColumn = ({
 
   return (
     <Column isSize={'fullwidth'} isWrapper>
-      <StretchedLayoutContainer isFluid isAbsolute isDirection="horizontal">
+      <StretchedLayoutContainer isFluid isAbsolute isDirection={'horizontal'}>
 
         <StretchedLayoutItem isFlex={mainColumnMode === 'edition' && !userLockedResourceId ? 0 : 6}>
           {renderMain()}
@@ -438,7 +444,7 @@ const MainSectionColumn = ({
           <Column
             isWrapper isSize={12}
             isOffset={0}>
-            <StretchedLayoutContainer isAbsolute isDirection="vertical">
+            <StretchedLayoutContainer isAbsolute isDirection={'vertical'}>
               <StretchedLayoutItem>
                 <Column
                   isSize={editorWidth}
@@ -539,13 +545,13 @@ const MainSectionColumn = ({
 
                 </Column>
               </StretchedLayoutItem>
-              <StretchedLayoutItem className="editor-footer">
+              <StretchedLayoutItem className={'editor-footer'}>
                 <Column
                   style={{paddingTop: 0}}
                   isSize={editorWidth}
                   isOffset={editorX}>
                   <Column style={{paddingTop: 0}}>
-                    <StretchedLayoutContainer isDirection="horizontal">
+                    <StretchedLayoutContainer isDirection={'horizontal'}>
                       <StretchedLayoutItem isFlex={1}>
                         <a onClick={() => setShortcutsHelpVisible(true)}>{t('shortcuts help')}</a>
                       </StretchedLayoutItem>

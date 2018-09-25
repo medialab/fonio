@@ -146,15 +146,15 @@ class InlineCitation extends Component {
                 <Control>
                   <Label>
                     {translate('Citation location')}
-                    <HelpPin place="right">
+                    <HelpPin place={'right'}>
                       {translate('Page number, chapter, section...')}
                     </HelpPin>
                   </Label>
                   <input
-                    className="input"
+                    className={'input'}
                     onClick={onInputClick}
                     value={contextualizer.locator || ''}
-                    field="locator" id="locator" type="text"
+                    field={'locator'} id={'locator'} type={'text'}
                     onChange={onLocatorChange}
                     placeholder={translate('citation location')} />
                 </Control>
@@ -163,15 +163,15 @@ class InlineCitation extends Component {
                 <Control>
                   <Label>
                     {translate('Additional comment')}
-                    <HelpPin place="right">
+                    <HelpPin place={'right'}>
                       {translate('Additional comment to this citation (version, context, etc.)')}
                     </HelpPin>
                   </Label>
                   <input
-                    className="input"
+                    className={'input'}
                     onClick={onInputClick}
                     value={contextualizer.suffix || ''}
-                    field="suffix" id="suffix" type="text"
+                    field={'suffix'} id={'suffix'} type={'text'}
                     onChange={onSuffixChange}
                     placeholder={translate('additionnal comment')} />
                 </Control>
@@ -181,19 +181,19 @@ class InlineCitation extends Component {
         }
         footerContent={[
           <Button
-            type="submit"
+            type={'submit'}
             isFullWidth
             key={0}
             onClick={toggleContextualizer}
-            isColor="primary">
+            isColor={'primary'}>
             {translate('Validate')}
           </Button>,
           <Button
-            type="submit"
+            type={'submit'}
             isFullWidth
             key={1}
             onClick={onClickEdit}
-            isColor="info">
+            isColor={'info'}>
             {translate('Edit reference')}
           </Button>,
           // <Button

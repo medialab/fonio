@@ -61,7 +61,7 @@ class AuthorsManager extends Component {
       <Field>
         <Label>
           {title || translate('Authors')}
-          <HelpPin place="right">
+          <HelpPin place={'right'}>
             {titleHelp || translate('Explanation about the story authors')}
           </HelpPin>
         </Label>
@@ -89,15 +89,15 @@ class AuthorsManager extends Component {
               <form onSubmit={handleSubmit} key={index}>
                 <Control hasIcons>
                   <input
-                    className="input"
+                    className={'input'}
                     ref={bindInput}
                     placeholder={translate('New author')}
                     value={author}
                     onChange={onAuthorChange} />
-                  <Icon isSize="small" isAlign="left">
-                    <span className="fa fa-user" aria-hidden="true" />
+                  <Icon isSize={'small'} isAlign={'left'}>
+                    <span className={'fa fa-user'} aria-hidden={'true'} />
                   </Icon>
-                  <Icon isSize="small" isAlign="right" className="is-clickable">
+                  <Icon isSize={'small'} isAlign={'right'} className={'is-clickable'}>
                     <Delete onClick={onRemoveAuthor} />
                   </Icon>
                 </Control>

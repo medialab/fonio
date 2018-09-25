@@ -188,7 +188,7 @@ class AsideSectionColumn extends Component {
             }
           };
           return (
-            <StretchedLayoutContainer className="aside-section-column" isFluid isAbsolute>
+            <StretchedLayoutContainer className={'aside-section-column'} isFluid isAbsolute>
               <StretchedLayoutItem>
                 <Column style={{paddingTop: 0, paddingBottom: 0}}>
                   <Column style={{paddingTop: 0, paddingBottom: 0}}>
@@ -366,9 +366,9 @@ class AsideSectionColumn extends Component {
                           transform: asideTabCollapsed ? 'rotate(180deg)' : undefined,
                           transition: 'all .5s ease'
                         }}
-                        data-for="tooltip"
-                        data-effect="solid"
-                        data-place="right"
+                        data-for={'tooltip'}
+                        data-effect={'solid'}
+                        data-place={'right'}
                         data-tip={asideTabCollapsed ? translate('show summary and library pannels') : translate('hide summary and library pannels')}>
                         ◀
                         {/*asideTabCollapsed ? '▶' : '◀'*/}
