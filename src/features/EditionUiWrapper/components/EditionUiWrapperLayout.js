@@ -76,7 +76,7 @@ const EditionUiWrapperLayout = ( {
     designMessage = translate( 'open to edition' );
   }
 
-  const onSubmitUserInfo = () => {
+  const handleSubmitUserInfo = () => {
     createUser( {
       ...userInfoTemp,
       userId
@@ -126,6 +126,9 @@ const EditionUiWrapperLayout = ( {
  else {
     realActiveSectionTitle = translate( 'Untitled section' );
   }
+
+  const onOpenExportModal = () => setExportModalOpen( true );
+  const onCloseExportModal = () => setUserInfoModalOpen( false );
 
   return (
     <StretchedLayoutContainer isAbsolute>
@@ -205,7 +208,7 @@ const EditionUiWrapperLayout = ( {
         actionOptions={ [ {
             content: (
               <Button
-                onClick={ () => setExportModalOpen( true ) }
+                onClick={ onOpenExportModal }
                 className={ 'button' }
               >
                 {translate( 'Export' )}
@@ -215,7 +218,7 @@ const EditionUiWrapperLayout = ( {
           {
             content: <LanguageToggler />
           } ] }
-        onProfileClick={ () => setUserInfoModalOpen( true ) }
+        onProfileClick={ onOpenExportModal }
         profile={ {
             imageUri: userInfo && require( `../../../sharedAssets/avatars/${userInfo.avatar}` ),
             nickName: userInfo && userInfo.name
@@ -233,12 +236,12 @@ const EditionUiWrapperLayout = ( {
         userInfo={ userInfoTemp }
 
         onChange={ setUserInfoTemp }
-        onClose={ () => setUserInfoModalOpen( false ) }
-        onSubmit={ onSubmitUserInfo }
+        onClose={ onCloseExportModal }
+        onSubmit={ handleSubmitUserInfo }
       />
       <ExportModal
         isActive={ exportModalOpen }
-        onClose={ () => setExportModalOpen( false ) }
+        onClose={ onCloseExportModal }
         onChange={ exportToFile }
       />
       <ReactTooltip id={ 'tooltip' } />

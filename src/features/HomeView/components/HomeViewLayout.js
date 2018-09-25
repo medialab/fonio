@@ -73,8 +73,8 @@ class StoryCardWrapper extends Component {
     const {
       story,
       users,
-      onAction,
-      onClick,
+      onAction: handleAction,
+      onClick: handleClick,
     } = this.props;
     return (
       <Level>
@@ -82,8 +82,8 @@ class StoryCardWrapper extends Component {
           <StoryCard
             story={ story }
             users={ users }
-            onClick={ onClick }
-            onAction={ onAction }
+            onClick={ handleClick }
+            onAction={ handleAction }
           />
         </Column>
       </Level>
@@ -268,7 +268,7 @@ class HomeViewLayout extends Component {
           }
         } );
 
-        const onDeleteStory = ( password ) => {
+        const handleDeleteStory = ( password ) => {
           loginStory( { storyId: storyDeleteId, password } )
           .then( ( res ) => {
             if ( res.result && res.result.data ) {
@@ -281,7 +281,7 @@ class HomeViewLayout extends Component {
           } );
         };
 
-        const onChangePassword = ( oldPassword, newPassword ) => {
+        const handleChangePassword = ( oldPassword, newPassword ) => {
           changePassword( { storyId: changePasswordId, oldPassword, newPassword } )
           .then( ( res ) => {
             if ( res.result && res.result.data ) {
@@ -291,7 +291,7 @@ class HomeViewLayout extends Component {
           } );
         };
 
-        const onDropFiles = ( files ) => {
+        const handleDropFiles = ( files ) => {
           if ( !files || !files.length ) {
             return;
           }
@@ -324,7 +324,7 @@ class HomeViewLayout extends Component {
           setPasswordModalOpen( true );
         };
 
-        const onCreateNewStory = ( payload ) => {
+        const handleCreateNewStory = ( payload ) => {
           const startingSectionId = genId();
           const defaultSection = createDefaultSection();
           const startingSection = {
@@ -356,7 +356,7 @@ class HomeViewLayout extends Component {
           } );
         };
 
-        const onCreateExistingStory = ( password ) => {
+        const handleCreateExistingStory = ( password ) => {
           createStory( {
             payload: newStory,
             password
@@ -373,7 +373,7 @@ class HomeViewLayout extends Component {
           } );
         };
 
-        const onOverrideExistingStory = ( password ) => {
+        const handleOverrideExistingStory = ( password ) => {
           loginStory( { storyId: newStory.id, password } )
           .then( ( res ) => {
             if ( res.result && res.result.data ) {
@@ -393,6 +393,28 @@ class HomeViewLayout extends Component {
           } );
         };
 
+        const handleSearchStringChange = ( e ) => setSearchString( e.target.value );
+        const handleOpenIdentificationModal = () => setIdentificationModalSwitch( true );
+        const handleToggleNewStoryOpened = () => setNewStoryOpen( !newStoryOpen );
+        const handleSortByEditedByMe = () => setSortingMode( 'edited by me' );
+        const handleSortByEditedRecently = () => setSortingMode( 'edited recently' );
+        const handleSortByTitle = () => setSortingMode( 'title' );
+
+        const handleAbortPasswordChange = () => setChangePasswordId( undefined );
+        const handleAbortStoryDeletion = () => setStoryDeleteId( undefined );
+
+        const handleCloseNewStory = () => setNewStoryOpen( false );
+
+        const handleSetNewStoryModeForm = () => setNewStoryTabMode( 'form' );
+
+        const handleSetNewStoryModeFile = () => setNewStoryTabMode( 'file' );
+
+        const handleCloseOverrideImport = () => setOverrideImport( false );
+        const handleConfirmImportOverride = () => confirmImport( 'override' );
+        const handleConfirmImportCreate = () => confirmImport( 'create' );
+
+        const handleClosePasswordModal = () => setPasswordModalOpen( false );
+
         return (
           <Container>
             <Columns>
@@ -405,7 +427,7 @@ class HomeViewLayout extends Component {
                   <div>
                     <Button
                       isFullWidth
-                      onClick={ () => setNewStoryOpen( !newStoryOpen ) }
+                      onClick={ handleToggleNewStoryOpened }
                       isColor={ newStoryOpen ? 'primary' : 'info' }
                     >
                       {this.translate( 'New story' )}
@@ -434,7 +456,7 @@ class HomeViewLayout extends Component {
                           {userInfo.name}
                         </StretchedLayoutItem>
                         <StretchedLayoutItem style={ { display: 'flex', alignItems: 'center', paddingRight: '1rem' } }>
-                          <Button onClick={ () => setIdentificationModalSwitch( true ) }>
+                          <Button onClick={ handleOpenIdentificationModal }>
                             {this.translate( 'edit' )}
                           </Button>
                         </StretchedLayoutItem>
@@ -506,7 +528,7 @@ class HomeViewLayout extends Component {
                             <Control>
                               <Input
                                 value={ searchString }
-                                onChange={ ( e ) => setSearchString( e.target.value ) }
+                                onChange={ handleSearchStringChange }
                                 placeholder={ this.translate( 'find a story' ) }
                               />
                             </Control>
@@ -521,7 +543,7 @@ class HomeViewLayout extends Component {
                               <StretchedLayoutItem><i>{this.translate( 'sort by' )}</i></StretchedLayoutItem>
                               <StretchedLayoutItem>
                                 <span style={ { paddingLeft: '1rem', paddingRight: '.1rem' } } />
-                                <a onClick={ () => setSortingMode( 'edited by me' ) }>
+                                <a onClick={ handleSortByEditedByMe }>
                                   {
                                     sortingMode === 'edited by me' ?
                                       <strong>{this.translate( 'edited by me' )}</strong>
@@ -532,7 +554,7 @@ class HomeViewLayout extends Component {
                               </StretchedLayoutItem>
                               <StretchedLayoutItem>
                                 <span style={ { paddingLeft: '1rem', paddingRight: '.1rem' } } />
-                                <a onClick={ () => setSortingMode( 'edited recently' ) }>
+                                <a onClick={ handleSortByEditedRecently }>
                                   {
                                     sortingMode === 'edited recently' ?
                                       <strong>{this.translate( 'edited recently' )}</strong>
@@ -543,7 +565,7 @@ class HomeViewLayout extends Component {
                               </StretchedLayoutItem>
                               <StretchedLayoutItem>
                                 <span style={ { paddingLeft: '1rem', paddingRight: '.1rem' } } />
-                                <a onClick={ () => setSortingMode( 'title' ) }>
+                                <a onClick={ handleSortByTitle }>
                                   {
                                     sortingMode === 'title' ?
                                       <strong>{this.translate( 'title' )}</strong>
@@ -561,7 +583,7 @@ class HomeViewLayout extends Component {
 
                       {
                             visibleStoriesList.map( ( story ) => {
-                              const onAction = ( id, event ) => {
+                              const handleAction = ( id, event ) => {
                                 event.stopPropagation();
                                 switch ( id ) {
                                   case 'open':
@@ -612,7 +634,7 @@ class HomeViewLayout extends Component {
                                   story={ story }
                                   users={ users }
                                   onClick={ handleClick }
-                                  onAction={ onAction }
+                                  onAction={ handleAction }
                                 />
                               );
                             } )
@@ -622,15 +644,15 @@ class HomeViewLayout extends Component {
                       <DeleteStoryModal
                         loginStatus={ loginStatus }
                         deleteStatus={ deleteStoryStatus }
-                        onSubmitPassword={ onDeleteStory }
-                        onCancel={ () => setStoryDeleteId( undefined ) }
+                        onSubmitPassword={ handleDeleteStory }
+                        onCancel={ handleAbortStoryDeletion }
                       />
                     }
                     {changePasswordId &&
                       <ChangePasswordModal
                         changePasswordStatus={ changePasswordStatus }
-                        onChangePassword={ onChangePassword }
-                        onCancel={ () => setChangePasswordId( undefined ) }
+                        handleChangePassword={ handleChangePassword }
+                        onCancel={ handleAbortPasswordChange }
                       />
                     }
                   </Column>
@@ -647,7 +669,7 @@ class HomeViewLayout extends Component {
                                     {translate( 'New Story' )}
                                   </Column>
                                   <Column>
-                                    <Delete onClick={ () => setNewStoryOpen( false ) } />
+                                    <Delete onClick={ handleCloseNewStory } />
                                   </Column>
                                 </Columns>
                               </Title>
@@ -658,12 +680,12 @@ class HomeViewLayout extends Component {
                                 <Container>
                                   <TabList>
                                     <Tab
-                                      onClick={ () => setNewStoryTabMode( 'form' ) }
+                                      onClick={ handleSetNewStoryModeForm }
                                       isActive={ newStoryTabMode === 'form' }
                                     ><TabLink>{this.translate( 'Create a story' )}</TabLink>
                                     </Tab>
                                     <Tab
-                                      onClick={ () => setNewStoryTabMode( 'file' ) }
+                                      onClick={ handleSetNewStoryModeFile }
                                       isActive={ newStoryTabMode === 'file' }
                                     ><TabLink>{this.translate( 'Import an existing story' )}</TabLink>
                                     </Tab>
@@ -674,14 +696,14 @@ class HomeViewLayout extends Component {
                                 <MetadataForm
                                   story={ newStory }
                                   status={ createStoryStatus }
-                                  onSubmit={ onCreateNewStory }
-                                  onCancel={ () => setNewStoryOpen( false ) }
+                                  onSubmit={ handleCreateNewStory }
+                                  onCancel={ handleCloseNewStory }
                                 />
                                     :
                                 <Column>
                                   <DropZone
                                     accept={ 'application/json' }
-                                    onDrop={ onDropFiles }
+                                    onDrop={ handleDropFiles }
                                   >
                                     {this.translate( 'Drop a fonio file' )}
                                   </DropZone>
@@ -689,7 +711,7 @@ class HomeViewLayout extends Component {
                                   <ModalCard
                                     isActive={ overrideImport }
                                     headerContent={ this.translate( 'Override story' ) }
-                                    onClose={ () => setOverrideImport( false ) }
+                                    onClose={ handleCloseOverrideImport }
                                     mainContent={
                                       <Help isColor={ 'danger' }>
                                         {this.translate( 'Story exists, do you want to override it?' )}
@@ -699,7 +721,7 @@ class HomeViewLayout extends Component {
                                       <Button
                                         isFullWidth
                                         key={ 0 }
-                                        onClick={ () => confirmImport( 'override' ) }
+                                        onClick={ handleConfirmImportOverride }
                                         isDisabled={ lockingMap[newStory.id] && Object.keys( lockingMap[newStory.id].locks ).length > 0 }
                                         isColor={ 'danger' }
                                       >{this.translate( 'Override exist story' )}
@@ -707,14 +729,14 @@ class HomeViewLayout extends Component {
                                       <Button
                                         isFullWidth
                                         key={ 1 }
-                                        onClick={ () => confirmImport( 'create' ) }
+                                        onClick={ handleConfirmImportCreate }
                                         isColor={ 'warning' }
                                       >{this.translate( 'Create new story' )}
                                       </Button>,
                                       <Button
                                         isFullWidth
                                         key={ 2 }
-                                        onClick={ () => setOverrideImport( false ) }
+                                        onClick={ handleCloseOverrideImport }
                                       >
                                         {this.translate( 'Cancel' )}
                                       </Button>
@@ -733,8 +755,8 @@ class HomeViewLayout extends Component {
                   mode={ overrideStoryMode }
                   status={ overrideStoryMode === 'create' ? createStoryStatus : overrideStoryStatus }
                   loginStatus={ loginStatus }
-                  onSubmitPassword={ overrideStoryMode === 'create' ? onCreateExistingStory : onOverrideExistingStory }
-                  onCancel={ () => setPasswordModalOpen( false ) }
+                  onSubmitPassword={ overrideStoryMode === 'create' ? handleCreateExistingStory : handleOverrideExistingStory }
+                  onCancel={ handleClosePasswordModal }
                 />
               }
             </Columns>
@@ -764,7 +786,7 @@ class HomeViewLayout extends Component {
       renderContent,
     } = this;
 
-    const onSubmitUserInfo = () => {
+    const handleSubmitUserInfo = () => {
       createUser( {
         ...userInfoTemp,
         userId
@@ -772,6 +794,10 @@ class HomeViewLayout extends Component {
       setUserInfo( userInfoTemp );
       setIdentificationModalSwitch( false );
     };
+
+    const handleSetTabModeStories = () => setTabMode( 'stories' );
+    const handleSetTabModeAbout = () => setTabMode( 'about' );
+    const handleCloseIdentificationModal = () => setIdentificationModalSwitch( false );
 
     return (
       <section>
@@ -826,13 +852,13 @@ class HomeViewLayout extends Component {
               <Container>
                 <TabList>
                   <Tab
-                    onClick={ () => setTabMode( 'stories' ) }
+                    onClick={ handleSetTabModeStories }
                     isActive={ tabMode === 'stories' }
                   ><TabLink>{this.translate( 'Stories' )}</TabLink>
                   </Tab>
                   {/*<Tab onClick={() => setTabMode('learn')} isActive={tabMode === 'learn'}><TabLink>{this.translate('Learn')}</TabLink></Tab>*/}
                   <Tab
-                    onClick={ () => setTabMode( 'about' ) }
+                    onClick={ handleSetTabModeAbout }
                     isActive={ tabMode === 'about' }
                   ><TabLink>{this.translate( 'About' )}</TabLink>
                   </Tab>
@@ -901,8 +927,8 @@ class HomeViewLayout extends Component {
           userInfo={ userInfoTemp }
 
           onChange={ setUserInfoTemp }
-          onClose={ () => setIdentificationModalSwitch( false ) }
-          onSubmit={ onSubmitUserInfo }
+          onClose={ handleCloseIdentificationModal }
+          onSubmit={ handleSubmitUserInfo }
         />
 
         <ReactTooltip id={ 'tooltip' } />

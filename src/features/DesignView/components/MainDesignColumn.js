@@ -93,6 +93,11 @@ const MainDesignColumn = ( {
   lang
 } ) => {
 
+  const handleClickOnPrint = () => {
+          window.frames.preview.focus();
+          window.frames.preview.print();
+        };
+
   return (
     <Column
       isSize={ 'fullwidth' }
@@ -126,10 +131,7 @@ const MainDesignColumn = ( {
           bottom: '1rem'
         } }
         className={ 'is-rounded' }
-        onClick={ () => {
-          window.frames.preview.focus();
-          window.frames.preview.print();
-        } }
+        onClick={ handleClickOnPrint }
       >
         <Icon
           isSize={ 'small' }

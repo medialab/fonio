@@ -56,11 +56,11 @@ class NewSectionForm extends Component {
       };
     };
 
-    const onSubmitFailure = ( error ) => {
+    const handleSubmitFailure = ( error ) => {
       console.log( error );/* eslint no-console : 0 */
     };
 
-    const onSubmitMetadata = ( values ) => {
+    const handleSubmitMetadata = ( values ) => {
       onSubmit( values );
     };
 
@@ -72,86 +72,90 @@ class NewSectionForm extends Component {
       <Form
         defaultValues={ metadata }
         validate={ errorValidator }
-        onSubmitFailure={ onSubmitFailure }
-        onSubmit={ onSubmitMetadata }
+        handleSubmitFailure={ handleSubmitFailure }
+        onSubmit={ handleSubmitMetadata }
       >
-        {( formApi ) => (
-          <form
-            style={ style }
-            ref={ bindRef }
-            onSubmit={ formApi.submitForm }
-          >
-            <StretchedLayoutContainer isAbsolute>
-              <StretchedLayoutItem
-                isFlex={ 1 }
-                isFlowing
-              >
-                <Column>
-                  <Field>
-                    <Control>
-                      <Label>
-                        {translate( 'Section title' )}
-                        <HelpPin place={ 'right' }>
-                          {translate( 'Explanation about the section title' )}
-                        </HelpPin>
-                      </Label>
-                      <Text
-                        className={ 'input' }
-                        field={ 'title' }
-                        id={ 'title' }
-                        type={ 'text' }
-                        placeholder={ translate( 'Section title' ) }
-                      />
-                    </Control>
-                  </Field>
-                  {
-                    formApi.errors && formApi.errors.title &&
-                    <Help
-                      isColor={ 'danger' }
-                    >
-                      {formApi.errors.title}
-                    </Help>
-                  }
-                  <AuthorsManager
-                    field={ 'authors' }
-                    id={ 'authors' }
-                    title={ translate( 'Section authors' ) }
-                    titleHelp={ translate( 'help about section authors' ) }
-                    onChange={ ( authors ) => formApi.setValue( 'authors', authors ) }
-                    authors={ formApi.getValue( 'authors' ) }
-                  />
-                </Column>
-              </StretchedLayoutItem>
-              <StretchedLayoutItem>
-                <StretchedLayoutContainer isDirection={ 'horizontal' }>
-                  <StretchedLayoutItem isFlex={ 1 }>
-                    <Column>
-                      <Button
-                        isDisabled={ !formApi.getValue( 'title' ).length }
-                        isFullWidth
-                        type={ 'submit' }
-                        isColor={ 'success' }
-                      >
-                        {submitMessage || translate( 'Create and start editing' )}
-                      </Button>
-                    </Column>
-                  </StretchedLayoutItem>
-                  <StretchedLayoutItem isFlex={ 1 }>
-                    <Column>
-                      <Button
-                        onClick={ onCancel }
-                        isFullWidth
+        {( formApi ) => {
+          const handleAuthorsChange = ( authors ) => formApi.setValue( 'authors', authors );
+          const handleSubmit = formApi.submitForm;
+          return (
+            <form
+              style={ style }
+              ref={ bindRef }
+              onSubmit={ handleSubmit }
+            >
+              <StretchedLayoutContainer isAbsolute>
+                <StretchedLayoutItem
+                  isFlex={ 1 }
+                  isFlowing
+                >
+                  <Column>
+                    <Field>
+                      <Control>
+                        <Label>
+                          {translate( 'Section title' )}
+                          <HelpPin place={ 'right' }>
+                            {translate( 'Explanation about the section title' )}
+                          </HelpPin>
+                        </Label>
+                        <Text
+                          className={ 'input' }
+                          field={ 'title' }
+                          id={ 'title' }
+                          type={ 'text' }
+                          placeholder={ translate( 'Section title' ) }
+                        />
+                      </Control>
+                    </Field>
+                    {
+                      formApi.errors && formApi.errors.title &&
+                      <Help
                         isColor={ 'danger' }
                       >
-                        {translate( 'Cancel' )}
-                      </Button>
-                    </Column>
-                  </StretchedLayoutItem>
-                </StretchedLayoutContainer>
-              </StretchedLayoutItem>
-            </StretchedLayoutContainer>
-          </form>
-        )}
+                        {formApi.errors.title}
+                      </Help>
+                    }
+                    <AuthorsManager
+                      field={ 'authors' }
+                      id={ 'authors' }
+                      title={ translate( 'Section authors' ) }
+                      titleHelp={ translate( 'help about section authors' ) }
+                      onChange={ handleAuthorsChange }
+                      authors={ formApi.getValue( 'authors' ) }
+                    />
+                  </Column>
+                </StretchedLayoutItem>
+                <StretchedLayoutItem>
+                  <StretchedLayoutContainer isDirection={ 'horizontal' }>
+                    <StretchedLayoutItem isFlex={ 1 }>
+                      <Column>
+                        <Button
+                          isDisabled={ !formApi.getValue( 'title' ).length }
+                          isFullWidth
+                          type={ 'submit' }
+                          isColor={ 'success' }
+                        >
+                          {submitMessage || translate( 'Create and start editing' )}
+                        </Button>
+                      </Column>
+                    </StretchedLayoutItem>
+                    <StretchedLayoutItem isFlex={ 1 }>
+                      <Column>
+                        <Button
+                          onClick={ onCancel }
+                          isFullWidth
+                          isColor={ 'danger' }
+                        >
+                          {translate( 'Cancel' )}
+                        </Button>
+                      </Column>
+                    </StretchedLayoutItem>
+                  </StretchedLayoutContainer>
+                </StretchedLayoutItem>
+              </StretchedLayoutContainer>
+            </form>
+          );
+        }}
       </Form>
     );
   }

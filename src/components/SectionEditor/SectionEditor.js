@@ -33,7 +33,7 @@ import {
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
-import { abbrevString } from '../../helpers/misc';
+import { abbrevString, silentEvent } from '../../helpers/misc';
 
 const timers = {
   short: 100
@@ -545,7 +545,7 @@ class SectionEditor extends Component {
    */
   onPaste = ( e ) => {
     if ( this.props.editorFocus ) {
-      e.preventDefault();
+      silentEvent( e );
     }
   }
 
@@ -984,11 +984,11 @@ class SectionEditor extends Component {
     const {
       addNote,
       deleteNote,
-      onAssetRequest,
-      onDataChange,
+      onAssetRequest: handleAssetRequest,
+      onDataChange: handleDataChange,
       state,
       props,
-      onEditorChange,
+      onEditorChange: handleEditorChange,
       handleEditorPaste,
     } = this;
     const {
@@ -1078,21 +1078,9 @@ class SectionEditor extends Component {
     /**
      * Callbacks
      */
-    /*
-     * the following callbacks are not used for now but available
-     * const onAssetClick = () => console.log('on asset click');
-     * const onAssetMouseOver = () => console.log('onAssetMouseOver');
-     * const onAssetMouseOut = () => console.log('onAssetMouseOut');
-     */
-
-    /*
-     * const onNotePointerMouseOver = () => console.log('onNotePointerMouseOver');
-     * const onNotePointerMouseOut = () => console.log('onNotePointerMouseOut');
-     * const onNotePointerMouseClick = () => console.log('onNotePointerMouseClick');
-     */
 
     // used callbacks
-    const onAssetChoice = ( option, contentId ) => {
+    const handleAssetChoice = ( option, contentId ) => {
       const { id } = option;
       let targetedEditorId = contentId;
       if ( !targetedEditorId ) {
@@ -1108,7 +1096,7 @@ class SectionEditor extends Component {
       }, timers.medium );
     };
     const blockAssetTypes = [ 'image', 'table', 'video', 'embed' ];
-    const onDrop = ( contentId, payload, selection ) => {
+    const handleDrop = ( contentId, payload, selection ) => {
       if ( draggedResourceId ) {
         let targetedEditorId = contentId;
         if ( !targetedEditorId ) {
@@ -1130,17 +1118,17 @@ class SectionEditor extends Component {
             focusOffset: selection.getEndOffset() - payload.length
           } );
           updateDraftEditorState( editorId, EditorState.forceSelection( editorState, rightSelectionState ) );
-          onAssetChoice( { id: draggedResourceId }, contentId );
+          handleAssetChoice( { id: draggedResourceId }, contentId );
         }
       }
     };
 
-    const onDragOver = ( contentId ) => {
+    const handleDragOver = ( contentId ) => {
       if ( focusedEditorId !== contentId ) {
         setEditorFocus( contentId );
       }
     };
-    const onClick = ( event, contentId = 'main' ) => {
+    const handleClick = ( event, contentId = 'main' ) => {
       if ( focusedEditorId !== contentId ) {
         if ( this.props.assetRequestState ) {
           this.props.setAssetRequestContentId( contentId );
@@ -1154,7 +1142,7 @@ class SectionEditor extends Component {
       }
     };
 
-    const onBlur = ( event, contentId = 'main' ) => {
+    const handleBlur = ( event, contentId = 'main' ) => {
       if ( contentId !== 'main' ) {
         this.updateSectionRawContent( contentId, story.id, activeSection.id );
       }
@@ -1175,7 +1163,7 @@ class SectionEditor extends Component {
       } );
     };
 
-    const onScroll = () => {
+    const handleScroll = () => {
       if ( focusedEditorId === 'main' ) {
         this.editor.mainEditor.updateSelection();
       }
@@ -1187,7 +1175,7 @@ class SectionEditor extends Component {
       }
     };
 
-    const onAssetRequestCancel = () => {
+    const handleAssetRequestCancel = () => {
       cancelAssetRequest();
       setEditorFocus( undefined );
       setTimeout( () => {
@@ -1195,7 +1183,7 @@ class SectionEditor extends Component {
       }, timers.short );
     };
 
-    const onNotePointerMouseClick = ( noteId ) => {
+    const handleNotePointerMouseClick = ( noteId ) => {
       setTimeout( () => setEditorFocus( noteId ) );
     };
 
@@ -1251,6 +1239,10 @@ class SectionEditor extends Component {
       this.component = component;
     };
 
+    const bindEditorRef = ( editor ) => {
+              this.editor = editor;
+              };
+
     return (
       <Content
         style={ componentStyle }
@@ -1259,7 +1251,7 @@ class SectionEditor extends Component {
         <div
           ref={ bindRef }
           className={ `editor-wrapper ${shouldHidePlaceholder ? 'hide-placeholder' : ''}` }
-          onScroll={ onScroll }
+          onScroll={ handleScroll }
         >
           <ReferencesManager
             style={ style }
@@ -1282,31 +1274,29 @@ class SectionEditor extends Component {
                 cancel: this.translate( 'cancel' ),
               } }
 
-              BibliographyComponent={ null/*Object.keys(citationItems).length > 0 ? () => <Bibliography /> : null*/ }
+              BibliographyComponent={ null }
 
               clipboard={ clipboard }
 
-              ref={ ( editor ) => {
-              this.editor = editor;
-              } }
+              ref={ bindEditorRef }
 
               focusedEditorId={ focusedEditorId }
 
-              onEditorChange={ onEditorChange }
+              onEditorChange={ handleEditorChange }
 
               editorPlaceholder={ this.translate( 'start writing' ) }
 
-              onDrop={ onDrop }
-              onDragOver={ onDragOver }
-              onClick={ onClick }
-              onBlur={ onBlur }
+              onDrop={ handleDrop }
+              onDragOver={ handleDragOver }
+              onClick={ handleClick }
+              onBlur={ handleBlur }
               inlineButtons={ inlineButtons }
 
-              onAssetRequest={ onAssetRequest }
-              onAssetChange={ onDataChange }
-              onAssetRequestCancel={ onAssetRequestCancel }
-              onAssetChoice={ onAssetChoice }
-              onNotePointerMouseClick={ onNotePointerMouseClick }
+              onAssetRequest={ handleAssetRequest }
+              onAssetChange={ handleDataChange }
+              onAssetRequestCancel={ handleAssetRequestCancel }
+              onAssetChoice={ handleAssetChoice }
+              onNotePointerMouseClick={ handleNotePointerMouseClick }
 
               onNoteAdd={ addNote }
               onNoteDelete={ deleteNote }

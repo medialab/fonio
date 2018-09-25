@@ -9,6 +9,7 @@ import {
 
 import {
   abbrevString,
+  silentEvent
 } from '../../../helpers/misc';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -72,8 +73,8 @@ class SectionHeader extends Component {
       onBlur,
       onChange,
     } = this;
-    const onSubmit = ( e ) => {
-      e.preventDefault();
+    const handleSubmit = ( e ) => {
+      silentEvent( e );
       if ( this.input ) {
         this.input.blur();
       }
@@ -84,7 +85,7 @@ class SectionHeader extends Component {
     };
     return (
       <form
-        onSubmit={ onSubmit }
+        onSubmit={ handleSubmit }
         style={ { overflow: 'visible', position: 'relative' } }
       >
         <Title

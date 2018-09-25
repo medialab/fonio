@@ -31,6 +31,8 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import { translateNameSpacer } from '../../helpers/translateUtils';
 
+import { silentEvent } from '../../helpers/misc';
+
 // import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 /**
@@ -122,8 +124,7 @@ class ResourceSearchWidget extends Component {
    * Callbacks when user hits enter while focused in the input.
    */
   onSubmit = ( e ) => {
-    e.stopPropagation();
-    e.preventDefault();
+    silentEvent( e );
     const matching = this.props.options
             .filter( ( option ) => JSON.stringify( option ).toLowerCase().indexOf( this.state.searchTerm.toLowerCase() ) > -1 );
     // add an asset
@@ -161,15 +162,10 @@ class ResourceSearchWidget extends Component {
     } = this.props;
     const context = this.context;
     const blockAssetTypes = [ 'image', 'table', 'video', 'embed' ];
-    const onOptionClick = ( option ) => {
+    const handleOptionClick = ( option ) => {
       onAssetChoice( option, this.props.contentId );
     };
 
-    /*
-     * const onAddNewClick = () => {
-     *   addNewResource();
-     * };
-     */
     const bindRef = ( input ) => {
       this.input = input;
     };
@@ -184,6 +180,12 @@ class ResourceSearchWidget extends Component {
     const bindElement = ( element ) => {
       this.element = element;
     };
+
+    const handleBlur = this.onBlur;
+    const handleChange = this.onTermChange;
+    const handleKeyUp = this.onKeyUp;
+    const handleInputClick = this.onInputClick;
+    const handleSubmit = this.onSubmit;
     return (
       <div
         ref={ bindElement }
@@ -196,17 +198,17 @@ class ResourceSearchWidget extends Component {
               <StretchedLayoutItem>
                 <form
                   className={ 'search-form' }
-                  onSubmit={ this.onSubmit }
+                  onSubmit={ handleSubmit }
                 >
                   {/* <span className="arobase">@</span>*/}
                   <input
                     ref={ bindRef }
                     className={ 'input' }
                     value={ this.state.searchTerm }
-                    onBlur={ this.onBlur }
-                    onChange={ this.onTermChange }
-                    onKeyUp={ this.onKeyUp }
-                    onClick={ this.onInputClick }
+                    onBlur={ handleBlur }
+                    onChange={ handleChange }
+                    onKeyUp={ handleKeyUp }
+                    onClick={ handleInputClick }
                     placeholder={ translate( 'search-a-resource' ) }
                   />
                 </form>
@@ -223,7 +225,7 @@ class ResourceSearchWidget extends Component {
                   {
                 filteredOptions
                 .map( ( option, index ) => {
-                  const onC = () => onOptionClick( option );
+                  const handleClick = () => handleOptionClick( option );
                   let optionName = getResourceTitle( option );
                   const {
                     metadata
@@ -247,7 +249,7 @@ class ResourceSearchWidget extends Component {
                       href={ '#' }
                       isActive={ index === this.state.selectedItemIndex }
                       key={ index }
-                      onClick={ onC }
+                      onClick={ handleClick }
                     >
                       <img
                         src={ icons[metadata.type].black.svg }
@@ -264,14 +266,6 @@ class ResourceSearchWidget extends Component {
                 </DropdownItem>
           }
               </StretchedLayoutItem>
-              {/*<StretchedLayoutItem>
-              <Level />
-              <Button
-                isFullWidth isColor={'primary'} className="choice-option new-option"
-                onClick={onAddNewClick}>
-                {translate('add new item')}
-              </Button>
-            </StretchedLayoutItem>*/}
             </StretchedLayoutContainer>
           </Column>
         </DropdownContent>

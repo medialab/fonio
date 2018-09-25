@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { translateNameSpacer } from '../../helpers/translateUtils';
+import { silentEvent } from '../../helpers/misc';
 
 import IconBtn from '../IconBtn';
 
@@ -22,21 +23,9 @@ class AssetButton extends Component {
       context: { t }
     } = this;
     const translate = translateNameSpacer( t, 'Components.SectionEditor' );
-    const onMouseDown = ( event ) => event.preventDefault();
-
-    /*
-     * const bindRef = element => {
-     *   this.element = element;
-     * }
-     */
-
-    /*
-     * return (
-     *   <div ref={bindRef}>
-     *     test
-     *   </div>
-     * )
-     */
+    const handleMouseDown = ( event ) => {
+      silentEvent( event );
+    };
 
     const bindRef = ( btn ) => {
       if ( btn ) {
@@ -46,7 +35,7 @@ class AssetButton extends Component {
     return (
       <IconBtn
         isColor={ active && 'warning' }
-        onMouseDown={ onMouseDown }
+        onMouseDown={ handleMouseDown }
         onClick={ onClick }
         ref={ bindRef }
         dataTip={ translate( 'add an element from your library (shortcut : cmd + l)' ) }

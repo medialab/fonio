@@ -23,7 +23,9 @@ const PageNotFound = ( {
       mainContent={
         <p>
           {translate( 'No match for {u}, go back to ', { u: pathName } )}
-          <Link to={ '/' }>{translate( 'home page' )}</Link>
+          <Link to={ '/' }>
+            {translate( 'home page' )}
+          </Link>
         </p>
       }
     />

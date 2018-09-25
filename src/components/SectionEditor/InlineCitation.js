@@ -95,21 +95,21 @@ class InlineCitation extends Component {
       contextualizer,
     } = asset;
 
-    const onClickEdit = () => {
+    const handleClickOnEdit = () => {
       this.toggleContextualizer();
       startExistingResourceConfiguration( resource.id );
     };
 
     const translate = translateNameSpacer( t, 'Components.InlineCitation' );
     const representation = asset && citations && citations[asset.id];
-    const onLocatorChange = ( { target: { value: locator } } ) => {
+    const handleLocatorChange = ( { target: { value: locator } } ) => {
       const newContextualizer = {
         ...contextualizer,
         locator
       };
       onAssetChange( 'contextualizer', contextualizer.id, newContextualizer );
     };
-    const onSuffixChange = ( { target: { value: suffix } } ) => {
+    const handleSuffixChange = ( { target: { value: suffix } } ) => {
       const newContextualizer = {
         ...contextualizer,
         suffix
@@ -117,7 +117,7 @@ class InlineCitation extends Component {
       onAssetChange( 'contextualizer', contextualizer.id, newContextualizer );
     };
 
-    const onInputClick = ( e ) => {
+    const handleInputClick = ( e ) => {
       onAssetFocus( e );
     };
     return [
@@ -152,12 +152,12 @@ class InlineCitation extends Component {
                   </Label>
                   <input
                     className={ 'input' }
-                    onClick={ onInputClick }
+                    onClick={ handleInputClick }
                     value={ contextualizer.locator || '' }
                     field={ 'locator' }
                     id={ 'locator' }
                     type={ 'text' }
-                    onChange={ onLocatorChange }
+                    onChange={ handleLocatorChange }
                     placeholder={ translate( 'citation location' ) }
                   />
                 </Control>
@@ -172,12 +172,12 @@ class InlineCitation extends Component {
                   </Label>
                   <input
                     className={ 'input' }
-                    onClick={ onInputClick }
+                    onClick={ handleInputClick }
                     value={ contextualizer.suffix || '' }
                     field={ 'suffix' }
                     id={ 'suffix' }
                     type={ 'text' }
-                    onChange={ onSuffixChange }
+                    onChange={ handleSuffixChange }
                     placeholder={ translate( 'additionnal comment' ) }
                   />
                 </Control>
@@ -199,7 +199,7 @@ class InlineCitation extends Component {
             type={ 'submit' }
             isFullWidth
             key={ 1 }
-            onClick={ onClickEdit }
+            onClick={ handleClickOnEdit }
             isColor={ 'info' }
           >
             {translate( 'Edit reference' )}

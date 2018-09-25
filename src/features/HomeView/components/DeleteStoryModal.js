@@ -27,78 +27,81 @@ const DeleteStoryModal = ( {
 } ) => {
   const translate = translateNameSpacer( t, 'Components.DeleteStoryModal' );
 
-  const onSubmitForm = ( values ) => {
+  const handleSubmitForm = ( values ) => {
     onSubmitPassword( values.password );
   };
 
   return (
-    <Form onSubmit={ onSubmitForm }>
+    <Form onSubmit={ handleSubmitForm }>
       {
-        ( formApi ) => (
-          <form
-            onSubmit={ formApi.submitForm }
-            className={ 'fonio-form' }
-          >
-            <ModalCard
-              isActive
-              headerContent={ translate( 'Delete a story' ) }
-              onClose={ onCancel }
-              mainContent={
-                <Field>
-                  <Content>
-                    {translate( 'Deleting a story cannot be undone. Are you sure ?' )}
-                  </Content>
-                  <Label>
-                    {translate( 'Enter password of the story' )}
-                    <HelpPin place={ 'right' }>
-                      {translate( 'Explanation about the password' )}
-                    </HelpPin>
-                  </Label>
-                  <Control hasIcons>
-                    <Text
-                      className={ 'input' }
-                      field={ 'password' }
-                      id={ 'password' }
-                      type={ 'password' }
-                    />
-                    {/*<Input
-                        isColor="success" placeholder="Text Input" value="bloomer"
-                        type="password" />*/}
-                    <Icon
-                      isSize={ 'small' }
-                      isAlign={ 'left' }
-                    >
-                      <span
-                        className={ 'fa fa-lock' }
-                        aria-hidden={ 'true' }
+        ( formApi ) => {
+          const handleSubmit = formApi.submitForm;
+          return (
+            <form
+              onSubmit={ handleSubmit }
+              className={ 'fonio-form' }
+            >
+              <ModalCard
+                isActive
+                headerContent={ translate( 'Delete a story' ) }
+                onClose={ onCancel }
+                mainContent={
+                  <Field>
+                    <Content>
+                      {translate( 'Deleting a story cannot be undone. Are you sure ?' )}
+                    </Content>
+                    <Label>
+                      {translate( 'Enter password of the story' )}
+                      <HelpPin place={ 'right' }>
+                        {translate( 'Explanation about the password' )}
+                      </HelpPin>
+                    </Label>
+                    <Control hasIcons>
+                      <Text
+                        className={ 'input' }
+                        field={ 'password' }
+                        id={ 'password' }
+                        type={ 'password' }
                       />
-                    </Icon>
-                  </Control>
-                  {loginStatus === 'processing' && <Help>{translate( 'Submitting password' )}</Help>}
-                  {loginStatus === 'fail' && <Help isColor={ 'danger' }>{translate( 'Password is not valid' )}</Help>}
-                  {deleteStatus === 'processing' && <Help>{translate( 'Deleting Story' )}</Help>}
-                  {deleteStatus === 'fail' && <Help isColor={ 'danger' }>{translate( 'Story could not be deleted' )}</Help>}
-                </Field>
-              }
-              footerContent={ [
-                <Button
-                  type={ 'submit' }
-                  isFullWidth
-                  key={ 0 }
-                  isColor={ 'danger' }
-                >{translate( 'Delete' )}
-                </Button>,
-                <Button
-                  isFullWidth
-                  key={ 2 }
-                  onClick={ onCancel }
-                >
-                  {translate( 'Cancel' )}
-                </Button>
-            ] }
-            />
-          </form>
-        )
+                      {/*<Input
+                                isColor="success" placeholder="Text Input" value="bloomer"
+                                type="password" />*/}
+                      <Icon
+                        isSize={ 'small' }
+                        isAlign={ 'left' }
+                      >
+                        <span
+                          className={ 'fa fa-lock' }
+                          aria-hidden={ 'true' }
+                        />
+                      </Icon>
+                    </Control>
+                    {loginStatus === 'processing' && <Help>{translate( 'Submitting password' )}</Help>}
+                    {loginStatus === 'fail' && <Help isColor={ 'danger' }>{translate( 'Password is not valid' )}</Help>}
+                    {deleteStatus === 'processing' && <Help>{translate( 'Deleting Story' )}</Help>}
+                    {deleteStatus === 'fail' && <Help isColor={ 'danger' }>{translate( 'Story could not be deleted' )}</Help>}
+                  </Field>
+                      }
+                footerContent={ [
+                  <Button
+                    type={ 'submit' }
+                    isFullWidth
+                    key={ 0 }
+                    isColor={ 'danger' }
+                  >{translate( 'Delete' )}
+                  </Button>,
+                  <Button
+                    isFullWidth
+                    key={ 2 }
+                    onClick={ onCancel }
+                  >
+                    {translate( 'Cancel' )}
+                  </Button>
+                    ] }
+              />
+            </form>
+                );
+}
       }
     </Form>
   );

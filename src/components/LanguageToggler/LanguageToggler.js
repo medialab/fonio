@@ -67,12 +67,12 @@ class LanguageToggler extends Component {
       }
     } = this.props;
     const otherLang = lang === 'fr' ? 'en' : 'fr';
-    const onClick = () => {
+    const handleClick = () => {
       doSetLanguage( otherLang );
     };
     return (
       <Button
-        onClick={ onClick }
+        onClick={ handleClick }
         className={ 'button' }
       >
         {lang}<span style={ { opacity: 0.5 } }>/{otherLang}</span>

@@ -19,7 +19,8 @@ import {
 } from 'quinoa-design-library/components/';
 
 import {
-  abbrevString
+  abbrevString,
+  silentEvent
 } from '../../../helpers/misc';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -172,7 +173,7 @@ class ResourceCard extends Component {
      * component's callbacks
      */
 
-    const onMDown = ( e ) => {
+    const handleMouseDown = ( e ) => {
       e.stopPropagation();
       if ( typeof onMouseDown === 'function' ) {
         onMouseDown();
@@ -181,7 +182,7 @@ class ResourceCard extends Component {
 
     const startDrag = ( e ) => {
       if ( selectMode ) {
-        return e.preventDefault();
+        return silentEvent( e );
       }
        this.setState( {
         moved: true
@@ -216,12 +217,29 @@ class ResourceCard extends Component {
       }
      };
 
+     const renderMoveComponent = () =>
+          (
+            <Button
+              style={ { pointerEvents: 'none' } }
+              data-place={ 'left' }
+              data-effect={ 'solid' }
+              data-for={ 'tooltip' }
+            >
+              <Icon
+                isSize={ 'small' }
+                isAlign={ 'left' }
+              >
+                <img src={ icons.move.black.svg } />
+              </Icon>
+            </Button>
+          );
+
       return connectDragSource(
         <div
           // draggable
           onDragStart={ startDrag }
           onDragEnd={ endDrag }
-          onMouseDown={ onMDown }
+          onMouseDown={ handleMouseDown }
           style={ { cursor: 'move' } }
         >
           <Card
@@ -335,22 +353,7 @@ class ResourceCard extends Component {
                             right: '4rem',
                       } }
                       moveComponentToolTip={ translate( 'Drag this item to the editor' ) }
-                      MoveComponent={ () =>
-                          (
-                            <Button
-                              style={ { pointerEvents: 'none' } }
-                              data-place={ 'left' }
-                              data-effect={ 'solid' }
-                              data-for={ 'tooltip' }
-                            >
-                              <Icon
-                                isSize={ 'small' }
-                                isAlign={ 'left' }
-                              >
-                                <img src={ icons.move.black.svg } />
-                              </Icon>
-                            </Button>
-                          ) }
+                      MoveComponent={ renderMoveComponent }
                     />
                   </Column>
                 </Columns>

@@ -19,7 +19,8 @@ import {
 
 import {
   abbrevString,
-  computeSectionFirstWords
+  computeSectionFirstWords,
+  silentEvent
 } from '../../../helpers/misc';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -201,15 +202,9 @@ const SectionMiniCard = ( {
                 MoveComponent={ SortableHandle( () =>
                     (
                       <span
-                        onClick={ ( e ) => {
-  e.preventDefault(); e.stopPropagation();
-  } }
-                        onMouseUp={ ( e ) => {
-  e.preventDefault(); e.stopPropagation();
-  } }
-                        onMouseDown={ ( e ) => {
-  e.preventDefault(); e.stopPropagation();
-  } }
+                        onClick={ silentEvent }
+                        onMouseUp={ silentEvent }
+                        onMouseDown={ silentEvent }
                         style={ { cursor: 'move' } }
                         className={ 'button' }
                       >

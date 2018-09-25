@@ -10,12 +10,13 @@ import {
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+import { silentEvent } from '../../../helpers/misc';
+
 const RemoveFormattingButton = ( props, {
   removeFormattingForSelection
 } ) => {
   const onClick = ( e ) => {
-    e.preventDefault();
-    e.stopPropagation();
+    silentEvent( e );
     removeFormattingForSelection();
   };
   return (

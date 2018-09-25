@@ -133,9 +133,9 @@ const SectionViewLayout = ( {
   summonAsset,
   submitMultiResources,
   embedLastResource,
-  onCreateHyperlink,
-  onContextualizeHyperlink,
-  onResourceEditAttempt,
+  onCreateHyperlink: handleCreateHyperlink,
+  onContextualizeHyperlink: handleContextualizeHyperlink,
+  onResourceEditAttempt: handleResourceEditAttempt,
   history,
 }, { t } ) => {
 
@@ -234,7 +234,7 @@ const SectionViewLayout = ( {
    * Callbacks
    */
 
-  const onNewSectionSubmit = ( metadata ) => {
+  const handleNewSectionSubmit = ( metadata ) => {
     const newSection = {
       ...defaultSection,
       metadata: {
@@ -271,11 +271,11 @@ const SectionViewLayout = ( {
     setPromptedToDeleteSectionId( undefined );
   }
 
-  const onDeleteSection = ( thatSectionId ) => {
+  const handleDeleteSection = ( thatSectionId ) => {
     setPromptedToDeleteSectionId( thatSectionId );
   };
 
-  const onDeleteResource = ( thatResourceId ) => {
+  const handleDeleteResource = ( thatResourceId ) => {
     setPromptedToDeleteResourceId( thatResourceId );
   };
   const actuallyDeleteSection = ( thatSectionId ) => {
@@ -295,12 +295,12 @@ const SectionViewLayout = ( {
     }
   };
 
-  const onDeleteSectionConfirm = () => {
+  const handleDeleteSectionConfirm = () => {
     actuallyDeleteSection( promptedToDeleteSectionId );
     setPromptedToDeleteSectionId( undefined );
   };
 
-  const onDeleteResourceConfirm = () => {
+  const handleDeleteResourceConfirm = () => {
     const resource = resources[promptedToDeleteResourceId];
     const payload = {
       storyId,
@@ -416,14 +416,14 @@ const SectionViewLayout = ( {
     setPromptedToDeleteResourceId( undefined );
   };
 
-  const onOpenSectionSettings = () => {
+  const handleOpenSectionSettings = () => {
     setMainColumnMode( 'editmetadata' );
   };
-  const onCloseSectionSettings = () => {
+  const handleCloseSectionSettings = () => {
     setMainColumnMode( 'edition' );
   };
 
-  const onCloseActiveResource = () => {
+  const handleCloseActiveResource = () => {
       leaveBlock( {
         storyId,
         userId,
@@ -432,7 +432,7 @@ const SectionViewLayout = ( {
       } );
     };
 
-  const onSectionsSortEnd = ( { oldIndex, newIndex } ) => {
+  const handleSectionsSortEnd = ( { oldIndex, newIndex } ) => {
     const sectionsIds = sectionsList.map( ( thatSection ) => thatSection.id );
     const newSectionsOrder = arrayMove( sectionsIds, oldIndex, newIndex );
 
@@ -453,7 +453,7 @@ const SectionViewLayout = ( {
     } );
   };
 
-  const onUpdateSection = ( thatSection, callback ) => {
+  const handleUpdateSection = ( thatSection, callback ) => {
     if ( thatSection && reverseSectionLockMap[thatSection.id] && reverseSectionLockMap[thatSection.id].userId === userId ) {
       updateSection( {
         sectionId,
@@ -465,7 +465,7 @@ const SectionViewLayout = ( {
     }
   };
 
-  const onSetCoverImage = ( resourceId ) => {
+  const handleSetCoverImage = ( resourceId ) => {
     setCoverImage( {
       storyId,
       resourceId,
@@ -473,7 +473,7 @@ const SectionViewLayout = ( {
     } );
   };
 
-  const startExistingResourceConfiguration = ( resourceId ) => onResourceEditAttempt( resourceId );
+  const startExistingResourceConfiguration = ( resourceId ) => handleResourceEditAttempt( resourceId );
   const startNewResourceConfiguration = ( toEmbedResourceAfterCreation, resourceType ) => {
     setEmbedResourceAfterCreation( toEmbedResourceAfterCreation );
     setNewResourceType( resourceType );
@@ -485,17 +485,17 @@ const SectionViewLayout = ( {
    * (and do not delete the contextualization itself to avoid inconsistencies
    * and breaking undo/redo stack)
    */
-  const onDeleteContextualizationFromId = ( contextualizationId ) => {
+  const handleDeleteContextualizationFromId = ( contextualizationId ) => {
     deleteContextualizationFromId( {
       editorStates,
       contextualization: story.contextualizations[contextualizationId],
       updateDraftEditorState,
-      updateSection: onUpdateSection,
+      updateSection: handleUpdateSection,
       section
     } );
   };
 
-  const onCreateResource = ( payload, callback ) => {
+  const handleCreateResource = ( payload, callback ) => {
     createResource( payload, callback );
     if ( embedResourceAfterCreation ) {
       // setTimeout(() => {
@@ -504,7 +504,7 @@ const SectionViewLayout = ( {
     }
   };
 
-  const onSetSectionLevel = ( { sectionId: thatSectionId, level } ) => {
+  const handleSetSectionLevel = ( { sectionId: thatSectionId, level } ) => {
     setSectionLevel( {
       storyId,
       sectionId: thatSectionId,
@@ -513,17 +513,22 @@ const SectionViewLayout = ( {
     } );
   };
 
-  const onSetEditorFocus = ( editorId ) => {
+  const handleSetEditorFocus = ( editorId ) => {
     if ( selectedContextualizationId ) {
       setTimeout( () => setSelectedContextualizationId( undefined ) );
     }
     setEditorFocus( editorId );
   };
 
-  const onSetSelectedContextualizationId = ( contextualizationId ) => {
+  const handleSetSelectedContextualizationId = ( contextualizationId ) => {
     setEditorFocus( undefined );
     setSelectedContextualizationId( contextualizationId );
   };
+
+  const handleAbortDeleteSection = () => setPromptedToDeleteSectionId( undefined );
+  const handleAbortDeleteResource = () => setPromptedToDeleteResourceId( undefined );
+  const handleAbortLinkCreation = () => setLinkModalFocusData( undefined );
+  const handleCloseShortcuts = () => setShortcutsHelpVisible( false );
 
   return (
     <StretchedLayoutContainer
@@ -536,49 +541,42 @@ const SectionViewLayout = ( {
         isFlex={ 1 }
       >
         <AsideSectionColumn
+          activeUsers={ activeUsers }
           asideTabCollapsed={ asideTabCollapsed }
           asideTabMode={ asideTabMode }
-          mainColumnMode={ mainColumnMode }
-          resourceOptionsVisible={ resourceOptionsVisible }
-          story={ story }
-          sections={ sectionsList }
-
           getResourceTitle={ getResourceTitle }
-          setEditorFocus={ onSetEditorFocus }
-
-          userId={ userId }
-          lockingMap={ lockingMap }
-          activeUsers={ activeUsers }
-          reverseResourcesLockMap={ isEmpty( reverseResourcesLockMap ) ? reverseResourcesSectionsMap : reverseResourcesLockMap }
-          userLockedResourceId={ userLockedResourceId }
-
-          visibleResources={ visibleResources }
-          resourceSearchString={ resourceSearchString }
-          setResourceSearchString={ setResourceSearchString }
-          resourceFilterValues={ resourceFilterValues }
-          setResourceFilterValues={ setResourceFilterValues }
-          resourceSortValue={ resourceSortValue }
-          setResourceSortValue={ setResourceSortValue }
-          setSectionLevel={ onSetSectionLevel }
-
-          onDeleteResource={ onDeleteResource }
-          submitMultiResources={ submitMultiResources }
-
-          onResourceEditAttempt={ onResourceEditAttempt }
-          onSetCoverImage={ onSetCoverImage }
-          onCloseActiveResource={ onCloseActiveResource }
           history={ history }
-
-          onOpenSectionSettings={ onOpenSectionSettings }
-          onCloseSectionSettings={ onCloseSectionSettings }
-          setResourceOptionsVisible={ setResourceOptionsVisible }
-          setAsideTabMode={ setAsideTabMode }
+          lockingMap={ lockingMap }
+          mainColumnMode={ mainColumnMode }
+          onCloseActiveResource={ handleCloseActiveResource }
+          onCloseSectionSettings={ handleCloseSectionSettings }
+          onDeleteResource={ handleDeleteResource }
+          onDeleteSection={ handleDeleteSection }
+          onOpenSectionSettings={ handleOpenSectionSettings }
+          onResourceEditAttempt={ handleResourceEditAttempt }
+          onSetCoverImage={ handleSetCoverImage }
+          onSortEnd={ handleSectionsSortEnd }
+          resourceFilterValues={ resourceFilterValues }
+          resourceOptionsVisible={ resourceOptionsVisible }
+          resourceSearchString={ resourceSearchString }
+          resourceSortValue={ resourceSortValue }
+          reverseResourcesLockMap={ isEmpty( reverseResourcesLockMap ) ? reverseResourcesSectionsMap : reverseResourcesLockMap }
+          sections={ sectionsList }
           setAsideTabCollapsed={ setAsideTabCollapsed }
+          setAsideTabMode={ setAsideTabMode }
+          setEditorFocus={ handleSetEditorFocus }
           setMainColumnMode={ setMainColumnMode }
-          onSortEnd={ onSectionsSortEnd }
+          setResourceFilterValues={ setResourceFilterValues }
+          setResourceOptionsVisible={ setResourceOptionsVisible }
+          setResourceSearchString={ setResourceSearchString }
+          setResourceSortValue={ setResourceSortValue }
           setSectionIndex={ setSectionIndex }
-
-          onDeleteSection={ onDeleteSection }
+          setSectionLevel={ handleSetSectionLevel }
+          story={ story }
+          submitMultiResources={ submitMultiResources }
+          userId={ userId }
+          userLockedResourceId={ userLockedResourceId }
+          visibleResources={ visibleResources }
         />
       </StretchedLayoutItem>
       <StretchedLayoutItem isFlex={ asideTabCollapsed ? 11 : 3 }>
@@ -591,7 +589,7 @@ const SectionViewLayout = ( {
             story={ story }
             userId={ userId }
             selectedContextualizationId={ selectedContextualizationId }
-            setSelectedContextualizationId={ onSetSelectedContextualizationId }
+            setSelectedContextualizationId={ handleSetSelectedContextualizationId }
             defaultSectionMetadata={ defaultSection.metadata }
             editorStates={ editorStates }
             editorFocus={ editorFocus }
@@ -605,13 +603,13 @@ const SectionViewLayout = ( {
 
             newResourceMode={ newResourceMode }
 
-            onNewSectionSubmit={ onNewSectionSubmit }
+            onNewSectionSubmit={ handleNewSectionSubmit }
 
-            updateSection={ onUpdateSection }
+            updateSection={ handleUpdateSection }
 
             promptAssetEmbed={ promptAssetEmbed }
             unpromptAssetEmbed={ unpromptAssetEmbed }
-            setEditorFocus={ onSetEditorFocus }
+            setEditorFocus={ handleSetEditorFocus }
 
             setNewResourceMode={ setNewResourceMode }
 
@@ -623,7 +621,7 @@ const SectionViewLayout = ( {
 
             createContextualization={ createContextualization }
             createContextualizer={ createContextualizer }
-            createResource={ onCreateResource }
+            createResource={ handleCreateResource }
             uploadResource={ uploadResource }
 
             enterBlock={ enterBlock }
@@ -636,9 +634,9 @@ const SectionViewLayout = ( {
             updateResource={ updateResource }
             deleteContextualization={ deleteContextualization }
             deleteContextualizer={ deleteContextualizer }
-            deleteContextualizationFromId={ onDeleteContextualizationFromId }
+            deleteContextualizationFromId={ handleDeleteContextualizationFromId }
 
-            onOpenSectionSettings={ onOpenSectionSettings }
+            onOpenSectionSettings={ handleOpenSectionSettings }
             submitMultiResources={ submitMultiResources }
 
             setAssetRequestContentId={ setAssetRequestContentId }
@@ -660,8 +658,8 @@ const SectionViewLayout = ( {
             deleteType={ 'section' }
             story={ story }
             id={ promptedToDeleteSectionId }
-            onClose={ () => setPromptedToDeleteSectionId( undefined ) }
-            onDeleteConfirm={ onDeleteSectionConfirm }
+            onClose={ handleAbortDeleteSection }
+            onDeleteConfirm={ handleDeleteSectionConfirm }
           />
         }
       {
@@ -671,22 +669,22 @@ const SectionViewLayout = ( {
             deleteType={ 'resource' }
             story={ story }
             id={ promptedToDeleteResourceId }
-            onClose={ () => setPromptedToDeleteResourceId( undefined ) }
-            onDeleteConfirm={ onDeleteResourceConfirm }
+            onClose={ handleAbortDeleteResource }
+            onDeleteConfirm={ handleDeleteResourceConfirm }
           />
         }
       <LinkModal
         isActive={ linkModalFocusData !== undefined }
         focusData={ linkModalFocusData }
-        onClose={ () => setLinkModalFocusData( undefined ) }
+        onClose={ handleAbortLinkCreation }
         hyperlinks={ hyperlinks }
-        onCreateHyperlink={ onCreateHyperlink }
-        onContextualizeHyperlink={ onContextualizeHyperlink }
+        onCreateHyperlink={ handleCreateHyperlink }
+        onContextualizeHyperlink={ handleContextualizeHyperlink }
       />
       <ModalCard
         isActive={ shortcutsHelpVisible }
         headerContent={ translate( 'Shortcuts help' ) }
-        onClose={ () => setShortcutsHelpVisible( false ) }
+        onClose={ handleCloseShortcuts }
         style={ {
           maxHeight: '80%'
         } }

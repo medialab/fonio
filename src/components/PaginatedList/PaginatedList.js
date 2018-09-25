@@ -224,14 +224,14 @@ export default class PaginatedList extends Component {
               <ul className={ 'pagination-list' }>
                 {
                 displayedPaginationItems.map( ( item, index ) => {
-                  const onClick = () => {
+                  const handleClick = () => {
                     onPaginationClick( item );
                   };
                   return (
                     <li
                       className={ item.active ? 'is-current' : '' }
                       key={ index }
-                      onClick={ onClick }
+                      onClick={ handleClick }
                     >
                       <a className={ 'pagination-link' }>{item.content}</a>
                     </li>

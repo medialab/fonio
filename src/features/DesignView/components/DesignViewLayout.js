@@ -32,6 +32,9 @@ const DesignViewLayout = ( {
 }, { t } ) => {
   const translate = translateNameSpacer( t, 'Features.DesignView' );
 
+  /**
+   * @todo choose whether to externalize this
+   */
   const cssHelpData = [
   {
     action: translate( 'Change the paragraphs font size' ),
@@ -56,6 +59,8 @@ const DesignViewLayout = ( {
 }`
   }
   ];
+
+  const handleHideCssHelp = () => setCssHelpVisible( false );
 
   return (
     <StretchedLayoutContainer
@@ -84,7 +89,7 @@ const DesignViewLayout = ( {
       />
       <ModalCard
         isActive={ cssHelpVisible }
-        onClose={ () => setCssHelpVisible( false ) }
+        onClose={ handleHideCssHelp }
         headerContent={ translate( 'CSS Styling - help' ) }
         style={ {
           maxHeight: '80%'
@@ -109,7 +114,7 @@ const DesignViewLayout = ( {
               <tbody>
                 {
                     cssHelpData.map( ( example, index ) => {
-                      const onAddCode = () => {
+                      const handleAddCode = () => {
                         const css = story.settings.css || '';
                         const newCss = `${css.trim()}\n\n${example.code.trim()}`.trim();
                         onUpdateCss( newCss );
@@ -118,7 +123,7 @@ const DesignViewLayout = ( {
                         <tr key={ index }>
                           <th>{example.action}</th>
                           <th style={ { maxWidth: '20rem' } }><pre><code>{example.code}</code></pre></th>
-                          <th><Button onClick={ onAddCode }>{translate( 'add' )}</Button></th>
+                          <th><Button onClick={ handleAddCode }>{translate( 'add' )}</Button></th>
                         </tr>
                       );
                     } )

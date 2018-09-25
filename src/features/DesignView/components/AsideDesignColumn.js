@@ -68,7 +68,7 @@ const AsideDesignColumn = ( {
   const template = templates.find( ( thatTemplate ) => thatTemplate.id === story.settings.template );
   const templateOptions = template.acceptsOptions || [];
 
-  const onOptionChange = ( key, value ) => {
+  const handleOptionChange = ( key, value ) => {
     onUpdateSettings( {
       ...settings,
       options: {
@@ -87,7 +87,7 @@ const AsideDesignColumn = ( {
     else {
       newReferenceTypes = referenceTypes.filter( ( thatType ) => thatType !== type );
     }
-    onOptionChange( 'referenceTypes', newReferenceTypes );
+    handleOptionChange( 'referenceTypes', newReferenceTypes );
   };
 
   const renderAsideContent = () => {
@@ -96,6 +96,10 @@ const AsideDesignColumn = ( {
     }
     switch ( designAsideTabMode ) {
       case 'settings':
+        const handleNotesPositionChange = ( e ) => handleOptionChange( 'notesPosition', e.target.value );
+        const handleToggleReferenceTypesVisibility = () => setReferenceTypesVisible( !referenceTypesVisible );
+        const handleReferenceStatusChange = ( e ) => handleOptionChange( 'referenceStatus', e.target.value );
+
         return (
           <Column>
             {/*<Level>
@@ -122,7 +126,7 @@ const AsideDesignColumn = ( {
                     <Label>{translate( 'Notes position' )}</Label>
                     <Control>
                       <Select
-                        onChange={ ( e ) => onOptionChange( 'notesPosition', e.target.value ) }
+                        onChange={ handleNotesPositionChange }
                         value={ options.notesPosition }
                       >
                         <option value={ 'aside' } >{translate( 'side notes' )}</option>
@@ -141,7 +145,7 @@ const AsideDesignColumn = ( {
                     <Label>{translate( 'What types of items to show in references' )}</Label>
                     <Control>
                       <Dropdown
-                        onToggle={ () => setReferenceTypesVisible( !referenceTypesVisible ) }
+                        onToggle={ handleToggleReferenceTypesVisibility }
                         isActive={ referenceTypesVisible }
                         closeOnChange={ false }
                         onChange={ updateReferenceTypes }
@@ -177,7 +181,7 @@ const AsideDesignColumn = ( {
                     <Label>{translate( 'What items to show in references' )}</Label>
                     <Control>
                       <Select
-                        onChange={ ( e ) => onOptionChange( 'referenceStatus', e.target.value ) }
+                        onChange={ handleReferenceStatusChange }
                         value={ options.referenceStatus }
                       >
                         <option value={ 'cited' }>{translate( 'cited items only' )}</option>
@@ -192,6 +196,7 @@ const AsideDesignColumn = ( {
         );
       case 'styles':
       default:
+        const handleShowCssHelp = () => setCssHelpVisible( true );
         return (
           <Column>
             {/*<Collapsable maxHeight={900} paddingBottom={'5rem'} isCollapsed={stylesMode === 'code'}>
@@ -269,7 +274,7 @@ const AsideDesignColumn = ( {
               <Column>
                 <Button
                   isFullWidth
-                  onClick={ () => setCssHelpVisible( true ) }
+                  onClick={ handleShowCssHelp }
                 >
                   {translate( 'Help' )}
                 </Button>
@@ -279,6 +284,10 @@ const AsideDesignColumn = ( {
         );
     }
   };
+
+  const handleSetAsideAsSettings = () => setDesignAsideTabMode( 'settings' );
+  const handleSetAsideAsStyles = () => setDesignAsideTabMode( 'styles' );
+  const handleToggleAsideCollapsed = () => setDesignAsideTabCollapsed( !designAsideTabCollapsed );
 
   return (
     <Column
@@ -302,7 +311,7 @@ const AsideDesignColumn = ( {
                 {
                   !designAsideTabCollapsed &&
                   <Tab
-                    onClick={ () => setDesignAsideTabMode( 'settings' ) }
+                    onClick={ handleSetAsideAsSettings }
                     isActive={ designAsideTabMode === 'settings' }
                   >
                     <TabLink>{translate( 'Settings' )}</TabLink>
@@ -312,7 +321,7 @@ const AsideDesignColumn = ( {
                   !designAsideTabCollapsed &&
                   'collapse' &&
                   <Tab
-                    onClick={ () => setDesignAsideTabMode( 'styles' ) }
+                    onClick={ handleSetAsideAsStyles }
                     isActive={ designAsideTabMode === 'styles' }
                   >
                     <TabLink>
@@ -322,7 +331,7 @@ const AsideDesignColumn = ( {
                 }
                 <Tab
                   className={ 'is-hidden-mobile' }
-                  onClick={ () => setDesignAsideTabCollapsed( !designAsideTabCollapsed ) }
+                  onClick={ handleToggleAsideCollapsed }
                   isActive={ designAsideTabCollapsed }
                 >
                   <TabLink

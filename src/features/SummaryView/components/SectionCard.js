@@ -20,6 +20,7 @@ import {
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import { translateNameSpacer } from '../../../helpers/translateUtils';
+import { silentEvent } from '../../../helpers/misc';
 import MovePad from '../../../components/MovePad';
 
 import {
@@ -42,7 +43,7 @@ const SectionCard = ( {
 
   const translate = translateNameSpacer( t, 'Components.SectionCard' );
 
-  const onAction = ( action, event ) => {
+  const handleAction = ( action, event ) => {
     event.stopPropagation();
     switch ( action ) {
       case 'delete':
@@ -62,7 +63,7 @@ const SectionCard = ( {
     }
   };
 
-  const onClick = ( e ) => {
+  const handleClick = ( e ) => {
     e.stopPropagation();
     if ( !lockData ) {
       goTo( section.id );
@@ -93,13 +94,16 @@ const SectionCard = ( {
 
   const titleSize = 5;
 
+  const handleEdit = ( e ) => handleAction( 'edit', e );
+  const handleDelete = ( e ) => handleAction( 'delete', e );
+
   return (
     <div
       style={ { cursor: 'pointer' } }
-      onClick={ onClick }
+      onClick={ handleClick }
     >
       <Card
-        onAction={ onAction }
+        onAction={ handleAction }
         bodyContent={
           <div>
             <Columns style={ { marginBottom: 0 } }>
@@ -165,7 +169,7 @@ const SectionCard = ( {
                 <i>{computeSectionFirstWords( section )}</i>
                 <div style={ { marginTop: '1rem' } }>
                   <Button
-                    onClick={ ( e ) => onAction( 'edit', e ) }
+                    onClick={ handleEdit }
                     isDisabled={ lockData !== undefined }
                     data-effect={ 'solid' }
                     data-place={ 'left' }
@@ -180,7 +184,7 @@ const SectionCard = ( {
                     </Icon>
                   </Button>
                   <Button
-                    onClick={ ( e ) => onAction( 'delete', e ) }
+                    onClick={ handleDelete }
                     isDisabled={ lockData !== undefined }
                     data-effect={ 'solid' }
                     data-place={ 'left' }
@@ -232,12 +236,8 @@ const SectionCard = ( {
                   MoveComponent={ SortableHandle( () =>
                       (
                         <span
-                          onClick={ ( e ) => {
-                          e.preventDefault(); e.stopPropagation();
-                          } }
-                          onMouseUp={ ( e ) => {
-                          e.preventDefault(); e.stopPropagation();
-                          } }
+                          onClick={ silentEvent }
+                          onMouseUp={ silentEvent }
                           style={ { cursor: 'move' } }
                           className={ 'button' }
                         >

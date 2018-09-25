@@ -79,6 +79,8 @@ const SortableSectionsList = SortableContainer( ( {
       </div>
     );
   };
+  const handleRowsRendered = () =>
+            ReactTooltip.rebuild();
   return (
     <AutoSizer>
       {( { width, height } ) => (
@@ -88,8 +90,7 @@ const SortableSectionsList = SortableContainer( ( {
           rowHeight={ 155 }
           rowRenderer={ rowRenderer }
           width={ width }
-          onRowsRendered={ () =>
-            ReactTooltip.rebuild() }
+          onRowsRendered={ handleRowsRendered }
         />
       )}
     </AutoSizer>

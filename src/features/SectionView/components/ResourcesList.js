@@ -119,6 +119,8 @@ export default class ResourcesList extends Component {
         </div>
       );
     };
+    const handleRowsRendered = () =>
+              ReactTooltip.rebuild();
     return (
       <AutoSizer>
         {( { width, height } ) => (
@@ -128,8 +130,7 @@ export default class ResourcesList extends Component {
             rowHeight={ 170 }
             rowRenderer={ rowRenderer }
             width={ width }
-            onRowsRendered={ () =>
-              ReactTooltip.rebuild() }
+            onRowsRendered={ handleRowsRendered }
           />
         )}
       </AutoSizer>

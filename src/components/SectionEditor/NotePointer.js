@@ -63,21 +63,21 @@ class NotePointer extends Component {
       children/* eslint react/prop-types : 0 */
     } = this.props;
 
-    const onMouseOver = ( event ) => {
+    const handleMouseOver = ( event ) => {
       event.stopPropagation();
       if ( typeof onNotePointerMouseOver === 'function' && note ) {
         onNotePointerMouseOver( note.id, note, event );
       }
     };
 
-    const onMouseOut = ( event ) => {
+    const handleMouseOut = ( event ) => {
       event.stopPropagation();
       if ( typeof onNotePointerMouseOut === 'function' && note ) {
         onNotePointerMouseOut( note.id, note, event );
       }
     };
 
-    const onMouseClick = ( event ) => {
+    const handleMouseClick = ( event ) => {
       event.stopPropagation();
       if ( typeof onNotePointerMouseClick === 'function' && note ) {
         onNotePointerMouseClick( note.id, note, event );
@@ -90,11 +90,11 @@ class NotePointer extends Component {
       <sup
         id={ id }
         contentEditable={ false }
-        onMouseOver={ onMouseOver }
-        onFocus={ onMouseOver }
-        onMouseOut={ onMouseOut }
-        onBlur={ onMouseOut }
-        onClick={ onMouseClick }
+        onMouseOver={ handleMouseOver }
+        onFocus={ handleMouseOver }
+        onMouseOut={ handleMouseOut }
+        onBlur={ handleMouseOut }
+        onClick={ handleMouseClick }
       >
         <Tag
           style={ { transform: 'scale(.7)' } }

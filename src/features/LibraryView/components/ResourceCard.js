@@ -8,7 +8,8 @@ import PropTypes from 'prop-types';
 import AssetPreview from '../../../components/AssetPreview';
 
 import {
-  abbrevString
+  abbrevString,
+  silentEvent
 } from '../../../helpers/misc';
 
 import {
@@ -102,6 +103,10 @@ class ResourceCard extends Component {
           break;
       }
       const url = resource.data.url || Array.isArray( resource.data ) && resource.data[0] && resource.data[0].URL;
+      const handleSetCoverImage = ( e ) => {
+                          silentEvent( e );
+                          onSetCoverImage( resource.id );
+                        };
       return (
         <Column
           isSize={ cardSize }
@@ -139,7 +144,7 @@ class ResourceCard extends Component {
                             [ 'webpage', 'video' ].includes( resource.metadata.type ) ?
                               <a
                                 style={ { marginLeft: '.5rem' } }
-                                onClick={ ( e ) => e.stopPropagation() }
+                                onClick={ silentEvent }
                                 target={ 'blank' }
                                 href={ url }
                               >
@@ -213,10 +218,7 @@ class ResourceCard extends Component {
 
                     {type === 'image' &&
                     <Button
-                      onClick={ ( e ) => {
-                          e.stopPropagation();
-                          onSetCoverImage( resource.id );
-                        } }
+                      onClick={ handleSetCoverImage }
                       data-place={ 'left' }
                       data-effect={ 'solid' }
                       data-for={ 'tooltip' }

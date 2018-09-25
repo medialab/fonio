@@ -42,7 +42,7 @@ class AuthorsManager extends Component {
     } = this;
     const translate = translateNameSpacer( t, 'Components.AuthorsManager' );
 
-    const onAddAuthor = ( e ) => {
+    const handleAddAuthor = ( e ) => {
       e.preventDefault();
       // e.stopPropagation();
       const newAuthors = [
@@ -54,7 +54,7 @@ class AuthorsManager extends Component {
     };
 
     const handleSubmit = () => {
-      // onAddAuthor(e);
+      // handleAddAuthor(e);
     };
     return (
       <Field>
@@ -121,7 +121,7 @@ class AuthorsManager extends Component {
         <Level>
           <Button
             isFullWidth
-            onClick={ onAddAuthor }
+            onClick={ handleAddAuthor }
           >
             {translate( 'Add an author' )}
           </Button>

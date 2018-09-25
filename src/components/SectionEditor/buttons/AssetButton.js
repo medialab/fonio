@@ -24,7 +24,8 @@ const AssetButton = ( {
       <ReactTooltip
         place={ active ? 'left' : 'right' }
       />
-    </div> );
+    </div>
+  );
 };
 
 AssetButton.propTypes = {

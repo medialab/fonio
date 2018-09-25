@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import AssetPreview from '../AssetPreview';
 
 import { translateNameSpacer } from '../../helpers/translateUtils';
+import { silentEvent } from '../../helpers/misc';
 
 import {
   Button,
@@ -75,8 +76,8 @@ class BlockContainer extends Component {
      * const {type} = metadata;
      */
 
-    const onEditRequest = ( event ) => {
-      event.stopPropagation();
+    const handleEditRequest = ( event ) => {
+      silentEvent( event );
 
       if ( typeof startExistingResourceConfiguration === 'function' ) {
         setSelectedContextualizationId( undefined );
@@ -84,16 +85,16 @@ class BlockContainer extends Component {
       }
     };
 
-    const onDeleteRequest = ( event ) => {
-      event.stopPropagation();
+    const handleDeleteRequest = ( event ) => {
+      silentEvent( event );
       if ( typeof startExistingResourceConfiguration === 'function' ) {
         deleteContextualizationFromId( id );
       }
     };
 
-    const onClick = ( event ) => {
+    const handleClickOnPreview = ( event ) => {
       if ( event ) {
-        event.stopPropagation();
+        silentEvent( event );
       }
       if ( /*!['video', 'table', 'embed'].includes(type) &&*/ typeof setSelectedContextualizationId === 'function' ) {
         if ( selectedContextualizationId === asset.id ) {
@@ -118,7 +119,7 @@ class BlockContainer extends Component {
           <Button
             isRounded
             isColor={ 'danger' }
-            onClick={ onDeleteRequest }
+            onClick={ handleDeleteRequest }
             data-for={ 'tooltip' }
             data-place={ 'right' }
             data-effect={ 'solid' }
@@ -128,7 +129,7 @@ class BlockContainer extends Component {
           </Button>
           <Button
             isRounded
-            onClick={ onEditRequest }
+            onClick={ handleEditRequest }
             data-for={ 'tooltip' }
             data-place={ 'right' }
             data-effect={ 'solid' }
@@ -142,11 +143,11 @@ class BlockContainer extends Component {
         <AssetPreview
           key={ 1 }
           resource={ resource }
-          onEditRequest={ onEditRequest }
-          onDeleteRequest={ onDeleteRequest }
+          handleEditRequest={ handleEditRequest }
+          onDeleteRequest={ handleDeleteRequest }
           style={ { cursor: 'pointer' } }
           isActive={ isActive }
-          onClick={ onClick }
+          onClick={ handleClickOnPreview }
           showPannel
         />
 

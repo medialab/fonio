@@ -115,12 +115,12 @@ const MainSectionColumn = ( {
   // const {id: sectionId} = section;
   const translate = translateNameSpacer( t, 'Features.SectionView' );
 
-  const onUpdateSection = ( newSection, callback ) => {
+  const handleUpdateSection = ( newSection, callback ) => {
     updateSection( newSection, callback );
   };
 
-  const onUpdateMetadata = ( metadata ) => {
-    onUpdateSection( {
+  const handleUpdateMetadata = ( metadata ) => {
+    handleUpdateSection( {
       ...section,
       metadata: {
         ...section.metadata,
@@ -130,7 +130,7 @@ const MainSectionColumn = ( {
     setMainColumnMode( 'edition' );
   };
 
-  const onTitleBlur = ( title ) => {
+  const handleTitleBlur = ( title ) => {
     if ( title.length ) {
       const newSection = {
         ...section,
@@ -139,11 +139,11 @@ const MainSectionColumn = ( {
           title
         }
       };
-      onUpdateSection( newSection );
+      handleUpdateSection( newSection );
     }
   };
 
-  const onTitleFocus = () => {
+  const handleTitleFocus = () => {
     setEditorFocus( undefined );
   };
 
@@ -221,6 +221,7 @@ const MainSectionColumn = ( {
         </Column>
       );
     }
+    const handleSetMainColumnModeEdition = () => setMainColumnMode( 'edition' );
 
     switch ( mainColumnMode ) {
       case 'newresource':
@@ -269,6 +270,9 @@ const MainSectionColumn = ( {
           }
           setMainColumnMode( 'edition' );
         };
+
+        const handleSetNewResourceModeToManual = () => setNewResourceMode( 'manually' );
+        const handleSetNewResourceModeToDrop = () => setNewResourceMode( 'drop' );
         return (
           <Column
             isWrapper
@@ -287,7 +291,7 @@ const MainSectionColumn = ( {
                           {translate( 'Add items to the library' )}
                         </StretchedLayoutItem>
                         <StretchedLayoutItem>
-                          <Delete onClick={ () => setMainColumnMode( 'edition' ) } />
+                          <Delete onClick={ handleSetMainColumnModeEdition } />
                         </StretchedLayoutItem>
                       </StretchedLayoutContainer>
                     </Title>
@@ -300,7 +304,7 @@ const MainSectionColumn = ( {
                   <Tabs isBoxed>
                     <TabList>
                       <Tab
-                        onClick={ () => setNewResourceMode( 'manually' ) }
+                        onClick={ handleSetNewResourceModeToManual }
                         isActive={ newResourceMode === 'manually' }
                       >
                         <TabLink>
@@ -308,7 +312,7 @@ const MainSectionColumn = ( {
                         </TabLink>
                       </Tab>
                       <Tab
-                        onClick={ () => setNewResourceMode( 'drop' ) }
+                        onClick={ handleSetNewResourceModeToDrop }
                         isActive={ newResourceMode === 'drop' }
                       >
                         <TabLink>
@@ -325,7 +329,7 @@ const MainSectionColumn = ( {
                     <ResourceForm
                       showTitle={ false }
                       resourceType={ newResourceType }
-                      onCancel={ () => setMainColumnMode( 'edition' ) }
+                      onCancel={ handleSetMainColumnModeEdition }
                       onSubmit={ handleSubmit }
                       asNewResource
                     />
@@ -372,7 +376,7 @@ const MainSectionColumn = ( {
                         {translate( 'New section' )}
                       </StretchedLayoutItem>
                       <StretchedLayoutItem>
-                        <Delete onClick={ () => setMainColumnMode( 'edition' ) } />
+                        <Delete onClick={ handleSetMainColumnModeEdition } />
                       </StretchedLayoutItem>
                     </StretchedLayoutContainer>
                   </Title>
@@ -389,7 +393,7 @@ const MainSectionColumn = ( {
                       title: guessTitle( section.metadata.title )
                     } }
                     onSubmit={ onNewSectionSubmit }
-                    onCancel={ () => setMainColumnMode( 'edition' ) }
+                    onCancel={ handleSetMainColumnModeEdition }
                   />
                 </Column>
               </StretchedLayoutItem>
@@ -414,7 +418,7 @@ const MainSectionColumn = ( {
                         {translate( 'Edit section metadata' )}
                       </StretchedLayoutItem>
                       <StretchedLayoutItem>
-                        <Delete onClick={ () => setMainColumnMode( 'edition' ) } />
+                        <Delete onClick={ handleSetMainColumnModeEdition } />
                       </StretchedLayoutItem>
                     </StretchedLayoutContainer>
                   </Title>
@@ -428,8 +432,8 @@ const MainSectionColumn = ( {
                   <NewSectionForm
                     submitMessage={ translate( 'Save changes' ) }
                     metadata={ { ...section.metadata } }
-                    onSubmit={ onUpdateMetadata }
-                    onCancel={ () => setMainColumnMode( 'edition' ) }
+                    onSubmit={ handleUpdateMetadata }
+                    onCancel={ handleSetMainColumnModeEdition }
                   />
                 </Column>
               </StretchedLayoutItem>
@@ -441,7 +445,7 @@ const MainSectionColumn = ( {
     }
   };
 
-  const onEditMetadataClick = () => {
+  const handleEditMetadataClick = () => {
     if ( mainColumnMode !== 'editmetadata' ) {
       onOpenSectionSettings( section.id );
     }
@@ -460,6 +464,8 @@ const MainSectionColumn = ( {
     tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 1 : 0,
     widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 2 : 0
   };
+
+  const handleOpenShortcutsHelp = () => setShortcutsHelpVisible( true );
 
   return (
     <Column
@@ -504,9 +510,9 @@ const MainSectionColumn = ( {
                     >
                       <SectionHeader
                         title={ section.metadata.title }
-                        onEdit={ onEditMetadataClick }
-                        onBlur={ onTitleBlur }
-                        onFocus={ onTitleFocus }
+                        onEdit={ handleEditMetadataClick }
+                        onBlur={ handleTitleBlur }
+                        onFocus={ handleTitleFocus }
                         placeHolder={ translate( 'Section title' ) }
 
                         isDisabled={ userLockedResourceId || ( mainColumnMode !== 'edition' && mainColumnMode !== 'editmetadata' ) }
@@ -527,7 +533,7 @@ const MainSectionColumn = ( {
                         isColor={mainColumnMode === 'editmetadata' ? 'primary' : ''}
                         data-tip={translate('Edit section metadata')}
                         data-for="tooltip"
-                        onClick={onEditMetadataClick}>
+                        onClick={handleEditMetadataClick}>
                         <Image isSize={'24x24'} src={mainColumnMode === 'editmetadata' ? icons.edit.white.svg : icons.edit.black.svg} />
                       </Button>
                     </StretchedLayoutItem>*/}
@@ -553,7 +559,7 @@ const MainSectionColumn = ( {
                     draggedResourceId={ draggedResourceId }
                     disablePaste={ ( userLockedResourceId || mainColumnMode !== 'edit' ) && !editorFocus }
 
-                    updateSection={ ( newSection, callback ) => onUpdateSection( newSection, callback ) }
+                    updateSection={ handleUpdateSection }
 
                     summonAsset={ summonAsset }
 
@@ -602,7 +608,7 @@ const MainSectionColumn = ( {
                   <Column style={ { paddingTop: 0 } }>
                     <StretchedLayoutContainer isDirection={ 'horizontal' }>
                       <StretchedLayoutItem isFlex={ 1 }>
-                        <a onClick={ () => setShortcutsHelpVisible( true ) }>{t( 'shortcuts help' )}</a>
+                        <a onClick={ handleOpenShortcutsHelp }>{t( 'shortcuts help' )}</a>
                       </StretchedLayoutItem>
                       <StretchedLayoutItem style={ { textAlign: 'right' } }>
                         <i>{storyIsSaved ? translate( 'All changes saved' ) : translate( 'Saving...' )}</i>

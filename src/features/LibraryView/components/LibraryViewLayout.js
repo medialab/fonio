@@ -246,7 +246,7 @@ class LibraryViewLayout extends Component {
       } );
     };
 
-    const onDeleteResourceConfirm = ( thatResourceId ) => {
+    const handleDeleteResourceConfirm = ( thatResourceId ) => {
       const realResourceId = typeof thatResourceId === 'string' ? thatResourceId : promptedToDeleteResourceId;
       const resource = resources[realResourceId];
       if ( !resource || resourcesLockMap[resource.id] ) {
@@ -324,7 +324,7 @@ class LibraryViewLayout extends Component {
       setPromptedToDeleteResourceId( undefined );
     };
 
-    const onSetCoverImage = ( resourceId ) => {
+    const handleSetCoverImage = ( resourceId ) => {
       if ( resourceId !== coverImageId ) {
         setCoverImage( {
           storyId,
@@ -341,14 +341,14 @@ class LibraryViewLayout extends Component {
       }
     };
 
-    const onDeleteResourcesPromptedToDelete = () => {
+    const handleDeleteResourcesPromptedToDelete = () => {
       setIsBatchDeleting( true );
 
       /*
        * cannot mutualize with single resource deletion for now
        * because section contents changes must be done all in the same time
        * @todo try to factor this
-       * actualResourcesPromptedToDelete.forEach(onDeleteResourceConfirm);
+       * actualResourcesPromptedToDelete.forEach(handleDeleteResourceConfirm);
        * 1. delete entity mentions
        * we need to do it all at once to avoid discrepancies
        */
@@ -571,9 +571,10 @@ class LibraryViewLayout extends Component {
             }
             setMainColumnMode( 'list' );
           };
+          const handleSetMainColumnToList = () => setMainColumnMode( 'list' );
           return (
             <ResourceForm
-              onCancel={ () => setMainColumnMode( 'list' ) }
+              onCancel={ handleSetMainColumnToList }
               onSubmit={ handleSubmit }
               bigSelectColumnsNumber={ 3 }
               asNewResource
@@ -594,6 +595,57 @@ class LibraryViewLayout extends Component {
               setOptionsVisible( false );
             }
           };
+          const handleResourceSearchChange = ( e ) => this.setResourceSearchStringDebounce( e.target.value );
+          const handleToggleOptionsVisibility = () => {
+                            setOptionsVisible( !optionsVisible );
+                          };
+          const handleSelectAllVisibleResources = () => setSelectedResourcesIds( visibleResources.map( ( res ) => res.id ).filter( ( id ) => !resourcesLockMap[id] ) );
+          const handleDeselectAllVisibleResources = () => setSelectedResourcesIds( [] );
+          const handleDeleteSelection = () => setResourcesPromptedToDelete( [ ...selectedResourcesIds ] );
+          const renderNoResource = () => <div>{translate( 'No item in your library yet' )}</div>;
+          const renderResourceInList = ( resource ) => {
+                          const handleEdit = () => {
+                            enterBlock( {
+                              storyId,
+                              userId,
+                              blockType: 'resources',
+                              blockId: resource.id
+                            } );
+                          };
+                          const handleDelete = () => {
+                            setPromptedToDeleteResourceId( resource.id );
+                          };
+                          const isSelected = selectedResourcesIds.indexOf( resource.id ) > -1;
+                          const handleClick = () => {
+                            let newSelectedResourcesIds;
+                            if ( resourcesLockMap[resource.id] === undefined ) {
+                              if ( isSelected ) {
+                                newSelectedResourcesIds = selectedResourcesIds.filter( ( id ) => id !== resource.id );
+                              }
+                              else {
+                                newSelectedResourcesIds = [ ...selectedResourcesIds, resource.id ];
+                              }
+                              setSelectedResourcesIds( newSelectedResourcesIds );
+                            }
+                          };
+                          return (
+                            <ResourceCard
+                              isActive={ isSelected }
+                              isSelectable={ !resourcesLockMap[resource.id] }
+                              onClick={ handleClick }
+                              onEdit={ handleEdit }
+                              onDelete={ handleDelete }
+                              coverImageId={ coverImageId }
+                              handleSetCoverImage={ handleSetCoverImage }
+                              resource={ resource }
+                              getTitle={ getResourceTitle }
+                              lockData={ resourcesLockMap[resource.id] }
+                              key={ resource.id }
+                            />
+                          );
+                        };
+          const handleAbortResourceDeletion = () => setPromptedToDeleteResourceId( undefined );
+          const handleAbortResourcesDeletion = () => setResourcesPromptedToDelete( [] );
           return (
             <StretchedLayoutContainer isAbsolute>
               <StretchedLayoutItem>
@@ -607,7 +659,7 @@ class LibraryViewLayout extends Component {
                       <Field hasAddons>
                         <Input
                           value={ this.state.searchString }
-                          onChange={ ( e ) => this.setResourceSearchStringDebounce( e.target.value ) }
+                          onChange={ handleResourceSearchChange }
                           placeholder={ translate( 'Find a resource' ) }
                         />
                       </Field>
@@ -615,9 +667,7 @@ class LibraryViewLayout extends Component {
                         <Dropdown
                           closeOnChange={ false }
                           menuAlign={ 'left' }
-                          onToggle={ () => {
-                            setOptionsVisible( !optionsVisible );
-                          } }
+                          onToggle={ handleToggleOptionsVisibility }
                           onChange={ setOption }
                           isActive={ optionsVisible }
                           isColor={ Object.keys( filterValues ).filter( ( f ) => filterValues[f] ).length > 0 ? 'info' : '' }
@@ -685,7 +735,7 @@ class LibraryViewLayout extends Component {
                     <LevelRight>
                       <LevelItem>
                         <Button
-                          onClick={ () => setSelectedResourcesIds( visibleResources.map( ( res ) => res.id ).filter( ( id ) => !resourcesLockMap[id] ) ) }
+                          onClick={ handleSelectAllVisibleResources }
                           isDisabled={ selectedResourcesIds.length === visibleResources.length }
                         >
                           {translate( 'Select all' )} ({visibleResources.length})
@@ -693,7 +743,7 @@ class LibraryViewLayout extends Component {
                       </LevelItem>
                       <LevelItem>
                         <Button
-                          onClick={ () => setSelectedResourcesIds( [] ) }
+                          onClick={ handleDeselectAllVisibleResources }
                           isDisabled={ selectedResourcesIds.length === 0 }
                         >
                           {translate( 'Deselect all' )}
@@ -702,7 +752,7 @@ class LibraryViewLayout extends Component {
                       <LevelItem>
                         <Button
                           isColor={ 'danger' }
-                          onClick={ () => setResourcesPromptedToDelete( [ ...selectedResourcesIds ] ) }
+                          onClick={ handleDeleteSelection }
                           isDisabled={ selectedResourcesIds.length === 0 }
                         >
                           {translate( 'Delete selection' )}
@@ -721,48 +771,8 @@ class LibraryViewLayout extends Component {
                     items={ visibleResources }
                     itemsPerPage={ 30 }
                     style={ { height: '100%' } }
-                    renderNoItem={ () => <div>{translate( 'No item in your library yet' )}</div> }
-                    renderItem={ ( resource ) => {
-                          const handleEdit = () => {
-                            enterBlock( {
-                              storyId,
-                              userId,
-                              blockType: 'resources',
-                              blockId: resource.id
-                            } );
-                          };
-                          const handleDelete = () => {
-                            setPromptedToDeleteResourceId( resource.id );
-                          };
-                          const isSelected = selectedResourcesIds.indexOf( resource.id ) > -1;
-                          const handleClick = () => {
-                            let newSelectedResourcesIds;
-                            if ( resourcesLockMap[resource.id] === undefined ) {
-                              if ( isSelected ) {
-                                newSelectedResourcesIds = selectedResourcesIds.filter( ( id ) => id !== resource.id );
-                              }
-                              else {
-                                newSelectedResourcesIds = [ ...selectedResourcesIds, resource.id ];
-                              }
-                              setSelectedResourcesIds( newSelectedResourcesIds );
-                            }
-                          };
-                          return (
-                            <ResourceCard
-                              isActive={ isSelected }
-                              isSelectable={ !resourcesLockMap[resource.id] }
-                              onClick={ handleClick }
-                              onEdit={ handleEdit }
-                              onDelete={ handleDelete }
-                              coverImageId={ coverImageId }
-                              onSetCoverImage={ onSetCoverImage }
-                              resource={ resource }
-                              getTitle={ getResourceTitle }
-                              lockData={ resourcesLockMap[resource.id] }
-                              key={ resource.id }
-                            />
-                          );
-                        } }
+                    renderNoItem={ renderNoResource }
+                    renderItem={ renderResourceInList }
                   />
                 </StretchedLayoutContainer>
               </StretchedLayoutItem>
@@ -772,13 +782,13 @@ class LibraryViewLayout extends Component {
                 deleteType={ 'resource' }
                 story={ story }
                 id={ promptedToDeleteResourceId }
-                onClose={ () => setPromptedToDeleteResourceId( undefined ) }
-                onDeleteConfirm={ onDeleteResourceConfirm }
+                onClose={ handleAbortResourceDeletion }
+                onDeleteConfirm={ handleDeleteResourceConfirm }
               />
               <ModalCard
                 isActive={ actualResourcesPromptedToDelete.length > 0 }
                 headerContent={ translate( [ 'Delete an item', 'Delete {n} items', 'n' ], { n: actualResourcesPromptedToDelete.length } ) }
-                onClose={ () => setResourcesPromptedToDelete( [] ) }
+                onClose={ handleAbortResourcesDeletion }
                 mainContent={
                   <div>
                     {
@@ -809,12 +819,12 @@ class LibraryViewLayout extends Component {
                     type={ 'submit' }
                     isFullWidth
                     key={ 0 }
-                    onClick={ onDeleteResourcesPromptedToDelete }
+                    onClick={ handleDeleteResourcesPromptedToDelete }
                     isColor={ 'danger' }
                   >{translate( 'Delete' )}
                   </Button>,
                   <Button
-                    onClick={ () => setResourcesPromptedToDelete( [] ) }
+                    onClick={ handleAbortResourcesDeletion }
                     isFullWidth
                     key={ 1 }
                     isColor={ 'warning' }

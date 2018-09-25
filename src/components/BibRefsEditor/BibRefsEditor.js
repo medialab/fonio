@@ -41,7 +41,7 @@ class BibRefsEditor extends Component {
     } = this.props;
     const { refsInput } = this.state;
 
-    const onBibTeXInputChange = ( value ) => {
+    const handleBibTeXInputChange = ( value ) => {
       this.setState( {
         refsInput: value,
       } );
@@ -53,7 +53,7 @@ class BibRefsEditor extends Component {
         style={ style }
       >
         <CodeEditor
-          onChange={ onBibTeXInputChange }
+          onChange={ handleBibTeXInputChange }
           value={ refsInput }
         />
       </div>

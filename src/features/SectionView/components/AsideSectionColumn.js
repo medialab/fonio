@@ -190,6 +190,17 @@ class AsideSectionColumn extends Component {
               setResourceSortValue( option );
             }
           };
+          const handleResourceSearchChange = ( e ) => this.setResourceSearchStringDebounce( e.target.value );
+          const handleToggleResourcesOptionVisible = () => {
+                            setResourceOptionsVisible( !resourceOptionsVisible );
+                          };
+          const handleClickAddItemsToLibrary = () => {
+                        if ( mainColumnMode === 'edition' ) {
+                          setEditorFocus( undefined );
+                        }
+
+                        setMainColumnMode( mainColumnMode === 'newresource' ? 'edition' : 'newresource' );
+                      };
           return (
             <StretchedLayoutContainer
               className={ 'aside-section-column' }
@@ -203,7 +214,7 @@ class AsideSectionColumn extends Component {
                       <Control style={ { flex: 1 } }>
                         <Input
                           value={ this.state.searchString }
-                          onChange={ ( e ) => this.setResourceSearchStringDebounce( e.target.value ) }
+                          onChange={ handleResourceSearchChange }
                           placeholder={ translate( 'find a resource' ) }
                         />
                         {/*<Input value={resourceSearchString} onChange={e => setResourceSearchString(e.target.value)} placeholder={translate('find a resource')} />*/}
@@ -213,9 +224,7 @@ class AsideSectionColumn extends Component {
                           closeOnChange={ false }
                           menuAlign={ 'right' }
                           isColor={ Object.keys( resourceFilterValues ).filter( ( f ) => resourceFilterValues[f] ).length > 0 ? 'info' : '' }
-                          onToggle={ () => {
-                            setResourceOptionsVisible( !resourceOptionsVisible );
-                          } }
+                          onToggle={ handleToggleResourcesOptionVisible }
                           onChange={ setOption }
                           isActive={ resourceOptionsVisible }
                           value={ {
@@ -295,13 +304,7 @@ class AsideSectionColumn extends Component {
                     <Button
                       isFullWidth
                       style={ { overflow: 'visible' } }
-                      onClick={ () => {
-                        if ( mainColumnMode === 'edition' ) {
-                          setEditorFocus( undefined );
-                        }
-
-                        setMainColumnMode( mainColumnMode === 'newresource' ? 'edition' : 'newresource' );
-                      } }
+                      onClick={ handleClickAddItemsToLibrary }
                       isColor={ mainColumnMode === 'newresource' ? 'primary' : 'info' }
                       isDisabled={ userLockedResourceId !== undefined }
                     >
@@ -314,6 +317,21 @@ class AsideSectionColumn extends Component {
           );
         case 'summary':
         default:
+          const handleOpenSettings = ( thatSection ) => {
+                      setEditorFocus( undefined );
+                      if ( mainColumnMode === 'editmetadata' ) {
+                       onCloseSectionSettings();
+                      }
+                      else {
+                       onOpenSectionSettings( thatSection.id );
+                      }
+                    };
+          const handleClickNewSection = () => {
+                        if ( mainColumnMode === 'edition' ) {
+                          setEditorFocus( undefined );
+                        }
+                        setMainColumnMode( mainColumnMode === 'newsection' ? 'edition' : 'newsection' );
+                      };
           return (
             <StretchedLayoutContainer
               isFluid
@@ -331,15 +349,7 @@ class AsideSectionColumn extends Component {
                     history={ history }
                     setSectionIndex={ setSectionIndex }
                     maxSectionIndex={ sections.length - 1 }
-                    onOpenSettings={ ( thatSection ) => {
-                      setEditorFocus( undefined );
-                      if ( mainColumnMode === 'editmetadata' ) {
-                       onCloseSectionSettings();
-                      }
-                      else {
-                       onOpenSectionSettings( thatSection.id );
-                      }
-                    } }
+                    onOpenSettings={ handleOpenSettings }
                     onDeleteSection={ onDeleteSection }
                     setSectionLevel={ setSectionLevel }
                     useDragHandle
@@ -352,12 +362,7 @@ class AsideSectionColumn extends Component {
                     <Button
                       style={ { overflow: 'visible' } }
                       isDisabled={ userLockedResourceId !== undefined && mainColumnMode === 'edition' }
-                      onClick={ () => {
-                        if ( mainColumnMode === 'edition' ) {
-                          setEditorFocus( undefined );
-                        }
-                        setMainColumnMode( mainColumnMode === 'newsection' ? 'edition' : 'newsection' );
-                      } }
+                      onClick={ handleClickNewSection }
                       isColor={ 'primary' }
                       isFullWidth
                     >
@@ -370,6 +375,9 @@ class AsideSectionColumn extends Component {
           );
       }
     };
+    const handleSetAsideTabSummary = () => setAsideTabMode( 'summary' );
+    const handleSetAsideTabLibrary = () => setAsideTabMode( 'library' );
+    const handleToggleAsideTabCollapsed = () => setAsideTabCollapsed( !asideTabCollapsed );
     return (
       <Column isSize={ asideTabCollapsed ? 1 : '1/4' }>
         <StretchedLayoutContainer
@@ -389,7 +397,7 @@ class AsideSectionColumn extends Component {
                     !asideTabCollapsed &&
                     'collapse' &&
                     <Tab
-                      onClick={ () => setAsideTabMode( 'summary' ) }
+                      onClick={ handleSetAsideTabSummary }
                       isActive={ asideTabMode === 'summary' }
                     >
                       <TabLink>
@@ -400,14 +408,14 @@ class AsideSectionColumn extends Component {
                     {
                     !asideTabCollapsed &&
                     <Tab
-                      onClick={ () => setAsideTabMode( 'library' ) }
+                      onClick={ handleSetAsideTabLibrary }
                       isActive={ asideTabMode === 'library' }
                     >
                       <TabLink>{translate( 'Library' )}</TabLink>
                     </Tab>
                     }
                     <Tab
-                      onClick={ () => setAsideTabCollapsed( !asideTabCollapsed ) }
+                      onClick={ handleToggleAsideTabCollapsed }
                       isActive={ asideTabCollapsed }
                     >
                       <TabLink

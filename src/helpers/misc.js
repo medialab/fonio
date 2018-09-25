@@ -62,3 +62,10 @@ export const computeSectionFirstWords = ( section, maxLength = 100 ) => {
   }
   return '';
 };
+
+export const silentEvent = ( event ) => {
+  if ( event ) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+};

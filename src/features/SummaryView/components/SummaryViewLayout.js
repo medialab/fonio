@@ -165,7 +165,7 @@ const SummaryViewLayout = ( {
     }
   };
 
-  const onMetadataSubmit = ( { payload: { metadata } } ) => {
+  const handleMetadataSubmit = ( { payload: { metadata } } ) => {
     const payload = {
       storyId,
       userId,
@@ -178,7 +178,7 @@ const SummaryViewLayout = ( {
   const defaultSection = createDefaultSection();
   const defaultSectionMetadata = defaultSection.metadata;
 
-  const onNewSectionSubmit = ( metadata ) => {
+  const handleNewSectionSubmit = ( metadata ) => {
     const newSection = {
       ...defaultSection,
       metadata,
@@ -196,7 +196,7 @@ const SummaryViewLayout = ( {
     goToSection( newSection.id );
   };
 
-  const onDeleteSection = ( thatSectionId ) => {
+  const handleDeleteSection = ( thatSectionId ) => {
     setPromptedToDeleteSectionId( thatSectionId );
   };
 
@@ -215,12 +215,12 @@ const SummaryViewLayout = ( {
     } );
   };
 
-  const onDeleteSectionConfirm = () => {
+  const handleDeleteSectionConfirm = () => {
     actuallyDeleteSection( promptedToDeleteSectionId );
     setPromptedToDeleteSectionId( undefined );
   };
 
-  const onSortEnd = ( { oldIndex, newIndex } ) => {
+  const handleSortEnd = ( { oldIndex, newIndex } ) => {
     setIsSorting( false );
     const sectionsIds = sectionsList.map( ( section ) => section.id );
     const newSectionsOrder = arrayMove( sectionsIds, oldIndex, newIndex );
@@ -243,7 +243,7 @@ const SummaryViewLayout = ( {
     setIsSorting( false );
   };
 
-  const onSetSectionLevel = ( { sectionId, level } ) => {
+  const handleSetSectionLevel = ( { sectionId, level } ) => {
     setSectionLevel( {
       storyId,
       sectionId,
@@ -251,6 +251,9 @@ const SummaryViewLayout = ( {
       userId
     } );
   };
+
+  const handleCloseNewSection = () => setNewSectionOpen( false );
+  const handleActiveIsSorting = () => setIsSorting( true );
 
   return (
     <Container style={ { position: 'relative', height: '100%' } }>
@@ -350,7 +353,7 @@ const SummaryViewLayout = ( {
                 <div style={ { marginTop: '1rem' } }>
                   <MetadataForm
                     story={ story }
-                    onSubmit={ onMetadataSubmit }
+                    onSubmit={ handleMetadataSubmit }
                     onCancel={ toggleMetadataEdition }
                   />
                 </div>
@@ -415,7 +418,7 @@ const SummaryViewLayout = ( {
                             {translate( 'New section' )}
                           </StretchedLayoutItem>
                           <StretchedLayoutItem>
-                            <Delete onClick={ () => setNewSectionOpen( false ) } />
+                            <Delete onClick={ handleCloseNewSection } />
                           </StretchedLayoutItem>
                         </StretchedLayoutContainer>
                       </Title>
@@ -424,8 +427,8 @@ const SummaryViewLayout = ( {
                     <StretchedLayoutItem isFlex={ 1 }>
                       <NewSectionForm
                         metadata={ { ...defaultSectionMetadata } }
-                        onSubmit={ onNewSectionSubmit }
-                        onCancel={ () => setNewSectionOpen( false ) }
+                        onSubmit={ handleNewSectionSubmit }
+                        onCancel={ handleCloseNewSection }
                       />
                     </StretchedLayoutItem>
                   </StretchedLayoutContainer>
@@ -447,7 +450,7 @@ const SummaryViewLayout = ( {
                 <Level>
                   <Column>
                     <Button
-                      onClick={ () => setNewSectionOpen( true ) }
+                      onClick={ handleCloseNewSection }
                       isFullWidth
                       isColor={ 'primary' }
                     >
@@ -458,13 +461,13 @@ const SummaryViewLayout = ( {
                 <SortableSectionsList
                   items={ sectionsList }
                   story={ story }
-                  onSortEnd={ onSortEnd }
+                  handleSortEnd={ handleSortEnd }
                   goToSection={ goToSection }
                   setSectionIndex={ setSectionIndex }
-                  onSortStart={ () => setIsSorting( true ) }
+                  onSortStart={ handleActiveIsSorting }
                   isSorting={ isSorting }
-                  onDelete={ onDeleteSection }
-                  setSectionLevel={ onSetSectionLevel }
+                  onDelete={ handleDeleteSection }
+                  setSectionLevel={ handleSetSectionLevel }
                   useDragHandle
                   reverseSectionLockMap={ reverseSectionLockMap }
                 />
@@ -479,7 +482,7 @@ const SummaryViewLayout = ( {
           story={ story }
           id={ promptedToDeleteSectionId }
           onClose={ () => setPromptedToDeleteSectionId( undefined ) }
-          onDeleteConfirm={ onDeleteSectionConfirm }
+          onDeleteConfirm={ handleDeleteSectionConfirm }
         />
       </StretchedLayoutContainer>
     </Container>

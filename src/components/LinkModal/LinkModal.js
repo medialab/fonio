@@ -66,7 +66,7 @@ class LinkModal extends Component {
     } = this;
     const translate = translateNameSpacer( t, 'Components.LinkModal' );
 
-    const onConfirm = () => {
+    const handleConfirm = () => {
       if ( url && url.length ) {
         onCreateHyperlink( { url, title }, focusData.focusId, focusData.selection );
       }
@@ -76,6 +76,11 @@ class LinkModal extends Component {
     };
 
     const activeResource = choosenResource && hyperlinks.find( ( r ) => r.id === choosenResource );
+
+    const handleToggleExistingLinksDropDown = () => this.setState( { dropdownOpen: !dropdownOpen } );
+    const handleChooseResource = ( thatId ) => this.setState( { choosenResource: choosenResource === thatId ? undefined : thatId } );
+    const handleNewURLChange = ( e ) => this.setState( { url: e.target.value } );
+    const handleNewTitleChange = ( e ) => this.setState( { title: e.target.value } );
 
     return (
       <ModalCard
@@ -96,10 +101,10 @@ class LinkModal extends Component {
               </Title>
               <Control>
                 <Dropdown
-                  onToggle={ () => this.setState( { dropdownOpen: !dropdownOpen } ) }
+                  onToggle={ handleToggleExistingLinksDropDown }
                   isActive={ dropdownOpen }
                   closeOnChange
-                  onChange={ ( thatId ) => this.setState( { choosenResource: choosenResource === thatId ? undefined : thatId } ) }
+                  onChange={ handleChooseResource }
                   value={ { id: choosenResource } }
                   options={ hyperlinks
                               .sort( ( a, b ) => {
@@ -143,7 +148,7 @@ class LinkModal extends Component {
                     className={ 'input' }
                     placeholder={ translate( 'Hyperlink URL' ) }
                     value={ url }
-                    onChange={ ( e ) => this.setState( { url: e.target.value } ) }
+                    onChange={ handleNewURLChange }
                   />
                 </Control>
               </Field>
@@ -154,7 +159,7 @@ class LinkModal extends Component {
                     className={ 'input' }
                     placeholder={ translate( 'Hyperlink title' ) }
                     value={ title }
-                    onChange={ ( e ) => this.setState( { title: e.target.value } ) }
+                    onChange={ handleNewTitleChange }
                   />
                 </Control>
               </Field>
@@ -166,7 +171,7 @@ class LinkModal extends Component {
             type={ 'submit' }
             isFullWidth
             key={ 0 }
-            onClick={ onConfirm }
+            onClick={ handleConfirm }
             isDisabled={ !choosenResource && !( url && url.length ) }
             isColor={ 'primary' }
           >{translate( 'Add hyperlink' )}

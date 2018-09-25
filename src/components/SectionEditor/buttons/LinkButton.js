@@ -10,14 +10,15 @@ import {
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+import { silentEvent } from '../../../helpers/misc';
+
 const LinkButton = ( { tooltip }, {
   // startNewResourceConfiguration,
   setLinkModalFocusData,
   editorFocus
 } ) => {
   const onClick = ( e ) => {
-    e.preventDefault();
-    e.stopPropagation();
+    silentEvent( e );
     // startNewResourceConfiguration(true, 'webpage');
     setLinkModalFocusData( editorFocus );
   };

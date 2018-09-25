@@ -18,6 +18,7 @@ import {
 } from 'quinoa-design-library/components/';
 
 import { translateNameSpacer } from '../../helpers/translateUtils';
+import { silentEvent } from '../../helpers/misc';
 
 class IdentificationModal extends Component {
   constructor( props ) {
@@ -55,15 +56,19 @@ class IdentificationModal extends Component {
 
     const translate = translateNameSpacer( t, 'Components.IdentificationModal' );
 
-    const onNameChange = ( e ) => onChange( {
+    const handleNameChange = ( e ) => onChange( {
       ...userInfo,
       name: e.target.value
     } );
 
-    const onAvatarChange = ( fileName ) => onChange( {
+    const handleAvatarChange = ( fileName ) => onChange( {
       ...userInfo,
       avatar: fileName
     } );
+
+    const handleSubmit = ( e ) => {
+    silentEvent( e ); onSubmit();
+    };
 
     return userInfo ? (
       <ModalCard
@@ -71,10 +76,7 @@ class IdentificationModal extends Component {
         onClose={ onClose }
         headerContent={ translate( 'Who is this?' ) }
         mainContent={
-          <form onSubmit={ ( e ) => {
-              e.preventDefault(); onSubmit();
-              } }
-          >
+          <form onSubmit={ handleSubmit }>
             <Columns>
               <Column isSize={ 2 }>
                 <Dropdown
@@ -82,7 +84,7 @@ class IdentificationModal extends Component {
                         id: userInfo.avatar
                       } }
                   onToggle={ toggleDropdown }
-                  onChange={ onAvatarChange }
+                  onChange={ handleAvatarChange }
                   isActive={ dropdownOpen }
                   options={ avatars
                         .map( ( fileName ) => ( {
@@ -106,7 +108,7 @@ class IdentificationModal extends Component {
                   <Label>{translate( 'Enter a nickname' )}</Label>
                   <Control>
                     <Input
-                      onChange={ onNameChange }
+                      onChange={ handleNameChange }
                       value={ userInfo.name }
                       type={ 'text' }
                       placeholder={ 'Enter a nickname' }

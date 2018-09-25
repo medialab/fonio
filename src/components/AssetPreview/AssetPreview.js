@@ -29,7 +29,7 @@ import {
 import BibliographicPreview from '../BibliographicPreview';
 import { translateNameSpacer } from '../../helpers/translateUtils';
 import { loadResourceData } from '../../helpers/assetsUtils';
-import { abbrevString } from '../../helpers/misc';
+import { abbrevString, silentEvent } from '../../helpers/misc';
 
 import './AssetPreview.scss';
 
@@ -228,8 +228,7 @@ class AssetPreview extends Component {
   }
 
   onClickBox = ( e ) => {
-    e.preventDefault();
-    e.stopPropagation(); //cause lockingMap state not be updated
+    silentEvent( e ); //cause lockingMap state not be updated
     if ( typeof this.props.onClick === 'function' ) {
       this.props.onClick( e );
     }
@@ -246,19 +245,16 @@ class AssetPreview extends Component {
     const { metadata, data } = resource;
     const { isInfoShown } = this.state;
 
-    const silentEvent = ( event ) => {
-      event.stopPropagation();
-    };
-
     const handlePreviewClick = ( event ) => {
       if ( silentPreviewClick ) {
         silentEvent( event );
       }
     };
+    const handleClickBox = this.onClickBox;
     return (
       showPannel ?
         <Box
-          onClick={ this.onClickBox }
+          onClick={ handleClickBox }
           style={ {
             background: isActive ? '#3F51B5' : 'rgb(240,240,240)',
             color: isActive ? '#FFF' : '#333',
