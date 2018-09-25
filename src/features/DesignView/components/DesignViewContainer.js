@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import {debounce} from 'lodash';
+import { debounce } from 'lodash';
 import {
   withRouter,
 } from 'react-router';
@@ -22,37 +22,38 @@ import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapper
 import DataUrlProvider from '../../../components/DataUrlProvider';
 
 @connect(
-  state => ({
+  ( state ) => ( {
     lang: state.i18nState && state.i18nState.lang,
-    ...connectionsDuck.selector(state.connections),
-    ...storyDuck.selector(state.editedStory),
-    ...duck.selector(state.design),
-  }),
-  dispatch => ({
-    actions: bindActionCreators({
+    ...connectionsDuck.selector( state.connections ),
+    ...storyDuck.selector( state.editedStory ),
+    ...duck.selector( state.design ),
+  } ),
+  ( dispatch ) => ( {
+    actions: bindActionCreators( {
       ...editionUiDuck,
       ...connectionsDuck,
       ...storyDuck,
       ...duck,
-    }, dispatch)
-  })
+    }, dispatch )
+  } )
 )
 
 class DesignViewContainer extends Component {
 
-  constructor(props) {
-    super(props);
-    this.onUpdateCss = debounce(this.onUpdateCss, 500);
+  constructor( props ) {
+    super( props );
+    this.onUpdateCss = debounce( this.onUpdateCss, 500 );
   }
 
   componentDidMount = () => {
     // require lock if edited story is here
-    if (this.props.editedStory) {
-      this.requireLockOnDesign(this.props);
+    if ( this.props.editedStory ) {
+      this.requireLockOnDesign( this.props );
     }
   }
 
-  componentWillReceiveProps = nextProps => {
+  componentWillReceiveProps = ( nextProps ) => {
+
     /**
      * if section id or story id is changed leave previous section and try to lock on next section
      */
@@ -74,23 +75,23 @@ class DesignViewContainer extends Component {
     /**
      * @todo skip this conditional with another strategy relying on components architecture
      */
-    if (!this.props.editedStory && nextProps.editedStory) {
-      this.requireLockOnDesign(this.props);
+    if ( !this.props.editedStory && nextProps.editedStory ) {
+      this.requireLockOnDesign( this.props );
     }
 
-    if (prevStoryId !== nextStoryId) {
-      this.requireLockOnDesign(nextProps);
+    if ( prevStoryId !== nextStoryId ) {
+      this.requireLockOnDesign( nextProps );
     }
   }
 
   componentWillUnmount = () => {
     this.onUpdateCss.cancel();
-    this.unlockOnDesign(this.props);
-    this.props.actions.setCssHelpVisible(false);
+    this.unlockOnDesign( this.props );
+    this.props.actions.setCssHelpVisible( false );
     this.props.actions.resetViewsUi();
   }
 
-  unlockOnDesign = props => {
+  unlockOnDesign = ( props ) => {
     const {
       match: {
         params: {
@@ -100,17 +101,17 @@ class DesignViewContainer extends Component {
       lockingMap,
       userId,
     } = props;
-    if (lockingMap && lockingMap[storyId] && lockingMap[storyId].locks[userId]) {
-      this.props.actions.leaveBlock({
+    if ( lockingMap && lockingMap[storyId] && lockingMap[storyId].locks[userId] ) {
+      this.props.actions.leaveBlock( {
         storyId,
         userId,
         blockType: 'design',
         blockId: 'design'
-      });
+      } );
     }
   }
 
-  requireLockOnDesign = props => {
+  requireLockOnDesign = ( props ) => {
     const {
       match: {
         params: {
@@ -119,29 +120,33 @@ class DesignViewContainer extends Component {
       },
       userId
     } = props;
-    this.props.actions.enterBlock({
+    this.props.actions.enterBlock( {
       storyId,
       userId,
       blockType: 'design',
       blockId: 'design'
-    }, (err) => {
-      if (err) {
+    }, ( err ) => {
+      if ( err ) {
+
         /**
          * ENTER_BLOCK_FAIL
          * If section lock is failed/refused,
          * this means another client is editing the section
          * -> for now the UI behaviour is to get back client to the summary view
          */
-        this.props.history.push(`/story/${storyId}/`);
+        this.props.history.push( `/story/${storyId}/` );
       }
       else {
-        // ENTER_BLOCK_SUCCESS
-        // this.goToSection(sectionId);
+
+        /*
+         * ENTER_BLOCK_SUCCESS
+         * this.goToSection(sectionId);
+         */
       }
-    });
+    } );
   }
 
-  onUpdateCss = css => {
+  onUpdateCss = ( css ) => {
     const {
       editedStory: story,
       userId,
@@ -149,17 +154,17 @@ class DesignViewContainer extends Component {
         updateStorySettings
       }
     } = this.props;
-    updateStorySettings({
+    updateStorySettings( {
       storyId: story.id,
       userId,
       settings: {
         ...story.settings,
         css,
       }
-    });
+    } );
   }
 
-  onUpdateSettings = settings => {
+  onUpdateSettings = ( settings ) => {
     const {
       editedStory: story,
       userId,
@@ -167,11 +172,11 @@ class DesignViewContainer extends Component {
         updateStorySettings
       }
     } = this.props;
-    updateStorySettings({
+    updateStorySettings( {
       storyId: story.id,
       userId,
       settings,
-    });
+    } );
   }
 
   render() {
@@ -182,15 +187,19 @@ class DesignViewContainer extends Component {
       onUpdateCss,
       onUpdateSettings
     } = this;
-    if (editedStory) {
+    if ( editedStory ) {
       return (
-        <DataUrlProvider storyId={editedStory.id} serverUrl={config.apiUrl}>
+        <DataUrlProvider
+          storyId={ editedStory.id }
+          serverUrl={ config.apiUrl }
+        >
           <EditionUiWrapper>
             <DesignViewLayout
-              story={this.props.editedStory}
-              onUpdateCss={onUpdateCss}
-              onUpdateSettings={onUpdateSettings}
-              {...this.props} />
+              story={ this.props.editedStory }
+              onUpdateCss={ onUpdateCss }
+              onUpdateSettings={ onUpdateSettings }
+              { ...this.props }
+            />
           </EditionUiWrapper>
         </DataUrlProvider>
       );
@@ -199,4 +208,4 @@ class DesignViewContainer extends Component {
   }
 }
 
-export default withRouter(DesignViewContainer);
+export default withRouter( DesignViewContainer );

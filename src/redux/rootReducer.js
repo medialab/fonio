@@ -4,14 +4,13 @@
  *
  * Combining the app's reducers.
  */
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
-import {i18nState} from 'redux-i18n';
+import { i18nState } from 'redux-i18n';
 
-import {loadingBarReducer} from 'react-redux-loading-bar';
+import { loadingBarReducer } from 'react-redux-loading-bar';
 
-import {reducer as toastrReducer} from 'react-redux-toastr';
-
+import { reducer as toastrReducer } from 'react-redux-toastr';
 
 import home from '../features/HomeView/duck';
 import summary from '../features/SummaryView/duck';
@@ -27,15 +26,15 @@ import editedStory from '../features/StoryManager/duck';
 import sectionsManagement from '../features/SectionsManager/duck';
 import errorMessage from '../features/ErrorMessageManager/duck';
 
-const saveLang = (state = {}, action) => {
-  if (action.type === 'REDUX_I18N_SET_LANGUAGE') {
-    localStorage.setItem('fonio-lang', action.lang);
+const saveLang = ( state = {}, action ) => {
+  if ( action.type === 'REDUX_I18N_SET_LANGUAGE' ) {
+    localStorage.setItem( 'fonio-lang', action.lang );
     return state;
   }
  else return state;
 };
 
-export default combineReducers({
+export default combineReducers( {
   i18nState,
   saveLang,
 
@@ -55,4 +54,4 @@ export default combineReducers({
   section,
   library,
   design,
-});
+} );

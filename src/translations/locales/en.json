@@ -612,5 +612,8 @@
   "Features.EditionUiWrapper.Untitled section": "Untitled section",
   "Features.EditionUiWrapper.Overview": "Overview",
   "Features.SectionView.One item": "One item",
-  "Features.SectionView.Several items": "Several items"
+  "Features.SectionView.Several items": "Several items",
+  "Features.LibraryView.small": "small",
+  "Features.SectionView.tooltip": "tooltip",
+  "Features.SectionView.small": "small"
 }

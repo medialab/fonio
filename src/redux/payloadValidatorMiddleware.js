@@ -10,14 +10,14 @@ const options = {
     paramKey: 'payload'
 };
 
-export default () => (store) => (next) => (action) => {
-  if (!action[options.validatorKey] || !action[options.validatorKey].validator || action[options.validatorKey].disableValidate) {
+export default () => ( store ) => ( next ) => ( action ) => {
+  if ( !action[options.validatorKey] || !action[options.validatorKey].validator || action[options.validatorKey].disableValidate ) {
     // thunk compatible
-    if (action[options.paramKey] && action[options.paramKey].thunk) {
-        return next(action[options.paramKey].thunk);
+    if ( action[options.paramKey] && action[options.paramKey].thunk ) {
+        return next( action[options.paramKey].thunk );
     }
     else {
-        return next(action);
+        return next( action );
     }
   }
 
@@ -25,81 +25,84 @@ export default () => (store) => (next) => (action) => {
   let errorParam, errorId, errorMsg;
 
   const validators = action[options.validatorKey].validator || {};
-  const runValidator = (param, func, msg, id, key) => {
+  const runValidator = ( param, func, msg, id, key ) => {
     let valid;
-    if (func) {
-        valid = func(param, store.getState(), action.payload);
+    if ( func ) {
+        valid = func( param, store.getState(), action.payload );
     }
     else {
-        throw new Error('validator func is needed');
+        throw new Error( 'validator func is needed' );
     }
     if
-        (typeof valid !== 'boolean') {
-        throw new Error('validator func must return boolean type');
+        ( typeof valid !== 'boolean' ) {
+        throw new Error( 'validator func must return boolean type' );
     }
-    if (!valid) {
+    if ( !valid ) {
         errorParam = key;
         errorId = id;
-        errorMsg = (typeof msg === 'function'
-                    ? msg(param, store.getState(), action.payload)
-                    : msg)
+        errorMsg = ( typeof msg === 'function'
+                    ? msg( param, store.getState(), action.payload )
+                    : msg )
                     || '';
     }
 
     return valid;
   };
 
-  const runValidatorContainer = (validator, param, key) => {
+  const runValidatorContainer = ( validator, param, key ) => {
     let valid;
-    if (Array.prototype.isPrototypeOf(validator)) {
-        for (const j in validator) {
-            if (validator.hasOwnProperty(j)) {
+    if ( Array.prototype.isPrototypeOf( validator ) ) {
+        for ( const j in validator ) {
+            if ( validator.hasOwnProperty( j ) ) {
                 const item = validator[j];
-                valid = runValidator(param, item.func, item.msg, j, key);
-                if (!valid) break;
+                valid = runValidator( param, item.func, item.msg, j, key );
+                if ( !valid ) break;
             }
         }
     }
     else {
-        valid = runValidator(param, validator.func, validator.msg, 0, key);
+        valid = runValidator( param, validator.func, validator.msg, 0, key );
     }
     return valid;
   };
 
   const params = action[options.paramKey] || {};
-  for (const i in validators) {
-    if (validators.hasOwnProperty(i)) {
-        if (i === options.paramKey || i === 'thunk') continue;
+  for ( const i in validators ) {
+    if ( validators.hasOwnProperty( i ) ) {
+        if ( i === options.paramKey || i === 'thunk' ) continue;
         const validator = validators[i];
 
-        flag = runValidatorContainer(validator, params[i], i);
-        if (!flag) break;
+        flag = runValidatorContainer( validator, params[i], i );
+        if ( !flag ) break;
     }
   }
 
   // param object itself
   const paramObjValidator = validators[options.paramKey];
-  if (paramObjValidator && flag) {
-    flag = runValidatorContainer(paramObjValidator, action[options.paramKey], options.paramKey);
+  if ( paramObjValidator && flag ) {
+    flag = runValidatorContainer( paramObjValidator, action[options.paramKey], options.paramKey );
   }
   // -------
 
-  if (flag) {
+  if ( flag ) {
     // thunk compatible
-    if (action[options.paramKey] && action[options.paramKey].thunk) {
-        return next(action[options.paramKey].thunk);
+    if ( action[options.paramKey] && action[options.paramKey].thunk ) {
+        return next( action[options.paramKey].thunk );
     }
     else {
-        return next(action);
+        return next( action );
     }
   }
   else {
-    return next({errors: errorMsg, type: `${action.type}_FAIL`, param: errorParam, id: errorId});
-    // return {
-    //     err: 'validator',
-    //     msg: errorMsg,
-    //     param: errorParam,
-    //     id: errorId
-    // };
+    return next( { errors: errorMsg, type: `${action.type}_FAIL`, param: errorParam, id: errorId } );
+
+    /*
+     * return {
+     *     err: 'validator',
+     *     msg: errorMsg,
+     *     param: errorParam,
+     *     id: errorId
+     * };
+     */
   }
 };

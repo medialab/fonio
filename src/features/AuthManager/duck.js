@@ -5,11 +5,11 @@
  * @module fonio/features/StoryManager
  */
 
-import {combineReducers} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import { combineReducers } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
-import {LOGIN_STORY} from '../ConnectionsManager/duck';
-import {CHANGE_PASSWORD, SET_CHANGE_PASSWORD_ID} from '../HomeView/duck';
+import { LOGIN_STORY } from '../ConnectionsManager/duck';
+import { CHANGE_PASSWORD, SET_CHANGE_PASSWORD_ID } from '../HomeView/duck';
 
 /**
  * ===================================================
@@ -24,15 +24,15 @@ const SET_LOGIN_STATUS = 'SET_LOGIN_STATUS';
  * ACTION CREATORS
  * ===================================================
  */
-export const setStoryLoginId = payload => ({
+export const setStoryLoginId = ( payload ) => ( {
   type: SET_STORY_LOGIN_ID,
   payload
-});
+} );
 
-export const setLoginStatus = payload => ({
+export const setLoginStatus = ( payload ) => ( {
   type: SET_LOGIN_STATUS,
   payload
-});
+} );
 
 /**
  * ===================================================
@@ -40,11 +40,12 @@ export const setLoginStatus = payload => ({
  * ===================================================
  */
 
-const getStatePropFromActionSet = actionName => {
-  return actionName.replace('SET_', '').toLowerCase().replace(/(_[a-z])/gi, (a, b) => b.substr(1).toUpperCase());
+const getStatePropFromActionSet = ( actionName ) => {
+  return actionName.replace( 'SET_', '' ).toLowerCase().replace( /(_[a-z])/gi, ( a, b ) => b.substr( 1 ).toUpperCase() );
 };
 
 const UI_DEFAULT_STATE = {
+
   /**
    * id of the story being asked to be logged in
    */
@@ -68,12 +69,12 @@ const UI_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function ui(state = UI_DEFAULT_STATE, action) {
-  const {payload} = action;
-  switch (action.type) {
+function ui( state = UI_DEFAULT_STATE, action ) {
+  const { payload } = action;
+  switch ( action.type ) {
     case SET_STORY_LOGIN_ID:
     case SET_LOGIN_STATUS:
-      const propName = getStatePropFromActionSet(action.type);
+      const propName = getStatePropFromActionSet( action.type );
       return {
         ...state,
         [propName]: payload
@@ -117,25 +118,25 @@ function ui(state = UI_DEFAULT_STATE, action) {
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default combineReducers({
+export default combineReducers( {
   ui
-});
+} );
 
 /**
  * ===================================================
  * SELECTORS
  * ===================================================
  */
-const storyLoginId = state => state.ui.storyLoginId;
-const loginStatus = state => state.ui.loginStatus;
-const changePasswordStatus = state => state.ui.changePasswordStatus;
+const storyLoginId = ( state ) => state.ui.storyLoginId;
+const loginStatus = ( state ) => state.ui.loginStatus;
+const changePasswordStatus = ( state ) => state.ui.changePasswordStatus;
 
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
  */
-export const selector = createStructuredSelector({
+export const selector = createStructuredSelector( {
   storyLoginId,
   loginStatus,
   changePasswordStatus,
-});
+} );

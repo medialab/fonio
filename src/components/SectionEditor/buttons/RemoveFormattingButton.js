@@ -10,25 +10,28 @@ import {
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
-
-const RemoveFormattingButton = (props, {
+const RemoveFormattingButton = ( props, {
   removeFormattingForSelection
-}) => {
-  const onClick = e => {
+} ) => {
+  const onClick = ( e ) => {
     e.preventDefault();
     e.stopPropagation();
     removeFormattingForSelection();
   };
   return (
     <Button
-      data-tip={props.tooltip}
-      data-for={'style-button'}
-      onMouseDown={onClick}>
-      <Image isSize={'24x24'} style={{marginLeft: 0, marginRight: 0}} src={icons.remove.black.svg} />
+      data-tip={ props.tooltip }
+      data-for={ 'style-button' }
+      onMouseDown={ onClick }
+    >
+      <Image
+        isSize={ '24x24' }
+        style={ { marginLeft: 0, marginRight: 0 } }
+        src={ icons.remove.black.svg }
+      />
     </Button>
   );
 };
-
 
 RemoveFormattingButton.contextTypes = {
   removeFormattingForSelection: PropTypes.func,

@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {v4 as genId} from 'uuid';
-import {isEmpty} from 'lodash';
+import { v4 as genId } from 'uuid';
+import { isEmpty } from 'lodash';
 
-import {arrayMove} from 'react-sortable-hoc';
-
+import { arrayMove } from 'react-sortable-hoc';
 
 import {
   convertToRaw,
@@ -19,16 +18,15 @@ import {
   ModalCard,
 } from 'quinoa-design-library/components/';
 
-import {translateNameSpacer} from '../../../helpers/translateUtils';
-
+import { translateNameSpacer } from '../../../helpers/translateUtils';
 
 import {
   removeContextualizationReferenceFromRawContents
 } from '../../../helpers/assetsUtils';
 
-import {createDefaultSection} from '../../../helpers/schemaUtils';
-import {deleteContextualizationFromId} from '../../../helpers/assetsUtils';
-import {getResourceTitle, searchResources} from '../../../helpers/resourcesUtils';
+import { createDefaultSection } from '../../../helpers/schemaUtils';
+import { deleteContextualizationFromId } from '../../../helpers/assetsUtils';
+import { getResourceTitle, searchResources } from '../../../helpers/resourcesUtils';
 
 import {
   getReverseSectionsLockMap,
@@ -45,8 +43,7 @@ import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 import LoadingScreen from '../../../components/LoadingScreen';
 import LinkModal from '../../../components/LinkModal';
 
-
-const SectionViewLayout = ({
+const SectionViewLayout = ( {
   asideTabMode,
   asideTabCollapsed,
   mainColumnMode,
@@ -107,7 +104,6 @@ const SectionViewLayout = ({
     enterBlock,
     leaveBlock,
 
-
     createContextualization,
     createContextualizer,
     createResource,
@@ -141,9 +137,9 @@ const SectionViewLayout = ({
   onContextualizeHyperlink,
   onResourceEditAttempt,
   history,
-}, {t}) => {
+}, { t } ) => {
 
-  const translate = translateNameSpacer(t, 'Features.SectionView');
+  const translate = translateNameSpacer( t, 'Features.SectionView' );
 
   // console.time('preparation');
 
@@ -153,19 +149,19 @@ const SectionViewLayout = ({
     contextualizations,
     sectionsOrder,
   } = story;
-  const {id: sectionId} = section;
+  const { id: sectionId } = section;
   const defaultSection = createDefaultSection();
 
-  const reverseSectionLockMap = getReverseSectionsLockMap(lockingMap, activeUsers, storyId);
-  const hasLockOnSection = checkIfUserHasLockOnSection(lockingMap, userId, storyId, sectionId);
-  const userLockedResourceId = getUserResourceLockId(lockingMap, userId, storyId);
-  const reverseResourcesLockMap = getReverseResourcesLockMap(lockingMap, activeUsers, storyId);
+  const reverseSectionLockMap = getReverseSectionsLockMap( lockingMap, activeUsers, storyId );
+  const hasLockOnSection = checkIfUserHasLockOnSection( lockingMap, userId, storyId, sectionId );
+  const userLockedResourceId = getUserResourceLockId( lockingMap, userId, storyId );
+  const reverseResourcesLockMap = getReverseResourcesLockMap( lockingMap, activeUsers, storyId );
 
   const sectionsList = story.sectionsOrder
-  .map(thatSectionId => {
+  .map( ( thatSectionId ) => {
     let lockStatus;
-    if (reverseSectionLockMap[thatSectionId]) {
-      if (reverseSectionLockMap[thatSectionId].userId === userId) {
+    if ( reverseSectionLockMap[thatSectionId] ) {
+      if ( reverseSectionLockMap[thatSectionId].userId === userId ) {
         lockStatus = 'active';
       }
       else {
@@ -180,66 +176,65 @@ const SectionViewLayout = ({
       lockData: reverseSectionLockMap[thatSectionId],
       lockStatus
     };
-  });
+  } );
 
   const reverseResourcesSectionsMap =
-    Object.keys(contextualizations)
-    .reduce((result, contextId) => {
+    Object.keys( contextualizations )
+    .reduce( ( result, contextId ) => {
       const context = contextualizations[contextId];
       const activeCitedSections =
-        getCitedSections(contextualizations, context.resourceId)
-          .filter(id => {
-            return (reverseSectionLockMap[id] && reverseSectionLockMap[id].userId !== userId);
-          });
-      if (activeCitedSections.length > 0) {
+        getCitedSections( contextualizations, context.resourceId )
+          .filter( ( id ) => {
+            return ( reverseSectionLockMap[id] && reverseSectionLockMap[id].userId !== userId );
+          } );
+      if ( activeCitedSections.length > 0 ) {
         return {
           ...result,
-          [context.resourceId]: {name: `other ${activeCitedSections.length} sections`}
+          [context.resourceId]: { name: `other ${activeCitedSections.length} sections` }
         };
       }
       return result;
-    }, {});
+    }, {} );
 
-  const activeFilters = Object.keys(resourceFilterValues).filter(key => resourceFilterValues[key]);
-  const resourcesList = Object.keys(resources).map(resourceId => resources[resourceId]);
+  const activeFilters = Object.keys( resourceFilterValues ).filter( ( key ) => resourceFilterValues[key] );
+  const resourcesList = Object.keys( resources ).map( ( resourceId ) => resources[resourceId] );
 
-  let visibleResources = resourceSearchString.length === 0 ? resourcesList : searchResources(resourcesList, resourceSearchString);
+  let visibleResources = resourceSearchString.length === 0 ? resourcesList : searchResources( resourcesList, resourceSearchString );
   visibleResources = visibleResources
-    .filter(resource => {
-      if (activeFilters.length) {
-        return activeFilters.indexOf(resource.metadata.type) > -1;
+    .filter( ( resource ) => {
+      if ( activeFilters.length ) {
+        return activeFilters.indexOf( resource.metadata.type ) > -1;
       }
       return true;
-    })
-    .sort((a, b) => {
-        switch (resourceSortValue) {
+    } )
+    .sort( ( a, b ) => {
+        switch ( resourceSortValue ) {
           case 'edited recently':
-            if (a.lastUpdateAt > b.lastUpdateAt) {
+            if ( a.lastUpdateAt > b.lastUpdateAt ) {
               return -1;
             }
             return 1;
           case 'title':
           default:
-            const aTitle = getResourceTitle(a);
-            const bTitle = getResourceTitle(b);
-            if ((aTitle && bTitle) && aTitle.toLowerCase().trim() > bTitle.toLowerCase().trim()) {
+            const aTitle = getResourceTitle( a );
+            const bTitle = getResourceTitle( b );
+            if ( ( aTitle && bTitle ) && aTitle.toLowerCase().trim() > bTitle.toLowerCase().trim() ) {
               return 1;
             }
             return -1;
         }
-      });
-  const hyperlinks = linkModalFocusData ? Object.keys(story.resources)
-    .filter(resourceId => story.resources[resourceId].metadata.type === 'webpage')
-    .map(resourceId => story.resources[resourceId]) : [];
+      } );
+  const hyperlinks = linkModalFocusData ? Object.keys( story.resources )
+    .filter( ( resourceId ) => story.resources[resourceId].metadata.type === 'webpage' )
+    .map( ( resourceId ) => story.resources[resourceId] ) : [];
 
   // console.timeEnd('preparation');
-
 
   /**
    * Callbacks
    */
 
-  const onNewSectionSubmit = (metadata) => {
+  const onNewSectionSubmit = ( metadata ) => {
     const newSection = {
       ...defaultSection,
       metadata: {
@@ -249,55 +244,60 @@ const SectionViewLayout = ({
       id: genId()
     };
 
-    const currentSectionOrder = sectionsOrder.indexOf(section.id) || 0;
-    createSection({
+    const currentSectionOrder = sectionsOrder.indexOf( section.id ) || 0;
+    createSection( {
       section: newSection,
       sectionId: newSection.id,
       storyId,
       sectionOrder: currentSectionOrder + 1,
       userId
-    }, (err) => {
-      if (!err) {
-        goToSection(newSection.id);
+    }, ( err ) => {
+      if ( !err ) {
+        goToSection( newSection.id );
       }
-    });
-    setMainColumnMode('edition');
+    } );
+    setMainColumnMode( 'edition' );
   };
 
   /**
    * DELETE SECTION MANAGEMENT
    */
 
-  // if modal to delete section was prompted and in the meantime someone has entered this section
-  // then we unset the delete prompt on that section
-  if (promptedToDeleteSectionId && reverseSectionLockMap[promptedToDeleteSectionId]) {
-    setPromptedToDeleteSectionId(undefined);
+  /*
+   * if modal to delete section was prompted and in the meantime someone has entered this section
+   * then we unset the delete prompt on that section
+   */
+  if ( promptedToDeleteSectionId && reverseSectionLockMap[promptedToDeleteSectionId] ) {
+    setPromptedToDeleteSectionId( undefined );
   }
 
-  const onDeleteSection = thatSectionId => {
-    setPromptedToDeleteSectionId(thatSectionId);
+  const onDeleteSection = ( thatSectionId ) => {
+    setPromptedToDeleteSectionId( thatSectionId );
   };
 
-  const onDeleteResource = thatResourceId => {
-    setPromptedToDeleteResourceId(thatResourceId);
+  const onDeleteResource = ( thatResourceId ) => {
+    setPromptedToDeleteResourceId( thatResourceId );
   };
-  const actuallyDeleteSection = thatSectionId => {
-    // make sure that section is not edited by another user to prevent bugs and inconsistencies
-    // (in UI delete button should be disabled when section is edited, this is a supplementary safety check)
-    if (!reverseSectionLockMap[thatSectionId]) {
-      deleteSection({
+  const actuallyDeleteSection = ( thatSectionId ) => {
+
+    /*
+     * make sure that section is not edited by another user to prevent bugs and inconsistencies
+     * (in UI delete button should be disabled when section is edited, this is a supplementary safety check)
+     */
+    if ( !reverseSectionLockMap[thatSectionId] ) {
+      deleteSection( {
         sectionId: thatSectionId,
         storyId,
         userId,
         blockId: thatSectionId,
         blockType: 'sections',
-      });
+      } );
     }
   };
 
   const onDeleteSectionConfirm = () => {
-    actuallyDeleteSection(promptedToDeleteSectionId);
-    setPromptedToDeleteSectionId(undefined);
+    actuallyDeleteSection( promptedToDeleteSectionId );
+    setPromptedToDeleteSectionId( undefined );
   };
 
   const onDeleteResourceConfirm = () => {
@@ -307,177 +307,177 @@ const SectionViewLayout = ({
       userId,
       resourceId: resource.id
     };
-    const relatedContextualizations = Object.keys(story.contextualizations).map(c => story.contextualizations[c])
-        .filter(contextualization => {
+    const relatedContextualizations = Object.keys( story.contextualizations ).map( ( c ) => story.contextualizations[c] )
+        .filter( ( contextualization ) => {
           return contextualization.resourceId === promptedToDeleteResourceId;
-        });
+        } );
 
-    const relatedContextualizationsIds = relatedContextualizations.map(c => c.id);
-    const relatedContextualizationsSectionIds = relatedContextualizations.map(c => c.sectionId);
+    const relatedContextualizationsIds = relatedContextualizations.map( ( c ) => c.id );
+    const relatedContextualizationsSectionIds = relatedContextualizations.map( ( c ) => c.sectionId );
 
     const changedContentStates = {};
-    if (relatedContextualizationsIds.length) {
-      relatedContextualizationsSectionIds.forEach(key => {
+    if ( relatedContextualizationsIds.length ) {
+      relatedContextualizationsSectionIds.forEach( ( key ) => {
         const thatSection = story.sections[key];
-        if (!thatSection) return;
+        if ( !thatSection ) return;
         let sectionChanged;
         let newSection;
         // resource is cited in this section view
-        if (Object.keys(editorStates).indexOf(key) !== -1) {
-          const sectionContents = editorStates[thatSection.id] ? {...convertToRaw(editorStates[thatSection.id].getCurrentContent())} : thatSection.contents;
-          const notesContents = Object.keys(thatSection.notes).reduce((res, noteId) => ({
+        if ( Object.keys( editorStates ).indexOf( key ) !== -1 ) {
+          const sectionContents = editorStates[thatSection.id] ? { ...convertToRaw( editorStates[thatSection.id].getCurrentContent() ) } : thatSection.contents;
+          const notesContents = Object.keys( thatSection.notes ).reduce( ( res, noteId ) => ( {
             ...res,
-            [noteId]: editorStates[noteId] ? convertToRaw(editorStates[noteId].getCurrentContent()) : thatSection.notes[noteId].contents
-          }), {});
+            [noteId]: editorStates[noteId] ? convertToRaw( editorStates[noteId].getCurrentContent() ) : thatSection.notes[noteId].contents
+          } ), {} );
 
           newSection = {
             ...thatSection,
-            contents: relatedContextualizationsIds.reduce((temp, contId) => {
-              const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
-              if (changed && !sectionChanged) {
+            contents: relatedContextualizationsIds.reduce( ( temp, contId ) => {
+              const { changed, result } = removeContextualizationReferenceFromRawContents( temp, contId );
+              if ( changed && !sectionChanged ) {
                 sectionChanged = true;
                 changedContentStates[key] = result;
               }
               return result;
-            }, {...sectionContents}),
-            notes: Object.keys(thatSection.notes).reduce((temp1, noteId) => ({
+            }, { ...sectionContents } ),
+            notes: Object.keys( thatSection.notes ).reduce( ( temp1, noteId ) => ( {
               ...temp1,
               [noteId]: {
                 ...thatSection.notes[noteId],
-                contents: relatedContextualizationsIds.reduce((temp, contId) => {
-                  const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
-                  if (changed && !sectionChanged) {
+                contents: relatedContextualizationsIds.reduce( ( temp, contId ) => {
+                  const { changed, result } = removeContextualizationReferenceFromRawContents( temp, contId );
+                  if ( changed && !sectionChanged ) {
                     sectionChanged = true;
                     changedContentStates[noteId] = result;
                   }
                   return result;
-                }, {...notesContents[noteId]})
+                }, { ...notesContents[noteId] } )
               }
-            }), {})
+            } ), {} )
           };
           // updating live editor states
-          const newEditorStates = Object.keys(editorStates || {})
-            .reduce((res, contentId) => ({
+          const newEditorStates = Object.keys( editorStates || {} )
+            .reduce( ( res, contentId ) => ( {
               ...res,
               [contentId]: changedContentStates[contentId] ?
                 EditorState.push(
                   editorStates[contentId],
-                  convertFromRaw(changedContentStates[contentId]),
+                  convertFromRaw( changedContentStates[contentId] ),
                   'remove-entity'
                 )
                  :
                 editorStates[contentId]
-            }), {});
-          updateDraftEditorsStates(newEditorStates);
+            } ), {} );
+          updateDraftEditorsStates( newEditorStates );
         }
         // resource is cited in other sections
         else {
           newSection = {
             ...thatSection,
-            contents: relatedContextualizationsIds.reduce((temp, contId) => {
-              const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
-              if (changed && !sectionChanged) {
+            contents: relatedContextualizationsIds.reduce( ( temp, contId ) => {
+              const { changed, result } = removeContextualizationReferenceFromRawContents( temp, contId );
+              if ( changed && !sectionChanged ) {
                 sectionChanged = true;
               }
               return result;
-            }, thatSection.contents),
-            notes: Object.keys(thatSection.notes).reduce((temp1, noteId) => ({
+            }, thatSection.contents ),
+            notes: Object.keys( thatSection.notes ).reduce( ( temp1, noteId ) => ( {
               ...temp1,
               [noteId]: {
                 ...thatSection.notes[noteId],
-                contents: relatedContextualizationsIds.reduce((temp, contId) => {
-                  const {changed, result} = removeContextualizationReferenceFromRawContents(temp, contId);
-                  if (changed && !sectionChanged) {
+                contents: relatedContextualizationsIds.reduce( ( temp, contId ) => {
+                  const { changed, result } = removeContextualizationReferenceFromRawContents( temp, contId );
+                  if ( changed && !sectionChanged ) {
                     sectionChanged = true;
                   }
                   return result;
-                }, thatSection.notes[noteId].contents)
+                }, thatSection.notes[noteId].contents )
               }
-            }), {})
+            } ), {} )
           };
         }
-        if (sectionChanged) {
-          updateSection({
+        if ( sectionChanged ) {
+          updateSection( {
             sectionId: thatSection.id,
             storyId: story.id,
             userId,
             section: newSection,
-          });
+          } );
         }
-      });
+      } );
     }
 
-    if (resource.metadata.type === 'image' || resource.metadata.type === 'table') {
-      deleteUploadedResource(payload);
+    if ( resource.metadata.type === 'image' || resource.metadata.type === 'table' ) {
+      deleteUploadedResource( payload );
     }
     else {
-      deleteResource(payload);
+      deleteResource( payload );
     }
-    setPromptedToDeleteResourceId(undefined);
+    setPromptedToDeleteResourceId( undefined );
   };
 
   const onOpenSectionSettings = () => {
-    setMainColumnMode('editmetadata');
+    setMainColumnMode( 'editmetadata' );
   };
   const onCloseSectionSettings = () => {
-    setMainColumnMode('edition');
+    setMainColumnMode( 'edition' );
   };
 
   const onCloseActiveResource = () => {
-      leaveBlock({
+      leaveBlock( {
         storyId,
         userId,
         blockType: 'resources',
         blockId: userLockedResourceId
-      });
+      } );
     };
 
-  const onSectionsSortEnd = ({oldIndex, newIndex}) => {
-    const sectionsIds = sectionsList.map(thatSection => thatSection.id);
-    const newSectionsOrder = arrayMove(sectionsIds, oldIndex, newIndex);
+  const onSectionsSortEnd = ( { oldIndex, newIndex } ) => {
+    const sectionsIds = sectionsList.map( ( thatSection ) => thatSection.id );
+    const newSectionsOrder = arrayMove( sectionsIds, oldIndex, newIndex );
 
-    updateSectionsOrder({
+    updateSectionsOrder( {
       storyId,
       userId,
       sectionsOrder: newSectionsOrder,
-    });
+    } );
   };
-  const setSectionIndex = (oldIndex, newIndex) => {
-    const sectionsIds = sectionsList.map(thatSection => thatSection.id);
-    const newSectionsOrder = arrayMove(sectionsIds, oldIndex, newIndex);
+  const setSectionIndex = ( oldIndex, newIndex ) => {
+    const sectionsIds = sectionsList.map( ( thatSection ) => thatSection.id );
+    const newSectionsOrder = arrayMove( sectionsIds, oldIndex, newIndex );
 
-    updateSectionsOrder({
+    updateSectionsOrder( {
       storyId,
       userId,
       sectionsOrder: newSectionsOrder,
-    });
+    } );
   };
 
-  const onUpdateSection = (thatSection, callback) => {
-    if (thatSection && reverseSectionLockMap[thatSection.id] && reverseSectionLockMap[thatSection.id].userId === userId) {
-      updateSection({
+  const onUpdateSection = ( thatSection, callback ) => {
+    if ( thatSection && reverseSectionLockMap[thatSection.id] && reverseSectionLockMap[thatSection.id].userId === userId ) {
+      updateSection( {
         sectionId,
         storyId,
         userId,
 
         section: thatSection,
-      }, callback);
+      }, callback );
     }
   };
 
-  const onSetCoverImage = resourceId => {
-    setCoverImage({
+  const onSetCoverImage = ( resourceId ) => {
+    setCoverImage( {
       storyId,
       resourceId,
       userId
-    });
+    } );
   };
 
-  const startExistingResourceConfiguration = resourceId => onResourceEditAttempt(resourceId);
-  const startNewResourceConfiguration = (toEmbedResourceAfterCreation, resourceType) => {
-    setEmbedResourceAfterCreation(toEmbedResourceAfterCreation);
-    setNewResourceType(resourceType);
-    setMainColumnMode('newresource');
+  const startExistingResourceConfiguration = ( resourceId ) => onResourceEditAttempt( resourceId );
+  const startNewResourceConfiguration = ( toEmbedResourceAfterCreation, resourceType ) => {
+    setEmbedResourceAfterCreation( toEmbedResourceAfterCreation );
+    setNewResourceType( resourceType );
+    setMainColumnMode( 'newresource' );
   };
 
   /**
@@ -485,161 +485,169 @@ const SectionViewLayout = ({
    * (and do not delete the contextualization itself to avoid inconsistencies
    * and breaking undo/redo stack)
    */
-  const onDeleteContextualizationFromId = (contextualizationId) => {
-    deleteContextualizationFromId({
+  const onDeleteContextualizationFromId = ( contextualizationId ) => {
+    deleteContextualizationFromId( {
       editorStates,
       contextualization: story.contextualizations[contextualizationId],
       updateDraftEditorState,
       updateSection: onUpdateSection,
       section
-    });
+    } );
   };
 
-  const onCreateResource = (payload, callback) => {
-    createResource(payload, callback);
-    if (embedResourceAfterCreation) {
+  const onCreateResource = ( payload, callback ) => {
+    createResource( payload, callback );
+    if ( embedResourceAfterCreation ) {
       // setTimeout(() => {
           embedLastResource();
         // });
     }
   };
 
-  const onSetSectionLevel = ({sectionId: thatSectionId, level}) => {
-    setSectionLevel({
+  const onSetSectionLevel = ( { sectionId: thatSectionId, level } ) => {
+    setSectionLevel( {
       storyId,
       sectionId: thatSectionId,
       level,
       userId
-    });
+    } );
   };
 
-  const onSetEditorFocus = editorId => {
-    if (selectedContextualizationId) {
-      setTimeout(() => setSelectedContextualizationId(undefined));
+  const onSetEditorFocus = ( editorId ) => {
+    if ( selectedContextualizationId ) {
+      setTimeout( () => setSelectedContextualizationId( undefined ) );
     }
-    setEditorFocus(editorId);
+    setEditorFocus( editorId );
   };
 
-  const onSetSelectedContextualizationId = contextualizationId => {
-    setEditorFocus(undefined);
-    setSelectedContextualizationId(contextualizationId);
+  const onSetSelectedContextualizationId = ( contextualizationId ) => {
+    setEditorFocus( undefined );
+    setSelectedContextualizationId( contextualizationId );
   };
 
   return (
-    <StretchedLayoutContainer isAbsolute isFluid isDirection={'horizontal'}>
-      <StretchedLayoutItem className={`aside-edition-container ${asideTabCollapsed ? 'is-collapsed' : ''} is-hidden-mobile`} isFlex={1}>
+    <StretchedLayoutContainer
+      isAbsolute
+      isFluid
+      isDirection={ 'horizontal' }
+    >
+      <StretchedLayoutItem
+        className={ `aside-edition-container ${asideTabCollapsed ? 'is-collapsed' : ''} is-hidden-mobile` }
+        isFlex={ 1 }
+      >
         <AsideSectionColumn
-          asideTabCollapsed={asideTabCollapsed}
-          asideTabMode={asideTabMode}
-          mainColumnMode={mainColumnMode}
-          resourceOptionsVisible={resourceOptionsVisible}
-          story={story}
-          sections={sectionsList}
+          asideTabCollapsed={ asideTabCollapsed }
+          asideTabMode={ asideTabMode }
+          mainColumnMode={ mainColumnMode }
+          resourceOptionsVisible={ resourceOptionsVisible }
+          story={ story }
+          sections={ sectionsList }
 
-          getResourceTitle={getResourceTitle}
-          setEditorFocus={onSetEditorFocus}
+          getResourceTitle={ getResourceTitle }
+          setEditorFocus={ onSetEditorFocus }
 
-          userId={userId}
-          lockingMap={lockingMap}
-          activeUsers={activeUsers}
-          reverseResourcesLockMap={isEmpty(reverseResourcesLockMap) ? reverseResourcesSectionsMap : reverseResourcesLockMap}
-          userLockedResourceId={userLockedResourceId}
+          userId={ userId }
+          lockingMap={ lockingMap }
+          activeUsers={ activeUsers }
+          reverseResourcesLockMap={ isEmpty( reverseResourcesLockMap ) ? reverseResourcesSectionsMap : reverseResourcesLockMap }
+          userLockedResourceId={ userLockedResourceId }
 
-          visibleResources={visibleResources}
-          resourceSearchString={resourceSearchString}
-          setResourceSearchString={setResourceSearchString}
-          resourceFilterValues={resourceFilterValues}
-          setResourceFilterValues={setResourceFilterValues}
-          resourceSortValue={resourceSortValue}
-          setResourceSortValue={setResourceSortValue}
-          setSectionLevel={onSetSectionLevel}
+          visibleResources={ visibleResources }
+          resourceSearchString={ resourceSearchString }
+          setResourceSearchString={ setResourceSearchString }
+          resourceFilterValues={ resourceFilterValues }
+          setResourceFilterValues={ setResourceFilterValues }
+          resourceSortValue={ resourceSortValue }
+          setResourceSortValue={ setResourceSortValue }
+          setSectionLevel={ onSetSectionLevel }
 
-          onDeleteResource={onDeleteResource}
-          submitMultiResources={submitMultiResources}
+          onDeleteResource={ onDeleteResource }
+          submitMultiResources={ submitMultiResources }
 
-          onResourceEditAttempt={onResourceEditAttempt}
-          onSetCoverImage={onSetCoverImage}
-          onCloseActiveResource={onCloseActiveResource}
-          history={history}
+          onResourceEditAttempt={ onResourceEditAttempt }
+          onSetCoverImage={ onSetCoverImage }
+          onCloseActiveResource={ onCloseActiveResource }
+          history={ history }
 
-          onOpenSectionSettings={onOpenSectionSettings}
-          onCloseSectionSettings={onCloseSectionSettings}
-          setResourceOptionsVisible={setResourceOptionsVisible}
-          setAsideTabMode={setAsideTabMode}
-          setAsideTabCollapsed={setAsideTabCollapsed}
-          setMainColumnMode={setMainColumnMode}
-          onSortEnd={onSectionsSortEnd}
-          setSectionIndex={setSectionIndex}
+          onOpenSectionSettings={ onOpenSectionSettings }
+          onCloseSectionSettings={ onCloseSectionSettings }
+          setResourceOptionsVisible={ setResourceOptionsVisible }
+          setAsideTabMode={ setAsideTabMode }
+          setAsideTabCollapsed={ setAsideTabCollapsed }
+          setMainColumnMode={ setMainColumnMode }
+          onSortEnd={ onSectionsSortEnd }
+          setSectionIndex={ setSectionIndex }
 
-          onDeleteSection={onDeleteSection} />
+          onDeleteSection={ onDeleteSection }
+        />
       </StretchedLayoutItem>
-      <StretchedLayoutItem isFlex={asideTabCollapsed ? 11 : 3}>
+      <StretchedLayoutItem isFlex={ asideTabCollapsed ? 11 : 3 }>
         {hasLockOnSection ?
           <MainSectionColumn
-            userLockedResourceId={userLockedResourceId}
-            mainColumnMode={mainColumnMode}
-            setMainColumnMode={setMainColumnMode}
-            section={section}
-            story={story}
-            userId={userId}
-            selectedContextualizationId={selectedContextualizationId}
-            setSelectedContextualizationId={onSetSelectedContextualizationId}
-            defaultSectionMetadata={defaultSection.metadata}
-            editorStates={editorStates}
-            editorFocus={editorFocus}
-            previousEditorFocus={previousEditorFocus}
-            assetRequestState={assetRequestState}
-            draggedResourceId={draggedResourceId}
-            setShortcutsHelpVisible={setShortcutsHelpVisible}
-            uploadStatus={uploadStatus}
+            userLockedResourceId={ userLockedResourceId }
+            mainColumnMode={ mainColumnMode }
+            setMainColumnMode={ setMainColumnMode }
+            section={ section }
+            story={ story }
+            userId={ userId }
+            selectedContextualizationId={ selectedContextualizationId }
+            setSelectedContextualizationId={ onSetSelectedContextualizationId }
+            defaultSectionMetadata={ defaultSection.metadata }
+            editorStates={ editorStates }
+            editorFocus={ editorFocus }
+            previousEditorFocus={ previousEditorFocus }
+            assetRequestState={ assetRequestState }
+            draggedResourceId={ draggedResourceId }
+            setShortcutsHelpVisible={ setShortcutsHelpVisible }
+            uploadStatus={ uploadStatus }
 
-            setUploadStatus={setUploadStatus}
+            setUploadStatus={ setUploadStatus }
 
-            newResourceMode={newResourceMode}
+            newResourceMode={ newResourceMode }
 
-            onNewSectionSubmit={onNewSectionSubmit}
+            onNewSectionSubmit={ onNewSectionSubmit }
 
-            updateSection={onUpdateSection}
+            updateSection={ onUpdateSection }
 
-            promptAssetEmbed={promptAssetEmbed}
-            unpromptAssetEmbed={unpromptAssetEmbed}
-            setEditorFocus={onSetEditorFocus}
+            promptAssetEmbed={ promptAssetEmbed }
+            unpromptAssetEmbed={ unpromptAssetEmbed }
+            setEditorFocus={ onSetEditorFocus }
 
+            setNewResourceMode={ setNewResourceMode }
 
-            setNewResourceMode={setNewResourceMode}
+            newResourceType={ newResourceType }
+            storyIsSaved={ storyIsSaved }
 
-            newResourceType={newResourceType}
-            storyIsSaved={storyIsSaved}
+            editorPastingStatus={ editorPastingStatus }
+            setEditorPastingStatus={ setEditorPastingStatus }
 
-            editorPastingStatus={editorPastingStatus}
-            setEditorPastingStatus={setEditorPastingStatus}
+            createContextualization={ createContextualization }
+            createContextualizer={ createContextualizer }
+            createResource={ onCreateResource }
+            uploadResource={ uploadResource }
 
-            createContextualization={createContextualization}
-            createContextualizer={createContextualizer}
-            createResource={onCreateResource}
-            uploadResource={uploadResource}
+            enterBlock={ enterBlock }
+            leaveBlock={ leaveBlock }
 
-            enterBlock={enterBlock}
-            leaveBlock={leaveBlock}
+            updateDraftEditorState={ updateDraftEditorState }
+            updateDraftEditorsStates={ updateDraftEditorsStates }
 
-            updateDraftEditorState={updateDraftEditorState}
-            updateDraftEditorsStates={updateDraftEditorsStates}
+            updateContextualizer={ updateContextualizer }
+            updateResource={ updateResource }
+            deleteContextualization={ deleteContextualization }
+            deleteContextualizer={ deleteContextualizer }
+            deleteContextualizationFromId={ onDeleteContextualizationFromId }
 
-            updateContextualizer={updateContextualizer}
-            updateResource={updateResource}
-            deleteContextualization={deleteContextualization}
-            deleteContextualizer={deleteContextualizer}
-            deleteContextualizationFromId={onDeleteContextualizationFromId}
+            onOpenSectionSettings={ onOpenSectionSettings }
+            submitMultiResources={ submitMultiResources }
 
-            onOpenSectionSettings={onOpenSectionSettings}
-            submitMultiResources={submitMultiResources}
-
-            setAssetRequestContentId={setAssetRequestContentId}
-            startNewResourceConfiguration={startNewResourceConfiguration}
-            startExistingResourceConfiguration={startExistingResourceConfiguration}
-            setStoryIsSaved={setStoryIsSaved}
-            setErrorMessage={setErrorMessage}
-            summonAsset={summonAsset} />
+            setAssetRequestContentId={ setAssetRequestContentId }
+            startNewResourceConfiguration={ startNewResourceConfiguration }
+            startExistingResourceConfiguration={ startExistingResourceConfiguration }
+            setStoryIsSaved={ setStoryIsSaved }
+            setErrorMessage={ setErrorMessage }
+            summonAsset={ summonAsset }
+          />
             : <LoadingScreen />
         }
       </StretchedLayoutItem>
@@ -648,90 +656,94 @@ const SectionViewLayout = ({
           promptedToDeleteSectionId &&
           !reverseSectionLockMap[promptedToDeleteSectionId] &&
           <ConfirmToDeleteModal
-            isActive={promptedToDeleteSectionId !== undefined}
-            deleteType={'section'}
-            story={story}
-            id={promptedToDeleteSectionId}
-            onClose={() => setPromptedToDeleteSectionId(undefined)}
-            onDeleteConfirm={onDeleteSectionConfirm} />
+            isActive={ promptedToDeleteSectionId !== undefined }
+            deleteType={ 'section' }
+            story={ story }
+            id={ promptedToDeleteSectionId }
+            onClose={ () => setPromptedToDeleteSectionId( undefined ) }
+            onDeleteConfirm={ onDeleteSectionConfirm }
+          />
         }
       {
           promptedToDeleteResourceId &&
           <ConfirmToDeleteModal
-            isActive={promptedToDeleteResourceId !== undefined}
-            deleteType={'resource'}
-            story={story}
-            id={promptedToDeleteResourceId}
-            onClose={() => setPromptedToDeleteResourceId(undefined)}
-            onDeleteConfirm={onDeleteResourceConfirm} />
+            isActive={ promptedToDeleteResourceId !== undefined }
+            deleteType={ 'resource' }
+            story={ story }
+            id={ promptedToDeleteResourceId }
+            onClose={ () => setPromptedToDeleteResourceId( undefined ) }
+            onDeleteConfirm={ onDeleteResourceConfirm }
+          />
         }
       <LinkModal
-        isActive={linkModalFocusData !== undefined}
-        focusData={linkModalFocusData}
-        onClose={() => setLinkModalFocusData(undefined)}
-        hyperlinks={hyperlinks}
-        onCreateHyperlink={onCreateHyperlink}
-        onContextualizeHyperlink={onContextualizeHyperlink} />
+        isActive={ linkModalFocusData !== undefined }
+        focusData={ linkModalFocusData }
+        onClose={ () => setLinkModalFocusData( undefined ) }
+        hyperlinks={ hyperlinks }
+        onCreateHyperlink={ onCreateHyperlink }
+        onContextualizeHyperlink={ onContextualizeHyperlink }
+      />
       <ModalCard
-        isActive={shortcutsHelpVisible}
-        headerContent={translate('Shortcuts help')}
-        onClose={() => setShortcutsHelpVisible(false)}
-        style={{
+        isActive={ shortcutsHelpVisible }
+        headerContent={ translate( 'Shortcuts help' ) }
+        onClose={ () => setShortcutsHelpVisible( false ) }
+        style={ {
           maxHeight: '80%'
-        }}
+        } }
         mainContent={
           <div>
             <p>
-              {t('All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)')}
+              {t( 'All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)' )}
             </p>
-            <table className={'table'}>
+            <table className={ 'table' }>
               <thead>
                 <tr>
-                  <th>{translate('Shortcut')}</th>
-                  <th>{translate('Where')}</th>
-                  <th>{translate('Effect')}</th>
+                  <th>{translate( 'Shortcut' )}</th>
+                  <th>{translate( 'Where' )}</th>
+                  <th>{translate( 'Effect' )}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <th><code>cmd+l</code></th>
-                  <th>{translate('Anywhere')}</th>
-                  <th>{translate('Open item citation widget')}</th>
+                  <th>{translate( 'Anywhere' )}</th>
+                  <th>{translate( 'Open item citation widget' )}</th>
                 </tr>
                 <tr>
                   <th><code>cmd+m</code></th>
-                  <th>{translate('Anywhere')}</th>
-                  <th>{translate('Add a new note')}</th>
+                  <th>{translate( 'Anywhere' )}</th>
+                  <th>{translate( 'Add a new note' )}</th>
                 </tr>
                 <tr>
-                  <th><code>{translate('"#" then space')}</code></th>
-                  <th>{translate('Begining of a paragraph')}</th>
-                  <th>{translate('Add a title')}</th>
+                  <th><code>{translate( '"#" then space' )}</code></th>
+                  <th>{translate( 'Begining of a paragraph' )}</th>
+                  <th>{translate( 'Add a title' )}</th>
                 </tr>
                 <tr>
-                  <th><code>{translate('">" then space')}</code></th>
-                  <th>{translate('Begining of a paragraph')}</th>
-                  <th>{translate('Add a citation block')}</th>
+                  <th><code>{translate( '">" then space' )}</code></th>
+                  <th>{translate( 'Begining of a paragraph' )}</th>
+                  <th>{translate( 'Add a citation block' )}</th>
                 </tr>
                 <tr>
-                  <th><code>{translate('"*" then content then "*"')}</code></th>
-                  <th>{translate('Anywhere')}</th>
-                  <th>{translate('Write italic text')}</th>
+                  <th><code>{translate( '"*" then content then "*"' )}</code></th>
+                  <th>{translate( 'Anywhere' )}</th>
+                  <th>{translate( 'Write italic text' )}</th>
                 </tr>
                 <tr>
-                  <th><code>{translate('"**" then content then "**"')}</code></th>
-                  <th>{translate('Anywhere')}</th>
-                  <th>{translate('Write bold text')}</th>
+                  <th><code>{translate( '"**" then content then "**"' )}</code></th>
+                  <th>{translate( 'Anywhere' )}</th>
+                  <th>{translate( 'Write bold text' )}</th>
                 </tr>
                 <tr>
-                  <th><code>{translate('"*" then space')}</code></th>
-                  <th>{translate('Begining of a paragraph')}</th>
-                  <th>{translate('Begin a list')}</th>
+                  <th><code>{translate( '"*" then space' )}</code></th>
+                  <th>{translate( 'Begining of a paragraph' )}</th>
+                  <th>{translate( 'Begin a list' )}</th>
                 </tr>
               </tbody>
             </table>
           </div>
-      } />
+      }
+      />
     </StretchedLayoutContainer>
   );
 };

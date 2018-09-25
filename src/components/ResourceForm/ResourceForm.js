@@ -1,17 +1,19 @@
 /* eslint react/no-set-state : 0 */
 /* eslint react/jsx-boolean-value : 0 */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // import {renderToStaticMarkup} from 'react-dom/server';
 
-// import {Bibliography} from 'react-citeproc';
-// import english from 'raw-loader!../../sharedAssets/bibAssets/english-locale.xml';
-// import apa from 'raw-loader!../../sharedAssets/bibAssets/apa.csl';
+/*
+ * import {Bibliography} from 'react-citeproc';
+ * import english from 'raw-loader!../../sharedAssets/bibAssets/english-locale.xml';
+ * import apa from 'raw-loader!../../sharedAssets/bibAssets/apa.csl';
+ */
 
-import {isEmpty} from 'lodash';
-import {csvParse} from 'd3-dsv';
-import {Form, NestedField, Text, TextArea} from 'react-form';
+import { isEmpty } from 'lodash';
+import { csvParse } from 'd3-dsv';
+import { Form, NestedField, Text, TextArea } from 'react-form';
 
 import resourceSchema from 'quinoa-schemas/resource';
 
@@ -19,12 +21,12 @@ import config from '../../config';
 
 import AuthorsManager from '../AuthorsManager';
 
-import {translateNameSpacer} from '../../helpers/translateUtils';
-import {retrieveMediaMetadata, retrieveWebpageMetadata, loadImage, inferMetadata, parseBibTeXToCSLJSON} from '../../helpers/assetsUtils';
-import {getFileAsText} from '../../helpers/fileLoader';
+import { translateNameSpacer } from '../../helpers/translateUtils';
+import { retrieveMediaMetadata, retrieveWebpageMetadata, loadImage, inferMetadata, parseBibTeXToCSLJSON } from '../../helpers/assetsUtils';
+import { getFileAsText } from '../../helpers/fileLoader';
 
-import {base64ToBytesLength} from '../../helpers/misc';
-import {createDefaultResource, validateResource} from '../../helpers/schemaUtils';
+import { base64ToBytesLength } from '../../helpers/misc';
+import { createDefaultResource, validateResource } from '../../helpers/schemaUtils';
 import {
   BigSelect,
   Button,
@@ -48,25 +50,24 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 import BibRefsEditor from '../BibRefsEditor';
 import AssetPreview from '../AssetPreview';
 
+const resourceTypes = Object.keys( resourceSchema.definitions );
+const credentials = { youtubeAPIKey: config.youtubeAPIKey };
+const { maxResourceSize } = config;
 
-const resourceTypes = Object.keys(resourceSchema.definitions);
-const credentials = {youtubeAPIKey: config.youtubeAPIKey};
-const {maxResourceSize} = config;
-
-const realMaxFileSize = base64ToBytesLength(maxResourceSize);
+const realMaxFileSize = base64ToBytesLength( maxResourceSize );
 
 class DataForm extends Component {
   static contextTypes = {
     t: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.resource !== nextProps.resource) {
-      nextProps.formApi.setAllValues({data: nextProps.resource.data});
+  componentWillReceiveProps( nextProps ) {
+    if ( this.props.resource !== nextProps.resource ) {
+      nextProps.formApi.setAllValues( { data: nextProps.resource.data } );
     }
   }
   render = () => {
@@ -76,78 +77,79 @@ class DataForm extends Component {
       asNewResource,
       formApi
     } = this.props;
-    const {t} = this.context;
-    const translate = translateNameSpacer(t, 'Components.ResourceForm');
+    const { t } = this.context;
+    const translate = translateNameSpacer( t, 'Components.ResourceForm' );
 
-    const loadResourceData = (type, file) =>
-      new Promise((resolve, reject) => {
-        switch (type) {
+    const loadResourceData = ( type, file ) =>
+      new Promise( ( resolve, reject ) => {
+        switch ( type ) {
           case 'bib':
-            return getFileAsText(file)
-              .then(text => resolve(parseBibTeXToCSLJSON(text)))
-              .catch(e => reject(e));
+            return getFileAsText( file )
+              .then( ( text ) => resolve( parseBibTeXToCSLJSON( text ) ) )
+              .catch( ( e ) => reject( e ) );
           case 'image':
-            return loadImage(file)
-              .then(base64 => resolve({base64}))
-              .catch(e => reject(e));
+            return loadImage( file )
+              .then( ( base64 ) => resolve( { base64 } ) )
+              .catch( ( e ) => reject( e ) );
           case 'table':
-            return getFileAsText(file)
-              .then(text => resolve({json: csvParse(text)}))
-              .catch(e => reject(e));
+            return getFileAsText( file )
+              .then( ( text ) => resolve( { json: csvParse( text ) } ) )
+              .catch( ( e ) => reject( e ) );
           default:
             return reject();
         }
-      });
-    const onDropFiles = (files) => {
-      formApi.setError('maxSize', undefined);
-      loadResourceData(resourceType, files[0])
-      .then((data) => {
-        const contentLength = JSON.stringify(data).length;
-        if (contentLength > maxResourceSize) {
-          formApi.setError('maxSize', translate('File is too large ({s} Mb), please choose one under {m} Mb', {s: Math.floor(contentLength / 1000000), m: realMaxFileSize / 1000000}));
+      } );
+    const onDropFiles = ( files ) => {
+      formApi.setError( 'maxSize', undefined );
+      loadResourceData( resourceType, files[0] )
+      .then( ( data ) => {
+        const contentLength = JSON.stringify( data ).length;
+        if ( contentLength > maxResourceSize ) {
+          formApi.setError( 'maxSize', translate( 'File is too large ({s} Mb), please choose one under {m} Mb', { s: Math.floor( contentLength / 1000000 ), m: realMaxFileSize / 1000000 } ) );
         }
-        const inferedMetadata = inferMetadata({...data, file: files[0]}, resourceType);
-        const prevMetadata = formApi.getValue('metadata');
+        const inferedMetadata = inferMetadata( { ...data, file: files[0] }, resourceType );
+        const prevMetadata = formApi.getValue( 'metadata' );
         const metadata = {
           ...prevMetadata,
           ...inferedMetadata,
           title: prevMetadata.title ? prevMetadata.title : inferedMetadata.title
         };
-        formApi.setValue('metadata', metadata);
-        formApi.setValue('data', data);
+        formApi.setValue( 'metadata', metadata );
+        formApi.setValue( 'data', data );
 
-      })
-      .catch(e => {
-        console.error(e);/* no-console: 0*/
-      });
+      } )
+      .catch( ( e ) => {
+        console.error( e );/* no-console: 0*/
+      } );
     };
-    const onEditBib = (value) => {
-      const bibData = parseBibTeXToCSLJSON(value);
+    const onEditBib = ( value ) => {
+      const bibData = parseBibTeXToCSLJSON( value );
       // TODO: citation-js parse fail in silence, wait error handling feature
-      if (bibData.length === 1) {
-        formApi.setValue('data', bibData);
-        formApi.setError('data', undefined);
+      if ( bibData.length === 1 ) {
+        formApi.setValue( 'data', bibData );
+        formApi.setError( 'data', undefined );
       }
-      else if (bibData.length > 1) {
-        formApi.setError('data', translate('Please enter only one bibtex'));
+      else if ( bibData.length > 1 ) {
+        formApi.setError( 'data', translate( 'Please enter only one bibtex' ) );
       }
-      else formApi.setError('data', translate('Invalid bibtext resource'));
+      else formApi.setError( 'data', translate( 'Invalid bibtext resource' ) );
     };
-    switch (resourceType) {
+    switch ( resourceType ) {
     case 'image':
       return (
         <Field>
           <Control>
             <Label>
-              {translate('Image file')}
-              <HelpPin place={'right'}>
-                {translate('Explanation about the image')}
+              {translate( 'Image file' )}
+              <HelpPin place={ 'right' }>
+                {translate( 'Explanation about the image' )}
               </HelpPin>
             </Label>
             <DropZone
-              accept={'.jpg,.jpeg,.png,.gif'}
-              onDrop={onDropFiles}>
-              {translate('Drop an image file')}
+              accept={ '.jpg,.jpeg,.png,.gif' }
+              onDrop={ onDropFiles }
+            >
+              {translate( 'Drop an image file' )}
             </DropZone>
           </Control>
         </Field>
@@ -157,15 +159,16 @@ class DataForm extends Component {
         <Field>
           <Control>
             <Label>
-              {translate('Table')}
-              <HelpPin place={'right'}>
-                {translate('Explanation about the table')}
+              {translate( 'Table' )}
+              <HelpPin place={ 'right' }>
+                {translate( 'Explanation about the table' )}
               </HelpPin>
             </Label>
             <DropZone
-              accept={'.csv,.tsv'}
-              onDrop={onDropFiles}>
-              {translate('Drop an table file(csv, tsv)')}
+              accept={ '.csv,.tsv' }
+              onDrop={ onDropFiles }
+            >
+              {translate( 'Drop an table file(csv, tsv)' )}
             </DropZone>
           </Control>
         </Field>
@@ -175,62 +178,66 @@ class DataForm extends Component {
         <Field>
           <Control>
             <Label>
-              {translate('Bib file')}
-              <HelpPin place={'right'}>
-                {translate('Explanation about the bib')}
+              {translate( 'Bib file' )}
+              <HelpPin place={ 'right' }>
+                {translate( 'Explanation about the bib' )}
               </HelpPin>
             </Label>
             {
               asNewResource ?
                 <DropZone
-                  accept={'.bib,.txt'}
-                  onDrop={onDropFiles}>
-                  {translate('Drop a bib file')}
+                  accept={ '.bib,.txt' }
+                  onDrop={ onDropFiles }
+                >
+                  {translate( 'Drop a bib file' )}
                 </DropZone> :
                 <BibRefsEditor
-                  style={{minWidth: '10rem'}}
-                  data={resource.data}
-                  onChange={onEditBib} />
+                  style={ { minWidth: '10rem' } }
+                  data={ resource.data }
+                  onChange={ onEditBib }
+                />
             }
           </Control>
           {
             formApi.errors && formApi.errors.data &&
-              <Help isColor={'danger'}>{formApi.errors.data}</Help>
+              <Help isColor={ 'danger' }>{formApi.errors.data}</Help>
           }
         </Field>
       );
     case 'video':
-      const onVideoUrlChange = (thatUrl) => {
-        retrieveMediaMetadata(thatUrl, credentials)
-          .then(({metadata}) => {
-            Object.keys(metadata)
-              .forEach(key => {
-                const existing = formApi.getValue(`metadata.${key}`);
-                if ((!existing || (typeof existing === 'string' && !existing.trim().length) || (Array.isArray(existing) && !existing.length)) && metadata[key]) {
-                  formApi.setValue(`metadata.${key}`, metadata[key]);
+      const onVideoUrlChange = ( thatUrl ) => {
+        retrieveMediaMetadata( thatUrl, credentials )
+          .then( ( { metadata } ) => {
+            Object.keys( metadata )
+              .forEach( ( key ) => {
+                const existing = formApi.getValue( `metadata.${key}` );
+                if ( ( !existing || ( typeof existing === 'string' && !existing.trim().length ) || ( Array.isArray( existing ) && !existing.length ) ) && metadata[key] ) {
+                  formApi.setValue( `metadata.${key}`, metadata[key] );
                 }
-              });
-          });
+              } );
+          } );
       };
       return (
         <Field>
           <Control>
             <Label>
-              {translate('Url of the video')}
-              <HelpPin place={'right'}>
-                {translate('Explanation about the video url')}
+              {translate( 'Url of the video' )}
+              <HelpPin place={ 'right' }>
+                {translate( 'Explanation about the video url' )}
               </HelpPin>
             </Label>
             <Text
-              className={'input'}
-              field={'url'} id={'url'}
-              onChange={onVideoUrlChange}
-              type={'text'}
-              placeholder={translate('Video url')} />
+              className={ 'input' }
+              field={ 'url' }
+              id={ 'url' }
+              onChange={ onVideoUrlChange }
+              type={ 'text' }
+              placeholder={ translate( 'Video url' ) }
+            />
           </Control>
           {
             formApi.errors && formApi.errors.url &&
-              <Help isColor={'danger'}>{formApi.errors.url}</Help>
+              <Help isColor={ 'danger' }>{formApi.errors.url}</Help>
           }
         </Field>
       );
@@ -239,63 +246,70 @@ class DataForm extends Component {
         <Field>
           <Control>
             <Label>
-              {translate('Embed code')}
-              <HelpPin place={'right'}>
-                {translate('Explanation about the embed')}
+              {translate( 'Embed code' )}
+              <HelpPin place={ 'right' }>
+                {translate( 'Explanation about the embed' )}
               </HelpPin>
             </Label>
             <TextArea
-              className={'textarea'}
-              field={'html'} id={'html'}
-              type={'text'}
-              placeholder={translate('Embed code')} />
+              className={ 'textarea' }
+              field={ 'html' }
+              id={ 'html' }
+              type={ 'text' }
+              placeholder={ translate( 'Embed code' ) }
+            />
           </Control>
           {
             formApi.errors && formApi.errors.html &&
-              <Help isColor={'danger'}>{formApi.errors.html}</Help>
+              <Help isColor={ 'danger' }>{formApi.errors.html}</Help>
           }
         </Field>
       );
     case 'webpage':
-      const onWebpageUrlChange = (thatUrl) => {
-        retrieveWebpageMetadata(thatUrl)
-          .then((metadata) => {
-            Object.keys(metadata)
-              .forEach(key => {
-                const existing = formApi.getValue(`metadata.${key}`);
-                if ((!existing || (typeof existing === 'string' && !existing.trim().length) || (Array.isArray(existing) && !existing.length)) && metadata[key]) {
-                  formApi.setValue(`metadata.${key}`, metadata[key]);
+      const onWebpageUrlChange = ( thatUrl ) => {
+        retrieveWebpageMetadata( thatUrl )
+          .then( ( metadata ) => {
+            Object.keys( metadata )
+              .forEach( ( key ) => {
+                const existing = formApi.getValue( `metadata.${key}` );
+                if ( ( !existing || ( typeof existing === 'string' && !existing.trim().length ) || ( Array.isArray( existing ) && !existing.length ) ) && metadata[key] ) {
+                  formApi.setValue( `metadata.${key}`, metadata[key] );
                 }
-              });
-          });
-        // retrieveMediaMetadata(thatUrl, credentials)
-        //   .then(({metadata}) => {
-        //     Object.keys(metadata)
-        //       .forEach(key => {
-        //         formApi.setValue(`metadata.${key}`, metadata[key]);
-        //       });
-        //   });
+              } );
+          } );
+
+        /*
+         * retrieveMediaMetadata(thatUrl, credentials)
+         *   .then(({metadata}) => {
+         *     Object.keys(metadata)
+         *       .forEach(key => {
+         *         formApi.setValue(`metadata.${key}`, metadata[key]);
+         *       });
+         *   });
+         */
       };
       return (
         <div>
           <Field>
             <Control>
               <Label>
-                {translate('hyperlink')}
-                <HelpPin place={'right'}>
-                  {translate('Explanation about the hyperlink')}
+                {translate( 'hyperlink' )}
+                <HelpPin place={ 'right' }>
+                  {translate( 'Explanation about the hyperlink' )}
                 </HelpPin>
               </Label>
               <Text
-                className={'input'}
-                field={'url'} id={'url'}
-                type={'text'}
-                onChange={onWebpageUrlChange}
-                placeholder={translate('http://')} />
+                className={ 'input' }
+                field={ 'url' }
+                id={ 'url' }
+                type={ 'text' }
+                onChange={ onWebpageUrlChange }
+                placeholder={ translate( 'http://' ) }
+              />
             </Control>
             {
               formApi.errors && formApi.errors.url &&
-                <Help isColor={'danger'}>{formApi.errors.url}</Help>
+                <Help isColor={ 'danger' }>{formApi.errors.url}</Help>
             }
           </Field>
         </div>
@@ -306,36 +320,39 @@ class DataForm extends Component {
           <Field>
             <Control>
               <Label>
-                {translate('Glossary name')}
-                <HelpPin place={'right'}>
-                  {translate('Explanation about the glossary')}
+                {translate( 'Glossary name' )}
+                <HelpPin place={ 'right' }>
+                  {translate( 'Explanation about the glossary' )}
                 </HelpPin>
               </Label>
               <Text
-                className={'input'}
-                field={'name'} id={'name'}
-                type={'text'}
-                placeholder={translate('glossary name')} />
+                className={ 'input' }
+                field={ 'name' }
+                id={ 'name' }
+                type={ 'text' }
+                placeholder={ translate( 'glossary name' ) }
+              />
             </Control>
             {
               formApi.errors && formApi.errors.name &&
-                <Help isColor={'danger'}>{formApi.errors.name}</Help>
+                <Help isColor={ 'danger' }>{formApi.errors.name}</Help>
             }
           </Field>
           <Field>
             <Control>
               <Label>
-                {translate('Glossary description')}
-                <HelpPin place={'right'}>
-                  {translate('Explanation about the glossary description')}
+                {translate( 'Glossary description' )}
+                <HelpPin place={ 'right' }>
+                  {translate( 'Explanation about the glossary description' )}
                 </HelpPin>
               </Label>
               <TextArea
-                className={'textarea'}
-                type={'text'}
-                field={'description'}
-                id={'description'}
-                placeholder={translate('glossary description')} />
+                className={ 'textarea' }
+                type={ 'text' }
+                field={ 'description' }
+                id={ 'description' }
+                placeholder={ translate( 'glossary description' ) }
+              />
             </Control>
           </Field>
         </div>
@@ -348,51 +365,51 @@ class DataForm extends Component {
 
 class ResourceForm extends Component {
 
-  constructor(props, context) {
-    super(props);
+  constructor( props, context ) {
+    super( props );
     const resource = props.resource || createDefaultResource();
-    if (props.resourceType) {
+    if ( props.resourceType ) {
       resource.metadata.type = props.resourceType;
     }
     this.state = {
       resource
     };
-    this.translate = translateNameSpacer(context.t, 'Components.ResourceForm');
+    this.translate = translateNameSpacer( context.t, 'Components.ResourceForm' );
   }
 
   componentDidMount = () => {
-    setTimeout(() => {
-      if (this.form) {
-        const inputs = this.form.getElementsByTagName('input');
-        if (inputs && inputs.length) {
+    setTimeout( () => {
+      if ( this.form ) {
+        const inputs = this.form.getElementsByTagName( 'input' );
+        if ( inputs && inputs.length ) {
           inputs[0].focus();
         }
-        const flowing = this.form.getElementsByClassName('is-flowing');
-        if (flowing && flowing.length) {
-          Array.prototype.forEach.call(flowing, el => {
+        const flowing = this.form.getElementsByClassName( 'is-flowing' );
+        if ( flowing && flowing.length ) {
+          Array.prototype.forEach.call( flowing, ( el ) => {
             el.scrollTop = 0;
-          });
+          } );
         }
 
       }
-    });
+    } );
   }
 
-  componentWillReceiveProps = nextProps => {
-    if (this.props.resource !== nextProps.resource) {
+  componentWillReceiveProps = ( nextProps ) => {
+    if ( this.props.resource !== nextProps.resource ) {
       const resource = nextProps.resource || createDefaultResource();
-      if (nextProps.resourceType) {
+      if ( nextProps.resourceType ) {
         resource.metadata.type = nextProps.resourceType;
       }
-      this.setState({
+      this.setState( {
         resource
-      });
+      } );
     }
   }
 
   componentWillUnmount = () => {
-    const {asNewResource} = this.props;
-    if (!asNewResource) this.props.onCancel();
+    const { asNewResource } = this.props;
+    if ( !asNewResource ) this.props.onCancel();
   }
 
   render = () => {
@@ -412,80 +429,83 @@ class ResourceForm extends Component {
       translate,
     } = this;
 
-    const handleSubmit = (candidates) => {
-      if (candidates.metadata.type === 'embed') {
-        const {data} = candidates;
+    const handleSubmit = ( candidates ) => {
+      if ( candidates.metadata.type === 'embed' ) {
+        const { data } = candidates;
         const scriptRegex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
-        const cleanHtml = data.html.replace(scriptRegex, '');
-        onSubmit({
+        const cleanHtml = data.html.replace( scriptRegex, '' );
+        onSubmit( {
           ...candidates,
           data: {
             html: cleanHtml
           }
-        });
+        } );
       }
       else {
-        onSubmit(candidates);
+        onSubmit( candidates );
       }
     };
 
-    const onResourceTypeChange = (thatType, formApi) => {
-      if (thatType === undefined) {
+    const onResourceTypeChange = ( thatType, formApi ) => {
+      if ( thatType === undefined ) {
         //"reset type" case
         formApi.resetAll();
       }
       const defaultResource = createDefaultResource();
-      formApi.setAllValues(defaultResource);
-      formApi.setValue('metadata.type', thatType);
+      formApi.setAllValues( defaultResource );
+      formApi.setValue( 'metadata.type', thatType );
     };
 
-    const onSubmitFailure = error => {
-      console.log(error);/* eslint no-console : 0 */
+    const onSubmitFailure = ( error ) => {
+      console.log( error );/* eslint no-console : 0 */
     };
 
-    const errorValidator = (values) => {
-      if (values.metadata.type) {
+    const errorValidator = ( values ) => {
+      if ( values.metadata.type ) {
         const dataSchema = resourceSchema.definitions[values.metadata.type];
         const dataRequiredValues = dataSchema.required || [];
 
         return {
-          ...dataRequiredValues.reduce((result, key) => ({
+          ...dataRequiredValues.reduce( ( result, key ) => ( {
             ...result,
-            [key]: values.data[key] ? null : translate('this field is required')
-          }), {
-            schemaVal: validateResource(values).valid ? null : translate('resource is not valid')
-          })
+            [key]: values.data[key] ? null : translate( 'this field is required' )
+          } ), {
+            schemaVal: validateResource( values ).valid ? null : translate( 'resource is not valid' )
+          } )
         };
       }
     };
 
-    const bindRef = form => {
+    const bindRef = ( form ) => {
       this.form = form;
     };
 
     return (
       <Form
-        defaultValues={resource}
-        validate={errorValidator}
-        validateOnSubmit={true}
-        onSubmitFailure={onSubmitFailure}
-        onSubmit={handleSubmit}>
+        defaultValues={ resource }
+        validate={ errorValidator }
+        validateOnSubmit={ true }
+        onSubmitFailure={ onSubmitFailure }
+        onSubmit={ handleSubmit }
+      >
         {
-          formApi => (
-            <form ref={bindRef} className={'is-wrapper'} onSubmit={formApi.submitForm}>
+          ( formApi ) => (
+            <form
+              ref={ bindRef }
+              className={ 'is-wrapper' }
+              onSubmit={ formApi.submitForm }
+            >
               <StretchedLayoutContainer isAbsolute>
                 {showTitle &&
                   <StretchedLayoutItem>
                     <Column>
-                      <Title isSize={3}>
-                        <StretchedLayoutContainer isDirection={'horizontal'}>
-                          <StretchedLayoutItem isFlex={1}>
-                            {asNewResource ? translate(`Add ${(resource && resource.metadata.type) || 'item'} to the library`) : translate(`Edit ${resource && resource.metadata.type}`)}
+                      <Title isSize={ 3 }>
+                        <StretchedLayoutContainer isDirection={ 'horizontal' }>
+                          <StretchedLayoutItem isFlex={ 1 }>
+                            {asNewResource ? translate( `Add ${( resource && resource.metadata.type ) || 'item'} to the library` ) : translate( `Edit ${resource && resource.metadata.type}` )}
                           </StretchedLayoutItem>
                           <StretchedLayoutItem>
-                            <Delete onClick={
-                            () => onCancel()
-                          } />
+                            <Delete onClick={ () => onCancel() } />
                           </StretchedLayoutItem>
                         </StretchedLayoutContainer>
                       </Title>
@@ -493,149 +513,160 @@ class ResourceForm extends Component {
                     </Column>
                   </StretchedLayoutItem>
                 }
-                <StretchedLayoutItem isFlowing isFlex={1}>
+                <StretchedLayoutItem
+                  isFlowing
+                  isFlex={ 1 }
+                >
                   {asNewResource && !resourceType &&
                     <Column>
                       <BigSelect
-                        activeOptionId={formApi.getValue('metadata.type')}
-                        columns={bigSelectColumnsNumber}
-                        onChange={thatType => onResourceTypeChange(thatType, formApi)}
-                        boxStyle={{textAlign: 'center'}}
-                        options={
-                          formApi.getValue('metadata.type') ?
+                        activeOptionId={ formApi.getValue( 'metadata.type' ) }
+                        columns={ bigSelectColumnsNumber }
+                        onChange={ ( thatType ) => onResourceTypeChange( thatType, formApi ) }
+                        boxStyle={ { textAlign: 'center' } }
+                        options={ formApi.getValue( 'metadata.type' ) ?
 
-                                [{
-                                  id: formApi.getValue('metadata.type'),
-                                  label: translate(formApi.getValue('metadata.type')),
-                                  iconUrl: icons[formApi.getValue('metadata.type')].black.svg
+                                [ {
+                                  id: formApi.getValue( 'metadata.type' ),
+                                  label: translate( formApi.getValue( 'metadata.type' ) ),
+                                  iconUrl: icons[formApi.getValue( 'metadata.type' )].black.svg
                                 },
                                 {
                                   id: undefined,
-                                  label: translate('reset type'),
+                                  label: translate( 'reset type' ),
                                   iconUrl: icons.remove.black.svg
-                                }]
+                                } ]
                                 :
-                                resourceTypes.map(thatType => ({
+                                resourceTypes.map( ( thatType ) => ( {
                                   id: thatType,
-                                  label: translate(thatType),
+                                  label: translate( thatType ),
                                   iconUrl: icons[thatType].black.svg
-                                }))
-                              } />
+                                } ) ) }
+                      />
                     </Column>
                     }
 
-                  {(formApi.getValue('metadata.type') !== 'glossary' &&
-                      formApi.getValue('metadata.type') !== 'webpage') &&
-                      !isEmpty(formApi.getValue('data')) &&
-                      !(formApi.errors && formApi.errors.maxSize) &&
+                  {( formApi.getValue( 'metadata.type' ) !== 'glossary' &&
+                      formApi.getValue( 'metadata.type' ) !== 'webpage' ) &&
+                      !isEmpty( formApi.getValue( 'data' ) ) &&
+                      !( formApi.errors && formApi.errors.maxSize ) &&
                       <Column>
-                        <Title isSize={5}>
-                          {translate('Preview')}
+                        <Title isSize={ 5 }>
+                          {translate( 'Preview' )}
                         </Title>
                         <AssetPreview
-                          resource={formApi.values} />
+                          resource={ formApi.values }
+                        />
                       </Column>
                     }
-                  {formApi.getValue('metadata.type') &&
+                  {formApi.getValue( 'metadata.type' ) &&
                     <Column>
                       <Column>
-                        <NestedField defaultValues={resource.data} field={'data'}>
+                        <NestedField
+                          defaultValues={ resource.data }
+                          field={ 'data' }
+                        >
                           <DataForm
-                            asNewResource={asNewResource}
-                            resource={resource}
-                            resourceType={resource.metadata.type ? resource.metadata.type : formApi.getValue('metadata.type')}
-                            formApi={formApi} />
+                            asNewResource={ asNewResource }
+                            resource={ resource }
+                            resourceType={ resource.metadata.type ? resource.metadata.type : formApi.getValue( 'metadata.type' ) }
+                            formApi={ formApi }
+                          />
                           {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
                         </NestedField>
                         {
                           formApi.errors && formApi.errors.maxSize &&
-                            <Help isColor={'danger'}>{formApi.errors.maxSize}</Help>
+                            <Help isColor={ 'danger' }>{formApi.errors.maxSize}</Help>
                         }
                       </Column>
 
                     </Column>
                   }
-                  {formApi.getValue('metadata.type') &&
-                  resourceSchema.definitions[formApi.getValue('metadata.type')].showMetadata &&
+                  {formApi.getValue( 'metadata.type' ) &&
+                  resourceSchema.definitions[formApi.getValue( 'metadata.type' )].showMetadata &&
                   <Column>
                     <Column>
                       <Field>
                         <Control>
                           <Label>
-                            {translate('Title of the resource')}
-                            <HelpPin place={'right'}>
-                              {translate('Explanation about the resource title')}
+                            {translate( 'Title of the resource' )}
+                            <HelpPin place={ 'right' }>
+                              {translate( 'Explanation about the resource title' )}
                             </HelpPin>
                           </Label>
                           <Text
-                            className={'input'}
-                            type={'text'}
-                            id={'metadata.title'}
-                            field={'metadata.title'}
-                            placeholder={translate('Resource title')} />
+                            className={ 'input' }
+                            type={ 'text' }
+                            id={ 'metadata.title' }
+                            field={ 'metadata.title' }
+                            placeholder={ translate( 'Resource title' ) }
+                          />
                         </Control>
                       </Field>
                       <Field>
                         <Control>
                           <Label>
-                            {translate('Source of the resource')}
-                            <HelpPin place={'right'}>
-                              {translate('Explanation about the resource source')}
+                            {translate( 'Source of the resource' )}
+                            <HelpPin place={ 'right' }>
+                              {translate( 'Explanation about the resource source' )}
                             </HelpPin>
                           </Label>
                           <Text
-                            className={'input'}
-                            type={'text'}
-                            id={'metadata.source'}
-                            field={'metadata.source'}
-                            placeholder={translate('Resource source')} />
+                            className={ 'input' }
+                            type={ 'text' }
+                            id={ 'metadata.source' }
+                            field={ 'metadata.source' }
+                            placeholder={ translate( 'Resource source' ) }
+                          />
                         </Control>
                       </Field>
                       <Field>
                         <Control>
                           <AuthorsManager
-                            field={'metadata.authors'}
-                            id={'metadata.authors'}
-                            title={translate(`Authors of the ${formApi.getValue('metadata.type')}`)}
-                            titleHelp={translate(`help about ${formApi.getValue('metadata.type')} authors`)}
-                            onChange={(authors) => formApi.setValue('metadata.authors', authors)}
-                            authors={formApi.getValue('metadata.authors')} />
+                            field={ 'metadata.authors' }
+                            id={ 'metadata.authors' }
+                            title={ translate( `Authors of the ${formApi.getValue( 'metadata.type' )}` ) }
+                            titleHelp={ translate( `help about ${formApi.getValue( 'metadata.type' )} authors` ) }
+                            onChange={ ( authors ) => formApi.setValue( 'metadata.authors', authors ) }
+                            authors={ formApi.getValue( 'metadata.authors' ) }
+                          />
                         </Control>
                       </Field>
                       <Field>
                         <Control>
                           <Label>
-                            {translate('Date of publication')}
-                            <HelpPin place={'right'}>
-                              {translate('Explanation about the date')}
+                            {translate( 'Date of publication' )}
+                            <HelpPin place={ 'right' }>
+                              {translate( 'Explanation about the date' )}
                             </HelpPin>
                           </Label>
                           <Text
-                            className={'input'}
-                            type={'text'}
-                            id={'metadata.date'}
-                            field={'metadata.date'}
-                            placeholder={translate('Resource date')} />
+                            className={ 'input' }
+                            type={ 'text' }
+                            id={ 'metadata.date' }
+                            field={ 'metadata.date' }
+                            placeholder={ translate( 'Resource date' ) }
+                          />
                         </Control>
                       </Field>
                     </Column>
-
 
                     <Column>
                       <Field>
                         <Control>
                           <Label>
-                            {translate('Description of the resource')}
-                            <HelpPin place={'right'}>
-                              {translate('Explanation about the resource description')}
+                            {translate( 'Description of the resource' )}
+                            <HelpPin place={ 'right' }>
+                              {translate( 'Explanation about the resource description' )}
                             </HelpPin>
                           </Label>
                           <TextArea
-                            className={'textarea'}
-                            type={'text'}
-                            field={'metadata.description'}
-                            id={'metadata.description'}
-                            placeholder={translate('Resource description')} />
+                            className={ 'textarea' }
+                            type={ 'text' }
+                            field={ 'metadata.description' }
+                            id={ 'metadata.description' }
+                            placeholder={ translate( 'Resource description' ) }
+                          />
                         </Control>
                       </Field>
                     </Column>
@@ -653,22 +684,24 @@ class ResourceForm extends Component {
                     <StretchedLayoutItem>
                       <Column>
                         <Columns>
-                          <Column isSize={6}>
+                          <Column isSize={ 6 }>
                             <Button
-                              type={'submit'}
+                              type={ 'submit' }
                               isFullWidth
-                              onClick={formApi.submitForm}
-                              isDisabled={!formApi.getValue('metadata.type') || isEmpty(formApi.getValue('data'))}
-                              isColor={'success'}>
-                              {asNewResource ? translate(`Add ${formApi.getValue('metadata.type') || 'item'} to library`) : translate(`Update ${(resource && resource.metadata.type) || 'item'}`)}
+                              onClick={ formApi.submitForm }
+                              isDisabled={ !formApi.getValue( 'metadata.type' ) || isEmpty( formApi.getValue( 'data' ) ) }
+                              isColor={ 'success' }
+                            >
+                              {asNewResource ? translate( `Add ${formApi.getValue( 'metadata.type' ) || 'item'} to library` ) : translate( `Update ${( resource && resource.metadata.type ) || 'item'}` )}
                             </Button>
                           </Column>
-                          <Column isSize={6}>
+                          <Column isSize={ 6 }>
                             <Button
                               isFullWidth
-                              isColor={'danger'}
-                              onClick={onCancel}>
-                              {translate('Cancel')}
+                              isColor={ 'danger' }
+                              onClick={ onCancel }
+                            >
+                              {translate( 'Cancel' )}
                             </Button>
                           </Column>
                         </Columns>

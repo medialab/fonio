@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {translateNameSpacer} from '../../helpers/translateUtils';
+import { translateNameSpacer } from '../../helpers/translateUtils';
 
 const wrapper = {
   position: 'absolute',
@@ -19,12 +19,12 @@ const container = {
   justifyContent: 'center'
 };
 
-const LoadingScreen = ({}, {t}) => {
-  const translate = translateNameSpacer(t, 'Components.LoadingScreen');
+const LoadingScreen = ( {}, { t } ) => {
+  const translate = translateNameSpacer( t, 'Components.LoadingScreen' );
   return (
-    <div style={wrapper}>
-      <div style={container}>
-        <div>{translate('loading...')}</div>
+    <div style={ wrapper }>
+      <div style={ container }>
+        <div>{translate( 'loading...' )}</div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class DataUrlProvider extends Component {
@@ -7,15 +7,15 @@ export default class DataUrlProvider extends Component {
     getResourceDataUrl: PropTypes.func
   }
 
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
   }
 
-  getChildContext = () => ({
+  getChildContext = () => ( {
     getResourceDataUrl: this.getResourceDataUrl
-  })
+  } )
 
-  getResourceDataUrl = (data) => {
+  getResourceDataUrl = ( data ) => {
     const {
       serverUrl,
     } = this.props;
@@ -23,7 +23,7 @@ export default class DataUrlProvider extends Component {
   }
 
   render = () => {
-    const {children} = this.props;
+    const { children } = this.props;
     return children;
   }
 }

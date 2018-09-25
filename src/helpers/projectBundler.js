@@ -6,14 +6,14 @@ import {
   convertFromRaw
 } from 'draft-js';
 
-import {stateToMarkdown} from 'draft-js-export-markdown';
+import { stateToMarkdown } from 'draft-js-export-markdown';
 
 /**
  * Prepares a story data for a clean version to export
  * @param {object} story - the input data to clean
  * @return {object} newStory - the cleaned story
  */
-export function cleanStoryForExport(story) {
+export function cleanStoryForExport( story ) {
   return story;
 }
 
@@ -23,16 +23,16 @@ export function cleanStoryForExport(story) {
  * @param {object} story - the story to consume
  * @return {string} markdown - the markdown representation of the story
  */
-export function convertStoryToMarkdown(story) {
+export function convertStoryToMarkdown( story ) {
   const header = `${story.metadata.title}
 ====
-${story.metadata.authors.join(', ')}
+${story.metadata.authors.join( ', ' )}
 ---
 `;
-  return header + story.sectionsOrder.map(id => {
-    const content = convertFromRaw(story.sections[id].contents);
-    return stateToMarkdown(content);
-  }).join('\n \n');
+  return header + story.sectionsOrder.map( ( id ) => {
+    const content = convertFromRaw( story.sections[id].contents );
+    return stateToMarkdown( content );
+  } ).join( '\n \n' );
 }
 
 /**
@@ -40,6 +40,6 @@ ${story.metadata.authors.join(', ')}
  * @param {object} story - the story to bundle
  * @return {string} result - the resulting serialized story
  */
-export function bundleProjectAsJSON (story) {
-  return JSON.stringify(cleanStoryForExport(story));
+export function bundleProjectAsJSON ( story ) {
+  return JSON.stringify( cleanStoryForExport( story ) );
 }

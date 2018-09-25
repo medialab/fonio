@@ -1,22 +1,22 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {setLanguage} from 'redux-i18n';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { setLanguage } from 'redux-i18n';
 
 import {
   Button,
 } from 'quinoa-design-library/components/';
 
 @connect(
-  state => ({
+  ( state ) => ( {
     lang: state.i18nState.lang,
-  }),
-  dispatch => ({
-    actions: bindActionCreators({
+  } ),
+  ( dispatch ) => ( {
+    actions: bindActionCreators( {
       setLanguage,
-    }, dispatch)
-  })
+    }, dispatch )
+  } )
 )
 class LanguageToggler extends Component {
 
@@ -40,10 +40,9 @@ class LanguageToggler extends Component {
    * constructor
    * @param {object} props - properties given to instance at instanciation
    */
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
   }
-
 
   /**
    * Defines whether the component should re-render
@@ -55,7 +54,6 @@ class LanguageToggler extends Component {
     // todo: optimize when the feature is stabilized
     return true;
   }
-
 
   /**
    * Renders the component
@@ -70,11 +68,14 @@ class LanguageToggler extends Component {
     } = this.props;
     const otherLang = lang === 'fr' ? 'en' : 'fr';
     const onClick = () => {
-      doSetLanguage(otherLang);
+      doSetLanguage( otherLang );
     };
     return (
-      <Button onClick={onClick} className={'button'}>
-        {lang}<span style={{opacity: 0.5}}>/{otherLang}</span>
+      <Button
+        onClick={ onClick }
+        className={ 'button' }
+      >
+        {lang}<span style={ { opacity: 0.5 } }>/{otherLang}</span>
       </Button>
     );
   }

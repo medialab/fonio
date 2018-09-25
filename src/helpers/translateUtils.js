@@ -9,16 +9,16 @@
  * @param {string} nameSpace - the namespace to use
  * @return {function} translateFnBis - a new function using the namespace
  */
-export const translateNameSpacer = (translateFn, nameSpace) => {
-  return function(key, props) {
-    if (Array.isArray(key)) {
-      return translateFn(key.map(k => {
-        if (k.length > 1) {
+export const translateNameSpacer = ( translateFn, nameSpace ) => {
+  return function( key, props ) {
+    if ( Array.isArray( key ) ) {
+      return translateFn( key.map( ( k ) => {
+        if ( k.length > 1 ) {
           return `${nameSpace }.${ k}`;
         }
         return k;
-      }), props);
+      } ), props );
     }
-    return translateFn(`${nameSpace }.${ key}`, props);
+    return translateFn( `${nameSpace }.${ key}`, props );
   };
 };

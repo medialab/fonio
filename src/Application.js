@@ -7,12 +7,11 @@
  * Root component of the application.
  * @module fonio
  */
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-
-import {loadUserInfo} from './helpers/localStorageUtils';
+import { loadUserInfo } from './helpers/localStorageUtils';
 
 import {
   BrowserRouter as Router,
@@ -41,17 +40,32 @@ import * as userInfoDuck from './features/UserInfoManager/duck';
 
 import generateRandomUserInfo from './helpers/userInfo';
 
-
 import 'quinoa-design-library/themes/millet/style.css';
 import './Application.scss';
 
-const ProtectedRoutes = ({match}) => {
+const ProtectedRoutes = ( { match } ) => {
   return (
     <AuthWrapper>
-      <Route exact path={match.path} component={Summary} />
-      <Route exact path={`${match.path}/section/:sectionId`} component={Section} />
-      <Route exact path={`${match.path}/library`} component={Library} />
-      <Route exact path={`${match.path}/design`} component={Design} />
+      <Route
+        exact
+        path={ match.path }
+        component={ Summary }
+      />
+      <Route
+        exact
+        path={ `${match.path}/section/:sectionId` }
+        component={ Section }
+      />
+      <Route
+        exact
+        path={ `${match.path}/library` }
+        component={ Library }
+      />
+      <Route
+        exact
+        path={ `${match.path}/design` }
+        component={ Design }
+      />
     </AuthWrapper>
   );
 };
@@ -61,18 +75,18 @@ const ProtectedRoutes = ({match}) => {
  * @return {ReactComponent} component
  */
 @connect(
-  state => ({
-    ...connectionsDuck.selector(state.connections),
-    ...userInfoDuck.selector(state.userInfo),
+  ( state ) => ( {
+    ...connectionsDuck.selector( state.connections ),
+    ...userInfoDuck.selector( state.userInfo ),
     loadingBar: state.loadingBar.default,
     lang: state.i18nState.lang,
-  }),
-  dispatch => ({
-    actions: bindActionCreators({
+  } ),
+  ( dispatch ) => ( {
+    actions: bindActionCreators( {
       ...userInfoDuck,
       ...connectionsDuck,
-    }, dispatch)
-  })
+    }, dispatch )
+  } )
 )
 export default class Application extends Component {
 
@@ -80,35 +94,35 @@ export default class Application extends Component {
    * constructorstorestore
    * @param {object} props - properties given to instance at instanciation
    */
-  constructor(props) {
-    super(props);
-    this.confirmExit = this.confirmExit.bind(this);
+  constructor( props ) {
+    super( props );
+    this.confirmExit = this.confirmExit.bind( this );
   }
 
   componentDidMount() {
-    window.addEventListener('beforeunload', this.confirmExit);
+    window.addEventListener( 'beforeunload', this.confirmExit );
   }
 
-  componentWillReceiveProps = nextProps => {
-    if (this.props.userId !== nextProps.userId && nextProps.userId) {
+  componentWillReceiveProps = ( nextProps ) => {
+    if ( this.props.userId !== nextProps.userId && nextProps.userId ) {
       const userId = nextProps.userId;
       const inheritedUserInfo = loadUserInfo();
       let userInfo;
-      if (inheritedUserInfo) {
+      if ( inheritedUserInfo ) {
         userInfo = inheritedUserInfo;
       }
       else {
-        userInfo = generateRandomUserInfo(this.props.lang);
+        userInfo = generateRandomUserInfo( this.props.lang );
       }
       userInfo.userId = userId;
-      this.props.actions.setUserInfo(userInfo);
-      this.props.actions.createUser(userInfo);
+      this.props.actions.setUserInfo( userInfo );
+      this.props.actions.createUser( userInfo );
     }
   }
 
-  confirmExit(e) {
-    const {loadingBar} = this.props;
-    if (loadingBar > 0) {
+  confirmExit( e ) {
+    const { loadingBar } = this.props;
+    if ( loadingBar > 0 ) {
       const confirmationMessage = '\o/';
       e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
       return confirmationMessage;
@@ -123,25 +137,41 @@ export default class Application extends Component {
     } = this;
     return (
       <ErrorMessageContainer>
-        <Router basename={config.urlPrefix || '/'}>
-          <div id={'wrapper'} className={'fonio'}>
+        <Router basename={ config.urlPrefix || '/' }>
+          <div
+            id={ 'wrapper' }
+            className={ 'fonio' }
+          >
             {userId &&
               <Switch>
-                <Route exact path={'/'} component={Home} />
-                <Route path={'/story/:storyId'} component={ProtectedRoutes} />
-                <Route exact path={'/read/:storyId'} component={ReadStory} />
-                <Route render={(props) => (
-                  <PageNotFound pathName={props.location.pathname} />
-                    )} />
+                <Route
+                  exact
+                  path={ '/' }
+                  component={ Home }
+                />
+                <Route
+                  path={ '/story/:storyId' }
+                  component={ ProtectedRoutes }
+                />
+                <Route
+                  exact
+                  path={ '/read/:storyId' }
+                  component={ ReadStory }
+                />
+                <Route render={ ( props ) => (
+                  <PageNotFound pathName={ props.location.pathname } />
+                    ) }
+                />
               </Switch>
               }
             <ReduxToastr
-              timeOut={6000}
-              newestOnTop={false}
+              timeOut={ 6000 }
+              newestOnTop={ false }
               preventDuplicates
-              position={'top-right'}
-              transitionIn={'fadeIn'}
-              transitionOut={'fadeOut'} />
+              position={ 'top-right' }
+              transitionIn={ 'fadeIn' }
+              transitionOut={ 'fadeOut' }
+            />
           </div>
         </Router>
       </ErrorMessageContainer>

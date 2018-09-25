@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {templates} from 'quinoa-story-player';
+import { templates } from 'quinoa-story-player';
 
 import resourceSchema from 'quinoa-schemas/resource';
 
 import {
   Button,
-  // Box,
-  // Checkbox,
-  // ColorPicker,
+
+  /*
+   * Box,
+   * Checkbox,
+   * ColorPicker,
+   */
   CodeEditor,
   Column,
   // Content,
@@ -35,11 +38,11 @@ import {
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
-import {translateNameSpacer} from '../../../helpers/translateUtils';
+import { translateNameSpacer } from '../../../helpers/translateUtils';
 
-const resourceTypes = Object.keys(resourceSchema.definitions).filter(t => t !== 'glossary');
+const resourceTypes = Object.keys( resourceSchema.definitions ).filter( ( t ) => t !== 'glossary' );
 
-const AsideDesignColumn = ({
+const AsideDesignColumn = ( {
   designAsideTabCollapsed,
   designAsideTabMode,
   stylesMode = 'code',
@@ -57,42 +60,41 @@ const AsideDesignColumn = ({
 
   setCssHelpVisible,
 
-}, {t}) => {
-  const translate = translateNameSpacer(t, 'Features.DesignView');
-  const {settings = {}} = story;
-  const {options = {}} = settings;
+}, { t } ) => {
+  const translate = translateNameSpacer( t, 'Features.DesignView' );
+  const { settings = {} } = story;
+  const { options = {} } = settings;
 
-  const template = templates.find(thatTemplate => thatTemplate.id === story.settings.template);
+  const template = templates.find( ( thatTemplate ) => thatTemplate.id === story.settings.template );
   const templateOptions = template.acceptsOptions || [];
 
-  const onOptionChange = (key, value) => {
-    onUpdateSettings({
+  const onOptionChange = ( key, value ) => {
+    onUpdateSettings( {
       ...settings,
       options: {
         ...settings.options,
         [key]: value
       }
-    });
+    } );
   };
 
-  const updateReferenceTypes = type => {
+  const updateReferenceTypes = ( type ) => {
     const referenceTypes = options.referenceTypes || [];
     let newReferenceTypes;
-    if (referenceTypes.indexOf(type) === -1) {
-      newReferenceTypes = [...referenceTypes, type];
+    if ( referenceTypes.indexOf( type ) === -1 ) {
+      newReferenceTypes = [ ...referenceTypes, type ];
     }
     else {
-      newReferenceTypes = referenceTypes.filter(thatType => thatType !== type);
+      newReferenceTypes = referenceTypes.filter( ( thatType ) => thatType !== type );
     }
-    onOptionChange('referenceTypes', newReferenceTypes);
+    onOptionChange( 'referenceTypes', newReferenceTypes );
   };
 
-
   const renderAsideContent = () => {
-    if (designAsideTabCollapsed) {
+    if ( designAsideTabCollapsed ) {
       return null;
     }
-    switch (designAsideTabMode) {
+    switch ( designAsideTabMode ) {
       case 'settings':
         return (
           <Column>
@@ -113,15 +115,18 @@ const AsideDesignColumn = ({
                           </form>
                         </Level>*/}
             {
-              templateOptions.indexOf('notesPosition') > -1 &&
+              templateOptions.indexOf( 'notesPosition' ) > -1 &&
               <Level>
                 <form>
                   <Field>
-                    <Label>{translate('Notes position')}</Label>
+                    <Label>{translate( 'Notes position' )}</Label>
                     <Control>
-                      <Select onChange={e => onOptionChange('notesPosition', e.target.value)} value={options.notesPosition}>
-                        <option value={'aside'} >{translate('side notes')}</option>
-                        <option value={'foot'}>{translate('foot notes')}</option>
+                      <Select
+                        onChange={ ( e ) => onOptionChange( 'notesPosition', e.target.value ) }
+                        value={ options.notesPosition }
+                      >
+                        <option value={ 'aside' } >{translate( 'side notes' )}</option>
+                        <option value={ 'foot' }>{translate( 'foot notes' )}</option>
                       </Select>
                     </Control>
                   </Field>
@@ -129,23 +134,35 @@ const AsideDesignColumn = ({
               </Level>
             }
             {
-              templateOptions.indexOf('referenceTypes') > -1 &&
+              templateOptions.indexOf( 'referenceTypes' ) > -1 &&
               <Level>
                 <form>
                   <Field>
-                    <Label>{translate('What types of items to show in references')}</Label>
+                    <Label>{translate( 'What types of items to show in references' )}</Label>
                     <Control>
                       <Dropdown
-                        onToggle={() => setReferenceTypesVisible(!referenceTypesVisible)}
-                        isActive={referenceTypesVisible}
-                        closeOnChange={false}
-                        onChange={updateReferenceTypes}
-                        value={(story.settings.options && story.settings.options.referenceTypes) || ['bib']}
-                        options={resourceTypes.map(type => ({
+                        onToggle={ () => setReferenceTypesVisible( !referenceTypesVisible ) }
+                        isActive={ referenceTypesVisible }
+                        closeOnChange={ false }
+                        onChange={ updateReferenceTypes }
+                        value={ ( story.settings.options && story.settings.options.referenceTypes ) || [ 'bib' ] }
+                        options={ resourceTypes.map( ( type ) => ( {
                                 id: type,
-                                label: <span style={{display: 'flex', flexFlow: 'row nowrap', alignItems: 'center'}}><Image style={{display: 'inline-block', marginRight: '1em'}} isSize={'16x16'} src={icons[type].black.svg} /><span>{translate(type)}</span></span>
-                              }))}>
-                        {translate('Choose item types')}
+                                label: (
+                                  <span style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' } }>
+                                    <Image
+                                      style={ { display: 'inline-block', marginRight: '1em' } }
+                                      isSize={ '16x16' }
+                                      src={ icons[type].black.svg }
+                                    />
+                                    <span>
+                                      {translate( type )}
+                                    </span>
+                                  </span>
+                                )
+                              } ) ) }
+                      >
+                        {translate( 'Choose item types' )}
                       </Dropdown>
                     </Control>
                   </Field>
@@ -153,15 +170,18 @@ const AsideDesignColumn = ({
               </Level>
             }
             {
-              templateOptions.indexOf('referenceStatus') > -1 &&
+              templateOptions.indexOf( 'referenceStatus' ) > -1 &&
               <Level>
                 <form>
                   <Field>
-                    <Label>{translate('What items to show in references')}</Label>
+                    <Label>{translate( 'What items to show in references' )}</Label>
                     <Control>
-                      <Select onChange={e => onOptionChange('referenceStatus', e.target.value)} value={options.referenceStatus}>
-                        <option value={'cited'}>{translate('cited items only')}</option>
-                        <option value={'all'}>{translate('all items')}</option>
+                      <Select
+                        onChange={ ( e ) => onOptionChange( 'referenceStatus', e.target.value ) }
+                        value={ options.referenceStatus }
+                      >
+                        <option value={ 'cited' }>{translate( 'cited items only' )}</option>
+                        <option value={ 'all' }>{translate( 'all items' )}</option>
                       </Select>
                     </Control>
                   </Field>
@@ -235,19 +255,23 @@ const AsideDesignColumn = ({
             >
               {translate('Edit css (advanced)')}
             </Button>*/}
-            <Title isSize={3}>
-              {translate('Edit style with css')}
+            <Title isSize={ 3 }>
+              {translate( 'Edit style with css' )}
             </Title>
             {stylesMode === 'code' && <Level />}
-            <Collapsable isCollapsed={stylesMode !== 'code'}>
+            <Collapsable isCollapsed={ stylesMode !== 'code' }>
               <Column>
                 <CodeEditor
-                  value={story.settings.css}
-                  onChange={onUpdateCss} />
+                  value={ story.settings.css }
+                  onChange={ onUpdateCss }
+                />
               </Column>
               <Column>
-                <Button isFullWidth onClick={() => setCssHelpVisible(true)}>
-                  {translate('Help')}
+                <Button
+                  isFullWidth
+                  onClick={ () => setCssHelpVisible( true ) }
+                >
+                  {translate( 'Help' )}
                 </Button>
               </Column>
             </Collapsable>
@@ -258,42 +282,60 @@ const AsideDesignColumn = ({
 
   return (
     <Column
-      style={style} className={'is-hidden-mobile aside-design-container'} isSize={designAsideTabCollapsed ? 1 : '1/4'}
-      isWrapper>
-      <StretchedLayoutContainer isDirection={'vertical'} isAbsolute>
+      style={ style }
+      className={ 'is-hidden-mobile aside-design-container' }
+      isSize={ designAsideTabCollapsed ? 1 : '1/4' }
+      isWrapper
+    >
+      <StretchedLayoutContainer
+        isDirection={ 'vertical' }
+        isAbsolute
+      >
         <StretchedLayoutItem>
           <Column>
-            <Tabs isBoxed isFullWidth style={{overflow: 'hidden'}}>
+            <Tabs
+              isBoxed
+              isFullWidth
+              style={ { overflow: 'hidden' } }
+            >
               <TabList>
                 {
                   !designAsideTabCollapsed &&
-                  <Tab onClick={() => setDesignAsideTabMode('settings')} isActive={designAsideTabMode === 'settings'}>
-                    <TabLink>{translate('Settings')}</TabLink>
+                  <Tab
+                    onClick={ () => setDesignAsideTabMode( 'settings' ) }
+                    isActive={ designAsideTabMode === 'settings' }
+                  >
+                    <TabLink>{translate( 'Settings' )}</TabLink>
                   </Tab>
                 }
                 {
                   !designAsideTabCollapsed &&
                   'collapse' &&
-                  <Tab onClick={() => setDesignAsideTabMode('styles')} isActive={designAsideTabMode === 'styles'}>
+                  <Tab
+                    onClick={ () => setDesignAsideTabMode( 'styles' ) }
+                    isActive={ designAsideTabMode === 'styles' }
+                  >
                     <TabLink>
-                      {translate('Styles')}
+                      {translate( 'Styles' )}
                     </TabLink>
                   </Tab>
                 }
                 <Tab
-                  className={'is-hidden-mobile'}
-                  onClick={() => setDesignAsideTabCollapsed(!designAsideTabCollapsed)}
-                  isActive={designAsideTabCollapsed}>
+                  className={ 'is-hidden-mobile' }
+                  onClick={ () => setDesignAsideTabCollapsed( !designAsideTabCollapsed ) }
+                  isActive={ designAsideTabCollapsed }
+                >
                   <TabLink
-                    style={{
+                    style={ {
                           boxShadow: 'none',
                           transform: designAsideTabCollapsed ? 'rotate(180deg)' : undefined,
                           transition: 'all .5s ease'
-                        }}
-                    data-for={'tooltip'}
-                    data-effect={'solid'}
-                    data-place={'right'}
-                    data-tip={designAsideTabCollapsed ? translate('show settings pannels') : translate('hide settings pannels')}>
+                        } }
+                    data-for={ 'tooltip' }
+                    data-effect={ 'solid' }
+                    data-place={ 'right' }
+                    data-tip={ designAsideTabCollapsed ? translate( 'show settings pannels' ) : translate( 'hide settings pannels' ) }
+                  >
                       ◀
                   </TabLink>
                 </Tab>
@@ -301,7 +343,10 @@ const AsideDesignColumn = ({
             </Tabs>
           </Column>
         </StretchedLayoutItem>
-        <StretchedLayoutItem isFlex={1} isFlowing>
+        <StretchedLayoutItem
+          isFlex={ 1 }
+          isFlowing
+        >
           {renderAsideContent()}
         </StretchedLayoutItem>
       </StretchedLayoutContainer>

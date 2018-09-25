@@ -1,6 +1,6 @@
-import {v4 as generateId} from 'uuid';
+import { v4 as generateId } from 'uuid';
 
-import {createDefaultResource} from '../../../helpers/schemaUtils';
+import { createDefaultResource } from '../../../helpers/schemaUtils';
 
 import {
   constants,
@@ -18,23 +18,23 @@ export default (
 
   let resource;
 
-  const url = node.getAttribute('href');
-  const alt = node.getAttribute('alt');
-  let title = node.getAttribute('title');
-  if (!title || !alt || alt === 'href') {
+  const url = node.getAttribute( 'href' );
+  const alt = node.getAttribute( 'alt' );
+  let title = node.getAttribute( 'title' );
+  if ( !title || !alt || alt === 'href' ) {
     title = url;
   }
-  if (!url || url.indexOf('#') === 0) {
+  if ( !url || url.indexOf( '#' ) === 0 ) {
     return {};
   }
 
-  const existingResource = [...resources]
-  .find(res =>
+  const existingResource = [ ...resources ]
+  .find( ( res ) =>
     res.metadata.type === 'webpage'
     && res.data.url === url
   );
   let resourceId;
-  if (existingResource) {
+  if ( existingResource ) {
     resourceId = existingResource.id;
   }
   else {
@@ -77,7 +77,6 @@ export default (
       }
     }
   };
-
 
   return {
     resource,

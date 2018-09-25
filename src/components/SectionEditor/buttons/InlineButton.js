@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {RichUtils} from 'draft-js';
+import React, { Component } from 'react';
+import { RichUtils } from 'draft-js';
 import PropTypes from 'prop-types';
 
 import './ButtonStyles.scss';
@@ -11,27 +11,27 @@ import {
 class InlineButton extends Component {
 
   static propTypes = {
+
+    children: PropTypes.oneOfType( [ PropTypes.array, PropTypes.object ] ),
+
     /**
      * The current editorState. This gets passed down from the editor.
      */
     editorState: PropTypes.object,
 
-    /**
-     * A method that can be called to update the editor's editorState. This
-     * gets passed down from the editor.
-     */
-    updateEditorState: PropTypes.func,
+    iconMap: PropTypes.object,
+    inlineStyleType: PropTypes.string,
 
     /**
      * The inline style type this button is responsible for.
      */
     styleType: PropTypes.string,
 
-    children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-
-    inlineStyleType: PropTypes.string,
-
-    iconMap: PropTypes.object
+    /**
+     * A method that can be called to update the editor's editorState. This
+     * gets passed down from the editor.
+     */
+    updateEditorState: PropTypes.func,
   };
 
   /**
@@ -40,8 +40,8 @@ class InlineButton extends Component {
    * @param {string} inlineStyleType - inline style to inspect against the provided editorState
    * @return {boolean} isSelected -
    */
-  isSelected = (editorState, inlineStyleType) => {
-    if (!editorState || !editorState.getSelection) {
+  isSelected = ( editorState, inlineStyleType ) => {
+    if ( !editorState || !editorState.getSelection ) {
       return;
     }
     // Check the editor is focused
@@ -49,13 +49,13 @@ class InlineButton extends Component {
 
     const selectedBlock = editorState
       .getCurrentContent()
-      .getBlockForKey(selection.getStartKey());
-    if (!selectedBlock) {
+      .getBlockForKey( selection.getStartKey() );
+    if ( !selectedBlock ) {
       return false;
     }
 
     const currentInlineStyle = editorState.getCurrentInlineStyle();
-    return currentInlineStyle.has(inlineStyleType);
+    return currentInlineStyle.has( inlineStyleType );
   };
 
   render = () => {
@@ -69,27 +69,28 @@ class InlineButton extends Component {
       ...otherProps
     } = this.props;
 
-    const selected = this.isSelected(editorState, inlineStyleType);
+    const selected = this.isSelected( editorState, inlineStyleType );
     // const className = `scholar-draft-InlineButton${selected ? ' active' : ''} `;
 
-    const onMouseDown = (event) => {
+    const onMouseDown = ( event ) => {
       event.preventDefault();
-      updateEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyleType));
+      updateEditorState( RichUtils.toggleInlineStyle( editorState, inlineStyleType ) );
     };
 
     return (
       <Button
-        onMouseDown={onMouseDown}
-        isColor={selected ? 'info' : ''}
+        onMouseDown={ onMouseDown }
+        isColor={ selected ? 'info' : '' }
         // className={className}
-        data-tip={tooltip}
-        data-for={'style-button'}
-        {...otherProps}>
+        data-tip={ tooltip }
+        data-for={ 'style-button' }
+        { ...otherProps }
+      >
         {React.Children.map(
           this.props.children,
-          child => React.cloneElement(child, {
+          ( child ) => React.cloneElement( child, {
             selected
-          })
+          } )
         )}
       </Button>
     );

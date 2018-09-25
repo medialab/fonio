@@ -5,10 +5,10 @@
  * @module fonio/features/SectionView
  */
 
-import {combineReducers} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import { combineReducers } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
-import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
+import { getStatePropFromActionSet } from '../../helpers/reduxUtils';
 
 /**
  * ===================================================
@@ -26,16 +26,16 @@ const SET_PROMPTED_TO_DELETE_SECTION_ID = 'SET_PROMPTED_TO_DELETE_SECTION_ID';
  * ===================================================
  */
 
-export const setPromptedToDeleteSectionId = payload => ({
+export const setPromptedToDeleteSectionId = ( payload ) => ( {
   type: SET_PROMPTED_TO_DELETE_SECTION_ID,
   payload
-});
+} );
+
 /**
  * ===================================================
  * REDUCERS
  * ===================================================
  */
-
 
 const UI_DEFAULT_STATE = {
   promptedToDeleteSectionId: undefined,
@@ -47,11 +47,11 @@ const UI_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function ui(state = UI_DEFAULT_STATE, action) {
-  const {payload} = action;
-  switch (action.type) {
+function ui( state = UI_DEFAULT_STATE, action ) {
+  const { payload } = action;
+  switch ( action.type ) {
     case SET_PROMPTED_TO_DELETE_SECTION_ID:
-      const propName = getStatePropFromActionSet(action.type);
+      const propName = getStatePropFromActionSet( action.type );
       return {
         ...state,
         [propName]: payload
@@ -61,25 +61,24 @@ function ui(state = UI_DEFAULT_STATE, action) {
   }
 }
 
-
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default combineReducers({
+export default combineReducers( {
   ui,
-});
+} );
 
 /**
  * ===================================================
  * SELECTORS
  * ===================================================
  */
-const promptedToDeleteSectionId = state => state.ui.promptedToDeleteSectionId;
+const promptedToDeleteSectionId = ( state ) => state.ui.promptedToDeleteSectionId;
 
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
  */
-export const selector = createStructuredSelector({
+export const selector = createStructuredSelector( {
   promptedToDeleteSectionId,
-});
+} );

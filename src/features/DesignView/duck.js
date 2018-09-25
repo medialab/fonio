@@ -5,10 +5,10 @@
  * @module fonio/features/DesignView
  */
 
-import {combineReducers} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import { combineReducers } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
-import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
+import { getStatePropFromActionSet } from '../../helpers/reduxUtils';
 
 /**
  * ===================================================
@@ -18,7 +18,7 @@ import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
 /**
  * UI
  */
-import {RESET_VIEWS_UI} from '../EditionUiWrapper/duck';
+import { RESET_VIEWS_UI } from '../EditionUiWrapper/duck';
 
 const SET_DESIGN_ASIDE_TAB_MODE = 'SET_DESIGN_ASIDE_TAB_MODE';
 const SET_DESIGN_ASIDE_TAB_COLLAPSED = 'SET_DESIGN_ASIDE_TAB_COLLAPSED';
@@ -30,33 +30,31 @@ const SET_CSS_HELP_VISIBLE = 'SET_CSS_HELP_VISIBLE';
  * ACTION CREATORS
  * ===================================================
  */
-export const setDesignAsideTabMode = payload => ({
+export const setDesignAsideTabMode = ( payload ) => ( {
   type: SET_DESIGN_ASIDE_TAB_MODE,
   payload,
-});
+} );
 
-export const setDesignAsideTabCollapsed = payload => ({
+export const setDesignAsideTabCollapsed = ( payload ) => ( {
   type: SET_DESIGN_ASIDE_TAB_COLLAPSED,
   payload,
-});
+} );
 
-export const setReferenceTypesVisible = payload => ({
+export const setReferenceTypesVisible = ( payload ) => ( {
   type: SET_REFERENCE_TYPES_VISIBLE,
   payload,
-});
+} );
 
-
-export const setCssHelpVisible = payload => ({
+export const setCssHelpVisible = ( payload ) => ( {
   type: SET_CSS_HELP_VISIBLE,
   payload,
-});
+} );
 
 /**
  * ===================================================
  * REDUCERS
  * ===================================================
  */
-
 
 const UI_DEFAULT_STATE = {
   designAsideTabMode: 'settings',
@@ -71,16 +69,16 @@ const UI_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function ui(state = UI_DEFAULT_STATE, action) {
-  const {payload} = action;
-  switch (action.type) {
+function ui( state = UI_DEFAULT_STATE, action ) {
+  const { payload } = action;
+  switch ( action.type ) {
     case RESET_VIEWS_UI:
       return UI_DEFAULT_STATE;
     case SET_DESIGN_ASIDE_TAB_MODE:
     case SET_DESIGN_ASIDE_TAB_COLLAPSED:
     case SET_REFERENCE_TYPES_VISIBLE:
     case SET_CSS_HELP_VISIBLE:
-      const propName = getStatePropFromActionSet(action.type);
+      const propName = getStatePropFromActionSet( action.type );
       return {
         ...state,
         [propName]: payload
@@ -93,9 +91,9 @@ function ui(state = UI_DEFAULT_STATE, action) {
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default combineReducers({
+export default combineReducers( {
   ui,
-});
+} );
 
 /**
  * ===================================================
@@ -103,18 +101,18 @@ export default combineReducers({
  * ===================================================
  */
 
-const designAsideTabMode = state => state.ui.designAsideTabMode;
-const designAsideTabCollapsed = state => state.ui.designAsideTabCollapsed;
-const referenceTypesVisible = state => state.ui.referenceTypesVisible;
-const cssHelpVisible = state => state.ui.cssHelpVisible;
+const designAsideTabMode = ( state ) => state.ui.designAsideTabMode;
+const designAsideTabCollapsed = ( state ) => state.ui.designAsideTabCollapsed;
+const referenceTypesVisible = ( state ) => state.ui.referenceTypesVisible;
+const cssHelpVisible = ( state ) => state.ui.cssHelpVisible;
 
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
  */
-export const selector = createStructuredSelector({
+export const selector = createStructuredSelector( {
   designAsideTabMode,
   designAsideTabCollapsed,
   referenceTypesVisible,
   cssHelpVisible,
-});
+} );

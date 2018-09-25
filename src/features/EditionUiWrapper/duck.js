@@ -5,11 +5,11 @@
  * @module fonio/features/EditionUiWrapper
  */
 
-import {combineReducers} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import { combineReducers } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
-import {SET_USER_INFO} from '../UserInfoManager/duck';
-import {loadUserInfo} from '../../helpers/localStorageUtils';
+import { SET_USER_INFO } from '../UserInfoManager/duck';
+import { loadUserInfo } from '../../helpers/localStorageUtils';
 
 /**
  * ===================================================
@@ -30,28 +30,28 @@ export const RESET_VIEWS_UI = 'RESET_VIEWS_UI';
  * ACTION CREATORS
  * ===================================================
  */
-export const setUserInfoModalOpen = payload => ({
+export const setUserInfoModalOpen = ( payload ) => ( {
   type: SET_USER_INFO_MODAL_OPEN,
   payload
-});
+} );
 
-export const setExportModalOpen = payload => ({
+export const setExportModalOpen = ( payload ) => ( {
   type: SET_EXPORT_MODAL_OPEN,
   payload
-});
+} );
 
-export const setUserInfoTemp = payload => ({
+export const setUserInfoTemp = ( payload ) => ( {
   type: SET_USER_INFO_TEMP,
   payload
-});
+} );
 
-export const toggleNavbarOpen = () => ({
+export const toggleNavbarOpen = () => ( {
   type: TOGGLE_NAVBAR_OPEN,
-});
+} );
 
-export const resetViewsUi = () => ({
+export const resetViewsUi = () => ( {
   type: RESET_VIEWS_UI
-});
+} );
 
 /**
  * ===================================================
@@ -59,8 +59,8 @@ export const resetViewsUi = () => ({
  * ===================================================
  */
 
-const getStatePropFromActionSet = actionName => {
-  return actionName.replace('SET_', '').toLowerCase().replace(/(_[a-z])/gi, (a, b) => b.substr(1).toUpperCase());
+const getStatePropFromActionSet = ( actionName ) => {
+  return actionName.replace( 'SET_', '' ).toLowerCase().replace( /(_[a-z])/gi, ( a, b ) => b.substr( 1 ).toUpperCase() );
 };
 
 const UI_DEFAULT_STATE = {
@@ -75,16 +75,16 @@ const UI_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function ui(state = UI_DEFAULT_STATE, action) {
-  const {payload} = action;
-  switch (action.type) {
+function ui( state = UI_DEFAULT_STATE, action ) {
+  const { payload } = action;
+  switch ( action.type ) {
 
     case RESET_VIEWS_UI:
       return UI_DEFAULT_STATE;
 
     case SET_USER_INFO_MODAL_OPEN:
     case SET_EXPORT_MODAL_OPEN:
-      const propName = getStatePropFromActionSet(action.type);
+      const propName = getStatePropFromActionSet( action.type );
       return {
         ...state,
         [propName]: payload
@@ -109,9 +109,9 @@ const DATA_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function data(state = DATA_DEFAULT_STATE, action) {
-  const {payload} = action;
-  switch (action.type) {
+function data( state = DATA_DEFAULT_STATE, action ) {
+  const { payload } = action;
+  switch ( action.type ) {
     case SET_USER_INFO:
     case SET_USER_INFO_TEMP:
       return {
@@ -119,7 +119,7 @@ function data(state = DATA_DEFAULT_STATE, action) {
         userInfoTemp: payload,
       };
     case SET_USER_INFO_MODAL_OPEN:
-      if (payload === false) {
+      if ( payload === false ) {
         return {
           ...state,
           userInfoTemp: loadUserInfo()
@@ -131,34 +131,33 @@ function data(state = DATA_DEFAULT_STATE, action) {
   }
 }
 
-
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default combineReducers({
+export default combineReducers( {
   ui,
   data
-});
+} );
 
 /**
  * ===================================================
  * SELECTORS
  * ===================================================
  */
-const userInfoModalOpen = state => state.ui.userInfoModalOpen;
-const exportModalOpen = state => state.ui.exportModalOpen;
-const navbarOpen = state => state.ui.navbarOpen;
+const userInfoModalOpen = ( state ) => state.ui.userInfoModalOpen;
+const exportModalOpen = ( state ) => state.ui.exportModalOpen;
+const navbarOpen = ( state ) => state.ui.navbarOpen;
 
-const userInfoTemp = state => state.data.userInfoTemp;
+const userInfoTemp = ( state ) => state.data.userInfoTemp;
 
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
  */
-export const selector = createStructuredSelector({
+export const selector = createStructuredSelector( {
   userInfoModalOpen,
   exportModalOpen,
   navbarOpen,
 
   userInfoTemp,
-});
+} );

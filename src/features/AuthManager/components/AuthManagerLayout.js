@@ -12,12 +12,11 @@ import {
   Help
 } from 'quinoa-design-library/components/';
 
-import {Form, Text} from 'react-form';
+import { Form, Text } from 'react-form';
 
-import {translateNameSpacer} from '../../../helpers/translateUtils';
+import { translateNameSpacer } from '../../../helpers/translateUtils';
 
-
-const AuthManagerLayout = ({
+const AuthManagerLayout = ( {
   storyLoginId,
   userId,
   loginStatus,
@@ -29,86 +28,110 @@ const AuthManagerLayout = ({
     setStoryLoginId,
   },
   saveStoryToken
-}, {t}) => {
-  const translate = translateNameSpacer(t, 'Features.AuthManager');
+}, { t } ) => {
+  const translate = translateNameSpacer( t, 'Features.AuthManager' );
 
-  const loginSubmit = values => {
-    loginStory({
+  const loginSubmit = ( values ) => {
+    loginStory( {
       storyId: storyLoginId,
       userId,
       password: values.password,
-    })
-    .then((res) => {
-      if (res.error) {
-        setLoginStatus('fail');
+    } )
+    .then( ( res ) => {
+      if ( res.error ) {
+        setLoginStatus( 'fail' );
       }
       else {
-        const {token} = res.result.data;
-        saveStoryToken(storyLoginId, token);
-        activateStory({storyId: storyLoginId, userId, token});
+        const { token } = res.result.data;
+        saveStoryToken( storyLoginId, token );
+        activateStory( { storyId: storyLoginId, userId, token } );
       }
-    });
+    } );
   };
 
   const goReadStory = () => {
-    setStoryLoginId(undefined);
-    history.push({
+    setStoryLoginId( undefined );
+    history.push( {
       pathname: `/read/${storyLoginId}`
-    });
+    } );
   };
 
   const goBackHome = () => {
-    setStoryLoginId(undefined);
-    history.push({
+    setStoryLoginId( undefined );
+    history.push( {
       pathname: '/'
-    });
+    } );
   };
 
   return storyLoginId ? (
-    <Form onSubmit={loginSubmit}>
+    <Form onSubmit={ loginSubmit }>
       {
-        formApi => (
-          <form onSubmit={formApi.submitForm} id={'login-form'} className={'fonio-form'}>
+        ( formApi ) => (
+          <form
+            onSubmit={ formApi.submitForm }
+            id={ 'login-form' }
+            className={ 'fonio-form' }
+          >
             <ModalCard
               isActive
-              onClose={goBackHome}
-              headerContent={translate('Connect to a story')}
+              onClose={ goBackHome }
+              headerContent={ translate( 'Connect to a story' ) }
               mainContent={
                 <Field>
                   <Label>
-                    {translate('Enter your password')}
-                    <HelpPin place={'right'}>
-                      {translate('Explanation about the password')}
+                    {translate( 'Enter your password' )}
+                    <HelpPin place={ 'right' }>
+                      {translate( 'Explanation about the password' )}
                     </HelpPin>
                   </Label>
                   <Control hasIcons>
                     <Text
-                      className={'input'} field={'password'} id={'password'}
-                      type={'password'} />
+                      className={ 'input' }
+                      field={ 'password' }
+                      id={ 'password' }
+                      type={ 'password' }
+                    />
                     {/*<Input
-                      isColor="success" placeholder="Text Input" value="bloomer"
-                      type="password" />*/}
-                    <Icon isSize={'small'} isAlign={'left'}>
-                      <span className={'fa fa-lock'} aria-hidden={'true'} />
+                        isColor="success" placeholder="Text Input" value="bloomer"
+                        type="password" />*/}
+                    <Icon
+                      isSize={ 'small' }
+                      isAlign={ 'left' }
+                    >
+                      <span
+                        className={ 'fa fa-lock' }
+                        aria-hidden={ 'true' }
+                      />
                     </Icon>
                   </Control>
-                  {loginStatus === 'processing' && <Help>{translate('Submitting password')}</Help>}
-                  {loginStatus === 'fail' && <Help isColor={'danger'}>{translate('Password is not valid')}</Help>}
+                  {loginStatus === 'processing' && <Help>{translate( 'Submitting password' )}</Help>}
+                  {loginStatus === 'fail' && <Help isColor={ 'danger' }>{translate( 'Password is not valid' )}</Help>}
                 </Field>
-            }
-              footerContent={[
+              }
+              footerContent={ [
                 <Button
-                  type={'submit'} isFullWidth key={0}
-                  isColor={'success'}>{translate('Enter')}
+                  type={ 'submit' }
+                  isFullWidth
+                  key={ 0 }
+                  isColor={ 'success' }
+                >{translate( 'Enter' )}
                 </Button>,
                 <Button
-                  isFullWidth key={1} onClick={goReadStory}
-                  isColor={'warning'}>{translate('Read')}
+                  isFullWidth
+                  key={ 1 }
+                  onClick={ goReadStory }
+                  isColor={ 'warning' }
+                >{translate( 'Read' )}
                 </Button>,
-                <Button isFullWidth key={2} onClick={goBackHome}>
-                  {translate('Back to home')}
+                <Button
+                  isFullWidth
+                  key={ 2 }
+                  onClick={ goBackHome }
+                >
+                  {translate( 'Back to home' )}
                 </Button>
-            ]} />
+            ] }
+            />
           </form>
         )
       }

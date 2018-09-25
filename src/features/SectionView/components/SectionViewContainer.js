@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {v4 as genId} from 'uuid';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { v4 as genId } from 'uuid';
 import {
   withRouter,
 } from 'react-router';
 
-import {EditorState} from 'draft-js';
+import { EditorState } from 'draft-js';
 
 import {
   convertToRaw
@@ -24,8 +24,8 @@ import {
   getUserResourceLockId,
 } from '../../../helpers/lockUtils';
 
-import {createResourceData, validateFiles} from '../../../helpers/resourcesUtils';
-import {createDefaultResource} from '../../../helpers/schemaUtils';
+import { createResourceData, validateFiles } from '../../../helpers/resourcesUtils';
+import { createDefaultResource } from '../../../helpers/schemaUtils';
 
 import UploadModal from '../../../components/UploadModal';
 import PastingModal from '../../../components/PastingModal';
@@ -45,18 +45,18 @@ import SectionViewLayout from './SectionViewLayout';
 
 import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
 
-const {maxBatchNumber} = config;
+const { maxBatchNumber } = config;
 
 @connect(
-  state => ({
-    ...connectionsDuck.selector(state.connections),
-    ...storyDuck.selector(state.editedStory),
-    ...sectionsManagementDuck.selector(state.sectionsManagement),
-    ...libarayViewDuck.selector(state.library),
-    ...duck.selector(state.section),
-  }),
-  dispatch => ({
-    actions: bindActionCreators({
+  ( state ) => ( {
+    ...connectionsDuck.selector( state.connections ),
+    ...storyDuck.selector( state.editedStory ),
+    ...sectionsManagementDuck.selector( state.sectionsManagement ),
+    ...libarayViewDuck.selector( state.library ),
+    ...duck.selector( state.section ),
+  } ),
+  ( dispatch ) => ( {
+    actions: bindActionCreators( {
       ...editionUiDuck,
       ...connectionsDuck,
       ...storyDuck,
@@ -64,8 +64,8 @@ const {maxBatchNumber} = config;
       ...libarayViewDuck,
       ...errorMessageDuck,
       ...duck,
-    }, dispatch)
-  })
+    }, dispatch )
+  } )
 )
 
 class SectionViewContainer extends Component {
@@ -80,29 +80,29 @@ class SectionViewContainer extends Component {
     t: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props);
-    this.confirmExit = this.confirmExit.bind(this);
+  constructor( props ) {
+    super( props );
+    this.confirmExit = this.confirmExit.bind( this );
   }
 
-  getChildContext = () => ({
+  getChildContext = () => ( {
     setDraggedResourceId: this.setDraggedResourceId,
     setLinkModalFocusData: this.setLinkModalFocusData,
     editorFocus: this.props.editorFocus,
-  })
-
+  } )
 
   componentDidMount = () => {
-    window.addEventListener('beforeunload', this.confirmExit);
+    window.addEventListener( 'beforeunload', this.confirmExit );
     // require lock if edited story is here
-    if (this.props.editedStory) {
-      this.requireLockOnSection(this.props);
+    if ( this.props.editedStory ) {
+      this.requireLockOnSection( this.props );
     }
     this.props.actions.resetDraftEditorsStates();
-    this.props.actions.setEditedSectionId(this.props.match.params.sectionId);
+    this.props.actions.setEditedSectionId( this.props.match.params.sectionId );
   }
 
-  componentWillReceiveProps = nextProps => {
+  componentWillReceiveProps = ( nextProps ) => {
+
     /**
      * if section id or story id is changed leave previous section and try to lock on next section
      */
@@ -130,51 +130,51 @@ class SectionViewContainer extends Component {
     /**
      * @todo skip this conditional with another strategy relying on components architecture
      */
-    if (!this.props.editedStory && nextProps.editedStory) {
-      this.requireLockOnSection(this.props);
+    if ( !this.props.editedStory && nextProps.editedStory ) {
+      this.requireLockOnSection( this.props );
     }
     // changing section
-    if (prevSectionId !== nextSectionId || prevStoryId !== nextStoryId) {
+    if ( prevSectionId !== nextSectionId || prevStoryId !== nextStoryId ) {
       // updating active section id
-      this.props.actions.setEditedSectionId(nextSectionId);
+      this.props.actions.setEditedSectionId( nextSectionId );
       // packing up : saving all last editor states
       const section = this.props.editedStory.sections[prevSectionId];
       const newSection = {
         ...section,
-        contents: editorStates[prevSectionId] ? convertToRaw(editorStates[prevSectionId].getCurrentContent()) : section.contents,
-        notes: Object.keys(section.notes || {}).reduce((result, noteId) => ({
+        contents: editorStates[prevSectionId] ? convertToRaw( editorStates[prevSectionId].getCurrentContent() ) : section.contents,
+        notes: Object.keys( section.notes || {} ).reduce( ( result, noteId ) => ( {
           ...result,
           [noteId]: {
             ...section.notes[noteId],
-            contents: editorStates[noteId] ? convertToRaw(editorStates[noteId].getCurrentContent()) : section.notes[noteId].contents,
+            contents: editorStates[noteId] ? convertToRaw( editorStates[noteId].getCurrentContent() ) : section.notes[noteId].contents,
           }
-        }), {})
+        } ), {} )
       };
-      this.props.actions.updateSection({
+      this.props.actions.updateSection( {
         sectionId: prevSectionId,
         storyId: prevStoryId,
         userId,
         section: newSection
-      });
-      this.unlockOnSection(this.props);
-      this.requireLockOnSection(nextProps);
+      } );
+      this.unlockOnSection( this.props );
+      this.requireLockOnSection( nextProps );
       this.props.actions.resetDraftEditorsStates();
-      this.props.actions.setEmbedResourceAfterCreation(false);
-      this.props.actions.setNewResourceType(undefined);
-      this.props.actions.setEditedSectionId(undefined);
+      this.props.actions.setEmbedResourceAfterCreation( false );
+      this.props.actions.setNewResourceType( undefined );
+      this.props.actions.setEditedSectionId( undefined );
     }
 
-    if (pendingContextualization) {
+    if ( pendingContextualization ) {
       const {
         resourceId,
         contentId
       } = pendingContextualization;
-      if (editedStory && editedStory.resources && editedStory.resources[resourceId]) {
-        nextProps.actions.setPendingContextualization(undefined);
-        setTimeout(() => {
-          this.onSummonAsset(contentId, resourceId);
-          nextProps.actions.setLinkModalFocusData(undefined);
-        });
+      if ( editedStory && editedStory.resources && editedStory.resources[resourceId] ) {
+        nextProps.actions.setPendingContextualization( undefined );
+        setTimeout( () => {
+          this.onSummonAsset( contentId, resourceId );
+          nextProps.actions.setLinkModalFocusData( undefined );
+        } );
       }
     }
   }
@@ -188,27 +188,27 @@ class SectionViewContainer extends Component {
   // }
 
   componentWillUnmount = () => {
-    this.unlockOnSection(this.props);
-    this.props.actions.setEditorFocus(undefined);
-    this.props.actions.setEditedSectionId(undefined);
+    this.unlockOnSection( this.props );
+    this.props.actions.setEditorFocus( undefined );
+    this.props.actions.setEditedSectionId( undefined );
     this.props.actions.resetDraftEditorsStates();
     this.props.actions.resetViewsUi();
   }
 
-  confirmExit(e) {
-    const {storyIsSaved} = this.props;
-    if (!storyIsSaved) {
+  confirmExit( e ) {
+    const { storyIsSaved } = this.props;
+    if ( !storyIsSaved ) {
       const confirmationMessage = '\o/';
       e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
       return confirmationMessage;
     }
   }
 
-  setDraggedResourceId = resourceId => {
-    this.props.actions.setDraggedResourceId(resourceId);
+  setDraggedResourceId = ( resourceId ) => {
+    this.props.actions.setDraggedResourceId( resourceId );
   }
 
-  setLinkModalFocusData = (focusId) => {
+  setLinkModalFocusData = ( focusId ) => {
     const {
       match: {
         params: {
@@ -219,11 +219,10 @@ class SectionViewContainer extends Component {
     } = this.props;
     const editorId = focusId === 'main' ? sectionId : focusId;
     const selection = this.props.editorStates[editorId].getSelection();
-    this.props.actions.setLinkModalFocusData({focusId, selection});
+    this.props.actions.setLinkModalFocusData( { focusId, selection } );
   }
 
-
-  unlockOnSection = props => {
+  unlockOnSection = ( props ) => {
     const {
       match: {
         params: {
@@ -234,18 +233,18 @@ class SectionViewContainer extends Component {
       userId,
       lockingMap,
     } = props;
-    if (lockingMap && lockingMap[storyId] && lockingMap[storyId].locks[userId]) {
-      deleteUncitedContext(sectionId, props);
-      this.props.actions.leaveBlock({
+    if ( lockingMap && lockingMap[storyId] && lockingMap[storyId].locks[userId] ) {
+      deleteUncitedContext( sectionId, props );
+      this.props.actions.leaveBlock( {
         blockId: sectionId,
         storyId,
         userId,
         blockType: 'sections',
-      });
+      } );
     }
   }
 
-  requireLockOnSection = props => {
+  requireLockOnSection = ( props ) => {
     const {
       match: {
         params: {
@@ -255,98 +254,102 @@ class SectionViewContainer extends Component {
       },
       userId
     } = props;
-    this.props.actions.enterBlock({
+    this.props.actions.enterBlock( {
       blockId: sectionId,
       storyId,
       userId,
       blockType: 'sections',
-    }, (err) => {
-      if (err) {
+    }, ( err ) => {
+      if ( err ) {
+
         /**
          * ENTER_BLOCK_FAIL
          * If section lock is failed/refused,
          * this means another client is editing the section
          * -> for now the UI behaviour is to get back client to the summary view
          */
-        this.props.history.push(`/story/${storyId}/`);
+        this.props.history.push( `/story/${storyId}/` );
       }
       else {
-        // ENTER_BLOCK_SUCCESS
-        // this.goToSection(sectionId);
+
+        /*
+         * ENTER_BLOCK_SUCCESS
+         * this.goToSection(sectionId);
+         */
       }
-    });
+    } );
   }
 
-  goToSection = sectionId => {
+  goToSection = ( sectionId ) => {
     const {
       editedStory: {
         id
       }
     } = this.props;
-    this.props.history.push(`/story/${id}/section/${sectionId}`);
+    this.props.history.push( `/story/${id}/section/${sectionId}` );
   }
 
-  submitMultiResources = (files) => {
-    this.props.actions.setUploadStatus({
+  submitMultiResources = ( files ) => {
+    this.props.actions.setUploadStatus( {
       status: 'initializing',
       errors: []
-    });
-    setTimeout(() => {
-      const {setErrorMessage} = this.props.actions;
-      if (files.length > maxBatchNumber) {
-        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded'});
-        this.props.actions.setUploadStatus(undefined);
+    } );
+    setTimeout( () => {
+      const { setErrorMessage } = this.props.actions;
+      if ( files.length > maxBatchNumber ) {
+        setErrorMessage( { type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Too many files uploaded' } );
+        this.props.actions.setUploadStatus( undefined );
         return;
       }
-      const validFiles = validateFiles(files);
-      if (validFiles.length === 0) {
-        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'No valid files to upload'});
-        this.props.actions.setUploadStatus(undefined);
+      const validFiles = validateFiles( files );
+      if ( validFiles.length === 0 ) {
+        setErrorMessage( { type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'No valid files to upload' } );
+        this.props.actions.setUploadStatus( undefined );
         return;
       }
-      if (validFiles.length < files.length) {
-        const invalidFiles = files.filter(f => validFiles.find(oF => oF.name === f.name) === undefined);
-        this.props.actions.setUploadStatus({
+      if ( validFiles.length < files.length ) {
+        const invalidFiles = files.filter( ( f ) => validFiles.find( ( oF ) => oF.name === f.name ) === undefined );
+        this.props.actions.setUploadStatus( {
           ...this.props.uploadStatus,
-          errors: invalidFiles.map(file => ({
+          errors: invalidFiles.map( ( file ) => ( {
             fileName: file.name,
             reason: 'too big'
-          }))
-        });
-        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Some files larger than maximum size'});
+          } ) )
+        } );
+        setErrorMessage( { type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: 'Some files larger than maximum size' } );
       }
       const errors = [];
-      validFiles.reduce((curr, next) => {
-        return curr.then(() => {
-          this.props.actions.setUploadStatus({
+      validFiles.reduce( ( curr, next ) => {
+        return curr.then( () => {
+          this.props.actions.setUploadStatus( {
             status: 'uploading',
             currentFileName: next.name,
             errors: this.props.uploadStatus.errors
-          });
-          return createResourceData(next, this.props)
-          .then((res) => {
-            if (res && !res.success) errors.push(res);
-          });
-        });
-      }, Promise.resolve())
-      .then(() => {
-        if (errors.length > 0) {
-          setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: errors});
+          } );
+          return createResourceData( next, this.props )
+          .then( ( res ) => {
+            if ( res && !res.success ) errors.push( res );
+          } );
+        } );
+      }, Promise.resolve() )
+      .then( () => {
+        if ( errors.length > 0 ) {
+          setErrorMessage( { type: 'SUBMIT_MULTI_RESOURCES_FAIL', error: errors } );
         }
         // this.props.actions.setMainColumnMode('edition');
-        this.props.actions.setUploadStatus(undefined);
-      })
-      .catch((error) => {
-        this.props.actions.setUploadStatus(undefined);
-        setErrorMessage({type: 'SUBMIT_MULTI_RESOURCES_FAIL', error});
-      });
-    }, 100);
+        this.props.actions.setUploadStatus( undefined );
+      } )
+      .catch( ( error ) => {
+        this.props.actions.setUploadStatus( undefined );
+        setErrorMessage( { type: 'SUBMIT_MULTI_RESOURCES_FAIL', error } );
+      } );
+    }, 100 );
 
   }
 
-  onSummonAsset = (contentId, resourceId) => summonAsset(contentId, resourceId, this.props);
+  onSummonAsset = ( contentId, resourceId ) => summonAsset( contentId, resourceId, this.props );
 
-  onCreateHyperlink = ({title, url}, contentId, selection) => {
+  onCreateHyperlink = ( { title, url }, contentId, selection ) => {
     const {
       match: {
         params: {
@@ -360,10 +363,10 @@ class SectionViewContainer extends Component {
       }
     } = this.props;
     const editorStateId = contentId === 'main' ? sectionId : contentId;
-    if (selection) {
+    if ( selection ) {
       let editorState = this.props.editorStates[editorStateId];
-      editorState = EditorState.acceptSelection(editorState, selection);
-      this.props.actions.updateDraftEditorState(editorStateId, editorState);
+      editorState = EditorState.acceptSelection( editorState, selection );
+      this.props.actions.updateDraftEditorState( editorStateId, editorState );
     }
     const id = genId();
     const resource = {
@@ -379,22 +382,22 @@ class SectionViewContainer extends Component {
         url,
       }
     };
-    createResource({
+    createResource( {
       resourceId: id,
       storyId,
       userId,
       resource
-    });
-    setTimeout(() => {
-      this.props.actions.setPendingContextualization({
+    } );
+    setTimeout( () => {
+      this.props.actions.setPendingContextualization( {
         resourceId: id,
         contentId
-      });
-    });
+      } );
+    } );
 
   }
 
-  onContextualizeHyperlink = (resourceId, contentId, selection) => {
+  onContextualizeHyperlink = ( resourceId, contentId, selection ) => {
     const {
       match: {
         params: {
@@ -403,34 +406,34 @@ class SectionViewContainer extends Component {
       },
     } = this.props;
     const editorStateId = contentId === 'main' ? sectionId : contentId;
-    if (selection) {
+    if ( selection ) {
       let editorState = this.props.editorStates[editorStateId];
-      editorState = EditorState.acceptSelection(editorState, selection);
-      this.props.actions.updateDraftEditorState(editorStateId, editorState);
+      editorState = EditorState.acceptSelection( editorState, selection );
+      this.props.actions.updateDraftEditorState( editorStateId, editorState );
     }
-    setTimeout(() => {
-      this.onSummonAsset(contentId, resourceId);
-      this.props.actions.setLinkModalFocusData(undefined);
-    });
+    setTimeout( () => {
+      this.onSummonAsset( contentId, resourceId );
+      this.props.actions.setLinkModalFocusData( undefined );
+    } );
   }
 
   embedLastResource = () => {
     const resources = this.props.editedStory.resources;
-    const resourcesMap = Object.keys(resources).map(id => resources[id]);
-    const lastResource = resourcesMap.sort((a, b) => {
-      if (a.lastUpdateAt > b.lastUpdateAt) {
+    const resourcesMap = Object.keys( resources ).map( ( id ) => resources[id] );
+    const lastResource = resourcesMap.sort( ( a, b ) => {
+      if ( a.lastUpdateAt > b.lastUpdateAt ) {
         return -1;
       }
       else {
         return 1;
       }
-    })[0];
-    if (lastResource) {
-      this.onSummonAsset(this.props.assetRequestState.editorId, lastResource.id);
+    } )[0];
+    if ( lastResource ) {
+      this.onSummonAsset( this.props.assetRequestState.editorId, lastResource.id );
     }
   }
 
-  onResourceEditAttempt = resourceId => {
+  onResourceEditAttempt = ( resourceId ) => {
     const {
       match: {
         params: {
@@ -440,16 +443,16 @@ class SectionViewContainer extends Component {
       lockingMap,
       userId
     } = this.props;
-    const userLockedResourceId = getUserResourceLockId(lockingMap, userId, storyId);
-    if (userLockedResourceId !== resourceId) {
-      this.props.actions.setEditorFocus(undefined);
-      setTimeout(() => this.props.actions.setSelectedContextualizationId(undefined));
-      this.props.actions.enterBlock({
+    const userLockedResourceId = getUserResourceLockId( lockingMap, userId, storyId );
+    if ( userLockedResourceId !== resourceId ) {
+      this.props.actions.setEditorFocus( undefined );
+      setTimeout( () => this.props.actions.setSelectedContextualizationId( undefined ) );
+      this.props.actions.enterBlock( {
         storyId,
         userId,
         blockType: 'resources',
         blockId: resourceId
-      });
+      } );
     }
   };
 
@@ -475,25 +478,29 @@ class SectionViewContainer extends Component {
       onResourceEditAttempt,
     } = this;
 
-    if (editedStory) {
+    if ( editedStory ) {
       const section = editedStory.sections[sectionId];
-      if (section) {
+      if ( section ) {
         return (
-          <DataUrlProvider storyId={storyId} serverUrl={config.apiUrl} >
+          <DataUrlProvider
+            storyId={ storyId }
+            serverUrl={ config.apiUrl }
+          >
             <EditionUiWrapper>
               <SectionViewLayout
-                section={section}
-                goToSection={goToSection}
-                story={this.props.editedStory}
-                embedLastResource={embedLastResource}
-                summonAsset={onSummonAsset}
-                submitMultiResources={submitMultiResources}
-                onCreateHyperlink={onCreateHyperlink}
-                onContextualizeHyperlink={onContextualizeHyperlink}
-                onResourceEditAttempt={onResourceEditAttempt}
-                {...this.props} />
-              <PastingModal editorPastingStatus={editorPastingStatus} />
-              <UploadModal uploadStatus={uploadStatus} />
+                section={ section }
+                goToSection={ goToSection }
+                story={ this.props.editedStory }
+                embedLastResource={ embedLastResource }
+                summonAsset={ onSummonAsset }
+                submitMultiResources={ submitMultiResources }
+                onCreateHyperlink={ onCreateHyperlink }
+                onContextualizeHyperlink={ onContextualizeHyperlink }
+                onResourceEditAttempt={ onResourceEditAttempt }
+                { ...this.props }
+              />
+              <PastingModal editorPastingStatus={ editorPastingStatus } />
+              <UploadModal uploadStatus={ uploadStatus } />
             </EditionUiWrapper>
           </DataUrlProvider>
         );
@@ -504,4 +511,4 @@ class SectionViewContainer extends Component {
   }
 }
 
-export default withRouter(SectionViewContainer);
+export default withRouter( SectionViewContainer );

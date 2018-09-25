@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {v4 as genId} from 'uuid';
+import { v4 as genId } from 'uuid';
 
 import SectionEditor from '../../../components/SectionEditor';
 import NewSectionForm from '../../../components/NewSectionForm';
 import ResourceForm from '../../../components/ResourceForm';
-import {createBibData} from '../../../helpers/resourcesUtils';
+import { createBibData } from '../../../helpers/resourcesUtils';
 
 import SectionHeader from './SectionHeader';
 
-import {translateNameSpacer} from '../../../helpers/translateUtils';
+import { translateNameSpacer } from '../../../helpers/translateUtils';
 
 import config from '../../../config';
 
@@ -33,11 +33,10 @@ import {
   base64ToBytesLength
 } from '../../../helpers/misc';
 
-const {maxBatchNumber, maxResourceSize} = config;
-const realMaxFileSize = base64ToBytesLength(maxResourceSize);
+const { maxBatchNumber, maxResourceSize } = config;
+const realMaxFileSize = base64ToBytesLength( maxResourceSize );
 
-
-const MainSectionColumn = ({
+const MainSectionColumn = ( {
   userLockedResourceId,
   mainColumnMode,
   newResourceMode,
@@ -63,7 +62,6 @@ const MainSectionColumn = ({
   setMainColumnMode,
   setShortcutsHelpVisible,
   onNewSectionSubmit,
-
 
   promptAssetEmbed,
   unpromptAssetEmbed,
@@ -108,33 +106,32 @@ const MainSectionColumn = ({
   setSelectedContextualizationId,
 }, {
   t
-}) => {
-
+} ) => {
 
   const {
     id: storyId,
     resources,
   } = story;
   // const {id: sectionId} = section;
-  const translate = translateNameSpacer(t, 'Features.SectionView');
+  const translate = translateNameSpacer( t, 'Features.SectionView' );
 
-  const onUpdateSection = (newSection, callback) => {
-    updateSection(newSection, callback);
+  const onUpdateSection = ( newSection, callback ) => {
+    updateSection( newSection, callback );
   };
 
-  const onUpdateMetadata = metadata => {
-    onUpdateSection({
+  const onUpdateMetadata = ( metadata ) => {
+    onUpdateSection( {
       ...section,
       metadata: {
         ...section.metadata,
         ...metadata
       }
-    });
-    setMainColumnMode('edition');
+    } );
+    setMainColumnMode( 'edition' );
   };
 
-  const onTitleBlur = title => {
-    if (title.length) {
+  const onTitleBlur = ( title ) => {
+    if ( title.length ) {
       const newSection = {
         ...section,
         metadata: {
@@ -142,44 +139,43 @@ const MainSectionColumn = ({
           title
         }
       };
-      onUpdateSection(newSection);
+      onUpdateSection( newSection );
     }
   };
 
   const onTitleFocus = () => {
-    setEditorFocus(undefined);
+    setEditorFocus( undefined );
   };
 
-  const guessTitle = (title = '') => {
+  const guessTitle = ( title = '' ) => {
     const endNumberRegexp = /([0-9]+)$/;
-    const numberMatch = title.match(endNumberRegexp);
-    if (numberMatch) {
+    const numberMatch = title.match( endNumberRegexp );
+    if ( numberMatch ) {
       const number = +numberMatch[1];
-      if (!isNaN(number)) {
+      if ( !isNaN( number ) ) {
         const newNumber = number + 1;
-        const newTitle = title.replace(endNumberRegexp, `${newNumber }`);
+        const newTitle = title.replace( endNumberRegexp, `${newNumber }` );
         return newTitle;
       }
     }
     return '';
   };
 
-
   const renderMain = () => {
-    if (userLockedResourceId) {
-      const handleSubmit = resource => {
-        const {id: resourceId} = resource;
+    if ( userLockedResourceId ) {
+      const handleSubmit = ( resource ) => {
+        const { id: resourceId } = resource;
         const payload = {
           resourceId,
           resource,
           storyId,
           userId
         };
-        if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
-          uploadResource(payload, 'update');
+        if ( ( resource.metadata.type === 'image' && resource.data.base64 ) || ( resource.metadata.type === 'table' && resource.data.json ) ) {
+          uploadResource( payload, 'update' );
         }
-        else if (resource.metadata.type === 'bib') {
-          createBibData(resource, {
+        else if ( resource.metadata.type === 'bib' ) {
+          createBibData( resource, {
             editedStory: story,
             userId,
             uploadStatus,
@@ -188,36 +184,37 @@ const MainSectionColumn = ({
               updateResource,
               setUploadStatus,
             },
-          });
+          } );
         }
         else {
-          updateResource(payload);
+          updateResource( payload );
         }
-        leaveBlock({
+        leaveBlock( {
           storyId,
           userId,
           blockType: 'resources',
           blockId: userLockedResourceId
-        });
+        } );
       };
       const handleCancel = () => {
-        leaveBlock({
+        leaveBlock( {
           storyId,
           userId,
           blockType: 'resources',
           blockId: userLockedResourceId
-        });
+        } );
       };
       return (
-        <Column style={{position: 'relative', height: '100%', width: '100%', background: 'white', zIndex: 3}}>
+        <Column style={ { position: 'relative', height: '100%', width: '100%', background: 'white', zIndex: 3 } }>
           <StretchedLayoutContainer isAbsolute>
-            <StretchedLayoutItem isFlex={1}>
-              <Column style={{position: 'relative', height: '100%', width: '100%'}}>
+            <StretchedLayoutItem isFlex={ 1 }>
+              <Column style={ { position: 'relative', height: '100%', width: '100%' } }>
                 <ResourceForm
-                  onCancel={handleCancel}
-                  onSubmit={handleSubmit}
-                  resource={resources[userLockedResourceId]}
-                  asNewResource={false} />
+                  onCancel={ handleCancel }
+                  onSubmit={ handleSubmit }
+                  resource={ resources[userLockedResourceId] }
+                  asNewResource={ false }
+                />
               </Column>
             </StretchedLayoutItem>
           </StretchedLayoutContainer>
@@ -225,9 +222,9 @@ const MainSectionColumn = ({
       );
     }
 
-    switch (mainColumnMode) {
+    switch ( mainColumnMode ) {
       case 'newresource':
-        const handleSubmit = resource => {
+        const handleSubmit = ( resource ) => {
           const resourceId = genId();
           const payload = {
             resourceId,
@@ -238,16 +235,16 @@ const MainSectionColumn = ({
             storyId,
             userId,
           };
-          if ((resource.metadata.type === 'image' && resource.data.base64) || (resource.metadata.type === 'table' && resource.data.json)) {
-            uploadResource(payload, 'create');
+          if ( ( resource.metadata.type === 'image' && resource.data.base64 ) || ( resource.metadata.type === 'table' && resource.data.json ) ) {
+            uploadResource( payload, 'create' );
           }
-          else if (resource.metadata.type === 'bib') {
-            setUploadStatus({
+          else if ( resource.metadata.type === 'bib' ) {
+            setUploadStatus( {
               status: 'initializing',
               errors: []
-            });
-            setTimeout(() => {
-                createBibData(resource, {
+            } );
+            setTimeout( () => {
+                createBibData( resource, {
                   editedStory: story,
                   userId,
                   uploadStatus,
@@ -256,38 +253,41 @@ const MainSectionColumn = ({
                     updateResource,
                     setUploadStatus
                   },
-                })
-                .then(() =>
-                  setUploadStatus(undefined)
+                } )
+                .then( () =>
+                  setUploadStatus( undefined )
                 )
-                .catch((e) => {
-                  console.error(e);/* eslint no-console : 0 */
-                  setUploadStatus(undefined);
-                });
-            }, 100);
-
+                .catch( ( e ) => {
+                  console.error( e );/* eslint no-console : 0 */
+                  setUploadStatus( undefined );
+                } );
+            }, 100 );
 
           }
           else {
-            createResource(payload);
+            createResource( payload );
           }
-          setMainColumnMode('edition');
+          setMainColumnMode( 'edition' );
         };
         return (
-          <Column isWrapper style={{background: 'white', zIndex: 2}}>
-            <StretchedLayoutContainer style={{paddingTop: '1rem'}} isAbsolute>
+          <Column
+            isWrapper
+            style={ { background: 'white', zIndex: 2 } }
+          >
+            <StretchedLayoutContainer
+              style={ { paddingTop: '1rem' } }
+              isAbsolute
+            >
               <StretchedLayoutItem>
                 <StretchedLayoutItem>
                   <Column>
-                    <Title isSize={3}>
-                      <StretchedLayoutContainer isDirection={'horizontal'}>
-                        <StretchedLayoutItem isFlex={10}>
-                          {translate('Add items to the library')}
+                    <Title isSize={ 3 }>
+                      <StretchedLayoutContainer isDirection={ 'horizontal' }>
+                        <StretchedLayoutItem isFlex={ 10 }>
+                          {translate( 'Add items to the library' )}
                         </StretchedLayoutItem>
                         <StretchedLayoutItem>
-                          <Delete onClick={
-                            () => setMainColumnMode('edition')
-                          } />
+                          <Delete onClick={ () => setMainColumnMode( 'edition' ) } />
                         </StretchedLayoutItem>
                       </StretchedLayoutContainer>
                     </Title>
@@ -299,14 +299,20 @@ const MainSectionColumn = ({
                 <Column>
                   <Tabs isBoxed>
                     <TabList>
-                      <Tab onClick={() => setNewResourceMode('manually')} isActive={newResourceMode === 'manually'}>
+                      <Tab
+                        onClick={ () => setNewResourceMode( 'manually' ) }
+                        isActive={ newResourceMode === 'manually' }
+                      >
                         <TabLink>
-                          {translate('One item')}
+                          {translate( 'One item' )}
                         </TabLink>
                       </Tab>
-                      <Tab onClick={() => setNewResourceMode('drop')} isActive={newResourceMode === 'drop'}>
+                      <Tab
+                        onClick={ () => setNewResourceMode( 'drop' ) }
+                        isActive={ newResourceMode === 'drop' }
+                      >
                         <TabLink>
-                          {translate('Several items')}
+                          {translate( 'Several items' )}
                         </TabLink>
                       </Tab>
                     </TabList>
@@ -314,14 +320,15 @@ const MainSectionColumn = ({
                 </Column>
               </StretchedLayoutItem>
               {newResourceMode === 'manually' &&
-                <StretchedLayoutItem isFlex={1}>
+                <StretchedLayoutItem isFlex={ 1 }>
                   <Column isWrapper>
                     <ResourceForm
-                      showTitle={false}
-                      resourceType={newResourceType}
-                      onCancel={() => setMainColumnMode('edition')}
-                      onSubmit={handleSubmit}
-                      asNewResource />
+                      showTitle={ false }
+                      resourceType={ newResourceType }
+                      onCancel={ () => setMainColumnMode( 'edition' ) }
+                      onSubmit={ handleSubmit }
+                      asNewResource
+                    />
                   </Column>
                 </StretchedLayoutItem>
               }
@@ -329,15 +336,16 @@ const MainSectionColumn = ({
                 <StretchedLayoutItem>
                   <Column>
                     <DropZone
-                      accept={'.jpeg,.jpg,.gif,.png,.csv,.tsv,.bib'}
-                      style={{height: '5rem'}}
-                      onDrop={submitMultiResources}>
-                      {translate('Drop files here to include in your library')}
+                      accept={ '.jpeg,.jpg,.gif,.png,.csv,.tsv,.bib' }
+                      style={ { height: '5rem' } }
+                      onDrop={ submitMultiResources }
+                    >
+                      {translate( 'Drop files here to include in your library' )}
                       <HelpPin>
-                        {`${translate('Accepted file formats: jpeg, jpg, gif, png, csv, tsv, bib')}. ${translate('Up to {n} files, with a maximum size of {s} Mb each', {
+                        {`${translate( 'Accepted file formats: jpeg, jpg, gif, png, csv, tsv, bib' )}. ${translate( 'Up to {n} files, with a maximum size of {s} Mb each', {
                           n: maxBatchNumber,
-                          s: Math.floor(realMaxFileSize / 1000000)
-                        })}`}
+                          s: Math.floor( realMaxFileSize / 1000000 )
+                        } )}`}
                       </HelpPin>
                     </DropZone>
                   </Column>
@@ -348,31 +356,41 @@ const MainSectionColumn = ({
         );
       case 'newsection':
         return (
-          <Column isWrapper style={{background: 'white', zIndex: 1000}}>
-            <StretchedLayoutContainer style={{paddingTop: '1rem'}} isAbsolute>
+          <Column
+            isWrapper
+            style={ { background: 'white', zIndex: 1000 } }
+          >
+            <StretchedLayoutContainer
+              style={ { paddingTop: '1rem' } }
+              isAbsolute
+            >
               <StretchedLayoutItem>
                 <Column>
-                  <Title isSize={3}>
-                    <StretchedLayoutContainer isDirection={'horizontal'}>
-                      <StretchedLayoutItem isFlex={10}>
-                        {translate('New section')}
+                  <Title isSize={ 3 }>
+                    <StretchedLayoutContainer isDirection={ 'horizontal' }>
+                      <StretchedLayoutItem isFlex={ 10 }>
+                        {translate( 'New section' )}
                       </StretchedLayoutItem>
                       <StretchedLayoutItem>
-                        <Delete onClick={() => setMainColumnMode('edition')} />
+                        <Delete onClick={ () => setMainColumnMode( 'edition' ) } />
                       </StretchedLayoutItem>
                     </StretchedLayoutContainer>
                   </Title>
                 </Column>
               </StretchedLayoutItem>
-              <StretchedLayoutItem isFlowing isFlex={1}>
+              <StretchedLayoutItem
+                isFlowing
+                isFlex={ 1 }
+              >
                 <Column>
                   <NewSectionForm
-                    metadata={{
+                    metadata={ {
                       ...defaultSectionMetadata,
-                      title: guessTitle(section.metadata.title)
-                    }}
-                    onSubmit={onNewSectionSubmit}
-                    onCancel={() => setMainColumnMode('edition')} />
+                      title: guessTitle( section.metadata.title )
+                    } }
+                    onSubmit={ onNewSectionSubmit }
+                    onCancel={ () => setMainColumnMode( 'edition' ) }
+                  />
                 </Column>
               </StretchedLayoutItem>
             </StretchedLayoutContainer>
@@ -380,29 +398,39 @@ const MainSectionColumn = ({
         );
       case 'editmetadata':
         return (
-          <Column isWrapper style={{background: 'white', zIndex: 1000}}>
-            <StretchedLayoutContainer style={{paddingTop: '1rem'}} isAbsolute>
+          <Column
+            isWrapper
+            style={ { background: 'white', zIndex: 1000 } }
+          >
+            <StretchedLayoutContainer
+              style={ { paddingTop: '1rem' } }
+              isAbsolute
+            >
               <StretchedLayoutItem>
                 <Column>
-                  <Title isSize={3}>
-                    <StretchedLayoutContainer isDirection={'horizontal'}>
-                      <StretchedLayoutItem isFlex={10}>
-                        {translate('Edit section metadata')}
+                  <Title isSize={ 3 }>
+                    <StretchedLayoutContainer isDirection={ 'horizontal' }>
+                      <StretchedLayoutItem isFlex={ 10 }>
+                        {translate( 'Edit section metadata' )}
                       </StretchedLayoutItem>
                       <StretchedLayoutItem>
-                        <Delete onClick={() => setMainColumnMode('edition')} />
+                        <Delete onClick={ () => setMainColumnMode( 'edition' ) } />
                       </StretchedLayoutItem>
                     </StretchedLayoutContainer>
                   </Title>
                 </Column>
               </StretchedLayoutItem>
-              <StretchedLayoutItem isFlowing isFlex={1}>
+              <StretchedLayoutItem
+                isFlowing
+                isFlex={ 1 }
+              >
                 <Column>
                   <NewSectionForm
-                    submitMessage={translate('Save changes')}
-                    metadata={{...section.metadata}}
-                    onSubmit={onUpdateMetadata}
-                    onCancel={() => setMainColumnMode('edition')} />
+                    submitMessage={ translate( 'Save changes' ) }
+                    metadata={ { ...section.metadata } }
+                    onSubmit={ onUpdateMetadata }
+                    onCancel={ () => setMainColumnMode( 'edition' ) }
+                  />
                 </Column>
               </StretchedLayoutItem>
             </StretchedLayoutContainer>
@@ -414,11 +442,11 @@ const MainSectionColumn = ({
   };
 
   const onEditMetadataClick = () => {
-    if (mainColumnMode !== 'editmetadata') {
-      onOpenSectionSettings(section.id);
+    if ( mainColumnMode !== 'editmetadata' ) {
+      onOpenSectionSettings( section.id );
     }
     else {
-      setMainColumnMode('edition');
+      setMainColumnMode( 'edition' );
     }
   };
 
@@ -434,38 +462,58 @@ const MainSectionColumn = ({
   };
 
   return (
-    <Column isSize={'fullwidth'} isWrapper>
-      <StretchedLayoutContainer isFluid isAbsolute isDirection={'horizontal'}>
+    <Column
+      isSize={ 'fullwidth' }
+      isWrapper
+    >
+      <StretchedLayoutContainer
+        isFluid
+        isAbsolute
+        isDirection={ 'horizontal' }
+      >
 
-        <StretchedLayoutItem isFlex={mainColumnMode === 'edition' && !userLockedResourceId ? 0 : 6}>
+        <StretchedLayoutItem isFlex={ mainColumnMode === 'edition' && !userLockedResourceId ? 0 : 6 }>
           {renderMain()}
         </StretchedLayoutItem>
-        <StretchedLayoutItem isFlex={mainColumnMode === 'edition' && !userLockedResourceId ? 12 : 6}>
+        <StretchedLayoutItem isFlex={ mainColumnMode === 'edition' && !userLockedResourceId ? 12 : 6 }>
           <Column
-            isWrapper isSize={12}
-            isOffset={0}>
-            <StretchedLayoutContainer isAbsolute isDirection={'vertical'}>
+            isWrapper
+            isSize={ 12 }
+            isOffset={ 0 }
+          >
+            <StretchedLayoutContainer
+              isAbsolute
+              isDirection={ 'vertical' }
+            >
               <StretchedLayoutItem>
                 <Column
-                  isSize={editorWidth}
-                  isOffset={editorX}
-                  style={{paddingBottom: 0}}
-                  isWrapper>
+                  isSize={ editorWidth }
+                  isOffset={ editorX }
+                  style={ { paddingBottom: 0 } }
+                  isWrapper
+                >
                   {/* editor header*/}
-                  <StretchedLayoutContainer style={{overflow: 'visible'}} isFluid isDirection={'horizontal'}>
+                  <StretchedLayoutContainer
+                    style={ { overflow: 'visible' } }
+                    isFluid
+                    isDirection={ 'horizontal' }
+                  >
                     <StretchedLayoutItem
-                      style={{overflow: 'visible'}} isFlex={1}>
+                      style={ { overflow: 'visible' } }
+                      isFlex={ 1 }
+                    >
                       <SectionHeader
-                        title={section.metadata.title}
-                        onEdit={onEditMetadataClick}
-                        onBlur={onTitleBlur}
-                        onFocus={onTitleFocus}
-                        placeHolder={translate('Section title')}
+                        title={ section.metadata.title }
+                        onEdit={ onEditMetadataClick }
+                        onBlur={ onTitleBlur }
+                        onFocus={ onTitleFocus }
+                        placeHolder={ translate( 'Section title' ) }
 
-                        isDisabled={userLockedResourceId || (mainColumnMode !== 'edition' && mainColumnMode !== 'editmetadata')}
-                        isColor={mainColumnMode === 'editmetadata' ? 'primary' : ''}
-                        editTip={translate('Edit section metadata')}
-                        inputTip={translate('Section title')} />
+                        isDisabled={ userLockedResourceId || ( mainColumnMode !== 'edition' && mainColumnMode !== 'editmetadata' ) }
+                        isColor={ mainColumnMode === 'editmetadata' ? 'primary' : '' }
+                        editTip={ translate( 'Edit section metadata' ) }
+                        inputTip={ translate( 'Section title' ) }
+                      />
                     </StretchedLayoutItem>
                     {/*<StretchedLayoutItem isFlex={1}>
                       <Title isSize={2}>
@@ -487,76 +535,77 @@ const MainSectionColumn = ({
                 </Column>
               </StretchedLayoutItem>
               {/*editor*/}
-              <StretchedLayoutItem isFlex={1}>
+              <StretchedLayoutItem isFlex={ 1 }>
                 <Column isWrapper>
                   <SectionEditor
-                    editorWidth={editorWidth}
-                    editorOffset={editorX}
-                    style={{height: '100%'}}
-                    story={story}
-                    activeSection={section}
-                    sectionId={section.id}
-                    editorStates={editorStates}
-                    updateDraftEditorState={updateDraftEditorState}
-                    updateDraftEditorsStates={updateDraftEditorsStates}
-                    editorFocus={editorFocus}
-                    previousEditorFocus={previousEditorFocus}
-                    userId={userId}
-                    draggedResourceId={draggedResourceId}
-                    disablePaste={(userLockedResourceId || mainColumnMode !== 'edit') && !editorFocus}
+                    editorWidth={ editorWidth }
+                    editorOffset={ editorX }
+                    style={ { height: '100%' } }
+                    story={ story }
+                    activeSection={ section }
+                    sectionId={ section.id }
+                    editorStates={ editorStates }
+                    updateDraftEditorState={ updateDraftEditorState }
+                    updateDraftEditorsStates={ updateDraftEditorsStates }
+                    editorFocus={ editorFocus }
+                    previousEditorFocus={ previousEditorFocus }
+                    userId={ userId }
+                    draggedResourceId={ draggedResourceId }
+                    disablePaste={ ( userLockedResourceId || mainColumnMode !== 'edit' ) && !editorFocus }
 
-                    updateSection={(newSection, callback) => onUpdateSection(newSection, callback)}
+                    updateSection={ ( newSection, callback ) => onUpdateSection( newSection, callback ) }
 
-                    summonAsset={summonAsset}
+                    summonAsset={ summonAsset }
 
-                    setEditorPastingStatus={setEditorPastingStatus}
-                    editorPastingStatus={editorPastingStatus}
+                    setEditorPastingStatus={ setEditorPastingStatus }
+                    editorPastingStatus={ editorPastingStatus }
 
-                    createContextualization={createContextualization}
-                    createContextualizer={createContextualizer}
-                    createResource={createResource}
+                    createContextualization={ createContextualization }
+                    createContextualizer={ createContextualizer }
+                    createResource={ createResource }
 
-                    selectedContextualizationId={selectedContextualizationId}
-                    setSelectedContextualizationId={setSelectedContextualizationId}
+                    selectedContextualizationId={ selectedContextualizationId }
+                    setSelectedContextualizationId={ setSelectedContextualizationId }
 
-                    updateContextualizer={updateContextualizer}
-                    updateResource={updateResource}
+                    updateContextualizer={ updateContextualizer }
+                    updateResource={ updateResource }
 
-                    deleteContextualization={deleteContextualization}
-                    deleteContextualizationFromId={deleteContextualizationFromId}
-                    deleteContextualizer={deleteContextualizer}
+                    deleteContextualization={ deleteContextualization }
+                    deleteContextualizationFromId={ deleteContextualizationFromId }
+                    deleteContextualizer={ deleteContextualizer }
 
-                    requestAsset={promptAssetEmbed}
-                    cancelAssetRequest={unpromptAssetEmbed}
+                    requestAsset={ promptAssetEmbed }
+                    cancelAssetRequest={ unpromptAssetEmbed }
 
-                    assetRequestState={assetRequestState}
-                    setAssetRequestContentId={setAssetRequestContentId}
-                    assetRequestPosition={assetRequestState.selection}
-                    assetRequestContentId={assetRequestState.editorId}
+                    assetRequestState={ assetRequestState }
+                    setAssetRequestContentId={ setAssetRequestContentId }
+                    assetRequestPosition={ assetRequestState.selection }
+                    assetRequestContentId={ assetRequestState.editorId }
 
-                    startNewResourceConfiguration={startNewResourceConfiguration}
-                    startExistingResourceConfiguration={startExistingResourceConfiguration}
-                    setStoryIsSaved={setStoryIsSaved}
-                    setErrorMessage={setErrorMessage}
+                    startNewResourceConfiguration={ startNewResourceConfiguration }
+                    startExistingResourceConfiguration={ startExistingResourceConfiguration }
+                    setStoryIsSaved={ setStoryIsSaved }
+                    setErrorMessage={ setErrorMessage }
 
-                    setEditorBlocked={setEditorBlocked}
-                    setEditorFocus={setEditorFocus} />
-
+                    setEditorBlocked={ setEditorBlocked }
+                    setEditorFocus={ setEditorFocus }
+                  />
 
                 </Column>
               </StretchedLayoutItem>
-              <StretchedLayoutItem className={'editor-footer'}>
+              <StretchedLayoutItem className={ 'editor-footer' }>
                 <Column
-                  style={{paddingTop: 0}}
-                  isSize={editorWidth}
-                  isOffset={editorX}>
-                  <Column style={{paddingTop: 0}}>
-                    <StretchedLayoutContainer isDirection={'horizontal'}>
-                      <StretchedLayoutItem isFlex={1}>
-                        <a onClick={() => setShortcutsHelpVisible(true)}>{t('shortcuts help')}</a>
+                  style={ { paddingTop: 0 } }
+                  isSize={ editorWidth }
+                  isOffset={ editorX }
+                >
+                  <Column style={ { paddingTop: 0 } }>
+                    <StretchedLayoutContainer isDirection={ 'horizontal' }>
+                      <StretchedLayoutItem isFlex={ 1 }>
+                        <a onClick={ () => setShortcutsHelpVisible( true ) }>{t( 'shortcuts help' )}</a>
                       </StretchedLayoutItem>
-                      <StretchedLayoutItem style={{textAlign: 'right'}}>
-                        <i>{storyIsSaved ? translate('All changes saved') : translate('Saving...')}</i>
+                      <StretchedLayoutItem style={ { textAlign: 'right' } }>
+                        <i>{storyIsSaved ? translate( 'All changes saved' ) : translate( 'Saving...' )}</i>
                       </StretchedLayoutItem>
                     </StretchedLayoutContainer>
                   </Column>

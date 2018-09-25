@@ -3,8 +3,11 @@
 import React from 'react';
 import InlineButton from './InlineButton';
 
-export default props => (
-  <InlineButton {...props} inlineStyleType={'ITALIC'}>
+export default ( props ) => (
+  <InlineButton
+    { ...props }
+    inlineStyleType={ 'ITALIC' }
+  >
     {props.iconMap.italic}
   </InlineButton>
 );

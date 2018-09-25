@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {translateNameSpacer} from '../../../helpers/translateUtils';
+import { translateNameSpacer } from '../../../helpers/translateUtils';
 
 import {
   Button,
@@ -15,68 +15,88 @@ import {
   Help
 } from 'quinoa-design-library/components/';
 
-import {Form, Text} from 'react-form';
+import { Form, Text } from 'react-form';
 
-const DeleteStoryModal = ({
+const DeleteStoryModal = ( {
   loginStatus,
   deleteStatus,
   onSubmitPassword,
   onCancel
 }, {
   t
-}) => {
-  const translate = translateNameSpacer(t, 'Components.DeleteStoryModal');
+} ) => {
+  const translate = translateNameSpacer( t, 'Components.DeleteStoryModal' );
 
-  const onSubmitForm = values => {
-    onSubmitPassword(values.password);
+  const onSubmitForm = ( values ) => {
+    onSubmitPassword( values.password );
   };
 
   return (
-    <Form onSubmit={onSubmitForm}>
+    <Form onSubmit={ onSubmitForm }>
       {
-        formApi => (
-          <form onSubmit={formApi.submitForm} className={'fonio-form'}>
+        ( formApi ) => (
+          <form
+            onSubmit={ formApi.submitForm }
+            className={ 'fonio-form' }
+          >
             <ModalCard
               isActive
-              headerContent={translate('Delete a story')}
-              onClose={onCancel}
+              headerContent={ translate( 'Delete a story' ) }
+              onClose={ onCancel }
               mainContent={
                 <Field>
                   <Content>
-                    {translate('Deleting a story cannot be undone. Are you sure ?')}
+                    {translate( 'Deleting a story cannot be undone. Are you sure ?' )}
                   </Content>
                   <Label>
-                    {translate('Enter password of the story')}
-                    <HelpPin place={'right'}>
-                      {translate('Explanation about the password')}
+                    {translate( 'Enter password of the story' )}
+                    <HelpPin place={ 'right' }>
+                      {translate( 'Explanation about the password' )}
                     </HelpPin>
                   </Label>
                   <Control hasIcons>
                     <Text
-                      className={'input'} field={'password'} id={'password'}
-                      type={'password'} />
+                      className={ 'input' }
+                      field={ 'password' }
+                      id={ 'password' }
+                      type={ 'password' }
+                    />
                     {/*<Input
-                      isColor="success" placeholder="Text Input" value="bloomer"
-                      type="password" />*/}
-                    <Icon isSize={'small'} isAlign={'left'}>
-                      <span className={'fa fa-lock'} aria-hidden={'true'} />
+                        isColor="success" placeholder="Text Input" value="bloomer"
+                        type="password" />*/}
+                    <Icon
+                      isSize={ 'small' }
+                      isAlign={ 'left' }
+                    >
+                      <span
+                        className={ 'fa fa-lock' }
+                        aria-hidden={ 'true' }
+                      />
                     </Icon>
                   </Control>
-                  {loginStatus === 'processing' && <Help>{translate('Submitting password')}</Help>}
-                  {loginStatus === 'fail' && <Help isColor={'danger'}>{translate('Password is not valid')}</Help>}
-                  {deleteStatus === 'processing' && <Help>{translate('Deleting Story')}</Help>}
-                  {deleteStatus === 'fail' && <Help isColor={'danger'}>{translate('Story could not be deleted')}</Help>}
+                  {loginStatus === 'processing' && <Help>{translate( 'Submitting password' )}</Help>}
+                  {loginStatus === 'fail' && <Help isColor={ 'danger' }>{translate( 'Password is not valid' )}</Help>}
+                  {deleteStatus === 'processing' && <Help>{translate( 'Deleting Story' )}</Help>}
+                  {deleteStatus === 'fail' && <Help isColor={ 'danger' }>{translate( 'Story could not be deleted' )}</Help>}
                 </Field>
-            }
-              footerContent={[
+              }
+              footerContent={ [
                 <Button
-                  type={'submit'} isFullWidth key={0}
-                  isColor={'danger'}>{translate('Delete')}
+                  type={ 'submit' }
+                  isFullWidth
+                  key={ 0 }
+                  isColor={ 'danger' }
+                >{translate( 'Delete' )}
                 </Button>,
-                <Button isFullWidth key={2} onClick={onCancel} >
-                  {translate('Cancel')}
+                <Button
+                  isFullWidth
+                  key={ 2 }
+                  onClick={ onCancel }
+                >
+                  {translate( 'Cancel' )}
                 </Button>
-            ]} />
+            ] }
+            />
           </form>
         )
       }
@@ -86,8 +106,8 @@ const DeleteStoryModal = ({
 
 DeleteStoryModal.propTypes = {
   loginStatus: PropTypes.string,
+  onCancel: PropTypes.func,
   onDeleteStory: PropTypes.func,
-  onCancel: PropTypes.func
 };
 
 DeleteStoryModal.contextTypes = {

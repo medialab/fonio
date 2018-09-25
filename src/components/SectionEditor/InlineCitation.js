@@ -3,7 +3,7 @@
  * This module provides a reusable inline citation widget component
  * @module fonio/components/InlineCitation
  */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -16,8 +16,7 @@ import {
   HelpPin,
 } from 'quinoa-design-library/components';
 
-import {translateNameSpacer} from '../../helpers/translateUtils';
-
+import { translateNameSpacer } from '../../helpers/translateUtils';
 
 /**
  * InlineCitation class for building react component instances
@@ -37,13 +36,12 @@ class InlineCitation extends Component {
    * constructor
    * @param {object} props - properties given to instance at instanciation
    */
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
     this.state = {
       contextualizerOpen: false
     };
   }
-
 
   /**
    * Defines whether the component should re-render
@@ -51,7 +49,7 @@ class InlineCitation extends Component {
    * @param {object} nextState - the state to come
    * @return {boolean} shouldUpdate - whether to update or not
    */
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate( nextProps, nextState ) {
     return (
       this.props.asset !== nextProps.asset
       || this.props.customContext !== nextProps.customContext
@@ -60,11 +58,10 @@ class InlineCitation extends Component {
   }
 
   toggleContextualizer = () => {
-    this.setState({
+    this.setState( {
       contextualizerOpen: !this.state.contextualizerOpen
-    });
+    } );
   }
-
 
   /**
    * Opens the contextualization's details definition ui
@@ -100,110 +97,115 @@ class InlineCitation extends Component {
 
     const onClickEdit = () => {
       this.toggleContextualizer();
-      startExistingResourceConfiguration(resource.id);
+      startExistingResourceConfiguration( resource.id );
     };
 
-    const translate = translateNameSpacer(t, 'Components.InlineCitation');
+    const translate = translateNameSpacer( t, 'Components.InlineCitation' );
     const representation = asset && citations && citations[asset.id];
-    const onLocatorChange = ({target: {value: locator}}) => {
+    const onLocatorChange = ( { target: { value: locator } } ) => {
       const newContextualizer = {
         ...contextualizer,
         locator
       };
-      onAssetChange('contextualizer', contextualizer.id, newContextualizer);
+      onAssetChange( 'contextualizer', contextualizer.id, newContextualizer );
     };
-    const onSuffixChange = ({target: {value: suffix}}) => {
+    const onSuffixChange = ( { target: { value: suffix } } ) => {
       const newContextualizer = {
         ...contextualizer,
         suffix
       };
-      onAssetChange('contextualizer', contextualizer.id, newContextualizer);
+      onAssetChange( 'contextualizer', contextualizer.id, newContextualizer );
     };
 
-    const onInputClick = e => {
-      onAssetFocus(e);
+    const onInputClick = ( e ) => {
+      onAssetFocus( e );
     };
     return [
       <span
-        onClick={toggleContextualizer}
-        contentEditable={false}
-        style={{color: '#00A99D', cursor: 'pointer'}}
-        key={0}>
-        {(representation && representation.Component) || translate('loading citation')}
+        onClick={ toggleContextualizer }
+        contentEditable={ false }
+        style={ { color: '#00A99D', cursor: 'pointer' } }
+        key={ 0 }
+      >
+        {( representation && representation.Component ) || translate( 'loading citation' )}
       </span>,
-      <span key={1} style={{display: 'none'}}>{children}</span>,
+      <span
+        key={ 1 }
+        style={ { display: 'none' } }
+      >{children}
+      </span>,
       <ModalCard
-        key={2}
-        isActive={contextualizerOpen}
-        headerContent={
-          translate('Edit short citation')
-        }
-        onClose={toggleContextualizer}
+        key={ 2 }
+        isActive={ contextualizerOpen }
+        headerContent={ translate( 'Edit short citation' ) }
+        onClose={ toggleContextualizer }
         mainContent={
-          <form onSubmit={toggleContextualizer}>
+          <form onSubmit={ toggleContextualizer }>
             <Column>
               <Field>
                 <Control>
                   <Label>
-                    {translate('Citation location')}
-                    <HelpPin place={'right'}>
-                      {translate('Page number, chapter, section...')}
+                    {translate( 'Citation location' )}
+                    <HelpPin place={ 'right' }>
+                      {translate( 'Page number, chapter, section...' )}
                     </HelpPin>
                   </Label>
                   <input
-                    className={'input'}
-                    onClick={onInputClick}
-                    value={contextualizer.locator || ''}
-                    field={'locator'} id={'locator'} type={'text'}
-                    onChange={onLocatorChange}
-                    placeholder={translate('citation location')} />
+                    className={ 'input' }
+                    onClick={ onInputClick }
+                    value={ contextualizer.locator || '' }
+                    field={ 'locator' }
+                    id={ 'locator' }
+                    type={ 'text' }
+                    onChange={ onLocatorChange }
+                    placeholder={ translate( 'citation location' ) }
+                  />
                 </Control>
               </Field>
               <Field>
                 <Control>
                   <Label>
-                    {translate('Additional comment')}
-                    <HelpPin place={'right'}>
-                      {translate('Additional comment to this citation (version, context, etc.)')}
+                    {translate( 'Additional comment' )}
+                    <HelpPin place={ 'right' }>
+                      {translate( 'Additional comment to this citation (version, context, etc.)' )}
                     </HelpPin>
                   </Label>
                   <input
-                    className={'input'}
-                    onClick={onInputClick}
-                    value={contextualizer.suffix || ''}
-                    field={'suffix'} id={'suffix'} type={'text'}
-                    onChange={onSuffixChange}
-                    placeholder={translate('additionnal comment')} />
+                    className={ 'input' }
+                    onClick={ onInputClick }
+                    value={ contextualizer.suffix || '' }
+                    field={ 'suffix' }
+                    id={ 'suffix' }
+                    type={ 'text' }
+                    onChange={ onSuffixChange }
+                    placeholder={ translate( 'additionnal comment' ) }
+                  />
                 </Control>
               </Field>
             </Column>
           </form>
         }
-        footerContent={[
+        footerContent={ [
           <Button
-            type={'submit'}
+            type={ 'submit' }
             isFullWidth
-            key={0}
-            onClick={toggleContextualizer}
-            isColor={'primary'}>
-            {translate('Validate')}
+            key={ 0 }
+            onClick={ toggleContextualizer }
+            isColor={ 'primary' }
+          >
+            {translate( 'Validate' )}
           </Button>,
           <Button
-            type={'submit'}
+            type={ 'submit' }
             isFullWidth
-            key={1}
-            onClick={onClickEdit}
-            isColor={'info'}>
-            {translate('Edit reference')}
+            key={ 1 }
+            onClick={ onClickEdit }
+            isColor={ 'info' }
+          >
+            {translate( 'Edit reference' )}
           </Button>,
-          // <Button
-          //   onClick={toggleContextualizer}
-          //   isFullWidth
-          //   key={2}
-          //   isColor="warning">
-          //   {translate('Close')}
-          // </Button>,
-        ]} />
+        ] }
+      />
     ];
   }
 }
@@ -214,24 +216,24 @@ class InlineCitation extends Component {
 InlineCitation.propTypes = {
 
   /**
-   * Children react elements of the component
-   */
-  children: PropTypes.array,
-
-  /**
    * The asset to consume for displaying the inline citation
    */
   asset: PropTypes.object,
 
   /**
-   * Callbacks when an asset is changed
+   * Children react elements of the component
    */
-  onAssetChange: PropTypes.func,
+  children: PropTypes.array,
 
   /**
    * Callbacks when an asset is blured
    */
   onAssetBlur: PropTypes.func,
+
+  /**
+   * Callbacks when an asset is changed
+   */
+  onAssetChange: PropTypes.func,
 
   /**
    * Callbacks when an asset is focused

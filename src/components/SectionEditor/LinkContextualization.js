@@ -5,7 +5,7 @@
  * This module provides a reusable inline citation widget component
  * @module fonio/components/LinkContextualization
  */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 // import {translateNameSpacer} from '../../helpers/translateUtils';
@@ -14,8 +14,11 @@ class LinkContextualization extends Component {
 
   static contextTypes = {
     t: PropTypes.func.isRequired,
-    // citations: PropTypes.object,
-    // startExistingResourceConfiguration: PropTypes.func
+
+    /*
+     * citations: PropTypes.object,
+     * startExistingResourceConfiguration: PropTypes.func
+     */
   }
   render = () => {
     const {
@@ -24,13 +27,13 @@ class LinkContextualization extends Component {
 
     return (
       <span
-        style={{color: 'blue', position: 'relative'}}>
+        style={ { color: 'blue', position: 'relative' } }
+      >
         {children}
       </span>
     );
   }
 }
-
 
 /**
  * Component's properties types
@@ -38,24 +41,24 @@ class LinkContextualization extends Component {
 LinkContextualization.propTypes = {
 
   /**
-   * Children react elements of the component
-   */
-  children: PropTypes.array,
-
-  /**
    * The asset to consume for displaying the inline citation
    */
   asset: PropTypes.object,
 
   /**
-   * Callbacks when an asset is changed
+   * Children react elements of the component
    */
-  onAssetChange: PropTypes.func,
+  children: PropTypes.array,
 
   /**
    * Callbacks when an asset is blured
    */
   onAssetBlur: PropTypes.func,
+
+  /**
+   * Callbacks when an asset is changed
+   */
+  onAssetChange: PropTypes.func,
 
   /**
    * Callbacks when an asset is focused

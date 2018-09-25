@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {translateNameSpacer} from '../../helpers/translateUtils';
+import { translateNameSpacer } from '../../helpers/translateUtils';
 
 import {
   Link,
@@ -11,21 +11,22 @@ import {
   ModalCard
 } from 'quinoa-design-library/components';
 
-const PageNotFound = ({
+const PageNotFound = ( {
   pathName
-}, {t}) => {
-  const translate = translateNameSpacer(t, 'Components.PageNotFound');
+}, { t } ) => {
+  const translate = translateNameSpacer( t, 'Components.PageNotFound' );
 
   return (
     <ModalCard
       isActive
-      headerContent={translate('Fonio - page not found')}
+      headerContent={ translate( 'Fonio - page not found' ) }
       mainContent={
         <p>
-          {translate('No match for {u}, go back to ', {u: pathName})}
-          <Link to={'/'}>{translate('home page')}</Link>
+          {translate( 'No match for {u}, go back to ', { u: pathName } )}
+          <Link to={ '/' }>{translate( 'home page' )}</Link>
         </p>
-      } />
+      }
+    />
   );
 };
 

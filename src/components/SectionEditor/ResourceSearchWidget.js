@@ -5,17 +5,20 @@
  * and go up in down with keyboard arrows in the list of search-matching items.
  * @module fonio/components/ResourceSearchWidget
  */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {getResourceTitle, searchResources} from '../../helpers/resourcesUtils';
+import { getResourceTitle, searchResources } from '../../helpers/resourcesUtils';
 
 const timers = {
   medium: 500
 };
 
 import {
-  // Input,
-  // Button,
+
+  /*
+   * Input,
+   * Button,
+   */
   DropdownItem,
   DropdownContent,
   StretchedLayoutContainer,
@@ -26,7 +29,7 @@ import {
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
-import {translateNameSpacer} from '../../helpers/translateUtils';
+import { translateNameSpacer } from '../../helpers/translateUtils';
 
 // import icons from 'quinoa-design-library/src/themes/millet/icons';
 
@@ -34,7 +37,6 @@ import {translateNameSpacer} from '../../helpers/translateUtils';
  * ResourceSearchWidget class for building react component instances
  */
 class ResourceSearchWidget extends Component {
-
 
   /**
    * Component's context used properties
@@ -46,7 +48,6 @@ class ResourceSearchWidget extends Component {
      */
     t: PropTypes.func.isRequired
   }
-
 
   /**
    * Initial state
@@ -64,94 +65,89 @@ class ResourceSearchWidget extends Component {
     selectedItemIndex: 0,
   }
 
-
   /**
    * Executes code just after the component mounted
    */
   componentDidMount() {
-    if (this.input) {
-      setTimeout(() => {
+    if ( this.input ) {
+      setTimeout( () => {
         this.props.onAssetChoiceFocus();
-        if (this.input) {
+        if ( this.input ) {
           this.input.focus();
         }
-      }, timers.medium);
+      }, timers.medium );
     }
   }
-
 
   /**
    * Callbacks when the search term is changed
    */
-  onTermChange = (e) => {
+  onTermChange = ( e ) => {
     const searchTerm = e.target.value;
     e.stopPropagation();
-    this.setState({
+    this.setState( {
       searchTerm,
       selectedItemIndex: 0
-    });
+    } );
   }
-
 
   /**
    * Callbacks when a key is finished pressing
    */
-  onKeyUp = e => {
+  onKeyUp = ( e ) => {
     // escape pressed
-    if (e.which === 27 && typeof this.props.onAssetRequestCancel === 'function') {
+    if ( e.which === 27 && typeof this.props.onAssetRequestCancel === 'function' ) {
       this.props.onAssetRequestCancel();
     }
     // up arrow
-    else if (e.which === 38) {
+    else if ( e.which === 38 ) {
       let selectedItemIndex = this.state.selectedItemIndex || 0;
       selectedItemIndex = selectedItemIndex > 0 ? selectedItemIndex - 1 : 0;
-      this.setState({
+      this.setState( {
         selectedItemIndex
-      });
+      } );
     }
     // down arrow
-    else if (e.which === 40) {
+    else if ( e.which === 40 ) {
       let selectedItemIndex = this.state.selectedItemIndex || 0;
       selectedItemIndex = selectedItemIndex < this.props.options.length - 1 ? selectedItemIndex + 1 : this.props.options.length - 1;
-      this.setState({
+      this.setState( {
         selectedItemIndex
-      });
+      } );
 
     }
   }
-
 
   /**
    * Callbacks when user hits enter while focused in the input.
    */
-  onSubmit = e => {
+  onSubmit = ( e ) => {
     e.stopPropagation();
     e.preventDefault();
     const matching = this.props.options
-            .filter(option => JSON.stringify(option).toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1);
+            .filter( ( option ) => JSON.stringify( option ).toLowerCase().indexOf( this.state.searchTerm.toLowerCase() ) > -1 );
     // add an asset
-    if (matching.length) {
-      this.props.onAssetChoice(matching[(this.state.selectedItemIndex || 0)], this.props.contentId);
+    if ( matching.length ) {
+      const index = this.state.selectedItemIndex || 0;
+      this.props.onAssetChoice( matching[index], this.props.contentId );
     }
     // else interpret input as text to insert within contents
    else {
-      this.props.addPlainText(`@${ this.state.searchTerm}`, this.props.contentId);
+      this.props.addPlainText( `@${ this.state.searchTerm}`, this.props.contentId );
     }
   }
-
 
   /**
    * Callbacks when user clicks on the input (force focus)
    */
-  onInputClick = e => {
+  onInputClick = ( e ) => {
     e.stopPropagation();
-    if (this.input) {
+    if ( this.input ) {
       this.input.focus();
       this.props.onAssetChoiceFocus();
-      setTimeout(() => this.input.focus());
+      setTimeout( () => this.input.focus() );
     }
   }
-
 
   /**
    * Renders the component
@@ -164,87 +160,107 @@ class ResourceSearchWidget extends Component {
       options = []
     } = this.props;
     const context = this.context;
-    const blockAssetTypes = ['image', 'table', 'video', 'embed'];
-    const onOptionClick = option => {
-      onAssetChoice(option, this.props.contentId);
+    const blockAssetTypes = [ 'image', 'table', 'video', 'embed' ];
+    const onOptionClick = ( option ) => {
+      onAssetChoice( option, this.props.contentId );
     };
 
-    // const onAddNewClick = () => {
-    //   addNewResource();
-    // };
-    const bindRef = input => {
+    /*
+     * const onAddNewClick = () => {
+     *   addNewResource();
+     * };
+     */
+    const bindRef = ( input ) => {
       this.input = input;
     };
-    const translate = translateNameSpacer(context.t, 'Components.ResourceSearchWidget');
-    const allowedOptions = options.filter((option) => {
-      if (this.props.contentId !== 'main') {
-        return blockAssetTypes.indexOf(option.metadata.type) === -1;
+    const translate = translateNameSpacer( context.t, 'Components.ResourceSearchWidget' );
+    const allowedOptions = options.filter( ( option ) => {
+      if ( this.props.contentId !== 'main' ) {
+        return blockAssetTypes.indexOf( option.metadata.type ) === -1;
       }
       return option;
-    });
-    const filteredOptions = this.state.searchTerm.length === 0 ? allowedOptions : searchResources(allowedOptions, this.state.searchTerm);
-    const bindElement = element => {
+    } );
+    const filteredOptions = this.state.searchTerm.length === 0 ? allowedOptions : searchResources( allowedOptions, this.state.searchTerm );
+    const bindElement = ( element ) => {
       this.element = element;
     };
     return (
-      <div ref={bindElement} style={{paddingLeft: '1rem'}} className={'fonio-ResourceSearchWidget'}>
+      <div
+        ref={ bindElement }
+        style={ { paddingLeft: '1rem' } }
+        className={ 'fonio-ResourceSearchWidget' }
+      >
         <DropdownContent>
           <Column>
             <StretchedLayoutContainer>
               <StretchedLayoutItem>
-                <form className={'search-form'} onSubmit={this.onSubmit}>
+                <form
+                  className={ 'search-form' }
+                  onSubmit={ this.onSubmit }
+                >
                   {/* <span className="arobase">@</span>*/}
                   <input
-                    ref={bindRef}
-                    className={'input'}
-                    value={this.state.searchTerm}
-                    onBlur={this.onBlur}
-                    onChange={this.onTermChange}
-                    onKeyUp={this.onKeyUp}
-                    onClick={this.onInputClick}
-                    placeholder={translate('search-a-resource')} />
+                    ref={ bindRef }
+                    className={ 'input' }
+                    value={ this.state.searchTerm }
+                    onBlur={ this.onBlur }
+                    onChange={ this.onTermChange }
+                    onKeyUp={ this.onKeyUp }
+                    onClick={ this.onInputClick }
+                    placeholder={ translate( 'search-a-resource' ) }
+                  />
                 </form>
               </StretchedLayoutItem>
-              <StretchedLayoutItem isFlex={1}>
+              <StretchedLayoutItem isFlex={ 1 }>
                 <Level />
                 {
               filteredOptions.length > 0 ?
 
-                <div className={'choice-options-container'} style={{maxHeight: '10rem', overflowX: 'hidden', overflowY: 'auto'}}>
+                <div
+                  className={ 'choice-options-container' }
+                  style={ { maxHeight: '10rem', overflowX: 'hidden', overflowY: 'auto' } }
+                >
                   {
                 filteredOptions
-                .map((option, index) => {
-                  const onC = () => onOptionClick(option);
-                  let optionName = getResourceTitle(option);
+                .map( ( option, index ) => {
+                  const onC = () => onOptionClick( option );
+                  let optionName = getResourceTitle( option );
                   const {
                     metadata
                   } = option;
-                  // if (metadata.type === 'bib') {
-                  //   optionName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
-                  // }
-                  // else if (metadata.type === 'glossary') {
-                  //   optionName = data.name && data.name.length ? data.name : translate('untitled-asset');
-                  // }
-                  // else {
-                  //   optionName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
-                  // }
-                  optionName = optionName.length ? optionName : translate('untitled-asset');
+
+                  /*
+                   * if (metadata.type === 'bib') {
+                   *   optionName = data[0] && data[0].title && data[0].title.length ? data[0].title : translate('untitled-asset');
+                   * }
+                   * else if (metadata.type === 'glossary') {
+                   *   optionName = data.name && data.name.length ? data.name : translate('untitled-asset');
+                   * }
+                   * else {
+                   *   optionName = metadata.title && metadata.title.length ? metadata.title : translate('untitled-asset');
+                   * }
+                   */
+                  optionName = optionName.length ? optionName : translate( 'untitled-asset' );
                   return (
                     <DropdownItem
                       isFullWidth
-                      href={'#'}
-                      isActive={index === this.state.selectedItemIndex}
-                      key={index}
-                      onClick={onC}>
-                      <img src={icons[metadata.type].black.svg} style={{height: '1em', display: 'inline', paddingRight: '1em'}} />
+                      href={ '#' }
+                      isActive={ index === this.state.selectedItemIndex }
+                      key={ index }
+                      onClick={ onC }
+                    >
+                      <img
+                        src={ icons[metadata.type].black.svg }
+                        style={ { height: '1em', display: 'inline', paddingRight: '1em' } }
+                      />
                       {optionName}
                     </DropdownItem>
                   );
-                })
+                } )
               }
                 </div> :
                 <DropdownItem>
-                  {options.length ? translate('no items matching search') : translate('add items to your library in order to embed them')}
+                  {options.length ? translate( 'no items matching search' ) : translate( 'add items to your library in order to embed them' )}
                 </DropdownItem>
           }
               </StretchedLayoutItem>
@@ -270,14 +286,14 @@ class ResourceSearchWidget extends Component {
 ResourceSearchWidget.propTypes = {
 
   /**
-   * Overall available options to the component
-   */
-  options: PropTypes.array,
-
-  /**
    * Callbacks when an asset is choosen
    */
   onAssetChoice: PropTypes.func,
+
+  /**
+   * Overall available options to the component
+   */
+  options: PropTypes.array,
 };
 
 export default ResourceSearchWidget;

@@ -4,7 +4,7 @@
  * This module provides a reusable inline glossary mention component
  * @module fonio/components/GlossaryMention
  */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /**
@@ -23,14 +23,13 @@ class GlossaryMention extends Component {
    * constructor
    * @param {object} props - properties given to instance at instanciation
    */
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
   }
 
-  shouldComponentUpdate = (nextProps) => {
+  shouldComponentUpdate = ( nextProps ) => {
     return this.props.children !== nextProps.children;
   }
-
 
   /**
    * Renders the component
@@ -40,10 +39,9 @@ class GlossaryMention extends Component {
     const {
       children,
     } = this.props;
-    return <span style={{color: 'purple'}}>{children}</span>;
+    return <span style={ { color: 'purple' } }>{children}</span>;
   }
 }
-
 
 /**
  * Component's properties types
@@ -51,24 +49,24 @@ class GlossaryMention extends Component {
 GlossaryMention.propTypes = {
 
   /**
-   * Children react elements of the component
-   */
-  children: PropTypes.array,
-
-  /**
    * The asset to consume for displaying the glossary mention
    */
   asset: PropTypes.object,
 
   /**
-   * Callbacks when an asset is changed
+   * Children react elements of the component
    */
-  onAssetChange: PropTypes.func,
+  children: PropTypes.array,
 
   /**
    * Callbacks when an asset is blured
    */
   onAssetBlur: PropTypes.func,
+
+  /**
+   * Callbacks when an asset is changed
+   */
+  onAssetChange: PropTypes.func,
 
   /**
    * Callbacks when an asset is focused
