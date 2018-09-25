@@ -805,14 +805,7 @@ class HomeViewLayout extends Component {
           isColor={ 'success' }
           isSize={ 'large' }
           style={ {
-                background: config.backgroundColor || DEFAULT_BACKGROUND_COLOR, // `url(${require('../../../sharedAssets/cover_forccast.jpg')})`,
-                /*
-                 * backgroundPosition: 'center center',
-                 * backgroundRepeat: 'no-repeat',
-                 * backgroundAttachment: 'fixed',
-                 * backgroundSize: 'cover',
-                 * backgroundColor: '#999',
-                 */
+                background: config.backgroundColor || DEFAULT_BACKGROUND_COLOR,
               } }
         >
           <HeroHeader>

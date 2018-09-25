@@ -99,7 +99,7 @@ const SectionCard = ( {
 
   return (
     <div
-      style={ { cursor: 'pointer' } }
+      className={ 'is-clickable' }
       onClick={ handleClick }
     >
       <Card

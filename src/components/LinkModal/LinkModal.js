@@ -10,7 +10,8 @@ import {
   Label,
   Control,
   Image,
-  Dropdown
+  Dropdown,
+  FlexContainer,
 } from 'quinoa-design-library/components/';
 
 import { translateNameSpacer } from '../../helpers/translateUtils';
@@ -116,9 +117,9 @@ class LinkModal extends Component {
                               .map( ( resource ) => ( {
                               id: resource.id,
                               label: (
-                                <span
-
-                                  style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' } }
+                                <FlexContainer
+                                  alignItems={ 'center' }
+                                  flexDirection={ 'row' }
                                 >
                                   <Image
                                     style={ { display: 'inline-block', marginRight: '1em' } }
@@ -128,7 +129,7 @@ class LinkModal extends Component {
                                   <span >
                                     {`${abbrevString( resource.metadata.title, 30 )} (${abbrevString( resource.data.url, 30 )})`}
                                   </span>
-                                </span>
+                                </FlexContainer>
                                 )
                             } ) ) }
                 >

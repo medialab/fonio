@@ -112,16 +112,6 @@ const SectionMiniCard = ( {
               isOffset={ 2 }
               isSize={ 7 }
             >
-              {/*<Button
-                data-tip={translate('drag to change section order')}
-                data-effect="solid"
-                data-place="left"
-                data-for="tooltip"
-                style={{cursor: 'pointer', pointerEvents: 'none'}}>
-                <Icon isSize="small" isAlign="left">
-                  <img src={icons.move.black.svg} />
-                </Icon>
-              </Button>*/}
               <Button
                 onClick={ onOpenSettings }
                 isDisabled={ section.lockStatus !== 'active' }

@@ -26,6 +26,8 @@ import {
   Input,
   Image,
   Button,
+  FlexContainer,
+
   ModalCard,
   HelpPin,
 
@@ -704,7 +706,10 @@ class LibraryViewLayout extends Component {
                               options: resourceTypes.map( ( type ) => ( {
                                 id: type,
                                 label: (
-                                  <span style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' } }>
+                                  <FlexContainer
+                                    flexDirection={ 'row' }
+                                    alignItems={ 'center' }
+                                  >
                                     <Image
                                       style={ { display: 'inline-block', marginRight: '1em' } }
                                       isSize={ '16x16' }
@@ -713,7 +718,7 @@ class LibraryViewLayout extends Component {
                                     <span>
                                       {translate( type )}
                                     </span>
-                                  </span>
+                                  </FlexContainer>
                                 )
                               } ) ),
                             },

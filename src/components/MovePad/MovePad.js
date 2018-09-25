@@ -16,10 +16,10 @@ const MovePad = ( {
   moveComponentToolTip,
 } ) => {
 
-  const handleClickLeft = chevronsData.left.onClick;
-  const handleClickRight = chevronsData.right.onClick;
-  const handleClickUp = chevronsData.up.onClick;
-  const handleClickDown = chevronsData.down.onClick;
+  const handleClickLeft = chevronsData.left && chevronsData.left.onClick;
+  const handleClickRight = chevronsData.right && chevronsData.right.onClick;
+  const handleClickUp = chevronsData.up && chevronsData.up.onClick;
+  const handleClickDown = chevronsData.down && chevronsData.down.onClick;
 
   return (
     <div

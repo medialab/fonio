@@ -39,7 +39,7 @@ const StoryCard = ( {
   return (
     <div
       onClick={ onClick }
-      style={ { cursor: 'pointer' } }
+      className={ 'is-clickable' }
     >
       <Card
         title={

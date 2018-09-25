@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
 import { get } from 'axios';
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
+import {
+  AbsoluteContainer,
+  FlexContainer,
+} from 'quinoa-design-library/components';
 import StoryPlayer from 'quinoa-story-player';
 
 import config from '../../../config';
@@ -37,31 +41,25 @@ const HomeBtn = () => (
 );
 
 const Centered = ( { children } ) => (
-  <div style={ {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    alignItems: 'center',
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: '100%',
-    height: '100%'
-  } }
-  >
-    <div style={ {
-      display: 'flex',
-      flexFlow: 'column nowrap',
-      flex: 1,
-      alignItems: 'center'
-    } }
+  <AbsoluteContainer>
+    <FlexContainer
+      style={ { height: '100%' } }
+      flexDirection={ 'row' }
+      alignItems={ 'center' }
     >
-      <img
-        style={ { height: '2rem' } }
-        src={ icons.fonioBrand.svg }
-      />
-      {children}
-    </div>
-  </div>
+      <FlexContainer
+        style={ { flex: 1 } }
+        alignItems={ 'center' }
+        flexDirection={ 'column' }
+      >
+        <img
+          style={ { height: '2rem' } }
+          src={ icons.fonioBrand.svg }
+        />
+        {children}
+      </FlexContainer>
+    </FlexContainer>
+  </AbsoluteContainer>
 );
 
 class ReadStoryViewContainer extends Component {

@@ -124,7 +124,8 @@ class InlineCitation extends Component {
       <span
         onClick={ toggleContextualizer }
         contentEditable={ false }
-        style={ { color: '#00A99D', cursor: 'pointer' } }
+        className={ 'is-clickable' }
+        style={ { color: '#00A99D' } }
         key={ 0 }
       >
         {( representation && representation.Component ) || translate( 'loading citation' )}

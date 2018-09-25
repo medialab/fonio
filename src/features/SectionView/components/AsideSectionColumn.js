@@ -11,6 +11,7 @@ import {
   Column,
   Control,
   Dropdown,
+  FlexContainer,
   // DropZone,
   Field,
   Input,
@@ -256,7 +257,10 @@ class AsideSectionColumn extends Component {
                             options: resourceTypes.map( ( type ) => ( {
                               id: type,
                               label: (
-                                <span style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' } }>
+                                <FlexContainer
+                                  flexFlow={ 'row' }
+                                  alignItems={ 'center' }
+                                >
                                   <Image
                                     style={ { display: 'inline-block', marginRight: '1em' } }
                                     isSize={ '16x16' }
@@ -265,7 +269,7 @@ class AsideSectionColumn extends Component {
                                   <span>
                                     {translate( type )}
                                   </span>
-                                </span>
+                                </FlexContainer>
                               )
                             } ) ),
                           }
