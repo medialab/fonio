@@ -8,13 +8,13 @@ import {
   ModalCard,
   Field,
   Label,
-  HelpPin,
-  Control,
-  Icon,
   Help
 } from 'quinoa-design-library/components/';
 
-import { Form, Text } from 'react-form';
+import { Form } from 'react-form';
+
+import PasswordInput from '../../../components/PasswordInput';
+import ExplainedLabel from '../../../components/ExplainedLabel';
 
 const ChangePasswordModal = ( {
   changePasswordStatus,
@@ -56,29 +56,11 @@ const ChangePasswordModal = ( {
                 onClose={ onCancel }
                 mainContent={
                   <Field>
-                    <Label>
-                      {translate( 'Old password' )}
-                      <HelpPin place={ 'right' }>
-                        {translate( 'Explanation about the password' )}
-                      </HelpPin>
-                    </Label>
-                    <Control hasIcons>
-                      <Text
-                        className={ 'input' }
-                        field={ 'oldPassword' }
-                        id={ 'oldPassword' }
-                        type={ 'password' }
-                      />
-                      <Icon
-                        isSize={ 'small' }
-                        isAlign={ 'left' }
-                      >
-                        <span
-                          className={ 'fa fa-lock' }
-                          aria-hidden={ 'true' }
-                        />
-                      </Icon>
-                    </Control>
+                    <ExplainedLabel
+                      title={ translate( 'Old password' ) }
+                      explanation={ translate( 'Explanation about the password' ) }
+                    />
+                    <PasswordInput id={ 'oldPassword' } />
                     {
                               formApi.touched.oldPassword && formApi.errors && formApi.errors.oldPassword &&
                                 <Help isColor={ 'danger' }>{formApi.errors.oldPassword}</Help>
@@ -86,23 +68,8 @@ const ChangePasswordModal = ( {
                     <Label>
                       {translate( 'New password' )}
                     </Label>
-                    <Control hasIcons>
-                      <Text
-                        className={ 'input' }
-                        field={ 'newPassword' }
-                        id={ 'newPassword' }
-                        type={ 'password' }
-                      />
-                      <Icon
-                        isSize={ 'small' }
-                        isAlign={ 'left' }
-                      >
-                        <span
-                          className={ 'fa fa-lock' }
-                          aria-hidden={ 'true' }
-                        />
-                      </Icon>
-                    </Control>
+                    <PasswordInput id={ 'newPassword' } />
+
                     {
                               formApi.touched.newPassword && formApi.errors && formApi.errors.newPassword &&
                                 <Help isColor={ 'danger' }>{formApi.errors.newPassword}</Help>
@@ -110,23 +77,7 @@ const ChangePasswordModal = ( {
                     <Label>
                       {translate( 'Confirm password' )}
                     </Label>
-                    <Control hasIcons>
-                      <Text
-                        className={ 'input' }
-                        field={ 'confirmPassword' }
-                        id={ 'confirmPassword' }
-                        type={ 'password' }
-                      />
-                      <Icon
-                        isSize={ 'small' }
-                        isAlign={ 'left' }
-                      >
-                        <span
-                          className={ 'fa fa-lock' }
-                          aria-hidden={ 'true' }
-                        />
-                      </Icon>
-                    </Control>
+                    <PasswordInput id={ 'confirmPassword' } />
                     {
                               formApi.touched.confirmPassword && formApi.errors && formApi.errors.confirmPassword &&
                                 <Help isColor={ 'danger' }>{formApi.errors.confirmPassword}</Help>
@@ -154,7 +105,7 @@ const ChangePasswordModal = ( {
               />
             </form>
                 );
-}
+        }
       }
     </Form>
   );

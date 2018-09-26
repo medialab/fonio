@@ -8,14 +8,13 @@ import {
   Content,
   ModalCard,
   Field,
-  Label,
-  HelpPin,
-  Control,
-  Icon,
   Help
 } from 'quinoa-design-library/components/';
 
-import { Form, Text } from 'react-form';
+import { Form } from 'react-form';
+
+import PasswordInput from '../../../components/PasswordInput';
+import ExplainedLabel from '../../../components/ExplainedLabel';
 
 const DeleteStoryModal = ( {
   loginStatus,
@@ -50,32 +49,11 @@ const DeleteStoryModal = ( {
                     <Content>
                       {translate( 'Deleting a story cannot be undone. Are you sure ?' )}
                     </Content>
-                    <Label>
-                      {translate( 'Enter password of the story' )}
-                      <HelpPin place={ 'right' }>
-                        {translate( 'Explanation about the password' )}
-                      </HelpPin>
-                    </Label>
-                    <Control hasIcons>
-                      <Text
-                        className={ 'input' }
-                        field={ 'password' }
-                        id={ 'password' }
-                        type={ 'password' }
-                      />
-                      {/*<Input
-                                isColor="success" placeholder="Text Input" value="bloomer"
-                                type="password" />*/}
-                      <Icon
-                        isSize={ 'small' }
-                        isAlign={ 'left' }
-                      >
-                        <span
-                          className={ 'fa fa-lock' }
-                          aria-hidden={ 'true' }
-                        />
-                      </Icon>
-                    </Control>
+                    <ExplainedLabel
+                      title={ translate( 'Enter password of the story' ) }
+                      explanation={ translate( 'Explanation about the password' ) }
+                    />
+                    <PasswordInput id={ 'password' } />
                     {loginStatus === 'processing' && <Help>{translate( 'Submitting password' )}</Help>}
                     {loginStatus === 'fail' && <Help isColor={ 'danger' }>{translate( 'Password is not valid' )}</Help>}
                     {deleteStatus === 'processing' && <Help>{translate( 'Deleting Story' )}</Help>}

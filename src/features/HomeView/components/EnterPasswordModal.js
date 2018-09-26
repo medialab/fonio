@@ -7,14 +7,13 @@ import {
   Button,
   ModalCard,
   Field,
-  Label,
-  HelpPin,
-  Control,
-  Icon,
-  Help
+  Help,
 } from 'quinoa-design-library/components/';
 
-import { Form, Text } from 'react-form';
+import { Form } from 'react-form';
+
+import PasswordInput from '../../../components/PasswordInput';
+import ExplainedLabel from '../../../components/ExplainedLabel';
 
 const EnterPasswordModal = ( {
   mode,
@@ -56,48 +55,27 @@ const EnterPasswordModal = ( {
                 onClose={ onCancel }
                 mainContent={
                   <Field>
-                    <Label>
-                      {mode === 'create' ? translate( 'Create a story password' ) : translate( 'Enter password of the story' )}
-                      <HelpPin place={ 'right' }>
-                        {translate( 'Explanation about the password' )}
-                      </HelpPin>
-                    </Label>
-                    <Control hasIcons>
-                      <Text
-                        className={ 'input' }
-                        field={ 'password' }
-                        id={ 'password' }
-                        type={ 'password' }
-                      />
-                      {/*<Input
-                                isColor="success" placeholder="Text Input" value="bloomer"
-                                type="password" />*/}
-                      <Icon
-                        isSize={ 'small' }
-                        isAlign={ 'left' }
-                      >
-                        <span
-                          className={ 'fa fa-lock' }
-                          aria-hidden={ 'true' }
-                        />
-                      </Icon>
-                    </Control>
+                    <ExplainedLabel
+                      title={ mode === 'create' ? translate( 'Create a story password' ) : translate( 'Enter password of the story' ) }
+                      explanation={ translate( 'Explanation about the password' ) }
+                    />
+                    <PasswordInput id={ 'password' } />
                     {
-                              formApi.touched.password && formApi.errors && formApi.errors.password &&
-                                <Help isColor={ 'danger' }>{formApi.errors.password}</Help>
-                            }
+                      formApi.touched.password && formApi.errors && formApi.errors.password &&
+                      <Help isColor={ 'danger' }>{formApi.errors.password}</Help>
+                    }
                     {
-                              mode === 'override' && loginStatus === 'fail' &&
-                              <Help isColor={ 'danger' }>{translate( 'Password is not valid' )}</Help>
-                            }
+                      mode === 'override' && loginStatus === 'fail' &&
+                      <Help isColor={ 'danger' }>{translate( 'Password is not valid' )}</Help>
+                    }
                     {status === 'fail' &&
                     <Help isColor={ 'danger' }>
                       { mode === 'create' ?
                                   translate( 'Story could not be created' ) :
                                   translate( 'Story could not be overrided' )
-                                }
+                      }
                     </Help>
-                            }
+                    }
                   </Field>
                       }
                 footerContent={ [

@@ -26,24 +26,19 @@ import {
   Container,
   Content,
   Control,
-  DropZone,
   Field,
-  Footer,
+  Help,
   Hero,
   HeroBody,
   HeroFooter,
   HeroHeader,
-  Help,
-  HelpPin,
-  Image,
   Input,
   Level,
   ModalCard,
+  Navbar,
   StretchedLayoutContainer,
   StretchedLayoutItem,
-  Navbar,
   Tab,
-  Delete,
   TabLink,
   TabList,
   Tabs,
@@ -55,46 +50,21 @@ import { saveStoryToken, deleteStoryToken } from '../../../helpers/localStorageU
 
 import config from '../../../config';
 
-import LanguageToggler from '../../../components/LanguageToggler';
-import IdentificationModal from '../../../components/IdentificationModal';
-import MetadataForm from '../../../components/MetadataForm';
-import StoryCard from './StoryCard';
-import DeleteStoryModal from './DeleteStoryModal';
 import ChangePasswordModal from './ChangePasswordModal';
+import DeleteStoryModal from './DeleteStoryModal';
 import EnterPasswordModal from './EnterPasswordModal';
+import Footer from './Footer';
+import IdentificationModal from '../../../components/IdentificationModal';
+import LanguageToggler from '../../../components/LanguageToggler';
+import NewStoryForm from './NewStoryForm';
+import OtherUsersWidget from './OtherUsersWidget';
+import ProfileWidget from './ProfileWidget';
+import StoryCardWrapper from './StoryCardWrapper';
 
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 
 const { maxStorySize } = config;
 const DEFAULT_BACKGROUND_COLOR = 'lightblue';
-
-class StoryCardWrapper extends Component {
-  render = () => {
-    const {
-      story,
-      users,
-      onAction: handleAction,
-      onClick: handleClick,
-    } = this.props;
-    return (
-      <Level>
-        <Column>
-          <StoryCard
-            story={ story }
-            users={ users }
-            onClick={ handleClick }
-            onAction={ handleAction }
-          />
-        </Column>
-      </Level>
-    );
-  }
-}
-
-/**
- * Renders the component
- * @return {ReactElement} markup
- */
 
 class HomeViewLayout extends Component {
   constructor( props, context ) {
@@ -109,89 +79,90 @@ class HomeViewLayout extends Component {
     }
   }
 
-  renderContent = ( mode, lang = 'en' ) => {
-    switch ( mode ) {
-      case 'learn':
-        return (
-          <Container>
-            <Column>
-              <Content>
-                <h1>{this.translate( 'Learn fonio' )}</h1>
-                <iframe
-                  style={ { width: '100%', minHeight: '80vh' } }
-                  src={ lang === 'en' ? pdfEn : pdfFr }
-                />
-              </Content>
-            </Column>
-          </Container>
-        );
-      case 'about':
-        return (
-          <Container>
-            <Column>
-              <Content>
-                <h1>{this.translate( 'About fonio' )}</h1>
-                <p>
-                  {this.translate( 'about fonio details' )}
-                </p>
-              </Content>
-              <Content>
-                <p
-                  dangerouslySetInnerHTML={ {
+  renderLearnTab = ( mode, lang = 'en' ) => {
+    return (
+      <Container>
+        <Column>
+          <Content>
+            <h1>{this.translate( 'Learn fonio' )}</h1>
+            <iframe
+              style={ { width: '100%', minHeight: '80vh' } }
+              src={ lang === 'en' ? pdfEn : pdfFr }
+            />
+          </Content>
+        </Column>
+      </Container>
+    );
+  }
+
+  renderAboutTab = () => {
+    return (
+      <Container>
+        <Column>
+          <Content>
+            <h1>{this.translate( 'About fonio' )}</h1>
+            <p>
+              {this.translate( 'about fonio details' )}
+            </p>
+          </Content>
+          <Content>
+            <p
+              dangerouslySetInnerHTML={ {
                       __html: this.translate( 'Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.' )
                     } }
-                />
-                <p
-                  dangerouslySetInnerHTML={ {
+            />
+            <p
+              dangerouslySetInnerHTML={ {
                       __html: this.translate( 'Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.' )
                     } }
-                />
-                <p>{this.translate( 'Avatar icons courtesy of ' )}
-                  <a
-                    target={ 'blank' }
-                    href={ 'https://www.flaticon.com/packs/people-faces' }
-                  >
+            />
+            <p>{this.translate( 'Avatar icons courtesy of ' )}
+              <a
+                target={ 'blank' }
+                href={ 'https://www.flaticon.com/packs/people-faces' }
+              >
                     Freepik
-                  </a>.
-                </p>
+              </a>.
+            </p>
 
-              </Content>
-              <Title>
-                {this.translate( 'Contributing and signaling bugs' )}
-              </Title>
-              <Content>
-                <p>
-                  <span
-                    dangerouslySetInnerHTML={ {
+          </Content>
+          <Title>
+            {this.translate( 'Contributing and signaling bugs' )}
+          </Title>
+          <Content>
+            <p>
+              <span
+                dangerouslySetInnerHTML={ {
                        __html: this.translate( 'The source code of Fonio is licensed under free software license ' )
                 } }
-                  />
-                  <a
-                    target={ 'blank' }
-                    href={ 'http://www.gnu.org/licenses/agpl-3.0.html' }
-                  >AGPL v3
-                  </a>
-                  {this.translate( ' and is hosted on ' )}
-                  <a
-                    target={ 'blank' }
-                    href={ 'https://github.com/medialab/fonio/' }
-                  >Github
-                  </a>.
-                </p>
+              />
+              <a
+                target={ 'blank' }
+                href={ 'http://www.gnu.org/licenses/agpl-3.0.html' }
+              >AGPL v3
+              </a>
+              {this.translate( ' and is hosted on ' )}
+              <a
+                target={ 'blank' }
+                href={ 'https://github.com/medialab/fonio/' }
+              >Github
+              </a>.
+            </p>
 
-                <p
-                  dangerouslySetInnerHTML={ {
+            <p
+              dangerouslySetInnerHTML={ {
                     __html: this.translate( 'For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !' )
                   } }
-                />
-              </Content>
+            />
+          </Content>
 
-            </Column>
-          </Container>
+        </Column>
+      </Container>
         );
-      case 'stories':
-      default:
-        const {
+  }
+
+  renderStoriesTab = () => {
+    const {
           stories,
           newStory,
           newStoryOpen,
@@ -239,7 +210,6 @@ class HomeViewLayout extends Component {
             setErrorMessage,
           }
         } = this.props;
-        const { translate } = this;
 
         const storiesList = Object.keys( stories ).map( ( id ) => ( { id, ...stories[id] } ) );
         const searchStringLower = searchString.toLowerCase();
@@ -267,6 +237,12 @@ class HomeViewLayout extends Component {
               return -1;
           }
         } );
+
+        const confirmImport = ( importMode ) => {
+          setOverrideImport( false );
+          setOverrideStoryMode( importMode );
+          setPasswordModalOpen( true );
+        };
 
         const handleDeleteStory = ( password ) => {
           loginStory( { storyId: storyDeleteId, password } )
@@ -316,12 +292,6 @@ class HomeViewLayout extends Component {
               }
             }
           } );
-        };
-
-        const confirmImport = ( importMode ) => {
-          setOverrideImport( false );
-          setOverrideStoryMode( importMode );
-          setPasswordModalOpen( true );
         };
 
         const handleCreateNewStory = ( payload ) => {
@@ -399,27 +369,20 @@ class HomeViewLayout extends Component {
         const handleSortByEditedByMe = () => setSortingMode( 'edited by me' );
         const handleSortByEditedRecently = () => setSortingMode( 'edited recently' );
         const handleSortByTitle = () => setSortingMode( 'title' );
-
         const handleAbortPasswordChange = () => setChangePasswordId( undefined );
         const handleAbortStoryDeletion = () => setStoryDeleteId( undefined );
-
         const handleCloseNewStory = () => setNewStoryOpen( false );
-
         const handleSetNewStoryModeForm = () => setNewStoryTabMode( 'form' );
-
         const handleSetNewStoryModeFile = () => setNewStoryTabMode( 'file' );
-
         const handleCloseOverrideImport = () => setOverrideImport( false );
         const handleConfirmImportOverride = () => confirmImport( 'override' );
         const handleConfirmImportCreate = () => confirmImport( 'create' );
-
         const handleClosePasswordModal = () => setPasswordModalOpen( false );
 
         return (
           <Container>
             <Columns>
               <Column isSize={ '1/3' }>
-
                 <Column>
                   <Title isSize={ 3 }>
                     {config.sessionName /* eslint no-undef: 0 */}
@@ -436,81 +399,25 @@ class HomeViewLayout extends Component {
 
                   <Level />
 
-                  <div>
-                    <Title isSize={ 5 }>
-                      {this.translate( 'Your profile' )} <HelpPin>{this.translate( 'choose how you will be identified by other writers' )}</HelpPin>
-                    </Title>
-                    {userInfo &&
-                      <StretchedLayoutContainer isDirection={ 'horizontal' }>
-                        <StretchedLayoutItem style={ { display: 'flex', alignItems: 'center' } }>
-                          <Image
-                            isRounded
-                            isSize={ '64x64' }
-                            src={ require( `../../../sharedAssets/avatars/${userInfo.avatar}` ) }
-                          />
-                        </StretchedLayoutItem>
-                        <StretchedLayoutItem
-                          style={ { paddingRight: '1rem', paddingLeft: '1rem', display: 'flex', alignItems: 'center' } }
-                          isFlex={ 1 }
-                        >
-                          {userInfo.name}
-                        </StretchedLayoutItem>
-                        <StretchedLayoutItem style={ { display: 'flex', alignItems: 'center', paddingRight: '1rem' } }>
-                          <Button onClick={ handleOpenIdentificationModal }>
-                            {this.translate( 'edit' )}
-                          </Button>
-                        </StretchedLayoutItem>
-                      </StretchedLayoutContainer>
-                    }
-                  </div>
-                  <Level />
-                  <div>
-                    {
-                      activeUsers &&
-                      Object.keys( activeUsers )
-                      .filter( ( thatUserId ) => userId !== thatUserId ).length > 0 &&
-                      <Title isSize={ 5 }>
-                        {this.translate( 'Who else is online ?' )} <HelpPin>{this.translate( 'writers connected to this classroom right now' )}</HelpPin>
-                      </Title>
-                    }
-                    <div style={ { maxHeight: '30rem', overflow: 'auto' } }>
-                      {activeUsers &&
-                    Object.keys( activeUsers )
-                      .filter( ( thatUserId ) => userId !== thatUserId )
-                      .map( ( thatUserId ) => ( { userId, ...activeUsers[thatUserId] } ) )
-                      .map( ( user, index ) => {
-                        return (
-                          <StretchedLayoutContainer
-                            style={ { marginBottom: '1rem' } }
-                            isDirection={ 'horizontal' }
-                            key={ index }
-                          >
-                            <StretchedLayoutItem style={ { maxWidth: '3rem', minWidth: '3rem' } }>
-                              <Image
-                                isRounded
-                                isSize={ '32x32' }
-                                src={ require( `../../../sharedAssets/avatars/${user.avatar}` ) }
-                              />
-                            </StretchedLayoutItem>
-                            <StretchedLayoutItem isFlex={ 1 }>
-                              <Content>
-                                {user.name}
-                              </Content>
-                            </StretchedLayoutItem>
-                          </StretchedLayoutContainer>
-                        );
-                      } )
-                    }
-                    </div>
-                  </div>
-
+                  <ProfileWidget
+                    translate={ this.translate }
+                    onEdit={ handleOpenIdentificationModal }
+                    userInfo={ userInfo }
+                  />
                   <Level />
 
+                  <OtherUsersWidget
+                    translate={ this.translate }
+                    users={ activeUsers }
+                    userId={ userId }
+                  />
+
+                  <Level />
                   <Level />
                 </Column>
               </Column>
               {
-                storiesList.length ?
+                storiesList.length > 0 &&
                   <Column
                     isHidden={ newStoryOpen }
                     isSize={ '2/3' }
@@ -580,7 +487,6 @@ class HomeViewLayout extends Component {
                       </StretchedLayoutContainer>
                     </Column>
                     <FlipMove>
-
                       {
                             visibleStoriesList.map( ( story ) => {
                               const handleAction = ( id, event ) => {
@@ -656,100 +562,24 @@ class HomeViewLayout extends Component {
                       />
                     }
                   </Column>
-                : null
               }
               {
-                      newStoryOpen ?
-                        <Column isSize={ newStoryOpen ? '2/3' : '1/2' }>
-                          {
-                            <Column>
-                              <Title isSize={ 2 }>
-                                <Columns>
-                                  <Column isSize={ 11 }>
-                                    {translate( 'New Story' )}
-                                  </Column>
-                                  <Column>
-                                    <Delete onClick={ handleCloseNewStory } />
-                                  </Column>
-                                </Columns>
-                              </Title>
-                              <Tabs
-                                isBoxed
-                                isFullWidth
-                              >
-                                <Container>
-                                  <TabList>
-                                    <Tab
-                                      onClick={ handleSetNewStoryModeForm }
-                                      isActive={ newStoryTabMode === 'form' }
-                                    ><TabLink>{this.translate( 'Create a story' )}</TabLink>
-                                    </Tab>
-                                    <Tab
-                                      onClick={ handleSetNewStoryModeFile }
-                                      isActive={ newStoryTabMode === 'file' }
-                                    ><TabLink>{this.translate( 'Import an existing story' )}</TabLink>
-                                    </Tab>
-                                  </TabList>
-                                </Container>
-                              </Tabs>
-                              {newStoryTabMode === 'form' ?
-                                <MetadataForm
-                                  story={ newStory }
-                                  status={ createStoryStatus }
-                                  onSubmit={ handleCreateNewStory }
-                                  onCancel={ handleCloseNewStory }
-                                />
-                                    :
-                                <Column>
-                                  <DropZone
-                                    accept={ 'application/json' }
-                                    onDrop={ handleDropFiles }
-                                  >
-                                    {this.translate( 'Drop a fonio file' )}
-                                  </DropZone>
-                                  {importStoryStatus === 'fail' && <Help isColor={ 'danger' }>{this.translate( 'Story is not valid' )}</Help>}
-                                  <ModalCard
-                                    isActive={ overrideImport }
-                                    headerContent={ this.translate( 'Override story' ) }
-                                    onClose={ handleCloseOverrideImport }
-                                    mainContent={
-                                      <Help isColor={ 'danger' }>
-                                        {this.translate( 'Story exists, do you want to override it?' )}
-                                      </Help>
-                                    }
-                                    footerContent={ [
-                                      <Button
-                                        isFullWidth
-                                        key={ 0 }
-                                        onClick={ handleConfirmImportOverride }
-                                        isDisabled={ lockingMap[newStory.id] && Object.keys( lockingMap[newStory.id].locks ).length > 0 }
-                                        isColor={ 'danger' }
-                                      >{this.translate( 'Override exist story' )}
-                                      </Button>,
-                                      <Button
-                                        isFullWidth
-                                        key={ 1 }
-                                        onClick={ handleConfirmImportCreate }
-                                        isColor={ 'warning' }
-                                      >{this.translate( 'Create new story' )}
-                                      </Button>,
-                                      <Button
-                                        isFullWidth
-                                        key={ 2 }
-                                        onClick={ handleCloseOverrideImport }
-                                      >
-                                        {this.translate( 'Cancel' )}
-                                      </Button>
-                                        ] }
-                                  />
-                                </Column>
-                                }
-                            </Column>
-                            }
-
-                        </Column>
-                      : null
-                    }
+                newStoryOpen &&
+                  <NewStoryForm
+                    widthRatio={ newStoryOpen ? '2/3' : '1/2' }
+                    createStoryStatus={ createStoryStatus }
+                    importStoryStatus={ importStoryStatus }
+                    mode={ newStoryTabMode }
+                    newStory={ newStory }
+                    onClose={ handleCloseNewStory }
+                    onCloseNewStory={ handleCloseNewStory }
+                    onCreateNewStory={ handleCreateNewStory }
+                    onDropFiles={ handleDropFiles }
+                    onSetModeFile={ handleSetNewStoryModeFile }
+                    onSetModeForm={ handleSetNewStoryModeForm }
+                    translate={ this.translate }
+                  />
+              }
               {passwordModalOpen && overrideStoryMode &&
                 <EnterPasswordModal
                   mode={ overrideStoryMode }
@@ -760,8 +590,53 @@ class HomeViewLayout extends Component {
                 />
               }
             </Columns>
+            <ModalCard
+              isActive={ overrideImport }
+              headerContent={ this.translate( 'Override story' ) }
+              onClose={ handleCloseOverrideImport }
+              mainContent={
+                <Help isColor={ 'danger' }>
+                  {this.translate( 'Story exists, do you want to override it?' )}
+                </Help>
+              }
+              footerContent={ [
+                <Button
+                  isFullWidth
+                  key={ 0 }
+                  onClick={ handleConfirmImportOverride }
+                  isDisabled={ lockingMap[newStory.id] && Object.keys( lockingMap[newStory.id].locks ).length > 0 }
+                  isColor={ 'danger' }
+                >{this.translate( 'Override exist story' )}
+                </Button>,
+                <Button
+                  isFullWidth
+                  key={ 1 }
+                  onClick={ handleConfirmImportCreate }
+                  isColor={ 'warning' }
+                >{this.translate( 'Create new story' )}
+                </Button>,
+                <Button
+                  isFullWidth
+                  key={ 2 }
+                  onClick={ handleCloseOverrideImport }
+                >
+                  {this.translate( 'Cancel' )}
+                </Button>
+                  ] }
+            />
           </Container>
         );
+  }
+
+  renderVisibleTab = ( mode, lang = 'en' ) => {
+    switch ( mode ) {
+      case 'learn':
+        return this.renderLearnTab( mode, lang );
+      case 'about':
+        return this.renderAboutTab( mode, lang );
+      case 'stories':
+      default:
+        return this.renderStoriesTab( mode, lang );
     }
   }
 
@@ -783,7 +658,7 @@ class HomeViewLayout extends Component {
           toggleNavbarOpen,
         }
       },
-      renderContent,
+      renderVisibleTab,
     } = this;
 
     const handleSubmitUserInfo = () => {
@@ -831,13 +706,16 @@ class HomeViewLayout extends Component {
             />
           </HeroHeader>
 
+          {/*screen-wide intro screen with session title */}
           <HeroBody>
             <Container hasTextAlign={ 'centered' }>
-              <Title>{config.sessionName /* eslint no-undef: 0 */}</Title>
+              <Title>{config.sessionName}</Title>
             </Container>
           </HeroBody>
 
+          {/*main contents with tabs */}
           <HeroFooter>
+            {/*tabs */}
             <Tabs
               isBoxed
               isFullWidth
@@ -861,58 +739,18 @@ class HomeViewLayout extends Component {
           </HeroFooter>
         </Hero>
 
+        {/* main contents */}
         <Container>
           <Level />
-          {renderContent( tabMode, lang )}
+          {renderVisibleTab( tabMode, lang )}
           <Level />
           <Level />
         </Container>
 
-        <Footer id={ 'footer' }>
-          <Container>
-            <Content isSize={ 'small' }>
-              <p
-                dangerouslySetInnerHTML={ {
-                    __html: this.translate( 'Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.' )
-                  } }
-              />
-              <p
-                dangerouslySetInnerHTML={ {
-                    __html: this.translate( 'Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.' )
-                  } }
-              />
-              <p>
-                {this.translate( 'Avatar icons courtesy of ' )}
-                <a
-                  target={ 'blank' }
-                  href={ 'https://www.flaticon.com/packs/people-faces' }
-                >
-                  Freepik
-                </a>.
-              </p>
-              <p>
-                <span
-                  dangerouslySetInnerHTML={ {
-                __html: this.translate( 'The source code of Fonio is licensed under free software license ' )
-              } }
-                />
-                <a
-                  target={ 'blank' }
-                  href={ 'http://www.gnu.org/licenses/agpl-3.0.html' }
-                >
-                  AGPL v3
-                </a>
-                {this.translate( ' and is hosted on ' )}
-                <a
-                  target={ 'blank' }
-                  href={ 'https://github.com/medialab/fonio/' }
-                >
-                  Github
-                </a>.
-              </p>
-            </Content>
-          </Container>
-        </Footer>
+        <Footer
+          id={ 'footer' }
+          translate={ this.translate }
+        />
 
         <IdentificationModal
           isActive={ identificationModalSwitch }
