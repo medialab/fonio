@@ -154,21 +154,20 @@ class ResourceSearchWidget extends Component {
    * @return {ReactElement} component - the component
    */
   render () {
+
+    /**
+     * Variables definition
+     */
     const {
       onAssetChoice,
-      // addNewResource,
       options = []
     } = this.props;
     const context = this.context;
     const blockAssetTypes = [ 'image', 'table', 'video', 'embed' ];
-    const handleOptionClick = ( option ) => {
-      onAssetChoice( option, this.props.contentId );
-    };
 
-    const bindRef = ( input ) => {
-      this.input = input;
-    };
-    const translate = translateNameSpacer( context.t, 'Components.ResourceSearchWidget' );
+    /**
+     * Computed variables
+     */
     const allowedOptions = options.filter( ( option ) => {
       if ( this.props.contentId !== 'main' ) {
         return blockAssetTypes.indexOf( option.metadata.type ) === -1;
@@ -176,15 +175,35 @@ class ResourceSearchWidget extends Component {
       return option;
     } );
     const filteredOptions = this.state.searchTerm.length === 0 ? allowedOptions : searchResources( allowedOptions, this.state.searchTerm );
+
+    /**
+     * Local functions
+     */
+    const translate = translateNameSpacer( context.t, 'Components.ResourceSearchWidget' );
+
+    /**
+     * Callbacks handlers
+     */
+    const handleOptionClick = ( option ) => {
+      onAssetChoice( option, this.props.contentId );
+    };
+
+    /**
+     * References bindings
+     */
+    const bindRef = ( input ) => {
+      this.input = input;
+    };
+
     const bindElement = ( element ) => {
       this.element = element;
     };
-
     const handleBlur = this.onBlur;
     const handleChange = this.onTermChange;
     const handleKeyUp = this.onKeyUp;
     const handleInputClick = this.onInputClick;
     const handleSubmit = this.onSubmit;
+
     return (
       <div
         ref={ bindElement }

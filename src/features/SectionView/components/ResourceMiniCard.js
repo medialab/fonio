@@ -113,6 +113,10 @@ class ResourceCard extends Component {
    * @return {ReactElement} component - the component
    */
   render() {
+
+    /**
+     * Variables definition
+     */
     const {
       props,
       context: {
@@ -145,43 +149,48 @@ class ResourceCard extends Component {
         type,
       } = metadata;
 
-      const translate = translateNameSpacer( t, 'Features.SectionView' );
-
-      let lockStatus;
-      let lockMessage;
-      if ( isActive ) {
-        lockStatus = 'active';
-        lockMessage = translate( 'edited by you' );
-      }
-      else if ( lockData ) {
-        lockStatus = 'locked';
-        lockMessage = translate( 'edited by {a}', { a: lockData.name } );
-      }
-      else {
-        lockStatus = 'open';
-        lockMessage = translate( 'open to edition' );
-      }
-
-      let resourceTitle;
-      if ( type === 'bib' && data && data[0] ) {
-        resourceTitle = ( <div
-          data-for={ 'tooltip' }
-          data-place={ 'right' }
-          data-html
-          data-tip={ data[0].htmlPreview }
-          className={ 'bib-wrapper-mini' }
-          dangerouslySetInnerHTML={ { __html: data[0].htmlPreview } }
-                          /> );
-      }
-      else {
-         resourceTitle = getTitle( resource ) || translate( 'untitled resource' );
-      }
-      resourceTitle = abbrevString( resourceTitle, 10 );
+    /**
+     * Local functions
+     */
+    const translate = translateNameSpacer( t, 'Features.SectionView' );
 
     /**
-     * component's callbacks
+     * Computed variables
      */
+    let lockStatus;
+    let lockMessage;
+    if ( isActive ) {
+      lockStatus = 'active';
+      lockMessage = translate( 'edited by you' );
+    }
+    else if ( lockData ) {
+      lockStatus = 'locked';
+      lockMessage = translate( 'edited by {a}', { a: lockData.name } );
+    }
+    else {
+      lockStatus = 'open';
+      lockMessage = translate( 'open to edition' );
+    }
 
+    let resourceTitle;
+    if ( type === 'bib' && data && data[0] ) {
+      resourceTitle = ( <div
+        data-for={ 'tooltip' }
+        data-place={ 'right' }
+        data-html
+        data-tip={ data[0].htmlPreview }
+        className={ 'bib-wrapper-mini' }
+        dangerouslySetInnerHTML={ { __html: data[0].htmlPreview } }
+                        /> );
+    }
+    else {
+       resourceTitle = getTitle( resource ) || translate( 'untitled resource' );
+    }
+    resourceTitle = abbrevString( resourceTitle, 10 );
+
+    /**
+     * Callbacks handlers
+     */
     const handleMouseDown = ( e ) => {
       e.stopPropagation();
       if ( typeof onMouseDown === 'function' ) {
@@ -189,7 +198,7 @@ class ResourceCard extends Component {
       }
     };
 
-    const startDrag = ( e ) => {
+    const handleDragStart = ( e ) => {
       if ( selectMode ) {
         return silentEvent( e );
       }
@@ -203,174 +212,177 @@ class ResourceCard extends Component {
        setDraggedResourceId( resource.id );
        // e.dataTransfer.setData('text', 'DRAFTJS_RESOURCE_ID:' + resource.id);
        e.dataTransfer.setData( 'text', ' ' );
-     };
+    };
 
-     const endDrag = () => {
-      this.setState( {
-        moved: false
-      } );
-     };
+   const handleDragEnd = () => {
+    this.setState( {
+      moved: false
+    } );
+   };
 
-     const handleDelete = ( event ) => {
-      if ( event ) {
-        event.stopPropagation();
-      }
-      if ( lockStatus === 'open' ) {
-        onDelete( event );
-      }
-     };
+   const handleDelete = ( event ) => {
+    if ( event ) {
+      event.stopPropagation();
+    }
+    if ( lockStatus === 'open' ) {
+      onDelete( event );
+    }
+   };
 
-     const handleClick = ( event ) => {
-      if ( lockStatus !== 'locked' ) {
-        onEdit( event );
-      }
-     };
+   const handleClick = ( event ) => {
+    if ( lockStatus !== 'locked' ) {
+      onEdit( event );
+    }
+   };
 
-     const renderMoveComponent = () =>
-          (
-            <Button
-              style={ { pointerEvents: 'none' } }
-              data-place={ 'left' }
-              data-effect={ 'solid' }
-              data-for={ 'tooltip' }
+   /**
+    * @todo externalize this
+    */
+   const renderMoveComponent = () =>
+        (
+          <Button
+            style={ { pointerEvents: 'none' } }
+            data-place={ 'left' }
+            data-effect={ 'solid' }
+            data-for={ 'tooltip' }
+          >
+            <Icon
+              isSize={ 'small' }
+              isAlign={ 'left' }
             >
-              <Icon
-                isSize={ 'small' }
-                isAlign={ 'left' }
-              >
-                <img src={ icons.move.black.svg } />
-              </Icon>
-            </Button>
-          );
+              <img src={ icons.move.black.svg } />
+            </Icon>
+          </Button>
+        );
 
-      return connectDragSource(
-        <div
-          // draggable
-          onDragStart={ startDrag }
-          onDragEnd={ endDrag }
-          onMouseDown={ handleMouseDown }
-          style={ { cursor: 'move' } }
-        >
-          <Card
-            isActive={ isActive }
-            bodyContent={
-              <div onClick={ handleClick }>
-                <Columns style={ {
-                  minHeight: '4em',
-                  maxHeight: '4em',
-                  overflow: 'hidden',
-                  marginBottom: 0,
-                } }
+    return connectDragSource(
+      <div
+        // draggable
+        onDragStart={ handleDragStart }
+        onDragEnd={ handleDragEnd }
+        onMouseDown={ handleMouseDown }
+        style={ { cursor: 'move' } }
+      >
+        <Card
+          isActive={ isActive }
+          bodyContent={
+            <div onClick={ handleClick }>
+              <Columns style={ {
+                minHeight: '4em',
+                maxHeight: '4em',
+                overflow: 'hidden',
+                marginBottom: 0,
+              } }
+              >
+                <Column
+                  isSize={ 2 }
                 >
-                  <Column
-                    isSize={ 2 }
+                  <Icon
+                    data-tip={ translate( resource.metadata.type ) }
+                    data-for={ 'tooltip' }
+                    isSize={ 'medium' }
+                    data-effect={ 'solid' }
+                    isAlign={ 'left' }
+                  >
+                    <img src={ icons[type].black.svg } />
+                  </Icon>
+                </Column>
+
+                <Column
+                  isSize={ 8 }
+                >
+                  <span
+                    data-html
+                    data-place={ 'bottom' }
+                    data-tip={ resource.metadata.type === 'image' ? `<img style="max-width:10rem;max-height:10rem;" src="${getResourceDataUrl( resource.data )}"></img>` : undefined }
+                    data-for={ 'tooltip' }
+                  >
+                    {resourceTitle}
+                  </span>
+                  <StatusMarker
+                    style={ { marginLeft: '1rem' } }
+                    lockStatus={ lockStatus }
+                    statusMessage={ lockMessage }
+                  />
+                </Column>
+
+              </Columns>
+              <Columns>
+                <Column
+                  style={ { paddingTop: '.5rem' } }
+                  isOffset={ 2 }
+                  isSize={ 7 }
+                >
+                  <Button
+                    onClick={ onEdit }
+                    isDisabled={ lockStatus === 'locked' }
+                    data-place={ 'left' }
+                    data-effect={ 'solid' }
+                    data-for={ 'tooltip' }
+                    data-tip={ translate( 'settings' ) }
                   >
                     <Icon
-                      data-tip={ translate( resource.metadata.type ) }
-                      data-for={ 'tooltip' }
-                      isSize={ 'medium' }
-                      data-effect={ 'solid' }
+                      isSize={ 'small' }
                       isAlign={ 'left' }
                     >
-                      <img src={ icons[type].black.svg } />
+                      <img src={ icons.settings.black.svg } />
                     </Icon>
-                  </Column>
+                  </Button>
 
-                  <Column
-                    isSize={ 8 }
+                  <Button
+                    onClick={ handleDelete }
+                    isDisabled={ isActive || lockStatus === 'locked' }
+                    data-place={ 'left' }
+                    data-effect={ 'solid' }
+                    data-for={ 'tooltip' }
+                    data-tip={ translate( `delete this ${type}` ) }
                   >
-                    <span
-                      data-html
-                      data-place={ 'bottom' }
-                      data-tip={ resource.metadata.type === 'image' ? `<img style="max-width:10rem;max-height:10rem;" src="${getResourceDataUrl( resource.data )}"></img>` : undefined }
-                      data-for={ 'tooltip' }
+                    <Icon
+                      isSize={ 'small' }
+                      isAlign={ 'left' }
                     >
-                      {resourceTitle}
-                    </span>
-                    <StatusMarker
-                      style={ { marginLeft: '1rem' } }
-                      lockStatus={ lockStatus }
-                      statusMessage={ lockMessage }
-                    />
-                  </Column>
+                      <img src={ icons.remove.black.svg } />
+                    </Icon>
+                  </Button>
 
-                </Columns>
-                <Columns>
-                  <Column
-                    style={ { paddingTop: '.5rem' } }
-                    isOffset={ 2 }
-                    isSize={ 7 }
+                  {type === 'image' &&
+                  <Button
+                    onClick={ onSetCoverImage }
+                    data-place={ 'left' }
+                    data-effect={ 'solid' }
+                    data-for={ 'tooltip' }
+                    isColor={ coverImageId === resource.id ? 'info' : undefined }
+                    data-tip={ translate( 'use as cover image' ) }
                   >
-                    <Button
-                      onClick={ onEdit }
-                      isDisabled={ lockStatus === 'locked' }
-                      data-place={ 'left' }
-                      data-effect={ 'solid' }
-                      data-for={ 'tooltip' }
-                      data-tip={ translate( 'settings' ) }
+                    <Icon
+                      isSize={ 'small' }
+                      isAlign={ 'left' }
                     >
-                      <Icon
-                        isSize={ 'small' }
-                        isAlign={ 'left' }
-                      >
-                        <img src={ icons.settings.black.svg } />
-                      </Icon>
-                    </Button>
-
-                    <Button
-                      onClick={ handleDelete }
-                      isDisabled={ isActive || lockStatus === 'locked' }
-                      data-place={ 'left' }
-                      data-effect={ 'solid' }
-                      data-for={ 'tooltip' }
-                      data-tip={ translate( `delete this ${type}` ) }
-                    >
-                      <Icon
-                        isSize={ 'small' }
-                        isAlign={ 'left' }
-                      >
-                        <img src={ icons.remove.black.svg } />
-                      </Icon>
-                    </Button>
-
-                    {type === 'image' &&
-                    <Button
-                      onClick={ onSetCoverImage }
-                      data-place={ 'left' }
-                      data-effect={ 'solid' }
-                      data-for={ 'tooltip' }
-                      isColor={ coverImageId === resource.id ? 'info' : undefined }
-                      data-tip={ translate( 'use as cover image' ) }
-                    >
-                      <Icon
-                        isSize={ 'small' }
-                        isAlign={ 'left' }
-                      >
-                        <img src={ icons.cover.black.svg } />
-                      </Icon>
-                    </Button>
-                    }
-                  </Column>
-                  <Column
-                    style={ { position: 'relative' } }
-                    isSize={ 2 }
-                  >
-                    <MovePad
-                      style={ {
-                        position: 'absolute',
-                            top: '-4rem',
-                            right: '4rem',
-                      } }
-                      moveComponentToolTip={ translate( 'Drag this item to the editor' ) }
-                      MoveComponent={ renderMoveComponent }
-                    />
-                  </Column>
-                </Columns>
-              </div>
-          }
-          />
-        </div>
-      );
+                      <img src={ icons.cover.black.svg } />
+                    </Icon>
+                  </Button>
+                  }
+                </Column>
+                <Column
+                  style={ { position: 'relative' } }
+                  isSize={ 2 }
+                >
+                  <MovePad
+                    style={ {
+                      position: 'absolute',
+                          top: '-4rem',
+                          right: '4rem',
+                    } }
+                    moveComponentToolTip={ translate( 'Drag this item to the editor' ) }
+                    MoveComponent={ renderMoveComponent }
+                  />
+                </Column>
+              </Columns>
+            </div>
+        }
+        />
+      </div>
+    );
   }
 }
 

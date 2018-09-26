@@ -15,7 +15,15 @@ import { translateNameSpacer } from '../../helpers/translateUtils';
 const UploadModal = ( {
   editorPastingStatus = {}
 }, { t } ) => {
+
+  /**
+   * Local functions
+   */
   const translate = translateNameSpacer( t, 'Components.PastingModal' );
+
+  /**
+   * Computed variables
+   */
   const { statusParameters = {} } = editorPastingStatus;
   let message;
   switch ( editorPastingStatus.status ) {

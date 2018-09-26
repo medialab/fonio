@@ -142,10 +142,9 @@ const SectionViewLayout = ( {
   history,
 }, { t } ) => {
 
-  const translate = translateNameSpacer( t, 'Features.SectionView' );
-
-  // console.time('preparation');
-
+  /**
+   * Variables definition
+   */
   const {
     id: storyId,
     resources,
@@ -153,8 +152,11 @@ const SectionViewLayout = ( {
     sectionsOrder,
   } = story;
   const { id: sectionId } = section;
-  const defaultSection = createDefaultSection();
 
+  /**
+   * Computed variables
+   */
+  const defaultSection = createDefaultSection();
   const reverseSectionLockMap = getReverseSectionsLockMap( lockingMap, activeUsers, storyId );
   const hasLockOnSection = checkIfUserHasLockOnSection( lockingMap, userId, storyId, sectionId );
   const userLockedResourceId = getUserResourceLockId( lockingMap, userId, storyId );
@@ -231,12 +233,14 @@ const SectionViewLayout = ( {
     .filter( ( resourceId ) => story.resources[resourceId].metadata.type === 'webpage' )
     .map( ( resourceId ) => story.resources[resourceId] ) : [];
 
-  // console.timeEnd('preparation');
+  /**
+   * Local functions
+   */
+  const translate = translateNameSpacer( t, 'Features.SectionView' );
 
   /**
-   * Callbacks
+   * Callbacks handlers
    */
-
   const handleNewSectionSubmit = ( metadata ) => {
     const newSection = {
       ...defaultSection,
@@ -262,13 +266,10 @@ const SectionViewLayout = ( {
     setMainColumnMode( 'edition' );
   };
 
-  /**
-   * DELETE SECTION MANAGEMENT
-   */
-
   /*
    * if modal to delete section was prompted and in the meantime someone has entered this section
    * then we unset the delete prompt on that section
+   * @todo put that somewhere in livecycle
    */
   if ( promptedToDeleteSectionId && reverseSectionLockMap[promptedToDeleteSectionId] ) {
     setPromptedToDeleteSectionId( undefined );
@@ -281,7 +282,7 @@ const SectionViewLayout = ( {
   const handleDeleteResource = ( thatResourceId ) => {
     setPromptedToDeleteResourceId( thatResourceId );
   };
-  const actuallyDeleteSection = ( thatSectionId ) => {
+  const handleDeleteSectionExecution = ( thatSectionId ) => {
 
     /*
      * make sure that section is not edited by another user to prevent bugs and inconsistencies
@@ -299,7 +300,7 @@ const SectionViewLayout = ( {
   };
 
   const handleDeleteSectionConfirm = () => {
-    actuallyDeleteSection( promptedToDeleteSectionId );
+    handleDeleteSectionExecution( promptedToDeleteSectionId );
     setPromptedToDeleteSectionId( undefined );
   };
 
@@ -445,7 +446,7 @@ const SectionViewLayout = ( {
       sectionsOrder: newSectionsOrder,
     } );
   };
-  const setSectionIndex = ( oldIndex, newIndex ) => {
+  const handleSectionIndexChange = ( oldIndex, newIndex ) => {
     const sectionsIds = sectionsList.map( ( thatSection ) => thatSection.id );
     const newSectionsOrder = arrayMove( sectionsIds, oldIndex, newIndex );
 
@@ -475,9 +476,8 @@ const SectionViewLayout = ( {
       userId
     } );
   };
-
-  const startExistingResourceConfiguration = ( resourceId ) => handleResourceEditAttempt( resourceId );
-  const startNewResourceConfiguration = ( toEmbedResourceAfterCreation, resourceType ) => {
+  const handleStartExistingResourceConfiguration = ( resourceId ) => handleResourceEditAttempt( resourceId );
+  const handleStartNewResourceConfiguration = ( toEmbedResourceAfterCreation, resourceType ) => {
     setEmbedResourceAfterCreation( toEmbedResourceAfterCreation );
     setNewResourceType( resourceType );
     setMainColumnMode( 'newresource' );
@@ -573,7 +573,7 @@ const SectionViewLayout = ( {
           setResourceOptionsVisible={ setResourceOptionsVisible }
           setResourceSearchString={ setResourceSearchString }
           setResourceSortValue={ setResourceSortValue }
-          setSectionIndex={ setSectionIndex }
+          handleSectionIndexChange={ handleSectionIndexChange }
           setSectionLevel={ handleSetSectionLevel }
           story={ story }
           submitMultiResources={ submitMultiResources }
@@ -643,8 +643,8 @@ const SectionViewLayout = ( {
             submitMultiResources={ submitMultiResources }
 
             setAssetRequestContentId={ setAssetRequestContentId }
-            startNewResourceConfiguration={ startNewResourceConfiguration }
-            startExistingResourceConfiguration={ startExistingResourceConfiguration }
+            handleStartNewResourceConfiguration={ handleStartNewResourceConfiguration }
+            handleStartExistingResourceConfiguration={ handleStartExistingResourceConfiguration }
             setStoryIsSaved={ setStoryIsSaved }
             setErrorMessage={ setErrorMessage }
             summonAsset={ summonAsset }

@@ -26,8 +26,14 @@ const ConfirmToDeleteModal = ( {
   isDisabled = false
 }, { t } ) => {
 
+  /**
+   * Local functions
+   */
   const translate = translateNameSpacer( t, 'Components.ConfirmToDeleteModal' );
 
+  /**
+   * Computed variables
+   */
   let message;
   let citedContext;
   if ( deleteType === 'section' ) {
@@ -51,6 +57,7 @@ const ConfirmToDeleteModal = ( {
       }
     ) : translate( 'Are you sure you want to delete this resource ?' );
   }
+
   return (
     <ModalCard
       isActive={ isActive }

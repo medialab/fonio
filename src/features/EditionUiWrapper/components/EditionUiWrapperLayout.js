@@ -63,10 +63,19 @@ const EditionUiWrapperLayout = ( {
 }, {
   t
 } ) => {
+
+  /**
+   * Variables definition
+   */
+  /**
+   * Local functions
+   */
   const translate = translateNameSpacer( t, 'Features.EditionUiWrapper' );
 
+  /**
+   * Computed variables
+   */
   const storyId = editedStory.id;
-
   const lockMap = lockingMap[storyId] && lockingMap[storyId].locks || {};
   const userLockedOnDesignId = Object.keys( lockMap ).find( ( thatUserId ) => lockMap[thatUserId].design );
   let designStatus;
@@ -85,6 +94,23 @@ const EditionUiWrapperLayout = ( {
     designMessage = translate( 'open to edition' );
   }
 
+  let computedTitle;
+  if ( editedStory && editedStory.metadata && editedStory.metadata.title ) {
+    computedTitle = abbrevString( editedStory.metadata.title, 25 );
+  }
+  else computedTitle = translate( 'Unnamed story' );
+
+  let realActiveSectionTitle;
+  if ( activeSectionTitle.length ) {
+    realActiveSectionTitle = activeSectionTitle.length > 10 ? `${activeSectionTitle.substr( 0, 10 ) }...` : activeSectionTitle;
+  }
+  else {
+    realActiveSectionTitle = translate( 'Untitled section' );
+  }
+
+  /**
+   * Callbacks handlers
+   */
   const handleSubmitUserInfo = () => {
     createUser( {
       ...userInfoTemp,
@@ -95,19 +121,9 @@ const EditionUiWrapperLayout = ( {
   };
 
   /**
-   * @todo turn to a temp variable
-   */
-  const computeTitle = () => {
-    if ( editedStory && editedStory.metadata && editedStory.metadata.title ) {
-      return abbrevString( editedStory.metadata.title, 25 );
-    }
-    else return translate( 'Unnamed story' );
-  };
-
-  /**
    * @todo move to container
    */
-  const exportToFile = ( type ) => {
+  const handleExportToFile = ( type ) => {
     const title = editedStory.metadata.title;
     // @todo: handle failure error in UI
     const onRejection = ( e ) => console.error( e );/* eslint no-console : 0 */
@@ -143,17 +159,8 @@ const EditionUiWrapperLayout = ( {
         break;
     }
   };
-
-  let realActiveSectionTitle;
-  if ( activeSectionTitle.length ) {
-    realActiveSectionTitle = activeSectionTitle.length > 10 ? `${activeSectionTitle.substr( 0, 10 ) }...` : activeSectionTitle;
-  }
-  else {
-    realActiveSectionTitle = translate( 'Untitled section' );
-  }
-
-  const onOpenExportModal = () => setExportModalOpen( true );
-  const onCloseExportModal = () => setUserInfoModalOpen( false );
+  const handleOpenExportModal = () => setExportModalOpen( true );
+  const handleCloseExportModal = () => setUserInfoModalOpen( false );
 
   return (
     <StretchedLayoutContainer isAbsolute>
@@ -172,7 +179,7 @@ const EditionUiWrapperLayout = ( {
             },
             {
               href: `/story/${storyId}`,
-              content: computeTitle()
+              content: computedTitle
               || translate( 'Unnamed story' ),
               isActive: navLocation === 'summary'
             },
@@ -211,7 +218,7 @@ const EditionUiWrapperLayout = ( {
         actionOptions={ [ {
             content: (
               <Button
-                onClick={ onOpenExportModal }
+                onClick={ handleOpenExportModal }
                 className={ 'button' }
               >
                 {translate( 'Export' )}
@@ -221,7 +228,7 @@ const EditionUiWrapperLayout = ( {
           {
             content: <LanguageToggler />
           } ] }
-        onProfileClick={ onOpenExportModal }
+        onProfileClick={ handleOpenExportModal }
         profile={ {
             imageUri: userInfo && require( `../../../sharedAssets/avatars/${userInfo.avatar}` ),
             nickName: userInfo && userInfo.name
@@ -239,13 +246,13 @@ const EditionUiWrapperLayout = ( {
         userInfo={ userInfoTemp }
 
         onChange={ setUserInfoTemp }
-        onClose={ onCloseExportModal }
+        onClose={ handleCloseExportModal }
         onSubmit={ handleSubmitUserInfo }
       />
       <ExportModal
         isActive={ exportModalOpen }
-        onClose={ onCloseExportModal }
-        onChange={ exportToFile }
+        onClose={ handleCloseExportModal }
+        onChange={ handleExportToFile }
       />
       <ReactTooltip id={ 'tooltip' } />
     </StretchedLayoutContainer>

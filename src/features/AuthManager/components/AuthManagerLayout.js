@@ -35,9 +35,16 @@ const AuthManagerLayout = ( {
   },
   saveStoryToken
 }, { t } ) => {
+
+  /**
+   * Local functions
+   */
   const translate = translateNameSpacer( t, 'Features.AuthManager' );
 
-  const loginSubmit = ( values ) => {
+  /**
+   * Callbacks handlers
+   */
+  const handleLoginSubmit = ( values ) => {
     loginStory( {
       storyId: storyLoginId,
       userId,
@@ -54,15 +61,14 @@ const AuthManagerLayout = ( {
       }
     } );
   };
-
-  const goReadStory = () => {
+  const handleGoReadStory = () => {
     setStoryLoginId( undefined );
     history.push( {
       pathname: `/read/${storyLoginId}`
     } );
   };
 
-  const goBackHome = () => {
+  const handleGoBackHome = () => {
     setStoryLoginId( undefined );
     history.push( {
       pathname: '/'
@@ -70,7 +76,7 @@ const AuthManagerLayout = ( {
   };
 
   return storyLoginId ? (
-    <Form onSubmit={ loginSubmit }>
+    <Form onSubmit={ handleLoginSubmit }>
       {
         ( formApi ) => {
           const handleSubmit = formApi.submitForm;
@@ -82,7 +88,7 @@ const AuthManagerLayout = ( {
             >
               <ModalCard
                 isActive
-                onClose={ goBackHome }
+                onClose={ handleGoBackHome }
                 headerContent={ translate( 'Connect to a story' ) }
                 mainContent={
                   <Field>
@@ -106,14 +112,14 @@ const AuthManagerLayout = ( {
                   <Button
                     isFullWidth
                     key={ 1 }
-                    onClick={ goReadStory }
+                    onClick={ handleGoReadStory }
                     isColor={ 'warning' }
                   >{translate( 'Read' )}
                   </Button>,
                   <Button
                     isFullWidth
                     key={ 2 }
-                    onClick={ goBackHome }
+                    onClick={ handleGoBackHome }
                   >
                     {translate( 'Back to home' )}
                   </Button>

@@ -23,6 +23,9 @@ const MovePad = ( {
   moveComponentToolTip,
 } ) => {
 
+  /**
+   * Callbacks handlers
+   */
   const handleClickLeft = chevronsData.left && chevronsData.left.onClick;
   const handleClickRight = chevronsData.right && chevronsData.right.onClick;
   const handleClickUp = chevronsData.up && chevronsData.up.onClick;

@@ -234,6 +234,10 @@ class ErrorMessageContainer extends Component {
   }
 
   render() {
+
+    /**
+     * Variables definition
+     */
     const {
       props: {
         children,
@@ -248,8 +252,20 @@ class ErrorMessageContainer extends Component {
       },
       context: { t }
     } = this;
+
+    /**
+     * Computed variables
+     */
+    /**
+     * Local functions
+     */
     const translate = translateNameSpacer( t, 'Features.ErrorMessageContainer' );
-    const onCloseBrowserWarning = () => setBrowserWarning( undefined );
+
+    /**
+     * Callbacks handlers
+     */
+    const handleCloseBrowserWarning = () => setBrowserWarning( undefined );
+
     return (
       <div>
         {!connectError && children}
@@ -310,7 +326,7 @@ class ErrorMessageContainer extends Component {
         <ModalCard
           isActive={ browserWarning }
           headerContent={ translate( 'Your browser is not supported' ) }
-          onClose={ onCloseBrowserWarning }
+          onClose={ handleCloseBrowserWarning }
           mainContent={
             <div>
               <p>

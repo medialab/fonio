@@ -19,6 +19,10 @@ const AuthorItem = ( {
   translate,
   sections,
 } ) => {
+
+  /**
+   * Computed variables
+   */
   const { name, locks = {} } = author;
   const lockNames = Object.keys( locks ).filter( ( thatName ) => locks[thatName] );
   let message;

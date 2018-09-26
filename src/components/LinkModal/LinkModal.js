@@ -51,6 +51,10 @@ class LinkModal extends Component {
   }
 
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       props: {
         onClose,
@@ -70,8 +74,20 @@ class LinkModal extends Component {
         t
       }
     } = this;
+
+    /**
+     * Computed variables
+     */
+    const activeResource = choosenResource && hyperlinks.find( ( r ) => r.id === choosenResource );
+
+    /**
+     * Local functions
+     */
     const translate = translateNameSpacer( t, 'Components.LinkModal' );
 
+    /**
+     * Callbacks handlers
+     */
     const handleConfirm = () => {
       if ( url && url.length ) {
         onCreateHyperlink( { url, title }, focusData.focusId, focusData.selection );
@@ -80,9 +96,6 @@ class LinkModal extends Component {
         onContextualizeHyperlink( choosenResource, focusData.focusId, focusData.selection );
       }
     };
-
-    const activeResource = choosenResource && hyperlinks.find( ( r ) => r.id === choosenResource );
-
     const handleToggleExistingLinksDropDown = () => this.setState( { dropdownOpen: !dropdownOpen } );
     const handleChooseResource = ( thatId ) => this.setState( { choosenResource: choosenResource === thatId ? undefined : thatId } );
     const handleNewURLChange = ( e ) => this.setState( { url: e.target.value } );

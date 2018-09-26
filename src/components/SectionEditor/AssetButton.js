@@ -22,6 +22,10 @@ class AssetButton extends Component {
     this.state = {};
   }
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       props: {
         onClick,
@@ -30,11 +34,25 @@ class AssetButton extends Component {
       },
       context: { t }
     } = this;
+
+    /**
+     * Computed variables
+     */
+    /**
+     * Local functions
+     */
     const translate = translateNameSpacer( t, 'Components.SectionEditor' );
+
+    /**
+     * Callbacks handlers
+     */
     const handleMouseDown = ( event ) => {
       silentEvent( event );
     };
 
+    /**
+     * References bindings
+     */
     const bindRef = ( btn ) => {
       if ( btn ) {
         this.element = btn.element;

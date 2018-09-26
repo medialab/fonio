@@ -85,12 +85,14 @@ class PreviewWrapper extends Component {
       this.iframe = iframe;
     };
 
-    return ( <iframe
-      name={ 'preview' }
-      id={ 'preview' }
-      style={ { width: '100%', height: '100%' } }
-      ref={ bindRef }
-             /> );
+    return (
+      <iframe
+        name={ 'preview' }
+        id={ 'preview' }
+        style={ { width: '100%', height: '100%' } }
+        ref={ bindRef }
+      />
+    );
   }
 }
 

@@ -53,6 +53,10 @@ class BlockContainer extends Component {
    * @return {ReactElement} component - the component
    */
   render() {
+
+    /**
+     * Variables definition
+     */
     const {
       asset,
       customContext = {},
@@ -75,13 +79,19 @@ class BlockContainer extends Component {
       id
     } = asset;
 
-    /*
-     * const {
-     *   metadata = {}
-     * } = resource;
-     * const {type} = metadata;
+    /**
+     * Computed variables
      */
+    const isActive = selectedContextualizationId === asset.id;
 
+    /**
+     * Local functions
+     */
+    const translate = translateNameSpacer( t, 'Components.BlockContextualization' );
+
+    /**
+     * Callbacks handlers
+     */
     const handleEditRequest = ( event ) => {
       silentEvent( event );
 
@@ -112,9 +122,6 @@ class BlockContainer extends Component {
       }
     };
 
-    const isActive = selectedContextualizationId === asset.id;
-
-    const translate = translateNameSpacer( t, 'Components.BlockContextualization' );
     return ( resource.data ?
       [
         <div

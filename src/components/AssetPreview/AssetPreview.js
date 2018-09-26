@@ -75,12 +75,14 @@ class EmbedContainer extends Component {
     const {
       html
     } = this.props;
-    return ( <div
-      style={ { background: '#FFF' } }
-      dangerouslySetInnerHTML={ {
-            __html: html
-          } }
-             /> );
+    return (
+      <div
+        style={ { background: '#FFF' } }
+        dangerouslySetInnerHTML={ {
+              __html: html
+            } }
+      />
+    );
   }
 }
 
@@ -244,7 +246,10 @@ class AssetPreview extends Component {
     }
   }
   render() {
-    const translate = translateNameSpacer( this.context.t, 'Components.AssetPreview' );
+
+    /**
+     * Variables definition
+     */
     const {
       showPannel,
       resource,
@@ -255,12 +260,25 @@ class AssetPreview extends Component {
     const { metadata, data } = resource;
     const { isInfoShown } = this.state;
 
+    /**
+     * Computed variables
+     */
+    const handleClickBox = this.onClickBox;
+
+    /**
+     * Local functions
+     */
+    const translate = translateNameSpacer( this.context.t, 'Components.AssetPreview' );
+
+    /**
+     * Callbacks handlers
+     */
     const handlePreviewClick = ( event ) => {
       if ( silentPreviewClick ) {
         silentEvent( event );
       }
     };
-    const handleClickBox = this.onClickBox;
+
     return (
       showPannel ?
         <Box

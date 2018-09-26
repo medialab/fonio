@@ -668,13 +668,6 @@ class SectionEditor extends Component {
     this.props.updateSection( newSection );
     // update editors
     this.props.updateDraftEditorsStates( newEditors );
-
-    /*
-     * update focus
-     * focus on new note
-     * this.props.setEditorFocus(id);
-     * this.props.setEditorFocus(undefined);
-     */
     setTimeout( () => {
       this.props.setEditorFocus( id );
       this.editor.scrollToNote( id );
@@ -945,13 +938,11 @@ class SectionEditor extends Component {
   ]
 
   onEditorChange = ( editorId, editorState ) => {
-    // console.log('on editor change', editorId, editorState.getCurrentContent().toJS());
     const { activeSection: { id: sectionId }, story: { id: activeStoryId }, updateDraftEditorState, editorStates, setStoryIsSaved } = this.props;
     const { updateSectionRawContentDebounced } = this;
     const editorStateId = editorId === 'main' ? sectionId : editorId;
 
     /*
-     * console.log('on update', editorStateId, convertToRaw(editor.getCurrentContent()));
      * update active immutable editor state
      */
     updateDraftEditorState( editorStateId, editorState );
@@ -963,10 +954,8 @@ class SectionEditor extends Component {
   };
 
   handleEditorPaste = ( text, html ) => {
-    // console.log('handle editor paste with html', html !== undefined);
     if ( html ) {
       const preventDefault = this.handlePaste( html );
-      // console.log('handle with html prevent default: ', preventDefault);
       return preventDefault;
     }
     return false;
@@ -977,6 +966,10 @@ class SectionEditor extends Component {
    * @return {ReactElement} component - the component
    */
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       addNote,
       deleteNote,
@@ -1033,7 +1026,10 @@ class SectionEditor extends Component {
       id: sectionId,
     } = activeSection;
 
-    const mainEditorState = editorStates[sectionId]; // || this.editor.generateEmptyEditor();
+    /**
+     * Computed variables
+     */
+    const mainEditorState = editorStates[sectionId];
     // replacing notes with dynamic non-serializable editor states
     const notes = inputNotes ? Object.keys( inputNotes ).reduce( ( no, id ) => ( {
       ...no,
@@ -1071,8 +1067,57 @@ class SectionEditor extends Component {
     }
     RealAssetComponent = resourceType ? this.assetButtons[resourceType] : EmbedAssetComponent;
 
+    // define citation style and locales, falling back on defaults if needed
+    const { style, locale } = getCitationModels( story );
+    // additional inline entities to display in the editor
+    const additionalInlineEntities = [
+      {
+        strategy: this.findDraftDropPlaceholder,
+        component: ( { children } ) =>
+          (
+            <Tag
+              style={ { pointerEvents: 'none' } }
+              className={ 'is-rounded' }
+              isColor={ 'dark' }
+            >
+              {this.translate( 'loading' )}
+              <span style={ { display: 'none' } }>{children}</span>
+            </Tag>
+          )
+      },
+      {
+        strategy: this.findLink,
+        component: ( { children, url } ) => {
+          return (
+            <span className={ 'native-link' }>
+              <span className={ 'link-content' }>
+                <span>{children}</span>
+                <span className={ 'pin-container' }>
+                  <HelpPin>
+                    {this.translate( 'native link to {u}', { u: url } )}
+                  </HelpPin>
+                </span>
+              </span>
+            </span>
+          );
+        }
+      }
+    ];
+    const inlineButtons = this.inlineButtons();
+
+    let shouldHidePlaceholder;
+    if ( focusedEditorId ) {
+      const editorState = focusedEditorId === 'main' ? mainEditorState : notes[focusedEditorId].editorState;
+      if ( editorState ) {
+        shouldHidePlaceholder = this.shouldHidePlaceholder( editorState );
+      }
+    }
+
     /**
-     * Callbacks
+     * Local functions
+     */
+    /**
+     * Callbacks handlers
      */
 
     // used callbacks
@@ -1183,61 +1228,16 @@ class SectionEditor extends Component {
       setTimeout( () => setEditorFocus( noteId ) );
     };
 
-    // define citation style and locales, falling back on defaults if needed
-    const { style, locale } = getCitationModels( story );
-
-    // additional inline entities to display in the editor
-    const additionalInlineEntities = [
-      {
-        strategy: this.findDraftDropPlaceholder,
-        component: ( { children } ) =>
-          (
-            <Tag
-              style={ { pointerEvents: 'none' } }
-              className={ 'is-rounded' }
-              isColor={ 'dark' }
-            >
-              {this.translate( 'loading' )}
-              <span style={ { display: 'none' } }>{children}</span>
-            </Tag>
-          )
-      },
-      {
-        strategy: this.findLink,
-        component: ( { children, url } ) => {
-          return (
-            <span className={ 'native-link' }>
-              <span className={ 'link-content' }>
-                <span>{children}</span>
-                <span className={ 'pin-container' }>
-                  <HelpPin>
-                    {this.translate( 'native link to {u}', { u: url } )}
-                  </HelpPin>
-                </span>
-              </span>
-            </span>
-          );
-        }
-      }
-    ];
-
-    const inlineButtons = this.inlineButtons();
-
-    let shouldHidePlaceholder;
-    if ( focusedEditorId ) {
-      const editorState = focusedEditorId === 'main' ? mainEditorState : notes[focusedEditorId].editorState;
-      if ( editorState ) {
-        shouldHidePlaceholder = this.shouldHidePlaceholder( editorState );
-      }
-    }
-
+    /**
+     * References bindings
+     */
     const bindRef = ( component ) => {
       this.component = component;
     };
 
     const bindEditorRef = ( editor ) => {
-              this.editor = editor;
-              };
+      this.editor = editor;
+    };
 
     return (
       <Content

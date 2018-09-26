@@ -77,6 +77,10 @@ class InlineCitation extends Component {
    * @return {ReactElement} component - the component
    */
   render() {
+
+    /**
+     * Variables definition
+     */
     const {
       children,
       asset,
@@ -100,13 +104,24 @@ class InlineCitation extends Component {
       contextualizer,
     } = asset;
 
+    /**
+     * Computed variables
+     */
+    const representation = asset && citations && citations[asset.id];
+
+    /**
+     * Local functions
+     */
+    const translate = translateNameSpacer( t, 'Components.InlineCitation' );
+
+    /**
+     * Callbacks handlers
+     */
     const handleClickOnEdit = () => {
       this.toggleContextualizer();
       startExistingResourceConfiguration( resource.id );
     };
 
-    const translate = translateNameSpacer( t, 'Components.InlineCitation' );
-    const representation = asset && citations && citations[asset.id];
     const handleLocatorChange = ( { target: { value: locator } } ) => {
       const newContextualizer = {
         ...contextualizer,

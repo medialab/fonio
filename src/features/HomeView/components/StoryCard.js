@@ -22,12 +22,19 @@ import {
   abbrevString
 } from '../../../helpers/misc';
 
+/**
+ * Shared variables
+ */
+const MAX_STR_LEN = 80;
+
 const InlineIcon = ( {
   icon
-} ) => ( <Icon
-  style={ { marginLeft: '.5rem', marginRight: '1rem' } }
-  icon={ icon }
-         /> );
+} ) => (
+  <Icon
+    style={ { marginLeft: '.5rem', marginRight: '1rem' } }
+    icon={ icon }
+  />
+);
 
 const StoryCard = ( {
   story,
@@ -37,7 +44,6 @@ const StoryCard = ( {
 }, {
   t
 } ) => {
-  const MAX_STR_LEN = 80;
   const translate = translateNameSpacer( t, 'Components.StoryCard' );
   return (
     <div
@@ -111,15 +117,7 @@ const StoryCard = ( {
       }
         statusMessage={ story.edited ? `Edited by ${story.metadata.subtitle}` : undefined }
         onAction={ onAction }
-        footerActions={ [
-
-            /*
-             * {
-             *   label: translate('change password'),
-             *   id: 'change password'
-             * }
-             */
-          ] }
+        footerActions={ [] }
         asideActions={ [
           {
             label: <span><InlineIcon icon={ 'pencil' } /> {translate( 'edit' )}</span>,

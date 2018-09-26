@@ -119,45 +119,32 @@ const MainSectionColumn = ( {
   t
 } ) => {
 
-  const {
+  /**
+   * Variables definition
+   */
+   const {
     id: storyId,
     resources,
   } = story;
-  // const {id: sectionId} = section;
+
+  /**
+   * Computed variables
+   */
+   const editorWidth = {
+    mobile: mainColumnMode === 'edition' && !userLockedResourceId ? 10 : 12,
+    tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 10 : 12,
+    widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 8 : 12
+  };
+  const editorX = {
+    mobile: mainColumnMode === 'edition' && !userLockedResourceId ? 1 : 0,
+    tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 1 : 0,
+    widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 2 : 0
+  };
+
+  /**
+   * Local functions
+   */
   const translate = translateNameSpacer( t, 'Features.SectionView' );
-
-  const handleUpdateSection = ( newSection, callback ) => {
-    updateSection( newSection, callback );
-  };
-
-  const handleUpdateMetadata = ( metadata ) => {
-    handleUpdateSection( {
-      ...section,
-      metadata: {
-        ...section.metadata,
-        ...metadata
-      }
-    } );
-    setMainColumnMode( 'edition' );
-  };
-
-  const handleTitleBlur = ( title ) => {
-    if ( title.length ) {
-      const newSection = {
-        ...section,
-        metadata: {
-          ...section.metadata,
-          title
-        }
-      };
-      handleUpdateSection( newSection );
-    }
-  };
-
-  const handleTitleFocus = () => {
-    setEditorFocus( undefined );
-  };
-
   const guessTitle = ( title = '' ) => {
     const endNumberRegexp = /([0-9]+)$/;
     const numberMatch = title.match( endNumberRegexp );
@@ -172,6 +159,50 @@ const MainSectionColumn = ( {
     return '';
   };
 
+  /**
+   * Callbacks handlers
+   */
+  const handleUpdateSection = ( newSection, callback ) => {
+    updateSection( newSection, callback );
+  };
+  const handleUpdateMetadata = ( metadata ) => {
+    handleUpdateSection( {
+      ...section,
+      metadata: {
+        ...section.metadata,
+        ...metadata
+      }
+    } );
+    setMainColumnMode( 'edition' );
+  };
+  const handleTitleBlur = ( title ) => {
+    if ( title.length ) {
+      const newSection = {
+        ...section,
+        metadata: {
+          ...section.metadata,
+          title
+        }
+      };
+      handleUpdateSection( newSection );
+    }
+  };
+  const handleTitleFocus = () => {
+    setEditorFocus( undefined );
+  };
+  const handleEditMetadataClick = () => {
+    if ( mainColumnMode !== 'editmetadata' ) {
+      onOpenSectionSettings( section.id );
+    }
+    else {
+      setMainColumnMode( 'edition' );
+    }
+  };
+  const handleOpenShortcutsHelp = () => setShortcutsHelpVisible( true );
+
+  /*
+   * @todo externalize this
+   */
   const renderMain = () => {
     if ( userLockedResourceId ) {
       const handleSubmit = ( resource ) => {
@@ -455,27 +486,6 @@ const MainSectionColumn = ( {
         return null;
     }
   };
-
-  const handleEditMetadataClick = () => {
-    if ( mainColumnMode !== 'editmetadata' ) {
-      onOpenSectionSettings( section.id );
-    }
-    else {
-      setMainColumnMode( 'edition' );
-    }
-  };
-
-  const editorWidth = {
-    mobile: mainColumnMode === 'edition' && !userLockedResourceId ? 10 : 12,
-    tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 10 : 12,
-    widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 8 : 12
-  };
-  const editorX = {
-    mobile: mainColumnMode === 'edition' && !userLockedResourceId ? 1 : 0,
-    tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 1 : 0,
-    widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 2 : 0
-  };
-  const handleOpenShortcutsHelp = () => setShortcutsHelpVisible( true );
 
   return (
     <Column

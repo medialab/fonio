@@ -125,6 +125,28 @@ const realMaxFileSize = base64ToBytesLength( maxResourceSize );
 const resourceTypes = Object.keys( resourceSchema.definitions );
 ```
 
+### Jsx: render functions
+
+For lisibility and maintenance, render functions *must* be organized the same way:
+
+```
+/**
+ * Variables definition
+ */
+/**
+ * Computed varialbes
+ */
+/**
+ * Local functions
+ */
+/**
+ * Callbacks handlers
+ */
+/**
+ * References bindings
+ */
+ return (...)
+```
 
 ## Code internationalization / i18n
 

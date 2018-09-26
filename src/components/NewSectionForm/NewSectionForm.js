@@ -39,6 +39,22 @@ class NewSectionForm extends Component {
     } );
   }
   render = () => {
+
+    /**
+     * Variables definition
+     */
+    /**
+     * Computed variables
+     */
+    /**
+     * Local functions
+     */
+    /**
+     * Callbacks handlers
+     */
+    /**
+     * References bindings
+     */
     const {
       props: {
         metadata,

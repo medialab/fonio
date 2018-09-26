@@ -140,6 +140,10 @@ export default class PaginatedList extends Component {
   };
 
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       props: {
         renderItem,
@@ -162,8 +166,14 @@ export default class PaginatedList extends Component {
       onPaginationNext,
     } = this;
 
+    /**
+     * Local functions
+     */
     const translate = translateNameSpacer( t, 'Components.PaginatedList' );
 
+    /**
+     * References bindings
+     */
     const bindScrollContainer = ( scrollContainer ) => {
       this.scrollContainer = scrollContainer;
     };

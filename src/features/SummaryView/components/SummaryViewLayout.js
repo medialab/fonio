@@ -70,8 +70,9 @@ const SummaryViewLayout = ( {
   goToSection
 }, { t } ) => {
 
-  const translate = translateNameSpacer( t, 'Features.SummaryView' );
-
+  /**
+   * Variables definition
+   */
   const {
     metadata: {
       title,
@@ -84,6 +85,14 @@ const SummaryViewLayout = ( {
     id: storyId,
   } = story;
 
+  /**
+   * Local functions
+   */
+  const translate = translateNameSpacer( t, 'Features.SummaryView' );
+
+  /**
+   * Computed variables
+   */
   const sectionsList = sectionsOrder.filter( ( sectionId ) => sections[sectionId] ).map( ( sectionId ) => sections[sectionId] );
   const reverseSectionLockMap = getReverseSectionsLockMap( lockingMap, activeUsers, storyId );
   const metadataOpen = checkIfUserHasLockOnMetadata( lockingMap, userId, storyId );
@@ -109,8 +118,13 @@ const SummaryViewLayout = ( {
     metadataLockStatus = 'open';
     metadataLockMessage = translate( 'open to edition' );
   }
+  const defaultSection = createDefaultSection();
+  const defaultSectionMetadata = defaultSection.metadata;
 
-  const toggleMetadataEdition = () => {
+  /**
+   * Callbacks handlers
+   */
+  const handleMetadataEditionToggle = () => {
     if ( metadataOpen ) {
       // leave metadata edition
       leaveBlock( {
@@ -138,11 +152,8 @@ const SummaryViewLayout = ( {
       metadata,
     };
     updateStoryMetadata( payload );
-    toggleMetadataEdition();
+    handleMetadataEditionToggle();
   };
-
-  const defaultSection = createDefaultSection();
-  const defaultSectionMetadata = defaultSection.metadata;
 
   const handleNewSectionSubmit = ( metadata ) => {
     const newSection = {
@@ -165,8 +176,7 @@ const SummaryViewLayout = ( {
   const handleDeleteSection = ( thatSectionId ) => {
     setPromptedToDeleteSectionId( thatSectionId );
   };
-
-  const actuallyDeleteSection = ( thatSectionId ) => {
+  const handleDeleteSectionExecution = ( thatSectionId ) => {
 
     /*
      * make sure that section is not edited by another user to prevent bugs and inconsistencies
@@ -182,7 +192,7 @@ const SummaryViewLayout = ( {
   };
 
   const handleDeleteSectionConfirm = () => {
-    actuallyDeleteSection( promptedToDeleteSectionId );
+    handleDeleteSectionExecution( promptedToDeleteSectionId );
     setPromptedToDeleteSectionId( undefined );
   };
 
@@ -198,7 +208,7 @@ const SummaryViewLayout = ( {
     ReactTooltip.rebuild();
   };
 
-  const setSectionIndex = ( oldIndex, newIndex ) => {
+  const handleSectionIndexChange = ( oldIndex, newIndex ) => {
     const sectionsIds = sectionsList.map( ( section ) => section.id );
     const newSectionsOrder = arrayMove( sectionsIds, oldIndex, newIndex );
     updateSectionsOrder( {
@@ -283,7 +293,7 @@ const SummaryViewLayout = ( {
                 isFullWidth
                 isColor={ metadataOpen ? 'primary' : 'info' }
                 disabled={ metadataLockStatus === 'locked' }
-                onClick={ toggleMetadataEdition }
+                onClick={ handleMetadataEditionToggle }
               >
 
                 {
@@ -320,7 +330,7 @@ const SummaryViewLayout = ( {
                   <MetadataForm
                     story={ story }
                     onSubmit={ handleMetadataSubmit }
-                    onCancel={ toggleMetadataEdition }
+                    onCancel={ handleMetadataEditionToggle }
                   />
                 </div>
               }
@@ -415,7 +425,7 @@ const SummaryViewLayout = ( {
                   story={ story }
                   handleSortEnd={ handleSortEnd }
                   goToSection={ goToSection }
-                  setSectionIndex={ setSectionIndex }
+                  handleSectionIndexChange={ handleSectionIndexChange }
                   onSortStart={ handleActiveIsSorting }
                   isSorting={ isSorting }
                   onDelete={ handleDeleteSection }

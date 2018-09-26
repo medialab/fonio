@@ -43,6 +43,10 @@ class IdentificationModal extends Component {
   }
 
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       props: {
         isActive,
@@ -62,8 +66,17 @@ class IdentificationModal extends Component {
       toggleDropdown,
     } = this;
 
+    /**
+     * Computed variables
+     */
+    /**
+     * Local functions
+     */
     const translate = translateNameSpacer( t, 'Components.IdentificationModal' );
 
+    /**
+     * Callbacks handlers
+     */
     const handleNameChange = ( e ) => onChange( {
       ...userInfo,
       name: e.target.value
@@ -75,18 +88,21 @@ class IdentificationModal extends Component {
     } );
 
     const handleSubmit = ( e ) => {
-    silentEvent( e ); onSubmit();
+      silentEvent( e );
+      onSubmit();
     };
 
     const avatarsList = avatars
-                        .map( ( fileName ) => ( {
-                          id: fileName,
-                          label: <Image
-                            isRounded
-                            isSize={ '32x32' }
-                            src={ require( `../../sharedAssets/avatars/${fileName}` ) }
-                                 />
-                        } ) );
+    .map( ( fileName ) => ( {
+      id: fileName,
+      label: (
+        <Image
+          isRounded
+          isSize={ '32x32' }
+          src={ require( `../../sharedAssets/avatars/${fileName}` ) }
+        />
+      )
+    } ) );
 
     return userInfo ? (
       <ModalCard

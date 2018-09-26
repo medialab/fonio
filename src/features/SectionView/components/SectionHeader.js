@@ -60,6 +60,10 @@ class SectionHeader extends Component {
     } );
   }
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       state: {
         title,
@@ -77,6 +81,10 @@ class SectionHeader extends Component {
       onBlur,
       onChange,
     } = this;
+
+    /**
+     * Callbacks handlers
+     */
     const handleSubmit = ( e ) => {
       silentEvent( e );
       if ( this.input ) {
@@ -84,6 +92,9 @@ class SectionHeader extends Component {
       }
     };
 
+    /**
+     * References bindings
+     */
     const bindInput = ( input ) => {
       this.input = input;
     };

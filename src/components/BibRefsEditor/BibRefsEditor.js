@@ -36,12 +36,19 @@ class BibRefsEditor extends Component {
   }
 
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       onChange,
       style,
     } = this.props;
     const { refsInput } = this.state;
 
+    /**
+     * Callbacks handlers
+     */
     const handleBibTeXInputChange = ( value ) => {
       this.setState( {
         refsInput: value,

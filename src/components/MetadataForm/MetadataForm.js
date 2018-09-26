@@ -9,8 +9,6 @@ import {
   Button,
   Control,
   Field,
-  HelpPin,
-  Icon,
   Column,
   Columns,
   Label,
@@ -26,6 +24,8 @@ import { translateNameSpacer } from '../../helpers/translateUtils';
  * Imports Components
  */
 import AuthorsManager from '../AuthorsManager';
+import ExplainedLabel from '../ExplainedLabel';
+import PasswordInput from '../PasswordInput';
 
 class MetadataForm extends Component {
 
@@ -40,6 +40,10 @@ class MetadataForm extends Component {
     } );
   }
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       props: {
         story,
@@ -52,8 +56,10 @@ class MetadataForm extends Component {
       }
     } = this;
 
+    /**
+     * Local functions
+     */
     const translate = translateNameSpacer( t, 'Components.MetadataForm' );
-
     const errorValidator = ( values ) => {
       return {
         title: !values.title ? translate( 'Story title is required' ) : null,
@@ -61,6 +67,9 @@ class MetadataForm extends Component {
       };
     };
 
+    /**
+     * Callbacks handlers
+     */
     const handleSubmitForm = ( values ) => {
       const newValues = { ...values };
       delete newValues.password;
@@ -80,6 +89,9 @@ class MetadataForm extends Component {
       onSubmit( { payload, password: values.password } );
     };
 
+    /**
+     * References bindings
+     */
     const bindRef = ( form ) => {
       this.form = form;
     };
@@ -100,12 +112,10 @@ class MetadataForm extends Component {
             >
               <Field>
                 <Control>
-                  <Label>
-                    {translate( 'Story title' )}
-                    <HelpPin place={ 'right' }>
-                      {translate( 'Explanation about the story title' )}
-                    </HelpPin>
-                  </Label>
+                  <ExplainedLabel
+                    title={ translate( 'Story title' ) }
+                    explanation={ translate( 'Explanation about the story title' ) }
+                  />
                   <Text
                     className={ 'input' }
                     field={ 'title' }
@@ -113,7 +123,6 @@ class MetadataForm extends Component {
                     type={ 'text' }
                     placeholder={ translate( 'title' ) }
                   />
-                  {/*<Input type="text" placeholder="Story title" />*/}
                 </Control>
                 {
                   formApi.touched.title && formApi.errors && formApi.errors.title &&
@@ -122,12 +131,10 @@ class MetadataForm extends Component {
               </Field>
               <Field>
                 <Control>
-                  <Label>
-                    {translate( 'Story subtitle' )}
-                    <HelpPin place={ 'right' }>
-                      {translate( 'Explanation about the story subtitle' )}
-                    </HelpPin>
-                  </Label>
+                  <ExplainedLabel
+                    title={ translate( 'Story subtitle' ) }
+                    explanation={ translate( 'Explanation about the story subtitle' ) }
+                  />
                   <Text
                     className={ 'input' }
                     field={ 'subtitle' }
@@ -140,32 +147,11 @@ class MetadataForm extends Component {
               {
                 !story.id &&
                   <Field>
-                    <Label>
-                      {translate( 'Story password' )}
-                      <HelpPin place={ 'right' }>
-                        {translate( 'Explanation about the story password' )}
-                      </HelpPin>
-                    </Label>
-                    <Control hasIcons>
-                      <Text
-                        className={ 'input' }
-                        field={ 'password' }
-                        id={ 'password' }
-                        autoComplete={ 'new-password' }
-                        type={ 'password' }
-                        placeholder={ 'password' }
-                      />
-                      {/*<Input isColor="success" placeholder="Text Input" value="bloomer" type="password" />*/}
-                      <Icon
-                        isSize={ 'small' }
-                        isAlign={ 'left' }
-                      >
-                        <span
-                          className={ 'fa fa-lock' }
-                          aria-hidden={ 'true' }
-                        />
-                      </Icon>
-                    </Control>
+                    <ExplainedLabel
+                      title={ translate( 'Story password' ) }
+                      explanation={ translate( 'Explanation about the story password' ) }
+                    />
+                    <PasswordInput id={ 'password' } />
                     {
                       formApi.touched.password && formApi.errors && formApi.errors.password &&
                         <Help isColor={ 'danger' }>{formApi.errors.password}</Help>

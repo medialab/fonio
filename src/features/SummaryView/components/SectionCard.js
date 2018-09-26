@@ -37,6 +37,11 @@ import MovePad from '../../../components/MovePad';
  */
 import config from '../../../config';
 
+/**
+ * Shared variables
+ */
+const MAX_TITLE_LEN = 15;
+
 const SectionCard = ( {
   section,
   goTo,
@@ -50,8 +55,38 @@ const SectionCard = ( {
   setSectionIndex,
 }, { t } ) => {
 
+  /**
+   * Local functions
+   */
   const translate = translateNameSpacer( t, 'Components.SectionCard' );
 
+  /**
+   * Computed variables
+   */
+  let lockStatusMessage;
+  if ( lockData ) {
+    lockStatusMessage = translate( 'edited by {a}', { a: lockData.name } );
+  }
+  else {
+    lockStatusMessage = translate( 'open to edition' );
+  }
+
+  const sectionTitle = (
+    <span
+      data-for={ 'tooltip' }
+      data-place={ 'right' }
+      data-html
+      data-tip={ `<div class="content"><h5 style="color: white">${section.metadata.title}</h5><p>${computeSectionFirstWords( section )}</p></div>` }
+    >
+      {abbrevString( section.metadata.title || translate( 'Untitled section' ), MAX_TITLE_LEN )}
+    </span>
+  );
+
+  const titleSize = 5;
+
+  /**
+   * Callbacks handlers
+   */
   const handleAction = ( action, event ) => {
     event.stopPropagation();
     switch ( action ) {
@@ -78,31 +113,6 @@ const SectionCard = ( {
       goTo( section.id );
     }
   };
-
-  const lockStatusMessage = () => {
-    if ( lockData ) {
-      return translate( 'edited by {a}', { a: lockData.name } );
-    }
- else {
-      return translate( 'open to edition' );
-    }
-  };
-
-  const MAX_TITLE_LEN = 15;
-
-  const sectionTitle = (
-    <span
-      data-for={ 'tooltip' }
-      data-place={ 'right' }
-      data-html
-      data-tip={ `<div class="content"><h5 style="color: white">${section.metadata.title}</h5><p>${computeSectionFirstWords( section )}</p></div>` }
-    >
-      {abbrevString( section.metadata.title || translate( 'Untitled section' ), MAX_TITLE_LEN )}
-    </span>
-  );
-
-  const titleSize = 5;
-
   const handleEdit = ( e ) => handleAction( 'edit', e );
   const handleDelete = ( e ) => handleAction( 'delete', e );
 

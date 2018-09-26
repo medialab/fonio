@@ -63,16 +63,29 @@ class LanguageToggler extends Component {
    * @return {ReactElement} component - the component
    */
   render() {
+
+    /**
+     * Variables definition
+     */
     const {
       lang,
       actions: {
         setLanguage: doSetLanguage
       }
     } = this.props;
+
+    /**
+     * Computed variables
+     */
     const otherLang = lang === 'fr' ? 'en' : 'fr';
+
+    /**
+     * Callbacks handlers
+     */
     const handleClick = () => {
       doSetLanguage( otherLang );
     };
+
     return (
       <Button
         onClick={ handleClick }

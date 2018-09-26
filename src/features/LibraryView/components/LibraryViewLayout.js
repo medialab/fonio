@@ -95,6 +95,10 @@ class LibraryViewLayout extends Component {
   }
 
   renderMainColumn = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       editedStory: story = {},
       userId,
@@ -148,9 +152,15 @@ class LibraryViewLayout extends Component {
       }
     } = story;
 
-    const coverImageId = coverImage.resourceId;
-
+    /**
+     * Local functions
+     */
     const translate = translateNameSpacer( t, 'Features.LibraryView' );
+
+    /**
+     * Computed variables
+     */
+    const coverImageId = coverImage.resourceId;
 
     const userLockedResourceId = getUserResourceLockId( lockingMap, userId, storyId );
     const reverseResourcesLockMap = getReverseResourcesLockMap( lockingMap, activeUsers, storyId );
@@ -235,8 +245,19 @@ class LibraryViewLayout extends Component {
               return -1;
           }
         } );
+    let endangeredContextualizationsLength = 0;
+    if ( actualResourcesPromptedToDelete.length ) {
+      endangeredContextualizationsLength = actualResourcesPromptedToDelete.reduce( ( sum, resourceId ) => {
+        return sum + Object.keys( story.contextualizations )
+                .filter( ( contextualizationId ) => story.contextualizations[contextualizationId].resourceId === resourceId )
+                .length;
+      }, 0 );
+    }
 
-    const toggleFilter = ( type ) => {
+    /**
+     * Callbacks handlers
+     */
+    const handleFilterToggle = ( type ) => {
       setFilterValues( {
         ...filterValues,
         [type]: filterValues[type] ? false : true
@@ -478,15 +499,6 @@ class LibraryViewLayout extends Component {
 
     };
 
-    let endangeredContextualizationsLength = 0;
-    if ( actualResourcesPromptedToDelete.length ) {
-      endangeredContextualizationsLength = actualResourcesPromptedToDelete.reduce( ( sum, resourceId ) => {
-        return sum + Object.keys( story.contextualizations )
-                .filter( ( contextualizationId ) => story.contextualizations[contextualizationId].resourceId === resourceId )
-                .length;
-      }, 0 );
-    }
-
     /**
      * UI case 1 : user edits a resource
      */
@@ -591,7 +603,7 @@ class LibraryViewLayout extends Component {
       default:
         const setOption = ( option, optionDomain ) => {
           if ( optionDomain === 'filter' ) {
-            toggleFilter( option );
+            handleFilterToggle( option );
           }
           else if ( optionDomain === 'sort' ) {
             setSortValue( option );
@@ -716,6 +728,10 @@ class LibraryViewLayout extends Component {
   }
 
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       editedStory: story = {},
       userId,
@@ -732,19 +748,18 @@ class LibraryViewLayout extends Component {
       submitMultiResources,
     } = this.props;
     const { t } = this.context;
-
     const {
       contextualizations = {},
       id: storyId,
     } = story;
 
-    const translate = translateNameSpacer( t, 'Features.LibraryView' );
-
+    /**
+     * Computed variables
+     */
     const userLockedResourceId = getUserResourceLockId( lockingMap, userId, storyId );
     const reverseResourcesLockMap = getReverseResourcesLockMap( lockingMap, activeUsers, storyId );
     const reverseSectionLockMap = getReverseSectionsLockMap( lockingMap, activeUsers, storyId );
-
-     const reverseResourcesSectionsMap =
+    const reverseResourcesSectionsMap =
       Object.keys( contextualizations )
       .reduce( ( result, contextId ) => {
         const context = contextualizations[contextId];
@@ -761,17 +776,24 @@ class LibraryViewLayout extends Component {
         }
         return result;
       }, {} );
-
     const resourcesLockMap = isEmpty( reverseResourcesLockMap ) ? reverseResourcesSectionsMap : reverseResourcesLockMap;
-
     const actualResourcesPromptedToDelete = resourcesPromptedToDelete.filter( ( resourceId ) => resourcesLockMap[resourceId] === undefined );
 
+    /**
+     * Local functions
+     */
+    const translate = translateNameSpacer( t, 'Features.LibraryView' );
+
+    /**
+     * Callbacks handlers
+     */
     const handleNewResourceClick = () => {
       if ( mainColumnMode === 'new' ) {
         setMainColumnMode( 'list' );
       }
       else setMainColumnMode( 'new' );
     };
+
     return (
       <Container style={ { position: 'relative', height: '100%' } }>
         <StretchedLayoutContainer

@@ -77,6 +77,10 @@ class DataForm extends Component {
     }
   }
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       resource,
       resourceType,
@@ -84,8 +88,14 @@ class DataForm extends Component {
       formApi
     } = this.props;
     const { t } = this.context;
-    const translate = translateNameSpacer( t, 'Components.ResourceForm' );
 
+    /**
+     * Computed variables
+     */
+    /**
+     * Local functions
+     */
+    const translate = translateNameSpacer( t, 'Components.ResourceForm' );
     const loadResourceData = ( type, file ) =>
       new Promise( ( resolve, reject ) => {
         switch ( type ) {
@@ -105,6 +115,10 @@ class DataForm extends Component {
             return reject();
         }
       } );
+
+    /**
+     * Callbacks handlers
+     */
     const handleDropFiles = ( files ) => {
       formApi.setError( 'maxSize', undefined );
       loadResourceData( resourceType, files[0] )
@@ -140,6 +154,7 @@ class DataForm extends Component {
       }
       else formApi.setError( 'data', translate( 'Invalid bibtext resource' ) );
     };
+
     switch ( resourceType ) {
     case 'image':
       return (

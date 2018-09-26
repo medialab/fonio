@@ -44,6 +44,10 @@ class NotePointer extends Component {
   }
 
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       note
     } = this.state;
@@ -64,6 +68,14 @@ class NotePointer extends Component {
       children/* eslint react/prop-types : 0 */
     } = this.props;
 
+    /**
+     * Computed variables
+     */
+    const id = note && note.id ? `note-pointer-${note.id}` : 'note-pointer-orphan';
+
+    /**
+     * Callbacks handlers
+     */
     const handleMouseOver = ( event ) => {
       event.stopPropagation();
       if ( typeof onNotePointerMouseOver === 'function' && note ) {
@@ -84,8 +96,6 @@ class NotePointer extends Component {
         onNotePointerMouseClick( note.id, note, event );
       }
     };
-
-    const id = note && note.id ? `note-pointer-${note.id}` : 'note-pointer-orphan';
 
     return (
       <sup

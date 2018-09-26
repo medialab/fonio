@@ -39,10 +39,20 @@ const DesignViewLayout = ( {
   onUpdateCss,
   onUpdateSettings,
 }, { t } ) => {
+
+  /**
+   * Local functions
+   */
   const translate = translateNameSpacer( t, 'Features.DesignView' );
 
+  /**
+   * Computed variables
+   */
   const cssHelpData = buildCssHelp( translate );
 
+  /**
+   * Callbacks handlers
+   */
   const handleHideCssHelp = () => setCssHelpVisible( false );
 
   return (

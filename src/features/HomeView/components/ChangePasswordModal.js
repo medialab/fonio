@@ -30,8 +30,11 @@ const ChangePasswordModal = ( {
 }, {
   t
 } ) => {
-  const translate = translateNameSpacer( t, 'Components.ChangePasswordModal' );
 
+  /**
+   * Local functions
+   */
+  const translate = translateNameSpacer( t, 'Components.ChangePasswordModal' );
   const errorValidator = ( values ) => {
     return {
       oldPassword: !values.oldPassword ? translate( 'Old password is required' ) : null,
@@ -39,6 +42,10 @@ const ChangePasswordModal = ( {
       confirmPassword: values.newPassword !== values.confirmPassword ? translate( 'password does not match' ) : null
     };
   };
+
+  /**
+   * Callbacks handlers
+   */
   const handleSubmitForm = ( values ) => {
     onChangePassword( values.oldPassword, values.newPassword );
   };

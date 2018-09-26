@@ -33,6 +33,10 @@ class AuthorsManager extends Component {
   }
 
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       props: {
         authors = [],
@@ -44,8 +48,18 @@ class AuthorsManager extends Component {
         t
       }
     } = this;
+
+    /**
+     * Computed variables
+     */
+    /**
+     * Local functions
+     */
     const translate = translateNameSpacer( t, 'Components.AuthorsManager' );
 
+    /**
+     * Callbacks handlers
+     */
     const handleAddAuthor = ( e ) => {
       e.preventDefault();
       const newAuthors = [
@@ -59,6 +73,7 @@ class AuthorsManager extends Component {
     const handleSubmit = () => {
       // handleAddAuthor(e);
     };
+
     return (
       <Field>
         <Label>

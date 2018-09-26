@@ -31,8 +31,15 @@ const DeleteStoryModal = ( {
 }, {
   t
 } ) => {
+
+  /**
+   * Local functions
+   */
   const translate = translateNameSpacer( t, 'Components.DeleteStoryModal' );
 
+  /**
+   * Callbacks handlers
+   */
   const handleSubmitForm = ( values ) => {
     onSubmitPassword( values.password );
   };

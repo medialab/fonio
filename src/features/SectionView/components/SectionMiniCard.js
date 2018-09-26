@@ -47,19 +47,28 @@ const SectionMiniCard = ( {
   maxSectionIndex,
   onSelect,
 }, { t } ) => {
-  const translate = translateNameSpacer( t, 'Features.SectionView' );
-  const lockStatusMessage = () => {
-    switch ( section.lockStatus ) {
-      case 'active':
-        return translate( 'edited by you' );
-      case 'locked':
-        return translate( 'edited by {a}', { a: section.lockData.name } );
-      case 'open':
-      default:
-        return translate( 'open to edition' );
-    }
-  };
 
+  /**
+   * Local functions
+   */
+  const translate = translateNameSpacer( t, 'Features.SectionView' );
+
+  /**
+   * Computed variables
+   */
+  let lockStatusMessage;
+  switch ( section.lockStatus ) {
+    case 'active':
+      lockStatusMessage = translate( 'edited by you' );
+      break;
+    case 'locked':
+      lockStatusMessage = translate( 'edited by {a}', { a: section.lockData.name } );
+      break;
+    case 'open':
+    default:
+      lockStatusMessage = translate( 'open to edition' );
+      break;
+  }
   const cardStyle = {
     pointerEvents: section.lockStatus === 'locked' ? 'none' : 'all'
   };
@@ -73,6 +82,7 @@ const SectionMiniCard = ( {
       {abbrevString( section.metadata.title || translate( 'Untitled section' ), 10 )}
     </span>
   );
+
   return (
     <Card
       isActive={ section.lockStatus === 'active' }
@@ -110,7 +120,7 @@ const SectionMiniCard = ( {
               <StatusMarker
                 style={ { marginLeft: '1rem' } }
                 lockStatus={ section.lockStatus }
-                statusMessage={ lockStatusMessage() }
+                statusMessage={ lockStatusMessage }
               />
             </Column>
           </Columns>

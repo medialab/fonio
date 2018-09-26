@@ -120,6 +120,10 @@ class AsideSectionColumn extends Component {
   }
 
   render = () => {
+
+    /**
+     * Variables definition
+     */
     const {
       asideTabCollapsed,
       asideTabMode,
@@ -143,11 +147,6 @@ class AsideSectionColumn extends Component {
       setEditorFocus,
 
       visibleResources,
-
-      /*
-       * resourceSearchString,
-       * setResourceSearchString,
-       */
       resourceFilterValues,
       setResourceFilterValues,
       resourceSortValue,
@@ -157,7 +156,6 @@ class AsideSectionColumn extends Component {
 
       onDeleteResource,
       onSetCoverImage,
-      // submitMultiResources,
 
       onDeleteSection,
       onOpenSectionSettings,
@@ -168,7 +166,6 @@ class AsideSectionColumn extends Component {
       history,
     } = this.props;
     const { t } = this.context;
-    const translate = translateNameSpacer( t, 'Features.SectionView' );
     const {
       id: storyId,
       metadata: {
@@ -176,15 +173,32 @@ class AsideSectionColumn extends Component {
       }
     } = story;
 
+    /**
+     * Computed variables
+     */
     const coverImageId = coverImage.resourceId;
 
-    const toggleResourceFilter = ( type ) => {
+    /**
+     * Local functions
+     */
+    const translate = translateNameSpacer( t, 'Features.SectionView' );
+
+    /**
+     * Callbacks handlers
+     */
+    const handleResourceFilterToggle = ( type ) => {
       setResourceFilterValues( {
         ...resourceFilterValues,
         [type]: resourceFilterValues[type] ? false : true
       } );
     };
+    const handleSetAsideTabSummary = () => setAsideTabMode( 'summary' );
+    const handleSetAsideTabLibrary = () => setAsideTabMode( 'library' );
+    const handleToggleAsideTabCollapsed = () => setAsideTabCollapsed( !asideTabCollapsed );
 
+    /**
+     * @todo externalize this
+     */
     const renderAside = () => {
       if ( asideTabCollapsed ) {
         return null;
@@ -193,7 +207,7 @@ class AsideSectionColumn extends Component {
         case 'library':
           const setOption = ( option, optionDomain ) => {
             if ( optionDomain === 'filter' ) {
-              toggleResourceFilter( option );
+              handleResourceFilterToggle( option );
             }
             else if ( optionDomain === 'sort' ) {
               setResourceSortValue( option );
@@ -387,9 +401,7 @@ class AsideSectionColumn extends Component {
           );
       }
     };
-    const handleSetAsideTabSummary = () => setAsideTabMode( 'summary' );
-    const handleSetAsideTabLibrary = () => setAsideTabMode( 'library' );
-    const handleToggleAsideTabCollapsed = () => setAsideTabCollapsed( !asideTabCollapsed );
+
     return (
       <Column isSize={ asideTabCollapsed ? 1 : '1/4' }>
         <StretchedLayoutContainer
@@ -442,7 +454,6 @@ class AsideSectionColumn extends Component {
                         data-tip={ asideTabCollapsed ? translate( 'show summary and library pannels' ) : translate( 'hide summary and library pannels' ) }
                       >
                         ◀
-                        {/*asideTabCollapsed ? '▶' : '◀'*/}
                       </TabLink>
                     </Tab>
                   </TabList>

@@ -63,13 +63,26 @@ const AsideDesignColumn = ( {
   setCssHelpVisible,
 
 }, { t } ) => {
-  const translate = translateNameSpacer( t, 'Features.DesignView' );
+
+  /**
+   * Variables definition
+   */
   const { settings = {} } = story;
   const { options = {} } = settings;
-
   const template = templates.find( ( thatTemplate ) => thatTemplate.id === story.settings.template );
   const templateOptions = template.acceptsOptions || [];
 
+  /**
+   * Computed variables
+   */
+  /**
+   * Local functions
+   */
+  const translate = translateNameSpacer( t, 'Features.DesignView' );
+
+  /**
+   * Callbacks handlers
+   */
   const handleOptionChange = ( key, value ) => {
     onUpdateSettings( {
       ...settings,
@@ -79,8 +92,7 @@ const AsideDesignColumn = ( {
       }
     } );
   };
-
-  const updateReferenceTypes = ( type ) => {
+  const handleUpdateReferenceTypes = ( type ) => {
     const referenceTypes = options.referenceTypes || [];
     let newReferenceTypes;
     if ( referenceTypes.indexOf( type ) === -1 ) {
@@ -92,6 +104,13 @@ const AsideDesignColumn = ( {
     handleOptionChange( 'referenceTypes', newReferenceTypes );
   };
 
+  const handleSetAsideAsSettings = () => setDesignAsideTabMode( 'settings' );
+  const handleSetAsideAsStyles = () => setDesignAsideTabMode( 'styles' );
+  const handleToggleAsideCollapsed = () => setDesignAsideTabCollapsed( !designAsideTabCollapsed );
+
+  /**
+   * @todo externalize this
+   */
   const renderAsideContent = () => {
     if ( designAsideTabCollapsed ) {
       return null;
@@ -104,22 +123,6 @@ const AsideDesignColumn = ( {
 
         return (
           <Column>
-            {/*<Level>
-                          <form>
-                            <Field>
-                              <Label>Citation style</Label>
-                              <Box>
-                                <Title isSize={5}>
-                                      APA
-                                </Title>
-                                <Help>Example:</Help>
-                                <Content isSize={'small'}>
-                                    Ricci, D., de Mourat, R., Leclercq, C., & Latour, B. (2015). Clues. Anomalies. Understanding. <i>Visible Language</i>, 49(3).
-                                </Content>
-                              </Box>
-                            </Field>
-                          </form>
-                        </Level>*/}
             {
               templateOptions.indexOf( 'notesPosition' ) > -1 &&
               <Level>
@@ -150,7 +153,7 @@ const AsideDesignColumn = ( {
                         onToggle={ handleToggleReferenceTypesVisibility }
                         isActive={ referenceTypesVisible }
                         closeOnChange={ false }
-                        onChange={ updateReferenceTypes }
+                        onChange={ handleUpdateReferenceTypes }
                         value={ ( story.settings.options && story.settings.options.referenceTypes ) || [ 'bib' ] }
                         options={ resourceTypes.map( ( type ) => ( {
                                 id: type,
@@ -201,71 +204,11 @@ const AsideDesignColumn = ( {
         const handleShowCssHelp = () => setCssHelpVisible( true );
         return (
           <Column>
-            {/*<Collapsable maxHeight={900} paddingBottom={'5rem'} isCollapsed={stylesMode === 'code'}>
-              <form>
-                <Field>
-                  <Label>Text size:</Label>
-                  <Dropdown
-                    onToggle={() => console.log('set active size')}
-                    isActive={false}
-                    value={{id: 1, label: '1 rem'}}
-                    options={[1, 2, 3, 4].map(id => ({id, label: id + ' rem'}))}>
-                    <Input
-                      value={'1.1rem'} />
-                  </Dropdown>
-                </Field>
-                <Field>
-                  <Label>Titles size:</Label>
-                  <Dropdown
-                    value={{id: 1, label: '1 rem'}}
-                    options={[1, 2, 3, 4].map(id => ({id, label: id + ' rem'}))}>
-                    <Input
-                      value={'1.1rem'} />
-                  </Dropdown>
-                </Field>
-                <Field>
-                  <Label>List styles:</Label>
-                  <Control>
-                    <Select value={'3rem'}>
-                      <option>chevron</option>
-                      <option>bullet</option>
-                      <option>dash</option>
-                      <option>star</option>
-                    </Select>
-                  </Control>
-                </Field>
-                <Field>
-                  <Label>Background color:</Label>
-                  <Level>
-                    <ColorPicker
-                      edited={false}
-                      color={'#32FF'}
-                      onEdit={() => console.log('edit background color')} />
-                    <Input value={'#32FF'} />
-                  </Level>
-                </Field>
-                <Field>
-                  <Label>Figures margin</Label>
-                  <Control>
-                    <Select value={'same as content'}>
-                      <option>same as content</option>
-                      <option>full width</option>
-                    </Select>
-                  </Control>
-                </Field>
-              </form>
-            </Collapsable>*/}
-            {stylesMode !== 'code' && <Level />}
-            {/**<Button
-              isFullWidth
-              isColor={stylesMode === 'gui' ? '' : 'primary'}
-            >
-              {translate('Edit css (advanced)')}
-            </Button>*/}
             <Title isSize={ 3 }>
               {translate( 'Edit style with css' )}
             </Title>
             {stylesMode === 'code' && <Level />}
+            {/* @todo put here other style modes ui */}
             <Collapsable isCollapsed={ stylesMode !== 'code' }>
               <Column>
                 <CodeEditor
@@ -286,10 +229,6 @@ const AsideDesignColumn = ( {
         );
     }
   };
-
-  const handleSetAsideAsSettings = () => setDesignAsideTabMode( 'settings' );
-  const handleSetAsideAsStyles = () => setDesignAsideTabMode( 'styles' );
-  const handleToggleAsideCollapsed = () => setDesignAsideTabCollapsed( !designAsideTabCollapsed );
 
   return (
     <Column
