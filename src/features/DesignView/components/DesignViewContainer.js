@@ -1,25 +1,36 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
 import { debounce } from 'lodash';
 import {
   withRouter,
 } from 'react-router';
 
-import config from '../../../config';
-
+/**
+ * Imports Project utils
+ */
+/**
+ * Imports Ducks
+ */
 import * as duck from '../duck';
-
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as storyDuck from '../../StoryManager/duck';
 import * as editionUiDuck from '../../EditionUiWrapper/duck';
 
+/**
+ * Imports Components
+ */
 import DesignViewLayout from './DesignViewLayout';
-
 import EditionUiWrapper from '../../EditionUiWrapper/components';
 import DataUrlProvider from '../../../components/DataUrlProvider';
+
+/**
+ * Imports Assets
+ */
+import config from '../../../config';
 
 @connect(
   ( state ) => ( {

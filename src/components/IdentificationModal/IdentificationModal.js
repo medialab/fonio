@@ -1,9 +1,9 @@
 /* eslint react/no-set-state : 0 */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import avatars from '../../sharedAssets/avatars';
-
 import {
   ModalCard,
   Field,
@@ -17,8 +17,16 @@ import {
   Image
 } from 'quinoa-design-library/components/';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../helpers/translateUtils';
 import { silentEvent } from '../../helpers/misc';
+
+/**
+ * Import assets
+ */
+import avatars from '../../sharedAssets/avatars';
 
 class IdentificationModal extends Component {
   constructor( props ) {

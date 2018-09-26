@@ -1,17 +1,10 @@
 /* eslint react/no-danger : 0 */
 /* eslint react/prefer-stateless-function : 0 */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-// import resourceSchema from 'quinoa-schemas/resource';
-
-import AssetPreview from '../../../components/AssetPreview';
-
-import {
-  abbrevString,
-  silentEvent
-} from '../../../helpers/misc';
-
 import {
   Column,
   Columns,
@@ -22,10 +15,26 @@ import {
   Title,
   Card,
 } from 'quinoa-design-library/components';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
-import './ResourceCard.scss';
+
+/**
+ * Imports Project utils
+ */
+import {
+  abbrevString,
+  silentEvent
+} from '../../../helpers/misc';
 import { translateNameSpacer } from '../../../helpers/translateUtils';
+
+/**
+ * Imports Components
+ */
+import AssetPreview from '../../../components/AssetPreview';
+
+/**
+ * Imports Assets
+ */
+import './ResourceCard.scss';
 
 class ResourceCard extends Component {
   render = () => {

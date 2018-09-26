@@ -1,6 +1,12 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Imports Components
+ */
 import SectionEditor from './SectionEditor';
 
 export default class SectionEditorWrapper extends Component {

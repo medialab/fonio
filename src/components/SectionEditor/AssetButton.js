@@ -1,12 +1,20 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../helpers/translateUtils';
 import { silentEvent } from '../../helpers/misc';
 
+/**
+ * Imports Components
+ */
 import IconBtn from '../IconBtn';
-
-import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 class AssetButton extends Component {
   constructor( props ) {

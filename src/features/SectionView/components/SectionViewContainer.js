@@ -1,3 +1,6 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -6,14 +9,14 @@ import { v4 as genId } from 'uuid';
 import {
   withRouter,
 } from 'react-router';
-
 import { EditorState } from 'draft-js';
-
 import {
   convertToRaw
 } from 'draft-js';
 
-import config from '../../../config';
+/**
+ * Imports Project utils
+ */
 
 import {
   summonAsset,
@@ -27,13 +30,10 @@ import {
 import { createResourceData, validateFiles } from '../../../helpers/resourcesUtils';
 import { createDefaultResource } from '../../../helpers/schemaUtils';
 
-import UploadModal from '../../../components/UploadModal';
-import PastingModal from '../../../components/PastingModal';
-
-import DataUrlProvider from '../../../components/DataUrlProvider';
-
+/**
+ * Imports Ducks
+ */
 import * as duck from '../duck';
-
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as storyDuck from '../../StoryManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
@@ -41,10 +41,23 @@ import * as libarayViewDuck from '../../LibraryView/duck';
 import * as errorMessageDuck from '../../ErrorMessageManager/duck';
 import * as editionUiDuck from '../../EditionUiWrapper/duck';
 
+/**
+ * Imports Components
+ */
+import EditionUiWrapper from '../../EditionUiWrapper/components';
+import UploadModal from '../../../components/UploadModal';
+import PastingModal from '../../../components/PastingModal';
+import DataUrlProvider from '../../../components/DataUrlProvider';
 import SectionViewLayout from './SectionViewLayout';
 
-import EditionUiWrapper from '../../EditionUiWrapper/components';
+/**
+ * Imports Assets
+ */
+import config from '../../../config';
 
+/**
+ * Shared variables
+ */
 const { maxBatchNumber } = config;
 
 @connect(

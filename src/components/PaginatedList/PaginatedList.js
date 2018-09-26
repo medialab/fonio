@@ -1,15 +1,25 @@
 /* eslint  react/no-set-state : 0 */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import Tooltip from 'react-tooltip';
-
 import Masonry from 'react-masonry-css';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../helpers/translateUtils';
 
+/**
+ * Imports Assets
+ */
 import './PaginatedList.scss';
 
+/**
+ * Shared variables
+ */
 const DEFAULT_ITEMS_PER_PAGE_NUMBER = 10;
 
 export default class PaginatedList extends Component {

@@ -1,24 +1,18 @@
 /* eslint react/jsx-no-bind:0 */
 /* eslint react/prefer-stateless-function : 0 */
 /* eslint react/no-danger : 0 */
-
 /**
  * This module exports a stateless component rendering the layout of the editor feature interface
  * @module fonio/features/HomeView
  */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import FlipMove from 'react-flip-move';
-
-import { createDefaultSection } from '../../../helpers/schemaUtils';
 import { v4 as genId } from 'uuid';
-
 import ReactTooltip from 'react-tooltip';
-
-import pdfFr from 'file-loader!../assets/user-guide-fr.pdf';
-import pdfEn from 'file-loader!../assets/user-guide-fr.pdf';
-
 import {
   Button,
   Column,
@@ -44,12 +38,18 @@ import {
   Tabs,
   Title,
 } from 'quinoa-design-library/components/';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
+
+/**
+ * Imports Project utils
+ */
+import { createDefaultSection } from '../../../helpers/schemaUtils';
 import { saveStoryToken, deleteStoryToken } from '../../../helpers/localStorageUtils';
+import { translateNameSpacer } from '../../../helpers/translateUtils';
 
-import config from '../../../config';
-
+/**
+ * Imports Components
+ */
 import ChangePasswordModal from './ChangePasswordModal';
 import DeleteStoryModal from './DeleteStoryModal';
 import EnterPasswordModal from './EnterPasswordModal';
@@ -61,8 +61,16 @@ import OtherUsersWidget from './OtherUsersWidget';
 import ProfileWidget from './ProfileWidget';
 import StoryCardWrapper from './StoryCardWrapper';
 
-import { translateNameSpacer } from '../../../helpers/translateUtils';
+/**
+ * Imports Assets
+ */
+import config from '../../../config';
+import pdfFr from 'file-loader!../assets/user-guide-fr.pdf';
+import pdfEn from 'file-loader!../assets/user-guide-fr.pdf';
 
+/**
+ * Shared variables
+ */
 const { maxStorySize } = config;
 const DEFAULT_BACKGROUND_COLOR = 'lightblue';
 

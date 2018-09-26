@@ -1,14 +1,11 @@
 /* eslint react/no-set-state : 0 */
 /* eslint react/no-danger : 0 */
-
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { DragSource } from 'react-dnd';
-import MovePad from '../../../components/MovePad';
-
-import { translateNameSpacer } from '../../../helpers/translateUtils';
-
 import {
   Button,
   Card,
@@ -17,13 +14,25 @@ import {
   Icon,
   StatusMarker,
 } from 'quinoa-design-library/components/';
+import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+/**
+ * Imports Project utils
+ */
+import { translateNameSpacer } from '../../../helpers/translateUtils';
 import {
   abbrevString,
   silentEvent
 } from '../../../helpers/misc';
 
-import icons from 'quinoa-design-library/src/themes/millet/icons';
+/**
+ * Imports Components
+ */
+import MovePad from '../../../components/MovePad';
+
+/**
+ * Imports Assets
+ */
 import './ResourceMiniCard.scss';
 
 /**

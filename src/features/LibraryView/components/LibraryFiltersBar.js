@@ -1,5 +1,7 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
-
 import {
   Level,
   LevelItem,
@@ -12,7 +14,6 @@ import {
   Button,
   FlexContainer,
 } from 'quinoa-design-library/components';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 const LibraryFiltersBar = ( {

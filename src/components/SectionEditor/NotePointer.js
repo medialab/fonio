@@ -1,12 +1,13 @@
 /* eslint react/no-did-mount-set-state : 0 */
 /* eslint react/no-set-state : 0 */
-
+/**
+ * Imports Libraries
+ */
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Tag
 } from 'quinoa-design-library/components';
-
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 class NotePointer extends Component {
 

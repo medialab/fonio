@@ -3,6 +3,9 @@
  * dedicated to rendering the interface container
  * @module fonio/features/HomeView
  */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -10,15 +13,25 @@ import { connect } from 'react-redux';
 import { setLanguage } from 'redux-i18n';
 import { withRouter } from 'react-router';
 
+/**
+ * Imports Project utils
+ */
 import { getEditionHistoryMap } from '../../../helpers/localStorageUtils';
 
-import HomeViewLayout from './HomeViewLayout';
+/**
+ * Imports Ducks
+ */
 import * as duck from '../duck';
 import * as userInfoDuck from '../../UserInfoManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as authDuck from '../../AuthManager/duck';
 import * as editionDuck from '../../EditionUiWrapper/duck';
 import * as errorMessageDuck from '../../ErrorMessageManager/duck';
+
+/**
+ * Imports Components
+ */
+import HomeViewLayout from './HomeViewLayout';
 
 /**
  * Redux-decorated component class rendering the takeaway dialog feature to the app

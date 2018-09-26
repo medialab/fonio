@@ -1,18 +1,22 @@
 /* eslint react/no-set-state : 0 */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
-
 import {
   Title,
   Button,
   Icon,
 } from 'quinoa-design-library/components';
+import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+/**
+ * Imports Project utils
+ */
 import {
   abbrevString,
   silentEvent
 } from '../../../helpers/misc';
-
-import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 class SectionHeader extends Component {
 

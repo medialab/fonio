@@ -1,21 +1,19 @@
 /* eslint react/prefer-stateless-function : 0 */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
-
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-// import FlipMove from 'react-flip-move';
 import { List, AutoSizer } from 'react-virtualized';
-
-/*
- * import {getResourceTitle} from '../../../helpers/resourcesUtils';
- * import DragLayer from './DragLayer';
- */
 import ReactTooltip from 'react-tooltip';
-
 import {
   Column,
 } from 'quinoa-design-library/components/';
 
+/**
+ * Imports Assets
+ */
 import ResourceMiniCard from './ResourceMiniCard';
 
 class ResourceCardWrapper extends Component {

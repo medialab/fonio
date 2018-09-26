@@ -3,9 +3,11 @@
  * This module provides a reusable inline citation widget component
  * @module fonio/components/InlineCitation
  */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import {
   ModalCard,
   Button,
@@ -16,6 +18,9 @@ import {
   HelpPin,
 } from 'quinoa-design-library/components';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../helpers/translateUtils';
 
 /**

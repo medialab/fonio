@@ -1,15 +1,19 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { translateNameSpacer } from '../../helpers/translateUtils';
-
 import {
   Link,
 } from 'react-router-dom';
-
 import {
   ModalCard
 } from 'quinoa-design-library/components';
+
+/**
+ * Imports Project utils
+ */
+import { translateNameSpacer } from '../../helpers/translateUtils';
 
 const PageNotFound = ( {
   pathName

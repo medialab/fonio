@@ -1,11 +1,11 @@
 /* eslint react/no-set-state : 0 */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { debounce } from 'lodash';
-
 import resourceSchema from 'quinoa-schemas/resource';
-
 import {
   Button,
   Column,
@@ -23,14 +23,22 @@ import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 
+/**
+ * Imports Components
+ */
 import ResourcesList from './ResourcesList';
 import SortableMiniSectionsList from './SortableMiniSectionsList';
 
+/**
+ * Shared variables
+ */
 const resourceTypes = Object.keys( resourceSchema.definitions );
 
 class AsideSectionColumn extends Component {

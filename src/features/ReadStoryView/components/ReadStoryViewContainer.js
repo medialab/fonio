@@ -1,26 +1,34 @@
 /* eslint react/no-set-state : 0 */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { get } from 'axios';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 import {
   AbsoluteContainer,
   FlexContainer,
+  Button,
+  Icon,
 } from 'quinoa-design-library/components';
 import StoryPlayer from 'quinoa-story-player';
-
-import config from '../../../config';
-
-import { translateNameSpacer } from '../../../helpers/translateUtils';
-import DataUrlProvider from '../../../components/DataUrlProvider';
 import { Link } from 'react-router-dom';
 
-import {
-  Button,
-  Icon
-} from 'quinoa-design-library/components';
+/**
+ * Imports Project utils
+ */
+import { translateNameSpacer } from '../../../helpers/translateUtils';
+
+/**
+ * Imports Components
+ */
+import DataUrlProvider from '../../../components/DataUrlProvider';
+
+/**
+ * Imports Assets
+ */
+import config from '../../../config';
 
 const HomeBtn = () => (
   <Button

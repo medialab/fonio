@@ -5,35 +5,34 @@
  * and go up in down with keyboard arrows in the list of search-matching items.
  * @module fonio/components/ResourceSearchWidget
  */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getResourceTitle, searchResources } from '../../helpers/resourcesUtils';
+import {
+  Column,
+  DropdownContent,
+  DropdownItem,
+  Level,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
+} from 'quinoa-design-library/components';
+import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+/**
+ * Imports Project utils
+ */
+import { getResourceTitle, searchResources } from '../../helpers/resourcesUtils';
+import { translateNameSpacer } from '../../helpers/translateUtils';
+import { silentEvent } from '../../helpers/misc';
+
+/**
+ * Shared variables
+ */
 const timers = {
   medium: 500
 };
-
-import {
-
-  /*
-   * Input,
-   * Button,
-   */
-  DropdownItem,
-  DropdownContent,
-  StretchedLayoutContainer,
-  StretchedLayoutItem,
-  Level,
-  Column,
-} from 'quinoa-design-library/components';
-
-import icons from 'quinoa-design-library/src/themes/millet/icons';
-
-import { translateNameSpacer } from '../../helpers/translateUtils';
-
-import { silentEvent } from '../../helpers/misc';
-
-// import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 /**
  * ResourceSearchWidget class for building react component instances

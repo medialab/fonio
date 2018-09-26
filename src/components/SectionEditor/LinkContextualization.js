@@ -1,24 +1,19 @@
 /* eslint react/no-set-state: 0 */
 /* eslint  react/prefer-stateless-function : 0 */
-
 /**
  * This module provides a reusable inline citation widget component
  * @module fonio/components/LinkContextualization
  */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-// import {translateNameSpacer} from '../../helpers/translateUtils';
 
 class LinkContextualization extends Component {
 
   static contextTypes = {
     t: PropTypes.func.isRequired,
-
-    /*
-     * citations: PropTypes.object,
-     * startExistingResourceConfiguration: PropTypes.func
-     */
   }
   render = () => {
     const {

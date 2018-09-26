@@ -1,20 +1,30 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-
 import {
   convertToRaw
 } from 'draft-js';
 
+/**
+ * Imports Project utils
+ */
 import { loadStoryToken, saveStoryToken } from '../../../helpers/localStorageUtils';
 
+/**
+ * Imports Ducks
+ */
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as storyDuck from '../../StoryManager/duck';
 import * as sectionDuck from '../../SectionView/duck';
 import * as duck from '../duck';
 
+/**
+ * Imports Components
+ */
 import AuthManagerLayout from './AuthManagerLayout';
 
 @connect(

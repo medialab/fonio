@@ -2,10 +2,15 @@
  * This module provides a reusable bibliography wrapper for the editor component
  * @module fonio/components/SectionEditor
  */
-
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../helpers/translateUtils';
 
 /**

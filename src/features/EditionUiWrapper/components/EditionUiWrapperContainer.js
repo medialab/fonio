@@ -1,14 +1,25 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+/**
+ * Imports Project utils
+ */
+/**
+ * Imports Ducks
+ */
 import * as duck from '../duck';
 import * as userInfoDuck from '../../UserInfoManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as editedStoryDuck from '../../StoryManager/duck';
 
+/**
+ * Imports Components
+ */
 import EditionUiWrapperLayout from './EditionUiWrapperLayout';
 
 @connect(

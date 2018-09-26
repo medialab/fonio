@@ -1,24 +1,21 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'axios';
-
 import ReactTooltip from 'react-tooltip';
-
 import {
   Button,
   Navbar,
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
-import config from '../../../config';
-
-import LanguageToggler from '../../../components/LanguageToggler';
-import IdentificationModal from '../../../components/IdentificationModal';
-import ExportModal from '../../../components/ExportModal';
-
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 import downloadFile from '../../../helpers/fileDownloader';
 import {
@@ -27,6 +24,18 @@ import {
 import {
   abbrevString
 } from '../../../helpers/misc';
+
+/**
+ * Imports Components
+ */
+import LanguageToggler from '../../../components/LanguageToggler';
+import IdentificationModal from '../../../components/IdentificationModal';
+import ExportModal from '../../../components/ExportModal';
+
+/**
+ * Imports Assets
+ */
+import config from '../../../config';
 
 const EditionUiWrapperLayout = ( {
   userId,
@@ -111,7 +120,7 @@ const EditionUiWrapperLayout = ( {
             downloadFile( JSONbundle, 'json', title );
             setExportModalOpen( false );
           }
- else {
+          else {
             onRejection( 'no data retrieved' );
           }
         } )
@@ -124,7 +133,7 @@ const EditionUiWrapperLayout = ( {
             downloadFile( data, 'html', title );
             setExportModalOpen( false );
           }
- else {
+          else {
             onRejection( 'no data retrieved' );
           }
         } )
@@ -139,7 +148,7 @@ const EditionUiWrapperLayout = ( {
   if ( activeSectionTitle.length ) {
     realActiveSectionTitle = activeSectionTitle.length > 10 ? `${activeSectionTitle.substr( 0, 10 ) }...` : activeSectionTitle;
   }
- else {
+  else {
     realActiveSectionTitle = translate( 'Untitled section' );
   }
 

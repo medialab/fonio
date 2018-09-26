@@ -15,7 +15,7 @@ import { stateToMarkdown } from 'draft-js-export-markdown';
  */
 export const cleanStoryForExport = ( story ) => {
   return story;
-}
+};
 
 /**
  * Consumes story data to produce a representation in markdown syntax
@@ -33,7 +33,7 @@ ${story.metadata.authors.join( ', ' )}
     const content = convertFromRaw( story.sections[id].contents );
     return stateToMarkdown( content );
   } ).join( '\n \n' );
-}
+};
 
 /**
  * Cleans and serializes a story representation
@@ -42,4 +42,4 @@ ${story.metadata.authors.join( ', ' )}
  */
 export const bundleProjectAsJSON = ( story ) => {
   return JSON.stringify( cleanStoryForExport( story ) );
-}
+};

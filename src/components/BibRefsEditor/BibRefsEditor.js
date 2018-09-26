@@ -1,7 +1,9 @@
 /* eslint react/no-set-state : 0 */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import {
   CodeEditor
 } from 'quinoa-design-library';
@@ -26,7 +28,6 @@ class BibRefsEditor extends Component {
   updateBibInput = ( data ) => {
     const resAsBibTeXParser = new Cite( data );
     const resAsBibTeX = resAsBibTeXParser.get( { type: 'string', style: 'bibtex' } );
-    // console.log(parseBibTeXJSON(data));
     if ( resAsBibTeX !== this.state.refsInput ) {
       this.setState( {
         refsInput: resAsBibTeX

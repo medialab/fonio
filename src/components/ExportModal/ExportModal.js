@@ -1,6 +1,8 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
   Column,
   ModalCard,
@@ -9,8 +11,11 @@ import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
+
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../helpers/translateUtils';
 
 const ExportModal = ( {

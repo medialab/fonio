@@ -1,23 +1,28 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-
 import approveBrowser from 'approved-browser';
-
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
-
 import {
   ModalCard
 } from 'quinoa-design-library/components';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 import { getBrowserInfo } from '../../../helpers/misc';
 
+/**
+ * Imports Ducks
+ */
 import * as duck from '../duck';
 import * as storyDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
-
 import {
   FETCH_STORIES,
   CREATE_STORY,
@@ -36,6 +41,9 @@ import {
   SAVE_STORY,
 } from '../../StoryManager/duck';
 
+/**
+ * Shared variables
+ */
 const ACCEPTED_BROWSERS = {
   Chrome: 50,
   Firefox: 50,

@@ -1,7 +1,9 @@
 /* eslint react/no-danger : 0 */
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
   StretchedLayoutContainer,
   ModalCard,
@@ -9,12 +11,17 @@ import {
   Button,
 } from 'quinoa-design-library/components';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
+import buildCssHelp from '../utils/buildCssHelp';
 
+/**
+ * Imports Components
+ */
 import AsideDesignColumn from './AsideDesignColumn';
 import MainDesignColumn from './MainDesignColumn';
-
-import buildCssHelp from '../utils/buildCssHelp';
 
 const DesignViewLayout = ( {
   designAsideTabMode,

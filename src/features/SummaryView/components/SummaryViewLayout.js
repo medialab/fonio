@@ -1,12 +1,11 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { arrayMove } from 'react-sortable-hoc';
-
 import { v4 as genId } from 'uuid';
-
 import ReactTooltip from 'react-tooltip';
-
 import {
   Button,
   Column,
@@ -24,13 +23,9 @@ import {
   Title,
 } from 'quinoa-design-library/components/';
 
-import MetadataForm from '../../../components/MetadataForm';
-import NewSectionForm from '../../../components/NewSectionForm';
-import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
-
-import SortableSectionsList from './SortableSectionsList';
-import AuthorItem from './AuthorItem';
-
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 import { createDefaultSection } from '../../../helpers/schemaUtils';
 import { abbrevString } from '../../../helpers/misc';
@@ -40,6 +35,15 @@ import {
   getStoryActiveAuthors,
   checkIfUserHasLockOnMetadata,
 } from '../../../helpers/lockUtils';
+
+/**
+ * Imports Components
+ */
+import MetadataForm from '../../../components/MetadataForm';
+import NewSectionForm from '../../../components/NewSectionForm';
+import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
+import SortableSectionsList from './SortableSectionsList';
+import AuthorItem from './AuthorItem';
 
 const SummaryViewLayout = ( {
   editedStory: story,

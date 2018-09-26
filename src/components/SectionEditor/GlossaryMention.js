@@ -4,6 +4,9 @@
  * This module provides a reusable inline glossary mention component
  * @module fonio/components/GlossaryMention
  */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 

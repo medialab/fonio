@@ -1,13 +1,17 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
-
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import FlipMove from 'react-flip-move';
-
 import {
   Level,
   Column,
 } from 'quinoa-design-library/components/';
 
+/**
+ * Imports Components
+ */
 import SectionCard from './SectionCard';
 
 const SortableItem = SortableElement( ( {

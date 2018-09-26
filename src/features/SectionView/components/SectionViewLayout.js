@@ -1,24 +1,25 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { v4 as genId } from 'uuid';
 import { isEmpty } from 'lodash';
-
 import { arrayMove } from 'react-sortable-hoc';
-
 import {
   convertToRaw,
   EditorState,
   convertFromRaw,
 } from 'draft-js';
-
 import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
-
 import {
   removeContextualizationReferenceFromRawContents
 } from '../../../helpers/assetsUtils';
@@ -26,7 +27,6 @@ import {
 import { createDefaultSection } from '../../../helpers/schemaUtils';
 import { deleteContextualizationFromId } from '../../../helpers/assetsUtils';
 import { getResourceTitle, searchResources } from '../../../helpers/resourcesUtils';
-
 import {
   getReverseSectionsLockMap,
   checkIfUserHasLockOnSection,
@@ -35,6 +35,9 @@ import {
   getCitedSections,
 } from '../../../helpers/lockUtils';
 
+/**
+ * Imports Components
+ */
 import AsideSectionColumn from './AsideSectionColumn';
 import MainSectionColumn from './MainSectionColumn';
 import ShortcutsModal from './ShortcutsModal';

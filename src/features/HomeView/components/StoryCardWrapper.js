@@ -1,12 +1,17 @@
 /* eslint react/prefer-stateless-function : 0 */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
-
-import StoryCard from './StoryCard';
-
 import {
   Level,
   Column
 } from 'quinoa-design-library/components/';
+
+/**
+ * Imports Components
+ */
+import StoryCard from './StoryCard';
 
 export default class StoryCardWrapper extends Component {
   render = () => {

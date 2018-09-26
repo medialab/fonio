@@ -1,28 +1,18 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { templates } from 'quinoa-story-player';
-
-import resourceSchema from 'quinoa-schemas/resource';
-
 import {
   Button,
-
-  /*
-   * Box,
-   * Checkbox,
-   * ColorPicker,
-   */
   CodeEditor,
   Column,
-  // Content,
   Collapsable,
   Control,
   Dropdown,
   Field,
-  // Input,
   Image,
-  // Help,
   Label,
   Level,
   Select,
@@ -33,13 +23,25 @@ import {
   Tabs,
   StretchedLayoutContainer,
   StretchedLayoutItem,
-  // Title,
 } from 'quinoa-design-library/components/';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 
+/**
+ * Imports Components
+ */
+/**
+ * Imports Assets
+ */
+import resourceSchema from 'quinoa-schemas/resource';
+
+/**
+ * Shared variables
+ */
 const resourceTypes = Object.keys( resourceSchema.definitions ).filter( ( t ) => t !== 'glossary' );
 
 const AsideDesignColumn = ( {

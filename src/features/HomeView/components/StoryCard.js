@@ -1,15 +1,10 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
-import { translateNameSpacer } from '../../../helpers/translateUtils';
-
-import {
-  abbrevString
-} from '../../../helpers/misc';
-
 import ReactTooltip from 'react-tooltip';
-
 import {
   Card,
   Image,
@@ -18,6 +13,14 @@ import {
   Content,
   Icon,
 } from 'quinoa-design-library/components/';
+
+/**
+ * Imports Project utils
+ */
+import { translateNameSpacer } from '../../../helpers/translateUtils';
+import {
+  abbrevString
+} from '../../../helpers/misc';
 
 const InlineIcon = ( {
   icon

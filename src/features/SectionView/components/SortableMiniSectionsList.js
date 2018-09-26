@@ -1,14 +1,18 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
-
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { List, AutoSizer } from 'react-virtualized';
 import ReactTooltip from 'react-tooltip';
-
 import {
   Level,
   Column,
 } from 'quinoa-design-library/components/';
 
+/**
+ * Imports Components
+ */
 import SectionMiniCard from './SectionMiniCard';
 
 const SortableItem = SortableElement( ( {

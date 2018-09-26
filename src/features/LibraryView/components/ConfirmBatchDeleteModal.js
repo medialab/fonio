@@ -1,3 +1,6 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import {
   ModalCard,

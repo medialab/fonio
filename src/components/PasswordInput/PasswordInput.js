@@ -1,7 +1,8 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
-
 import { Text } from 'react-form';
-
 import {
   Control,
   Icon,

@@ -1,11 +1,19 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
-
 import {
   Icon,
 } from 'quinoa-design-library/components/';
 
+/**
+ * Imports Project utils
+ */
 import { silentEvent } from '../../helpers/misc';
 
+/**
+ * Imports Assets
+ */
 import './MovePad.scss';
 
 const MovePad = ( {

@@ -1,11 +1,10 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { SortableHandle } from 'react-sortable-hoc';
-
 import { Link } from 'react-router-dom';
-
-import config from '../../../config';
 
 import {
   Button,
@@ -16,17 +15,27 @@ import {
   Column,
   Title,
 } from 'quinoa-design-library/components/';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
-import { translateNameSpacer } from '../../../helpers/translateUtils';
+/**
+ * Imports Project utils
+ */
 import { silentEvent } from '../../../helpers/misc';
-import MovePad from '../../../components/MovePad';
-
+import { translateNameSpacer } from '../../../helpers/translateUtils';
 import {
   abbrevString,
   computeSectionFirstWords
 } from '../../../helpers/misc';
+
+/**
+ * Imports Components
+ */
+import MovePad from '../../../components/MovePad';
+
+/**
+ * Imports Assets
+ */
+import config from '../../../config';
 
 const SectionCard = ( {
   section,

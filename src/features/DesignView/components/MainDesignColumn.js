@@ -1,14 +1,19 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import StoryPlayer from 'quinoa-story-player';
 import { render } from 'react-dom';
-
 import {
   Column,
   Button,
   Icon,
 } from 'quinoa-design-library/components/';
 
+/**
+ * Imports Project utils
+ */
 import { processCustomCss } from '../../../helpers/postcss';
 
 class ContextProvider extends Component {

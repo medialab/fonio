@@ -1,6 +1,8 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import {
   Button,
   Control,
@@ -9,10 +11,12 @@ import {
   HelpPin,
   Icon,
   Label,
-  // Input,
   Delete,
 } from 'quinoa-design-library/components/';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../helpers/translateUtils';
 
 class AuthorsManager extends Component {

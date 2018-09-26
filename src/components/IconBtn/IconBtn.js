@@ -1,5 +1,7 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
-
 import {
   Button,
   Image,

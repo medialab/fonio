@@ -1,5 +1,7 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
-
 import {
   Column,
   Columns,
@@ -14,6 +16,9 @@ import {
   Title,
 } from 'quinoa-design-library/components';
 
+/**
+ * Imports Components
+ */
 import MetadataForm from '../../../components/MetadataForm';
 
 const NewStoryForm = ( {

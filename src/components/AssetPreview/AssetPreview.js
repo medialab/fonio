@@ -5,14 +5,15 @@
  * This module provides a asset preview element component
  * @module fonio/components/AssetPreview
  */
+
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Player from 'react-player';
 import ReactTable from 'react-table';
-import 'react-table/react-table.css';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
-
 import {
   Box,
   Column,
@@ -23,12 +24,23 @@ import {
   Title,
 } from 'quinoa-design-library/components';
 
-// import QuinoaPresentationPlayer from 'quinoa-presentation-player';
-import BibliographicPreview from '../BibliographicPreview';
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../helpers/translateUtils';
 import { loadResourceData } from '../../helpers/assetsUtils';
 import { abbrevString, silentEvent } from '../../helpers/misc';
 
+/**
+ * Imports Components
+ */
+// import QuinoaPresentationPlayer from 'quinoa-presentation-player';
+import BibliographicPreview from '../BibliographicPreview';
+
+/**
+ * Imports Assets
+ */
+import 'react-table/react-table.css';
 import './AssetPreview.scss';
 
 /**

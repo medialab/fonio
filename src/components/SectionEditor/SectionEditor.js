@@ -2,14 +2,15 @@
  * This module provides a wrapper for displaying section editor in fonio editor
  * @module fonio/components/SectionEditor
  */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
-import { ReferencesManager } from 'react-citeproc';
 import { v4 as generateId } from 'uuid';
-
 import ReactTooltip from 'react-tooltip';
-
+import { ReferencesManager } from 'react-citeproc';
 import {
   EditorState,
   convertToRaw,
@@ -17,10 +18,8 @@ import {
   SelectionState,
   Modifier
 } from 'draft-js';
-
 import {
   Content,
-  // Level,
   Title,
   Button,
   Image,
@@ -30,14 +29,7 @@ import {
   StretchedLayoutItem,
   Tag,
 } from 'quinoa-design-library/components';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
-
-import { abbrevString, silentEvent } from '../../helpers/misc';
-
-const timers = {
-  short: 100
-};
 
 /**
  * Scholar-draft is a custom component wrapping draft-js editors
@@ -48,12 +40,11 @@ import Editor, {
   utils,
 } from 'scholar-draft';
 
-const {
-  deleteNoteFromEditor,
-  updateNotesFromEditor,
-  insertNoteInEditor,
-} = utils;
-
+/**
+ * Imports Project utils
+ */
+import { translateNameSpacer } from '../../helpers/translateUtils';
+import { abbrevString, silentEvent } from '../../helpers/misc';
 import {
   computeAssets,
   computeAssetChoiceProps,
@@ -74,30 +65,45 @@ import {
   handlePaste,
 } from './clipboardUtils';
 
+/**
+ * Imports Components
+ */
+import AssetButtonComponent from './AssetButton';
 import BlockContextualizationContainer from './BlockContextualizationContainer';
-
-import ResourceSearchWidget from './ResourceSearchWidget';
-import InlineCitation from './InlineCitation';
-import GlossaryMention from './GlossaryMention';
-import LinkContextualization from './LinkContextualization';
-
-// import Bibliography from './Bibliography';
-
 import BlockQuoteButton from './buttons/BlockQuoteButton';
 import BoldButton from './buttons/BoldButton';
-// import CodeBlockButton from './buttons/CodeBlockButton';
+import GlossaryMention from './GlossaryMention';
 import HeaderOneButton from './buttons/HeaderOneButton';
 import HeaderTwoButton from './buttons/HeaderTwoButton';
-import ItalicButton from './buttons/ItalicButton';
-import OrderedListItemButton from './buttons/OrderedListItemButton';
-import UnorderedListItemButton from './buttons/UnorderedListItemButton';
-import LinkButton from './buttons/LinkButton';
-import RemoveFormattingButton from './buttons/RemoveFormattingButton';
-import NotePointer from './NotePointer';
-import AssetButtonComponent from './AssetButton';
-import NoteButtonComponent from './NoteButton';
-
 import IconBtn from '../IconBtn';
+import InlineCitation from './InlineCitation';
+import ItalicButton from './buttons/ItalicButton';
+import LinkButton from './buttons/LinkButton';
+import LinkContextualization from './LinkContextualization';
+import NoteButtonComponent from './NoteButton';
+import NotePointer from './NotePointer';
+import OrderedListItemButton from './buttons/OrderedListItemButton';
+import RemoveFormattingButton from './buttons/RemoveFormattingButton';
+import ResourceSearchWidget from './ResourceSearchWidget';
+import UnorderedListItemButton from './buttons/UnorderedListItemButton';
+
+/**
+ * Imports Assets
+ */
+import './SectionEditor.scss';
+
+/**
+ * Shared variables
+ */
+const timers = {
+  short: 100
+};
+
+const {
+  deleteNoteFromEditor,
+  updateNotesFromEditor,
+  insertNoteInEditor,
+} = utils;
 
 /**
  * We have to provide scholar-draft the components
@@ -122,16 +128,6 @@ const blockAssetComponents = {
   'data-presentation': BlockContextualizationContainer,
   'table': BlockContextualizationContainer,
 };
-
-import { translateNameSpacer } from '../../helpers/translateUtils';
-
-import './SectionEditor.scss';
-
-/*
- * const EmbedAssetComponent = ({
- *   ...props
- * }) => <AssetButtonComponent {...props} icon={icons.asset.black.svg} />;
- */
 
 class EmbedAssetComponent extends Component {
   render = () => {

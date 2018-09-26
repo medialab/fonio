@@ -1,25 +1,14 @@
 /* eslint react/no-set-state : 0 */
 /* eslint react/jsx-boolean-value : 0 */
-
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { isEmpty } from 'lodash';
 import { csvParse } from 'd3-dsv';
 import { Form, NestedField, Text, TextArea } from 'react-form';
-
 import resourceSchema from 'quinoa-schemas/resource';
-
-import config from '../../config';
-
-import AuthorsManager from '../AuthorsManager';
-
-import { translateNameSpacer } from '../../helpers/translateUtils';
-import { retrieveMediaMetadata, retrieveWebpageMetadata, loadImage, inferMetadata, parseBibTeXToCSLJSON } from '../../helpers/assetsUtils';
-import { getFileAsText } from '../../helpers/fileLoader';
-
-import { base64ToBytesLength } from '../../helpers/misc';
-import { createDefaultResource, validateResource } from '../../helpers/schemaUtils';
 import {
   BigSelect,
   Button,
@@ -37,16 +26,40 @@ import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+/**
+ * Imports Project utils
+ */
+import config from '../../config';
+import { translateNameSpacer } from '../../helpers/translateUtils';
+import {
+  retrieveMediaMetadata,
+  retrieveWebpageMetadata,
+  loadImage,
+  inferMetadata,
+  parseBibTeXToCSLJSON
+} from '../../helpers/assetsUtils';
+import { getFileAsText } from '../../helpers/fileLoader';
+import { base64ToBytesLength } from '../../helpers/misc';
+import {
+  createDefaultResource,
+  validateResource
+} from '../../helpers/schemaUtils';
+
+/**
+ * Imports Components
+ */
+import AuthorsManager from '../AuthorsManager';
 import BibRefsEditor from '../BibRefsEditor';
 import AssetPreview from '../AssetPreview';
 
+/**
+ * Shared variables
+ */
 const resourceTypes = Object.keys( resourceSchema.definitions );
 const credentials = { youtubeAPIKey: config.youtubeAPIKey };
 const { maxResourceSize } = config;
-
 const realMaxFileSize = base64ToBytesLength( maxResourceSize );
 
 class DataForm extends Component {

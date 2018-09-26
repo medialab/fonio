@@ -1,11 +1,19 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
+import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../helpers/translateUtils';
 import { silentEvent } from '../../helpers/misc';
 
-import icons from 'quinoa-design-library/src/themes/millet/icons';
-
+/**
+ * Imports Components
+ */
 import IconBtn from '../IconBtn';
 
 const NoteButton = ( {

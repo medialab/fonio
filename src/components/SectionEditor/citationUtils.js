@@ -1,10 +1,10 @@
 
-import defaultStyle from 'raw-loader!./assets/apa.csl';
-import defaultLocale from 'raw-loader!./assets/english-locale.xml';
-
 import {
   constants
 } from 'scholar-draft';
+
+import defaultStyle from 'raw-loader!./assets/apa.csl';
+import defaultLocale from 'raw-loader!./assets/english-locale.xml';
 
 const { INLINE_ASSET, BLOCK_ASSET } = constants;
 

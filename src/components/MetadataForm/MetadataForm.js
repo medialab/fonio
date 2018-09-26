@@ -1,3 +1,6 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -14,9 +17,15 @@ import {
   Help,
 } from 'quinoa-design-library/components/';
 
-import AuthorsManager from '../AuthorsManager';
-
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../helpers/translateUtils';
+
+/**
+ * Imports Components
+ */
+import AuthorsManager from '../AuthorsManager';
 
 class MetadataForm extends Component {
 

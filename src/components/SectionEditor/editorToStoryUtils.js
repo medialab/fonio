@@ -1,7 +1,13 @@
+/**
+ * Imports Libraries
+ */
 import {
   utils,
 } from 'scholar-draft';
 
+/**
+ * Shared variables
+ */
 const {
   getUsedAssets,
   updateNotesFromEditor,

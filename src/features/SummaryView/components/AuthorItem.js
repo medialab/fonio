@@ -1,5 +1,7 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
-
 import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
@@ -7,6 +9,9 @@ import {
   Help
 } from 'quinoa-design-library/components';
 
+/**
+ * Imports Project utils
+ */
 import { abbrevString } from '../../../helpers/misc';
 
 const AuthorItem = ( {

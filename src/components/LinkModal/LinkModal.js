@@ -1,4 +1,7 @@
 /* eslint react/no-set-state : 0 */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -13,11 +16,13 @@ import {
   Dropdown,
   FlexContainer,
 } from 'quinoa-design-library/components/';
+import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../helpers/translateUtils';
 import { abbrevString } from '../../helpers/misc';
-
-import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 class LinkModal extends Component {
 

@@ -47,7 +47,7 @@ export const fileIsAnImage = ( file ) => {
       reject();
     }
   } );
-}
+};
 
 /**
  * Checks whether a given url links toward a video service which is handled by the app
@@ -66,7 +66,7 @@ export const videoUrlIsValid = ( url ) => {
       reject();
     }
   } );
-}
+};
 
 /**
  * Forces the orientation of a base64 image
@@ -171,7 +171,7 @@ export const loadImage = ( file ) => {
     };
     reader.readAsDataURL( file );
   } );
-}
+};
 
 /**
  * Loads a json data from static url
@@ -186,7 +186,7 @@ export const loadResourceData = ( url ) => {
       resolve( res.data );
     } );
   } );
-}
+};
 
 /**
  * Retrieves the metadata associated with a given webpage resource from its source code
@@ -227,7 +227,7 @@ export const retrieveWebpageMetadata = ( url ) => {
       resolve( {} );
     }
   } );
-}
+};
 
 const youtubeRegexp = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/gi;
 const vimeoRegexp = /^(https?\:\/\/)?(www\.)?(vimeo\.com)/gi;
@@ -302,7 +302,7 @@ export const retrieveMediaMetadata = ( url, credentials = {} ) => {
       } } );
     }
   } );
-}
+};
 
 /**
  * Converts bibtex data to csl-json in a secure way
@@ -327,7 +327,7 @@ export const parseBibTeXToCSLJSON = ( str ) => {
       } )
     ];
   }, [] );
-}
+};
 
 /**
  * Retrieves metadata from the data of a resource, when possible
@@ -360,7 +360,7 @@ export const inferMetadata = ( data, assetType ) => {
     default:
       return {};
   }
-}
+};
 
 /**
  * Handle the process of creating a new asset in a story content.
@@ -371,7 +371,7 @@ export const inferMetadata = ( data, assetType ) => {
  * @param {string} contentId - the id of editor to target ('main' or note id)
  * @param {string} resourceId - id of the resource to summon
  */
-  export const summonAsset = ( contentId, resourceId, props ) => {
+export const summonAsset = ( contentId, resourceId, props ) => {
     const {
       editedStory: story,
       editorStates,

@@ -2,21 +2,27 @@
  * This module provides a reusable block contextualization for the editor component
  * @module fonio/components/SectionEditor
  */
-
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import AssetPreview from '../AssetPreview';
-
-import { translateNameSpacer } from '../../helpers/translateUtils';
-import { silentEvent } from '../../helpers/misc';
-
 import {
   Button,
   Icon
 } from 'quinoa-design-library/components';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
+
+/**
+ * Imports Project utils
+ */
+import { translateNameSpacer } from '../../helpers/translateUtils';
+import { silentEvent } from '../../helpers/misc';
+
+/**
+ * Imports Components
+ */
+import AssetPreview from '../AssetPreview';
 
 /**
  * BlockContainer class for building react component instances

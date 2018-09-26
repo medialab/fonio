@@ -1,19 +1,9 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { v4 as genId } from 'uuid';
-
-import SectionEditor from '../../../components/SectionEditor';
-import NewSectionForm from '../../../components/NewSectionForm';
-import ResourceForm from '../../../components/ResourceForm';
-import { createBibData } from '../../../helpers/resourcesUtils';
-
-import SectionHeader from './SectionHeader';
-
-import { translateNameSpacer } from '../../../helpers/translateUtils';
-
-import config from '../../../config';
-
 import {
   Column,
   Delete,
@@ -29,10 +19,31 @@ import {
   Title,
 } from 'quinoa-design-library/components/';
 
+/**
+ * Imports Project utils
+ */
+import { translateNameSpacer } from '../../../helpers/translateUtils';
 import {
   base64ToBytesLength
 } from '../../../helpers/misc';
 
+/**
+ * Imports Components
+ */
+import SectionEditor from '../../../components/SectionEditor';
+import NewSectionForm from '../../../components/NewSectionForm';
+import ResourceForm from '../../../components/ResourceForm';
+import { createBibData } from '../../../helpers/resourcesUtils';
+import SectionHeader from './SectionHeader';
+
+/**
+ * Imports Assets
+ */
+import config from '../../../config';
+
+/**
+ * Shared variables
+ */
 const { maxBatchNumber, maxResourceSize } = config;
 const realMaxFileSize = base64ToBytesLength( maxResourceSize );
 

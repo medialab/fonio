@@ -1,9 +1,18 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import LibraryViewLayout from './LibraryViewLayout';
+/**
+ * Imports Project utils
+ */
+import { createResourceData, validateFiles } from '../../../helpers/resourcesUtils';
 
+/**
+ * Import Ducks
+ */
 import * as duck from '../duck';
 import * as editedStoryDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
@@ -11,15 +20,22 @@ import * as sectionsManagementDuck from '../../SectionsManager/duck';
 import * as errorMessageDuck from '../../ErrorMessageManager/duck';
 import * as editionUiDuck from '../../EditionUiWrapper/duck';
 
-import { createResourceData, validateFiles } from '../../../helpers/resourcesUtils';
-
+/**
+ * Imports Components
+ */
+import LibraryViewLayout from './LibraryViewLayout';
 import EditionUiWrapper from '../../EditionUiWrapper/components';
 import DataUrlProvider from '../../../components/DataUrlProvider';
-
 import UploadModal from '../../../components/UploadModal';
 
+/**
+ * Imports Assets
+ */
 import config from '../../../config';
 
+/**
+ * Shared variables
+ */
 const { maxBatchNumber } = config;
 
 @connect(

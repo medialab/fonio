@@ -1,3 +1,6 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -5,6 +8,10 @@ import {
   ModalCard,
   Button,
 } from 'quinoa-design-library/components/';
+
+/**
+ * Imports Project utils
+ */
 
 import { getResourceTitle } from '../../helpers/resourcesUtils';
 import { translateNameSpacer } from '../../helpers/translateUtils';

@@ -1,8 +1,10 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { translateNameSpacer } from '../../../helpers/translateUtils';
-
+import { Form } from 'react-form';
 import {
   Button,
   ModalCard,
@@ -10,8 +12,9 @@ import {
   Help,
 } from 'quinoa-design-library/components/';
 
-import { Form } from 'react-form';
-
+/**
+ * Imports Components
+ */
 import PasswordInput from '../../../components/PasswordInput';
 import ExplainedLabel from '../../../components/ExplainedLabel';
 

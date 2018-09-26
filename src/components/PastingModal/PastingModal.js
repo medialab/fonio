@@ -1,10 +1,15 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
   ModalCard,
 } from 'quinoa-design-library/components/';
 
+/**
+ * Imports Project utils
+ */
 import { translateNameSpacer } from '../../helpers/translateUtils';
 
 const UploadModal = ( {

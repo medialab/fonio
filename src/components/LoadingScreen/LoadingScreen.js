@@ -1,12 +1,17 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { translateNameSpacer } from '../../helpers/translateUtils';
-
 import {
   AbsoluteContainer,
   FlexContainer,
 } from 'quinoa-design-library/components';
+
+/**
+ * Imports Project utils
+ */
+import { translateNameSpacer } from '../../helpers/translateUtils';
 
 const LoadingScreen = ( {}, { t } ) => {
   const translate = translateNameSpacer( t, 'Components.LoadingScreen' );

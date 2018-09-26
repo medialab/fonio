@@ -1,14 +1,22 @@
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import SummaryViewLayout from './SummaryViewLayout';
-
+/**
+ * Imports Ducks
+ */
 import * as duck from '../duck';
 import * as editedStoryDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
 
+/**
+ * Imports Components
+ */
+import SummaryViewLayout from './SummaryViewLayout';
 import EditionUiWrapper from '../../EditionUiWrapper/components';
 
 @connect(

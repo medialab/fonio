@@ -1,21 +1,12 @@
 /* eslint react/no-set-state : 0 */
+/**
+ * Imports Libraries
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
-
 import { v4 as genId } from 'uuid';
 import { isEmpty, debounce, uniq } from 'lodash';
-
-import config from '../../../config';
-
-import resourceSchema from 'quinoa-schemas/resource';
-import { getResourceTitle, searchResources } from '../../../helpers/resourcesUtils';
-import { createBibData } from '../../../helpers/resourcesUtils';
-import PaginatedList from '../../../components/PaginatedList';
-
-import ConfirmBatchDeleteModal from './ConfirmBatchDeleteModal';
-import LibraryFiltersBar from './LibraryFiltersBar';
-
 import {
   Button,
   Column,
@@ -29,10 +20,14 @@ import {
   StretchedLayoutItem,
 } from 'quinoa-design-library/components';
 
+/**
+ * Imports Project utils
+ */
+import { getResourceTitle, searchResources } from '../../../helpers/resourcesUtils';
+import { createBibData } from '../../../helpers/resourcesUtils';
 import {
   removeContextualizationReferenceFromRawContents
 } from '../../../helpers/assetsUtils';
-
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 import {
   getReverseResourcesLockMap,
@@ -40,19 +35,31 @@ import {
   getCitedSections,
   getUserResourceLockId,
 } from '../../../helpers/lockUtils';
-
 import {
   base64ToBytesLength
 } from '../../../helpers/misc';
 
-const { maxBatchNumber, maxResourceSize } = config;
-const realMaxFileSize = base64ToBytesLength( maxResourceSize );
-
+/**
+ * Imports Components
+ */
+import PaginatedList from '../../../components/PaginatedList';
+import ConfirmBatchDeleteModal from './ConfirmBatchDeleteModal';
+import LibraryFiltersBar from './LibraryFiltersBar';
 import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 import ResourceForm from '../../../components/ResourceForm';
-
 import ResourceCard from './ResourceCard';
 
+/**
+ * Imports Assets
+ */
+import resourceSchema from 'quinoa-schemas/resource';
+import config from '../../../config';
+
+/**
+ * Shared variables
+ */
+const { maxBatchNumber, maxResourceSize } = config;
+const realMaxFileSize = base64ToBytesLength( maxResourceSize );
 const resourceTypes = Object.keys( resourceSchema.definitions );
 
 class LibraryViewLayout extends Component {

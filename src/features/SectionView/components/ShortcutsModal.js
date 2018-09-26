@@ -1,5 +1,7 @@
+/**
+ * Imports Libraries
+ */
 import React from 'react';
-
 import {
   ModalCard
 } from 'quinoa-design-library/components';
