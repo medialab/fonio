@@ -59,7 +59,7 @@ const UploadModal = ( {
           <p>
             {message}
           </p>
-            }
+          }
         </div>
       }
     />
