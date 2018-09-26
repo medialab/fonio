@@ -19,14 +19,14 @@ import {
   Delete,
   DropZone,
   HelpPin,
-  Tab,
   Level,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
+  Tab,
   TabLink,
   TabList,
   Tabs,
   Title,
-  StretchedLayoutContainer,
-  StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 
 import {
@@ -464,7 +464,6 @@ const MainSectionColumn = ( {
     tablet: mainColumnMode === 'edition' && !userLockedResourceId ? 1 : 0,
     widescreen: mainColumnMode === 'edition' && !userLockedResourceId ? 2 : 0
   };
-
   const handleOpenShortcutsHelp = () => setShortcutsHelpVisible( true );
 
   return (
@@ -477,7 +476,6 @@ const MainSectionColumn = ( {
         isAbsolute
         isDirection={ 'horizontal' }
       >
-
         <StretchedLayoutItem isFlex={ mainColumnMode === 'edition' && !userLockedResourceId ? 0 : 6 }>
           {renderMain()}
         </StretchedLayoutItem>
@@ -521,22 +519,6 @@ const MainSectionColumn = ( {
                         inputTip={ translate( 'Section title' ) }
                       />
                     </StretchedLayoutItem>
-                    {/*<StretchedLayoutItem isFlex={1}>
-                      <Title isSize={2}>
-                        {abbrevString(section.metadata.title, 20)}
-                      </Title>
-                    </StretchedLayoutItem>
-                    <StretchedLayoutItem style={{padding: '.5rem'}}>
-                      <Button
-                        isRounded
-                        isDisabled={userLockedResourceId || (mainColumnMode !== 'edition' && mainColumnMode !== 'editmetadata')}
-                        isColor={mainColumnMode === 'editmetadata' ? 'primary' : ''}
-                        data-tip={translate('Edit section metadata')}
-                        data-for="tooltip"
-                        onClick={handleEditMetadataClick}>
-                        <Image isSize={'24x24'} src={mainColumnMode === 'editmetadata' ? icons.edit.white.svg : icons.edit.black.svg} />
-                      </Button>
-                    </StretchedLayoutItem>*/}
                   </StretchedLayoutContainer>
                 </Column>
               </StretchedLayoutItem>

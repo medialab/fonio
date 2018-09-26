@@ -193,15 +193,15 @@ class AsideSectionColumn extends Component {
           };
           const handleResourceSearchChange = ( e ) => this.setResourceSearchStringDebounce( e.target.value );
           const handleToggleResourcesOptionVisible = () => {
-                            setResourceOptionsVisible( !resourceOptionsVisible );
-                          };
+            setResourceOptionsVisible( !resourceOptionsVisible );
+          };
           const handleClickAddItemsToLibrary = () => {
-                        if ( mainColumnMode === 'edition' ) {
-                          setEditorFocus( undefined );
-                        }
+            if ( mainColumnMode === 'edition' ) {
+              setEditorFocus( undefined );
+            }
 
-                        setMainColumnMode( mainColumnMode === 'newresource' ? 'edition' : 'newresource' );
-                      };
+            setMainColumnMode( mainColumnMode === 'newresource' ? 'edition' : 'newresource' );
+          };
           return (
             <StretchedLayoutContainer
               className={ 'aside-section-column' }

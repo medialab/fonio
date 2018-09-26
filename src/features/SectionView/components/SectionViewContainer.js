@@ -43,7 +43,7 @@ import * as editionUiDuck from '../../EditionUiWrapper/duck';
 
 import SectionViewLayout from './SectionViewLayout';
 
-import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
+import EditionUiWrapper from '../../EditionUiWrapper/components';
 
 const { maxBatchNumber } = config;
 

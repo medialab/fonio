@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-9-26\n"
-"PO-Revision-Date: Wed Sep 26 2018 15:25:49 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Sep 26 2018 15:49:54 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5047,6 +5047,9 @@ msgstr "tooltip"
 
 msgid "Features.SectionView.small"
 msgstr "small"
+
+msgid "Features.SectionView.All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)"
+msgstr "Tous les raccourcis présentés ci-dessous sont également accessibles à travers l'interface graphique de l'éditeur (déplacer le curseur / sélectionner du texte)."
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
