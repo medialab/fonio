@@ -5,16 +5,15 @@ import {
   Button,
   ModalCard,
   Field,
-  Label,
-  HelpPin,
-  Control,
-  Icon,
   Help
 } from 'quinoa-design-library/components/';
 
-import { Form, Text } from 'react-form';
+import { Form } from 'react-form';
 
 import { translateNameSpacer } from '../../../helpers/translateUtils';
+
+import PasswordInput from '../../../components/PasswordInput';
+import ExplainedLabel from '../../../components/ExplainedLabel';
 
 const AuthManagerLayout = ( {
   storyLoginId,
@@ -80,32 +79,11 @@ const AuthManagerLayout = ( {
                 headerContent={ translate( 'Connect to a story' ) }
                 mainContent={
                   <Field>
-                    <Label>
-                      {translate( 'Enter your password' )}
-                      <HelpPin place={ 'right' }>
-                        {translate( 'Explanation about the password' )}
-                      </HelpPin>
-                    </Label>
-                    <Control hasIcons>
-                      <Text
-                        className={ 'input' }
-                        field={ 'password' }
-                        id={ 'password' }
-                        type={ 'password' }
-                      />
-                      {/*<Input
-                                isColor="success" placeholder="Text Input" value="bloomer"
-                                type="password" />*/}
-                      <Icon
-                        isSize={ 'small' }
-                        isAlign={ 'left' }
-                      >
-                        <span
-                          className={ 'fa fa-lock' }
-                          aria-hidden={ 'true' }
-                        />
-                      </Icon>
-                    </Control>
+                    <ExplainedLabel
+                      title={ translate( 'Enter your password' ) }
+                      explanation={ translate( 'Explanation about the password' ) }
+                    />
+                    <PasswordInput />
                     {loginStatus === 'processing' && <Help>{translate( 'Submitting password' )}</Help>}
                     {loginStatus === 'fail' && <Help isColor={ 'danger' }>{translate( 'Password is not valid' )}</Help>}
                   </Field>
