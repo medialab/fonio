@@ -15,13 +15,11 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {
   Box,
-  // Button,
-  Content,
-  Columns,
   Column,
+  Columns,
+  Content,
   Image,
   Level,
-  // HelpPin,
   Title,
 } from 'quinoa-design-library/components';
 
@@ -287,24 +285,24 @@ class AssetPreview extends Component {
               </Columns>
             </Level>
             {/*<div>
-                          <div style={{width: '100%'}}>
-                            <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
-                              <Button
-                                isFullWidth style={{overflow: 'visible'}} isColor="warning"
-                                onClick={this.onClickDelete}>
-                                <span style={{marginRight: '1em'}}>{translate('delete mention')}</span>
-                                <HelpPin>
-                                  {translate(`The ${metadata.type} will not be delete from the library`)}
-                                </HelpPin>
-                              </Button>
-                            </Column>
-                            <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
-                              <Button isFullWidth isColor="primary" onClick={this.onClickEdit}>
-                                {translate(`edit ${metadata.type}`)}
-                              </Button>
-                            </Column>
-                          </div>
-                        </div>*/}
+                <div style={{width: '100%'}}>
+                  <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
+                    <Button
+                      isFullWidth style={{overflow: 'visible'}} isColor="warning"
+                      onClick={this.onClickDelete}>
+                      <span style={{marginRight: '1em'}}>{translate('delete mention')}</span>
+                      <HelpPin>
+                        {translate(`The ${metadata.type} will not be delete from the library`)}
+                      </HelpPin>
+                    </Button>
+                  </Column>
+                  <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
+                    <Button isFullWidth isColor="primary" onClick={this.onClickEdit}>
+                      {translate(`edit ${metadata.type}`)}
+                    </Button>
+                  </Column>
+                </div>
+              </div>*/}
             {( metadata.description || metadata.source ) && isInfoShown &&
               <Level>
                 <Columns>

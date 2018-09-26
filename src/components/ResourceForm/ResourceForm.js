@@ -3,13 +3,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import {renderToStaticMarkup} from 'react-dom/server';
-
-/*
- * import {Bibliography} from 'react-citeproc';
- * import english from 'raw-loader!../../sharedAssets/bibAssets/english-locale.xml';
- * import apa from 'raw-loader!../../sharedAssets/bibAssets/apa.csl';
- */
 
 import { isEmpty } from 'lodash';
 import { csvParse } from 'd3-dsv';
@@ -124,7 +117,7 @@ class DataForm extends Component {
     };
     const handleEditBib = ( value ) => {
       const bibData = parseBibTeXToCSLJSON( value );
-      // TODO: citation-js parse fail in silence, wait error handling feature
+      // @todo: citation-js parse fail in silence, wait error handling feature
       if ( bibData.length === 1 ) {
         formApi.setValue( 'data', bibData );
         formApi.setError( 'data', undefined );
@@ -277,16 +270,6 @@ class DataForm extends Component {
                 }
               } );
           } );
-
-        /*
-         * retrieveMediaMetadata(thatUrl, credentials)
-         *   .then(({metadata}) => {
-         *     Object.keys(metadata)
-         *       .forEach(key => {
-         *         formApi.setValue(`metadata.${key}`, metadata[key]);
-         *       });
-         *   });
-         */
       };
       return (
         <div>
@@ -390,7 +373,6 @@ class ResourceForm extends Component {
             el.scrollTop = 0;
           } );
         }
-
       }
     } );
   }
@@ -416,7 +398,6 @@ class ResourceForm extends Component {
     const {
       props: {
         asNewResource = true,
-        // resourceType: propResourceType,
         onCancel,
         onSubmit,
         resourceType,
@@ -457,7 +438,7 @@ class ResourceForm extends Component {
     };
 
     const handleSubmitFailure = ( error ) => {
-      console.log( error );/* eslint no-console : 0 */
+      console.error( error );/* eslint no-console : 0 */
     };
 
     const errorValidator = ( values ) => {
@@ -500,55 +481,57 @@ class ResourceForm extends Component {
                 onSubmit={ handleFormAPISubmit }
               >
                 <StretchedLayoutContainer isAbsolute>
-                  {showTitle &&
-                  <StretchedLayoutItem>
-                    <Column>
-                      <Title isSize={ 3 }>
-                        <StretchedLayoutContainer isDirection={ 'horizontal' }>
-                          <StretchedLayoutItem isFlex={ 1 }>
-                            {asNewResource ? translate( `Add ${( resource && resource.metadata.type ) || 'item'} to the library` ) : translate( `Edit ${resource && resource.metadata.type}` )}
-                          </StretchedLayoutItem>
-                          <StretchedLayoutItem>
-                            <Delete onClick={ handleCancel } />
-                          </StretchedLayoutItem>
-                        </StretchedLayoutContainer>
-                      </Title>
-                      <Level />
-                    </Column>
-                  </StretchedLayoutItem>
-                          }
+                  {
+                    showTitle &&
+                    <StretchedLayoutItem>
+                      <Column>
+                        <Title isSize={ 3 }>
+                          <StretchedLayoutContainer isDirection={ 'horizontal' }>
+                            <StretchedLayoutItem isFlex={ 1 }>
+                              {asNewResource ? translate( `Add ${( resource && resource.metadata.type ) || 'item'} to the library` ) : translate( `Edit ${resource && resource.metadata.type}` )}
+                            </StretchedLayoutItem>
+                            <StretchedLayoutItem>
+                              <Delete onClick={ handleCancel } />
+                            </StretchedLayoutItem>
+                          </StretchedLayoutContainer>
+                        </Title>
+                        <Level />
+                      </Column>
+                    </StretchedLayoutItem>
+                    }
                   <StretchedLayoutItem
                     isFlowing
                     isFlex={ 1 }
                   >
-                    {asNewResource && !resourceType &&
-                    <Column>
-                      <BigSelect
-                        activeOptionId={ formApi.getValue( 'metadata.type' ) }
-                        columns={ bigSelectColumnsNumber }
-                        onChange={ ( thatType ) => handleResourceTypeChange( thatType, formApi ) }
-                        boxStyle={ { textAlign: 'center' } }
-                        options={ formApi.getValue( 'metadata.type' ) ?
+                    {
+                      asNewResource && !resourceType &&
+                      <Column>
+                        <BigSelect
+                          activeOptionId={ formApi.getValue( 'metadata.type' ) }
+                          columns={ bigSelectColumnsNumber }
+                          onChange={ ( thatType ) => handleResourceTypeChange( thatType, formApi ) }
+                          boxStyle={ { textAlign: 'center' } }
+                          options={ formApi.getValue( 'metadata.type' ) ?
 
-                                          [ {
-                                            id: formApi.getValue( 'metadata.type' ),
-                                            label: translate( formApi.getValue( 'metadata.type' ) ),
-                                            iconUrl: icons[formApi.getValue( 'metadata.type' )].black.svg
-                                          },
-                                          {
-                                            id: undefined,
-                                            label: translate( 'reset type' ),
-                                            iconUrl: icons.remove.black.svg
-                                          } ]
-                                          :
-                                          resourceTypes.map( ( thatType ) => ( {
-                                            id: thatType,
-                                            label: translate( thatType ),
-                                            iconUrl: icons[thatType].black.svg
-                                          } ) ) }
-                      />
-                    </Column>
-                              }
+                                            [ {
+                                              id: formApi.getValue( 'metadata.type' ),
+                                              label: translate( formApi.getValue( 'metadata.type' ) ),
+                                              iconUrl: icons[formApi.getValue( 'metadata.type' )].black.svg
+                                            },
+                                            {
+                                              id: undefined,
+                                              label: translate( 'reset type' ),
+                                              iconUrl: icons.remove.black.svg
+                                            } ]
+                                            :
+                                            resourceTypes.map( ( thatType ) => ( {
+                                              id: thatType,
+                                              label: translate( thatType ),
+                                              iconUrl: icons[thatType].black.svg
+                                            } ) ) }
+                        />
+                      </Column>
+                    }
 
                     {( formApi.getValue( 'metadata.type' ) !== 'glossary' &&
                                 formApi.getValue( 'metadata.type' ) !== 'webpage' ) &&
@@ -576,16 +559,15 @@ class ResourceForm extends Component {
                             resourceType={ resource.metadata.type ? resource.metadata.type : formApi.getValue( 'metadata.type' ) }
                             formApi={ formApi }
                           />
-                          {/*generateDataForm(formApi.getValue('metadata.type'), resource, formApi)*/}
                         </NestedField>
                         {
-                                    formApi.errors && formApi.errors.maxSize &&
-                                      <Help isColor={ 'danger' }>{formApi.errors.maxSize}</Help>
-                                  }
+                          formApi.errors && formApi.errors.maxSize &&
+                            <Help isColor={ 'danger' }>{formApi.errors.maxSize}</Help>
+                        }
                       </Column>
 
                     </Column>
-                            }
+                    }
                     {formApi.getValue( 'metadata.type' ) &&
                             resourceSchema.definitions[formApi.getValue( 'metadata.type' )].showMetadata &&
                             <Column>
@@ -675,48 +657,41 @@ class ResourceForm extends Component {
                                 </Field>
                               </Column>
                             </Column>}
-                    {/*
-                              formApi.errors && formApi.errors.schemaVal &&
-                                <Help isColor="danger">{translate('Resource is not valid')}</Help>
-                            */}
                     <Level />
 
                   </StretchedLayoutItem>
                   <StretchedLayoutItem>
-                    {/*formApi.getValue('metadata.type') &&
-                              !isEmpty(formApi.getValue('data')) &&*/
-                      <StretchedLayoutItem>
-                        <Column>
-                          <Columns>
-                            <Column isSize={ 6 }>
-                              <Button
-                                type={ 'submit' }
-                                isFullWidth
-                                onClick={ handleFormAPISubmit }
-                                isDisabled={ !formApi.getValue( 'metadata.type' ) || isEmpty( formApi.getValue( 'data' ) ) }
-                                isColor={ 'success' }
-                              >
-                                {asNewResource ? translate( `Add ${formApi.getValue( 'metadata.type' ) || 'item'} to library` ) : translate( `Update ${( resource && resource.metadata.type ) || 'item'}` )}
-                              </Button>
-                            </Column>
-                            <Column isSize={ 6 }>
-                              <Button
-                                isFullWidth
-                                isColor={ 'danger' }
-                                onClick={ onCancel }
-                              >
-                                {translate( 'Cancel' )}
-                              </Button>
-                            </Column>
-                          </Columns>
-                        </Column>
-                      </StretchedLayoutItem>
-                              }
+                    <StretchedLayoutItem>
+                      <Column>
+                        <Columns>
+                          <Column isSize={ 6 }>
+                            <Button
+                              type={ 'submit' }
+                              isFullWidth
+                              onClick={ handleFormAPISubmit }
+                              isDisabled={ !formApi.getValue( 'metadata.type' ) || isEmpty( formApi.getValue( 'data' ) ) }
+                              isColor={ 'success' }
+                            >
+                              {asNewResource ? translate( `Add ${formApi.getValue( 'metadata.type' ) || 'item'} to library` ) : translate( `Update ${( resource && resource.metadata.type ) || 'item'}` )}
+                            </Button>
+                          </Column>
+                          <Column isSize={ 6 }>
+                            <Button
+                              isFullWidth
+                              isColor={ 'danger' }
+                              onClick={ onCancel }
+                            >
+                              {translate( 'Cancel' )}
+                            </Button>
+                          </Column>
+                        </Columns>
+                      </Column>
+                    </StretchedLayoutItem>
                   </StretchedLayoutItem>
                 </StretchedLayoutContainer>
               </form>
                     );
-}
+          }
         }
 
       </Form>

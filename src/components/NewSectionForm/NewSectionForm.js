@@ -7,18 +7,11 @@ import {
   Column,
   Control,
   Field,
+  Help,
   HelpPin,
-  // Icon,
   Label,
-
-  /*
-   * Level,
-   * Input,
-   * TextArea,
-   */
   StretchedLayoutContainer,
   StretchedLayoutItem,
-  Help,
 } from 'quinoa-design-library/components/';
 
 import AuthorsManager from '../AuthorsManager';
@@ -57,7 +50,7 @@ class NewSectionForm extends Component {
     };
 
     const handleSubmitFailure = ( error ) => {
-      console.log( error );/* eslint no-console : 0 */
+      console.error( error );/* eslint no-console : 0 */
     };
 
     const handleSubmitMetadata = ( values ) => {

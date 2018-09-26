@@ -1,7 +1,6 @@
 /* eslint  react/no-set-state : 0 */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import FlipMove from 'react-flip-move';
 
 import Tooltip from 'react-tooltip';
 
@@ -47,14 +46,7 @@ export default class PaginatedList extends Component {
   } ) => {
     const {
       paginationPosition: inputPaginationPosition,
-      // items: prevItems
     } = this.state;
-
-    /*
-     * if (items.length === prevItems.length) {
-     *   return;
-     * }
-     */
     const numberOfPages = Math.ceil( items.length / itemsPerPage );
     let paginationPosition = inputPaginationPosition < numberOfPages ? inputPaginationPosition : numberOfPages - 1;
     paginationPosition = paginationPosition > 0 ? paginationPosition : 0;
@@ -140,7 +132,6 @@ export default class PaginatedList extends Component {
   render = () => {
     const {
       props: {
-        // itemsPerPage = DEFAULT_ITEMS_PER_PAGE_NUMBER,
         renderItem,
         minified,
         renderNoItem = () => <div>No items to display</div>,
@@ -193,13 +184,6 @@ export default class PaginatedList extends Component {
             : renderNoItem()
             }
           </Masonry>
-          {/*<FlipMove>
-            {
-            displayedItems.length ?
-              displayedItems.map(renderItem)
-            : renderNoItem()
-            }
-          </FlipMove>*/}
           <Tooltip id={ 'tooltip' } />
         </div>
         {displayedPaginationItems &&

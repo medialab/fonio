@@ -1,8 +1,7 @@
 import React from 'react';
 
 import {
-  // Button,
-  Icon
+  Icon,
 } from 'quinoa-design-library/components/';
 
 import { silentEvent } from '../../helpers/misc';

@@ -41,12 +41,12 @@ export default class IconBtn extends Component {
           <span style={ { opacity: 0 } }>o</span>
           <Image
             style={ {
-            margin: 0,
-            display: 'flex',
-            flexFlow: 'column nowrap',
-            justifyContent: 'center',
-            position: 'absolute'
-          } }
+              margin: 0,
+              display: 'flex',
+              flexFlow: 'column nowrap',
+              justifyContent: 'center',
+              position: 'absolute'
+            } }
             isSize={ '32x32' }
             src={ src }
           />

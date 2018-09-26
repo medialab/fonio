@@ -70,6 +70,16 @@ class IdentificationModal extends Component {
     silentEvent( e ); onSubmit();
     };
 
+    const avatarsList = avatars
+                        .map( ( fileName ) => ( {
+                          id: fileName,
+                          label: <Image
+                            isRounded
+                            isSize={ '32x32' }
+                            src={ require( `../../sharedAssets/avatars/${fileName}` ) }
+                                 />
+                        } ) );
+
     return userInfo ? (
       <ModalCard
         isActive={ isActive }
@@ -86,15 +96,7 @@ class IdentificationModal extends Component {
                   onToggle={ toggleDropdown }
                   onChange={ handleAvatarChange }
                   isActive={ dropdownOpen }
-                  options={ avatars
-                        .map( ( fileName ) => ( {
-                          id: fileName,
-                          label: <Image
-                            isRounded
-                            isSize={ '32x32' }
-                            src={ require( `../../sharedAssets/avatars/${fileName}` ) }
-                                 />
-                        } ) ) }
+                  options={ avatarsList }
                 >
                   <Image
                     isRounded

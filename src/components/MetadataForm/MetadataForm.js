@@ -11,11 +11,6 @@ import {
   Column,
   Columns,
   Label,
-
-  /*
-   * Input,
-   * TextArea,
-   */
   Help,
 } from 'quinoa-design-library/components/';
 
@@ -131,7 +126,6 @@ class MetadataForm extends Component {
                     type={ 'text' }
                     placeholder={ translate( 'subtitle' ) }
                   />
-                  {/*<Input type="text" placeholder="A song of ice and fire" />*/}
                 </Control>
               </Field>
               {

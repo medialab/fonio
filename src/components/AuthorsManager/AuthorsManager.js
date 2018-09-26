@@ -44,7 +44,6 @@ class AuthorsManager extends Component {
 
     const handleAddAuthor = ( e ) => {
       e.preventDefault();
-      // e.stopPropagation();
       const newAuthors = [
         ...authors,
         ''
