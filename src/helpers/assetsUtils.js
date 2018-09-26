@@ -36,7 +36,7 @@ const {
  * @param {File} file - the file to check
  * @return {Promise} process - checking is wrapped in a promise for consistence matters
  */
-export function fileIsAnImage( file ) {
+export const fileIsAnImage = ( file ) => {
   return new Promise( ( resolve, reject ) => {
     const validExtensions = [ 'gif', 'png', 'jpeg', 'jpg' ];
     const extension = file.name.split( '.' ).pop();
@@ -55,7 +55,7 @@ export function fileIsAnImage( file ) {
  * @param {string} url - the url to check
  * @return {Promise} process - checking is wrapped in a promise for consistence matters
  */
-export function videoUrlIsValid( url ) {
+export const videoUrlIsValid = ( url ) => {
   return new Promise( ( resolve, reject ) => {
     const validUrlParts = [ 'youtu', 'vimeo' ];
     const hasMatch = validUrlParts.some( ( exp ) => url.match( exp ) !== null );
@@ -144,7 +144,7 @@ const getExifOrientation = ( base64 ) => {
  * @param {File} file - the file to load
  * @return {Promise} process - loading is wrapped in a promise for consistence matters
  */
-export function loadImage( file ) {
+export const loadImage = ( file ) => {
   return new Promise( ( resolve, reject ) => {
     let reader = new FileReader();
     reader.onload = ( event ) => {
@@ -154,7 +154,7 @@ export function loadImage( file ) {
         if ( orientation ) {
           return resetOrientation( base64, orientation );
         }
- else {
+        else {
           return resolve( base64 );
         }
       } )
@@ -179,7 +179,7 @@ export function loadImage( file ) {
  * @param {url} static url
  * @return {Promise} process - loading is wrapped in a promise for consistence matters
  */
-export function loadResourceData( url ) {
+export const loadResourceData = ( url ) => {
   return new Promise( ( resolve ) => {
     get( url )
     .then( ( res ) => {
@@ -193,7 +193,7 @@ export function loadResourceData( url ) {
  * @param {string} url - the url to start from to know where to retrieve the metadata
  * @return {Promise} process - loading is wrapped in a promise for consistence matters
  */
-export function retrieveWebpageMetadata ( url ) {
+export const retrieveWebpageMetadata = ( url ) => {
   return new Promise( ( resolve ) => {
     if ( url.length ) {
       get( url )
@@ -223,7 +223,7 @@ export function retrieveWebpageMetadata ( url ) {
           resolve( {} );
         } );
     }
- else {
+    else {
       resolve( {} );
     }
   } );
@@ -238,7 +238,7 @@ const vimeoRegexp = /^(https?\:\/\/)?(www\.)?(vimeo\.com)/gi;
  * @param {object} credentials - potential api keys to be used by the function
  * @return {Promise} process - loading is wrapped in a promise for consistence matters
  */
-export function retrieveMediaMetadata ( url, credentials = {} ) {
+export const retrieveMediaMetadata = ( url, credentials = {} ) => {
   return new Promise( ( resolve, reject ) => {
     // case youtube
     if ( url.match( youtubeRegexp ) ) {
@@ -315,7 +315,7 @@ export function retrieveMediaMetadata ( url, credentials = {} ) {
  * @param {string} str - input bibTeX-formatted string
  * @return {array} references - a list of csl-json formatted references
  */
-export function parseBibTeXToCSLJSON ( str ) {
+export const parseBibTeXToCSLJSON = ( str ) => {
   // forcing references separation to parse a maximum of references, even with shitty formatting
   const refs = str.split( '\n\n' );
   return refs.reduce( ( result, ref ) => {
@@ -335,7 +335,7 @@ export function parseBibTeXToCSLJSON ( str ) {
  * @param {string} assetType - the type of asset that is parsed
  * @return {object} metadata - information to merge with preexisting metadata
  */
-export function inferMetadata( data, assetType ) {
+export const inferMetadata = ( data, assetType ) => {
   switch ( assetType ) {
     case 'video':
       if ( data.metadata ) {

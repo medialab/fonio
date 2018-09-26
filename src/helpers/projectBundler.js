@@ -13,7 +13,7 @@ import { stateToMarkdown } from 'draft-js-export-markdown';
  * @param {object} story - the input data to clean
  * @return {object} newStory - the cleaned story
  */
-export function cleanStoryForExport( story ) {
+export const cleanStoryForExport = ( story ) => {
   return story;
 }
 
@@ -23,7 +23,7 @@ export function cleanStoryForExport( story ) {
  * @param {object} story - the story to consume
  * @return {string} markdown - the markdown representation of the story
  */
-export function convertStoryToMarkdown( story ) {
+export const convertStoryToMarkdown = ( story ) => {
   const header = `${story.metadata.title}
 ====
 ${story.metadata.authors.join( ', ' )}
@@ -40,6 +40,6 @@ ${story.metadata.authors.join( ', ' )}
  * @param {object} story - the story to bundle
  * @return {string} result - the resulting serialized story
  */
-export function bundleProjectAsJSON ( story ) {
+export const bundleProjectAsJSON = ( story ) => {
   return JSON.stringify( cleanStoryForExport( story ) );
 }
