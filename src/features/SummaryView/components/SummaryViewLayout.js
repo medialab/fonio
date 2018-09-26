@@ -15,8 +15,6 @@ import {
   Content,
   Collapsable,
   Icon,
-  Image,
-  Help,
   Level,
   LevelItem,
   LevelLeft,
@@ -31,6 +29,7 @@ import NewSectionForm from '../../../components/NewSectionForm';
 import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 
 import SortableSectionsList from './SortableSectionsList';
+import AuthorItem from './AuthorItem';
 
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 import { createDefaultSection } from '../../../helpers/schemaUtils';
@@ -85,43 +84,6 @@ const SummaryViewLayout = ( {
   const reverseSectionLockMap = getReverseSectionsLockMap( lockingMap, activeUsers, storyId );
   const metadataOpen = checkIfUserHasLockOnMetadata( lockingMap, userId, storyId );
   const activeAuthors = getStoryActiveAuthors( lockingMap, activeUsers, storyId );
-
-  const buildAuthorMessage = ( author ) => {
-    const { name, locks = {} } = author;
-    const lockNames = Object.keys( locks ).filter( ( thatName ) => locks[thatName] );
-    let message;
-    if ( lockNames.length === 1 && lockNames[0] === 'summary' ) {
-      message = translate( '{a} is here on the summary', { a: name } );
-    }
-    else if ( lockNames.length > 1 ) {
-      const oLockNames = lockNames.filter( ( n ) => n !== 'summary' );
-      const hasSection = lockNames.find( ( n ) => n === 'sections' ) !== undefined;
-      if ( oLockNames.length === 1 || hasSection ) {
-        const lockName = oLockNames[0];
-        if ( hasSection ) {
-          const lock = locks[lockName];
-          if ( lock ) {
-            const sectionId = locks.sections.blockId;
-            const section = sections[sectionId];
-            const sectionTitle = section.metadata.title;
-            message = translate( '{a} is working on section "{t}"', { a: name, t: abbrevString( sectionTitle, 60 ) } );
-          }
-          else message = translate( '{a} is working on a section', { a: name } );
-        }
-        else if ( lockName === 'storyMetadata' ) {
-          message = translate( '{a} is editing story settings', { a: name } );
-        }
-        else message = translate( '{a} is working on {l}', { a: name, l: oLockNames[0] } );
-      }
-      else {
-        message = translate( '{a} is working on {l} and {n}', { a: name, l: lockNames[0], n: lockNames[1] } );
-      }
-    }
-    else {
-      message = translate( '{a} is nowhere, alone in the dark', { a: name } );
-    }
-    return message;
-  };
 
   const userLockedOnMetadataId = lockingMap[storyId] && lockingMap[storyId].locks &&
     Object.keys( lockingMap[storyId].locks )
@@ -371,27 +333,13 @@ const SummaryViewLayout = ( {
             {
                   activeAuthors
                   .filter( ( a ) => a.userId !== userId )
-                  .map( ( author, authorIndex ) => {
-                    return (
-                      <StretchedLayoutContainer
-                        isDirection={ 'horizontal' }
-                        key={ authorIndex }
-                      >
-                        <StretchedLayoutItem style={ { marginRight: '1rem' } }>
-                          <Image
-                            isRounded
-                            isSize={ '32x32' }
-                            src={ require( `../../../sharedAssets/avatars/${author.avatar}` ) }
-                          />
-                        </StretchedLayoutItem>
-                        <StretchedLayoutItem isFlex={ 1 }>
-                          <Help>
-                            {buildAuthorMessage( author )}
-                          </Help>
-                        </StretchedLayoutItem>
-                      </StretchedLayoutContainer>
-                    );
-                  } )
+                  .map( ( author, authorIndex ) =>
+                    ( <AuthorItem
+                      author={ author }
+                      key={ authorIndex }
+                      translate={ translate }
+                      sections={ sections }
+                      /> ) )
                 }
           </Column>
         </StretchedLayoutItem>

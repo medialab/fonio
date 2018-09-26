@@ -9,7 +9,7 @@ import * as editedStoryDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
 import * as sectionsManagementDuck from '../../SectionsManager/duck';
 
-import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
+import EditionUiWrapper from '../../EditionUiWrapper/components';
 
 @connect(
   ( state ) => ( {
