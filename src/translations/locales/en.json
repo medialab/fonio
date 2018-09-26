@@ -615,5 +615,6 @@
   "Features.SectionView.Several items": "Several items",
   "Features.LibraryView.small": "small",
   "Features.SectionView.tooltip": "tooltip",
-  "Features.SectionView.small": "small"
+  "Features.SectionView.small": "small",
+  "Features.SectionView.All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)": "Tous les raccourcis présentés ci-dessous sont également accessibles à travers l'interface graphique de l'éditeur (déplacer le curseur / sélectionner du texte)."
 }
