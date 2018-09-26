@@ -36,18 +36,6 @@ import {
   SAVE_STORY,
 } from '../../StoryManager/duck';
 
-/*
- * const ACCEPTED_BROWSERS = [
- * {
- *   id: 'Chrome',
- *   version: 50
- * },
- * {
- *   id: 'Firefox',
- *   version: 50
- * }];
- */
-
 const ACCEPTED_BROWSERS = {
   Chrome: 50,
   Firefox: 50,
@@ -78,20 +66,12 @@ class ErrorMessageContainer extends Component {
   }
 
   componentDidMount = () => {
-
     const browserInfo = getBrowserInfo();
     approveBrowser( ACCEPTED_BROWSERS, ( approved ) => {
       if ( !approved ) {
         this.props.actions.setBrowserWarning( browserInfo );
       }
     } );
-
-    /*
-     * const accepted = browserInfo.name !== undefined && browserInfo.version !== undefined && ACCEPTED_BROWSERS.find(browser => browserInfo.name === browser.id && +browserInfo.version >= browser.version);
-     * if (!accepted) {
-     *   this.props.actions.setBrowserWarning(browserInfo);
-     * }
-     */
   }
 
   componentWillReceiveProps = ( nextProps ) => {

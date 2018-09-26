@@ -18,7 +18,7 @@ import * as editionUiDuck from '../../EditionUiWrapper/duck';
 
 import DesignViewLayout from './DesignViewLayout';
 
-import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
+import EditionUiWrapper from '../../EditionUiWrapper/components';
 import DataUrlProvider from '../../../components/DataUrlProvider';
 
 @connect(

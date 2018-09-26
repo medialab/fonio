@@ -216,6 +216,7 @@
     },
     "globals":
     {
-        "FONIO_CONFIG": true
+        "FONIO_CONFIG": true,
+        "config": true
     }
 }

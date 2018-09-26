@@ -25,15 +25,15 @@ import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 
 import config from './config';
 
-import Home from './features/HomeView/components/HomeViewContainer';
-import ReadStory from './features/ReadStoryView/components/ReadStoryViewContainer';
-import Summary from './features/SummaryView/components/SummaryViewContainer';
-import Section from './features/SectionView/components/SectionViewContainer';
-import Library from './features/LibraryView/components/LibraryViewContainer';
-import Design from './features/DesignView/components/DesignViewContainer';
-import AuthWrapper from './features/AuthManager/components/AuthManagerContainer';
-import ErrorMessageContainer from './features/ErrorMessageManager/components/ErrorMessageContainer';
-import PageNotFound from './components/PageNotFound/';
+import Home from './features/HomeView/components/';
+import ReadStory from './features/ReadStoryView/components';
+import Summary from './features/SummaryView/components';
+import Section from './features/SectionView/components';
+import Library from './features/LibraryView/components';
+import Design from './features/DesignView/components';
+import AuthWrapper from './features/AuthManager/components';
+import ErrorMessageContainer from './features/ErrorMessageManager/components';
+import PageNotFound from './components/PageNotFound';
 
 import * as connectionsDuck from './features/ConnectionsManager/duck';
 import * as userInfoDuck from './features/UserInfoManager/duck';

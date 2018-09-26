@@ -84,14 +84,24 @@ const EditionUiWrapperLayout = ( {
     setUserInfo( userInfoTemp );
     setUserInfoModalOpen( false );
   };
+
+  /**
+   * @todo turn to a temp variable
+   */
   const computeTitle = () => {
     if ( editedStory && editedStory.metadata && editedStory.metadata.title ) {
       return abbrevString( editedStory.metadata.title, 25 );
     }
     else return translate( 'Unnamed story' );
   };
+
+  /**
+   * @todo move to container
+   */
   const exportToFile = ( type ) => {
     const title = editedStory.metadata.title;
+    // @todo: handle failure error in UI
+    const onRejection = ( e ) => console.error( e );/* eslint no-console : 0 */
     switch ( type ) {
       case 'json':
         get( `${config.restUrl}/stories/${storyId}?edit=false&&format=json` )
@@ -101,8 +111,11 @@ const EditionUiWrapperLayout = ( {
             downloadFile( JSONbundle, 'json', title );
             setExportModalOpen( false );
           }
-          // TODO: handle failure error
-        } );
+ else {
+            onRejection( 'no data retrieved' );
+          }
+        } )
+        .catch( onRejection );
         break;
       case 'html':
         get( `${config.restUrl}/stories/${storyId}?edit=false&&format=html&&locale=${lang}` )
@@ -111,8 +124,11 @@ const EditionUiWrapperLayout = ( {
             downloadFile( data, 'html', title );
             setExportModalOpen( false );
           }
-          // TODO: handle failure error
-        } );
+ else {
+            onRejection( 'no data retrieved' );
+          }
+        } )
+        .catch( onRejection );
         break;
       default:
         break;
@@ -145,10 +161,6 @@ const EditionUiWrapperLayout = ( {
               isActive: false,
               content: `${translate( 'Home' )}`,
             },
-            // {
-            //   href: '/',
-            //   content: config.sessionName /* eslint no-undef:0 */,
-            // },
             {
               href: `/story/${storyId}`,
               content: computeTitle()
@@ -158,33 +170,13 @@ const EditionUiWrapperLayout = ( {
           ] }
 
         menuOptions={ [
-
+            // link to summary view
             {
               href: `/story/${storyId}`,
               isActive: navLocation === 'summary',
               content: `${translate( 'Overview' )}`,
-
-              /*
-               * subItems: [
-               *   {
-               *     href: '/',
-               *     content: 'Section 1'
-               *   },
-               *   {
-               *     href: '/',
-               *     content: 'Section 2'
-               *   },
-               *   {
-               *     href: '/',
-               *     content: 'Section 3'
-               *   },
-               *   {
-               *     href: '/',
-               *     content: 'Section 4'
-               *   }
-               * ]
-               */
             },
+            // inactive section marker if  in section
             navLocation === 'editor' ?
             {
               isActive: true,
@@ -192,11 +184,13 @@ const EditionUiWrapperLayout = ( {
               href: `/story/${storyId}/section/${sectionId}`,
             }
             : undefined,
+            // link to livrary view
             {
               href: `/story/${storyId}/library`,
               isActive: navLocation === 'library',
               content: translate( 'Library' ),
             },
+            // link to design view
             {
               href: `/story/${storyId}/design`,
               isActive: navLocation === 'design',

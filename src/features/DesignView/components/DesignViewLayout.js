@@ -14,6 +14,8 @@ import { translateNameSpacer } from '../../../helpers/translateUtils';
 import AsideDesignColumn from './AsideDesignColumn';
 import MainDesignColumn from './MainDesignColumn';
 
+import buildCssHelp from '../utils/buildCssHelp';
+
 const DesignViewLayout = ( {
   designAsideTabMode,
   designAsideTabCollapsed,
@@ -32,33 +34,7 @@ const DesignViewLayout = ( {
 }, { t } ) => {
   const translate = translateNameSpacer( t, 'Features.DesignView' );
 
-  /**
-   * @todo choose whether to externalize this
-   */
-  const cssHelpData = [
-  {
-    action: translate( 'Change the paragraphs font size' ),
-    code: `
-.content-p{
-  font-size: 10px;
-}`
-  },
-  {
-    action: translate( 'Change the background color' ),
-    code: `
-.wrapper, .nav{
-  background: white;
-}`
-  },
-  {
-    action: translate( 'Change the titles color' ),
-    code: `
-.content-h1,.content-h2,.section-title
-{
-  color: blue;
-}`
-  }
-  ];
+  const cssHelpData = buildCssHelp( translate );
 
   const handleHideCssHelp = () => setCssHelpVisible( false );
 
@@ -104,9 +80,6 @@ const DesignViewLayout = ( {
                   __html: translate( 'To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>' )
                 } }
             />
-            {/*<p>
-                {translate('You might need to use the !important suffix for some rules as you want to override initial ones.')}
-              </p>*/}
             <p>
               {translate( 'Here are a few examples of things you could do:' )}
             </p>

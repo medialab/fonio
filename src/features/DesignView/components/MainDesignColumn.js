@@ -52,18 +52,19 @@ class PreviewWrapper extends Component {
         mount.id = 'mount';
         contentDocument.body.appendChild( mount );
       }
+      const renderedStory = {
+        ...story,
+        settings: {
+          ...story.settings,
+          css: processCustomCss( story.settings.css )
+        }
+
+      };
       render(
         <ContextProvider getResourceDataUrl={ getResourceDataUrl }>
           <StoryPlayer
             locale={ lang }
-            story={ {
-              ...story,
-              settings: {
-                ...story.settings,
-                css: processCustomCss( story.settings.css )
-              }
-
-            } }
+            story={ renderedStory }
             usedDocument={ contentDocument }
             usedWindow={ contentWindow }
           />
@@ -94,9 +95,9 @@ const MainDesignColumn = ( {
 } ) => {
 
   const handleClickOnPrint = () => {
-          window.frames.preview.focus();
-          window.frames.preview.print();
-        };
+    window.frames.preview.focus();
+    window.frames.preview.print();
+  };
 
   return (
     <Column
@@ -108,21 +109,6 @@ const MainDesignColumn = ( {
           story={ story }
           lang={ lang }
         />
-      }
-      {
-
-        /*
-         * <StoryPlayer
-         * locale={lang}
-         * story={{
-         * ...story,
-         * settings: {
-         * ...story.settings,
-         * css: processCustomCss(story.settings.css)
-         * }
-         * }}
-         * />
-         */
       }
       <Button
         style={ {
