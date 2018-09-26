@@ -13,7 +13,7 @@ import * as editionUiDuck from '../../EditionUiWrapper/duck';
 
 import { createResourceData, validateFiles } from '../../../helpers/resourcesUtils';
 
-import EditionUiWrapper from '../../EditionUiWrapper/components/EditionUiWrapperContainer';
+import EditionUiWrapper from '../../EditionUiWrapper/components';
 import DataUrlProvider from '../../../components/DataUrlProvider';
 
 import UploadModal from '../../../components/UploadModal';

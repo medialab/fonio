@@ -13,32 +13,21 @@ import { getResourceTitle, searchResources } from '../../../helpers/resourcesUti
 import { createBibData } from '../../../helpers/resourcesUtils';
 import PaginatedList from '../../../components/PaginatedList';
 
+import ConfirmBatchDeleteModal from './ConfirmBatchDeleteModal';
+import LibraryFiltersBar from './LibraryFiltersBar';
+
 import {
-  Column,
-  Content,
-  Container,
-  Level,
-
-  DropZone,
-  Dropdown,
-
-  Field,
-  Input,
-  Image,
   Button,
-  FlexContainer,
-
-  ModalCard,
+  Column,
+  Container,
+  Content,
+  DropZone,
   HelpPin,
-
-  LevelLeft,
-  LevelRight,
-  LevelItem,
+  Level,
+  ModalCard,
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components';
-
-import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 import {
   removeContextualizationReferenceFromRawContents
@@ -98,7 +87,7 @@ class LibraryViewLayout extends Component {
     this.setResourceSearchString( value );
   }
 
-  render = () => {
+  renderMainColumn = () => {
     const {
       editedStory: story = {},
       userId,
@@ -114,8 +103,6 @@ class LibraryViewLayout extends Component {
       promptedToDeleteResourceId,
       selectedResourcesIds,
       resourcesPromptedToDelete,
-      isBatchDeleting,
-      resourceDeleteStep,
       actions: {
         setOptionsVisible,
         setMainColumnMode,
@@ -142,7 +129,6 @@ class LibraryViewLayout extends Component {
         setResourceDeleteStep,
         setCoverImage,
       },
-      submitMultiResources,
     } = this.props;
     const { t } = this.context;
 
@@ -158,6 +144,11 @@ class LibraryViewLayout extends Component {
     const coverImageId = coverImage.resourceId;
 
     const translate = translateNameSpacer( t, 'Features.LibraryView' );
+
+    const userLockedResourceId = getUserResourceLockId( lockingMap, userId, storyId );
+    const reverseResourcesLockMap = getReverseResourcesLockMap( lockingMap, activeUsers, storyId );
+    const reverseSectionLockMap = getReverseSectionsLockMap( lockingMap, activeUsers, storyId );
+
     const activeFilters = Object.keys( filterValues ).filter( ( key ) => filterValues[key] );
     const statusFilterValues = [
       {
@@ -173,10 +164,6 @@ class LibraryViewLayout extends Component {
         label: translate( 'only unused items (not mentionned anywhere in the story)' )
       }
     ];
-
-    const userLockedResourceId = getUserResourceLockId( lockingMap, userId, storyId );
-    const reverseResourcesLockMap = getReverseResourcesLockMap( lockingMap, activeUsers, storyId );
-    const reverseSectionLockMap = getReverseSectionsLockMap( lockingMap, activeUsers, storyId );
 
      const reverseResourcesSectionsMap =
       Object.keys( contextualizations )
@@ -201,6 +188,7 @@ class LibraryViewLayout extends Component {
     const actualResourcesPromptedToDelete = resourcesPromptedToDelete.filter( ( resourceId ) => resourcesLockMap[resourceId] === undefined );
 
     const resourcesList = Object.keys( resources ).map( ( resourceId ) => resources[resourceId] );
+
     let visibleResources = searchString.length === 0 ? resourcesList : searchResources( resourcesList, searchString );
 
     visibleResources = visibleResources
@@ -261,9 +249,7 @@ class LibraryViewLayout extends Component {
       };
       // deleting entities in content states
       const relatedContextualizations = Object.keys( story.contextualizations ).map( ( c ) => story.contextualizations[c] )
-        .filter( ( contextualization ) => {
-          return contextualization.resourceId === realResourceId;
-        } );
+        .filter( ( contextualization ) => contextualization.resourceId === realResourceId );
 
       const relatedContextualizationsIds = relatedContextualizations.map( ( c ) => c.id );
       const relatedContextualizationsSectionIds = uniq( relatedContextualizations.map( ( c ) => c.sectionId ) );
@@ -432,6 +418,7 @@ class LibraryViewLayout extends Component {
         } ) );
 
       }, Promise.resolve() )
+      // 2. delete the resources
       .then( () => {
         return actualResourcesPromptedToDelete.reduce( ( cur, resourceId, index ) => {
           return cur.then( () => {
@@ -466,7 +453,6 @@ class LibraryViewLayout extends Component {
           } );
         }, Promise.resolve() );
       } )
-      // 2. delete the resources
       .then( () => {
         setResourceDeleteStep( 0 );
         setResourcesPromptedToDelete( [] );
@@ -494,353 +480,284 @@ class LibraryViewLayout extends Component {
       }, 0 );
     }
 
-    const renderMainColumn = () => {
-      if ( userLockedResourceId ) {
-        const handleSubmit = ( resource ) => {
-          const { id: resourceId } = resource;
-          const payload = {
-            resourceId,
-            resource,
-            storyId,
-            userId
-          };
-          if ( ( resource.metadata.type === 'image' && resource.data.base64 ) || ( resource.metadata.type === 'table' && resource.data.json ) ) {
-            uploadResource( payload, 'update' );
-          }
-          else if ( resource.metadata.type === 'bib' ) {
-            createBibData( resource, this.props );
-          }
-          else {
-            updateResource( payload );
-          }
-          leaveBlock( {
-            storyId,
-            userId,
-            blockType: 'resources',
-            blockId: userLockedResourceId
-          } );
+    /**
+     * UI case 1 : user edits a resource
+     */
+    if ( userLockedResourceId ) {
+      const handleSubmit = ( resource ) => {
+        const { id: resourceId } = resource;
+        const payload = {
+          resourceId,
+          resource,
+          storyId,
+          userId
         };
-        const handleCancel = () => {
-          leaveBlock( {
-            storyId,
-            userId,
-            blockType: 'resources',
-            blockId: userLockedResourceId
-          } );
-        };
-        return ( <ResourceForm
+        if ( ( resource.metadata.type === 'image' && resource.data.base64 ) || ( resource.metadata.type === 'table' && resource.data.json ) ) {
+          uploadResource( payload, 'update' );
+        }
+        else if ( resource.metadata.type === 'bib' ) {
+          createBibData( resource, this.props );
+        }
+        else {
+          updateResource( payload );
+        }
+        leaveBlock( {
+          storyId,
+          userId,
+          blockType: 'resources',
+          blockId: userLockedResourceId
+        } );
+      };
+      const handleCancel = () => {
+        leaveBlock( {
+          storyId,
+          userId,
+          blockType: 'resources',
+          blockId: userLockedResourceId
+        } );
+      };
+      return (
+        <ResourceForm
           onCancel={ handleCancel }
           onSubmit={ handleSubmit }
           bigSelectColumnsNumber={ 3 }
           resource={ resources[userLockedResourceId] }
           asNewResource={ false }
-                 /> );
-      }
-      switch ( mainColumnMode ) {
-        case 'new':
-          const handleSubmit = ( resource ) => {
-            const resourceId = genId();
-            const payload = {
-              resourceId,
-              resource: {
-                ...resource,
-                id: resourceId
-              },
+        />
+      );
+    }
+    switch ( mainColumnMode ) {
+
+      /**
+       * UI case 2 : user creates a new resource
+       */
+      case 'new':
+        const handleSubmit = ( resource ) => {
+          const resourceId = genId();
+          const payload = {
+            resourceId,
+            resource: {
+              ...resource,
+              id: resourceId
+            },
+            storyId,
+            userId,
+          };
+          if ( ( resource.metadata.type === 'image' && resource.data.base64 ) || ( resource.metadata.type === 'table' && resource.data.json ) ) {
+            uploadResource( payload, 'create' );
+          }
+          else if ( resource.metadata.type === 'bib' ) {
+            setUploadStatus( {
+              status: 'initializing',
+              errors: []
+            } );
+            setTimeout( () => {
+              createBibData( resource, this.props )
+                .then( () => {
+                  setUploadStatus( undefined );
+                } )
+                .catch( ( e ) => {
+                  console.error( e );/* eslint no-console : 0 */
+                  setUploadStatus( undefined );
+                } );
+            }, 100 );
+          }
+          else {
+            createResource( payload );
+          }
+          setMainColumnMode( 'list' );
+        };
+        const handleSetMainColumnToList = () => setMainColumnMode( 'list' );
+        return (
+          <ResourceForm
+            onCancel={ handleSetMainColumnToList }
+            onSubmit={ handleSubmit }
+            bigSelectColumnsNumber={ 3 }
+            asNewResource
+          />
+        );
+
+      /**
+       * UI case 3 : user browses list of resources
+       */
+      case 'list':
+      default:
+        const setOption = ( option, optionDomain ) => {
+          if ( optionDomain === 'filter' ) {
+            toggleFilter( option );
+          }
+          else if ( optionDomain === 'sort' ) {
+            setSortValue( option );
+            setOptionsVisible( false );
+          }
+          else if ( optionDomain === 'status' ) {
+            setStatusFilterValue( option );
+            setOptionsVisible( false );
+          }
+        };
+        const handleResourceSearchChange = ( e ) => this.setResourceSearchStringDebounce( e.target.value );
+        const handleToggleOptionsVisibility = () => {
+                          setOptionsVisible( !optionsVisible );
+                        };
+        const handleSelectAllVisibleResources = () => setSelectedResourcesIds( visibleResources.map( ( res ) => res.id ).filter( ( id ) => !resourcesLockMap[id] ) );
+        const handleDeselectAllVisibleResources = () => setSelectedResourcesIds( [] );
+        const handleDeleteSelection = () => setResourcesPromptedToDelete( [ ...selectedResourcesIds ] );
+        const renderNoResource = () => <div>{translate( 'No item in your library yet' )}</div>;
+        const renderResourceInList = ( resource ) => {
+          const handleEdit = () => {
+            enterBlock( {
               storyId,
               userId,
-            };
-            if ( ( resource.metadata.type === 'image' && resource.data.base64 ) || ( resource.metadata.type === 'table' && resource.data.json ) ) {
-              uploadResource( payload, 'create' );
-            }
-            else if ( resource.metadata.type === 'bib' ) {
-              setUploadStatus( {
-                status: 'initializing',
-                errors: []
-              } );
-              setTimeout( () => {
-                createBibData( resource, this.props )
-                  .then( () => {
-                    setUploadStatus( undefined );
-                  } )
-                  .catch( ( e ) => {
-                    console.error( e );/* eslint no-console : 0 */
-                    setUploadStatus( undefined );
-                  } );
-              }, 100 );
-            }
-            else {
-              createResource( payload );
-            }
-            setMainColumnMode( 'list' );
+              blockType: 'resources',
+              blockId: resource.id
+            } );
           };
-          const handleSetMainColumnToList = () => setMainColumnMode( 'list' );
+          const handleDelete = () => {
+            setPromptedToDeleteResourceId( resource.id );
+          };
+          const isSelected = selectedResourcesIds.indexOf( resource.id ) > -1;
+          const handleClick = () => {
+            let newSelectedResourcesIds;
+            if ( resourcesLockMap[resource.id] === undefined ) {
+              if ( isSelected ) {
+                newSelectedResourcesIds = selectedResourcesIds.filter( ( id ) => id !== resource.id );
+              }
+              else {
+                newSelectedResourcesIds = [ ...selectedResourcesIds, resource.id ];
+              }
+              setSelectedResourcesIds( newSelectedResourcesIds );
+            }
+          };
           return (
-            <ResourceForm
-              onCancel={ handleSetMainColumnToList }
-              onSubmit={ handleSubmit }
-              bigSelectColumnsNumber={ 3 }
-              asNewResource
+            <ResourceCard
+              isActive={ isSelected }
+              isSelectable={ !resourcesLockMap[resource.id] }
+              onClick={ handleClick }
+              onEdit={ handleEdit }
+              onDelete={ handleDelete }
+              coverImageId={ coverImageId }
+              handleSetCoverImage={ handleSetCoverImage }
+              resource={ resource }
+              getTitle={ getResourceTitle }
+              lockData={ resourcesLockMap[resource.id] }
+              key={ resource.id }
             />
           );
-        case 'list':
-        default:
-          const setOption = ( option, optionDomain ) => {
-            if ( optionDomain === 'filter' ) {
-              toggleFilter( option );
-            }
-            else if ( optionDomain === 'sort' ) {
-              setSortValue( option );
-              setOptionsVisible( false );
-            }
-            else if ( optionDomain === 'status' ) {
-              setStatusFilterValue( option );
-              setOptionsVisible( false );
-            }
+        };
+        const handleAbortResourceDeletion = () => setPromptedToDeleteResourceId( undefined );
+        const handleAbortResourcesDeletion = () => setResourcesPromptedToDelete( [] );
+        return (
+          <StretchedLayoutContainer isAbsolute>
+            <StretchedLayoutItem>
+              <Level />
+              <Column style={ { paddingRight: 0 } }>
+                <LibraryFiltersBar
+                  filterValues={ filterValues }
+                  onDeleteSelection={ handleDeleteSelection }
+                  onDeselectAllVisibleResources={ handleDeselectAllVisibleResources }
+                  onSearchStringChange={ handleResourceSearchChange }
+                  searchString={ this.state.searchString }
+                  onSelectAllVisibleResources={ handleSelectAllVisibleResources }
+                  onToggleOptionsVisibility={ handleToggleOptionsVisibility }
+                  optionsVisible={ optionsVisible }
+                  resourceTypes={ resourceTypes }
+                  selectedResourcesIds={ selectedResourcesIds }
+                  setOptions={ setOption }
+                  sortValue={ sortValue }
+                  statusFilterValue={ statusFilterValue }
+                  statusFilterValues={ statusFilterValues }
+                  translate={ translate }
+                  visibleResources={ visibleResources }
+                />
+              </Column>
+            </StretchedLayoutItem>
+            <StretchedLayoutItem isFlex={ 1 }>
+              <StretchedLayoutContainer
+                isAbsolute
+                isDirection={ 'vertical' }
+              >
+                <PaginatedList
+                  items={ visibleResources }
+                  itemsPerPage={ 30 }
+                  style={ { height: '100%' } }
+                  renderNoItem={ renderNoResource }
+                  renderItem={ renderResourceInList }
+                />
+              </StretchedLayoutContainer>
+            </StretchedLayoutItem>
+            <ConfirmToDeleteModal
+              isActive={ promptedToDeleteResourceId !== undefined }
+              isDisabled={ resourcesLockMap[promptedToDeleteResourceId] }
+              deleteType={ 'resource' }
+              story={ story }
+              id={ promptedToDeleteResourceId }
+              onClose={ handleAbortResourceDeletion }
+              onDeleteConfirm={ handleDeleteResourceConfirm }
+            />
+            <ConfirmBatchDeleteModal
+              translate={ translate }
+              isActive={ actualResourcesPromptedToDelete.length > 0 }
+              actualResourcesPromptedToDelete={ actualResourcesPromptedToDelete }
+              resourcesPromptedToDelete={ resourcesPromptedToDelete }
+              endangeredContextualizationsLength={ endangeredContextualizationsLength }
+              onDelete={ handleDeleteResourcesPromptedToDelete }
+              onCancel={ handleAbortResourcesDeletion }
+            />
+          </StretchedLayoutContainer>
+      );
+    }
+  }
+
+  render = () => {
+    const {
+      editedStory: story = {},
+      userId,
+      lockingMap = {},
+      activeUsers,
+
+      mainColumnMode,
+      resourcesPromptedToDelete,
+      isBatchDeleting,
+      resourceDeleteStep,
+      actions: {
+        setMainColumnMode,
+      },
+      submitMultiResources,
+    } = this.props;
+    const { t } = this.context;
+
+    const {
+      contextualizations = {},
+      id: storyId,
+    } = story;
+
+    const translate = translateNameSpacer( t, 'Features.LibraryView' );
+
+    const userLockedResourceId = getUserResourceLockId( lockingMap, userId, storyId );
+    const reverseResourcesLockMap = getReverseResourcesLockMap( lockingMap, activeUsers, storyId );
+    const reverseSectionLockMap = getReverseSectionsLockMap( lockingMap, activeUsers, storyId );
+
+     const reverseResourcesSectionsMap =
+      Object.keys( contextualizations )
+      .reduce( ( result, contextId ) => {
+        const context = contextualizations[contextId];
+        const activeCitedSections =
+          getCitedSections( contextualizations, context.resourceId )
+            .filter( ( id ) => {
+              return ( reverseSectionLockMap[id] && reverseSectionLockMap[id].userId !== userId );
+            } );
+        if ( activeCitedSections.length > 0 ) {
+          return {
+            ...result,
+            [context.resourceId]: { name: `other ${activeCitedSections.length} sections` }
           };
-          const handleResourceSearchChange = ( e ) => this.setResourceSearchStringDebounce( e.target.value );
-          const handleToggleOptionsVisibility = () => {
-                            setOptionsVisible( !optionsVisible );
-                          };
-          const handleSelectAllVisibleResources = () => setSelectedResourcesIds( visibleResources.map( ( res ) => res.id ).filter( ( id ) => !resourcesLockMap[id] ) );
-          const handleDeselectAllVisibleResources = () => setSelectedResourcesIds( [] );
-          const handleDeleteSelection = () => setResourcesPromptedToDelete( [ ...selectedResourcesIds ] );
-          const renderNoResource = () => <div>{translate( 'No item in your library yet' )}</div>;
-          const renderResourceInList = ( resource ) => {
-                          const handleEdit = () => {
-                            enterBlock( {
-                              storyId,
-                              userId,
-                              blockType: 'resources',
-                              blockId: resource.id
-                            } );
-                          };
-                          const handleDelete = () => {
-                            setPromptedToDeleteResourceId( resource.id );
-                          };
-                          const isSelected = selectedResourcesIds.indexOf( resource.id ) > -1;
-                          const handleClick = () => {
-                            let newSelectedResourcesIds;
-                            if ( resourcesLockMap[resource.id] === undefined ) {
-                              if ( isSelected ) {
-                                newSelectedResourcesIds = selectedResourcesIds.filter( ( id ) => id !== resource.id );
-                              }
-                              else {
-                                newSelectedResourcesIds = [ ...selectedResourcesIds, resource.id ];
-                              }
-                              setSelectedResourcesIds( newSelectedResourcesIds );
-                            }
-                          };
-                          return (
-                            <ResourceCard
-                              isActive={ isSelected }
-                              isSelectable={ !resourcesLockMap[resource.id] }
-                              onClick={ handleClick }
-                              onEdit={ handleEdit }
-                              onDelete={ handleDelete }
-                              coverImageId={ coverImageId }
-                              handleSetCoverImage={ handleSetCoverImage }
-                              resource={ resource }
-                              getTitle={ getResourceTitle }
-                              lockData={ resourcesLockMap[resource.id] }
-                              key={ resource.id }
-                            />
-                          );
-                        };
-          const handleAbortResourceDeletion = () => setPromptedToDeleteResourceId( undefined );
-          const handleAbortResourcesDeletion = () => setResourcesPromptedToDelete( [] );
-          return (
-            <StretchedLayoutContainer isAbsolute>
-              <StretchedLayoutItem>
-                <Level />
-                <Column style={ { paddingRight: 0 } }>
-                  <Level
-                    isMobile
-                    style={ { flexFlow: 'row wrap' } }
-                  >
-                    <LevelLeft>
-                      <Field hasAddons>
-                        <Input
-                          value={ this.state.searchString }
-                          onChange={ handleResourceSearchChange }
-                          placeholder={ translate( 'Find a resource' ) }
-                        />
-                      </Field>
-                      <LevelItem>
-                        <Dropdown
-                          closeOnChange={ false }
-                          menuAlign={ 'left' }
-                          onToggle={ handleToggleOptionsVisibility }
-                          onChange={ setOption }
-                          isActive={ optionsVisible }
-                          isColor={ Object.keys( filterValues ).filter( ( f ) => filterValues[f] ).length > 0 ? 'info' : '' }
-                          value={ {
-                            sort: {
-                              value: sortValue,
-                            },
-                            filter: {
-                              value: Object.keys( filterValues ).filter( ( f ) => filterValues[f] ),
-                            },
-                            status: {
-                              value: statusFilterValue,
-                            }
-                          } }
-                          options={
-                            [
-                            {
-                              label: translate( 'Sort items by' ),
-                              id: 'sort',
-                              options: [
-                                {
-                                  id: 'edited recently',
-                                  label: translate( 'edited recently' )
-                                },
-                                {
-                                  id: 'title',
-                                  label: translate( 'title' )
-                                },
-                              ]
-                            },
-                            {
-                              label: translate( 'Show items of type' ),
-                              id: 'filter',
-                              options: resourceTypes.map( ( type ) => ( {
-                                id: type,
-                                label: (
-                                  <FlexContainer
-                                    flexDirection={ 'row' }
-                                    alignItems={ 'center' }
-                                  >
-                                    <Image
-                                      style={ { display: 'inline-block', marginRight: '1em' } }
-                                      isSize={ '16x16' }
-                                      src={ icons[type].black.svg }
-                                    />
-                                    <span>
-                                      {translate( type )}
-                                    </span>
-                                  </FlexContainer>
-                                )
-                              } ) ),
-                            },
-                            {
-                              label: translate( 'Show ...' ),
-                              id: 'status',
-                              options: statusFilterValues.map( ( type ) => ( {
-                                id: type.id,
-                                label: type.label
-                              } ) ),
-                            }
-                          ]
-                        }
-                        >
-                          {translate( 'Filters' )}
-                        </Dropdown>
-                      </LevelItem>
-                    </LevelLeft>
-                    <LevelRight>
-                      <LevelItem>
-                        <Button
-                          onClick={ handleSelectAllVisibleResources }
-                          isDisabled={ selectedResourcesIds.length === visibleResources.length }
-                        >
-                          {translate( 'Select all' )} ({visibleResources.length})
-                        </Button>
-                      </LevelItem>
-                      <LevelItem>
-                        <Button
-                          onClick={ handleDeselectAllVisibleResources }
-                          isDisabled={ selectedResourcesIds.length === 0 }
-                        >
-                          {translate( 'Deselect all' )}
-                        </Button>
-                      </LevelItem>
-                      <LevelItem>
-                        <Button
-                          isColor={ 'danger' }
-                          onClick={ handleDeleteSelection }
-                          isDisabled={ selectedResourcesIds.length === 0 }
-                        >
-                          {translate( 'Delete selection' )}
-                        </Button>
-                      </LevelItem>
-                    </LevelRight>
-                  </Level>
-                </Column>
-              </StretchedLayoutItem>
-              <StretchedLayoutItem isFlex={ 1 }>
-                <StretchedLayoutContainer
-                  isAbsolute
-                  isDirection={ 'vertical' }
-                >
-                  <PaginatedList
-                    items={ visibleResources }
-                    itemsPerPage={ 30 }
-                    style={ { height: '100%' } }
-                    renderNoItem={ renderNoResource }
-                    renderItem={ renderResourceInList }
-                  />
-                </StretchedLayoutContainer>
-              </StretchedLayoutItem>
-              <ConfirmToDeleteModal
-                isActive={ promptedToDeleteResourceId !== undefined }
-                isDisabled={ resourcesLockMap[promptedToDeleteResourceId] }
-                deleteType={ 'resource' }
-                story={ story }
-                id={ promptedToDeleteResourceId }
-                onClose={ handleAbortResourceDeletion }
-                onDeleteConfirm={ handleDeleteResourceConfirm }
-              />
-              <ModalCard
-                isActive={ actualResourcesPromptedToDelete.length > 0 }
-                headerContent={ translate( [ 'Delete an item', 'Delete {n} items', 'n' ], { n: actualResourcesPromptedToDelete.length } ) }
-                onClose={ handleAbortResourcesDeletion }
-                mainContent={
-                  <div>
-                    {
-                      actualResourcesPromptedToDelete.length !== resourcesPromptedToDelete.length &&
-                      <p>
-                        {
-                          translate( '{x} of {y} of the resources you selected cannot be deleted now because they are used by another author.', { x: resourcesPromptedToDelete.length - actualResourcesPromptedToDelete.length, y: resourcesPromptedToDelete.length } )
-                        }
-                      </p>
-                    }
-                    {endangeredContextualizationsLength > 0 &&
-                    <p>{
-                        t( [
-                          'You will destroy one item mention in your content if you delete these items.',
-                          'You will destroy {n} item mentions in your content if your delete these items.',
-                          'n'
-                          ],
-                        { n: endangeredContextualizationsLength } )}
-                    </p>
-                    }
-                    <p>
-                      {translate( [ 'Are you sure you want to delete this item ?', 'Are you sure you want to delete these items ?', 'n' ], { n: resourcesPromptedToDelete.length } )}
-                    </p>
-                  </div>
-                }
-                footerContent={ [
-                  <Button
-                    type={ 'submit' }
-                    isFullWidth
-                    key={ 0 }
-                    onClick={ handleDeleteResourcesPromptedToDelete }
-                    isColor={ 'danger' }
-                  >{translate( 'Delete' )}
-                  </Button>,
-                  <Button
-                    onClick={ handleAbortResourcesDeletion }
-                    isFullWidth
-                    key={ 1 }
-                    isColor={ 'warning' }
-                  >{translate( 'Cancel' )}
-                  </Button>,
-                ] }
-              />
-            </StretchedLayoutContainer>
-        );
-      }
-    };
+        }
+        return result;
+      }, {} );
+
+    const resourcesLockMap = isEmpty( reverseResourcesLockMap ) ? reverseResourcesSectionsMap : reverseResourcesLockMap;
+
+    const actualResourcesPromptedToDelete = resourcesPromptedToDelete.filter( ( resourceId ) => resourcesLockMap[resourceId] === undefined );
 
     const handleNewResourceClick = () => {
       if ( mainColumnMode === 'new' ) {
@@ -894,7 +811,7 @@ class LibraryViewLayout extends Component {
           </StretchedLayoutItem>
           <StretchedLayoutItem isFlex={ '3' }>
             <Column isWrapper>
-              {renderMainColumn()}
+              {this.renderMainColumn()}
             </Column>
           </StretchedLayoutItem>
         </StretchedLayoutContainer>
