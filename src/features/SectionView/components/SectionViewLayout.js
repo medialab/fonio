@@ -266,15 +266,6 @@ const SectionViewLayout = ( {
     setMainColumnMode( 'edition' );
   };
 
-  /*
-   * if modal to delete section was prompted and in the meantime someone has entered this section
-   * then we unset the delete prompt on that section
-   * @todo put that somewhere in livecycle
-   */
-  if ( promptedToDeleteSectionId && reverseSectionLockMap[promptedToDeleteSectionId] ) {
-    setPromptedToDeleteSectionId( undefined );
-  }
-
   const handleDeleteSection = ( thatSectionId ) => {
     setPromptedToDeleteSectionId( thatSectionId );
   };

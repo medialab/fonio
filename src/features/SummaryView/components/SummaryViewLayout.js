@@ -229,6 +229,7 @@ const SummaryViewLayout = ( {
   };
 
   const handleCloseNewSection = () => setNewSectionOpen( false );
+  const handleOpenNewSection = () => setNewSectionOpen( true );
   const handleActiveIsSorting = () => setIsSorting( true );
 
   return (
@@ -348,12 +349,15 @@ const SummaryViewLayout = ( {
                   activeAuthors
                   .filter( ( a ) => a.userId !== userId )
                   .map( ( author, authorIndex ) =>
-                    ( <AuthorItem
-                      author={ author }
-                      key={ authorIndex }
-                      translate={ translate }
-                      sections={ sections }
-                      /> ) )
+                    (
+                      <AuthorItem
+                        author={ author }
+                        key={ authorIndex }
+                        translate={ translate }
+                        sections={ sections }
+                      />
+                    )
+                  )
                 }
           </Column>
         </StretchedLayoutItem>
@@ -412,7 +416,7 @@ const SummaryViewLayout = ( {
                 <Level>
                   <Column>
                     <Button
-                      onClick={ handleCloseNewSection }
+                      onClick={ handleOpenNewSection }
                       isFullWidth
                       isColor={ 'primary' }
                     >

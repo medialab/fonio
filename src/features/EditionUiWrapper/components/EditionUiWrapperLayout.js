@@ -119,10 +119,6 @@ const EditionUiWrapperLayout = ( {
     setUserInfo( userInfoTemp );
     setUserInfoModalOpen( false );
   };
-
-  /**
-   * @todo move to container
-   */
   const handleExportToFile = ( type ) => {
     const title = editedStory.metadata.title;
     // @todo: handle failure error in UI

@@ -29,6 +29,7 @@ import {
  * Imports Components
  */
 import MovePad from '../../../components/MovePad';
+import MoveButton from './MoveButton';
 
 /**
  * Imports Assets
@@ -235,26 +236,6 @@ class ResourceCard extends Component {
     }
    };
 
-   /**
-    * @todo externalize this
-    */
-   const renderMoveComponent = () =>
-        (
-          <Button
-            style={ { pointerEvents: 'none' } }
-            data-place={ 'left' }
-            data-effect={ 'solid' }
-            data-for={ 'tooltip' }
-          >
-            <Icon
-              isSize={ 'small' }
-              isAlign={ 'left' }
-            >
-              <img src={ icons.move.black.svg } />
-            </Icon>
-          </Button>
-        );
-
     return connectDragSource(
       <div
         // draggable
@@ -370,11 +351,12 @@ class ResourceCard extends Component {
                   <MovePad
                     style={ {
                       position: 'absolute',
-                          top: '-4rem',
-                          right: '4rem',
+                      top: '-4rem',
+                      right: '4rem',
+                      pointerEvents: 'none'
                     } }
                     moveComponentToolTip={ translate( 'Drag this item to the editor' ) }
-                    MoveComponent={ renderMoveComponent }
+                    MoveComponent={ MoveButton }
                   />
                 </Column>
               </Columns>

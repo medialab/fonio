@@ -158,7 +158,7 @@ const SectionCard = ( {
                       <StatusMarker
                         style={ { marginLeft: '1rem' } }
                         lockStatus={ lockData ? 'locked' : 'open' }
-                        statusMessage={ lockStatusMessage() }
+                        statusMessage={ lockStatusMessage }
                       />
                     </Title>
                   }
@@ -174,7 +174,7 @@ const SectionCard = ( {
                   <StatusMarker
                     style={ { marginLeft: '1rem' } }
                     lockStatus={ lockData ? 'locked' : 'open' }
-                    statusMessage={ lockStatusMessage() }
+                    statusMessage={ lockStatusMessage }
                   />
                 </Title>
                   }

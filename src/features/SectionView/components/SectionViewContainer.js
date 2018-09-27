@@ -25,6 +25,7 @@ import {
 
 import {
   getUserResourceLockId,
+  getReverseSectionsLockMap,
 } from '../../../helpers/lockUtils';
 
 import { createResourceData, validateFiles } from '../../../helpers/resourcesUtils';
@@ -137,7 +138,13 @@ class SectionViewContainer extends Component {
         }
       },
       pendingContextualization,
-      editedStory
+      promptedToDeleteSectionId,
+      lockingMap,
+      activeUsers,
+      editedStory,
+      actions: {
+        setPromptedToDeleteSectionId
+      }
     } = nextProps;
 
     /**
@@ -189,6 +196,15 @@ class SectionViewContainer extends Component {
           nextProps.actions.setLinkModalFocusData( undefined );
         } );
       }
+    }
+
+    /*
+     * if modal to delete section was prompted and in the meantime someone has entered this section
+     * then we unset the delete prompt on that section
+     */
+    const reverseSectionLockMap = getReverseSectionsLockMap( lockingMap, activeUsers, nextStoryId );
+    if ( promptedToDeleteSectionId && reverseSectionLockMap[promptedToDeleteSectionId] ) {
+      setPromptedToDeleteSectionId( undefined );
     }
   }
 

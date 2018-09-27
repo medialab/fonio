@@ -5,26 +5,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { templates } from 'quinoa-story-player';
 import {
-  Button,
-  CodeEditor,
   Column,
-  Collapsable,
-  Control,
-  Dropdown,
-  Field,
-  Image,
-  Label,
-  Level,
-  Select,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
   Tab,
   TabLink,
   TabList,
-  Title,
   Tabs,
-  StretchedLayoutContainer,
-  StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
-import icons from 'quinoa-design-library/src/themes/millet/icons';
 
 /**
  * Imports Project utils
@@ -34,6 +22,8 @@ import { translateNameSpacer } from '../../../helpers/translateUtils';
 /**
  * Imports Components
  */
+import AsideDesignContents from './AsideDesignContents';
+
 /**
  * Imports Assets
  */
@@ -108,128 +98,6 @@ const AsideDesignColumn = ( {
   const handleSetAsideAsStyles = () => setDesignAsideTabMode( 'styles' );
   const handleToggleAsideCollapsed = () => setDesignAsideTabCollapsed( !designAsideTabCollapsed );
 
-  /**
-   * @todo externalize this
-   */
-  const renderAsideContent = () => {
-    if ( designAsideTabCollapsed ) {
-      return null;
-    }
-    switch ( designAsideTabMode ) {
-      case 'settings':
-        const handleNotesPositionChange = ( e ) => handleOptionChange( 'notesPosition', e.target.value );
-        const handleToggleReferenceTypesVisibility = () => setReferenceTypesVisible( !referenceTypesVisible );
-        const handleReferenceStatusChange = ( e ) => handleOptionChange( 'referenceStatus', e.target.value );
-
-        return (
-          <Column>
-            {
-              templateOptions.indexOf( 'notesPosition' ) > -1 &&
-              <Level>
-                <form>
-                  <Field>
-                    <Label>{translate( 'Notes position' )}</Label>
-                    <Control>
-                      <Select
-                        onChange={ handleNotesPositionChange }
-                        value={ options.notesPosition }
-                      >
-                        <option value={ 'aside' } >{translate( 'side notes' )}</option>
-                        <option value={ 'foot' }>{translate( 'foot notes' )}</option>
-                      </Select>
-                    </Control>
-                  </Field>
-                </form>
-              </Level>
-            }
-            {
-              templateOptions.indexOf( 'referenceTypes' ) > -1 &&
-              <Level>
-                <form>
-                  <Field>
-                    <Label>{translate( 'What types of items to show in references' )}</Label>
-                    <Control>
-                      <Dropdown
-                        onToggle={ handleToggleReferenceTypesVisibility }
-                        isActive={ referenceTypesVisible }
-                        closeOnChange={ false }
-                        onChange={ handleUpdateReferenceTypes }
-                        value={ ( story.settings.options && story.settings.options.referenceTypes ) || [ 'bib' ] }
-                        options={ resourceTypes.map( ( type ) => ( {
-                                id: type,
-                                label: (
-                                  <span style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' } }>
-                                    <Image
-                                      style={ { display: 'inline-block', marginRight: '1em' } }
-                                      isSize={ '16x16' }
-                                      src={ icons[type].black.svg }
-                                    />
-                                    <span>
-                                      {translate( type )}
-                                    </span>
-                                  </span>
-                                )
-                              } ) ) }
-                      >
-                        {translate( 'Choose item types' )}
-                      </Dropdown>
-                    </Control>
-                  </Field>
-                </form>
-              </Level>
-            }
-            {
-              templateOptions.indexOf( 'referenceStatus' ) > -1 &&
-              <Level>
-                <form>
-                  <Field>
-                    <Label>{translate( 'What items to show in references' )}</Label>
-                    <Control>
-                      <Select
-                        onChange={ handleReferenceStatusChange }
-                        value={ options.referenceStatus }
-                      >
-                        <option value={ 'cited' }>{translate( 'cited items only' )}</option>
-                        <option value={ 'all' }>{translate( 'all items' )}</option>
-                      </Select>
-                    </Control>
-                  </Field>
-                </form>
-              </Level>
-            }
-          </Column>
-        );
-      case 'styles':
-      default:
-        const handleShowCssHelp = () => setCssHelpVisible( true );
-        return (
-          <Column>
-            <Title isSize={ 3 }>
-              {translate( 'Edit style with css' )}
-            </Title>
-            {stylesMode === 'code' && <Level />}
-            {/* @todo put here other style modes ui */}
-            <Collapsable isCollapsed={ stylesMode !== 'code' }>
-              <Column>
-                <CodeEditor
-                  value={ story.settings.css }
-                  onChange={ onUpdateCss }
-                />
-              </Column>
-              <Column>
-                <Button
-                  isFullWidth
-                  onClick={ handleShowCssHelp }
-                >
-                  {translate( 'Help' )}
-                </Button>
-              </Column>
-            </Collapsable>
-          </Column>
-        );
-    }
-  };
-
   return (
     <Column
       style={ style }
@@ -297,7 +165,21 @@ const AsideDesignColumn = ( {
           isFlex={ 1 }
           isFlowing
         >
-          {renderAsideContent()}
+          <AsideDesignContents
+            designAsideTabCollapsed={ designAsideTabCollapsed }
+            designAsideTabMode={ designAsideTabMode }
+            handleOptionChange={ handleOptionChange }
+            setReferenceTypesVisible={ setReferenceTypesVisible }
+            templateOptions={ templateOptions }
+            onUpdateCss={ onUpdateCss }
+            story={ story }
+            stylesMode={ stylesMode }
+            setCssHelpVisible={ setCssHelpVisible }
+            options={ options }
+            resourceTypes={ resourceTypes }
+            handleUpdateReferenceTypes={ handleUpdateReferenceTypes }
+            referenceTypesVisible={ referenceTypesVisible }
+          />
         </StretchedLayoutItem>
       </StretchedLayoutContainer>
     </Column>

@@ -190,7 +190,6 @@ const handleCopy = function( event ) {
 
         /*
          * copying asset entities and related contextualization & contextualizer
-         * @todo: question - should we store as well the resources being copied ?
          * (in case the resource being copied is deleted by the time)
          */
         else if ( type === INLINE_ASSET || type === BLOCK_ASSET ) {
