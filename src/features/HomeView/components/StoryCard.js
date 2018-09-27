@@ -1,4 +1,8 @@
 /**
+ * This module provides a card for displaying a story
+ * @module fonio/features/HomeView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

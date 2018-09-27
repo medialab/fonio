@@ -1,4 +1,8 @@
 /**
+ * This module provides a connected component for handling the summary view
+ * @module fonio/features/SummaryView
+ */
+/**
  * Imports Libraries
  */
 import React, { Component } from 'react';

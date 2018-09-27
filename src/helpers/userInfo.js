@@ -1,3 +1,7 @@
+/**
+ * This module helps to manage users identification data
+ * @module fonio/utils/userInfo
+ */
 import userNames from '../sharedAssets/userNames';
 import avatars from '../sharedAssets/avatars';
 

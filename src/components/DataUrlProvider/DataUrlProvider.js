@@ -1,4 +1,8 @@
 /**
+ * This module provides wrapper serving a resource data url get function to its children context
+ * @module fonio/components/DataUrlProvider
+ */
+/**
  * Imports Libraries
  */
 import { Component } from 'react';

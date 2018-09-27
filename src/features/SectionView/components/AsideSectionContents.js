@@ -1,4 +1,8 @@
 /**
+ * This module provides the contents for the aside column of the editor
+ * @module fonio/features/SectionView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

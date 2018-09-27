@@ -1,3 +1,7 @@
+/**
+ * This module provides a connected component for displaying the section view
+ * @module fonio/features/LibraryView
+ */
 /* eslint react/no-set-state : 0 */
 /**
  * Imports Libraries

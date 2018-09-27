@@ -1,4 +1,8 @@
 /**
+ * This module provides a language toggling button
+ * @module fonio/components/LanguageToggler
+ */
+/**
  * Imports Libraries
  */
 import React, { Component } from 'react';

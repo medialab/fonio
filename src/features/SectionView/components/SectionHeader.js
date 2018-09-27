@@ -1,3 +1,9 @@
+
+/**
+ * This module provides a section title preview/edition for the section edition view
+ * @module fonio/features/SectionView
+ */
+
 /* eslint react/no-set-state : 0 */
 /**
  * Imports Libraries

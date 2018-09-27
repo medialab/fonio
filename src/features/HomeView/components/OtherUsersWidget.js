@@ -1,4 +1,8 @@
 /**
+ * This module provides a component for representing other users active in the classroom
+ * @module fonio/features/HomeView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

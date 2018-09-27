@@ -1,3 +1,7 @@
+/**
+ * This module provides a toolbar button for ordered list modifier
+ * @module fonio/components/SectionEditor
+ */
 /* eslint react/prop-types: 0 */
 
 import React from 'react';

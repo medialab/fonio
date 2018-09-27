@@ -1,9 +1,10 @@
-/* eslint react/no-set-state: 0 */
-/* eslint  react/prefer-stateless-function : 0 */
 /**
  * This module provides a reusable inline citation widget component
- * @module fonio/components/LinkContextualization
+ * @module fonio/components/SectionEditor
  */
+/* eslint react/no-set-state: 0 */
+/* eslint  react/prefer-stateless-function : 0 */
+
 /**
  * Imports Libraries
  */

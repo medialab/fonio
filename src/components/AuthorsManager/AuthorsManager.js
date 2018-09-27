@@ -1,4 +1,8 @@
 /**
+ * This module provides a component allowing to manage an authors list
+ * @module fonio/components/AuthorsManager
+ */
+/**
  * Imports Libraries
  */
 import React, { Component } from 'react';

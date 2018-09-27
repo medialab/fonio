@@ -1,3 +1,8 @@
+/**
+ * This module helps to compute data from the raw locksystem map
+ * @module fonio/utils/lockUtils
+ */
+
 export const getReverseSectionsLockMap = ( lockingMap = {}, activeUsers = {}, storyId ) => {
   if ( lockingMap[storyId] && lockingMap[storyId].locks ) {
     return Object.keys( lockingMap[storyId].locks )

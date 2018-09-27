@@ -1,3 +1,7 @@
+/**
+ * This module provides a icon button allowing to add/edit assets
+ * @module fonio/components/SectionEditor
+ */
 /* eslint react/prop-types: 0 */
 
 import React from 'react';

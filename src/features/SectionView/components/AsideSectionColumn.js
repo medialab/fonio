@@ -1,3 +1,7 @@
+/**
+ * This module provides the layout for the aside column of the editor
+ * @module fonio/features/SectionView
+ */
 /* eslint react/no-set-state : 0 */
 /**
  * Imports Libraries

@@ -1,3 +1,7 @@
+/**
+ * This module provides a reusable paginated list UI component
+ * @module fonio/components/PaginatedList
+ */
 /* eslint  react/no-set-state : 0 */
 /**
  * Imports Libraries

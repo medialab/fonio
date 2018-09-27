@@ -1,4 +1,8 @@
 /**
+ * This module provides a reusable button displaying a single pictographic icon
+ * @module fonio/components/IconBtn
+ */
+/**
  * Imports Libraries
  */
 import React, { Component } from 'react';

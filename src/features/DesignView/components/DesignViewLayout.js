@@ -1,3 +1,7 @@
+/**
+ * This module provides a layout component for displaying the design view
+ * @module fonio/features/DesignView
+ */
 /* eslint react/no-danger : 0 */
 /**
  * Imports Libraries

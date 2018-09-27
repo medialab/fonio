@@ -1,6 +1,6 @@
 /**
  * This module provides unit tests for the story manager duck
- * @module fonio/utils/fileLoader
+ * @module fonio/feature/StoryManager
  */
 import { expect } from 'chai';
 

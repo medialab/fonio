@@ -1,3 +1,7 @@
+/**
+ * This module provides a card representing a resource in library view (extended display with preview if relevant)
+ * @module fonio/features/LibraryView
+ */
 /* eslint react/no-danger : 0 */
 /* eslint react/prefer-stateless-function : 0 */
 /**

@@ -1,3 +1,8 @@
+/**
+ * This module provides the logic for handling pasting in editor when pasted content
+ * comes from Fonio
+ * @module fonio/components/SectionEditor
+ */
 import {
   EditorState,
   convertToRaw,

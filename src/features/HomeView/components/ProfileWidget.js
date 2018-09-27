@@ -1,4 +1,8 @@
 /**
+ * This module provides a component allowing user to preview and edit its personal identification information
+ * @module fonio/features/HomeView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

@@ -1,4 +1,8 @@
 /**
+ * This module provides a connected component for handling the library view
+ * @module fonio/features/LibraryView
+ */
+/**
  * Imports Libraries
  */
 import React, { Component } from 'react';

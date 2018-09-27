@@ -1,4 +1,8 @@
 /**
+ * This module provides a section card for the summary view
+ * @module fonio/features/SummaryView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

@@ -1,4 +1,3 @@
-/* eslint no-console: 0 */
 /**
  * Fonio Configuration Module
  * ===========================
@@ -9,6 +8,7 @@
  *   `dev`: injected by webpack.DefinePlugin
  *   `prod`: a global variable templated in a script tag
  */
+/* eslint no-console: 0 */
 const CONFIG = typeof FONIO_CONFIG !== 'undefined' ? FONIO_CONFIG : {};
 
 if ( !Object.keys( CONFIG ).length )

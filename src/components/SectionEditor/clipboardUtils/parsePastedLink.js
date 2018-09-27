@@ -1,3 +1,7 @@
+/**
+ * This module provides the logic for handling a link pasting
+ * @module fonio/components/SectionEditor
+ */
 import { v4 as generateId } from 'uuid';
 
 import { createDefaultResource } from '../../../helpers/schemaUtils';

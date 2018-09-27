@@ -1,4 +1,8 @@
 /**
+ * This module provides a ui components for handling an element moving (top, left, up, down - or drag)
+ * @module fonio/components/MovePad
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

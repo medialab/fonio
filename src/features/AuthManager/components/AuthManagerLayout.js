@@ -1,4 +1,8 @@
 /**
+ * This module provides a layout component for handling UX and UI related to authentication
+ * @module fonio/features/AuthManager
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

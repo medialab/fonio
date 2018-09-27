@@ -1,4 +1,8 @@
 /**
+ * This module provides utils for infering story modifications from the editor state
+ * @module fonio/components/SectionEditor
+ */
+/**
  * Imports Libraries
  */
 import {

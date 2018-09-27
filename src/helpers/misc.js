@@ -1,3 +1,7 @@
+/**
+ * This module provides miscellaneous utils
+ * @module fonio/utils/misc
+ */
 import trunc from 'unicode-byte-truncate';
 
 export const abbrevString = ( str = '', maxLength = 10 ) => {

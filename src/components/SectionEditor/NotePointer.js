@@ -1,3 +1,7 @@
+/**
+ * This module provides a reusable note pointer component (note pointer inside content)
+ * @module fonio/components/SectionEditor
+ */
 /* eslint react/no-did-mount-set-state : 0 */
 /* eslint react/no-set-state : 0 */
 /**

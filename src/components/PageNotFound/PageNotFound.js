@@ -1,4 +1,8 @@
 /**
+ * This module provides a component for 404-like views
+ * @module fonio/components/AuthorsManager
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

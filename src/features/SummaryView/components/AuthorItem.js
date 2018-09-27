@@ -1,4 +1,8 @@
 /**
+ * This module provides a componnt for displaying an author status in edited story
+ * @module fonio/features/SummaryView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

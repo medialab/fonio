@@ -1,4 +1,8 @@
 /**
+ * This module provides a modal displaying shortcuts help
+ * @module fonio/features/SectionView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

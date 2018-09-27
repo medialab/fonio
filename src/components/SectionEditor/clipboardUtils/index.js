@@ -1,4 +1,8 @@
-
+/**
+ * This module provides an entrypoint for methods handling the complex logic
+ * required to handle copying and pasting content in/from the editor
+ * @module fonio/components/SectionEditor
+ */
 import copyManager from './handleCopy';
 import pasteManager from './handlePaste';
 

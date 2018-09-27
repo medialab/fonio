@@ -1,4 +1,7 @@
-
+/**
+ * This module provides utils for manipulating citations in the editor
+ * @module fonio/components/SectionEditor
+ */
 import {
   constants
 } from 'scholar-draft';

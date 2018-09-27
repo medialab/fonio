@@ -1,4 +1,8 @@
 /**
+ * This module provides a modal displaying what is happening when pasting contents
+ * @module fonio/components/PastingModal
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

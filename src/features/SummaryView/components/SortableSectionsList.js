@@ -1,4 +1,8 @@
 /**
+ * This module provides a sortable sections cards list
+ * @module fonio/features/SummaryView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

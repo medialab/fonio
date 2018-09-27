@@ -1,4 +1,8 @@
 /**
+ * This module provides a modal for confirming the deletion of a story
+ * @module fonio/features/HomeView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

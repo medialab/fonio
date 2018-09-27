@@ -1,4 +1,8 @@
 /**
+ * This module provides a modal for displaying what is happening when uploading contents
+ * @module fonio/components/UploadModal
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

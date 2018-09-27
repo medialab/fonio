@@ -1,3 +1,7 @@
+/**
+ * This module provides a toolbar button wrapper for block modifiers
+ * @module fonio/components/SectionEditor
+ */
 import React, { Component } from 'react';
 import { RichUtils } from 'draft-js';
 import PropTypes from 'prop-types';

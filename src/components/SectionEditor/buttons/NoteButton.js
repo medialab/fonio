@@ -1,4 +1,7 @@
-
+/**
+ * This module provides an aside button for note adding
+ * @module fonio/components/SectionEditor
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';

@@ -1,3 +1,9 @@
+/**
+ * This module exports logic-related elements for socket-related features
+ * This module follows the ducks convention for putting in the same place actions, action types,
+ * state selectors and reducers about a given feature (see https://github.com/erikras/ducks-modular-redux)
+ * @module fonio/features/ConnectionsManager
+ */
 import { combineReducers } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { post } from 'axios';

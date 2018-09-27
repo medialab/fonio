@@ -1,4 +1,7 @@
-
+/**
+ * This module provides a helper for preparing csl-json citations for their display in editor
+ * @module fonio/components/SectionEditor
+ */
 import { Parser } from 'html-to-react';
 
 const htmlToReactParser = new Parser();

@@ -1,9 +1,9 @@
-/* eslint react/no-set-state: 0 */
-/* eslint  react/prefer-stateless-function : 0 */
 /**
  * This module provides a reusable inline glossary mention component
- * @module fonio/components/GlossaryMention
+ * @module fonio/components/SectionEditor
  */
+/* eslint react/no-set-state: 0 */
+/* eslint  react/prefer-stateless-function : 0 */
 /**
  * Imports Libraries
  */

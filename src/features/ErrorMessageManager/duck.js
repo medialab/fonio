@@ -1,8 +1,8 @@
 /**
- * This module exports logic-related elements for the fonio story manager
+ * This module exports logic-related elements for handling errors in the application
  * This module follows the ducks convention for putting in the same place actions, action types,
  * state selectors and reducers about a given feature (see https://github.com/erikras/ducks-modular-redux)
- * @module fonio/features/ErrorMessageManager
+ * @module fonio/features/ErrorMessage
  */
 import { combineReducers } from 'redux';
 import { createStructuredSelector } from 'reselect';

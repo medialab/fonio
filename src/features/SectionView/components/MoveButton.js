@@ -1,4 +1,8 @@
 /**
+ * This module provides a mini component for representing move possibility
+ * @module fonio/features/SectionView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

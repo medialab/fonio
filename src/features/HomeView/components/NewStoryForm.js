@@ -1,4 +1,8 @@
 /**
+ * This module provides a form for creating a new story
+ * @module fonio/features/HomeView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

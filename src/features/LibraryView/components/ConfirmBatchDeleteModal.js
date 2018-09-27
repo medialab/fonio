@@ -1,4 +1,8 @@
 /**
+ * This module provides a modal for confirm the deletion of several resources
+ * @module fonio/features/LibraryView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

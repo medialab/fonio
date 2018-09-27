@@ -1,4 +1,8 @@
 /**
+ * This module provides a modal for exporting a story
+ * @module fonio/components/ExportModal
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

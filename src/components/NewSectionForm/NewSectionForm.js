@@ -1,4 +1,8 @@
 /**
+ * This module provides a form for creating a new section
+ * @module fonio/components/NewSectionForm
+ */
+/**
  * Imports Libraries
  */
 import React, { Component } from 'react';

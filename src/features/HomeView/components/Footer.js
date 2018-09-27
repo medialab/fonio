@@ -1,3 +1,7 @@
+/**
+ * This module provides the footer of the home view
+ * @module fonio/features/HomeView
+ */
 /* eslint react/no-danger : 0 */
 /**
  * Imports Libraries

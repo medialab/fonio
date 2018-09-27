@@ -1,5 +1,5 @@
 /**
- * Translation manager written by Robin de Mourat
+ * written by Robin de Mourat
  * Backfills untranslated keys with default language.
  * Lets the user know about the process
  */

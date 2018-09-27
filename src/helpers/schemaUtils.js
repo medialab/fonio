@@ -1,3 +1,7 @@
+/**
+ * This module provides schema-related utils
+ * @module fonio/utils/schemaUtils
+ */
 import Ajv from 'ajv';
 import def from 'json-schema-defaults';
 

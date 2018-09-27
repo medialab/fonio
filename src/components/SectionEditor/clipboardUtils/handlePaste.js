@@ -1,3 +1,7 @@
+/**
+ * This module provides the logic for handling pasting text in editor
+ * @module fonio/components/SectionEditor
+ */
 import pasteFromOutside from './pasteFromOutside';
 import pasteFromInside from './pasteFromInside';
 

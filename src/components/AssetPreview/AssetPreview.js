@@ -1,10 +1,9 @@
-/* eslint react/no-danger : 0 */
-/* eslint react/no-set-state : 0 */
-
 /**
  * This module provides a asset preview element component
  * @module fonio/components/AssetPreview
  */
+/* eslint react/no-danger : 0 */
+/* eslint react/no-set-state : 0 */
 
 /**
  * Imports Libraries

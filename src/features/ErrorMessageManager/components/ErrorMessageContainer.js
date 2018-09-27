@@ -1,4 +1,8 @@
 /**
+ * This module provides a connected component for handling error-related UI
+ * @module fonio/features/ErrorMessage
+ */
+/**
  * Imports Libraries
  */
 import React, { Component } from 'react';

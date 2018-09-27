@@ -1,8 +1,8 @@
-/* eslint react/no-set-state: 0 */
 /**
  * This module provides a reusable inline citation widget component
- * @module fonio/components/InlineCitation
+ * @module fonio/components/SectionEditor
  */
+/* eslint react/no-set-state: 0 */
 /**
  * Imports Libraries
  */

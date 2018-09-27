@@ -1,4 +1,8 @@
 /**
+ * This module provides a modal for confirming a section deletion
+ * @module fonio/components/ConfirmToDeleteModal
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

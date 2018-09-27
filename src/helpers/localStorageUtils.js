@@ -1,4 +1,7 @@
-
+/**
+ * This module helps to manage local storage data
+ * @module fonio/utils/localStorageUtils
+ */
 export const loadStoryToken = ( storyId ) => {
   return localStorage.getItem( `fonio/storyToken/${storyId}` );
 };

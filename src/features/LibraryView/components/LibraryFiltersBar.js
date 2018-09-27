@@ -1,4 +1,9 @@
 /**
+ * This module provides a component for displaying filters and search input in resources list
+ * @module fonio/features/LibraryView
+ */
+
+/**
  * Imports Libraries
  */
 import React from 'react';

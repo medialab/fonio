@@ -1,6 +1,6 @@
 /**
- * This module provides a reusable bibliography preview element component
- * Displays a simple bibliography
+ * This module provides a reusable bibliography preview element component.
+ * It displays a simple bibliography
  * @module fonio/components/BibliographicPreview
  */
 /**

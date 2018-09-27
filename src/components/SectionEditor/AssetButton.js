@@ -1,4 +1,8 @@
 /**
+ * This module provides a icon button allowing to add/edit assets
+ * @module fonio/components/SectionEditor
+ */
+/**
  * Imports Libraries
  */
 import React, { Component } from 'react';

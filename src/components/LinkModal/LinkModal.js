@@ -1,3 +1,7 @@
+/**
+ * This module provides a modal for adding quickly a link in editor
+ * @module fonio/components/LinkModal
+ */
 /* eslint react/no-set-state : 0 */
 /**
  * Imports Libraries

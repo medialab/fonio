@@ -1,4 +1,8 @@
 /**
+ * This module provides a story edition form
+ * @module fonio/components/MetadataForm
+ */
+/**
  * Imports Libraries
  */
 import React, { Component } from 'react';

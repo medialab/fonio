@@ -1,3 +1,9 @@
+/**
+ * Socket middleware
+ * Catch socket-related actions (triggered if they contain a meta property)
+ * and pass them through the socket
+ */
+
 export default ( socket ) => {
   const eventName = 'action';
 

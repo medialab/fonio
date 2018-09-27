@@ -1,4 +1,8 @@
 /**
+ * This module provides a reusable password input component
+ * @module fonio/components/PasswordInput
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

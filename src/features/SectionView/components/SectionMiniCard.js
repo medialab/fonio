@@ -1,4 +1,8 @@
 /**
+ * This module provides a card for representing a section in the section edition view
+ * @module fonio/features/SectionView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

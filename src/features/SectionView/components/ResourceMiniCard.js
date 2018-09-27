@@ -1,3 +1,7 @@
+/**
+ * This module provides a card for displaying a resource in the section edition view
+ * @module fonio/features/SectionView
+ */
 /* eslint react/no-set-state : 0 */
 /* eslint react/no-danger : 0 */
 /**

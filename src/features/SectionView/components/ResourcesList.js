@@ -1,3 +1,7 @@
+/**
+ * This module provides a resource list for the section edition view
+ * @module fonio/features/SectionView
+ */
 /* eslint react/prefer-stateless-function : 0 */
 /**
  * Imports Libraries

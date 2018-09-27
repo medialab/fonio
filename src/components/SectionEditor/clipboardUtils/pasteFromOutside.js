@@ -1,3 +1,8 @@
+/**
+ * This module provides the logic for handling pasting contents in editor
+ * when pasting contents comes from outside fonio (webpage, text editor, ... machine clipboard)
+ * @module fonio/components/SectionEditor
+ */
 import {
   EditorState,
   convertToRaw,

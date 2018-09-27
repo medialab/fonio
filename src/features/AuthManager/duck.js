@@ -1,8 +1,8 @@
 /**
- * This module exports logic-related elements for the fonio story manager
+ * This module exports logic-related elements for authentication-related features
  * This module follows the ducks convention for putting in the same place actions, action types,
  * state selectors and reducers about a given feature (see https://github.com/erikras/ducks-modular-redux)
- * @module fonio/features/StoryManager
+ * @module fonio/features/AuthManager
  */
 
 import { combineReducers } from 'redux';

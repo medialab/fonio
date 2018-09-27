@@ -1,4 +1,8 @@
 /**
+ * This module provides a connected component for handling the section view
+ * @module fonio/features/SectionView
+ */
+/**
  * Imports Libraries
  */
 import React, { Component } from 'react';

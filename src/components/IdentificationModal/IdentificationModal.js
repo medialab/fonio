@@ -1,3 +1,7 @@
+/**
+ * This module provides a modal for inputing user personal identification data
+ * @module fonio/components/IdentificationModal
+ */
 /* eslint react/no-set-state : 0 */
 /**
  * Imports Libraries

@@ -1,10 +1,11 @@
-/* eslint react/no-set-state: 0 */
 /**
  * This module provides a reusable resource search widget component.
  * It displays available resources and allow to search by text input
  * and go up in down with keyboard arrows in the list of search-matching items.
- * @module fonio/components/ResourceSearchWidget
+ * @module fonio/components/SectionEditor
  */
+/* eslint react/no-set-state: 0 */
+
 /**
  * Imports Libraries
  */

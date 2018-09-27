@@ -1,4 +1,7 @@
-
+/**
+ * This module provides the logic for handling copying text in editor
+ * @module fonio/components/SectionEditor
+ */
 import { uniqBy } from 'lodash';
 import { renderToStaticMarkup } from 'react-dom/server';
 

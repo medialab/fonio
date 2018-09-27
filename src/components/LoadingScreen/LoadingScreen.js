@@ -1,4 +1,8 @@
 /**
+ * This module provides a reusable loading component
+ * @module fonio/components/LoadingScreen
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

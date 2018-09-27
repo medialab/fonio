@@ -1,4 +1,8 @@
 /**
+ * This module provides a reusable label with explanation tooltip
+ * @module fonio/components/ExplainedLabel
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

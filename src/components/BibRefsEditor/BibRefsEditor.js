@@ -1,3 +1,8 @@
+/**
+ * This module provides a component allowing to edit raw bibtex data.
+ * It handles errors and propagates an update only if input data is valid.
+ * @module fonio/components/AuthorsManager
+ */
 /* eslint react/no-set-state : 0 */
 /**
  * Imports Libraries

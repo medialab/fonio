@@ -1,4 +1,8 @@
 /**
+ * This module provides a modal for inputing a password for a new story
+ * @module fonio/features/HomeView
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

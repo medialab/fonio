@@ -1,3 +1,7 @@
+/**
+ * This module helps to prefix css style
+ * @module fonio/utils/postcss
+ */
 import postcss from 'postcss';
 import prefixer from 'postcss-prefix-selector';
 

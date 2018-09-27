@@ -1,4 +1,9 @@
 /**
+ * This module provides a wrapper for converting editor received props
+ * into context data for its children
+ * @module fonio/components/SectionEditor
+ */
+/**
  * Imports Libraries
  */
 import React, { Component } from 'react';

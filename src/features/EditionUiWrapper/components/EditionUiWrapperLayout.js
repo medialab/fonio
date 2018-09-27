@@ -1,4 +1,8 @@
 /**
+ * This module provides a connected component for displaying edition ui generals
+ * @module fonio/features/EditionUi
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

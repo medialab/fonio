@@ -1,4 +1,8 @@
 /**
+ * This module provides a layout component for displaying design view main column layout
+ * @module fonio/features/DesignView
+ */
+/**
  * Imports Libraries
  */
 import React, { Component } from 'react';

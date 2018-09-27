@@ -1,6 +1,5 @@
 /**
- * This module exports a stateful component connected to the redux logic of the app,
- * dedicated to rendering the interface container
+ * This module provides a connected component for handling the home view
  * @module fonio/features/HomeView
  */
 /**

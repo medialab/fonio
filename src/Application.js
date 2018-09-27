@@ -1,5 +1,3 @@
-/* eslint react/jsx-no-bind:0 */
-
 /**
  * Fonio Application Component
  * =======================================
@@ -7,6 +5,8 @@
  * Root component of the application.
  * @module fonio
  */
+/* eslint react/jsx-no-bind:0 */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

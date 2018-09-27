@@ -1,3 +1,7 @@
+/**
+ * This module provides a connected component for handling the read story view
+ * @module fonio/features/ReadStory
+ */
 /* eslint react/no-set-state : 0 */
 /**
  * Imports Libraries

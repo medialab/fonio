@@ -1,3 +1,7 @@
+/**
+ * This module provides a form for editing a new or existing resource
+ * @module fonio/components/ResourceForm
+ */
 /* eslint react/no-set-state : 0 */
 /* eslint react/jsx-boolean-value : 0 */
 /**

@@ -1,3 +1,7 @@
+/**
+ * This module provides a wrapper for story cards as displayed in list within the home view
+ * @module fonio/features/HomeView
+ */
 /* eslint react/prefer-stateless-function : 0 */
 /**
  * Imports Libraries

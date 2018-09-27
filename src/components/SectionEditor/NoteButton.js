@@ -1,4 +1,8 @@
 /**
+ * This module provides a reusable note addition button
+ * @module fonio/components/SectionEditor
+ */
+/**
  * Imports Libraries
  */
 import React from 'react';

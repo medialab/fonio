@@ -1,10 +1,10 @@
+/**
+ * This module provides a connected component for displaying the home view
+ * @module fonio/features/HomeView
+ */
 /* eslint react/jsx-no-bind:0 */
 /* eslint react/prefer-stateless-function : 0 */
 /* eslint react/no-danger : 0 */
-/**
- * This module exports a stateless component rendering the layout of the editor feature interface
- * @module fonio/features/HomeView
- */
 /**
  * Imports Libraries
  */
