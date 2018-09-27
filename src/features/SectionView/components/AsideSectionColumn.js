@@ -252,39 +252,43 @@ class AsideSectionColumn extends Component {
           <StretchedLayoutItem isFlex={ 1 }>
             <Column>
               <AsideSectionContents
-                asideTabCollapsed={ asideTabCollapsed }
-                asideTabMode={ asideTabMode }
-                coverImageId={ coverImageId }
-                getResourceTitle={ getResourceTitle }
-                handleResourceFilterToggle={ handleResourceFilterToggle }
-                history={ history }
-                mainColumnMode={ mainColumnMode }
-                onCloseActiveResource={ onCloseActiveResource }
-                onCloseSectionSettings={ onCloseSectionSettings }
-                onDeleteResource={ onDeleteResource }
-                onDeleteSection={ onDeleteSection }
-                onOpenSectionSettings={ onOpenSectionSettings }
-                onResourceEditAttempt={ onResourceEditAttempt }
-                onSetCoverImage={ onSetCoverImage }
-                onSortEnd={ onSortEnd }
-                resourceFilterValues={ resourceFilterValues }
-                resourceOptionsVisible={ resourceOptionsVisible }
-                resourceSortValue={ resourceSortValue }
-                resourceTypes={ resourceTypes }
-                reverseResourcesLockMap={ reverseResourcesLockMap }
-                searchString={ this.state.searchString }
-                sections={ sections }
-                setEditorFocus={ setEditorFocus }
-                setMainColumnMode={ setMainColumnMode }
+                {
+                  ...{
+                    asideTabCollapsed,
+                    asideTabMode,
+                    coverImageId,
+                    getResourceTitle,
+                    handleResourceFilterToggle,
+                    history,
+                    mainColumnMode,
+                    onCloseActiveResource,
+                    onCloseSectionSettings,
+                    onDeleteResource,
+                    onDeleteSection,
+                    onOpenSectionSettings,
+                    onResourceEditAttempt,
+                    onSetCoverImage,
+                    onSortEnd,
+                    resourceFilterValues,
+                    resourceOptionsVisible,
+                    resourceSortValue,
+                    resourceTypes,
+                    reverseResourcesLockMap,
+                    sections,
+                    setEditorFocus,
+                    setMainColumnMode,
+                    setResourceOptionsVisible,
+                    setResourceSortValue,
+                    handleSectionIndexChange,
+                    setSectionLevel,
+                    storyId,
+                    userId,
+                    userLockedResourceId,
+                    visibleResources,
+                  }
+                }
                 setResourceSearchStringDebounce={ this.setResourceSearchStringDebounce }
-                setResourceOptionsVisible={ setResourceOptionsVisible }
-                setResourceSortValue={ setResourceSortValue }
-                handleSectionIndexChange={ handleSectionIndexChange }
-                setSectionLevel={ setSectionLevel }
-                storyId={ storyId }
-                userId={ userId }
-                userLockedResourceId={ userLockedResourceId }
-                visibleResources={ visibleResources }
+                searchString={ this.state.searchString }
               />
             </Column>
           </StretchedLayoutItem>

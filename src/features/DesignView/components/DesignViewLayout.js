@@ -70,14 +70,17 @@ const DesignViewLayout = ( {
         designAsideTabMode={ designAsideTabMode }
         style={ { minWidth: designAsideTabCollapsed ? undefined : '30%' } }
         className={ `aside-edition-container ${designAsideTabCollapsed ? 'is-collapsed' : ''} is-hidden-mobile` }
-
-        setCssHelpVisible={ setCssHelpVisible }
-        setDesignAsideTabMode={ setDesignAsideTabMode }
-        setDesignAsideTabCollapsed={ setDesignAsideTabCollapsed }
-        referenceTypesVisible={ referenceTypesVisible }
-        setReferenceTypesVisible={ setReferenceTypesVisible }
-        onUpdateCss={ onUpdateCss }
-        onUpdateSettings={ onUpdateSettings }
+        {
+          ...{
+              setCssHelpVisible,
+              setDesignAsideTabMode,
+              setDesignAsideTabCollapsed,
+              referenceTypesVisible,
+              setReferenceTypesVisible,
+              onUpdateCss,
+              onUpdateSettings,
+          }
+        }
       />
 
       <MainDesignColumn

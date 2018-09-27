@@ -191,28 +191,32 @@ const MainSectionColumn = ( {
       >
         <StretchedLayoutItem isFlex={ mainColumnMode === 'edition' && !userLockedResourceId ? 0 : 6 }>
           <MainSectionAside
-            userLockedResourceId={ userLockedResourceId }
-            uploadResource={ uploadResource }
-            createBibData={ createBibData }
-            story={ story }
-            userId={ userId }
-            uploadStatus={ uploadStatus }
-            createResource={ createResource }
-            updateResource={ updateResource }
-            setUploadStatus={ setUploadStatus }
-            leaveBlock={ leaveBlock }
-            resources={ resources }
-            setMainColumnMode={ setMainColumnMode }
-            mainColumnMode={ mainColumnMode }
-            setNewResourceMode={ setNewResourceMode }
-            newResourceMode={ newResourceMode }
-            defaultSectionMetadata={ defaultSectionMetadata }
-            onNewSectionSubmit={ onNewSectionSubmit }
-            handleUpdateMetadata={ handleUpdateMetadata }
-            section={ section }
-            newResourceType={ newResourceType }
-            guessTitle={ guessTitle }
-            submitMultiResources={ submitMultiResources }
+            {
+              ...{
+                userLockedResourceId,
+                uploadResource,
+                createBibData,
+                story,
+                userId,
+                uploadStatus,
+                createResource,
+                updateResource,
+                setUploadStatus,
+                leaveBlock,
+                resources,
+                setMainColumnMode,
+                mainColumnMode,
+                setNewResourceMode,
+                newResourceMode,
+                defaultSectionMetadata,
+                onNewSectionSubmit,
+                handleUpdateMetadata,
+                section,
+                newResourceType,
+                guessTitle,
+                submitMultiResources,
+              }
+            }
           />
         </StretchedLayoutItem>
         <StretchedLayoutItem isFlex={ mainColumnMode === 'edition' && !userLockedResourceId ? 12 : 6 }>

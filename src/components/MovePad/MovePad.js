@@ -28,6 +28,15 @@ const MovePad = ( {
 } ) => {
 
   /**
+   * Computed variables
+   */
+  const tooltipProps = {
+    'data-for': 'tooltip',
+    'data-effect': 'solid',
+    'data-place': 'left'
+  };
+
+  /**
    * Callbacks handlers
    */
   const handleClickLeft = chevronsData.left && chevronsData.left.onClick;
@@ -46,10 +55,8 @@ const MovePad = ( {
       {
         chevronsData.left &&
         <div
+          {...tooltipProps}
           data-tip={ chevronsData.left.isDisabled ? undefined : chevronsData.left.tooltip }
-          data-for={ 'tooltip' }
-          data-effect={ 'solid' }
-          data-place={ 'left' }
           onClick={ handleClickLeft }
           className={ `move-item chevron-icon-left ${chevronsData.left.isDisabled ? 'is-disabled' : ''}` }
         >
@@ -59,10 +66,8 @@ const MovePad = ( {
       {
         chevronsData.right &&
         <div
+          {...tooltipProps}
           data-tip={ chevronsData.right.isDisabled ? undefined : chevronsData.right.tooltip }
-          data-for={ 'tooltip' }
-          data-effect={ 'solid' }
-          data-place={ 'left' }
           onClick={ handleClickRight }
           className={ `move-item chevron-icon-right ${chevronsData.right.isDisabled ? 'is-disabled' : ''}` }
         >
@@ -72,10 +77,8 @@ const MovePad = ( {
       {
         chevronsData.up &&
         <div
+          {...tooltipProps}
           data-tip={ chevronsData.up.isDisabled ? undefined : chevronsData.up.tooltip }
-          data-for={ 'tooltip' }
-          data-effect={ 'solid' }
-          data-place={ 'left' }
           onClick={ handleClickUp }
           className={ `move-item chevron-icon-up ${chevronsData.up.isDisabled ? 'is-disabled' : ''}` }
         >
@@ -85,10 +88,8 @@ const MovePad = ( {
       {
         chevronsData.down &&
         <div
+          {...tooltipProps}
           data-tip={ chevronsData.down.isDisabled ? undefined : chevronsData.down.tooltip }
-          data-for={ 'tooltip' }
-          data-effect={ 'solid' }
-          data-place={ 'left' }
           onClick={ handleClickDown }
           className={ `move-item chevron-icon-down ${chevronsData.down.isDisabled ? 'is-disabled' : ''}` }
         >
@@ -98,9 +99,7 @@ const MovePad = ( {
 
       <div
         className={ 'move-item move-button' }
-        data-for={ 'tooltip' }
-        data-place={ 'left' }
-        data-effect={ 'solid' }
+        {...tooltipProps}
         data-tip={ moveComponentToolTip }
       >
         <MoveComponent />

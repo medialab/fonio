@@ -979,6 +979,7 @@ class SectionEditor extends Component {
       props,
       onEditorChange: handleEditorChange,
       handleEditorPaste,
+      ElementLayoutComponent,
     } = this;
     const {
       story,
@@ -1112,6 +1113,14 @@ class SectionEditor extends Component {
         shouldHidePlaceholder = this.shouldHidePlaceholder( editorState );
       }
     }
+
+    const messages = {
+      addNote: this.translate( 'add-note' ),
+      summonAsset: this.translate( 'summon-asset' ),
+      cancel: this.translate( 'cancel' ),
+    };
+
+    const placeholderText = this.translate( 'start writing' );
 
     /**
      * Local functions
@@ -1256,62 +1265,49 @@ class SectionEditor extends Component {
             citations={ citationData }
           >
             <Editor
-              mainEditorState={ mainEditorState }
-              customContext={ customContext }
-              notes={ notes }
-              notesOrder={ notesOrder }
-              assets={ assets }
+               AssetButtonComponent={ RealAssetComponent }
+               AssetChoiceComponent={ ResourceSearchWidget }
+               NotePointerComponent={ NotePointer }
+               editorPlaceholder={ placeholderText }
+               inlineEntities={ additionalInlineEntities }
+               onAssetChange={ handleDataChange }
+               onAssetChoice={ handleAssetChoice }
+               onAssetRequest={ handleAssetRequest }
+               onAssetRequestCancel={ handleAssetRequestCancel }
+               onBlur={ handleBlur }
+               onClick={ handleClick }
+               onDragOver={ handleDragOver }
+               onDrop={ handleDrop }
+               onEditorChange={ handleEditorChange }
+               onNoteAdd={ addNote }
+               onNoteDelete={ deleteNote }
+               onNotePointerMouseClick={ handleNotePointerMouseClick }
+               ref={ bindEditorRef }
+               BibliographyComponent={ null }
+               assets={ assets }
+               customContext={ customContext }
+               handlePastedText={ handleEditorPaste }
+               mainEditorState={ mainEditorState }
+               notes={ notes }
+               notesOrder={ notesOrder }
 
-              handlePastedText={ handleEditorPaste }
+               {
+                ...{
+                   clipboard,
+                   focusedEditorId,
+                   inlineButtons,
+                   messages,
+                   assetRequestContentId,
+                   assetRequestPosition,
+                   assetChoiceProps,
+                   NoteLayout,
+                   NoteButtonComponent,
+                   ElementLayoutComponent,
+                   inlineAssetComponents,
+                   blockAssetComponents,
+                }
+              }
 
-              messages={ {
-                addNote: this.translate( 'add-note' ),
-                summonAsset: this.translate( 'summon-asset' ),
-                cancel: this.translate( 'cancel' ),
-              } }
-
-              BibliographyComponent={ null }
-
-              clipboard={ clipboard }
-
-              ref={ bindEditorRef }
-
-              focusedEditorId={ focusedEditorId }
-
-              onEditorChange={ handleEditorChange }
-
-              editorPlaceholder={ this.translate( 'start writing' ) }
-
-              onDrop={ handleDrop }
-              onDragOver={ handleDragOver }
-              onClick={ handleClick }
-              onBlur={ handleBlur }
-              inlineButtons={ inlineButtons }
-
-              onAssetRequest={ handleAssetRequest }
-              onAssetChange={ handleDataChange }
-              onAssetRequestCancel={ handleAssetRequestCancel }
-              onAssetChoice={ handleAssetChoice }
-              onNotePointerMouseClick={ handleNotePointerMouseClick }
-
-              onNoteAdd={ addNote }
-              onNoteDelete={ deleteNote }
-
-              assetRequestContentId={ assetRequestContentId }
-
-              assetRequestPosition={ assetRequestPosition }
-              assetChoiceProps={ assetChoiceProps }
-              NoteLayout={ NoteLayout }
-
-              NotePointerComponent={ NotePointer }
-              AssetButtonComponent={ RealAssetComponent }
-              NoteButtonComponent={ NoteButtonComponent }
-              ElementLayoutComponent={ this.ElementLayoutComponent }
-
-              inlineAssetComponents={ inlineAssetComponents }
-              blockAssetComponents={ blockAssetComponents }
-              AssetChoiceComponent={ ResourceSearchWidget }
-              inlineEntities={ additionalInlineEntities }
             />
           </ReferencesManager>
         </div>

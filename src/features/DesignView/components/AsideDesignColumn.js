@@ -170,19 +170,23 @@ const AsideDesignColumn = ( {
           isFlowing
         >
           <AsideDesignContents
-            designAsideTabCollapsed={ designAsideTabCollapsed }
-            designAsideTabMode={ designAsideTabMode }
-            handleOptionChange={ handleOptionChange }
-            setReferenceTypesVisible={ setReferenceTypesVisible }
-            templateOptions={ templateOptions }
-            onUpdateCss={ onUpdateCss }
-            story={ story }
-            stylesMode={ stylesMode }
-            setCssHelpVisible={ setCssHelpVisible }
-            options={ options }
-            resourceTypes={ resourceTypes }
-            handleUpdateReferenceTypes={ handleUpdateReferenceTypes }
-            referenceTypesVisible={ referenceTypesVisible }
+            {
+              ...{
+                designAsideTabCollapsed,
+                designAsideTabMode,
+                handleOptionChange,
+                setReferenceTypesVisible,
+                templateOptions,
+                onUpdateCss,
+                story,
+                stylesMode,
+                setCssHelpVisible,
+                options,
+                resourceTypes,
+                handleUpdateReferenceTypes,
+                referenceTypesVisible,
+              }
+            }
           />
         </StretchedLayoutItem>
       </StretchedLayoutContainer>

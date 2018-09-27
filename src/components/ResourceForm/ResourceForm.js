@@ -543,24 +543,25 @@ class ResourceForm extends Component {
                           columns={ bigSelectColumnsNumber }
                           onChange={ ( thatType ) => handleResourceTypeChange( thatType, formApi ) }
                           boxStyle={ { textAlign: 'center' } }
-                          options={ formApi.getValue( 'metadata.type' ) ?
-
-                                            [ {
-                                              id: formApi.getValue( 'metadata.type' ),
-                                              label: translate( formApi.getValue( 'metadata.type' ) ),
-                                              iconUrl: icons[formApi.getValue( 'metadata.type' )].black.svg
-                                            },
-                                            {
-                                              id: undefined,
-                                              label: translate( 'reset type' ),
-                                              iconUrl: icons.remove.black.svg
-                                            } ]
-                                            :
-                                            resourceTypes.map( ( thatType ) => ( {
-                                              id: thatType,
-                                              label: translate( thatType ),
-                                              iconUrl: icons[thatType].black.svg
-                                            } ) ) }
+                          options={ 
+                            formApi.getValue( 'metadata.type' ) ?
+                              [ {
+                                id: formApi.getValue( 'metadata.type' ),
+                                label: translate( formApi.getValue( 'metadata.type' ) ),
+                                iconUrl: icons[formApi.getValue( 'metadata.type' )].black.svg
+                              },
+                              {
+                                id: undefined,
+                                label: translate( 'reset type' ),
+                                iconUrl: icons.remove.black.svg
+                              } ]
+                              :
+                              resourceTypes.map( ( thatType ) => ( {
+                                id: thatType,
+                                label: translate( thatType ),
+                                iconUrl: icons[thatType].black.svg
+                              } ) ) 
+                          }
                         />
                       </Column>
                     }

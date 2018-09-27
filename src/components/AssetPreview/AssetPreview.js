@@ -170,18 +170,20 @@ class AssetPreview extends Component {
             accessor: key
           } ) );
         }
-        return ( <ReactTable
-          data={ data.json || this.state.data }
-          columns={ columns || this.state.columns }
-          loading={ this.state.loading }
-          previousText={ translate( 'table-previous' ) }
-          nextText={ translate( 'table-next' ) }
-          loadingText={ translate( 'table-loading' ) }
-          noDataText={ translate( 'table-no-rows-found' ) }
-          pageText={ translate( 'table-page' ) }
-          ofText={ translate( 'table-of' ) }
-          rowsText={ translate( 'table-row' ) }
-                 /> );
+        return ( 
+          <ReactTable
+            data={ data.json || this.state.data }
+            columns={ columns || this.state.columns }
+            loading={ this.state.loading }
+            previousText={ translate( 'table-previous' ) }
+            nextText={ translate( 'table-next' ) }
+            loadingText={ translate( 'table-loading' ) }
+            noDataText={ translate( 'table-no-rows-found' ) }
+            pageText={ translate( 'table-page' ) }
+            ofText={ translate( 'table-of' ) }
+            rowsText={ translate( 'table-row' ) }
+          /> 
+        );
       case 'image':
         return (
           <div className={ 'image-container' }>
@@ -313,26 +315,8 @@ class AssetPreview extends Component {
                 </Column>
               </Columns>
             </Level>
-            {/*<div>
-                <div style={{width: '100%'}}>
-                  <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
-                    <Button
-                      isFullWidth style={{overflow: 'visible'}} isColor="warning"
-                      onClick={this.onClickDelete}>
-                      <span style={{marginRight: '1em'}}>{translate('delete mention')}</span>
-                      <HelpPin>
-                        {translate(`The ${metadata.type} will not be delete from the library`)}
-                      </HelpPin>
-                    </Button>
-                  </Column>
-                  <Column style={{paddingLeft: 0, paddingRight: 0}} isSize={12}>
-                    <Button isFullWidth isColor="primary" onClick={this.onClickEdit}>
-                      {translate(`edit ${metadata.type}`)}
-                    </Button>
-                  </Column>
-                </div>
-              </div>*/}
-            {( metadata.description || metadata.source ) && isInfoShown &&
+            {
+              ( metadata.description || metadata.source ) && isInfoShown &&
               <Level>
                 <Columns>
                   <Column>
@@ -343,7 +327,8 @@ class AssetPreview extends Component {
                       </div>
                     }
                   </Column>
-                  {metadata.source &&
+                  {
+                    metadata.source &&
                     <Column>
                       <div>
                         <Title isSize={ 5 }>{translate( 'Source' )}</Title>

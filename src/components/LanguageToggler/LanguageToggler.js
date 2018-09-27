@@ -95,7 +95,8 @@ class LanguageToggler extends Component {
         onClick={ handleClick }
         className={ 'button' }
       >
-        {lang}<span style={ { opacity: 0.5 } }>/{otherLang}</span>
+        {lang}
+        <span style={ { opacity: 0.5 } }>/{otherLang}</span>
       </Button>
     );
   }

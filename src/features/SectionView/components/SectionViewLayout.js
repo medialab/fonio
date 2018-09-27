@@ -539,13 +539,38 @@ const SectionViewLayout = ( {
         isFlex={ 1 }
       >
         <AsideSectionColumn
-          activeUsers={ activeUsers }
-          asideTabCollapsed={ asideTabCollapsed }
-          asideTabMode={ asideTabMode }
-          getResourceTitle={ getResourceTitle }
-          history={ history }
-          lockingMap={ lockingMap }
-          mainColumnMode={ mainColumnMode }
+          {
+            ...{
+                  activeUsers,
+                  asideTabCollapsed,
+                  asideTabMode,
+                  getResourceTitle,
+                  handleSectionIndexChange,
+                  history,
+                  lockingMap,
+                  mainColumnMode,
+                  resourceFilterValues,
+                  resourceOptionsVisible,
+                  resourceSearchString,
+                  resourceSortValue,
+                  setAsideTabCollapsed,
+                  setAsideTabMode,
+                  setMainColumnMode,
+                  setResourceFilterValues,
+                  setResourceOptionsVisible,
+                  setResourceSearchString,
+                  setResourceSortValue,
+                  story,
+                  submitMultiResources,
+                  userId,
+                  userLockedResourceId,
+                  visibleResources,
+            }
+          }
+          sections={ sectionsList }
+          setEditorFocus={ handleSetEditorFocus }
+          reverseResourcesLockMap={ isEmpty( reverseResourcesLockMap ) ? reverseResourcesSectionsMap : reverseResourcesLockMap }
+          setSectionLevel={ handleSetSectionLevel }
           onCloseActiveResource={ handleCloseActiveResource }
           onCloseSectionSettings={ handleCloseSectionSettings }
           onDeleteResource={ handleDeleteResource }
@@ -554,95 +579,65 @@ const SectionViewLayout = ( {
           onResourceEditAttempt={ handleResourceEditAttempt }
           onSetCoverImage={ handleSetCoverImage }
           onSortEnd={ handleSectionsSortEnd }
-          resourceFilterValues={ resourceFilterValues }
-          resourceOptionsVisible={ resourceOptionsVisible }
-          resourceSearchString={ resourceSearchString }
-          resourceSortValue={ resourceSortValue }
-          reverseResourcesLockMap={ isEmpty( reverseResourcesLockMap ) ? reverseResourcesSectionsMap : reverseResourcesLockMap }
-          sections={ sectionsList }
-          setAsideTabCollapsed={ setAsideTabCollapsed }
-          setAsideTabMode={ setAsideTabMode }
-          setEditorFocus={ handleSetEditorFocus }
-          setMainColumnMode={ setMainColumnMode }
-          setResourceFilterValues={ setResourceFilterValues }
-          setResourceOptionsVisible={ setResourceOptionsVisible }
-          setResourceSearchString={ setResourceSearchString }
-          setResourceSortValue={ setResourceSortValue }
-          handleSectionIndexChange={ handleSectionIndexChange }
-          setSectionLevel={ handleSetSectionLevel }
-          story={ story }
-          submitMultiResources={ submitMultiResources }
-          userId={ userId }
-          userLockedResourceId={ userLockedResourceId }
-          visibleResources={ visibleResources }
         />
       </StretchedLayoutItem>
       <StretchedLayoutItem isFlex={ asideTabCollapsed ? 11 : 3 }>
         {hasLockOnSection ?
           <MainSectionColumn
-            userLockedResourceId={ userLockedResourceId }
-            mainColumnMode={ mainColumnMode }
-            setMainColumnMode={ setMainColumnMode }
-            section={ section }
-            story={ story }
-            userId={ userId }
-            selectedContextualizationId={ selectedContextualizationId }
+            {
+              ...{
+                assetRequestState,
+                createContextualization,
+                createContextualizer,
+                deleteContextualization,
+                deleteContextualizer,
+                draggedResourceId,
+                editorFocus,
+                editorPastingStatus,
+                editorStates,
+                enterBlock,
+                handleStartExistingResourceConfiguration,
+                handleStartNewResourceConfiguration,
+                leaveBlock,
+                mainColumnMode,
+                newResourceMode,
+                newResourceType,
+                previousEditorFocus,
+                promptAssetEmbed,
+                section,
+                selectedContextualizationId,
+                setAssetRequestContentId,
+                setEditorPastingStatus,
+                setErrorMessage,
+                setMainColumnMode,
+                setNewResourceMode,
+                setShortcutsHelpVisible,
+                setStoryIsSaved,
+                setUploadStatus,
+                story,
+                storyIsSaved,
+                submitMultiResources,
+                summonAsset,
+                unpromptAssetEmbed,
+                updateContextualizer,
+                updateDraftEditorState,
+                updateDraftEditorsStates,
+                updateResource,
+                uploadResource,
+                uploadStatus,
+                userId,
+                userLockedResourceId,
+              }
+            }
+            
             setSelectedContextualizationId={ handleSetSelectedContextualizationId }
             defaultSectionMetadata={ defaultSection.metadata }
-            editorStates={ editorStates }
-            editorFocus={ editorFocus }
-            previousEditorFocus={ previousEditorFocus }
-            assetRequestState={ assetRequestState }
-            draggedResourceId={ draggedResourceId }
-            setShortcutsHelpVisible={ setShortcutsHelpVisible }
-            uploadStatus={ uploadStatus }
-
-            setUploadStatus={ setUploadStatus }
-
-            newResourceMode={ newResourceMode }
-
             onNewSectionSubmit={ handleNewSectionSubmit }
-
             updateSection={ handleUpdateSection }
-
-            promptAssetEmbed={ promptAssetEmbed }
-            unpromptAssetEmbed={ unpromptAssetEmbed }
             setEditorFocus={ handleSetEditorFocus }
-
-            setNewResourceMode={ setNewResourceMode }
-
-            newResourceType={ newResourceType }
-            storyIsSaved={ storyIsSaved }
-
-            editorPastingStatus={ editorPastingStatus }
-            setEditorPastingStatus={ setEditorPastingStatus }
-
-            createContextualization={ createContextualization }
-            createContextualizer={ createContextualizer }
-            createResource={ handleCreateResource }
-            uploadResource={ uploadResource }
-
-            enterBlock={ enterBlock }
-            leaveBlock={ leaveBlock }
-
-            updateDraftEditorState={ updateDraftEditorState }
-            updateDraftEditorsStates={ updateDraftEditorsStates }
-
-            updateContextualizer={ updateContextualizer }
-            updateResource={ updateResource }
-            deleteContextualization={ deleteContextualization }
-            deleteContextualizer={ deleteContextualizer }
             deleteContextualizationFromId={ handleDeleteContextualizationFromId }
-
+            createResource={ handleCreateResource }
             onOpenSectionSettings={ handleOpenSectionSettings }
-            submitMultiResources={ submitMultiResources }
-
-            setAssetRequestContentId={ setAssetRequestContentId }
-            handleStartNewResourceConfiguration={ handleStartNewResourceConfiguration }
-            handleStartExistingResourceConfiguration={ handleStartExistingResourceConfiguration }
-            setStoryIsSaved={ setStoryIsSaved }
-            setErrorMessage={ setErrorMessage }
-            summonAsset={ summonAsset }
           />
             : <LoadingScreen />
         }
