@@ -55,7 +55,7 @@ const MovePad = ( {
       {
         chevronsData.left &&
         <div
-          {...tooltipProps}
+          { ...tooltipProps }
           data-tip={ chevronsData.left.isDisabled ? undefined : chevronsData.left.tooltip }
           onClick={ handleClickLeft }
           className={ `move-item chevron-icon-left ${chevronsData.left.isDisabled ? 'is-disabled' : ''}` }
@@ -66,7 +66,7 @@ const MovePad = ( {
       {
         chevronsData.right &&
         <div
-          {...tooltipProps}
+          { ...tooltipProps }
           data-tip={ chevronsData.right.isDisabled ? undefined : chevronsData.right.tooltip }
           onClick={ handleClickRight }
           className={ `move-item chevron-icon-right ${chevronsData.right.isDisabled ? 'is-disabled' : ''}` }
@@ -77,7 +77,7 @@ const MovePad = ( {
       {
         chevronsData.up &&
         <div
-          {...tooltipProps}
+          { ...tooltipProps }
           data-tip={ chevronsData.up.isDisabled ? undefined : chevronsData.up.tooltip }
           onClick={ handleClickUp }
           className={ `move-item chevron-icon-up ${chevronsData.up.isDisabled ? 'is-disabled' : ''}` }
@@ -88,7 +88,7 @@ const MovePad = ( {
       {
         chevronsData.down &&
         <div
-          {...tooltipProps}
+          { ...tooltipProps }
           data-tip={ chevronsData.down.isDisabled ? undefined : chevronsData.down.tooltip }
           onClick={ handleClickDown }
           className={ `move-item chevron-icon-down ${chevronsData.down.isDisabled ? 'is-disabled' : ''}` }
@@ -99,7 +99,7 @@ const MovePad = ( {
 
       <div
         className={ 'move-item move-button' }
-        {...tooltipProps}
+        { ...tooltipProps }
         data-tip={ moveComponentToolTip }
       >
         <MoveComponent />

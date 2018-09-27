@@ -629,7 +629,7 @@ const SectionViewLayout = ( {
                 userLockedResourceId,
               }
             }
-            
+
             setSelectedContextualizationId={ handleSetSelectedContextualizationId }
             defaultSectionMetadata={ defaultSection.metadata }
             onNewSectionSubmit={ handleNewSectionSubmit }

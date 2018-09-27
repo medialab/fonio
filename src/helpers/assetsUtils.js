@@ -159,9 +159,7 @@ export const loadImage = ( file ) => {
         }
       } )
       .then( ( newBase64 ) => resolve( newBase64 ) )
-      .catch( ( e ) => {
-        console.error( e );/* eslint no-console : 0 */
-      } );
+      .catch( console.error ); /* eslint no-console : 0 */
 
       reader = undefined;
     };
@@ -626,8 +624,6 @@ export const deleteContextualizationFromId = ( {
   };
 
   export const removeContextualizationReferenceFromRawContents = ( contents, contId ) => {
-
-      // console.log('looking for', contId);
       let changed;
       const newContents = Object.keys( contents.entityMap ).reduce( ( result, entityKey ) => {
         const entity = contents.entityMap[entityKey];

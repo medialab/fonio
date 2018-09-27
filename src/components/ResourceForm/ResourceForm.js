@@ -543,7 +543,7 @@ class ResourceForm extends Component {
                           columns={ bigSelectColumnsNumber }
                           onChange={ ( thatType ) => handleResourceTypeChange( thatType, formApi ) }
                           boxStyle={ { textAlign: 'center' } }
-                          options={ 
+                          options={
                             formApi.getValue( 'metadata.type' ) ?
                               [ {
                                 id: formApi.getValue( 'metadata.type' ),
@@ -560,7 +560,7 @@ class ResourceForm extends Component {
                                 id: thatType,
                                 label: translate( thatType ),
                                 iconUrl: icons[thatType].black.svg
-                              } ) ) 
+                              } ) )
                           }
                         />
                       </Column>

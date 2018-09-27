@@ -1265,33 +1265,33 @@ class SectionEditor extends Component {
             citations={ citationData }
           >
             <Editor
-               AssetButtonComponent={ RealAssetComponent }
-               AssetChoiceComponent={ ResourceSearchWidget }
-               NotePointerComponent={ NotePointer }
-               editorPlaceholder={ placeholderText }
-               inlineEntities={ additionalInlineEntities }
-               onAssetChange={ handleDataChange }
-               onAssetChoice={ handleAssetChoice }
-               onAssetRequest={ handleAssetRequest }
-               onAssetRequestCancel={ handleAssetRequestCancel }
-               onBlur={ handleBlur }
-               onClick={ handleClick }
-               onDragOver={ handleDragOver }
-               onDrop={ handleDrop }
-               onEditorChange={ handleEditorChange }
-               onNoteAdd={ addNote }
-               onNoteDelete={ deleteNote }
-               onNotePointerMouseClick={ handleNotePointerMouseClick }
-               ref={ bindEditorRef }
-               BibliographyComponent={ null }
-               assets={ assets }
-               customContext={ customContext }
-               handlePastedText={ handleEditorPaste }
-               mainEditorState={ mainEditorState }
-               notes={ notes }
-               notesOrder={ notesOrder }
+              AssetButtonComponent={ RealAssetComponent }
+              AssetChoiceComponent={ ResourceSearchWidget }
+              NotePointerComponent={ NotePointer }
+              editorPlaceholder={ placeholderText }
+              inlineEntities={ additionalInlineEntities }
+              onAssetChange={ handleDataChange }
+              onAssetChoice={ handleAssetChoice }
+              onAssetRequest={ handleAssetRequest }
+              onAssetRequestCancel={ handleAssetRequestCancel }
+              onBlur={ handleBlur }
+              onClick={ handleClick }
+              onDragOver={ handleDragOver }
+              onDrop={ handleDrop }
+              onEditorChange={ handleEditorChange }
+              onNoteAdd={ addNote }
+              onNoteDelete={ deleteNote }
+              onNotePointerMouseClick={ handleNotePointerMouseClick }
+              ref={ bindEditorRef }
+              BibliographyComponent={ null }
+              assets={ assets }
+              customContext={ customContext }
+              handlePastedText={ handleEditorPaste }
+              mainEditorState={ mainEditorState }
+              notes={ notes }
+              notesOrder={ notesOrder }
 
-               {
+              {
                 ...{
                    clipboard,
                    focusedEditorId,

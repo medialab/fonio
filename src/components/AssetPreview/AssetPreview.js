@@ -170,7 +170,7 @@ class AssetPreview extends Component {
             accessor: key
           } ) );
         }
-        return ( 
+        return (
           <ReactTable
             data={ data.json || this.state.data }
             columns={ columns || this.state.columns }
@@ -182,7 +182,7 @@ class AssetPreview extends Component {
             pageText={ translate( 'table-page' ) }
             ofText={ translate( 'table-of' ) }
             rowsText={ translate( 'table-row' ) }
-          /> 
+          />
         );
       case 'image':
         return (
