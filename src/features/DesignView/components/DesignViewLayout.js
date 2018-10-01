@@ -65,13 +65,13 @@ const DesignViewLayout = ( {
       isAbsolute
     >
       <AsideDesignColumn
-        story={ story }
-        designAsideTabCollapsed={ designAsideTabCollapsed }
-        designAsideTabMode={ designAsideTabMode }
         style={ { minWidth: designAsideTabCollapsed ? undefined : '30%' } }
         className={ `aside-edition-container ${designAsideTabCollapsed ? 'is-collapsed' : ''} is-hidden-mobile` }
         {
           ...{
+              story,
+              designAsideTabCollapsed,
+              designAsideTabMode,
               setCssHelpVisible,
               setDesignAsideTabMode,
               setDesignAsideTabCollapsed,
