@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { v4 as genId } from 'uuid';
-import { isEmpty } from 'lodash';
+import { isEmpty, uniq } from 'lodash';
 import { arrayMove } from 'react-sortable-hoc';
 import {
   convertToRaw,
@@ -277,27 +277,6 @@ const SectionViewLayout = ( {
   const handleDeleteResource = ( thatResourceId ) => {
     setPromptedToDeleteResourceId( thatResourceId );
   };
-  const handleDeleteSectionExecution = ( thatSectionId ) => {
-
-    /*
-     * make sure that section is not edited by another user to prevent bugs and inconsistencies
-     * (in UI delete button should be disabled when section is edited, this is a supplementary safety check)
-     */
-    if ( !reverseSectionLockMap[thatSectionId] ) {
-      deleteSection( {
-        sectionId: thatSectionId,
-        storyId,
-        userId,
-        blockId: thatSectionId,
-        blockType: 'sections',
-      } );
-    }
-  };
-
-  const handleDeleteSectionConfirm = () => {
-    handleDeleteSectionExecution( promptedToDeleteSectionId );
-    setPromptedToDeleteSectionId( undefined );
-  };
 
   const handleDeleteResourceConfirm = () => {
     const resource = resources[promptedToDeleteResourceId];
@@ -312,7 +291,7 @@ const SectionViewLayout = ( {
         } );
 
     const relatedContextualizationsIds = relatedContextualizations.map( ( c ) => c.id );
-    const relatedContextualizationsSectionIds = relatedContextualizations.map( ( c ) => c.sectionId );
+    const relatedContextualizationsSectionIds = uniq( relatedContextualizations.map( ( c ) => c.sectionId ) );
 
     const changedContentStates = {};
     if ( relatedContextualizationsIds.length ) {
@@ -413,6 +392,28 @@ const SectionViewLayout = ( {
       deleteResource( payload );
     }
     setPromptedToDeleteResourceId( undefined );
+  };
+
+  const handleDeleteSectionExecution = ( thatSectionId ) => {
+
+    /*
+     * make sure that section is not edited by another user to prevent bugs and inconsistencies
+     * (in UI delete button should be disabled when section is edited, this is a supplementary safety check)
+     */
+    if ( !reverseSectionLockMap[thatSectionId] ) {
+      deleteSection( {
+        sectionId: thatSectionId,
+        storyId,
+        userId,
+        blockId: thatSectionId,
+        blockType: 'sections',
+      } );
+    }
+  };
+
+  const handleDeleteSectionConfirm = () => {
+    handleDeleteSectionExecution( promptedToDeleteSectionId );
+    setPromptedToDeleteSectionId( undefined );
   };
 
   const handleOpenSectionSettings = () => {
