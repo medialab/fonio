@@ -54,7 +54,7 @@ All of these tests have to be valid on 3 following platforms:
 
 | user story | Chrome | Firefox |
 | --- | --- | --- |
-| Write contents | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
+| Write contents following [draft-js manual testing](https://github.com/facebook/draft-js/wiki/Manual-Testing) checklist | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Write contents using GUI for formatting | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Write contents using markdown contents for formatting | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | create an inline contextualization through drag&drop | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
