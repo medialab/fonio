@@ -84,8 +84,8 @@ const MainSectionColumn = ( {
   setStoryIsSaved,
   setErrorMessage,
   setAssetRequestContentId,
-  startNewResourceConfiguration,
-  startExistingResourceConfiguration,
+  handleStartNewResourceConfiguration,
+  handleStartExistingResourceConfiguration,
 
   submitMultiResources,
 
@@ -266,57 +266,50 @@ const MainSectionColumn = ( {
               <StretchedLayoutItem isFlex={ 1 }>
                 <Column isWrapper>
                   <SectionEditor
-                    editorWidth={ editorWidth }
-                    editorOffset={ editorX }
-                    style={ { height: '100%' } }
-                    story={ story }
+                    {
+                      ...{
+                        assetRequestState,
+                        createContextualization,
+                        createContextualizer,
+                        createResource,
+                        deleteContextualization,
+                        deleteContextualizationFromId,
+                        deleteContextualizer,
+                        draggedResourceId,
+                        editorFocus,
+                        editorPastingStatus,
+                        editorStates,
+                        editorWidth,
+                        previousEditorFocus,
+                        selectedContextualizationId,
+                        setAssetRequestContentId,
+                        setEditorBlocked,
+                        setEditorFocus,
+                        setEditorPastingStatus,
+                        setErrorMessage,
+                        setSelectedContextualizationId,
+                        setStoryIsSaved,
+                        story,
+                        summonAsset,
+                        updateContextualizer,
+                        updateDraftEditorsStates,
+                        updateDraftEditorState,
+                        updateResource,
+                        userId,
+                      }
+                    }
                     activeSection={ section }
-                    sectionId={ section.id }
-                    editorStates={ editorStates }
-                    updateDraftEditorState={ updateDraftEditorState }
-                    updateDraftEditorsStates={ updateDraftEditorsStates }
-                    editorFocus={ editorFocus }
-                    previousEditorFocus={ previousEditorFocus }
-                    userId={ userId }
-                    draggedResourceId={ draggedResourceId }
-                    disablePaste={ ( userLockedResourceId || mainColumnMode !== 'edit' ) && !editorFocus }
-
-                    updateSection={ handleUpdateSection }
-
-                    summonAsset={ summonAsset }
-
-                    setEditorPastingStatus={ setEditorPastingStatus }
-                    editorPastingStatus={ editorPastingStatus }
-
-                    createContextualization={ createContextualization }
-                    createContextualizer={ createContextualizer }
-                    createResource={ createResource }
-
-                    selectedContextualizationId={ selectedContextualizationId }
-                    setSelectedContextualizationId={ setSelectedContextualizationId }
-
-                    updateContextualizer={ updateContextualizer }
-                    updateResource={ updateResource }
-
-                    deleteContextualization={ deleteContextualization }
-                    deleteContextualizationFromId={ deleteContextualizationFromId }
-                    deleteContextualizer={ deleteContextualizer }
-
-                    requestAsset={ promptAssetEmbed }
-                    cancelAssetRequest={ unpromptAssetEmbed }
-
-                    assetRequestState={ assetRequestState }
-                    setAssetRequestContentId={ setAssetRequestContentId }
-                    assetRequestPosition={ assetRequestState.selection }
                     assetRequestContentId={ assetRequestState.editorId }
-
-                    startNewResourceConfiguration={ startNewResourceConfiguration }
-                    startExistingResourceConfiguration={ startExistingResourceConfiguration }
-                    setStoryIsSaved={ setStoryIsSaved }
-                    setErrorMessage={ setErrorMessage }
-
-                    setEditorBlocked={ setEditorBlocked }
-                    setEditorFocus={ setEditorFocus }
+                    assetRequestPosition={ assetRequestState.selection }
+                    cancelAssetRequest={ unpromptAssetEmbed }
+                    disablePaste={ ( userLockedResourceId || mainColumnMode !== 'edit' ) && !editorFocus }
+                    editorOffset={ editorX }
+                    requestAsset={ promptAssetEmbed }
+                    sectionId={ section.id }
+                    startExistingResourceConfiguration={ handleStartExistingResourceConfiguration }
+                    startNewResourceConfiguration={ handleStartNewResourceConfiguration }
+                    style={ { height: '100%' } }
+                    updateSection={ handleUpdateSection }
                   />
 
                 </Column>
