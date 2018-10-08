@@ -13,6 +13,10 @@ import { convertFromHTML } from 'draft-convert';
 
 import parsePastedLink from './parsePastedLink';
 
+
+const HTML_LENGTH_LOADING_SCREEN_THRESHOLD = 1000;
+const MEDIUM_TIMEOUT = 500;
+
 const pasteFromOutside = ( {
   html = '',
   activeEditorState,
@@ -239,11 +243,11 @@ const pasteFromOutside = ( {
   /**
    * We show a loading modal only if html content is big enough
    */
-  if ( html.length > 1000 ) {
+  if ( html.length > HTML_LENGTH_LOADING_SCREEN_THRESHOLD ) {
     setEditorPastingStatus( {
       status: 'converting-contents'
     } );
-    setTimeout( handle, 500 );
+    setTimeout( handle, MEDIUM_TIMEOUT );
   }
  else handle();
 

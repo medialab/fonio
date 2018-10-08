@@ -30,6 +30,7 @@ import {
  * Shared variables
  */
 const MAX_STR_LEN = 80;
+const ABSTRACT_MAX_LENGTH = 300;
 
 const InlineIcon = ( {
   icon
@@ -114,7 +115,7 @@ const StoryCard = ( {
             {
             story.metadata.abstract && story.metadata.abstract.length > 0 &&
             <Content>
-              {abbrevString( story.metadata.abstract, 300 )}
+              {abbrevString( story.metadata.abstract, ABSTRACT_MAX_LENGTH )}
             </Content>
           }
           </div>

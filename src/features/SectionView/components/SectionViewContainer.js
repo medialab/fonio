@@ -64,6 +64,7 @@ import config from '../../../config';
  * Shared variables
  */
 const { maxBatchNumber } = config;
+const SHORT_TIMEOUT = 100;
 
 @connect(
   ( state ) => ( {
@@ -376,7 +377,7 @@ class SectionViewContainer extends Component {
         this.props.actions.setUploadStatus( undefined );
         setErrorMessage( { type: 'SUBMIT_MULTI_RESOURCES_FAIL', error } );
       } );
-    }, 100 );
+    }, SHORT_TIMEOUT );
 
   }
 

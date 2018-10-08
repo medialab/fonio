@@ -48,6 +48,10 @@ import NewSectionForm from '../../../components/NewSectionForm';
 import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 import SortableSectionsList from './SortableSectionsList';
 import AuthorItem from './AuthorItem';
+/**
+ * Shared constants
+ */
+const ABSTRACT_MAX_LENGTH = 300;
 
 const SummaryViewLayout = ( {
   editedStory: story,
@@ -288,7 +292,7 @@ const SummaryViewLayout = ( {
                     }
                 </div>
                 <Content>
-                  <i>{abbrevString( abstract, 300 )}</i>
+                  <i>{abbrevString( abstract, ABSTRACT_MAX_LENGTH )}</i>
                 </Content>
               </Collapsable>
             </Level>

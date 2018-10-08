@@ -65,6 +65,8 @@ import config from '../../../config';
 const { maxBatchNumber, maxResourceSize } = config;
 const realMaxFileSize = base64ToBytesLength( maxResourceSize );
 const resourceTypes = Object.keys( resourceSchema.definitions );
+const MEDIUM_TIMEOUT = 500;
+const SHORT_TIMEOUT = 100;
 
 class LibraryViewLayout extends Component {
 
@@ -73,7 +75,7 @@ class LibraryViewLayout extends Component {
     this.state = {
       searchString: ''
     };
-    this.setResourceSearchString = debounce( this.setResourceSearchString, 500 );
+    this.setResourceSearchString = debounce( this.setResourceSearchString, MEDIUM_TIMEOUT );
   }
 
   componentDidMount = () => {
@@ -583,7 +585,7 @@ class LibraryViewLayout extends Component {
                   console.error( e );/* eslint no-console : 0 */
                   setUploadStatus( undefined );
                 } );
-            }, 100 );
+            }, SHORT_TIMEOUT );
           }
           else {
             createResource( payload );

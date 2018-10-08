@@ -41,6 +41,10 @@ import BibliographicPreview from '../BibliographicPreview';
  */
 import 'react-table/react-table.css';
 import './AssetPreview.scss';
+/**
+ * Shared constants
+ */
+const LONG_TEXT_MAX_LENGTH = 500;
 
 /**
  * EmbedContainer class for building react component instances
@@ -323,7 +327,7 @@ class AssetPreview extends Component {
                     {metadata.description &&
                       <div>
                         <Title isSize={ 5 }>{translate( 'Description' )}</Title>
-                        <Content>{abbrevString( metadata.description, 500 )}</Content>
+                        <Content>{abbrevString( metadata.description, LONG_TEXT_MAX_LENGTH )}</Content>
                       </div>
                     }
                   </Column>
@@ -332,7 +336,7 @@ class AssetPreview extends Component {
                     <Column>
                       <div>
                         <Title isSize={ 5 }>{translate( 'Source' )}</Title>
-                        <Content>{abbrevString( metadata.source, 500 )}</Content>
+                        <Content>{abbrevString( metadata.source, LONG_TEXT_MAX_LENGTH )}</Content>
                       </div>
                     </Column>
                   }

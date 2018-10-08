@@ -34,6 +34,7 @@ import AsideSectionContents from './AsideSectionContents';
  * Shared variables
  */
 const resourceTypes = Object.keys( resourceSchema.definitions );
+const MEDIUM_TIMEOUT = 500;
 
 class AsideSectionColumn extends Component {
 
@@ -42,7 +43,7 @@ class AsideSectionColumn extends Component {
     this.state = {
       searchString: ''
     };
-    this.setResourceSearchString = debounce( this.setResourceSearchString, 500 );
+    this.setResourceSearchString = debounce( this.setResourceSearchString, MEDIUM_TIMEOUT );
   }
 
   componentDidMount = () => {

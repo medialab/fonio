@@ -43,6 +43,8 @@ import generateRandomUserInfo from './helpers/userInfo';
 import 'quinoa-design-library/themes/millet/style.css';
 import './Application.scss';
 
+const TOASTER_TIMEOUT = 6000;
+
 const ProtectedRoutes = ( { match } ) => {
   return (
     <AuthWrapper>
@@ -165,7 +167,7 @@ export default class Application extends Component {
               </Switch>
               }
             <ReduxToastr
-              timeOut={ 6000 }
+              timeOut={ TOASTER_TIMEOUT }
               newestOnTop={ false }
               preventDuplicates
               position={ 'top-right' }

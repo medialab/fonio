@@ -99,6 +99,9 @@ const timers = {
   short: 100
 };
 
+const UPDATE_RAW_CONTENTS_TIMEOUT = 2000;
+const MEDIUM_TIMEOUT = 500;
+
 const {
   deleteNoteFromEditor,
   updateNotesFromEditor,
@@ -261,8 +264,8 @@ class SectionEditor extends Component {
     };
     // SectionRawContent = this.updateSectionRawContent.bind(this);
     this.updateSectionRawContent = this.updateSectionRawContent.bind( this );
-    this.updateSectionRawContentDebounced = debounce( this.updateSectionRawContent, 2000 );
-    this.debouncedCleanStuffFromEditorInspection = debounce( this.cleanStuffFromEditorInspection, 500 );
+    this.updateSectionRawContentDebounced = debounce( this.updateSectionRawContent, UPDATE_RAW_CONTENTS_TIMEOUT );
+    this.debouncedCleanStuffFromEditorInspection = debounce( this.cleanStuffFromEditorInspection, MEDIUM_TIMEOUT );
 
     this.handlePaste = handlePaste.bind( this );
     this.handleCopy = handleCopy.bind( this );
@@ -360,7 +363,7 @@ class SectionEditor extends Component {
          */
         setTimeout( () => {
           this.updateStateFromProps( this.props );
-        }, 500 );
+        }, MEDIUM_TIMEOUT );
       } );
     }
   }
@@ -443,7 +446,7 @@ class SectionEditor extends Component {
               linkPopupData: undefined
             } );
           }
-        }, 500 );
+        }, MEDIUM_TIMEOUT );
       }
     }
   }
@@ -672,7 +675,7 @@ class SectionEditor extends Component {
       this.props.setEditorFocus( id );
       this.editor.scrollToNote( id );
       // this.editor.focus(id);
-    }, 500 );
+    }, MEDIUM_TIMEOUT );
   }
 
   /**

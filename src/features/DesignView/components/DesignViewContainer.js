@@ -35,6 +35,10 @@ import DataUrlProvider from '../../../components/DataUrlProvider';
  * Imports Assets
  */
 import config from '../../../config';
+/**
+ * Shared constants
+ */
+const MEDIUM_TIMEOUT = 500;
 
 @connect(
   ( state ) => ( {
@@ -57,7 +61,7 @@ class DesignViewContainer extends Component {
 
   constructor( props ) {
     super( props );
-    this.onUpdateCss = debounce( this.onUpdateCss, 500 );
+    this.onUpdateCss = debounce( this.onUpdateCss, MEDIUM_TIMEOUT );
   }
 
   componentDidMount = () => {
