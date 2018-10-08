@@ -1,5 +1,5 @@
 {
-  "All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)": "Tous les raccourcis présentés ci-dessous sont également accessibles à travers l'interface graphique de l'éditeur (déplacer le curseur / sélectionner du texte).",
+  "Features.SectionView.All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)": "Tous les raccourcis présentés ci-dessous sont également accessibles à travers l'interface graphique de l'éditeur (déplacer le curseur / sélectionner du texte).",
   "Components.AssetPreview.Description": "Description",
   "Components.AssetPreview.Source": "Source",
   "Components.AssetPreview.Unnamed resource": "Resource sans titre",
@@ -612,5 +612,9 @@
   "Features.EditionUiWrapper.Untitled section": "Section sans titre",
   "Features.EditionUiWrapper.Overview": "Vue d'ensemble",
   "Features.SectionView.One item": "Un item",
-  "Features.SectionView.Several items": "Plusieurs items"
+  "Features.SectionView.Several items": "Plusieurs items",
+  "Features.LibraryView.small": "small",
+  "Features.SectionView.tooltip": "tooltip",
+  "Features.SectionView.small": "small",
+  "All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)": "All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)."
 }

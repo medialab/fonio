@@ -1,88 +1,111 @@
+/**
+ * This module provides a ui components for handling an element moving (top, left, up, down - or drag)
+ * @module fonio/components/MovePad
+ */
+/**
+ * Imports Libraries
+ */
 import React from 'react';
-
 import {
-  // Button,
-  Icon
+  Icon,
 } from 'quinoa-design-library/components/';
 
+/**
+ * Imports Project utils
+ */
+import { silentEvent } from '../../helpers/misc';
+
+/**
+ * Imports Assets
+ */
 import './MovePad.scss';
 
-const MovePad = ({
+const MovePad = ( {
   style,
   MoveComponent,
   chevronsData = {},
   moveComponentToolTip,
-}) => {
-  const silent = event => {
-    event.stopPropagation();
+} ) => {
+
+  /**
+   * Computed variables
+   */
+  const tooltipProps = {
+    'data-for': 'tooltip',
+    'data-effect': 'solid',
+    'data-place': 'left'
   };
+
+  /**
+   * Callbacks handlers
+   */
+  const handleClickLeft = chevronsData.left && chevronsData.left.onClick;
+  const handleClickRight = chevronsData.right && chevronsData.right.onClick;
+  const handleClickUp = chevronsData.up && chevronsData.up.onClick;
+  const handleClickDown = chevronsData.down && chevronsData.down.onClick;
+
   return (
     <div
-      onMouseUp={silent} onMouseDown={silent} onClick={silent}
-      style={style} className="move-pad">
+      onMouseUp={ silentEvent }
+      onMouseDown={ silentEvent }
+      onClick={ silentEvent }
+      style={ style }
+      className={ 'move-pad' }
+    >
       {
         chevronsData.left &&
         <div
-          data-tip={chevronsData.left.isDisabled ? undefined : chevronsData.left.tooltip}
-          data-for="tooltip"
-          data-effect="solid"
-          data-place="left"
-          onClick={chevronsData.left.onClick}
-          className={`move-item chevron-icon-left ${chevronsData.left.isDisabled ? 'is-disabled' : ''}`}>
-          <Icon icon={'chevron-left'} />
+          { ...tooltipProps }
+          data-tip={ chevronsData.left.isDisabled ? undefined : chevronsData.left.tooltip }
+          onClick={ handleClickLeft }
+          className={ `move-item chevron-icon-left ${chevronsData.left.isDisabled ? 'is-disabled' : ''}` }
+        >
+          <Icon icon={ 'chevron-left' } />
         </div>
       }
       {
         chevronsData.right &&
         <div
-          data-tip={chevronsData.right.isDisabled ? undefined : chevronsData.right.tooltip}
-          data-for="tooltip"
-          data-effect="solid"
-          data-place="left"
-          onClick={chevronsData.right.onClick}
-          className={`move-item chevron-icon-right ${chevronsData.right.isDisabled ? 'is-disabled' : ''}`}>
-          <Icon icon={'chevron-right'} />
+          { ...tooltipProps }
+          data-tip={ chevronsData.right.isDisabled ? undefined : chevronsData.right.tooltip }
+          onClick={ handleClickRight }
+          className={ `move-item chevron-icon-right ${chevronsData.right.isDisabled ? 'is-disabled' : ''}` }
+        >
+          <Icon icon={ 'chevron-right' } />
         </div>
       }
       {
         chevronsData.up &&
         <div
-          data-tip={chevronsData.up.isDisabled ? undefined : chevronsData.up.tooltip}
-          data-for="tooltip"
-          data-effect="solid"
-          data-place="left"
-          onClick={chevronsData.up.onClick}
-          className={`move-item chevron-icon-up ${chevronsData.up.isDisabled ? 'is-disabled' : ''}`}>
-          <Icon icon={'chevron-up'} />
+          { ...tooltipProps }
+          data-tip={ chevronsData.up.isDisabled ? undefined : chevronsData.up.tooltip }
+          onClick={ handleClickUp }
+          className={ `move-item chevron-icon-up ${chevronsData.up.isDisabled ? 'is-disabled' : ''}` }
+        >
+          <Icon icon={ 'chevron-up' } />
         </div>
       }
       {
         chevronsData.down &&
         <div
-          data-tip={chevronsData.down.isDisabled ? undefined : chevronsData.down.tooltip}
-          data-for="tooltip"
-          data-effect="solid"
-          data-place="left"
-          onClick={chevronsData.down.onClick}
-          className={`move-item chevron-icon-down ${chevronsData.down.isDisabled ? 'is-disabled' : ''}`}>
-          <Icon icon={'chevron-down'} />
+          { ...tooltipProps }
+          data-tip={ chevronsData.down.isDisabled ? undefined : chevronsData.down.tooltip }
+          onClick={ handleClickDown }
+          className={ `move-item chevron-icon-down ${chevronsData.down.isDisabled ? 'is-disabled' : ''}` }
+        >
+          <Icon icon={ 'chevron-down' } />
         </div>
       }
 
       <div
-        // onMouseUp={e => {console.log('up');e.preventDefault(); e.stopPropagation()}}
-        // onMouseDown={e => {e.preventDefault(); e.stopPropagation()}}
-        // onClick={e => {e.preventDefault(); e.stopPropagation()}}
-        className="move-item move-button"
-        data-for="tooltip"
-        data-place="left"
-        data-effect="solid"
-        data-tip={moveComponentToolTip}>
+        className={ 'move-item move-button' }
+        { ...tooltipProps }
+        data-tip={ moveComponentToolTip }
+      >
         <MoveComponent />
       </div>
     </div>
   );
 };
-
 
 export default MovePad;

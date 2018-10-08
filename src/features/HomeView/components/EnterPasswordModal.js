@@ -1,22 +1,28 @@
+/**
+ * This module provides a modal for inputing a password for a new story
+ * @module fonio/features/HomeView
+ */
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import {translateNameSpacer} from '../../../helpers/translateUtils';
-
+import { translateNameSpacer } from '../../../helpers/translateUtils';
+import { Form } from 'react-form';
 import {
   Button,
   ModalCard,
   Field,
-  Label,
-  HelpPin,
-  Control,
-  Icon,
-  Help
+  Help,
 } from 'quinoa-design-library/components/';
 
-import {Form, Text} from 'react-form';
+/**
+ * Imports Components
+ */
+import PasswordInput from '../../../components/PasswordInput';
+import ExplainedLabel from '../../../components/ExplainedLabel';
 
-const EnterPasswordModal = ({
+const EnterPasswordModal = ( {
   mode,
   status,
   loginStatus,
@@ -24,75 +30,87 @@ const EnterPasswordModal = ({
   onCancel
 }, {
   t
-}) => {
-  const translate = translateNameSpacer(t, 'Components.EnterPasswordModal');
+} ) => {
 
-  const onSumitForm = values => {
-    onSubmitPassword(values.password);
-  };
-
-  const errorValidator = (values) => {
+  /**
+   * Local functions
+   */
+  const translate = translateNameSpacer( t, 'Components.EnterPasswordModal' );
+  const errorValidator = ( values ) => {
     return {
-      password: (!values.password || (mode === 'create' && values.password.length < 6)) ? translate('Password should be at least 6 characters') : null,
+      password: ( !values.password || ( mode === 'create' && values.password.length < 6 ) ) ? translate( 'Password should be at least 6 characters' ) : null,
     };
   };
 
+  /**
+   * Callbacks handlers
+   */
+  const handleSubmitForm = ( values ) => {
+    onSubmitPassword( values.password );
+  };
+
   return (
-    <Form onSubmit={onSumitForm} validate={errorValidator}>
+    <Form
+      onSubmit={ handleSubmitForm }
+      validate={ errorValidator }
+    >
       {
-        formApi => (
-          <form onSubmit={formApi.submitForm} className="fonio-form">
-            <ModalCard
-              isActive
-              headerContent={mode === 'create' ? translate('Create story') : translate('Override story')}
-              onClose={onCancel}
-              mainContent={
-                <Field>
-                  <Label>
-                    {mode === 'create' ? translate('Create a story password') : translate('Enter password of the story')}
-                    <HelpPin place="right">
-                      {translate('Explanation about the password')}
-                    </HelpPin>
-                  </Label>
-                  <Control hasIcons>
-                    <Text
-                      className="input" field="password" id="password"
-                      type="password" />
-                    {/*<Input
-                      isColor="success" placeholder="Text Input" value="bloomer"
-                      type="password" />*/}
-                    <Icon isSize="small" isAlign="left">
-                      <span className="fa fa-lock" aria-hidden="true" />
-                    </Icon>
-                  </Control>
-                  {
-                    formApi.touched.password && formApi.errors && formApi.errors.password &&
-                      <Help isColor="danger">{formApi.errors.password}</Help>
-                  }
-                  {
-                    mode === 'override' && loginStatus === 'fail' &&
-                    <Help isColor="danger">{translate('Password is not valid')}</Help>
-                  }
-                  {status === 'fail' &&
-                    <Help isColor="danger">
+        ( formApi ) => {
+          const handleSubmit = formApi.submitForm;
+          return (
+            <form
+              onSubmit={ handleSubmit }
+              className={ 'fonio-form' }
+            >
+              <ModalCard
+                isActive
+                headerContent={ mode === 'create' ? translate( 'Create story' ) : translate( 'Override story' ) }
+                onClose={ onCancel }
+                mainContent={
+                  <Field>
+                    <ExplainedLabel
+                      title={ mode === 'create' ? translate( 'Create a story password' ) : translate( 'Enter password of the story' ) }
+                      explanation={ translate( 'Explanation about the password' ) }
+                    />
+                    <PasswordInput id={ 'password' } />
+                    {
+                      formApi.touched.password && formApi.errors && formApi.errors.password &&
+                      <Help isColor={ 'danger' }>{formApi.errors.password}</Help>
+                    }
+                    {
+                      mode === 'override' && loginStatus === 'fail' &&
+                      <Help isColor={ 'danger' }>{translate( 'Password is not valid' )}</Help>
+                    }
+                    {status === 'fail' &&
+                    <Help isColor={ 'danger' }>
                       { mode === 'create' ?
-                        translate('Story could not be created') :
-                        translate('Story could not be overrided')
+                                  translate( 'Story could not be created' ) :
+                                  translate( 'Story could not be overrided' )
                       }
                     </Help>
-                  }
-                </Field>
-            }
-              footerContent={[
-                <Button
-                  type="submit" isFullWidth key={0}
-                  isColor="danger">{mode === 'create' ? translate('Create') : translate('Override')}</Button>,
-                <Button isFullWidth key={2} onClick={onCancel} >
-                  {translate('Cancel')}
-                </Button>
-            ]} />
-          </form>
-        )
+                    }
+                  </Field>
+                      }
+                footerContent={ [
+                  <Button
+                    type={ 'submit' }
+                    isFullWidth
+                    key={ 0 }
+                    isColor={ 'danger' }
+                  >{mode === 'create' ? translate( 'Create' ) : translate( 'Override' )}
+                  </Button>,
+                  <Button
+                    isFullWidth
+                    key={ 2 }
+                    onClick={ onCancel }
+                  >
+                    {translate( 'Cancel' )}
+                  </Button>
+                    ] }
+              />
+            </form>
+                );
+}
       }
     </Form>
   );
@@ -100,8 +118,8 @@ const EnterPasswordModal = ({
 
 EnterPasswordModal.propTypes = {
   loginStatus: PropTypes.string,
+  onCancel: PropTypes.func,
   onDeleteStory: PropTypes.func,
-  onCancel: PropTypes.func
 };
 
 EnterPasswordModal.contextTypes = {

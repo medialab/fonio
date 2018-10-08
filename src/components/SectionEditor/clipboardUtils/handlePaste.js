@@ -1,7 +1,11 @@
+/**
+ * This module provides the logic for handling pasting text in editor
+ * @module fonio/components/SectionEditor
+ */
 import pasteFromOutside from './pasteFromOutside';
 import pasteFromInside from './pasteFromInside';
 
-const handlePaste = function(html) {
+const handlePaste = function( html ) {
 
     const {
       props,
@@ -10,7 +14,7 @@ const handlePaste = function(html) {
       // onEditorChange
     } = this;
     // ensuring this is happening while editing the content
-    if (!props.editorFocus) {
+    if ( !props.editorFocus ) {
       return;
     }
 
@@ -35,18 +39,19 @@ const handlePaste = function(html) {
       resources
     } = story;
 
-    if (!Object.keys(editorStates).length) return;
-
+    if ( !Object.keys( editorStates ).length ) return;
 
     const {
       notes,
       id: activeSectionId
     } = activeSection;
 
-    // const {
-    //   // clipboard, // blockMap of the data copied to clipboard
-    //   // copiedData, // model-dependent set of data objects saved to clipboard
-    // } = state;
+    /*
+     * const {
+     *   // clipboard, // blockMap of the data copied to clipboard
+     *   // copiedData, // model-dependent set of data objects saved to clipboard
+     * } = state;
+     */
 
     let copiedData;
 
@@ -55,14 +60,15 @@ const handlePaste = function(html) {
 
     // check whether the clipboard contains fonio data
     const dataRegex = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>$/gm;
-    const hasScript = dataRegex.test(html);
+    const hasScript = dataRegex.test( html );
+
     /**
      * ======================================
      * case 1 : comes from outside (no fonio data)
      * ======================================
      */
-    if (!hasScript) {
-      return pasteFromOutside({
+    if ( !hasScript ) {
+      return pasteFromOutside( {
         html,
         activeEditorState,
         updateSection,
@@ -81,15 +87,16 @@ const handlePaste = function(html) {
         editorFocus,
 
         setEditorFocus,
-      });
+      } );
     }
+
     /**
      * =============================================
      * case 2 : pasting comes from inside the editor
      * =============================================
-    */
+     */
     else {
-      return pasteFromInside({
+      return pasteFromInside( {
         updateSection,
         createContextualization,
         createContextualizer,
@@ -100,7 +107,6 @@ const handlePaste = function(html) {
         editorFocus,
         setEditorPastingStatus,
 
-
         story,
         editor,
         notes,
@@ -108,7 +114,7 @@ const handlePaste = function(html) {
         copiedData,
         html,
         dataRegex,
-      });
+      } );
     }
   };
 

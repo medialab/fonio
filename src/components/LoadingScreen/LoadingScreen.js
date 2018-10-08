@@ -1,32 +1,40 @@
+/**
+ * This module provides a reusable loading component
+ * @module fonio/components/LoadingScreen
+ */
+/**
+ * Imports Libraries
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  AbsoluteContainer,
+  FlexContainer,
+} from 'quinoa-design-library/components';
 
-import {translateNameSpacer} from '../../helpers/translateUtils';
+/**
+ * Imports Project utils
+ */
+import { translateNameSpacer } from '../../helpers/translateUtils';
 
-const wrapper = {
-  position: 'absolute',
-  left: 0,
-  top: 0,
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  flexFlow: 'row nowrap',
-  justifyContent: 'center',
-};
-const container = {
-  display: 'flex',
-  flexFlow: 'column nowrap',
-  justifyContent: 'center'
-};
-
-const LoadingScreen = ({}, {t}) => {
-  const translate = translateNameSpacer(t, 'Components.LoadingScreen');
+const LoadingScreen = ( {}, { t } ) => {
+  const translate = translateNameSpacer( t, 'Components.LoadingScreen' );
   return (
-    <div style={wrapper}>
-      <div style={container}>
-        <div>{translate('loading...')}</div>
-      </div>
-    </div>
+    <AbsoluteContainer>
+      <FlexContainer
+        style={ { height: '100%' } }
+        flexDirection={ 'row' }
+        alignItems={ 'center' }
+      >
+        <FlexContainer
+          style={ { flex: 1 } }
+          alignItems={ 'center' }
+          flexDirection={ 'column' }
+        >
+          <div>{translate( 'loading...' )}</div>
+        </FlexContainer>
+      </FlexContainer>
+    </AbsoluteContainer>
   );
 };
 

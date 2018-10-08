@@ -10,14 +10,14 @@
     "lint": "eslint --fix src",
     "analyze": "webpack-bundle-analyzer build/stats.json",
     "comb": "csscomb src",
-    "test": "mocha --require babel-core/register -R spec --recursive $(find src -name '*.spec.js')",
+    "test": "mocha --require babel-core/register --require ignore-styles -R spec --recursive $(find src -name '*.spec.js')",
     "deploy": "npm run build && surge ./",
     "translations:backfill": "node translationScripts/backfillTranslations --locales ../src/translations/locales",
     "translations:discover": "node translationScripts/discoverTranslations --locales ../src/translations/locales --src ../src --namespacer translateNameSpacer --translatorFn translate",
+    "translations:update": "npm run translations:backfill;npm run translations:discover;npm run translations:update:po",
     "translations:export:to:po": "node translationScripts/exportTranslationsToPo --locales ../src/translations/locales --dest ../translations",
     "translations:update:po": "node translationScripts/updateTranslationsToPo --locales ../src/translations/locales --dest ../translations",
     "translations:import:from:po": "node translationScripts/importTranslationsFromPo --locales ../src/translations/locales --src ../translations",
-    "translations:update": "npm run translations:backfill;npm run translations:discover;npm run translations:update:po",
     "translations:addlanguage": "node translationScripts/addTranslationLanguage --translations-folder ../src/translations",
     "translations:gitaddpo": "git add translations"
   },
@@ -70,14 +70,14 @@
     "postcss": "^6.0.19",
     "postcss-prefix-selector": "^1.6.0",
     "pouchdb": "^6.3.4",
-    "quinoa-design-library": "0.0.24",
+    "quinoa-design-library": "0.0.25",
     "quinoa-schemas": "0.0.20",
-    "react": "^16.4.1",
+    "react": "^16.3.1",
     "react-citeproc": "^0.1.10",
     "react-codemirror2": "^4.0.0",
     "react-dnd": "^3.0.2",
     "react-dnd-html5-backend": "^5.0.1",
-    "react-dom": "^16.2.0",
+    "react-dom": "^16.3.1",
     "react-dropzone": "^4.2.8",
     "react-flip-move": "^3.0.2",
     "react-form": "^3.5.5",
@@ -124,6 +124,7 @@
     "eslint-plugin-react": "^7.0.1",
     "file-loader": "^1.1.6",
     "fs-extra": "^5.0.0",
+    "ignore-styles": "^5.0.1",
     "img-loader": "^3.0.0",
     "kotatsu": "^0.15.0",
     "mocha": "^5.0.1",
@@ -152,20 +153,5 @@
       "es2015",
       "react"
     ]
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": [
-      "@yomguithereal/eslint-config/es7",
-      "@yomguithereal/eslint-config/react"
-    ],
-    "rules": {
-      "require-jsdoc": 2,
-      "react/forbid-prop-types": 0,
-      "react/jsx-no-bind": 0
-    },
-    "globals": {
-      "FONIO_CONFIG": true
-    }
   }
 }

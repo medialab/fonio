@@ -72,6 +72,82 @@ Please provide relevant unit tests with any new feature proposal. Unit test scri
 
 Fonio uses `eslint` along with a specific config for coding style adopted for the project. Be sure to run `npm run lint` to correct small errors and see what needs to be modified for having a correctly written contribution.
 
+### JS react files headers
+
+All JS react file headers *must* be organized the same way to ease maintenance and reading:
+
+A header component must describe module : what it does and why it exists.
+
+Comments must be annotated and sorted according to following categories :
+
+1. `Import Libraries` -> all external library - a good practice is to put react-related imports at the end of this list
+1. `Import Project Utils` -> all local helpers/utils
+1. `Import Ducks` -> if relevant, ducks and redux-related import
+1. `Import Components` -> all local components
+1. `Import Assets` -> style imports, schema imports, and other assets
+1. `Shared variables` -> global variables or imports destructuring
+
+Example of header following rules :
+
+```
+/**
+ * This modules provides the layout of the library feature.
+ * @module dicto/features/LibraryView
+ */
+
+/**
+ * Imports Libraries
+ */
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import ReactTooltip from 'react-tooltip';
+import { v4 as genId } from 'uuid';
+import { isEmpty, debounce, uniq } from 'lodash';
+/**
+ * Imports Project utils
+ */
+import { getResourceTitle, searchResources } from '../../../helpers/resourcesUtils';
+/**
+ * Imports Components
+ */
+import PaginatedList from '../../../components/PaginatedList';
+
+/**
+ * Imports Assets
+ */
+import resourceSchema from 'quinoa-schemas/resource';
+import config from '../../../config';
+/**
+ * Shared variables
+ */
+const { maxBatchNumber, maxResourceSize } = config;
+const realMaxFileSize = base64ToBytesLength( maxResourceSize );
+const resourceTypes = Object.keys( resourceSchema.definitions );
+```
+
+### Jsx: render functions
+
+For lisibility and maintenance, render functions *must* be organized the same way:
+
+```
+/**
+ * Variables definition
+ */
+/**
+ * Computed varialbes
+ */
+/**
+ * Local functions
+ */
+/**
+ * Callbacks handlers
+ */
+/**
+ * References bindings
+ */
+ return (...)
+```
+
 ## Code internationalization / i18n
 
 Quinoa apps use `redux-i18n` module for internationalization.

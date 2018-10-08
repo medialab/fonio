@@ -1,5 +1,5 @@
 /**
- * Translations reconcilier written by Robin de Mourat
+ * Translations reconcilier
  */
 var fs = require('fs');
 var path = require('path');

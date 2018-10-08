@@ -1,12 +1,18 @@
-import {combineReducers} from 'redux';
-import {createStructuredSelector} from 'reselect';
-import {post} from 'axios';
+/**
+ * This module exports logic-related elements for socket-related features
+ * This module follows the ducks convention for putting in the same place actions, action types,
+ * state selectors and reducers about a given feature (see https://github.com/erikras/ducks-modular-redux)
+ * @module fonio/features/ConnectionsManager
+ */
+import { combineReducers } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import { post } from 'axios';
 
 import config from '../../config';
 
-import {updateEditionHistoryMap} from '../../helpers/localStorageUtils';
+import { updateEditionHistoryMap } from '../../helpers/localStorageUtils';
 
-import {ACTIVATE_STORY} from '../StoryManager/duck';
+import { ACTIVATE_STORY } from '../StoryManager/duck';
 
 const SET_SOCKET_ID = 'SET_SOCKET_ID';
 export const ENTER_STORY = 'ENTER_STORY';
@@ -21,21 +27,20 @@ const USER_DISCONNECTED = 'USER_DISCONNECTED';
 
 const CREATE_USER = 'CREATE_USER';
 
-
 export const LOGIN_STORY = 'LOGIN_STORY';
 
 const LOCKING_DEFAULT_STATE = {};
 
-export const createUser = payload => ({
+export const createUser = ( payload ) => ( {
   type: CREATE_USER,
   payload,
   meta: {
     remote: true,
     broadcast: true,
   },
-});
+} );
 
-export const enterStory = payload => ({
+export const enterStory = ( payload ) => ( {
   type: ENTER_STORY,
   payload,
   meta: {
@@ -43,10 +48,9 @@ export const enterStory = payload => ({
     broadcast: true,
     // room: payload.storyId,
   },
-});
+} );
 
-
-export const leaveStory = payload => ({
+export const leaveStory = ( payload ) => ( {
   type: LEAVE_STORY,
   payload,
   meta: {
@@ -54,9 +58,9 @@ export const leaveStory = payload => ({
     broadcast: true,
     // room: payload.storyId,
   },
-});
+} );
 
-export const enterBlock = (payload, callback) => ({
+export const enterBlock = ( payload, callback ) => ( {
   type: ENTER_BLOCK,
   payload,
   callback,
@@ -67,9 +71,9 @@ export const enterBlock = (payload, callback) => ({
     blockType: payload.blockType,
     blockId: payload.blockId
   },
-});
+} );
 
-export const idleBlock = payload => ({
+export const idleBlock = ( payload ) => ( {
   type: IDLE_BLOCK,
   payload,
   meta: {
@@ -79,28 +83,31 @@ export const idleBlock = payload => ({
     blockType: payload.blockType,
     blockId: payload.blockId,
   },
-});
+} );
 
-export const leaveBlock = payload => ({
+export const leaveBlock = ( payload ) => ( {
   type: LEAVE_BLOCK,
   payload,
   meta: {
     remote: true,
     broadcast: true,
     room: payload.storyId,
-    // blockType: payload.blockType,
-    // blockId: payload.blockId,
-  },
-});
 
-export const loginStory = payload => ({
+    /*
+     * blockType: payload.blockType,
+     * blockId: payload.blockId,
+     */
+  },
+} );
+
+export const loginStory = ( payload ) => ( {
   type: LOGIN_STORY,
   storyId: payload.storyId,
   promise: () => {
     const serverRequestUrl = `${config.restUrl }/auth/login`;
-    return post(serverRequestUrl, payload);
+    return post( serverRequestUrl, payload );
   },
-});
+} );
 
 const USERS_DEFAULT_STATE = {
   userId: undefined,
@@ -114,9 +121,9 @@ const USERS_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function users(state = USERS_DEFAULT_STATE, action) {
-  const {payload} = action;
-  switch (action.type) {
+function users( state = USERS_DEFAULT_STATE, action ) {
+  const { payload } = action;
+  switch ( action.type ) {
     case SET_SOCKET_ID:
       return {
         ...state,
@@ -148,26 +155,27 @@ function users(state = USERS_DEFAULT_STATE, action) {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function locking(state = LOCKING_DEFAULT_STATE, action) {
-  const {payload} = action;
+function locking( state = LOCKING_DEFAULT_STATE, action ) {
+  const { payload } = action;
   let locks;
   const DEFAULT_LOCKS = {
     summary: true,
   };
-  switch (action.type) {
+  switch ( action.type ) {
     case USER_CONNECTED:
     case USER_DISCONNECTED:
-      if (payload && payload.locking) {
-        return {...payload.locking};
+      if ( payload && payload.locking ) {
+        return { ...payload.locking };
       }
       return state;
+
     /**
      * @todo : following case not necessary ?
      */
     case `${ENTER_STORY}_INIT`:
-      locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
+      locks = ( state[payload.storyId] && state[payload.storyId].locks ) || {};
       // save log to local storage for history
-      updateEditionHistoryMap(payload.storyId);
+      updateEditionHistoryMap( payload.storyId );
       return {
         ...state,
         [payload.storyId]: {
@@ -181,7 +189,7 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
     case `${ACTIVATE_STORY}_SUCCESS`:
     case ENTER_STORY:
     case `${ENTER_STORY}_BROADCAST`:
-      locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
+      locks = ( state[payload.storyId] && state[payload.storyId].locks ) || {};
       return {
         ...state,
         [payload.storyId]: {
@@ -194,7 +202,7 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
       };
     case LEAVE_STORY:
     case `${LEAVE_STORY}_BROADCAST`:
-      locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
+      locks = ( state[payload.storyId] && state[payload.storyId].locks ) || {};
       delete locks[payload.userId];
       return {
         ...state,
@@ -203,29 +211,32 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
           locks,
         },
       };
-    // case CREATE_SECTION:
-    // case `${CREATE_SECTION}_BROADCAST`:
-    //   locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
-    //   return {
-    //     ...state,
-    //     [payload.storyId]: {
-    //       ...state[payload.storyId],
-    //       locks: {
-    //         ...locks,
-    //         [payload.userId]: {
-    //           ...locks[payload.userId],
-    //           sections: {
-    //             blockId: payload.sectionId,
-    //             status: 'active',
-    //             blockType: 'sections',
-    //           },
-    //         },
-    //       },
-    //     },
-    //   };
+
+    /*
+     * case CREATE_SECTION:
+     * case `${CREATE_SECTION}_BROADCAST`:
+     *   locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
+     *   return {
+     *     ...state,
+     *     [payload.storyId]: {
+     *       ...state[payload.storyId],
+     *       locks: {
+     *         ...locks,
+     *         [payload.userId]: {
+     *           ...locks[payload.userId],
+     *           sections: {
+     *             blockId: payload.sectionId,
+     *             status: 'active',
+     *             blockType: 'sections',
+     *           },
+     *         },
+     *       },
+     *     },
+     *   };
+     */
     case `${ENTER_BLOCK}_SUCCESS`:
     case `${ENTER_BLOCK}_BROADCAST`:
-      locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
+      locks = ( state[payload.storyId] && state[payload.storyId].locks ) || {};
       return {
         ...state,
         [payload.storyId]: {
@@ -244,7 +255,7 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
       };
     case IDLE_BLOCK:
     case `${IDLE_BLOCK}_BROADCAST`:
-      locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
+      locks = ( state[payload.storyId] && state[payload.storyId].locks ) || {};
       return {
         ...state,
         [payload.storyId]: {
@@ -263,8 +274,8 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
       };
     case LEAVE_BLOCK:
     case `${LEAVE_BLOCK}_BROADCAST`:
-      locks = (state[payload.storyId] && state[payload.storyId].locks) || {};
-      if (locks[payload.userId]) {
+      locks = ( state[payload.storyId] && state[payload.storyId].locks ) || {};
+      if ( locks[payload.userId] ) {
         return {
           ...state,
           [payload.storyId]: {
@@ -280,16 +291,17 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
         };
       }
       else return state;
+
     /**
      * update locking system by room manually (client)
      */
     case USER_DISCONNECTING:
-      const newState = {...state};
-      payload.rooms.forEach((room) => {
-        if (newState[room] && newState[room].locks) {
+      const newState = { ...state };
+      payload.rooms.forEach( ( room ) => {
+        if ( newState[room] && newState[room].locks ) {
           delete newState[room].locks[payload.userId];
         }
-      });
+      } );
       return newState;
     default:
       return state;
@@ -297,19 +309,19 @@ function locking(state = LOCKING_DEFAULT_STATE, action) {
   }
 }
 
-export default combineReducers({
+export default combineReducers( {
   locking,
   users,
-});
+} );
 
-const userId = state => state.users.userId;
-const activeUsers = state => state.users.users;
-const usersNumber = state => state.users.count;
-const lockingMap = state => state.locking;
+const userId = ( state ) => state.users.userId;
+const activeUsers = ( state ) => state.users.users;
+const usersNumber = ( state ) => state.users.count;
+const lockingMap = ( state ) => state.locking;
 
-export const selector = createStructuredSelector({
+export const selector = createStructuredSelector( {
   userId,
   usersNumber,
   lockingMap,
   activeUsers,
-});
+} );

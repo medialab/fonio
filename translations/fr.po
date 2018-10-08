@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-9-13\n"
-"PO-Revision-Date: Thu Sep 13 2018 18:04:53 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-10-8\n"
+"PO-Revision-Date: Mon Oct 08 2018 14:17:47 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5038,6 +5038,18 @@ msgstr "éditer le code"
 
 msgid "Components.BlockContextualization.edit table"
 msgstr "éditer le tableau"
+
+msgid "Features.LibraryView.small"
+msgstr "small"
+
+msgid "Features.SectionView.tooltip"
+msgstr "tooltip"
+
+msgid "Features.SectionView.small"
+msgstr "small"
+
+msgid "Features.SectionView.All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)"
+msgstr "Tous les raccourcis présentés ci-dessous sont également accessibles à travers l'interface graphique de l'éditeur (déplacer le curseur / sélectionner du texte)."
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"

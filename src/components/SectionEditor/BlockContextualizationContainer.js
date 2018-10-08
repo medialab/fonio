@@ -2,36 +2,40 @@
  * This module provides a reusable block contextualization for the editor component
  * @module fonio/components/SectionEditor
  */
-
-import React, {Component} from 'react';
+/**
+ * Imports Libraries
+ */
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import AssetPreview from '../AssetPreview';
-
-import {translateNameSpacer} from '../../helpers/translateUtils';
-
 import {
   Button,
   Icon
 } from 'quinoa-design-library/components';
-
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+/**
+ * Imports Project utils
+ */
+import { translateNameSpacer } from '../../helpers/translateUtils';
+import { silentEvent } from '../../helpers/misc';
+
+/**
+ * Imports Components
+ */
+import AssetPreview from '../AssetPreview';
 
 /**
  * BlockContainer class for building react component instances
  */
 class BlockContainer extends Component {
 
-
   /**
    * constructor
    * @param {object} props - properties given to instance at instanciation
    */
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
   }
-
 
   /**
    * Defines whether the component should re-render
@@ -44,12 +48,15 @@ class BlockContainer extends Component {
     return true;
   }
 
-
   /**
    * Renders the component
    * @return {ReactElement} component - the component
    */
   render() {
+
+    /**
+     * Variables definition
+     */
     const {
       asset,
       customContext = {},
@@ -71,78 +78,91 @@ class BlockContainer extends Component {
       resource = {},
       id
     } = asset;
-    // const {
-    //   metadata = {}
-    // } = resource;
-    // const {type} = metadata;
 
-    const onEditRequest = (event) => {
-      event.stopPropagation();
-
-      if (typeof startExistingResourceConfiguration === 'function') {
-        setSelectedContextualizationId(undefined);
-        startExistingResourceConfiguration(resource.id);
-      }
-    };
-
-    const onDeleteRequest = (event) => {
-      event.stopPropagation();
-      if (typeof startExistingResourceConfiguration === 'function') {
-        deleteContextualizationFromId(id);
-      }
-    };
-
-    const onClick = (event) => {
-      if (event) {
-        event.stopPropagation();
-      }
-      if (/*!['video', 'table', 'embed'].includes(type) &&*/ typeof setSelectedContextualizationId === 'function') {
-        if (selectedContextualizationId === asset.id) {
-          setSelectedContextualizationId(undefined);
-        }
-        else {
-          setSelectedContextualizationId(asset.id);
-        }
-      }
-    };
-
+    /**
+     * Computed variables
+     */
     const isActive = selectedContextualizationId === asset.id;
 
-    const translate = translateNameSpacer(t, 'Components.BlockContextualization');
-    return (resource.data ?
+    /**
+     * Local functions
+     */
+    const translate = translateNameSpacer( t, 'Components.BlockContextualization' );
+
+    /**
+     * Callbacks handlers
+     */
+    const handleEditRequest = ( event ) => {
+      silentEvent( event );
+
+      if ( typeof startExistingResourceConfiguration === 'function' ) {
+        setSelectedContextualizationId( undefined );
+        startExistingResourceConfiguration( resource.id );
+      }
+    };
+
+    const handleDeleteRequest = ( event ) => {
+      silentEvent( event );
+      if ( typeof startExistingResourceConfiguration === 'function' ) {
+        deleteContextualizationFromId( id );
+      }
+    };
+
+    const handleClickOnPreview = ( event ) => {
+      if ( event ) {
+        silentEvent( event );
+      }
+      if ( /*!['video', 'table', 'embed'].includes(type) &&*/ typeof setSelectedContextualizationId === 'function' ) {
+        if ( selectedContextualizationId === asset.id ) {
+          setSelectedContextualizationId( undefined );
+        }
+        else {
+          setSelectedContextualizationId( asset.id );
+        }
+      }
+    };
+
+    return ( resource.data ?
       [
-        <div contentEditable={false} className={`block-asset-side-toolbar ${isActive ? 'is-active' : ''}`} key={0}>
+        <div
+          contentEditable={ false }
+          className={ `block-asset-side-toolbar ${isActive ? 'is-active' : ''}` }
+          key={ 0 }
+        >
           <Button
             isRounded
-            isColor={'danger'}
-            onClick={onDeleteRequest}
-            data-for="tooltip"
-            data-place="right"
-            data-effect="solid"
-            data-tip={translate(`delete mention (the ${resource.metadata.type} will not be delete from the library)`)}>
-            <Icon icon={'trash'} />
+            isColor={ 'danger' }
+            onClick={ handleDeleteRequest }
+            data-for={ 'tooltip' }
+            data-place={ 'right' }
+            data-effect={ 'solid' }
+            data-tip={ translate( `delete mention (the ${resource.metadata.type} will not be delete from the library)` ) }
+          >
+            <Icon icon={ 'trash' } />
           </Button>
           <Button
             isRounded
-            onClick={onEditRequest}
-            data-for="tooltip"
-            data-place="right"
-            data-effect="solid"
-            data-tip={translate(`edit ${resource.metadata.type}`)}>
+            onClick={ handleEditRequest }
+            data-for={ 'tooltip' }
+            data-place={ 'right' }
+            data-effect={ 'solid' }
+            data-tip={ translate( `edit ${resource.metadata.type}` ) }
+          >
             <Icon>
-              <img src={icons.settings.black.svg} />
+              <img src={ icons.settings.black.svg } />
             </Icon>
           </Button>
         </div>,
         <AssetPreview
-          key={1}
-          resource={resource}
-          onEditRequest={onEditRequest}
-          onDeleteRequest={onDeleteRequest}
-          style={{cursor: 'pointer'}}
-          isActive={isActive}
-          onClick={onClick}
-          showPannel />
+          key={ 1 }
+          resource={ resource }
+          handleEditRequest={ handleEditRequest }
+          onDeleteRequest={ handleDeleteRequest }
+          style={ { cursor: 'pointer' } }
+          isActive={ isActive }
+          onClick={ handleClickOnPreview }
+          showPannel
+        />
 
       ] : null
       );
@@ -153,14 +173,14 @@ class BlockContainer extends Component {
  * Component's properties types
  */
 BlockContainer.propTypes = {
+
   /*
    * the asset to render
    */
-  asset: PropTypes.shape({
+  asset: PropTypes.shape( {
     resource: PropTypes.object,
-  })
+  } )
 };
-
 
 /**
  * Component's context used properties

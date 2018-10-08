@@ -1,25 +1,24 @@
 /**
- * This module exports logic-related elements for the fonio story manager
+ * This module exports logic-related elements for handling edited story state
  * This module follows the ducks convention for putting in the same place actions, action types,
  * state selectors and reducers about a given feature (see https://github.com/erikras/ducks-modular-redux)
  * @module fonio/features/StoryManager
  */
 
-import {combineReducers} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import { combineReducers } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
-import {get, post, put, delete as del} from 'axios';
+import { get, post, put, delete as del } from 'axios';
 import Ajv from 'ajv';
 
 import storySchema from 'quinoa-schemas/story';
 import resourceSchema from 'quinoa-schemas/resource';
 
-
-import {LEAVE_STORY} from '../ConnectionsManager/duck';
+import { LEAVE_STORY } from '../ConnectionsManager/duck';
 
 import config from '../../config';
 
-import {updateEditionHistoryMap, loadStoryToken} from '../../helpers/localStorageUtils';
+import { updateEditionHistoryMap, loadStoryToken } from '../../helpers/localStorageUtils';
 
 /**
  * ===================================================
@@ -27,6 +26,7 @@ import {updateEditionHistoryMap, loadStoryToken} from '../../helpers/localStorag
  * ===================================================
  */
 export const ACTIVATE_STORY = 'ACTIVATE_STORY';
+
 /**
  * Section small objects
  */
@@ -41,6 +41,7 @@ export const CREATE_SECTION = 'CREATE_SECTION';
 export const UPDATE_SECTION = 'UPDATE_SECTION';
 export const DELETE_SECTION = 'DELETE_SECTION';
 export const SET_SECTION_LEVEL = 'SET_SECTION_LEVEL';
+
 /**
  * resources CRUD
  */
@@ -74,40 +75,40 @@ const DEFAULT_PAYLOAD_SCHEMA = {
     storyId: storySchema.properties.id
   }
 };
+
 /**
  * ===================================================
  * ACTION CREATORS
  * ===================================================
  */
-export const activateStory = payload => ({
+export const activateStory = ( payload ) => ( {
   type: ACTIVATE_STORY,
   payload,
   promise: () => {
-    const {storyId, userId, token} = payload;
+    const { storyId, userId, token } = payload;
     const serverRequestUrl = `${config.restUrl}/stories/${storyId}?userId=${userId}&edit=true`;
     const options = {
       headers: {
         'x-access-token': token,
       },
     };
-    return get(serverRequestUrl, options);
+    return get( serverRequestUrl, options );
   },
-});
+} );
 
 /**
  * Template for all story change related actions
  */
-export const updateStory = (TYPE, payload, callback) => {
-  updateEditionHistoryMap(payload.storyId);
+export const updateStory = ( TYPE, payload, callback ) => {
+  updateEditionHistoryMap( payload.storyId );
   let blockType;
   let blockId;
-
 
   // TODO: refactor validation schema more modular
   let payloadSchema = DEFAULT_PAYLOAD_SCHEMA;
   const sectionSchema = storySchema.properties.sections.patternProperties['[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'];
 
-  switch (TYPE) {
+  switch ( TYPE ) {
     case UPDATE_STORY_METADATA:
       blockType = 'storyMetadata';
       blockId = 'storyMetadata';
@@ -284,11 +285,11 @@ export const updateStory = (TYPE, payload, callback) => {
       validator: {
         payload: {
           func: () => {
-            const val = ajv.compile(payloadSchema);
-            return val(payload);
+            const val = ajv.compile( payloadSchema );
+            return val( payload );
           },
           msg: () => {
-            const val = ajv.compile(payloadSchema);
+            const val = ajv.compile( payloadSchema );
             return val.errors;
           },
         },
@@ -300,39 +301,40 @@ export const updateStory = (TYPE, payload, callback) => {
 /**
  * Action creators related to socket-based edited story data edition
  */
-export const updateStoryMetadata = (payload, callback) => updateStory(UPDATE_STORY_METADATA, payload, callback);
-export const updateStorySettings = (payload, callback) => updateStory(UPDATE_STORY_SETTINGS, payload, callback);
-export const updateSectionsOrder = (payload, callback) => updateStory(UPDATE_SECTIONS_ORDER, payload, callback);
+export const updateStoryMetadata = ( payload, callback ) => updateStory( UPDATE_STORY_METADATA, payload, callback );
+export const updateStorySettings = ( payload, callback ) => updateStory( UPDATE_STORY_SETTINGS, payload, callback );
+export const updateSectionsOrder = ( payload, callback ) => updateStory( UPDATE_SECTIONS_ORDER, payload, callback );
 
-export const createSection = (payload, callback) => updateStory(CREATE_SECTION, payload, callback);
-export const updateSection = (payload, callback) => updateStory(UPDATE_SECTION, payload, callback);
-export const deleteSection = (payload, callback) => updateStory(DELETE_SECTION, payload, callback);
-export const setSectionLevel = (payload, callback) => updateStory(SET_SECTION_LEVEL, payload, callback);
+export const createSection = ( payload, callback ) => updateStory( CREATE_SECTION, payload, callback );
+export const updateSection = ( payload, callback ) => updateStory( UPDATE_SECTION, payload, callback );
+export const deleteSection = ( payload, callback ) => updateStory( DELETE_SECTION, payload, callback );
+export const setSectionLevel = ( payload, callback ) => updateStory( SET_SECTION_LEVEL, payload, callback );
 
-export const createResource = (payload, callback) => updateStory(CREATE_RESOURCE, payload, callback);
-export const updateResource = (payload, callback) => updateStory(UPDATE_RESOURCE, payload, callback);
-export const deleteResource = (payload, callback) => updateStory(DELETE_RESOURCE, payload, callback);
+export const createResource = ( payload, callback ) => updateStory( CREATE_RESOURCE, payload, callback );
+export const updateResource = ( payload, callback ) => updateStory( UPDATE_RESOURCE, payload, callback );
+export const deleteResource = ( payload, callback ) => updateStory( DELETE_RESOURCE, payload, callback );
 
-export const createContextualizer = (payload, callback) => updateStory(CREATE_CONTEXTUALIZER, payload, callback);
-export const updateContextualizer = (payload, callback) => updateStory(UPDATE_CONTEXTUALIZER, payload, callback);
-export const deleteContextualizer = (payload, callback) => updateStory(DELETE_CONTEXTUALIZER, payload, callback);
+export const createContextualizer = ( payload, callback ) => updateStory( CREATE_CONTEXTUALIZER, payload, callback );
+export const updateContextualizer = ( payload, callback ) => updateStory( UPDATE_CONTEXTUALIZER, payload, callback );
+export const deleteContextualizer = ( payload, callback ) => updateStory( DELETE_CONTEXTUALIZER, payload, callback );
 
-export const createContextualization = (payload, callback) => updateStory(CREATE_CONTEXTUALIZATION, payload, callback);
-export const updateContextualization = (payload, callback) => updateStory(UPDATE_CONTEXTUALIZATION, payload, callback);
-export const deleteContextualization = (payload, callback) => updateStory(DELETE_CONTEXTUALIZATION, payload, callback);
+export const createContextualization = ( payload, callback ) => updateStory( CREATE_CONTEXTUALIZATION, payload, callback );
+export const updateContextualization = ( payload, callback ) => updateStory( UPDATE_CONTEXTUALIZATION, payload, callback );
+export const deleteContextualization = ( payload, callback ) => updateStory( DELETE_CONTEXTUALIZATION, payload, callback );
 
-export const setCoverImage = payload => updateStory(SET_COVER_IMAGE, payload);
+export const setCoverImage = ( payload ) => updateStory( SET_COVER_IMAGE, payload );
+
 /**
  * Action creators related to resource upload request
  */
-export const uploadResource = (payload, mode) => ({
+export const uploadResource = ( payload, mode ) => ( {
   type: UPLOAD_RESOURCE,
   payload: {
     ...payload,
     lastUpdateAt: new Date().getTime()
   },
   promise: () => {
-    const token = loadStoryToken(payload.storyId);
+    const token = loadStoryToken( payload.storyId );
     const lastUpdateAt = new Date().getTime();
     const options = {
       headers: {
@@ -340,20 +342,20 @@ export const uploadResource = (payload, mode) => ({
       },
     };
     let serverRequestUrl;
-    if (mode === 'create') {
+    if ( mode === 'create' ) {
       serverRequestUrl = `${config.restUrl}/resources/${payload.storyId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
-      return post(serverRequestUrl, payload.resource, options);
+      return post( serverRequestUrl, payload.resource, options );
     }
     serverRequestUrl = `${config.restUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
-    return put(serverRequestUrl, payload.resource, options);
+    return put( serverRequestUrl, payload.resource, options );
   },
-});
+} );
 
-export const deleteUploadedResource = (payload, callback) => ({
+export const deleteUploadedResource = ( payload, callback ) => ( {
   type: DELETE_UPLOADED_RESOURCE,
   payload,
   promise: () => {
-    const token = loadStoryToken(payload.storyId);
+    const token = loadStoryToken( payload.storyId );
     const lastUpdateAt = new Date().getTime();
     const options = {
       headers: {
@@ -361,19 +363,20 @@ export const deleteUploadedResource = (payload, callback) => ({
       },
     };
     const serverRequestUrl = `${config.restUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
-    return del(serverRequestUrl, options)
-            .then(thatPayload => {
-              if (typeof callback === 'function') {
-                callback(null, thatPayload);
+    return del( serverRequestUrl, options )
+            .then( ( thatPayload ) => {
+              if ( typeof callback === 'function' ) {
+                callback( null, thatPayload );
               }
-            })
-            .catch(error => {
-              if (typeof callback === 'function') {
-                callback(error);
+            } )
+            .catch( ( error ) => {
+              if ( typeof callback === 'function' ) {
+                callback( error );
               }
-            });
+            } );
   },
-});
+} );
+
 /**
  * ===================================================
  * REDUCERS
@@ -390,14 +393,14 @@ const STORY_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function story(state = STORY_DEFAULT_STATE, action) {
-  const {result, payload} = action;
+function story( state = STORY_DEFAULT_STATE, action ) {
+  const { result, payload } = action;
   let contextualizations;
   let contextualizers;
   let contextualizersToDeleteIds;
   let contextualizationsToDeleteIds;
   let newSectionsOrder;
-  switch (action.type) {
+  switch ( action.type ) {
     case LEAVE_STORY:
       return {
         ...state,
@@ -408,87 +411,97 @@ function story(state = STORY_DEFAULT_STATE, action) {
         ...state,
         story: result.data
       };
+
     /**
      * STORY METADATA
      */
     case `${UPDATE_STORY_METADATA}_SUCCESS`:
     case `${UPDATE_STORY_METADATA}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
       return {
           ...state,
           story: {
             ...state.story,
-            metadata: {...payload.metadata},
+            metadata: { ...payload.metadata },
             lastUpdateAt: payload.lastUpdateAt,
           }
       };
+
     /**
      * STORY SETTINGS
      */
     case `${UPDATE_STORY_SETTINGS}_SUCCESS`:
     case `${UPDATE_STORY_SETTINGS}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
       return {
           ...state,
           story: {
             ...state.story,
-            settings: {...payload.settings},
+            settings: { ...payload.settings },
             lastUpdateAt: payload.lastUpdateAt,
           }
       };
+
     /**
      * SECTIONS ORDER
      */
     case `${UPDATE_SECTIONS_ORDER}`:
     case `${UPDATE_SECTIONS_ORDER}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
-      const oldSectionsOrder = [...state.story.sectionsOrder];
-      newSectionsOrder = [...payload.sectionsOrder];
-      let resolvedSectionsOrder = [...payload.sectionsOrder];
-      // new order is bigger than older order
-      // (probably because a user deleted a section in the meantime)
-      // --> we filter the new order with only existing sections
-      if (newSectionsOrder.length > oldSectionsOrder.length) {
+      const oldSectionsOrder = [ ...state.story.sectionsOrder ];
+      newSectionsOrder = [ ...payload.sectionsOrder ];
+      let resolvedSectionsOrder = [ ...payload.sectionsOrder ];
+
+      /*
+       * new order is bigger than older order
+       * (probably because a user deleted a section in the meantime)
+       * --> we filter the new order with only existing sections
+       */
+      if ( newSectionsOrder.length > oldSectionsOrder.length ) {
           resolvedSectionsOrder = newSectionsOrder.filter(
-            newSectionId => oldSectionsOrder.indexOf(newSectionId) > -1
+            ( newSectionId ) => oldSectionsOrder.includes( newSectionId )
           );
-      // new order is smaller than older order
-      // (probably because a user created a section in the meantime)
-      // --> we add created sections to the new sections order
+
+      /*
+       * new order is smaller than older order
+       * (probably because a user created a section in the meantime)
+       * --> we add created sections to the new sections order
+       */
       }
-      else if (newSectionsOrder.length < oldSectionsOrder.length) {
+      else if ( newSectionsOrder.length < oldSectionsOrder.length ) {
         resolvedSectionsOrder = [
           ...newSectionsOrder,
-          ...oldSectionsOrder.slice(newSectionsOrder.length)
+          ...oldSectionsOrder.slice( newSectionsOrder.length )
         ];
       }
       return {
           ...state,
           story: {
             ...state.story,
-            sectionsOrder: [...resolvedSectionsOrder],
+            sectionsOrder: [ ...resolvedSectionsOrder ],
             lastUpdateAt: payload.lastUpdateAt,
           }
       };
+
     /**
      * SECTION CRUD
      */
     case `${CREATE_SECTION}`:
     case `${CREATE_SECTION}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
       newSectionsOrder = payload.sectionOrder < state.story.sectionsOrder.length ?
             [
-              ...state.story.sectionsOrder.slice(0, payload.sectionOrder),
+              ...state.story.sectionsOrder.slice( 0, payload.sectionOrder ),
               payload.sectionId,
-              ...state.story.sectionsOrder.slice(payload.sectionOrder)
+              ...state.story.sectionsOrder.slice( payload.sectionOrder )
             ]
             :
             [
@@ -513,7 +526,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
       };
     case `${UPDATE_SECTION}_SUCCESS`:
     case `${UPDATE_SECTION}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
       return {
@@ -533,7 +546,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${SET_SECTION_LEVEL}`:
     case `${SET_SECTION_LEVEL}_SUCCESS`:
     case `${SET_SECTION_LEVEL}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
       return {
@@ -556,56 +569,57 @@ function story(state = STORY_DEFAULT_STATE, action) {
       };
     case `${DELETE_SECTION}_SUCCESS`:
     case `${DELETE_SECTION}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
-      contextualizations = {...state.story.contextualizations};
-      contextualizers = {...state.story.contextualizers};
+      contextualizations = { ...state.story.contextualizations };
+      contextualizers = { ...state.story.contextualizers };
 
-      contextualizationsToDeleteIds = Object.keys(contextualizations)
-      .filter(id => {
+      contextualizationsToDeleteIds = Object.keys( contextualizations )
+      .filter( ( id ) => {
         return contextualizations[id].sectionId === payload.sectionId;
-      });
+      } );
       contextualizersToDeleteIds = [];
 
       contextualizationsToDeleteIds
-      .forEach((id) => {
-        contextualizersToDeleteIds.push(contextualizations[id].contextualizerId);
-      });
+      .forEach( ( id ) => {
+        contextualizersToDeleteIds.push( contextualizations[id].contextualizerId );
+      } );
 
-      contextualizersToDeleteIds.forEach(contextualizerId => {
+      contextualizersToDeleteIds.forEach( ( contextualizerId ) => {
         delete contextualizers[contextualizerId];
-      });
-      contextualizationsToDeleteIds.forEach(contextualizationId => {
+      } );
+      contextualizationsToDeleteIds.forEach( ( contextualizationId ) => {
         delete contextualizations[contextualizationId];
-      });
+      } );
       return {
           ...state,
           story: {
             ...state.story,
-            sections: Object.keys(state.story.sections)
-              .reduce((thatResult, thatSectionId) => {
-                if (thatSectionId === payload.sectionId) {
+            sections: Object.keys( state.story.sections )
+              .reduce( ( thatResult, thatSectionId ) => {
+                if ( thatSectionId === payload.sectionId ) {
                   return thatResult;
                 }
                 else return {
                   ...thatResult,
                   [thatSectionId]: state.story.sections[thatSectionId]
                 };
-              }, {}),
+              }, {} ),
             contextualizations,
             contextualizers,
-            sectionsOrder: state.story.sectionsOrder.filter(id => id !== payload.sectionId),
+            sectionsOrder: state.story.sectionsOrder.filter( ( id ) => id !== payload.sectionId ),
             lastUpdateAt: payload.lastUpdateAt,
           }
 
       };
+
     /**
      * STORY RESOURCES
      */
     case `${CREATE_RESOURCE}`:
     case `${CREATE_RESOURCE}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
       return {
@@ -625,7 +639,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
       };
     case `${UPDATE_RESOURCE}`:
     case `${UPDATE_RESOURCE}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
       return {
@@ -643,7 +657,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
           }
       };
     case `${UPLOAD_RESOURCE}_SUCCESS`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
       return {
@@ -663,15 +677,18 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${DELETE_RESOURCE}_SUCCESS`:
     case `${DELETE_RESOURCE}_BROADCAST`:
     case `${DELETE_UPLOADED_RESOURCE}_SUCCESS`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
-      contextualizations = {...state.story.contextualizations};
-      contextualizers = {...state.story.contextualizers};
-      // for now as the app does not allow to reuse the same contextualizer for several resources
-      // we will delete associated contextualizers as well as associated contextualizations
-      // (forseeing long edition sessions in which user create and delete a large number of contextualizations
-      // if not doing so we would end up with a bunch of unused contextualizers in documents' data after a while)
+      contextualizations = { ...state.story.contextualizations };
+      contextualizers = { ...state.story.contextualizers };
+
+      /*
+       * for now as the app does not allow to reuse the same contextualizer for several resources
+       * we will delete associated contextualizers as well as associated contextualizations
+       * (forseeing long edition sessions in which user create and delete a large number of contextualizations
+       * if not doing so we would end up with a bunch of unused contextualizers in documents' data after a while)
+       */
 
       // we will store contextualizers id to delete here
       contextualizersToDeleteIds = [];
@@ -679,35 +696,35 @@ function story(state = STORY_DEFAULT_STATE, action) {
       // we will store contextualizations id to delete here
       contextualizationsToDeleteIds = [];
       // spot all objects to delete
-      Object.keys(contextualizations)
-        .forEach(contextualizationId => {
-          if (contextualizations[contextualizationId].resourceId === payload.resourceId) {
-            contextualizationsToDeleteIds.push(contextualizationId);
-            contextualizersToDeleteIds.push(contextualizations[contextualizationId].contextualizerId);
+      Object.keys( contextualizations )
+        .forEach( ( contextualizationId ) => {
+          if ( contextualizations[contextualizationId].resourceId === payload.resourceId ) {
+            contextualizationsToDeleteIds.push( contextualizationId );
+            contextualizersToDeleteIds.push( contextualizations[contextualizationId].contextualizerId );
           }
-        });
+        } );
       // proceed to deletions
-      contextualizersToDeleteIds.forEach(contextualizerId => {
+      contextualizersToDeleteIds.forEach( ( contextualizerId ) => {
         delete contextualizers[contextualizerId];
-      });
-      contextualizationsToDeleteIds.forEach(contextualizationId => {
+      } );
+      contextualizationsToDeleteIds.forEach( ( contextualizationId ) => {
         delete contextualizations[contextualizationId];
-      });
+      } );
 
       return {
           ...state,
           story: {
             ...state.story,
-            resources: Object.keys(state.story.resources)
-              .reduce((thatResult, thatResourceId) => {
-                if (thatResourceId === payload.resourceId) {
+            resources: Object.keys( state.story.resources )
+              .reduce( ( thatResult, thatResourceId ) => {
+                if ( thatResourceId === payload.resourceId ) {
                   return thatResult;
                 }
                 else return {
                   ...thatResult,
                   [thatResourceId]: state.story.resources[thatResourceId]
                 };
-              }, {}),
+              }, {} ),
             contextualizers,
             contextualizations,
             lastUpdateAt: payload.lastUpdateAt,
@@ -722,7 +739,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${UPDATE_CONTEXTUALIZATION}_BROADCAST`:
     case CREATE_CONTEXTUALIZATION:
     case `${CREATE_CONTEXTUALIZATION}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
       const {
@@ -742,7 +759,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
       };
     case DELETE_CONTEXTUALIZATION:
     case `${DELETE_CONTEXTUALIZATION}_BROADCAST`:
-      contextualizations = {...state.story.contextualizations};
+      contextualizations = { ...state.story.contextualizations };
       delete contextualizations[payload.contextualizationId];
       return {
         ...state,
@@ -761,7 +778,7 @@ function story(state = STORY_DEFAULT_STATE, action) {
     case `${CREATE_CONTEXTUALIZER}_BROADCAST`:
     case UPDATE_CONTEXTUALIZER:
     case `${UPDATE_CONTEXTUALIZER}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
       // storyId = action.storyId;
@@ -782,10 +799,10 @@ function story(state = STORY_DEFAULT_STATE, action) {
       };
     case DELETE_CONTEXTUALIZER:
     case `${DELETE_CONTEXTUALIZER}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
-      contextualizers = {...state.story.contextualizers};
+      contextualizers = { ...state.story.contextualizers };
       delete contextualizers[payload.contextualizerId];
       return {
         ...state,
@@ -798,10 +815,10 @@ function story(state = STORY_DEFAULT_STATE, action) {
 
     case SET_COVER_IMAGE:
     case `${SET_COVER_IMAGE}_BROADCAST`:
-      if (!state.story) {
+      if ( !state.story ) {
         return state;
       }
-      const {resourceId} = payload;
+      const { resourceId } = payload;
       return {
         ...state,
         story: {
@@ -823,10 +840,9 @@ function story(state = STORY_DEFAULT_STATE, action) {
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default combineReducers({
+export default combineReducers( {
   story
-});
-
+} );
 
 /**
  * ===================================================
@@ -834,12 +850,12 @@ export default combineReducers({
  * ===================================================
  */
 
-const editedStory = state => state.story.story;
+const editedStory = ( state ) => state.story.story;
 
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
  */
-export const selector = createStructuredSelector({
+export const selector = createStructuredSelector( {
   editedStory
-});
+} );

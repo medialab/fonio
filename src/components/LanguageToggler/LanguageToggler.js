@@ -1,22 +1,29 @@
-import React, {Component} from 'react';
+/**
+ * This module provides a language toggling button
+ * @module fonio/components/LanguageToggler
+ */
+/**
+ * Imports Libraries
+ */
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {setLanguage} from 'redux-i18n';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { setLanguage } from 'redux-i18n';
 
 import {
   Button,
 } from 'quinoa-design-library/components/';
 
 @connect(
-  state => ({
+  ( state ) => ( {
     lang: state.i18nState.lang,
-  }),
-  dispatch => ({
-    actions: bindActionCreators({
+  } ),
+  ( dispatch ) => ( {
+    actions: bindActionCreators( {
       setLanguage,
-    }, dispatch)
-  })
+    }, dispatch )
+  } )
 )
 class LanguageToggler extends Component {
 
@@ -40,10 +47,9 @@ class LanguageToggler extends Component {
    * constructor
    * @param {object} props - properties given to instance at instanciation
    */
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
   }
-
 
   /**
    * Defines whether the component should re-render
@@ -56,25 +62,43 @@ class LanguageToggler extends Component {
     return true;
   }
 
-
   /**
    * Renders the component
    * @return {ReactElement} component - the component
    */
   render() {
+
+    /**
+     * Variables definition
+     */
     const {
       lang,
       actions: {
         setLanguage: doSetLanguage
       }
     } = this.props;
+
+    /**
+     * Computed variables
+     */
     const otherLang = lang === 'fr' ? 'en' : 'fr';
-    const onClick = () => {
-      doSetLanguage(otherLang);
+
+    /**
+     * Callbacks handlers
+     */
+    const handleClick = () => {
+      doSetLanguage( otherLang );
     };
-    return (<Button onClick={onClick} className="button">
-      {lang}<span style={{opacity: 0.5}}>/{otherLang}</span>
-    </Button>);
+
+    return (
+      <Button
+        onClick={ handleClick }
+        className={ 'button' }
+      >
+        {lang}
+        <span style={ { opacity: 0.5 } }>/{otherLang}</span>
+      </Button>
+    );
   }
 }
 
