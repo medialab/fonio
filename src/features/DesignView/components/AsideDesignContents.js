@@ -65,7 +65,7 @@ const AsideDesignContents = ( {
         return (
           <Column>
             {
-              templateOptions.indexOf( 'notesPosition' ) > -1 &&
+              templateOptions.includes( 'notesPosition' ) &&
               <Level>
                 <form>
                   <Field>
@@ -84,7 +84,7 @@ const AsideDesignContents = ( {
               </Level>
             }
             {
-              templateOptions.indexOf( 'referenceTypes' ) > -1 &&
+              templateOptions.includes( 'referenceTypes' ) &&
               <Level>
                 <form>
                   <Field>
@@ -120,7 +120,7 @@ const AsideDesignContents = ( {
               </Level>
             }
             {
-              templateOptions.indexOf( 'referenceStatus' ) > -1 &&
+              templateOptions.includes( 'referenceStatus' ) &&
               <Level>
                 <form>
                   <Field>

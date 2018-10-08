@@ -126,7 +126,7 @@ class ResourceSearchWidget extends Component {
   onSubmit = ( e ) => {
     silentEvent( e );
     const matching = this.props.options
-            .filter( ( option ) => JSON.stringify( option ).toLowerCase().indexOf( this.state.searchTerm.toLowerCase() ) > -1 );
+            .filter( ( option ) => JSON.stringify( option ).toLowerCase().includes( this.state.searchTerm.toLowerCase() ) );
     // add an asset
     if ( matching.length ) {
       const index = this.state.selectedItemIndex || 0;
@@ -171,7 +171,7 @@ class ResourceSearchWidget extends Component {
      */
     const allowedOptions = options.filter( ( option ) => {
       if ( this.props.contentId !== 'main' ) {
-        return blockAssetTypes.indexOf( option.metadata.type ) === -1;
+        return !blockAssetTypes.includes( option.metadata.type );
       }
       return option;
     } );

@@ -40,7 +40,7 @@ export const fileIsAnImage = ( file ) => {
   return new Promise( ( resolve, reject ) => {
     const validExtensions = [ 'gif', 'png', 'jpeg', 'jpg' ];
     const extension = file.name.split( '.' ).pop();
-    if ( validExtensions.indexOf( extension ) > -1 ) {
+    if ( validExtensions.includes( extension ) ) {
       resolve( file );
     }
     else {
@@ -412,7 +412,7 @@ export const summonAsset = ( contentId, resourceId, props ) => {
      */
 
     // @todo: choose that from resource model
-    const insertionType = [ 'bib', 'glossary', 'webpage' ].indexOf( resource.metadata.type ) > -1 ? 'inline' : 'block';
+    const insertionType = [ 'bib', 'glossary', 'webpage' ].includes( resource.metadata.type ) ? 'inline' : 'block';
     // const hasAlias = resource.metadata.type === 'glossary' || resource.metadata.type === 'webpage';
 
     // get selected text
@@ -665,7 +665,7 @@ export const cleanUncitedNotes = ( section ) => {
   const { notesOrder, notes } = section;
   const newNotes = { ...notes };
   Object.keys( newNotes ).forEach( ( noteId ) => {
-    if ( notesOrder.indexOf( noteId ) === -1 ) {
+    if ( !notesOrder.includes( noteId ) ) {
       delete newNotes[noteId];
     }
   } );
@@ -709,7 +709,7 @@ export const deleteUncitedContext = ( sectionId, props ) => {
   const uncitedContextualizations = Object.keys( editedStory.contextualizations )
                                         .map( ( id ) => editedStory.contextualizations[id] )
                                         .filter( ( contextualization ) => {
-                                          return contextualization.sectionId === sectionId && citedContextualizationIds.indexOf( contextualization.id ) === -1;
+                                          return contextualization.sectionId === sectionId && !citedContextualizationIds.includes( contextualization.id );
                                         } );
   uncitedContextualizations.forEach( ( contextualization ) => {
     const { contextualizerId, id: contextualizationId } = contextualization;

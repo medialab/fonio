@@ -212,7 +212,7 @@ const SectionViewLayout = ( {
   visibleResources = visibleResources
     .filter( ( resource ) => {
       if ( activeFilters.length ) {
-        return activeFilters.indexOf( resource.metadata.type ) > -1;
+        return activeFilters.includes( resource.metadata.type );
       }
       return true;
     } )
@@ -301,7 +301,7 @@ const SectionViewLayout = ( {
         let sectionChanged;
         let newSection;
         // resource is cited in this section view
-        if ( Object.keys( editorStates ).indexOf( key ) !== -1 ) {
+        if ( Object.keys( editorStates ).includes( key ) ) {
           const sectionContents = editorStates[thatSection.id] ? { ...convertToRaw( editorStates[thatSection.id].getCurrentContent() ) } : thatSection.contents;
           const notesContents = Object.keys( thatSection.notes ).reduce( ( res, noteId ) => ( {
             ...res,

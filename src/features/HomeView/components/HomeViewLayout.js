@@ -230,7 +230,7 @@ class HomeViewLayout extends Component {
     const searchStringLower = searchString.toLowerCase();
     const visibleStoriesList = storiesList.filter( ( s ) => {
       const data = JSON.stringify( s ).toLowerCase();
-      return data.indexOf( searchStringLower ) > -1;
+      return data.includes( searchStringLower );
     } )
     .sort( ( a, b ) => {
       switch ( sortingMode ) {

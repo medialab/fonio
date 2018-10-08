@@ -215,7 +215,7 @@ class LibraryViewLayout extends Component {
     visibleResources = visibleResources
       .filter( ( resource ) => {
         if ( activeFilters.length ) {
-          return activeFilters.indexOf( resource.metadata.type ) > -1;
+          return activeFilters.includes( resource.metadata.type );
         }
         return true;
       } )
@@ -226,7 +226,7 @@ class LibraryViewLayout extends Component {
           case 'unused':
             const citedResources = Object.keys( story.contextualizations )
               .map( ( contextualizationId ) => story.contextualizations[contextualizationId].resourceId );
-            return citedResources.indexOf( resource.id ) === -1;
+            return !citedResources.includes( resource.id );
           case 'all':
           default:
             return true;
@@ -638,7 +638,7 @@ class LibraryViewLayout extends Component {
           const handleDelete = () => {
             setPromptedToDeleteResourceId( resource.id );
           };
-          const isSelected = selectedResourcesIds.indexOf( resource.id ) > -1;
+          const isSelected = selectedResourcesIds.includes( resource.id );
           const handleClick = () => {
             let newSelectedResourcesIds;
             if ( resourcesLockMap[resource.id] === undefined ) {

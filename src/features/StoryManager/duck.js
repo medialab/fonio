@@ -465,7 +465,7 @@ function story( state = STORY_DEFAULT_STATE, action ) {
        */
       if ( newSectionsOrder.length > oldSectionsOrder.length ) {
           resolvedSectionsOrder = newSectionsOrder.filter(
-            ( newSectionId ) => oldSectionsOrder.indexOf( newSectionId ) > -1
+            ( newSectionId ) => oldSectionsOrder.includes( newSectionId )
           );
 
       /*

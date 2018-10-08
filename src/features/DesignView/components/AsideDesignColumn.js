@@ -89,7 +89,7 @@ const AsideDesignColumn = ( {
   const handleUpdateReferenceTypes = ( type ) => {
     const referenceTypes = options.referenceTypes || [];
     let newReferenceTypes;
-    if ( referenceTypes.indexOf( type ) === -1 ) {
+    if ( !referenceTypes.includes( type ) ) {
       newReferenceTypes = [ ...referenceTypes, type ];
     }
     else {

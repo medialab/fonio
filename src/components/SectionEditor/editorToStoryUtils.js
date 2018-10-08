@@ -90,7 +90,7 @@ export const updateContextualizationsFromEditor = ( props ) => {
      * compare list of contextualizations with list of used contextualizations
      * to track all unused contextualizations
      */
-    const unusedAssets = Object.keys( sectionContextualizations ).filter( ( id ) => used.indexOf( id ) === -1 );
+    const unusedAssets = Object.keys( sectionContextualizations ).filter( ( id ) => !used.includes( id ) );
     // delete contextualizations
     unusedAssets.forEach( ( id ) => {
       const { contextualizerId } = sectionContextualizations[id];

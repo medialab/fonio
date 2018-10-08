@@ -241,7 +241,7 @@ const pasteFromInside = ( {
                   entityMap: Object.keys( note.contents.entityMap ).reduce( ( res, entityKey ) => {
                     const entity = note.contents.entityMap[entityKey];
                     const assetId = entity.data && entity.data.asset && entity.data.asset.id;
-                    if ( entity.type === NOTE_POINTER || !assetId || invalidEntities.length === 0 || invalidEntities.indexOf( assetId ) === -1 ) {
+                    if ( entity.type === NOTE_POINTER || !assetId || invalidEntities.length === 0 || !invalidEntities.includes( assetId ) ) {
                       return {
                         ...res,
                         [entityKey]: note.contents.entityMap[entityKey]
@@ -392,7 +392,7 @@ const pasteFromInside = ( {
                 if ( thatEntity.type === BLOCK_ASSET || thatEntity.type === INLINE_ASSET ) {
                   const targetId = thatEntity && thatEntity.data.asset.id;
 
-                  if ( invalidEntities.length > 0 && invalidEntities.indexOf( targetId ) > -1 ) {
+                  if ( invalidEntities.length > 0 && invalidEntities.includes( targetId ) ) {
                     return CharacterMetadata.applyEntity( char, null );
                   }
                 }
@@ -448,7 +448,7 @@ const pasteFromInside = ( {
                         }
                         else if ( ( entity.entity.type === BLOCK_ASSET || entity.entity.type === INLINE_ASSET ) && ( thatEntity.type === BLOCK_ASSET || thatEntity.type === INLINE_ASSET ) ) {
                           const targetId = thatEntity && thatEntity.data.asset.id;
-                          if ( invalidEntities.length > 0 && invalidEntities.indexOf( targetId ) > -1 ) {
+                          if ( invalidEntities.length > 0 && invalidEntities.includes( targetId ) ) {
                             return CharacterMetadata.applyEntity( char, null );
                           }
                           else if ( targetId === entity.entity.data.asset.oldId ) {
@@ -506,8 +506,7 @@ const pasteFromInside = ( {
                       const thatEntity = newContentState.getEntity( thatEntityKey ).toJS();
                       if ( thatEntity.type === BLOCK_ASSET || thatEntity.type === INLINE_ASSET ) {
                         const targetId = thatEntity.data.asset.id;
-                        // console.log(thatEntity, 'invalid ? ', invalidEntities.indexOf(targetId) > -1);
-                        if ( invalidEntities.length > 0 && invalidEntities.indexOf( targetId ) > -1 ) {
+                        if ( invalidEntities.length > 0 && invalidEntities.includes( targetId ) ) {
                           return CharacterMetadata.applyEntity( char, null );
                         }
                         else if ( thatEntityKey === entity.key ) {
