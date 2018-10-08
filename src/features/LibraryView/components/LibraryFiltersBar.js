@@ -32,7 +32,7 @@ const LibraryFiltersBar = ( {
   resourceTypes,
   searchString,
   selectedResourcesIds,
-  setOption,
+  onFilterChange,
   sortValue,
   statusFilterValue,
   statusFilterValues,
@@ -56,7 +56,7 @@ const LibraryFiltersBar = ( {
           closeOnChange={ false }
           menuAlign={ 'left' }
           onToggle={ onToggleOptionsVisibility }
-          onChange={ setOption }
+          onChange={ onFilterChange }
           isActive={ optionsVisible }
           isColor={ Object.keys( filterValues ).filter( ( f ) => filterValues[f] ).length > 0 ? 'info' : '' }
           value={ {

@@ -605,7 +605,7 @@ class LibraryViewLayout extends Component {
        */
       case 'list':
       default:
-        const setOption = ( option, optionDomain ) => {
+        const handleFilterChange = ( option, optionDomain ) => {
           if ( optionDomain === 'filter' ) {
             handleFilterToggle( option );
           }
@@ -620,8 +620,8 @@ class LibraryViewLayout extends Component {
         };
         const handleResourceSearchChange = ( e ) => this.setResourceSearchStringDebounce( e.target.value );
         const handleToggleOptionsVisibility = () => {
-                          setOptionsVisible( !optionsVisible );
-                        };
+          setOptionsVisible( !optionsVisible );
+        };
         const handleSelectAllVisibleResources = () => setSelectedResourcesIds( visibleResources.map( ( res ) => res.id ).filter( ( id ) => !resourcesLockMap[id] ) );
         const handleDeselectAllVisibleResources = () => setSelectedResourcesIds( [] );
         const handleDeleteSelection = () => setResourcesPromptedToDelete( [ ...selectedResourcesIds ] );
@@ -685,7 +685,7 @@ class LibraryViewLayout extends Component {
                   optionsVisible={ optionsVisible }
                   resourceTypes={ resourceTypes }
                   selectedResourcesIds={ selectedResourcesIds }
-                  setOptions={ setOption }
+                  onFilterChange={ handleFilterChange }
                   sortValue={ sortValue }
                   statusFilterValue={ statusFilterValue }
                   statusFilterValues={ statusFilterValues }
