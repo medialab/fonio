@@ -57,7 +57,6 @@ const MEDIUM_TIMEOUT = 500;
     }, dispatch )
   } )
 )
-
 class DesignViewContainer extends Component {
 
   constructor( props ) {

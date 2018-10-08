@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux';
 import approveBrowser from 'approved-browser';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
+import { withRouter } from 'react-router';
 import {
   ModalCard
 } from 'quinoa-design-library/components';
@@ -27,6 +28,7 @@ import { getBrowserInfo } from '../../../helpers/misc';
 import * as duck from '../duck';
 import * as storyDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
+import {setStoryLoginId} from '../../AuthManager/duck';
 import {
   FETCH_STORIES,
   CREATE_STORY,
@@ -54,6 +56,7 @@ const ACCEPTED_BROWSERS = {
   strict: true
 };
 
+@withRouter
 @connect(
   ( state ) => ( {
     ...duck.selector( state.errorMessage ),
@@ -63,6 +66,7 @@ const ACCEPTED_BROWSERS = {
   ( dispatch ) => ( {
     actions: bindActionCreators( {
       ...duck,
+      setStoryLoginId,
     }, dispatch )
   } )
 )
@@ -89,8 +93,20 @@ class ErrorMessageContainer extends Component {
   componentWillReceiveProps = ( nextProps ) => {
     const translate = translateNameSpacer( this.context.t, 'Features.ErrorMessageContainer' );
 
-    if ( this.props.lastLockFail !== nextProps.lastLockFail ) {
+    if ( this.props.lastErrorMessage !== nextProps.lastErrorMessage ) {
+      if ( nextProps.lastErrorMessage === 'invalid token' ) {
+        const redirectTo = nextProps.editedStory ?
+          `/story/${nextProps.editedStory.id}`
+          :
+          '/';
+        nextProps.history.push( redirectTo );
+        nextProps.actions.setStoryLoginId(nextProps.editedStory && nextProps.editedStory.id);
+        toastr.error( translate( 'Your story access token is expired' ) );
 
+      }
+    }
+
+    if ( this.props.lastLockFail !== nextProps.lastLockFail ) {
       let title;
       if ( nextProps.lastLockFail && nextProps.lastLockFail.mode === 'enter' ) {
         switch ( nextProps.lastLockFail.blockType ) {

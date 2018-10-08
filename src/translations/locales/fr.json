@@ -354,6 +354,7 @@
   "Features.ErrorMessageContainer.You could not edit a block": "Vous n'avez pas pu éditer un élément",
   "Features.ErrorMessageContainer.You could not edit a section": "Vous n'avez pas pu éditer une section",
   "Features.ErrorMessageContainer.You could not edit story metadata": "Vous n'avez pas pu éditer les propriétés du récit",
+  "Features.ErrorMessageContainer.Your story access token is expired": "Votre jeton d'accès au récit est périmé",
   "Features.ErrorMessageContainer.You could not edit the order of sections": "Vous n'avez pas pu éditer l'ordre des sections",
   "Features.ErrorMessageContainer.You could not edit the resource": "Vous n'avez pas pu éditer l'item",
   "Features.ErrorMessageContainer.You could not edit the story design": "Vous n'avez pas pu éditer le design de ce récit",

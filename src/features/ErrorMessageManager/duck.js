@@ -67,6 +67,7 @@ export const setBrowserWarning = ( payload ) => ( {
 const FAIL_DEFAULT_STATE = {
   requestFail: undefined,
   lastLockFail: undefined,
+  lastErrorMessage: undefined,
   needsReload: false,
   connectError: false,
   lastError: undefined,
@@ -134,6 +135,7 @@ const fails = ( state = FAIL_DEFAULT_STATE, action ) => {
         requestFail: action.type,
         needsReload,
         lastError: action.payload || { error: action.error },
+        lastErrorMessage: action.message,
         lastErrorTime: new Date().getTime()
       };
 
@@ -144,6 +146,7 @@ const fails = ( state = FAIL_DEFAULT_STATE, action ) => {
           ...payload,
           mode: 'enter',
         },
+        lastErrorMessage: action.message,
         lastErrorTime: new Date().getTime()
       };
     case `${DELETE_RESOURCE}_FAIL`:
@@ -163,12 +166,14 @@ const fails = ( state = FAIL_DEFAULT_STATE, action ) => {
           mode: 'delete',
           blockType: 'sections'
         },
+        lastErrorMessage: action.message,
         lastErrorTime: new Date().getTime()
       };
     case `${ACTIVATE_STORY}_FAIL`:
       if ( action.error && action.error.response && action.error.response.status === 422 ) {
         return {
           ...state,
+        lastErrorMessage: action.message,
           malformedStoryError: true
         };
       }
@@ -189,6 +194,7 @@ const needsReload = ( state ) => state.fails.needsReload;
 const connectError = ( state ) => state.fails.connectError;
 const lastError = ( state ) => state.fails.lastError;
 const lastErrorTime = ( state ) => state.fails.lastErrorTime;
+const lastErrorMessage = ( state ) => state.fails.lastErrorMessage;
 const malformedStoryError = ( state ) => state.fails.malformedStoryError;
 const browserWarning = ( state ) => state.fails.browserWarning;
 
@@ -204,6 +210,7 @@ export const selector = createStructuredSelector( {
   lastError,
   lastErrorTime,
   malformedStoryError,
+  lastErrorMessage,
   browserWarning,
 } );
 

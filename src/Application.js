@@ -138,8 +138,8 @@ export default class Application extends Component {
       }
     } = this;
     return (
-      <ErrorMessageContainer>
-        <Router basename={ config.urlPrefix || '/' }>
+      <Router basename={ config.urlPrefix || '/' }>
+        <ErrorMessageContainer>
           <div
             id={ 'wrapper' }
             className={ 'fonio' }
@@ -175,8 +175,8 @@ export default class Application extends Component {
               transitionOut={ 'fadeOut' }
             />
           </div>
-        </Router>
-      </ErrorMessageContainer>
+        </ErrorMessageContainer>
+      </Router>
     );
   }
 }

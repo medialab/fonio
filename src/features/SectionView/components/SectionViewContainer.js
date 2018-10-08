@@ -86,7 +86,6 @@ const SHORT_TIMEOUT = 100;
     }, dispatch )
   } )
 )
-
 class SectionViewContainer extends Component {
 
   static childContextTypes = {
