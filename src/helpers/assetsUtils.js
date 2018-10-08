@@ -313,7 +313,7 @@ export const retrieveMediaMetadata = ( url, credentials = {} ) => {
  * @param {string} str - input bibTeX-formatted string
  * @return {array} references - a list of csl-json formatted references
  */
-export const parseBibTeXToCSLJSON = ( str ) => {
+export const parseBibTeXToCSLJSON = ( str = '' ) => {
   // forcing references separation to parse a maximum of references, even with shitty formatting
   const refs = str.split( '\n\n' );
   return refs.reduce( ( result, ref ) => {

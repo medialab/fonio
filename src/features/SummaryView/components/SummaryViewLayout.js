@@ -48,6 +48,7 @@ import NewSectionForm from '../../../components/NewSectionForm';
 import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 import SortableSectionsList from './SortableSectionsList';
 import AuthorItem from './AuthorItem';
+
 /**
  * Shared constants
  */

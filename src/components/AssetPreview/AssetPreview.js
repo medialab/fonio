@@ -41,6 +41,7 @@ import BibliographicPreview from '../BibliographicPreview';
  */
 import 'react-table/react-table.css';
 import './AssetPreview.scss';
+
 /**
  * Shared constants
  */

@@ -13,7 +13,6 @@ import { convertFromHTML } from 'draft-convert';
 
 import parsePastedLink from './parsePastedLink';
 
-
 const HTML_LENGTH_LOADING_SCREEN_THRESHOLD = 1000;
 const MEDIUM_TIMEOUT = 500;
 

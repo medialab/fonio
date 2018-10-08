@@ -35,6 +35,7 @@ import DataUrlProvider from '../../../components/DataUrlProvider';
  * Imports Assets
  */
 import config from '../../../config';
+
 /**
  * Shared constants
  */
