@@ -13,7 +13,7 @@ All of these tests have to be valid on 3 following platforms:
 
 
 | user story | Chrome | Firefox |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | Create a story from scratch | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Search a specific story by its title | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Order stories by "title" | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
@@ -31,7 +31,7 @@ All of these tests have to be valid on 3 following platforms:
 
 
 | user story | Chrome | Firefox |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | Toggle language | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Change nickname and/or avatar icon | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Come back to home | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
@@ -43,7 +43,7 @@ All of these tests have to be valid on 3 following platforms:
 # Summary view
 
 | user story | Chrome | Firefox |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | Open a story metadata | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Change story metadata | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Change sections level | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
@@ -53,7 +53,7 @@ All of these tests have to be valid on 3 following platforms:
 # Section view
 
 | user story | Chrome | Firefox |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | Write contents | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Write contents using GUI for formatting | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Write contents using markdown contents for formatting | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
@@ -118,7 +118,7 @@ All of these tests have to be valid on 3 following platforms:
 # Library view
 
 | user story | Chrome | Firefox |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | Create a single resource (of each type) | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Edit and update a resource (of each type) | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Test valid batch d&d resources addition | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
@@ -138,7 +138,7 @@ All of these tests have to be valid on 3 following platforms:
 # Design view
 
 | user story | Chrome | Firefox |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | Change notes position | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Change types of items to show in references | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Change status of items to show in references | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
@@ -150,7 +150,7 @@ All of these tests have to be valid on 3 following platforms:
 # Readonly view
 
 | user story | Chrome | Firefox |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | Print page | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 | Come back to home | <ul><li>[ ] check</li></ul> | <ul><li>[ ] check</li></ul> |
 
