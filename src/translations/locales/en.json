@@ -626,5 +626,9 @@
   "Features.SummaryView.edited by {a} (inactive)": "edited by {a} (inactive)",
   "Features.LibraryView.edited by {a} (inactive)": "edited by {a} (inactive)",
   "Features.SectionView.edited by you (inactive)": "edited by you (inactive)",
-  "Features.SectionView.edited by {a} (inactive)": "edited by {a} (inactive)"
+  "Features.SectionView.edited by {a} (inactive)": "edited by {a} (inactive)",
+  "Features.SummaryView.{a} is in the library": "{a} est dans la bibliothèque",
+  "Features.SummaryView.{a} is working on design": "{a} travaille sur le design",
+  "Features.SummaryView.{a} is editing an item in the library": "{a} édite un item dans la bibliothèque",
+  "Features.SummaryView.{a} is editing an item from library while editing section {s}": "{a} édite un item de la bibliothèque tout en éditant la section {s}"
 }

@@ -147,7 +147,7 @@
   "Components.ResourceForm.Authors of the image": "Auteur·e·s de l'image",
   "Components.ResourceForm.Authors of the video": "Auteur·e·s de la vidéo",
   "Components.ResourceForm.Authors of the webpage": "Auteur·e·s de la page web",
-  "Components.ResourceForm.Authors of the table": "Authors of the table",
+  "Components.ResourceForm.Authors of the table": "Auteur·e·s du tableau",
   "Components.ResourceForm.Bib file": "Fichier bibtex",
   "Components.ResourceForm.Cancel": "Annuler",
   "Components.ResourceForm.Date of creation of the resource": "Date de creation de l'item",
@@ -533,7 +533,6 @@
   "Features.SummaryView.{a} is working on design": "{a} travaille sur le design",
   "Features.SummaryView.{a} is editing an item in the library": "{a} édite un item dans la bibliothèque",
   "Features.SummaryView.{a} is editing an item from library while editing section {s}": "{a} édite un item de la bibliothèque tout en éditant la section {s}",
-
   "Features.SummaryView.{a} is nowhere, alone in the dark": "{a} n'est nulle part, perdu dans l'obscurité (ceci est un bug)",
   "Features.SummaryView.{a} is working on a section": "{a} travaille sur une section",
   "Features.SummaryView.{a} is working on section \"{t}\"": "{a} travaille sur la section « {t} »",

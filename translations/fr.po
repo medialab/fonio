@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-10-10\n"
-"PO-Revision-Date: Wed Oct 10 2018 15:01:11 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Oct 10 2018 15:02:56 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5081,6 +5081,18 @@ msgstr "edited by you (inactive)"
 msgid "Features.SectionView.edited by {a} (inactive)"
 msgstr "edited by {a} (inactive)"
 
+msgid "Features.SummaryView.{a} is in the library"
+msgstr "{a} est dans la bibliothèque"
+
+msgid "Features.SummaryView.{a} is working on design"
+msgstr "{a} travaille sur le design"
+
+msgid "Features.SummaryView.{a} is editing an item in the library"
+msgstr "{a} édite un item dans la bibliothèque"
+
+msgid "Features.SummaryView.{a} is editing an item from library while editing section {s}"
+msgstr "{a} édite un item de la bibliothèque tout en éditant la section {s}"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
 
@@ -5110,18 +5122,6 @@ msgstr "« * » puis espace"
 
 msgid "Features.SectionView.">" then space"
 msgstr "« > » puis espace"
-
-msgid "Features.SummaryView.{a} is in the library"
-msgstr "{a} est dans la bibliothèque"
-
-msgid "Features.SummaryView.{a} is working on design"
-msgstr "{a} travaille sur le design"
-
-msgid "Features.SummaryView.{a} is editing an item in the library"
-msgstr "{a} édite un item dans la bibliothèque"
-
-msgid "Features.SummaryView.{a} is editing an item from library while editing section {s}"
-msgstr "{a} édite un item de la bibliothèque tout en éditant la section {s}"
 
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} travaille sur la section « {t} »"
