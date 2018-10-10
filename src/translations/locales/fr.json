@@ -630,5 +630,8 @@
   "Features.SummaryView.edited by {a} (inactive)": "édité par {a} (inactif)",
   "Features.LibraryView.edited by {a} (inactive)": "édité par {a} (inactif)",
   "Features.SectionView.edited by you (inactive)": "édité par vous (inactif)",
-  "Features.SectionView.edited by {a} (inactive)": "edité par {a} (inactif)"
+  "Features.SectionView.edited by {a} (inactive)": "edité par {a} (inactif)",
+  "Features.HomeView.sort by": "sort by",
+  "Components.PastingModal.Creating image {x} of {n}": "Récupération de l'image {x} sur {n}",
+  "Components.PastingModal.Creating {n} images": "Récupération de {n} images"
 }

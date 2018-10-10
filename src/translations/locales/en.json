@@ -630,5 +630,8 @@
   "Features.SummaryView.{a} is in the library": "{a} est dans la bibliothèque",
   "Features.SummaryView.{a} is working on design": "{a} travaille sur le design",
   "Features.SummaryView.{a} is editing an item in the library": "{a} édite un item dans la bibliothèque",
-  "Features.SummaryView.{a} is editing an item from library while editing section {s}": "{a} édite un item de la bibliothèque tout en éditant la section {s}"
+  "Features.SummaryView.{a} is editing an item from library while editing section {s}": "{a} édite un item de la bibliothèque tout en éditant la section {s}",
+  "Features.HomeView.sort {n} stories by": "trier {n} récits par",
+  "Components.PastingModal.Creating image {x} of {n}": "Creating image {x} of {n}",
+  "Components.PastingModal.Creating {n} images": "Creating {n} images"
 }

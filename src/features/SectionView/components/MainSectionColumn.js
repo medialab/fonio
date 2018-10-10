@@ -295,6 +295,7 @@ const MainSectionColumn = ( {
                         updateDraftEditorsStates,
                         updateDraftEditorState,
                         updateResource,
+                        uploadResource,
                         userId,
                       }
                     }

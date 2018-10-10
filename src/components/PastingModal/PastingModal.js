@@ -46,6 +46,22 @@ const UploadModal = ( {
     case 'duplicating-notes':
       message = translate( 'Duplicating {n} notes', { n: statusParameters.length } );
       break;
+    case 'fetching-images':
+      if ( statusParameters.iteration ) {
+        message = translate( 'Creating image {x} of {n}', { x: statusParameters.iteration, n: statusParameters.length } );
+      }
+      else {
+        message = translate( 'Creating {n} images', { n: statusParameters.length } );
+      }
+      break;
+    case 'creating-images':
+      if ( statusParameters.iteration ) {
+        message = translate( 'Creating image {x} of {n}', { x: statusParameters.iteration, n: statusParameters.length } );
+      }
+      else {
+        message = translate( 'Creating {n} images', { n: statusParameters.length } );
+      }
+      break;
     case 'creating-resources':
       if ( statusParameters.iteration ) {
         message = translate( 'Creating item {x} of {n}', { x: statusParameters.iteration, n: statusParameters.length } );

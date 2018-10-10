@@ -32,6 +32,7 @@ const handlePaste = function( html ) {
       userId,
       setEditorPastingStatus,
       setEditorFocus,
+      uploadResource,
     } = props;
 
     const {
@@ -85,6 +86,7 @@ const handlePaste = function( html ) {
         storyId,
         resources,
         editorFocus,
+        uploadResource,
 
         setEditorFocus,
       } );
