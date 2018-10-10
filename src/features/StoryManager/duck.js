@@ -121,8 +121,8 @@ export const updateStory = ( TYPE, payload, callback ) => {
       };
       break;
     case UPDATE_STORY_SETTINGS:
-      blockType = 'design';
-      blockId = 'design';
+      blockType = 'settings';
+      blockId = 'settings';
       payloadSchema = {
         ...DEFAULT_PAYLOAD_SCHEMA,
         properties: {

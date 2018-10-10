@@ -34,6 +34,7 @@ import * as editionUiDuck from '../../EditionUiWrapper/duck';
 import DesignViewLayout from './DesignViewLayout';
 import EditionUiWrapper from '../../EditionUiWrapper/components';
 import DataUrlProvider from '../../../components/DataUrlProvider';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 /**
  * Imports Assets
@@ -150,8 +151,8 @@ class DesignViewContainer extends Component {
       this.props.actions.leaveBlock( {
         storyId,
         userId,
-        blockType: 'design',
-        blockId: 'design'
+        blockType: 'settings',
+        blockId: 'settings'
       } );
     }
   }
@@ -168,8 +169,8 @@ class DesignViewContainer extends Component {
     this.props.actions.enterBlock( {
       storyId,
       userId,
-      blockType: 'design',
-      blockId: 'design'
+      blockType: 'settings',
+      blockId: 'settings'
     }, ( err ) => {
       if ( err ) {
 
@@ -180,13 +181,6 @@ class DesignViewContainer extends Component {
          * -> for now the UI behaviour is to get back client to the summary view
          */
         this.props.history.push( `/story/${storyId}/` );
-      }
-      else {
-
-        /*
-         * ENTER_BLOCK_SUCCESS
-         * this.goToSection(sectionId);
-         */
       }
     } );
   }
@@ -228,23 +222,34 @@ class DesignViewContainer extends Component {
     const {
       props: {
         editedStory,
+        userId,
+        lockingMap = {},
       },
       onUpdateCss,
-      onUpdateSettings
+      onUpdateSettings,
     } = this;
     if ( editedStory ) {
+
+      let hasLock = lockingMap[editedStory.id];
+      hasLock = hasLock && hasLock.locks && hasLock.locks[userId] && hasLock.locks[userId].settings;
+
       return (
         <DataUrlProvider
           storyId={ editedStory.id }
           serverUrl={ config.apiUrl }
         >
           <EditionUiWrapper>
-            <DesignViewLayout
-              story={ this.props.editedStory }
-              onUpdateCss={ onUpdateCss }
-              onUpdateSettings={ onUpdateSettings }
-              { ...this.props }
-            />
+            {
+              hasLock ?
+                <DesignViewLayout
+                  story={ this.props.editedStory }
+                  onUpdateCss={ onUpdateCss }
+                  onUpdateSettings={ onUpdateSettings }
+                  { ...this.props }
+                />
+              :
+                <LoadingScreen />
+            }
           </EditionUiWrapper>
         </DataUrlProvider>
       );

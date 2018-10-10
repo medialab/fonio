@@ -83,12 +83,12 @@ const EditionUiWrapperLayout = ( {
   const lockMap = lockingMap[storyId] && lockingMap[storyId].locks || {};
   const userStatus = lockMap[userId] && lockMap[userId].status;
 
-  const userLockedOnDesignId = Object.keys( lockMap ).find( ( thatUserId ) => lockMap[thatUserId].design );
+  const userLockedOnDesignId = Object.keys( lockMap ).find( ( thatUserId ) => lockMap[thatUserId].settings );
   let designStatus;
   let designMessage;
   let lockStatus;
   if ( userLockedOnDesignId ) {
-    lockStatus = lockMap[userLockedOnDesignId].design.status || 'active';
+    lockStatus = lockMap[userLockedOnDesignId].settings.status || 'active';
   }
   if ( userLockedOnDesignId === userId ) {
     if ( lockStatus === 'active' ) {

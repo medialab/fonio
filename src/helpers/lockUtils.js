@@ -61,7 +61,7 @@ export const getStoryActiveAuthors = ( lockingMap = {}, activeUsers = {}, storyI
   if ( lockingMap[storyId] && lockingMap[storyId].locks ) {
     const storyActiveUsersIds = getStoryActiveUsersIds( lockingMap, storyId );
     return Object.keys( activeUsers )
-      .filter( ( thatUserId ) => !storyActiveUsersIds.includes( thatUserId ) )
+      .filter( ( thatUserId ) => storyActiveUsersIds.includes( thatUserId ) )
       .map( ( thatUserId ) => ( {
         ...activeUsers[thatUserId],
         locks: lockingMap[storyId].locks[thatUserId]
