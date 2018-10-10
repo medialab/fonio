@@ -124,7 +124,7 @@ const SummaryViewLayout = ( {
         metadataLockStatus = 'idle';
         metadataLockMessage = translate( 'edited by {a} (inactive)', { a: activeUsers[userLockedOnMetadataId].name } );
       }
- else {
+      else {
         metadataLockStatus = 'locked';
         metadataLockMessage = translate( 'edited by {a}', { a: activeUsers[userLockedOnMetadataId].name } );
       }

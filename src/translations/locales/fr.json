@@ -529,6 +529,11 @@
   "Features.SummaryView.open to edition": "ouvert à l'édition",
   "Features.SummaryView.{a} is editing story settings": "{a} édite les propriétés du récit",
   "Features.SummaryView.{a} is here on the summary": "{a} est ici, sur le sommaire",
+  "Features.SummaryView.{a} is in the library": "{a} est dans la bibliothèque",
+  "Features.SummaryView.{a} is working on design": "{a} travaille sur le design",
+  "Features.SummaryView.{a} is editing an item in the library": "{a} édite un item dans la bibliothèque",
+  "Features.SummaryView.{a} is editing an item from library while editing section {s}": "{a} édite un item de la bibliothèque tout en éditant la section {s}",
+
   "Features.SummaryView.{a} is nowhere, alone in the dark": "{a} n'est nulle part, perdu dans l'obscurité (ceci est un bug)",
   "Features.SummaryView.{a} is working on a section": "{a} travaille sur une section",
   "Features.SummaryView.{a} is working on section \"{t}\"": "{a} travaille sur la section « {t} »",

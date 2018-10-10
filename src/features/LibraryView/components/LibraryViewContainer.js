@@ -67,6 +67,24 @@ class LibraryViewContainer extends Component {
     super( props );
   }
 
+  componentWillMount = () => {
+    const {
+      match: {
+        params: {
+          storyId
+        }
+      },
+      userId
+    } = this.props;
+    this.props.actions.enterBlock( {
+      storyId,
+      userId,
+      blockType: 'library',
+      blockId: 'library',
+      noLock: true
+    } );
+  }
+
   shouldComponentUpdate = () => true;
 
   /**
@@ -75,6 +93,7 @@ class LibraryViewContainer extends Component {
   componentWillUnmount = () => {
     this.leaveLockedBlocks();
     this.props.actions.resetViewsUi();
+
   }
 
   leaveLockedBlocks = () => {
@@ -101,6 +120,14 @@ class LibraryViewContainer extends Component {
         blockId: userLocks.resources.blockId
       } );
     }
+
+    this.props.actions.leaveBlock( {
+      storyId,
+      userId,
+      blockType: 'library',
+      blockId: 'library',
+      noLock: true
+    } );
   }
 
   /**

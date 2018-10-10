@@ -45,6 +45,24 @@ class SummaryViewContainer extends Component {
     super( props );
   }
 
+  componentWillMount = () => {
+    const {
+      match: {
+        params: {
+          storyId
+        }
+      },
+      userId
+    } = this.props;
+    this.props.actions.enterBlock( {
+      storyId,
+      userId,
+      blockType: 'summary',
+      blockId: 'summary',
+      noLock: true
+    } );
+  }
+
   shouldComponentUpdate = () => true;
 
   componentWillUnmount = () => {
@@ -60,17 +78,26 @@ class SummaryViewContainer extends Component {
         leaveBlock
       }
     } = this.props;
-    const { id } = editedStory;
-    const userLockedOnMetadataId = lockingMap[id] && lockingMap[id].locks &&
-      Object.keys( lockingMap[id].locks )
-        .find( ( thatUserId ) => lockingMap[id].locks[thatUserId].storyMetadata !== undefined );
+    const { id: storyId } = editedStory;
+    const userLockedOnMetadataId = lockingMap[storyId] && lockingMap[storyId].locks &&
+      Object.keys( lockingMap[storyId].locks )
+        .find( ( thatUserId ) => lockingMap[storyId].locks[thatUserId].storyMetadata !== undefined );
     if ( userLockedOnMetadataId && userLockedOnMetadataId === userId ) {
       leaveBlock( {
-        storyId: id,
+        storyId,
         userId,
         blockType: 'storyMetadata',
+        blockId: 'storyMetadata',
       } );
     }
+
+    this.props.actions.leaveBlock( {
+      storyId,
+      userId,
+      blockType: 'summary',
+      blockId: 'summary',
+      noLock: true
+    } );
   }
 
   goToSection = ( sectionId ) => {

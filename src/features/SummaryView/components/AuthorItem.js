@@ -28,33 +28,43 @@ const AuthorItem = ( {
    * Computed variables
    */
   const { name, locks = {} } = author;
-  const lockNames = Object.keys( locks ).filter( ( thatName ) => locks[thatName] );
+  const lockNames = Object.keys( locks ).filter( ( thatName ) => locks[thatName] && thatName !== 'status' && thatName !== 'lastActivityAt' );
   let message;
   if ( lockNames.length === 1 && lockNames[0] === 'summary' ) {
     message = translate( '{a} is here on the summary', { a: name } );
   }
+ else if ( lockNames.length === 1 && lockNames[0] === 'library' ) {
+    message = translate( '{a} is in the library', { a: name } );
+  }
+ else if ( lockNames.length === 1 && lockNames[0] === 'sections' ) {
+      const sectionId = locks.sections.blockId;
+      const section = sections[sectionId];
+      const sectionTitle = section.metadata.title;
+      message = translate( '{a} is working on section "{t}"', { a: name, t: abbrevString( sectionTitle, 60 ) } );
+  }
+  else if ( lockNames.length === 1 && lockNames[0] === 'settings' ) {
+     message = translate( '{a} is working on design', { a: name } );
+  }
   else if ( lockNames.length > 1 ) {
     const oLockNames = lockNames.filter( ( n ) => n !== 'summary' );
-    const hasSection = lockNames.find( ( n ) => n === 'sections' ) !== undefined;
-    if ( oLockNames.length === 1 || hasSection ) {
+    if ( oLockNames.length === 1 ) {
       const lockName = oLockNames[0];
-      if ( hasSection ) {
-        const lock = locks[lockName];
-        if ( lock ) {
-          const sectionId = locks.sections.blockId;
-          const section = sections[sectionId];
-          const sectionTitle = section.metadata.title;
-          message = translate( '{a} is working on section "{t}"', { a: name, t: abbrevString( sectionTitle, 60 ) } );
-        }
-        else message = translate( '{a} is working on a section', { a: name } );
-      }
-      else if ( lockName === 'storyMetadata' ) {
+      if ( lockName === 'storyMetadata' ) {
         message = translate( '{a} is editing story settings', { a: name } );
       }
       else message = translate( '{a} is working on {l}', { a: name, l: oLockNames[0] } );
     }
     else {
-      message = translate( '{a} is working on {l} and {n}', { a: name, l: lockNames[0], n: lockNames[1] } );
+      if ( lockNames[0] === 'library' && lockNames[1] === 'resources' ) {
+        message = translate( '{a} is editing an item in the library', { a: name } );
+      }
+ else if ( lockNames[0] === 'sections' && lockNames[1] === 'resources' ) {
+        const sectionId = locks.sections.blockId;
+        const section = sections[sectionId];
+        const sectionTitle = section.metadata.title;
+        message = translate( '{a} is editing an item from library while editing section {s}', { a: name, s: sectionTitle } );
+      }
+      else message = translate( '{a} is working on {l} and {n}', { a: name, l: lockNames[0], n: lockNames[1] } );
     }
   }
   else {

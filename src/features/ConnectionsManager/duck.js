@@ -58,6 +58,7 @@ export const leaveStory = ( payload ) => ( {
   meta: {
     remote: true,
     broadcast: true,
+    noLock: payload.noLock,
     // room: payload.storyId,
   },
 } );
@@ -71,7 +72,8 @@ export const enterBlock = ( payload, callback ) => ( {
     broadcast: true,
     room: payload.storyId,
     blockType: payload.blockType,
-    blockId: payload.blockId
+    blockId: payload.blockId,
+    noLock: payload.noLock
   },
 } );
 
@@ -151,8 +153,7 @@ function users( state = USERS_DEFAULT_STATE, action ) {
   }
 }
 const DEFAULT_LOCKS = {
-    summary: true,
-  };
+};
 
 /**
  * This redux reducer handles the locking state
