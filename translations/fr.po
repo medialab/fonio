@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-10-10\n"
-"PO-Revision-Date: Wed Oct 10 2018 15:32:29 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Oct 10 2018 15:39:15 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5107,6 +5107,9 @@ msgstr "Fabriqué au <a target=\"blank\" href=\"http://medialab.sciencespo.fr/\"
 
 msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
 msgstr "Fourni par le programme <a target=\"blank\" href=\"http://controverses.org/\">FORCCAST</a>, dédié au développement d'innovations pédagogiques pour l'analyse des controverses, sciences et techniques."
+
+msgid "Features.HomeView.sort {n} stories by"
+msgstr "trier {n} récits par"
 
 msgid "Features.SectionView."#" then space"
 msgstr "« # » puis espace"

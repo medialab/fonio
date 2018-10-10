@@ -394,7 +394,7 @@
   "Features.HomeView.find a story": "trouver un récit",
   "Features.HomeView.intro short title": "Fonio est un outil qui sert à fabriquer des pages html riches d'images, vidéos, visualisations de données et autres éléments interactifs permettant de construire un argument en s'aidant de documents et de données.",
   "Features.HomeView.learn fonio detail": "bientôt ...",
-  "Features.HomeView.sort by": "trier par",
+  "Features.HomeView.sort {n} stories by": "trier {n} récits par",
   "Features.HomeView.story is exist, do you want to override it?": "Le récit existe déjà dans cette classe, voulez-vous l'écraser ?",
   "Features.HomeView.title": "titre",
   "Features.HomeView.writers connected to this classroom right now": "auteur·e·s connectés à cette salle de classe en ce moment",
