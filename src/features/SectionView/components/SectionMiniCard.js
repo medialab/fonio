@@ -60,18 +60,46 @@ const SectionMiniCard = ( {
   /**
    * Computed variables
    */
+  /*
+   * let lockStatusMessage;
+   * switch ( section.lockStatus ) {
+   *   case 'active':
+   *     lockStatusMessage = translate( 'edited by you' );
+   *     break;
+   *   case 'locked':
+   *     lockStatusMessage = translate( 'edited by {a}', { a: section.lockData.name } );
+   *     break;
+   *   case 'open':
+   *   default:
+   *     lockStatusMessage = translate( 'open to edition' );
+   *     break;
+   * }
+   */
+  const isActive = section.lockStatus === 'active';
+  let lockStatus;
   let lockStatusMessage;
-  switch ( section.lockStatus ) {
-    case 'active':
+  const lockData = section.lockData;
+  if ( lockData ) {
+    lockStatus = lockData.status || 'active';
+    if ( lockStatus === 'active' && isActive ) {
       lockStatusMessage = translate( 'edited by you' );
-      break;
-    case 'locked':
-      lockStatusMessage = translate( 'edited by {a}', { a: section.lockData.name } );
-      break;
-    case 'open':
-    default:
-      lockStatusMessage = translate( 'open to edition' );
-      break;
+      lockStatus = 'active';
+    }
+    else if ( lockStatus === 'idle' && isActive ) {
+      lockStatusMessage = translate( 'edited by you (inactive)', { a: lockData.name } );
+      lockStatus = 'idle';
+    }
+    else if ( lockStatus === 'active' ) {
+      lockStatusMessage = translate( 'edited by {a}', { a: lockData.name } );
+      lockStatus = 'locked';
+    }
+    else {
+      lockStatusMessage = translate( 'edited by {a} (inactive)', { a: lockData.name } );
+    }
+  }
+  else {
+    lockStatus = 'open';
+    lockStatusMessage = translate( 'open to edition' );
   }
   const cardStyle = {
     pointerEvents: section.lockStatus === 'locked' ? 'none' : 'all'
@@ -89,10 +117,10 @@ const SectionMiniCard = ( {
 
   return (
     <Card
-      isActive={ section.lockStatus === 'active' }
+      isActive={ lockStatus === 'active' || ( isActive && lockStatus === 'idle' ) }
       bodyContent={
         <div
-          style={ { cursor: section.lockStatus === 'active' ? undefined : 'pointer' } }
+          style={ { cursor: lockStatus === 'active' || ( isActive && lockStatus === 'idle' ) ? undefined : 'pointer' } }
           onClick={ onSelect }
         >
           <Columns style={ { marginBottom: 0 } }>
@@ -110,7 +138,7 @@ const SectionMiniCard = ( {
               isSize={ 8 }
             >
               {
-                section.lockStatus !== 'active' &&
+                lockStatus !== 'active' &&
                 <Link
                   style={ cardStyle }
                   to={ `/story/${storyId}/section/${section.id}` }
@@ -118,12 +146,12 @@ const SectionMiniCard = ( {
                   {sectionTitle}
                 </Link>
               }
-              {section.lockStatus === 'active' &&
+              {lockStatus === 'active' &&
               <b>{sectionTitle}</b>
               }
               <StatusMarker
                 style={ { marginLeft: '1rem' } }
-                lockStatus={ section.lockStatus }
+                lockStatus={ lockStatus }
                 statusMessage={ lockStatusMessage }
               />
             </Column>

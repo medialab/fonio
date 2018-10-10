@@ -617,5 +617,14 @@
   "Features.SectionView.tooltip": "tooltip",
   "Features.SectionView.small": "small",
   "Features.SectionView.All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)": "Tous les raccourcis présentés ci-dessous sont également accessibles à travers l'interface graphique de l'éditeur (déplacer le curseur / sélectionner du texte).",
-  "Features.ErrorMessageContainer.Your story access token is expired": "Your story access token is expired"
+  "Features.ErrorMessageContainer.Your story access token is expired": "Your story access token is expired",
+  "Components.SectionCard.edited by {a} (inactive)": "edited by {a} (inactive)",
+  "Features.DesignView.Someone took your place in the design view !": "Someone took your place in the design view !",
+  "Features.DesignView.This happened because you were inactive too much time": "This happened because you were inactive too much time",
+  "Features.EditionUiWrapper.edited by you (inactive)": "edited by you (inactive)",
+  "Features.EditionUiWrapper.edited by {n} (inactive)": "edited by {n} (inactive)",
+  "Features.SummaryView.edited by {a} (inactive)": "edited by {a} (inactive)",
+  "Features.LibraryView.edited by {a} (inactive)": "edited by {a} (inactive)",
+  "Features.SectionView.edited by you (inactive)": "edited by you (inactive)",
+  "Features.SectionView.edited by {a} (inactive)": "edited by {a} (inactive)"
 }

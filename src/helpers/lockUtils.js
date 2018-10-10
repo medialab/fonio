@@ -12,7 +12,8 @@ export const getReverseSectionsLockMap = ( lockingMap = {}, activeUsers = {}, st
           return {
             ...result,
             [userSectionLock.blockId]: {
-              ...activeUsers[userSectionLock.userId]
+              ...activeUsers[userSectionLock.userId],
+              status: userSectionLock.status,
             }
           };
         }
@@ -31,7 +32,8 @@ export const getReverseResourcesLockMap = ( lockingMap = {}, activeUsers = {}, s
           return {
             ...result,
             [userResourceLock.blockId]: {
-              ...activeUsers[userResourceLock.userId]
+              ...activeUsers[userResourceLock.userId],
+              status: userResourceLock.status,
             }
           };
         }

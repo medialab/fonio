@@ -117,6 +117,26 @@ class ResourceCard extends Component {
     }
     const url = resource.data.url || Array.isArray( resource.data ) && resource.data[0] && resource.data[0].URL;
 
+    let lockStatus;
+    let lockStatusMessage;
+    let isEditable;
+    if ( lockData ) {
+      lockStatus = lockData.status || 'active';
+      if ( lockStatus === 'active' ) {
+        lockStatusMessage = translate( 'edited by {a}', { a: lockData.name } );
+        lockStatus = 'locked';
+      }
+ else {
+        lockStatusMessage = translate( 'edited by {a} (inactive)', { a: lockData.name } );
+      }
+      isEditable = false;
+    }
+ else {
+      isEditable = true;
+      lockStatus = 'open';
+      lockStatusMessage = translate( 'open to edition' );
+    }
+
     /**
      * Callbacks handlers
      */
@@ -136,7 +156,7 @@ class ResourceCard extends Component {
           bodyContent={
             <div
               className={ 'fonio-ResourceCard' }
-              style={ { cursor: lockData ? undefined : 'pointer' } }
+              style={ { cursor: isEditable ? undefined : 'pointer' } }
             >
               <Columns style={ { marginBottom: 0 } }>
                 <Column isSize={ 2 }>
@@ -175,8 +195,8 @@ class ResourceCard extends Component {
                     </span>
                     <StatusMarker
                       style={ { marginLeft: '1rem' } }
-                      lockStatus={ lockData ? 'locked' : 'open' }
-                      statusMessage={ lockData ? translate( 'edited by {a}', { a: lockData.name } ) : translate( 'open to edition' ) }
+                      lockStatus={ lockStatus }
+                      statusMessage={ lockStatusMessage }
                     />
                   </Title>
                 </Column>
@@ -204,7 +224,7 @@ class ResourceCard extends Component {
                 >
                   <Button
                     onClick={ onEdit }
-                    isDisabled={ lockData }
+                    isDisabled={ lockStatus === 'locked' }
                     data-place={ 'left' }
                     data-effect={ 'solid' }
                     data-for={ 'tooltip' }

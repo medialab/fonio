@@ -119,8 +119,16 @@ const SummaryViewLayout = ( {
       metadataLockMessage = translate( 'edited by you' );
     }
     else {
-      metadataLockStatus = 'locked';
-      metadataLockMessage = translate( 'edited by {a}', { a: activeUsers[userLockedOnMetadataId].name } );
+      const lockInfo = lockingMap[storyId].locks[userLockedOnMetadataId].storyMetadata;
+      if ( lockInfo.status === 'idle' ) {
+        metadataLockStatus = 'idle';
+        metadataLockMessage = translate( 'edited by {a} (inactive)', { a: activeUsers[userLockedOnMetadataId].name } );
+      }
+ else {
+        metadataLockStatus = 'locked';
+        metadataLockMessage = translate( 'edited by {a}', { a: activeUsers[userLockedOnMetadataId].name } );
+      }
+
     }
   }
    else {

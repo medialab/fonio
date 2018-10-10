@@ -68,11 +68,20 @@ const SectionCard = ( {
    * Computed variables
    */
   let lockStatusMessage;
+  let lockStatus;
   if ( lockData ) {
-    lockStatusMessage = translate( 'edited by {a}', { a: lockData.name } );
+    if ( lockData && lockData.status === 'idle' ) {
+      lockStatusMessage = translate( 'edited by {a} (inactive)', { a: lockData.name } );
+      lockStatus = 'idle';
+    }
+    else {
+      lockStatusMessage = translate( 'edited by {a}', { a: lockData.name } );
+      lockStatus = 'locked';
+    }
   }
   else {
     lockStatusMessage = translate( 'open to edition' );
+    lockStatus = 'open';
   }
 
   const sectionTitle = (
@@ -120,6 +129,8 @@ const SectionCard = ( {
   const handleEdit = ( e ) => handleAction( 'edit', e );
   const handleDelete = ( e ) => handleAction( 'delete', e );
 
+  const editable = !lockData || ( lockData && lockData.status && lockData.status === 'idle' );
+
   return (
     <div
       className={ 'is-clickable' }
@@ -147,7 +158,7 @@ const SectionCard = ( {
                 isSize={ 7 }
               >
                 {
-                    lockData === undefined &&
+                    editable &&
                     <Title isSize={ titleSize }>
                       <Link
                         to={ `/story/${story.id}/section/${section.id}` }
@@ -161,12 +172,12 @@ const SectionCard = ( {
                       </Link>
                       <StatusMarker
                         style={ { marginLeft: '1rem' } }
-                        lockStatus={ lockData ? 'locked' : 'open' }
+                        lockStatus={ lockStatus }
                         statusMessage={ lockStatusMessage }
                       />
                     </Title>
                   }
-                {lockData !== undefined &&
+                {!editable &&
                 <Title isSize={ titleSize }>
                   <span
                     data-tip={ section.metadata.title.length > MAX_TITLE_LEN ? undefined : section.metadata.title }
@@ -197,7 +208,7 @@ const SectionCard = ( {
                     data-effect={ 'solid' }
                     data-place={ 'left' }
                     data-for={ 'tooltip' }
-                    data-tip={ lockData === undefined && translate( 'edit section' ) }
+                    data-tip={ lockData === undefined ? translate( 'edit section' ) : undefined }
                   >
                     <Icon
                       isSize={ 'small' }
@@ -212,7 +223,7 @@ const SectionCard = ( {
                     data-effect={ 'solid' }
                     data-place={ 'left' }
                     data-for={ 'tooltip' }
-                    data-tip={ lockData === undefined && translate( 'delete this section' ) }
+                    data-tip={ lockData === undefined ? translate( 'delete this section' ) : undefined }
                   >
                     <Icon
                       isSize={ 'small' }

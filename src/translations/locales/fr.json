@@ -598,6 +598,7 @@
   "Features.SectionView.Move down in the summary": "Rabaisser dans le sommaire",
   "Features.SectionView.Move section in summary": "Déplacer la section dans le sommaire",
   "Components.SectionCard.edited by {a}": "édité par {a}",
+  "Components.SectionCard.edited by {a} (inactive)": "édité par {a} (inactif)",
   "Components.SectionCard.open to edition": "ouvert à l'édition",
   "Components.SectionCard.edit section": "éditer la section",
   "Components.SectionCard.delete this section": "delete this section",
@@ -617,5 +618,13 @@
   "Features.LibraryView.small": "small",
   "Features.SectionView.tooltip": "tooltip",
   "Features.SectionView.small": "small",
-  "All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)": "All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)."
+  "All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text)": "All the shortcuts presented below are also accessible through the editor graphical interface (move cursor/select text).",
+  "Features.DesignView.Someone took your place in the design view !": "Quelqu'un a pris votre place sur la vue design !",
+  "Features.DesignView.This happened because you were inactive too much time": "C'est arrivé parce que vous êtes resté inactif trop longtemps",
+  "Features.EditionUiWrapper.edited by you (inactive)": "édité par vous (inactif)",
+  "Features.EditionUiWrapper.edited by {n} (inactive)": "édité par {n} (inactif)",
+  "Features.SummaryView.edited by {a} (inactive)": "édité par {a} (inactif)",
+  "Features.LibraryView.edited by {a} (inactive)": "édité par {a} (inactif)",
+  "Features.SectionView.edited by you (inactive)": "édité par vous (inactif)",
+  "Features.SectionView.edited by {a} (inactive)": "edité par {a} (inactif)"
 }

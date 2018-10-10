@@ -38,7 +38,7 @@ const SortableItem = SortableElement( ( {
     onDeleteSection( section.id );
   };
   const handleSelect = () => {
-    if ( section.lockStatus === 'open' ) {
+    if ( section.lockStatus === 'open' || ( section.lockData && section.lockData.status === 'idle' ) ) {
       history.push( `/story/${storyId}/section/${section.id}` );
     }
   };

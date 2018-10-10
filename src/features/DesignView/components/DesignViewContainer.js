@@ -6,16 +6,20 @@
  * Imports Libraries
  */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
 import {
   withRouter,
 } from 'react-router';
+import { toastr } from 'react-redux-toastr';
 
 /**
  * Imports Project utils
  */
+import { translateNameSpacer } from '../../../helpers/translateUtils';
+
 /**
  * Imports Ducks
  */
@@ -59,6 +63,10 @@ const MEDIUM_TIMEOUT = 500;
 )
 class DesignViewContainer extends Component {
 
+  static contextTypes = {
+    t: PropTypes.func,
+  }
+
   constructor( props ) {
     super( props );
     this.onUpdateCss = debounce( this.onUpdateCss, MEDIUM_TIMEOUT );
@@ -81,7 +89,8 @@ class DesignViewContainer extends Component {
         params: {
           storyId: prevStoryId
         }
-      }
+      },
+      lockingMap: prevLockingMap
     } = this.props;
     const {
       match: {
@@ -89,7 +98,24 @@ class DesignViewContainer extends Component {
           storyId: nextStoryId
         }
       },
+      lockingMap,
+      history,
+      userId,
     } = nextProps;
+    const { t } = this.context;
+
+    const translate = translateNameSpacer( t, 'Features.DesignView' );
+
+    // if lock is lost (e.g. after idle-then-loose-block usecases) redirect to summary
+    if (
+        prevLockingMap && prevLockingMap[prevStoryId] &&
+        lockingMap && lockingMap[nextStoryId] &&
+        prevLockingMap[prevStoryId].locks[userId] && lockingMap[nextStoryId].locks[userId] &&
+        prevLockingMap[prevStoryId].locks[userId].design && !lockingMap[nextStoryId].locks[userId].design
+      ) {
+      history.push( `/story/${nextStoryId}` );
+      toastr.error( translate( 'Someone took your place in the design view !' ), translate( 'This happened because you were inactive too much time' ) );
+    }
 
     /**
      * @todo skip this conditional with another strategy relying on components architecture

@@ -163,30 +163,42 @@ class ResourceCard extends Component {
      * Computed variables
      */
     let lockStatus;
-    let lockMessage;
-    if ( isActive ) {
-      lockStatus = 'active';
-      lockMessage = translate( 'edited by you' );
+    let lockStatusMessage;
+    if ( lockData ) {
+      lockStatus = lockData.status || 'active';
+      if ( lockStatus === 'active' && isActive ) {
+        lockStatusMessage = translate( 'edited by you' );
+        lockStatus = 'active';
+      }
+ else if ( lockStatus === 'idle' && isActive ) {
+        lockStatusMessage = translate( 'edited by you (inactive)', { a: lockData.name } );
+        lockStatus = 'idle';
+      }
+ else if ( lockStatus === 'active' ) {
+        lockStatusMessage = translate( 'edited by {a}', { a: lockData.name } );
+        lockStatus = 'locked';
+      }
+ else {
+        lockStatusMessage = translate( 'edited by {a} (inactive)', { a: lockData.name } );
+      }
     }
-    else if ( lockData ) {
-      lockStatus = 'locked';
-      lockMessage = translate( 'edited by {a}', { a: lockData.name } );
-    }
-    else {
+ else {
       lockStatus = 'open';
-      lockMessage = translate( 'open to edition' );
+      lockStatusMessage = translate( 'open to edition' );
     }
 
     let resourceTitle;
     if ( type === 'bib' && data && data[0] ) {
-      resourceTitle = ( <div
-        data-for={ 'tooltip' }
-        data-place={ 'right' }
-        data-html
-        data-tip={ data[0].htmlPreview }
-        className={ 'bib-wrapper-mini' }
-        dangerouslySetInnerHTML={ { __html: data[0].htmlPreview } }
-                        /> );
+      resourceTitle = (
+        <div
+          data-for={ 'tooltip' }
+          data-place={ 'right' }
+          data-html
+          data-tip={ data[0].htmlPreview }
+          className={ 'bib-wrapper-mini' }
+          dangerouslySetInnerHTML={ { __html: data[0].htmlPreview } }
+        />
+      );
     }
     else {
        resourceTitle = getTitle( resource ) || translate( 'untitled resource' );
@@ -287,7 +299,7 @@ class ResourceCard extends Component {
                   <StatusMarker
                     style={ { marginLeft: '1rem' } }
                     lockStatus={ lockStatus }
-                    statusMessage={ lockMessage }
+                    statusMessage={ lockStatusMessage }
                   />
                 </Column>
 

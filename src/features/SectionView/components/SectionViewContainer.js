@@ -132,6 +132,7 @@ class SectionViewContainer extends Component {
         }
       },
       editorStates,
+      lockingMap: prevLockingMap,
       userId,
     } = this.props;
     const {
@@ -141,6 +142,7 @@ class SectionViewContainer extends Component {
           storyId: nextStoryId
         }
       },
+      history,
       pendingContextualization,
       promptedToDeleteSectionId,
       lockingMap,
@@ -150,6 +152,18 @@ class SectionViewContainer extends Component {
         setPromptedToDeleteSectionId
       }
     } = nextProps;
+
+    // if lock is lost (e.g. after idle-then-loose-block usecases) redirect to summary
+    if (
+        prevLockingMap && prevLockingMap[prevStoryId] &&
+        lockingMap && lockingMap[nextStoryId] &&
+        prevLockingMap[prevStoryId].locks[userId] && lockingMap[nextStoryId].locks[userId] &&
+        prevLockingMap[prevStoryId].locks[userId].sections &&
+        prevLockingMap[prevStoryId].locks[userId].sections.blockId === nextSectionId &&
+        !lockingMap[nextStoryId].locks[userId].sections
+      ) {
+      history.push( `/story/${nextStoryId}` );
+    }
 
     /**
      * @todo skip this conditional with another strategy relying on components architecture

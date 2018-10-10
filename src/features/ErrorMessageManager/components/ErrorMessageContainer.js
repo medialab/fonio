@@ -28,7 +28,7 @@ import { getBrowserInfo } from '../../../helpers/misc';
 import * as duck from '../duck';
 import * as storyDuck from '../../StoryManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
-import {setStoryLoginId} from '../../AuthManager/duck';
+import { setStoryLoginId } from '../../AuthManager/duck';
 import {
   FETCH_STORIES,
   CREATE_STORY,
@@ -100,7 +100,7 @@ class ErrorMessageContainer extends Component {
           :
           '/';
         nextProps.history.push( redirectTo );
-        nextProps.actions.setStoryLoginId(nextProps.editedStory && nextProps.editedStory.id);
+        nextProps.actions.setStoryLoginId( nextProps.editedStory && nextProps.editedStory.id );
         toastr.error( translate( 'Your story access token is expired' ) );
 
       }

@@ -81,21 +81,46 @@ const EditionUiWrapperLayout = ( {
    */
   const storyId = editedStory.id;
   const lockMap = lockingMap[storyId] && lockingMap[storyId].locks || {};
+  const userStatus = lockMap[userId] && lockMap[userId].status;
+
   const userLockedOnDesignId = Object.keys( lockMap ).find( ( thatUserId ) => lockMap[thatUserId].design );
   let designStatus;
   let designMessage;
+  let lockStatus;
+  if ( userLockedOnDesignId ) {
+    lockStatus = lockMap[userLockedOnDesignId].design.status || 'active';
+  }
   if ( userLockedOnDesignId === userId ) {
-    designStatus = 'active';
-    designMessage = translate( 'edited by you' );
+    if ( lockStatus === 'active' ) {
+      designStatus = 'active';
+      designMessage = translate( 'edited by you' );
+    }
+ else {
+      designStatus = 'idle';
+      designMessage = translate( 'edited by you (inactive)' );
+    }
+
   }
   else if ( userLockedOnDesignId && activeUsers[userLockedOnDesignId] ) {
     const userLockedOnDesignInfo = activeUsers[userLockedOnDesignId];
-    designStatus = 'locked';
-    designMessage = translate( 'edited by {n}', { n: userLockedOnDesignInfo.name } );
+    if ( lockStatus === 'active' ) {
+      designStatus = 'locked';
+      designMessage = translate( 'edited by {n}', { n: userLockedOnDesignInfo.name } );
+    }
+ else {
+      designStatus = 'idle';
+      designMessage = translate( 'edited by {n} (inactive)', { n: userLockedOnDesignInfo.name } );
+    }
+
   }
   else {
     designStatus = 'open';
     designMessage = translate( 'open to edition' );
+  }
+
+  let uiOpacity;
+  if ( navLocation === 'sections' ) {
+    uiOpacity = userStatus === 'idle' ? 0.7 : 1;
   }
 
   let computedTitle;
@@ -163,7 +188,12 @@ const EditionUiWrapperLayout = ( {
   const handleCloseExportModal = () => setUserInfoModalOpen( false );
 
   return (
-    <StretchedLayoutContainer isAbsolute>
+    <StretchedLayoutContainer
+      style={ {
+        opacity: uiOpacity
+      } }
+      isAbsolute
+    >
       <Navbar
         brandImage={ icons.fonioBrand.svg }
         brandUrl={ '/' }
