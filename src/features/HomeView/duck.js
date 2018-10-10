@@ -27,6 +27,7 @@ import { loadUserInfo } from '../../helpers/localStorageUtils';
  * ui
  */
 import { RESET_VIEWS_UI } from '../EditionUiWrapper/duck';
+import { UPDATE_STORY_METADATA } from '../StoryManager/duck';
 
 const SET_TAB_MODE = 'SET_TAB_MODE';
 const SET_NEW_STORY_OPEN = 'SET_NEW_STORY_OPEN';
@@ -513,6 +514,17 @@ function data( state = DATA_DEFAULT_STATE, action ) {
       return {
         ...state,
         stories: newStories
+      };
+    case `${UPDATE_STORY_METADATA}_BROADCAST`:
+      return {
+        ...state,
+        stories: {
+          ...state.stories,
+          [payload.storyId]: {
+            ...state.stories[payload.storyId],
+            metadata: payload.metadata
+          }
+        }
       };
     case SET_USER_INFO:
     case SET_USER_INFO_TEMP:
