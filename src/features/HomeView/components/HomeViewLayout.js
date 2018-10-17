@@ -458,7 +458,7 @@ class HomeViewLayout extends Component {
                           isDirection={ 'horizontal' }
                           isFluid
                         >
-                          <StretchedLayoutItem><i>{this.translate( 'sort {n} stories by', {n: storiesList.length} )}</i></StretchedLayoutItem>
+                          <StretchedLayoutItem><i>{this.translate( 'sort {n} stories by', { n: storiesList.length } )}</i></StretchedLayoutItem>
                           <StretchedLayoutItem>
                             <span style={ { paddingLeft: '1rem', paddingRight: '.1rem' } } />
                             <a onClick={ handleSortByEditedByMe }>
