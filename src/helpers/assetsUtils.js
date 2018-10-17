@@ -177,9 +177,9 @@ export const loadImage = ( file ) => {
  * @param {url} static url
  * @return {Promise} process - loading is wrapped in a promise for consistence matters
  */
-export const loadResourceData = ( url ) => {
+export const loadResourceData = ( url, params ) => {
   return new Promise( ( resolve ) => {
-    get( url )
+    get( url, params )
     .then( ( res ) => {
       resolve( res.data );
     } );
@@ -353,7 +353,7 @@ export const inferMetadata = ( data, assetType ) => {
         title,
         fileName: data && data.file && data.file.name && data.file.name, // @todo use lodash/getIn
         ext: data && data.file && data.file.name && data.file.name.split( '.' )[1],
-        mimeType: data && data.file && data.file.type
+        mimetype: data && data.file && data.file.type
       };
     default:
       return {};
