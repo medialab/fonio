@@ -43,6 +43,7 @@ export default (
   }
   else {
     resourceId = generateId();
+    const ext = url.split( '.' ).pop().split( '?' )[0];
     resource = {
       ...createDefaultResource(),
       id: resourceId,
@@ -50,6 +51,8 @@ export default (
         type: 'image',
         createdAt: new Date().getTime(),
         lastModifiedAt: new Date().getTime(),
+        ext,
+        mimetype: `image/${ext}`,
         title,
       },
       data: {

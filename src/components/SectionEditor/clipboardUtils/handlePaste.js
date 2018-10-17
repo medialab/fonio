@@ -9,9 +9,13 @@ const handlePaste = function( html ) {
 
     const {
       props,
-      // state,
+
       editor,
-      // onEditorChange
+
+      /*
+       * editor,
+       * onEditorChange
+       */
     } = this;
     // ensuring this is happening while editing the content
     if ( !props.editorFocus ) {
@@ -108,6 +112,8 @@ const handlePaste = function( html ) {
         storyId,
         editorFocus,
         setEditorPastingStatus,
+        createResource,
+        uploadResource,
 
         story,
         editor,

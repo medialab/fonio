@@ -2,7 +2,7 @@
  * This module provides the logic for handling copying text in editor
  * @module fonio/components/SectionEditor
  */
-import { uniqBy } from 'lodash';
+import { uniqBy, uniq } from 'lodash';
 import { renderToStaticMarkup } from 'react-dom/server';
 
 import {
@@ -25,7 +25,7 @@ import {
   getCitationModels,
 } from '../citationUtils';
 
-import { uniq } from 'lodash';
+import { loadResourceData } from '../../../helpers/assetsUtils';
 
 import CSL from 'citeproc';
 
@@ -44,7 +44,8 @@ const handleCopy = function( event ) {
       state: {
         citations,
       },
-      editor
+      editor,
+      context,
     } = this;
     const setState = this.setState.bind( this );
     // ensuring user is editing the contents
@@ -77,6 +78,9 @@ const handleCopy = function( event ) {
       contextualizers,
       // resources
     } = story;
+    const {
+      getResourceDataUrl
+    } = context;
 
     /*
      * first step is to retrieve draft-made clipboard ImmutableRecord
@@ -214,11 +218,17 @@ const handleCopy = function( event ) {
       [contentId]: uniqBy( copiedEntities[contentId], ( e ) => e.key )
     } ), {} );
 
+    // store resources
+    const copiedResources = uniq(
+      copiedContextualizations.map( ( { resourceId } ) => story.resources[resourceId] )
+    );
+
     // this object stores all the stuff we need to paste content later on
     const copiedData = {
       copiedEntities,
       copiedContextualizations,
       copiedContextualizers,
+      copiedResources,
       copiedNotes,
       contentId: editorFocus
     };
@@ -367,7 +377,77 @@ const handleCopy = function( event ) {
       event.clipboardData.setData( 'text/html', clipboardHtml );
       event.preventDefault();
     }
-  };
 
+    /**
+     * Now update data-charged resources data in clipboard
+     */
+    const newCopiedResources = [];
+    copiedResources.reduce( ( cur, resource ) =>
+      cur.then( () => new Promise( ( resolve, reject ) => {
+        switch ( resource.metadata.type ) {
+          case 'image':
+            if ( resource.metadata.mimetype ) {
+              loadResourceData( getResourceDataUrl( resource.data ), { responseType: 'blob' } )
+              .then( ( blob ) => {
+                const reader = new FileReader();
+                reader.readAsDataURL( blob );
+                reader.onloadend = function() {
+                  const base64 = reader.result;
+                  const newResource = {
+                    ...resource,
+                    data: {
+                      ...resource.data,
+                      base64
+                    }
+                  };
+                  newCopiedResources.push( newResource );
+                  resolve();
+                };
+                reader.onerror = ( ) => resolve();
+              } );
+            }
+            else resolve();
+            break;
+          case 'table':
+            loadResourceData( getResourceDataUrl( resource.data ) )
+            .then( ( json ) => {
+              try {
+                const newResource = {
+                  ...resource,
+                  data: {
+                    ...resource.data,
+                    json,
+                  }
+                };
+                newCopiedResources.push( newResource );
+                resolve();
+              }
+              catch ( err ) {
+                reject( err );
+              }
+            } );
+            break;
+          default:
+            newCopiedResources.push( resource );
+            resolve();
+            break;
+        }
+      } ) ),
+    Promise.resolve() )
+    .then( () => {
+
+      /*
+       * storing in localstorage variable so that we are not dependent from state.
+       * wrapping this in a try catch to prevent localStorage overloading errors
+       * @todo find a way to copy this to clipboard
+       */
+      try {
+        localStorage.setItem( 'fonio/copied-resources', JSON.stringify( newCopiedResources ) );
+      }
+ catch ( err ) {
+        console.error( 'could not store copied resources to local storage, reason: ', err );/* eslint no-console: 0*/
+      }
+    } );
+  };
 export default handleCopy;
 

@@ -183,6 +183,7 @@ class NoteLayout extends Component {/* eslint react/prefer-stateless-function : 
   static contextTypes = {
     t: PropTypes.func,
   }
+
   render = () => {
     const {
       children,
@@ -247,6 +248,8 @@ class SectionEditor extends Component {
      * Un-namespaced translate function
      */
     t: PropTypes.func.isRequired,
+    getResourceDataUrl: PropTypes.func,
+
   }
 
   /**

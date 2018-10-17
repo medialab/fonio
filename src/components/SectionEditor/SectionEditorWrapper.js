@@ -19,7 +19,7 @@ export default class SectionEditorWrapper extends Component {
   static childContextTypes = {
     startExistingResourceConfiguration: PropTypes.func,
     startNewResourceConfiguration: PropTypes.func,
-    deleteContextualizationFromId: PropTypes.func
+    deleteContextualizationFromId: PropTypes.func,
   }
 
   constructor( props ) {
