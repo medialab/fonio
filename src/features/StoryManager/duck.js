@@ -327,7 +327,7 @@ export const setCoverImage = ( payload ) => updateStory( SET_COVER_IMAGE, payloa
 /**
  * Action creators related to resource upload request
  */
-export const uploadResource = ( payload, mode ) => ( {
+export const uploadResource = ( payload, mode, callback ) => ( {
   type: UPLOAD_RESOURCE,
   payload: {
     ...payload,
@@ -341,13 +341,43 @@ export const uploadResource = ( payload, mode ) => ( {
         'x-access-token': token,
       },
     };
+
     let serverRequestUrl;
     if ( mode === 'create' ) {
       serverRequestUrl = `${config.restUrl}/resources/${payload.storyId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
-      return post( serverRequestUrl, payload.resource, options );
+      return new Promise( ( resolve, reject ) => {
+        post( serverRequestUrl, payload.resource, options )
+              .then( ( data ) => {
+                if ( typeof callback === 'function' ) {
+                  callback( null );
+                }
+                resolve( data );
+              } )
+              .catch( ( err ) => {
+                if ( typeof callback === 'function' ) {
+                  callback( err );
+                }
+                reject( err );
+              } );
+      } );
     }
     serverRequestUrl = `${config.restUrl}/resources/${payload.storyId}/${payload.resourceId}?userId=${payload.userId}&lastUpdateAt=${lastUpdateAt}`;
-    return put( serverRequestUrl, payload.resource, options );
+    return new Promise( ( resolve, reject ) => {
+      put( serverRequestUrl, payload.resource, options )
+        .then( ( data ) => {
+          if ( typeof callback === 'function' ) {
+            callback( null );
+          }
+          resolve( data );
+        } )
+        .catch( ( err ) => {
+          if ( typeof callback === 'function' ) {
+            callback( err );
+          }
+          reject( err );
+        } );
+    } );
+
   },
 } );
 
