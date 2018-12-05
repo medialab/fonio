@@ -46,7 +46,7 @@ const getJSONFromStorage = ( key ) => {
 };
 
 export const getEditionHistoryMap = () => {
-  return getJSONFromStorage( 'fonio/editionStoryMap' );
+  return getJSONFromStorage( 'fonio/editionStoryMap' ) || {};
 };
 
 export const saveUserInfo = ( userInfo ) => {
