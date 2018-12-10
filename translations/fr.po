@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-10-17\n"
-"PO-Revision-Date: Wed Oct 17 2018 13:50:27 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2018-12-10\n"
+"PO-Revision-Date: Mon Dec 10 2018 11:13:04 GMT+0100 (GMT+01:00)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5110,6 +5110,21 @@ msgstr "Êtes-vous sûr·e de vouloir supprimer la section « {s} » ? Tous ses 
 
 msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
 msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
+
+msgid "Features.DesignView.StylesVariables.smaller"
+msgstr "plus petit"
+
+msgid "Features.DesignView.StylesVariables.small"
+msgstr "petit"
+
+msgid "Features.DesignView.StylesVariables.normal"
+msgstr "normal"
+
+msgid "Features.DesignView.StylesVariables.big"
+msgstr "grand"
+
+msgid "Features.DesignView.StylesVariables.bigger"
+msgstr "plus grand"
 
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
 msgstr "Fabriqué au <a target=\"blank\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, laboratoire de recherche qui connecte les sciences sociales avec de nouvelles méthodologies de recherche, d'ingénierie et de design."

@@ -242,7 +242,7 @@ class DesignViewContainer extends Component {
             {
               hasLock ?
                 <DesignViewLayout
-                  story={ this.props.editedStory }
+                  story={ editedStory }
                   onUpdateCss={ onUpdateCss }
                   onUpdateSettings={ onUpdateSettings }
                   { ...this.props }

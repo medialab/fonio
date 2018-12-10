@@ -22,6 +22,7 @@ import {
   Title,
 } from 'quinoa-design-library/components/';
 import icons from 'quinoa-design-library/src/themes/millet/icons';
+import StyleEditor from './StyleEditor';
 
 /**
  * Imports Project utils
@@ -150,6 +151,9 @@ const AsideDesignContents = ( {
             {stylesMode === 'code' && <Level />}
             {/* @todo put here other style modes ui */}
             <Collapsable isCollapsed={ stylesMode !== 'code' }>
+              <Column>
+                <StyleEditor />
+              </Column>
               <Column>
                 <CodeEditor
                   value={ story.settings.css }
