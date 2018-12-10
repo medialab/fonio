@@ -17,6 +17,7 @@ import {
   Columns,
   Label,
   Help,
+  Radio,
 } from 'quinoa-design-library/components/';
 
 /**
@@ -168,6 +169,34 @@ class MetadataForm extends Component {
                 onChange={ onAuthorsChange }
                 authors={ formApi.getValue( 'authors' ) }
               />
+              <Field>
+                <ExplainedLabel
+                  title={ translate( 'Would you consent for a possible future publication of your story on one of Sciences Po websites ?' ) }
+                  explanation={ translate( 'Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.' ) }
+                />
+                <Control>
+                  <Radio
+                    checked={ formApi.getValue( 'publicationConsent' ) ? true : false }
+                    onChange={ () => formApi.setValue( 'publicationConsent', true ) }
+                  >
+                    {translate( 'yes' )}
+                  </Radio>
+                  <Radio
+                    checked={ formApi.getValue( 'publicationConsent' ) ? false : true }
+                    onChange={ () => formApi.setValue( 'publicationConsent', false ) }
+                  >
+                    {translate( 'no' )}
+                  </Radio>
+                </Control>
+                {/*<span>
+                <input type="radio" checked={formApi.getValue('publicationConsent') ? true : false} onChange={() => formApi.setValue('publicationConsent', true)} />
+                <label>{translate('yes')}</label>
+                </span>
+                <span>
+                <input type="radio" checked={formApi.getValue('publicationConsent') ? false: true} onChange={() => formApi.setValue('publicationConsent', false)} />
+                <label>{translate('no')}</label>
+                </span>*/}
+              </Field>
               <Field>
                 <Label>{translate( 'Story Abstract' )}</Label>
                 <Control hasIcons>

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-12-10\n"
-"PO-Revision-Date: Mon Dec 10 2018 11:13:04 GMT+0100 (GMT+01:00)\n"
+"PO-Revision-Date: Mon Dec 10 2018 11:34:46 GMT+0100 (GMT+01:00)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5102,14 +5102,17 @@ msgstr "Creating image {x} of {n}"
 msgid "Components.PastingModal.Creating {n} images"
 msgstr "Creating {n} images"
 
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
-msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
+msgid "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?"
+msgstr "Would you consent for a possible future publication of your story on one of Sciences Po websites ?"
 
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
-msgstr "Êtes-vous sûr·e de vouloir supprimer la section « {s} » ? Tous ses contenus seront perdus sans possibilité de les récupérer."
+msgid "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter."
+msgstr ""
 
-msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
-msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
+msgid "Components.MetadataForm.yes"
+msgstr "yes"
+
+msgid "Components.MetadataForm.no"
+msgstr "no"
 
 msgid "Features.DesignView.StylesVariables.smaller"
 msgstr "plus petit"
@@ -5125,6 +5128,15 @@ msgstr "grand"
 
 msgid "Features.DesignView.StylesVariables.bigger"
 msgstr "plus grand"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
+msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr "Êtes-vous sûr·e de vouloir supprimer la section « {s} » ? Tous ses contenus seront perdus sans possibilité de les récupérer."
+
+msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
+msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
 
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
 msgstr "Fabriqué au <a target=\"blank\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, laboratoire de recherche qui connecte les sciences sociales avec de nouvelles méthodologies de recherche, d'ingénierie et de design."

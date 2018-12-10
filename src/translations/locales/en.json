@@ -109,7 +109,7 @@
   "Components.MetadataForm.Creating story": "Creating story",
   "Components.MetadataForm.Explanation about the story password": "The password should be at least 6 characters long",
   "Components.MetadataForm.Explanation about the story subtitle": "A longer, more precise complement to the title",
-  "Components.MetadataForm.Explanation about the story title": "This title will be displayed on top of your webpage and used for indexaction",
+  "Components.MetadataForm.Explanation about the story title": "This title will be displayed on top of your webpage and used for indexation",
   "Components.MetadataForm.Password should be at least 6 characters": "Password should be at least 6 characters",
   "Components.MetadataForm.Story Abstract": "Story Abstract",
   "Components.MetadataForm.Story could not be created": "Story could not be created",
@@ -638,5 +638,9 @@
   "Features.SummaryView.{a} is editing an item from library while editing section {s}": "{a} édite un item de la bibliothèque tout en éditant la section {s}",
   "Features.HomeView.sort {n} stories by": "trier {n} récits par",
   "Components.PastingModal.Creating image {x} of {n}": "Creating image {x} of {n}",
-  "Components.PastingModal.Creating {n} images": "Creating {n} images"
+  "Components.PastingModal.Creating {n} images": "Creating {n} images",
+  "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?": "Would you consent for a possible future publication of your story on one of Sciences Po websites ?",
+  "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.": "",
+  "Components.MetadataForm.yes": "yes",
+  "Components.MetadataForm.no": "no"
 }
