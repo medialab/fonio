@@ -86,6 +86,11 @@ const AsideDesignColumn = ( {
       }
     } );
   };
+  const handleSettingsChange = ( key, value ) =>
+    onUpdateSettings( {
+      ...settings,
+      [key]: value
+    } );
   const handleUpdateReferenceTypes = ( type ) => {
     const referenceTypes = options.referenceTypes || [];
     let newReferenceTypes;
@@ -112,6 +117,7 @@ const AsideDesignColumn = ( {
       <StretchedLayoutContainer
         isDirection={ 'vertical' }
         isAbsolute
+        style={ { overflow: 'visible' } }
       >
         <StretchedLayoutItem>
           <Column>
@@ -168,6 +174,7 @@ const AsideDesignColumn = ( {
         <StretchedLayoutItem
           isFlex={ 1 }
           isFlowing
+          style={ { overflow: 'visible' } }
         >
           <AsideDesignContents
             {
@@ -175,6 +182,7 @@ const AsideDesignColumn = ( {
                 designAsideTabCollapsed,
                 designAsideTabMode,
                 handleOptionChange,
+                handleSettingsChange,
                 setReferenceTypesVisible,
                 templateOptions,
                 onUpdateCss,

@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Column, Level, Field, Label, Control, Dropdown, ColorPicker } from 'quinoa-design-library/components/';
+import { Field, Label, Control, Dropdown, ColorPicker } from 'quinoa-design-library/components/';
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 
-const StyleEditor = ( props, { t } ) => {
+const StyleEditor = ( { styles = {
+  titles: {
+    sizeClass: 'normal',
+    color: '#000'
+  }
+}, onChange }, { t } ) => {
   const translate = translateNameSpacer( t, 'Features.DesignView.StylesVariables' );
   const options = [
     {
@@ -23,34 +28,50 @@ const StyleEditor = ( props, { t } ) => {
       label: translate( 'bigger' ),
     }
   ];
+  const findStitleSizeClass = ( size ) => options.find( ( { id } ) => id === size );
   const [ showDropdown, setShowDropdown ] = useState( false );
-  const [ titleSize, setTitleSize ] = useState( options[2] );
-  const [ titleColor, setTitleColor ] = useState( undefined );
+
   const onChangeSize = ( size ) =>
-    setTitleSize( options.find( ( { id } ) => id === size ) );
+    onChange( {
+      ...styles,
+      titles: {
+        ...styles.titles,
+        sizeClass: size
+      }
+    } );
+
+  const onChangeColor = ( color ) =>
+    onChange( {
+      ...styles,
+      titles: {
+        ...styles.titles,
+        color,
+      }
+    } );
 
   const onToggle = () => setShowDropdown( !showDropdown );
 
   return (
-    <Column>
-      <Level>
-        <form>
-          <Field>
-            <Control>
-              <Label style={ { color: titleColor } }>Taille de titres</Label>
-              <Dropdown
-                onToggle={ onToggle }
-                isActive={ showDropdown }
-                onChange={ onChangeSize }
-                value={ titleSize }
-                options={ options }
-              />
-              <ColorPicker onChange={ setTitleColor } />
-            </Control>
-          </Field>
-        </form>
-      </Level>
-    </Column>
+    <form>
+      <Field>
+        <Control>
+          <Label style={ { color: styles.titles.color } }>Taille de titres</Label>
+          <Dropdown
+            onToggle={ onToggle }
+            isActive={ showDropdown }
+            onChange={ onChangeSize }
+            value={ findStitleSizeClass( styles.titles.sizeClass ) || options[2] }
+            options={ options }
+          />
+          <span style={ { zIndex: 100, position: 'relative' } }>
+            <ColorPicker
+              color={ styles.titles.color }
+              onChange={ onChangeColor }
+            />
+          </span>
+        </Control>
+      </Field>
+    </form>
   );
 };
 

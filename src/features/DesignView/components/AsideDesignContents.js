@@ -11,7 +11,6 @@ import {
   Button,
   CodeEditor,
   Column,
-  Collapsable,
   Control,
   Dropdown,
   Field,
@@ -33,6 +32,7 @@ const AsideDesignContents = ( {
   designAsideTabCollapsed,
   designAsideTabMode,
   handleOptionChange,
+  handleSettingsChange,
   setReferenceTypesVisible,
   templateOptions,
   onUpdateCss,
@@ -57,6 +57,7 @@ const AsideDesignContents = ( {
   const handleToggleReferenceTypesVisibility = () => setReferenceTypesVisible( !referenceTypesVisible );
   const handleReferenceStatusChange = ( e ) => handleOptionChange( 'referenceStatus', e.target.value );
   const handleShowCssHelp = () => setCssHelpVisible( true );
+  const onStylesVariablesChange = ( styles ) => handleSettingsChange( 'stylesVariables', styles );
 
   if ( designAsideTabCollapsed ) {
       return null;
@@ -149,26 +150,26 @@ const AsideDesignContents = ( {
               {translate( 'Edit style with css' )}
             </Title>
             {stylesMode === 'code' && <Level />}
-            {/* @todo put here other style modes ui */}
-            <Collapsable isCollapsed={ stylesMode !== 'code' }>
-              <Column>
-                <StyleEditor />
-              </Column>
-              <Column>
-                <CodeEditor
-                  value={ story.settings.css }
-                  onChange={ onUpdateCss }
-                />
-              </Column>
-              <Column>
-                <Button
-                  isFullWidth
-                  onClick={ handleShowCssHelp }
-                >
-                  {translate( 'Help' )}
-                </Button>
-              </Column>
-            </Collapsable>
+            <Column>
+              <StyleEditor
+                onChange={ onStylesVariablesChange }
+                styles={ story.settings.stylesVariables }
+              />
+            </Column>
+            <Column>
+              <CodeEditor
+                value={ story.settings.css }
+                onChange={ onUpdateCss }
+              />
+            </Column>
+            <Column>
+              <Button
+                isFullWidth
+                onClick={ handleShowCssHelp }
+              >
+                {translate( 'Help' )}
+              </Button>
+            </Column>
           </Column>
         );
     }
