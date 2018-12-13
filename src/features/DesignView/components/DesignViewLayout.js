@@ -42,6 +42,7 @@ const DesignViewLayout = ( {
   },
   onUpdateCss,
   onUpdateSettings,
+  onUpdateStylesVariables,
 }, { t } ) => {
 
   /**
@@ -79,6 +80,7 @@ const DesignViewLayout = ( {
               setReferenceTypesVisible,
               onUpdateCss,
               onUpdateSettings,
+              onUpdateStylesVariables,
           }
         }
       />

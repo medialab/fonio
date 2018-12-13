@@ -33,7 +33,6 @@ const AsideDesignContents = ( {
   designAsideTabCollapsed,
   designAsideTabMode,
   handleOptionChange,
-  handleSettingsChange,
   setReferenceTypesVisible,
   template,
   onUpdateCss,
@@ -44,6 +43,7 @@ const AsideDesignContents = ( {
   resourceTypes,
   handleUpdateReferenceTypes,
   referenceTypesVisible,
+  onUpdateStylesVariables
 }, { t } ) => {
 
   /**
@@ -58,7 +58,6 @@ const AsideDesignContents = ( {
   const handleToggleReferenceTypesVisibility = () => setReferenceTypesVisible( !referenceTypesVisible );
   const handleReferenceStatusChange = ( e ) => handleOptionChange( 'referenceStatus', e.target.value );
   const handleShowCssHelp = () => setCssHelpVisible( true );
-  const onStylesVariablesChange = ( styles ) => handleSettingsChange( 'stylesVariables', styles );
   const { acceptsOptions = [], stylesVariables } = template;
 
   if ( designAsideTabCollapsed ) {
@@ -155,7 +154,7 @@ const AsideDesignContents = ( {
             <Column>
               <StyleEditor
                 options={ stylesVariables }
-                onChange={ onStylesVariablesChange }
+                onChange={ onUpdateStylesVariables }
                 styles={ story.settings.styles[getTemplateName( story )].stylesVariables }
               />
             </Column>

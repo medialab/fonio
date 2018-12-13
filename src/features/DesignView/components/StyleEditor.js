@@ -41,9 +41,17 @@ const Wysiwig = ( {
 }, { t } ) => {
   const translate = translateNameSpacer( t, 'Features.DesignView.StylesVariables' );
 
-  const onSizeClassChange = ( value ) => {
-    console.log( value );
-  };
+  const onSizeClassChange = ( value ) =>
+    onChange( {
+      ...styles,
+      sizeClass: value
+    } );
+
+  const onColorChange = ( value ) =>
+    onChange( {
+      ...styles,
+      color: value
+    } );
 
   return (
     <Field>
@@ -56,10 +64,10 @@ const Wysiwig = ( {
             onChange={ onSizeClassChange }
           />
         }
-        {options.color &&
+        {options.properties.color &&
           <ColorPicker
             color={ styles.color }
-            onChange={ onChange }
+            onChange={ onColorChange }
           />}
       </Control>
     </Field>
@@ -70,31 +78,8 @@ Wysiwig.contextTypes = {
   t: PropTypes.func,
 };
 
-const StyleEditor = ( { styles, options } ) => {
+const StyleEditor = ( { styles, options, onChange } ) => {
   options = deref( options );
-
-  /*
-   * const onChangeSize = ( size ) =>
-   *   onChange( {
-   *     ...styles,
-   *     titles: {
-   *       ...styles.titles,
-   *       sizeClass: size
-   *     }
-   *   } );
-   */
-
-  /*
-   * const onChangeColor = ( color ) =>
-   *   onChange( {
-   *     ...styles,
-   *     titles: {
-   *       ...styles.titles,
-   *       color,
-   *     }
-   *   } );
-   */
-
   return (
     <form>
       {map( ( option, key ) => (
@@ -103,6 +88,12 @@ const StyleEditor = ( { styles, options } ) => {
           styles={ styles[key] }
           options={ option }
           title={ key }
+          onChange={ ( style ) => {
+            onChange( {
+              ...styles,
+              [key]: style
+            } );
+          } }
         />
       ), options )}
     </form>

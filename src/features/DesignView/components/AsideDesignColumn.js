@@ -51,6 +51,7 @@ const AsideDesignColumn = ( {
 
   onUpdateCss,
   onUpdateSettings,
+  onUpdateStylesVariables,
 
   referenceTypesVisible,
   setReferenceTypesVisible,
@@ -87,11 +88,6 @@ const AsideDesignColumn = ( {
       }
     } );
   };
-  const handleSettingsChange = ( key, value ) =>
-    onUpdateSettings( {
-      ...settings,
-      [key]: value
-    } );
   const handleUpdateReferenceTypes = ( type ) => {
     const referenceTypes = options.referenceTypes || [];
     let newReferenceTypes;
@@ -183,7 +179,7 @@ const AsideDesignColumn = ( {
                 designAsideTabCollapsed,
                 designAsideTabMode,
                 handleOptionChange,
-                handleSettingsChange,
+                onUpdateStylesVariables,
                 setReferenceTypesVisible,
                 template,
                 onUpdateCss,

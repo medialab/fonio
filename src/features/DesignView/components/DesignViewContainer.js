@@ -40,6 +40,7 @@ import LoadingScreen from '../../../components/LoadingScreen';
  * Imports Assets
  */
 import config from '../../../config';
+import { getTemplateName } from '../../../helpers/schemaVersionsUtils';
 
 /**
  * Shared constants
@@ -218,6 +219,30 @@ class DesignViewContainer extends Component {
     } );
   }
 
+  onUpdateStylesVariables = ( styles ) => {
+    const {
+      editedStory: story,
+      userId,
+      actions: {
+        updateStorySettings
+      }
+    } = this.props;
+
+    updateStorySettings( {
+      storyId: story.id,
+      userId,
+      settings: {
+        ...story.settings,
+        styles: {
+          [getTemplateName( story )]: {
+            ...story.settings[getTemplateName( story )],
+            stylesVariables: styles
+          }
+        }
+      }
+    } );
+  }
+
   render() {
     const {
       props: {
@@ -227,6 +252,7 @@ class DesignViewContainer extends Component {
       },
       onUpdateCss,
       onUpdateSettings,
+      onUpdateStylesVariables
     } = this;
     if ( editedStory ) {
 
@@ -245,6 +271,7 @@ class DesignViewContainer extends Component {
                   story={ editedStory }
                   onUpdateCss={ onUpdateCss }
                   onUpdateSettings={ onUpdateSettings }
+                  onUpdateStylesVariables={ onUpdateStylesVariables }
                   { ...this.props }
                 />
               :
