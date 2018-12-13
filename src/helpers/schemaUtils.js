@@ -4,10 +4,11 @@
  */
 import Ajv from 'ajv';
 import def from 'json-schema-defaults';
+import { mapValues, omit, get, tail, split } from 'lodash/fp';
 
 import storySchema from 'quinoa-schemas/story';
 import resourceSchema from 'quinoa-schemas/resource';
-import { findTempateByVersion } from './schemaVersionsUtils';
+import { findTempateByVersion, getTemplateName } from './schemaVersionsUtils';
 
 const ajv = new Ajv();
 ajv.addMetaSchema( require( 'ajv/lib/refs/json-schema-draft-06.json' ) );
@@ -35,6 +36,9 @@ export const validateResource = ( resource ) => {
 
 export const defaults = ( schema ) => def( schema );
 
+/**
+ * Storys will now be created following the 1.1 schema specifications.
+ */
 export const createDefaultStory = () => {
   const story = defaults( storySchema );
   const template = findTempateByVersion( story );
@@ -43,8 +47,8 @@ export const createDefaultStory = () => {
     settings: {
       ...story.settings,
       styles: {
-        [story.settings.templateId]: {
-          ...( story.settings.styles[story.settings.templateId] || {} ),
+        [getTemplateName( story )]: {
+          ...( story.settings.styles[getTemplateName( story )] || {} ),
           stylesVariables: defaults( template.stylesVariables )
         }
       }
@@ -56,32 +60,31 @@ export const createDefaultSection = () => defaults( sectionSchema );
 
 export const createDefaultResource = () => defaults( resourceSchema );
 
-import { map, dissoc, split, tail, path, when, mergeRight, set, lensProp } from 'ramda';
-
 export const deref = ( schema ) => {
 
-  const f = when(
-    ( p ) => !!p.$ref,
-    ( property ) => dissoc(
-      '$ref',
-      mergeRight(
-        property,
-        path( tail( split( /\//g, property.$ref ) ), schema )
-      )
-    )
-  );
+  const replaceRef = ( property ) => {
+    if ( !!property.$ref ) {
+      return omit( [ '$ref' ], {
+        ...property,
+        ...get(
+          tail( split( /\//g, property.$ref ) ),
+          schema
+        )
+      } );
+    }
+    return property;
+  };
 
-  return map(
+  return mapValues(
     ( property ) => {
-      const res = f( property );
-      if ( res.properties ) {
-        return set(
-          lensProp( 'properties' ),
-          map( f )( res.properties ),
-          res
-        );
+      const derefered = replaceRef( property );
+      if ( derefered.properties ) {
+        return {
+          ...derefered,
+          properties: mapValues( replaceRef, derefered.properties )
+        };
       }
-      return res;
+      return derefered;
     }
   , schema.properties );
 };

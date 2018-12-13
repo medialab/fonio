@@ -1,38 +1,66 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Field, Label, Control, Dropdown, ColorPicker } from 'quinoa-design-library/components/';
-import { mapObjIndexed, values } from 'ramda';
+import { map as cappedMap } from 'lodash/fp';
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 import { deref } from '../../../helpers/schemaUtils';
 
+const map = cappedMap.convert( { cap: false } );
+
+const sizeClassToDropdown = cappedMap( ( d ) => ( { id: d, label: d } ) );
+
+const SizeClass = ( props ) => {
+  const options = sizeClassToDropdown( props.options.enum );
+  const [ showDropdown, setShowDropdown ] = useState( false );
+  const [ value, setValue ] = useState(
+    () => options.find( ( option ) => option.id === props.value )
+  );
+  const onToggle = () => setShowDropdown( !showDropdown );
+  const onDropdownChange = ( val ) => {
+    props.onChange( val );
+    setValue(
+      options.find( ( option ) => option.id === val )
+    );
+  };
+
+  return (
+    <Dropdown
+      onToggle={ onToggle }
+      isActive={ showDropdown }
+      onChange={ onDropdownChange }
+      value={ value }
+      options={ options }
+    />
+  );
+};
+
 const Wysiwig = ( {
   options,
-  title,
   styles,
   onChange
 }, { t } ) => {
-  const [ showDropdown, setShowDropdown ] = useState( false );
-  const onToggle = () => setShowDropdown( !showDropdown );
-  const findStitleSizeClass = ( size ) => options.find( ( { id } ) => id === size );
-
   const translate = translateNameSpacer( t, 'Features.DesignView.StylesVariables' );
+
+  const onSizeClassChange = ( value ) => {
+    console.log( value );
+  };
+
   return (
     <Field>
       <Control>
-        <Label>{translate( title )}</Label>
-        {options.sizeClass &&
-          <Dropdown
-            onToggle={ onToggle }
-            isActive={ showDropdown }
-            onChange={ onChange }
-            value={ findStitleSizeClass( styles.titles.sizeClass ) || options[2] }
-            options={ options }
+        <Label>{translate( options.description )}</Label>
+        {options.properties.sizeClass &&
+          <SizeClass
+            value={ styles.sizeClass }
+            options={ options.properties.sizeClass }
+            onChange={ onSizeClassChange }
           />
         }
-        {options.color && <ColorPicker
-          color={ styles.color }
-          onChange={ onChange }
-                          />}
+        {options.color &&
+          <ColorPicker
+            color={ styles.color }
+            onChange={ onChange }
+          />}
       </Control>
     </Field>
   );
@@ -42,13 +70,7 @@ Wysiwig.contextTypes = {
   t: PropTypes.func,
 };
 
-const StyleEditor = ( { styles = {
-  titles: {
-    sizeClass: 'normal',
-    color: '#000'
-  }
-}, options } ) => {
-
+const StyleEditor = ( { styles, options } ) => {
   options = deref( options );
 
   /*
@@ -73,17 +95,16 @@ const StyleEditor = ( { styles = {
    *   } );
    */
 
-  const childs = mapObjIndexed( ( option, key ) => (
-    <Wysiwig
-      key={ key }
-      styles={ styles[key] }
-      options={ option }
-      title={ key }
-    />
-  ), options );
   return (
     <form>
-      {values( childs )}
+      {map( ( option, key ) => (
+        <Wysiwig
+          key={ key }
+          styles={ styles[key] }
+          options={ option }
+          title={ key }
+        />
+      ), options )}
     </form>
   );
 
