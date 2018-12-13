@@ -7,6 +7,7 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { omit } from 'ramda';
 
 import { Form, Text, TextArea } from 'react-form';
 import {
@@ -76,19 +77,14 @@ class MetadataForm extends Component {
      * Callbacks handlers
      */
     const handleSubmitForm = ( values ) => {
-      const newValues = { ...values };
-      delete newValues.password;
-      // parse authors
-      const authors = newValues.authors
-                      // .reduce((result, item) => result.concat(item.split(',')), [])
-                      .map( ( d ) => d.trim() )
-                      .filter( ( d ) => d.length > 0 );
       const payload = {
         ...story,
         metadata: {
           ...story.metadata,
-          ...newValues,
-          authors
+          ...omit( 'password', values ),
+          authors: values.authors
+            .map( ( d ) => d.trim() )
+            .filter( ( d ) => d.length > 0 )
         },
       };
       onSubmit( { payload, password: values.password } );

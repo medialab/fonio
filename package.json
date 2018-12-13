@@ -72,6 +72,7 @@
     "pouchdb": "^6.3.4",
     "quinoa-design-library": "0.0.28",
     "quinoa-schemas": "0.0.20",
+    "ramda": "^0.26.1",
     "react": "^16.7.0-alpha",
     "react-citeproc": "^0.1.10",
     "react-codemirror2": "^4.0.0",

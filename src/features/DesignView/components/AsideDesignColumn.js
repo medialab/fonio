@@ -7,7 +7,6 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { templates } from 'quinoa-story-player';
 import {
   Column,
   StretchedLayoutContainer,
@@ -22,6 +21,8 @@ import {
  * Imports Project utils
  */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
+
+import { findTempateByVersion } from '../../../helpers/schemaVersionsUtils';
 
 /**
  * Imports Components
@@ -63,8 +64,8 @@ const AsideDesignColumn = ( {
    */
   const { settings = {} } = story;
   const { options = {} } = settings;
-  const template = templates.find( ( thatTemplate ) => thatTemplate.id === story.settings.template );
-  const templateOptions = template.acceptsOptions || [];
+
+  const template = findTempateByVersion( story );
 
   /**
    * Computed variables
@@ -184,7 +185,7 @@ const AsideDesignColumn = ( {
                 handleOptionChange,
                 handleSettingsChange,
                 setReferenceTypesVisible,
-                templateOptions,
+                template,
                 onUpdateCss,
                 story,
                 stylesMode,

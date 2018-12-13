@@ -27,6 +27,7 @@ import StyleEditor from './StyleEditor';
  * Imports Project utils
  */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
+import { getTemplateName } from '../../../helpers/schemaVersionsUtils';
 
 const AsideDesignContents = ( {
   designAsideTabCollapsed,
@@ -34,7 +35,7 @@ const AsideDesignContents = ( {
   handleOptionChange,
   handleSettingsChange,
   setReferenceTypesVisible,
-  templateOptions,
+  template,
   onUpdateCss,
   story,
   stylesMode,
@@ -58,6 +59,7 @@ const AsideDesignContents = ( {
   const handleReferenceStatusChange = ( e ) => handleOptionChange( 'referenceStatus', e.target.value );
   const handleShowCssHelp = () => setCssHelpVisible( true );
   const onStylesVariablesChange = ( styles ) => handleSettingsChange( 'stylesVariables', styles );
+  const { acceptsOptions = [], stylesVariables } = template;
 
   if ( designAsideTabCollapsed ) {
       return null;
@@ -67,7 +69,7 @@ const AsideDesignContents = ( {
         return (
           <Column>
             {
-              templateOptions.includes( 'notesPosition' ) &&
+              acceptsOptions.includes( 'notesPosition' ) &&
               <Level>
                 <form>
                   <Field>
@@ -86,7 +88,7 @@ const AsideDesignContents = ( {
               </Level>
             }
             {
-              templateOptions.includes( 'referenceTypes' ) &&
+              acceptsOptions.includes( 'referenceTypes' ) &&
               <Level>
                 <form>
                   <Field>
@@ -122,7 +124,7 @@ const AsideDesignContents = ( {
               </Level>
             }
             {
-              templateOptions.includes( 'referenceStatus' ) &&
+              acceptsOptions.includes( 'referenceStatus' ) &&
               <Level>
                 <form>
                   <Field>
@@ -152,8 +154,9 @@ const AsideDesignContents = ( {
             {stylesMode === 'code' && <Level />}
             <Column>
               <StyleEditor
+                options={ stylesVariables }
                 onChange={ onStylesVariablesChange }
-                styles={ story.settings.stylesVariables }
+                styles={ story.settings.styles[getTemplateName( story )].stylesVariables }
               />
             </Column>
             <Column>
