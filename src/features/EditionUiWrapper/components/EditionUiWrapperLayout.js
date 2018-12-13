@@ -185,7 +185,7 @@ const EditionUiWrapperLayout = ( {
     }
   };
   const handleOpenExportModal = () => setExportModalOpen( true );
-  const handleCloseExportModal = () => setUserInfoModalOpen( false );
+  const handleCloseExportModal = () => setExportModalOpen( false );
 
   return (
     <StretchedLayoutContainer
