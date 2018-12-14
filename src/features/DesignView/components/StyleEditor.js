@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Field, Label, Control, Dropdown, ColorPicker } from 'quinoa-design-library/components/';
-import { map as cappedMap } from 'lodash/fp';
+import { map as cappedMap, toPairs, sortBy, indexOf } from 'lodash/fp';
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 import { deref } from '../../../helpers/schemaUtils';
 
@@ -78,11 +78,17 @@ Wysiwig.contextTypes = {
   t: PropTypes.func,
 };
 
+const mapFollowOrder = ( f, obj, order ) => map(
+  ( [ key, value ] ) => f( value, key ), sortBy(
+    ( [ key ] ) => indexOf( key, order ), toPairs( obj )
+  )
+);
+
 const StyleEditor = ( { styles, options, onChange } ) => {
   options = deref( options );
   return (
     <form>
-      {map( ( option, key ) => (
+      {mapFollowOrder( ( option, key ) => (
         <Wysiwig
           key={ key }
           styles={ styles[key] }
@@ -95,34 +101,12 @@ const StyleEditor = ( { styles, options, onChange } ) => {
             } );
           } }
         />
-      ), options )}
+      ),
+      options,
+      [ 'background', 'coverText', 'titles', 'corpus', 'blockquotes', 'links' ]
+    )}
     </form>
   );
-
-  /*
-   * return (
-   *   <form>
-   *     <Field>
-   *       <Control>
-   *         <Label style={ { color: styles.titles.color } }>Taille de titres</Label>
-   *         <Dropdown
-   *           onToggle={ onToggle }
-   *           isActive={ showDropdown }
-   *           onChange={ onChangeSize }
-   *           value={ findStitleSizeClass( styles.titles.sizeClass ) || options[2] }
-   *           options={ options }
-   *         />
-   *         <span style={ { zIndex: 100, position: 'relative' } }>
-   *           <ColorPicker
-   *             color={ styles.titles.color }
-   *             onChange={ onChangeColor }
-   *           />
-   *         </span>
-   *       </Control>
-   *     </Field>
-   *   </form>
-   * );
-   */
 };
 
 export default StyleEditor;
