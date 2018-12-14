@@ -151,13 +151,15 @@ const AsideDesignContents = ( {
               {translate( 'Edit style with css' )}
             </Title>
             {stylesMode === 'code' && <Level />}
-            <Column>
-              <StyleEditor
-                options={ stylesVariables }
-                onChange={ onUpdateStylesVariables }
-                styles={ story.settings.styles[getTemplateName( story )].stylesVariables }
-              />
-            </Column>
+            {stylesVariables && story.settings.styles &&
+              <Column>
+                <StyleEditor
+                  options={ stylesVariables }
+                  onChange={ onUpdateStylesVariables }
+                  styles={ story.settings.styles[getTemplateName( story )].stylesVariables }
+                />
+              </Column>
+            }
             <Column>
               <CodeEditor
                 value={ story.settings.css }
