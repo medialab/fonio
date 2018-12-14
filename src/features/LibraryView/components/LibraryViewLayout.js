@@ -661,7 +661,7 @@ class LibraryViewLayout extends Component {
               onEdit={ handleEdit }
               onDelete={ handleDelete }
               coverImageId={ coverImageId }
-              handleSetCoverImage={ handleSetCoverImage }
+              onSetCoverImage={ handleSetCoverImage }
               resource={ resource }
               getTitle={ getResourceTitle }
               lockData={ resourcesLockMap[resource.id] }
