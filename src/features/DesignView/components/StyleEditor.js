@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Field, Label, Control, Dropdown, ColorPicker } from 'quinoa-design-library/components/';
-import { map as cappedMap, toPairs, sortBy, indexOf } from 'lodash/fp';
+import { map, toPairs, sortBy, indexOf, debounce } from 'lodash/fp';
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 import { deref } from '../../../helpers/schemaUtils';
 
-const map = cappedMap.convert( { cap: false } );
+import 'rc-slider/assets/index.css';
 
-const sizeClassToDropdown = cappedMap( ( d ) => ( { id: d, label: d } ) );
+const sizeClassToDropdown = map( ( d ) => ( { id: d, label: d } ) );
 
 const SizeClass = ( props ) => {
   const options = sizeClassToDropdown( props.options.enum );
@@ -34,6 +34,10 @@ const SizeClass = ( props ) => {
   );
 };
 
+const triggerDebounce = ( debouncedCallback ) =>
+  ( event ) =>
+    debouncedCallback( +event.target.value );
+
 const Wysiwig = ( {
   options,
   styles,
@@ -53,6 +57,13 @@ const Wysiwig = ( {
       color: value
     } );
 
+  const onOpacityChange = debounce( 200, ( value ) =>
+    onChange( {
+      ...styles,
+      opacity: value
+    } )
+  );
+
   return (
     <Field>
       <Control>
@@ -69,6 +80,18 @@ const Wysiwig = ( {
             color={ styles.color }
             onChange={ onColorChange }
           />}
+        {options.properties.opacity &&
+          <div>
+            <Label>{translate( 'Define background opacity' )}</Label>
+            <input
+              type={ 'range' }
+              min={ options.properties.opacity.minimum }
+              max={ options.properties.opacity.maximum }
+              defaultValue={ styles.opacity || options.properties.opacity.default }
+              step={ 0.1 }
+              onChange={ triggerDebounce( onOpacityChange ) }
+            />
+          </div>}
       </Control>
     </Field>
   );
@@ -79,8 +102,10 @@ Wysiwig.contextTypes = {
 };
 
 const mapFollowOrder = ( f, obj, order ) => map(
-  ( [ key, value ] ) => f( value, key ), sortBy(
-    ( [ key ] ) => indexOf( key, order ), toPairs( obj )
+  ( [ key, value ] ) => f( value, key ),
+  sortBy(
+    ( [ key ] ) => indexOf( key, order ),
+    toPairs( obj )
   )
 );
 

@@ -649,5 +649,6 @@
   "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.": "",
   "Components.MetadataForm.yes": "yes",
   "Components.MetadataForm.no": "no",
-  "Features.DesignView.StylesVariables.relative": "relative"
+  "Features.DesignView.StylesVariables.relative": "relative",
+  "Features.DesignView.StylesVariables.background": "background"
 }

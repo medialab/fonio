@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2018-12-14\n"
-"PO-Revision-Date: Fri Dec 14 2018 19:03:02 GMT+0100 (GMT+01:00)\n"
+"POT-Creation-Date: 2018-12-17\n"
+"PO-Revision-Date: Mon Dec 17 2018 14:32:27 GMT+0100 (GMT+01:00)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1934,15 +1934,6 @@ msgstr "no"
 msgid "Features.DesignView.StylesVariables.relative"
 msgstr "relative"
 
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
-msgstr "Are you sure you want to delete the item \"{s}\" ?"
-
-msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
-msgstr "Are you sure you want to delete the section \"{s}\" ? All its content will be lost without possible recovery."
-
-msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
-msgstr "To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target=\"blank\" href=\"https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS\">this tutorial</a>"
-
 msgid "Features.DesignView.StylesVariables.Define titles styles"
 msgstr "Define titles styles"
 
@@ -1960,6 +1951,18 @@ msgstr "Define blockquotes styles"
 
 msgid "Features.DesignView.StylesVariables.Define background color"
 msgstr "Define background color"
+
+msgid "Features.DesignView.StylesVariables.background"
+msgstr "background"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
+msgstr "Are you sure you want to delete the item \"{s}\" ?"
+
+msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
+msgstr "Are you sure you want to delete the section \"{s}\" ? All its content will be lost without possible recovery."
+
+msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
+msgstr "To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target=\"blank\" href=\"https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS\">this tutorial</a>"
 
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
 msgstr "Made at the <a target=\"blank\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
@@ -1994,5 +1997,5 @@ msgstr "\"{f}\" is too big"
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "For suggesting improvements or signaling bugs, please head to <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">this page</a> and to follow the proposed procedure. Thanks !"
 
-msgid "Features.DesignView.StylesVariables.background"
-msgstr "background"
+msgid "Features.DesignView.StylesVariables.Define background opacity"
+msgstr "Define background opacity"

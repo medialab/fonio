@@ -643,5 +643,12 @@
   "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.": "Une fois terminé et évalué, nous pourrions vouloir valoriser votre travail à travers les canaux de communication de Sciences Po. L'autorisation collective de tous les auteurs est nécessaire pour ce faire.",
   "Components.MetadataForm.yes": "yes",
   "Components.MetadataForm.no": "no",
-  "Features.DesignView.StylesVariables.relative": "relative"
+  "Features.DesignView.StylesVariables.relative": "relative",
+  "Features.DesignView.StylesVariables.Define titles styles": "Define titles styles",
+  "Features.DesignView.StylesVariables.Define textes on cover styles": "Define textes on cover styles",
+  "Features.DesignView.StylesVariables.Define classic corpus text styles": "Define classic corpus text styles",
+  "Features.DesignView.StylesVariables.Define links styles": "Define links styles",
+  "Features.DesignView.StylesVariables.Define blockquotes styles": "Define blockquotes styles",
+  "Features.DesignView.StylesVariables.Define background color": "Define background color",
+  "Features.DesignView.StylesVariables.background": "background"
 }
