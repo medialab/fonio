@@ -402,8 +402,8 @@ class SectionEditor extends Component {
     document.removeEventListener( 'paste', this.onPaste );
     document.removeEventListener( 'keyup', this.onKeyUp );
 
-    this.updateSectionRawContentDebounced.cancel();
-    this.debouncedCleanStuffFromEditorInspection.cancel();
+    this.updateSectionRawContentDebounced.flush();
+    this.debouncedCleanStuffFromEditorInspection.flush();
   }
 
   componentDidCatch( error, info ) {
