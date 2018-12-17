@@ -18,6 +18,7 @@ import {
   SelectionState,
   Modifier
 } from 'draft-js';
+
 import {
   Content,
   Title,
@@ -79,6 +80,7 @@ import IconBtn from '../IconBtn';
 import InlineCitation from './InlineCitation';
 import ItalicButton from './buttons/ItalicButton';
 import LinkButton from './buttons/LinkButton';
+import InternalLinkButton from './buttons/InternalLinkButton';
 import LinkContextualization from './LinkContextualization';
 import NoteButtonComponent from './NoteButton';
 import NotePointer from './NotePointer';
@@ -139,11 +141,13 @@ class EmbedAssetComponent extends Component {
         this.element = el.element;
       }
     };
-    return ( <AssetButtonComponent
-      ref={ bindRef }
-      { ...this.props }
-      icon={ icons.asset.black.svg }
-             /> );
+    return (
+      <AssetButtonComponent
+        ref={ bindRef }
+        { ...this.props }
+        icon={ icons.asset.black.svg }
+      />
+    );
   }
 }
 
@@ -279,11 +283,35 @@ class SectionEditor extends Component {
       ...result,
       [type]: ( {
               ...theseProps
-            } ) => ( <AssetButtonComponent
-              { ...theseProps }
-              icon={ icons[type].black.svg }
-                     /> )
+            } ) => (
+              <AssetButtonComponent
+                { ...theseProps }
+                icon={ icons[type].black.svg }
+              />
+            )
     } ), {} );
+
+    this.internalLinkButton = ( {
+      // ...theseProps
+    } ) => {
+      const handleClick = ( e ) => {
+        this.onEditCursoredInternalLink();
+        e.stopPropagation();
+
+      };
+      const handleMouseDown = ( e ) => {
+        this.onEditCursoredInternalLink();
+        e.stopPropagation();
+      };
+      return (
+        <IconBtn
+          onMouseDown={ handleMouseDown }
+          onClick={ handleClick }
+          data-tip={ this.translate( 'edit internal link' ) }
+          src={ require( '../../sharedAssets/internal-link.svg' ) }
+        />
+      );
+    };
 
     // this.debouncedCleanStuffFromEditorInspection = this.cleanStuffFromEditorInspection.bind(this);
   }
@@ -410,10 +438,69 @@ class SectionEditor extends Component {
     console.log( error, info );/* eslint no-console: 0 */
   }
 
+  onEditCursoredInternalLink = () => {
+    const focus = this.props.editorFocus;
+    const editorFocus = focus === 'main' ? this.props.activeSection.id : this.props.editorFocus;
+    if ( this.props.editorStates[editorFocus] ) {
+      const editorState = this.props.editorStates[editorFocus];
+      const entitySelected = this.getEntityAtSelection( editorState );
+      if ( entitySelected ) {
+        const { entity: entityAtSelection, entityKey } = entitySelected;
+        if ( entityAtSelection.getType() === 'INTERNAL_LINK' ) {
+          // get selection for that entity
+          let entity;
+          const content = editorState.getCurrentContent();
+          content
+          .getBlocksAsArray().forEach( ( block ) => {
+              let selectedEntity = null;
+              block.findEntityRanges(
+                ( character ) => {
+                  if ( character.getEntity() !== null ) {
+                    const key = character.getEntity();
+                    const thatEntity = content.getEntity( key );
+                    if ( key === entityKey ) {
+                      selectedEntity = {
+                        entityKey: character.getEntity(),
+                        blockKey: block.getKey(),
+                        entity: content.getEntity( character.getEntity() ),
+                        data: thatEntity.getData(),
+                      };
+                      return true;
+                    }
+                  }
+                  return false;
+                },
+                ( start, end ) => {
+                  entity = { ...selectedEntity, start, end };
+                } );
+          // select content for that entity
+          if ( entity ) {
+            const newSelection = editorState.getSelection().merge( {
+                anchorOffset: entity.start,
+                focusOffset: entity.end,
+            } );
+
+            /*
+             * const newEditorState = EditorState.acceptSelection(editorState, newSelection);
+             * this.props.updateDraftEditorState(editorFocus, newEditorState);
+             * this.props.editorFocus(undefined);
+             * setTimeout(() => this.props.setEditorFocus(focus));
+             */
+            this.props.setInternalLinkModalFocusData( { focusId: focus, selection: newSelection, selectedSectionId: entity.data.sectionId } );
+          }
+          // open modal
+        } );
+      }
+    }
+  }
+}
+
   updateLinkPopupData = () => {
-    if ( this.props.editorStates[this.props.activeSection.id] ) {
-      const entityAtSelection = this.getEntityAtSelection( this.props.editorStates[this.props.activeSection.id] );
-      if ( entityAtSelection ) {
+    const editorFocus = this.props.editorFocus === 'main' ? this.props.activeSection.id : this.props.editorFocus;
+    if ( this.props.editorStates[editorFocus] ) {
+      const entitySelected = this.getEntityAtSelection( this.props.editorStates[editorFocus] );
+      if ( entitySelected ) {
+        const { entity: entityAtSelection } = entitySelected;
         const data = entityAtSelection.getData();
         if ( data && data.asset ) {
           const contextualizationId = data.asset.id;
@@ -430,6 +517,7 @@ class SectionEditor extends Component {
                     x: selectionPosition.x - componentPosition.x,
                     y: selectionPosition.y - componentPosition.y - 20,
                     href: resource.data.url,
+                    type: 'EXTERNAL_HYPERLINK'
                   }
                 } );
               }
@@ -439,6 +527,28 @@ class SectionEditor extends Component {
             }
           }
 
+        }
+        else if ( entityAtSelection.getType() === 'INTERNAL_LINK' ) {
+          const targetSection = this.props.story && this.props.story.sections[entityAtSelection.getData().sectionId];
+          const title = ( targetSection && targetSection.metadata.title ) || this.translate( 'deleted section' );
+          try {
+              const selection = window.getSelection();
+              const selectionPosition = selection.getRangeAt( 0 ).getBoundingClientRect();
+              const componentPosition = this.component.getBoundingClientRect();
+              if ( selectionPosition ) {
+                return this.setState( {
+                  linkPopupData: {
+                    x: selectionPosition.x - componentPosition.x,
+                    y: selectionPosition.y - componentPosition.y - 20,
+                    title,
+                    type: 'INTERNAL_LINK'
+                  }
+                } );
+              }
+            }
+            catch ( e ) {
+              console.error( e );/* eslint no-console : 0 */
+            }
         }
 
       }
@@ -468,7 +578,7 @@ class SectionEditor extends Component {
     const block = contentState.getBlockForKey( selection.getStartKey() );
     if ( !!block.getEntityAt( selection.getStartOffset() - 1 ) ) {
       const entityKey = block.getEntityAt( selection.getStartOffset() - 1 );
-      return contentState.getEntity( entityKey );
+      return { entity: contentState.getEntity( entityKey ), entityKey };
     }
     return undefined;
   }
@@ -902,6 +1012,31 @@ class SectionEditor extends Component {
       );
     }
 
+  /**
+   * Draft.js strategy for finding internal links
+   * @param {ImmutableRecord} contentBlock - the content block in which entities are searched
+   * @param {function} callback - callback with arguments (startRange, endRange, props to pass)
+   * @param {ImmutableRecord} inputContentState - the content state to parse
+   */
+  findInternalLink = ( contentBlock, callback, contentState ) => {
+      let props;
+      contentBlock.findEntityRanges(
+        ( character ) => {
+          const entityKey = character.getEntity();
+          if (
+            entityKey !== null &&
+            contentState.getEntity( entityKey ).getType() === 'INTERNAL_LINK'
+          ) {
+            props = { ...contentState.getEntity( entityKey ).getData() };
+            return true;
+          }
+        },
+        ( from, to ) => {
+          callback( from, to, props );
+        }
+      );
+    }
+
   inlineButtons = () => [
     <BoldButton
       tooltip={ this.translate( 'bold text' ) }
@@ -936,8 +1071,12 @@ class SectionEditor extends Component {
       key={ 9 }
     />,
     <LinkButton
-      tooltip={ this.translate( 'add a link' ) }
+      tooltip={ this.translate( 'add a link to a webpage' ) }
       key={ 8 }
+    />,
+    <InternalLinkButton
+      tooltip={ this.translate( 'add a link to another section' ) }
+      key={ 9 }
     />,
 
     /*<CodeBlockButton />,*/
@@ -986,6 +1125,7 @@ class SectionEditor extends Component {
       onEditorChange: handleEditorChange,
       handleEditorPaste,
       ElementLayoutComponent,
+      // onEditCursoredInternalLink,
     } = this;
     const {
       story,
@@ -1054,7 +1194,8 @@ class SectionEditor extends Component {
     const editorStateId = focusedEditorId === 'main' ? sectionId : focusedEditorId;
 
     const editedEditorState = editorStates[editorStateId];
-    let resourceType;
+    let cursorOnResourceType;
+    let cursorOnInternalLink;
     if ( editedEditorState ) {
       const selection = editedEditorState.getSelection();
       if ( selection.isCollapsed() ) {
@@ -1067,12 +1208,20 @@ class SectionEditor extends Component {
           if ( entityData.asset && entityData.asset.id ) {
             const contextualization = story.contextualizations[entityData.asset.id];
             const resource = story.resources[contextualization.resourceId];
-            resourceType = resource.metadata.type;
+            cursorOnResourceType = resource.metadata.type;
+          }
+ else if ( content.getEntity( entityKey ).getType() === 'INTERNAL_LINK' ) {
+            cursorOnInternalLink = true;
           }
         }
       }
     }
-    RealAssetComponent = resourceType ? this.assetButtons[resourceType] : EmbedAssetComponent;
+    if ( cursorOnResourceType ) {
+      RealAssetComponent = this.assetButtons[cursorOnResourceType];
+    }
+ else if ( cursorOnInternalLink ) {
+      RealAssetComponent = this.internalLinkButton;
+    }
 
     // define citation style and locales, falling back on defaults if needed
     const { style, locale } = getCitationModels( story );
@@ -1104,6 +1253,22 @@ class SectionEditor extends Component {
                     {this.translate( 'native link to {u}', { u: url } )}
                   </HelpPin>
                 </span>
+              </span>
+            </span>
+          );
+        }
+      },
+      {
+        strategy: this.findInternalLink,
+        component: ( { children/*, sectionId*/ } ) => {
+          return (
+            <span className={ 'internal-link' }>
+              <span className={ 'internal-link-content' }>
+                <span
+                  style={ { color: '#197212' } }
+                >{children}
+                </span>
+
               </span>
             </span>
           );
@@ -1318,6 +1483,7 @@ class SectionEditor extends Component {
           </ReferencesManager>
         </div>
         {
+          linkPopupData &&
           <span
             className={ 'tag' }
             style={ {
@@ -1329,17 +1495,48 @@ class SectionEditor extends Component {
               alignItems: 'center',
             } }
           >
-            <a
-              target={ 'blank' }
-              href={ linkPopupData ? linkPopupData.href : '' }
-            >
-              {linkPopupData ? abbrevString( linkPopupData.href, 30 ) : ''}
-            </a>
-            <Image
-              style={ { margin: 0, padding: 0 } }
-              isSize={ '16x16' }
-              src={ icons.webpage.black.svg }
-            />
+            {
+            linkPopupData.type === 'EXTERNAL_HYPERLINK' ?
+              <span
+                style={ {
+                display: 'flex',
+                flexFlow: 'row nowrap',
+                alignItems: 'center',
+              } }
+              >
+                <a
+                  target={ 'blank' }
+                  rel={ 'no-follow' }
+                  href={ linkPopupData ? linkPopupData.href : '' }
+                >
+                  {linkPopupData ? abbrevString( linkPopupData.href, 30 ) : ''}
+                </a>
+                <Image
+                  style={ { margin: 0, padding: 0 } }
+                  isSize={ '16x16' }
+                  src={ icons.webpage.black.svg }
+                />
+              </span>
+            :
+              <span
+                style={ {
+                display: 'flex',
+                flexFlow: 'row nowrap',
+                alignItems: 'center'
+              } }
+              >
+                <span>
+                  {abbrevString( linkPopupData.title, 60 )}
+                </span>
+                <Image
+                  style={ { margin: 0, padding: 0 } }
+                  isSize={ '16x16' }
+                  src={ require( '../../sharedAssets/internal-link.svg' ) }
+                />
+              </span>
+
+          }
+
           </span>
         }
         <ReactTooltip
