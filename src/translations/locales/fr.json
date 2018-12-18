@@ -634,8 +634,8 @@
   "Features.HomeView.sort by": "sort by",
   "Components.PastingModal.Creating image {x} of {n}": "Récupération de l'image {x} sur {n}",
   "Components.PastingModal.Creating {n} images": "Récupération de {n} images",
-  "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?": "Consentiriez-vous à une possible future publication de ce récit sur l'un des sites web de Sciences Po ?",
-  "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.": "Une fois terminé et évalué, nous pourrions vouloir valoriser votre travail à travers les canaux de communication de Sciences Po. L'autorisation collective de tous les auteurs est nécessaire pour ce faire.",
+  "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?": "Consentiriez-vous à une possible future publication de ce récit sur l'un des sites web de Sciences Po après la fin du semestre ?",
+  "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.": "Une fois terminé et évalué, nous pourrions vouloir valoriser votre travail à travers les canaux de communication de Sciences Po. Vous pouvez changer votre réponse dans les paramètres du récit à n'importe quel moment durant le semestre.",
   "Components.MetadataForm.yes": "yes",
   "Components.MetadataForm.no": "no"
 }
