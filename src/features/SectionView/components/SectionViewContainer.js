@@ -100,7 +100,6 @@ class SectionViewContainer extends Component {
 
   constructor( props ) {
     super( props );
-    this.confirmExit = this.confirmExit.bind( this );
   }
 
   getChildContext = () => ( {
@@ -242,7 +241,7 @@ class SectionViewContainer extends Component {
     this.props.actions.resetViewsUi();
   }
 
-  confirmExit( e ) {
+  confirmExit = ( e ) => {
     const { storyIsSaved } = this.props;
     if ( !storyIsSaved ) {
       const confirmationMessage = '\o/';
