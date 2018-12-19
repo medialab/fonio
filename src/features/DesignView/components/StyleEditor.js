@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Field, Label, Control, Dropdown, ColorPicker } from 'quinoa-design-library/components/';
+import {
+  Field,
+  Label,
+  Control,
+  Dropdown,
+  ColorPicker,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
+} from 'quinoa-design-library/components/';
+import Range from 'quinoa-design-library/components/Range';
 import { map, toPairs, sortBy, indexOf, debounce } from 'lodash/fp';
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 import { deref } from '../../../helpers/schemaUtils';
 
-import 'rc-slider/assets/index.css';
-
 const sizeClassToDropdown = map( ( d ) => ( { id: d, label: d } ) );
+const RANGE_VALUE_FORMAT = 100;
 
 const SizeClass = ( props ) => {
   const options = sizeClassToDropdown( props.options.enum );
@@ -25,6 +33,7 @@ const SizeClass = ( props ) => {
 
   return (
     <Dropdown
+      isFullWidth
       onToggle={ onToggle }
       isActive={ showDropdown }
       onChange={ onDropdownChange }
@@ -35,8 +44,8 @@ const SizeClass = ( props ) => {
 };
 
 const triggerDebounce = ( debouncedCallback ) =>
-  ( event ) =>
-    debouncedCallback( +event.target.value );
+  ( value ) =>
+    debouncedCallback( value );
 
 const Wysiwig = ( {
   options,
@@ -60,41 +69,89 @@ const Wysiwig = ( {
   const onOpacityChange = debounce( 200, ( value ) =>
     onChange( {
       ...styles,
-      opacity: value
+      opacity: value / RANGE_VALUE_FORMAT
     } )
   );
 
-  return (
-    <Field>
-      <Control>
-        <Label>{translate( options.description )}</Label>
-        {options.properties.sizeClass &&
-          <SizeClass
-            value={ styles.sizeClass }
-            options={ options.properties.sizeClass }
-            onChange={ onSizeClassChange }
-          />
-        }
-        {options.properties.color &&
-          <ColorPicker
-            color={ styles.color }
-            onChange={ onColorChange }
-          />}
-        {options.properties.opacity &&
-          <div>
-            <Label>{translate( 'Define background opacity' )}</Label>
-            <input
-              type={ 'range' }
-              min={ options.properties.opacity.minimum }
-              max={ options.properties.opacity.maximum }
-              defaultValue={ styles.opacity || options.properties.opacity.default }
-              step={ 0.1 }
-              onChange={ triggerDebounce( onOpacityChange ) }
+  const { sizeClass, color, opacity } = options.properties;
+
+  let elements = <div />;
+
+  // console.log( 'ici', sizeClass, color, sizeClass && color )
+
+  if ( !sizeClass && !opacity && color ) {
+    elements = (
+      <StretchedLayoutContainer
+        isDirection={ 'horizontal' }
+        isOverflowVisible
+        style={ { margin: '1rem 0' } }
+      >
+        <StretchedLayoutItem
+          isFlex={ 1 }
+          style={ { alignSelf: 'center' } }
+        >
+          <Label>{translate( options.description )}</Label>
+        </StretchedLayoutItem>
+        <StretchedLayoutItem>
+          <Field hasAddons>
+            <ColorPicker
+              color={ styles.color }
+              onChange={ onColorChange }
             />
-          </div>}
-      </Control>
-    </Field>
-  );
+          </Field>
+        </StretchedLayoutItem>
+      </StretchedLayoutContainer>
+    );
+  }
+
+  if ( sizeClass && color ) {
+    elements = (
+      <React.Fragment>
+        <Field>
+          <Control>
+            <Label>{translate( options.description )}</Label>
+            <StretchedLayoutContainer
+              isDirection={ 'horizontal' }
+              isOverflowVisible
+            >
+              <StretchedLayoutItem isFlex={ 1 }>
+                <SizeClass
+                  value={ styles.sizeClass }
+                  options={ options.properties.sizeClass }
+                  onChange={ onSizeClassChange }
+                />
+              </StretchedLayoutItem>
+              <StretchedLayoutItem>
+                <ColorPicker
+                  color={ styles.color }
+                  onChange={ onColorChange }
+                />
+              </StretchedLayoutItem>
+            </StretchedLayoutContainer>
+          </Control>
+        </Field>
+        {opacity &&
+          <Field>
+            <Control>
+              <Label>{translate( 'Define background opacity' )}</Label>
+              <StretchedLayoutContainer isOverflowVisible>
+                <StretchedLayoutItem>
+                  <Range
+                    min={ options.properties.opacity.minimum * RANGE_VALUE_FORMAT }
+                    max={ options.properties.opacity.maximum * RANGE_VALUE_FORMAT }
+                    defaultValue={ styles.opacity * RANGE_VALUE_FORMAT || options.properties.opacity.default * RANGE_VALUE_FORMAT }
+                    onChange={ triggerDebounce( onOpacityChange ) }
+                  />
+                </StretchedLayoutItem>
+              </StretchedLayoutContainer>
+            </Control>
+          </Field>
+        }
+      </React.Fragment>
+    );
+  }
+
+  return elements;
 };
 
 Wysiwig.contextTypes = {

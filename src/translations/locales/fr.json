@@ -650,5 +650,6 @@
   "Features.DesignView.StylesVariables.Define links styles": "Define links styles",
   "Features.DesignView.StylesVariables.Define blockquotes styles": "Define blockquotes styles",
   "Features.DesignView.StylesVariables.Define background color": "Define background color",
-  "Features.DesignView.StylesVariables.background": "background"
+  "Features.DesignView.StylesVariables.background": "background",
+  "Features.DesignView.StylesVariables.Define background opacity": "Define background opacity"
 }

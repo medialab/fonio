@@ -147,9 +147,6 @@ const AsideDesignContents = ( {
       default:
         return (
           <Column>
-            <Title isSize={ 3 }>
-              {translate( 'Edit style with css' )}
-            </Title>
             {stylesMode === 'code' && <Level />}
             {stylesVariables && story.settings.styles &&
               <Column>
@@ -160,6 +157,9 @@ const AsideDesignContents = ( {
                 />
               </Column>
             }
+            <Title isSize={ 3 }>
+              {translate( 'Edit style with css' )}
+            </Title>
             <Column>
               <CodeEditor
                 value={ story.settings.css }
