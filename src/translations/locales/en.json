@@ -651,5 +651,6 @@
   "Components.MetadataForm.no": "no",
   "Features.DesignView.StylesVariables.relative": "relative",
   "Features.DesignView.StylesVariables.background": "background",
-  "Features.DesignView.StylesVariables.Define background opacity": "Define background opacity"
+  "Features.DesignView.StylesVariables.Define background opacity": "Define background opacity",
+  "Features.DesignView.StylesVariables.horizontal": "horizontal"
 }
