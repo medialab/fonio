@@ -652,5 +652,6 @@
   "Features.DesignView.StylesVariables.Define background color": "Define background color",
   "Features.DesignView.StylesVariables.background": "background",
   "Features.DesignView.StylesVariables.Define background opacity": "Define background opacity",
-  "Features.DesignView.StylesVariables.horizontal": "horizontal"
+  "Features.DesignView.StylesVariables.horizontal": "horizontal",
+  "Features.DesignView.StylesVariables.Features.DesignView.StylesVariables": "StylesVariables"
 }
