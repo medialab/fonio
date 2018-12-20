@@ -127,6 +127,14 @@
   }
 }
 
+.radio  {
+  margin-right: 1rem;
+  
+  input[type="radio"]{
+    margin-right: .5rem;
+  }
+}
+
 @media print
 {
   .navbar,
