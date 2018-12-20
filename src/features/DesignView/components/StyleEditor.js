@@ -47,7 +47,7 @@ const triggerDebounce = ( debouncedCallback ) =>
   ( value ) =>
     debouncedCallback( value );
 
-const Wysiwig = ( {
+const Wysiwyg = ( {
   options,
   styles,
   onChange
@@ -152,7 +152,7 @@ const Wysiwig = ( {
   return elements;
 };
 
-Wysiwig.contextTypes = {
+Wysiwyg.contextTypes = {
   t: PropTypes.func,
 };
 
@@ -169,7 +169,7 @@ const StyleEditor = ( { styles, options, onChange } ) => {
   return (
     <form>
       {mapFollowOrder( ( option, key ) => (
-        <Wysiwig
+        <Wysiwyg
           key={ key }
           styles={ styles[key] }
           options={ option }
