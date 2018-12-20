@@ -14,6 +14,8 @@ import {
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Imports Project utils
@@ -49,7 +51,7 @@ const UploadModal = ( {
                 <StretchedLayoutContainer isDirection={ 'horizontal' }>
                   <StretchedLayoutItem>
                     <Icon>
-                      <i className={ 'fa fa-exclamation-circle' } />
+                      <FontAwesomeIcon icon={ faExclamationCircle } />
                     </Icon>
                   </StretchedLayoutItem>
                   <StretchedLayoutItem isFlex={ 1 }>

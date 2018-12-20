@@ -17,6 +17,8 @@ import {
   Label,
   Delete,
 } from 'quinoa-design-library/components/';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Imports Project utils
@@ -123,10 +125,13 @@ class AuthorsManager extends Component {
                     isSize={ 'small' }
                     isAlign={ 'left' }
                   >
-                    <span
+                    <FontAwesomeIcon
+                      icon={ faUser }
+                    />
+                    {/*<span
                       className={ 'fa fa-user' }
                       aria-hidden={ 'true' }
-                    />
+                    />*/}
                   </Icon>
                   <Icon
                     isSize={ 'small' }

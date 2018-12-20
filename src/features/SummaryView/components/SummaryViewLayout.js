@@ -26,6 +26,8 @@ import {
   StretchedLayoutItem,
   Title,
 } from 'quinoa-design-library/components/';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Imports Project utils
@@ -286,10 +288,7 @@ const SummaryViewLayout = ( {
                                 isSize={ 'small' }
                                 isAlign={ 'left' }
                               >
-                                <span
-                                  className={ 'fa fa-user' }
-                                  aria-hidden={ 'true' }
-                                />
+                                <FontAwesomeIcon icon={ faUser } />
                               </Icon>
                             </LevelItem>
                             <LevelItem>
