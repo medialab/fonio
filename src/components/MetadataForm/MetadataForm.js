@@ -7,7 +7,7 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { omit } from 'ramda';
+import { omit } from 'lodash/fp';
 
 import { Form, Text, TextArea } from 'react-form';
 import {
@@ -81,7 +81,7 @@ class MetadataForm extends Component {
         ...story,
         metadata: {
           ...story.metadata,
-          ...omit( 'password', values ),
+          ...omit( [ 'password' ], values ),
           authors: values.authors
             .map( ( d ) => d.trim() )
             .filter( ( d ) => d.length > 0 )
