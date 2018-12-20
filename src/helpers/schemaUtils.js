@@ -4,11 +4,12 @@
  */
 import Ajv from 'ajv';
 import def from 'json-schema-defaults';
-import { mapValues, omit, get, tail, split } from 'lodash/fp';
+import { mapValues, omit, get, tail, split, set } from 'lodash/fp';
 
 import storySchema from 'quinoa-schemas/story';
 import resourceSchema from 'quinoa-schemas/resource';
 import { findTempateByVersion, getTemplateName } from 'quinoa-schemas';
+import { templates } from 'quinoa-story-player';
 
 const ajv = new Ajv();
 ajv.addMetaSchema( require( 'ajv/lib/refs/json-schema-draft-06.json' ) );
@@ -41,19 +42,18 @@ export const defaults = ( schema ) => def( schema );
  */
 export const createDefaultStory = () => {
   const story = defaults( storySchema );
-  const template = findTempateByVersion( story );
-  return {
-    ...story,
-    settings: {
-      ...story.settings,
-      styles: {
-        [getTemplateName( story )]: {
-          ...( story.settings.styles[getTemplateName( story )] || {} ),
-          stylesVariables: defaults( template.stylesVariables )
-        }
-      }
-    }
-  };
+  return set(
+    [
+      'settings',
+      'styles',
+      getTemplateName( story ),
+      'stylesVariables',
+    ],
+    defaults(
+      findTempateByVersion( story, templates ).stylesVariables
+    ),
+    story
+  );
 };
 
 export const createDefaultSection = () => defaults( sectionSchema );
@@ -61,7 +61,6 @@ export const createDefaultSection = () => defaults( sectionSchema );
 export const createDefaultResource = () => defaults( resourceSchema );
 
 export const deref = ( schema ) => {
-
   const replaceRef = ( property ) => {
     if ( !!property.$ref ) {
       return omit( [ '$ref' ], {

@@ -14,11 +14,18 @@ import { map, toPairs, sortBy, indexOf, debounce } from 'lodash/fp';
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 import { deref } from '../../../helpers/schemaUtils';
 
-const sizeClassToDropdown = map( ( d ) => ( { id: d, label: d } ) );
 const RANGE_VALUE_FORMAT = 100;
+const mapFollowOrder = ( f, obj, order ) => map(
+  ( [ key, value ] ) => f( value, key ),
+  sortBy(
+    ( [ key ] ) => indexOf( key, order ),
+    toPairs( obj )
+  )
+);
 
-const SizeClass = ( props ) => {
-  const options = sizeClassToDropdown( props.options.enum );
+const SizeClass = ( props, { t } ) => {
+  const translate = translateNameSpacer( t, 'Features.DesignView.StylesVariables' );
+  const options = map( ( d ) => ( { id: d, label: translate( d ) } ), props.options.enum );
   const [ showDropdown, setShowDropdown ] = useState( false );
   const [ value, setValue ] = useState(
     () => options.find( ( option ) => option.id === props.value )
@@ -43,9 +50,9 @@ const SizeClass = ( props ) => {
   );
 };
 
-const triggerDebounce = ( debouncedCallback ) =>
-  ( value ) =>
-    debouncedCallback( value );
+SizeClass.contextTypes = {
+  t: PropTypes.func
+};
 
 const Wysiwyg = ( {
   options,
@@ -138,7 +145,7 @@ const Wysiwyg = ( {
                     min={ options.properties.opacity.minimum * RANGE_VALUE_FORMAT }
                     max={ options.properties.opacity.maximum * RANGE_VALUE_FORMAT }
                     defaultValue={ styles.opacity * RANGE_VALUE_FORMAT || options.properties.opacity.default * RANGE_VALUE_FORMAT }
-                    onChange={ triggerDebounce( onOpacityChange ) }
+                    onChange={ onOpacityChange }
                   />
                 </StretchedLayoutItem>
               </StretchedLayoutContainer>
@@ -155,14 +162,6 @@ const Wysiwyg = ( {
 Wysiwyg.contextTypes = {
   t: PropTypes.func,
 };
-
-const mapFollowOrder = ( f, obj, order ) => map(
-  ( [ key, value ] ) => f( value, key ),
-  sortBy(
-    ( [ key ] ) => indexOf( key, order ),
-    toPairs( obj )
-  )
-);
 
 const StyleEditor = ( { styles, options, onChange } ) => {
   options = deref( options );

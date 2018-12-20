@@ -42,7 +42,6 @@ const resourceTypes = Object.keys( resourceSchema.definitions ).filter( ( t ) =>
 const AsideDesignColumn = ( {
   designAsideTabCollapsed,
   designAsideTabMode,
-  stylesMode = 'code',
   story = {},
   style = {},
 
@@ -75,7 +74,6 @@ const AsideDesignColumn = ( {
   const handleSetAsideAsSettings = () => setDesignAsideTabMode( 'settings' );
   const handleSetAsideAsStyles = () => setDesignAsideTabMode( 'styles' );
   const handleToggleAsideCollapsed = () => setDesignAsideTabCollapsed( !designAsideTabCollapsed );
-
   return (
     <Column
       style={ style }
@@ -86,7 +84,8 @@ const AsideDesignColumn = ( {
       <StretchedLayoutContainer
         isDirection={ 'vertical' }
         isAbsolute
-        style={ { overflow: 'visible' } }
+        isOver
+        isOverflowVisible
       >
         <StretchedLayoutItem>
           <Column>
@@ -143,7 +142,7 @@ const AsideDesignColumn = ( {
         <StretchedLayoutItem
           isFlex={ 1 }
           isFlowing
-          style={ { overflow: 'visible' } }
+          isOverflowVisible
         >
           <AsideDesignContents
             {
@@ -154,7 +153,6 @@ const AsideDesignColumn = ( {
                 setReferenceTypesVisible,
                 template,
                 story,
-                stylesMode,
                 setCssHelpVisible,
                 options,
                 resourceTypes,

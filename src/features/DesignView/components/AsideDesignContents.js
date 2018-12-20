@@ -35,13 +35,15 @@ const AsideDesignContents = ( {
   setReferenceTypesVisible,
   template,
   story,
-  stylesMode,
   setCssHelpVisible,
   options,
   resourceTypes,
   referenceTypesVisible,
   onUpdateTemplatesVariables
 }, { t } ) => {
+
+  const { acceptsOptions = [], stylesVariables } = template;
+  const styles = getStyles( story );
 
   /**
    * Local functions
@@ -59,32 +61,24 @@ const AsideDesignContents = ( {
     [ 'options', 'referenceStatus' ],
     e.target.value
   );
-  const onUpdateStylesVariables = ( styles ) => onUpdateTemplatesVariables(
+  const onUpdateStylesVariables = ( style ) => onUpdateTemplatesVariables(
     [ 'stylesVariables' ],
-    styles
+    style
   );
-  const onUpdateCss = ( css ) => {
-    return onUpdateTemplatesVariables(
-      [ 'css' ],
-      css
-    );
-  };
+  const onUpdateCss = ( css ) => onUpdateTemplatesVariables(
+    [ 'css' ],
+    css
+  );
   const handleUpdateReferenceTypes = ( type ) => {
-    const referenceTypes = options.referenceTypes || [];
-    let newReferenceTypes;
-    if ( !referenceTypes.includes( type ) ) {
-      newReferenceTypes = [ ...referenceTypes, type ];
-    }
-    else {
-      newReferenceTypes = referenceTypes.filter( ( thatType ) => thatType !== type );
-    }
-    onUpdateTemplatesVariables( [ 'options', 'referenceTypes' ], newReferenceTypes );
+    onUpdateTemplatesVariables(
+      [ 'options', 'referenceTypes' ],
+      options.referenceTypes.includes( type )
+        ? options.referenceTypes.filter( ( thatType ) => thatType !== type )
+        : [ ...options.referenceTypes, type ] );
   };
 
   const handleToggleReferenceTypesVisibility = () => setReferenceTypesVisible( !referenceTypesVisible );
   const handleShowCssHelp = () => setCssHelpVisible( true );
-  const { acceptsOptions = [], stylesVariables } = template;
-  const styles = getStyles( story );
 
   if ( designAsideTabCollapsed ) {
       return null;
@@ -173,7 +167,6 @@ const AsideDesignContents = ( {
       default:
         return (
           <Column>
-            {stylesMode === 'code' && <Level />}
             {stylesVariables && story.settings.styles &&
               <Column>
                 <StyleEditor
