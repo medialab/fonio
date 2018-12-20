@@ -10,10 +10,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
+import { set } from 'lodash/fp';
 import {
   withRouter,
 } from 'react-router';
 import { toastr } from 'react-redux-toastr';
+
+import { isNewSchema } from 'quinoa-schemas';
 
 /**
  * Imports Project utils
@@ -40,7 +43,7 @@ import LoadingScreen from '../../../components/LoadingScreen';
  * Imports Assets
  */
 import config from '../../../config';
-import { getTemplateName } from '../../../helpers/schemaVersionsUtils';
+import { getTemplateName } from 'quinoa-schemas';
 
 /**
  * Shared constants
@@ -187,21 +190,10 @@ class DesignViewContainer extends Component {
   }
 
   onUpdateCss = ( css ) => {
-    const {
-      editedStory: story,
-      userId,
-      actions: {
-        updateStorySettings
-      }
-    } = this.props;
-    updateStorySettings( {
-      storyId: story.id,
-      userId,
-      settings: {
-        ...story.settings,
-        css,
-      }
-    } );
+    this.onUpdateTemplatesVariables(
+      [ 'css' ],
+      css
+    );
   }
 
   onUpdateSettings = ( settings ) => {
@@ -219,7 +211,7 @@ class DesignViewContainer extends Component {
     } );
   }
 
-  onUpdateStylesVariables = ( styles ) => {
+  onUpdateTemplatesVariables = ( keys, styles ) => {
     const {
       editedStory: story,
       userId,
@@ -228,18 +220,22 @@ class DesignViewContainer extends Component {
       }
     } = this.props;
 
+    const setter = isNewSchema( story ) ? set(
+      [
+        'styles',
+        getTemplateName( story ),
+        ...keys
+      ],
+      styles
+    ) : set(
+      keys,
+      styles
+    );
+
     updateStorySettings( {
       storyId: story.id,
       userId,
-      settings: {
-        ...story.settings,
-        styles: {
-          [getTemplateName( story )]: {
-            ...story.settings[getTemplateName( story )],
-            stylesVariables: styles
-          }
-        }
-      }
+      settings: setter( story.settings )
     } );
   }
 
@@ -252,7 +248,7 @@ class DesignViewContainer extends Component {
       },
       onUpdateCss,
       onUpdateSettings,
-      onUpdateStylesVariables
+      onUpdateTemplatesVariables
     } = this;
     if ( editedStory ) {
 
@@ -271,7 +267,7 @@ class DesignViewContainer extends Component {
                   story={ editedStory }
                   onUpdateCss={ onUpdateCss }
                   onUpdateSettings={ onUpdateSettings }
-                  onUpdateStylesVariables={ onUpdateStylesVariables }
+                  onUpdateTemplatesVariables={ onUpdateTemplatesVariables }
                   { ...this.props }
                 />
               :

@@ -20,6 +20,7 @@ import {
   Select,
   Title,
 } from 'quinoa-design-library/components/';
+import { getStyles } from 'quinoa-schemas';
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 import StyleEditor from './StyleEditor';
 
@@ -27,23 +28,19 @@ import StyleEditor from './StyleEditor';
  * Imports Project utils
  */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
-import { getTemplateName } from '../../../helpers/schemaVersionsUtils';
 
 const AsideDesignContents = ( {
   designAsideTabCollapsed,
   designAsideTabMode,
-  handleOptionChange,
   setReferenceTypesVisible,
   template,
-  onUpdateCss,
   story,
   stylesMode,
   setCssHelpVisible,
   options,
   resourceTypes,
-  handleUpdateReferenceTypes,
   referenceTypesVisible,
-  onUpdateStylesVariables
+  onUpdateTemplatesVariables
 }, { t } ) => {
 
   /**
@@ -54,11 +51,40 @@ const AsideDesignContents = ( {
   /**
    * Callbacks handlers
    */
-  const handleNotesPositionChange = ( e ) => handleOptionChange( 'notesPosition', e.target.value );
+  const handleNotesPositionChange = ( e ) => onUpdateTemplatesVariables(
+    [ 'options', 'notesPosition' ],
+    e.target.value
+  );
+  const handleReferenceStatusChange = ( e ) => onUpdateTemplatesVariables(
+    [ 'options', 'referenceStatus' ],
+    e.target.value
+  );
+  const onUpdateStylesVariables = ( styles ) => onUpdateTemplatesVariables(
+    [ 'stylesVariables' ],
+    styles
+  );
+  const onUpdateCss = ( css ) => {
+    return onUpdateTemplatesVariables(
+      [ 'css' ],
+      css
+    );
+  };
+  const handleUpdateReferenceTypes = ( type ) => {
+    const referenceTypes = options.referenceTypes || [];
+    let newReferenceTypes;
+    if ( !referenceTypes.includes( type ) ) {
+      newReferenceTypes = [ ...referenceTypes, type ];
+    }
+    else {
+      newReferenceTypes = referenceTypes.filter( ( thatType ) => thatType !== type );
+    }
+    onUpdateTemplatesVariables( [ 'options', 'referenceTypes' ], newReferenceTypes );
+  };
+
   const handleToggleReferenceTypesVisibility = () => setReferenceTypesVisible( !referenceTypesVisible );
-  const handleReferenceStatusChange = ( e ) => handleOptionChange( 'referenceStatus', e.target.value );
   const handleShowCssHelp = () => setCssHelpVisible( true );
   const { acceptsOptions = [], stylesVariables } = template;
+  const styles = getStyles( story );
 
   if ( designAsideTabCollapsed ) {
       return null;
@@ -98,7 +124,7 @@ const AsideDesignContents = ( {
                         isActive={ referenceTypesVisible }
                         closeOnChange={ false }
                         onChange={ handleUpdateReferenceTypes }
-                        value={ ( story.settings.options && story.settings.options.referenceTypes ) || [ 'bib' ] }
+                        value={ ( options && options.referenceTypes ) || [ 'bib' ] }
                         options={ resourceTypes.map( ( type ) => ( {
                                 id: type,
                                 label: (
@@ -153,7 +179,7 @@ const AsideDesignContents = ( {
                 <StyleEditor
                   options={ stylesVariables }
                   onChange={ onUpdateStylesVariables }
-                  styles={ story.settings.styles[getTemplateName( story )].stylesVariables }
+                  styles={ styles.stylesVariables }
                 />
               </Column>
             }
@@ -162,7 +188,7 @@ const AsideDesignContents = ( {
             </Title>
             <Column>
               <CodeEditor
-                value={ story.settings.css }
+                value={ styles.css }
                 onChange={ onUpdateCss }
               />
             </Column>

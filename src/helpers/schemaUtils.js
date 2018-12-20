@@ -8,7 +8,7 @@ import { mapValues, omit, get, tail, split } from 'lodash/fp';
 
 import storySchema from 'quinoa-schemas/story';
 import resourceSchema from 'quinoa-schemas/resource';
-import { findTempateByVersion, getTemplateName } from './schemaVersionsUtils';
+import { findTempateByVersion, getTemplateName } from 'quinoa-schemas';
 
 const ajv = new Ajv();
 ajv.addMetaSchema( require( 'ajv/lib/refs/json-schema-draft-06.json' ) );

@@ -77,8 +77,6 @@ const Wysiwig = ( {
 
   let elements = <div />;
 
-  // console.log( 'ici', sizeClass, color, sizeClass && color )
-
   if ( !sizeClass && !opacity && color ) {
     elements = (
       <StretchedLayoutContainer

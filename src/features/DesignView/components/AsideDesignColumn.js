@@ -21,8 +21,7 @@ import {
  * Imports Project utils
  */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
-
-import { findTempateByVersion } from '../../../helpers/schemaVersionsUtils';
+import { findTempateByVersion, getStyles } from 'quinoa-schemas';
 
 /**
  * Imports Components
@@ -33,6 +32,7 @@ import AsideDesignContents from './AsideDesignContents';
  * Imports Assets
  */
 import resourceSchema from 'quinoa-schemas/resource';
+import { templates } from 'quinoa-story-player';
 
 /**
  * Shared variables
@@ -49,9 +49,7 @@ const AsideDesignColumn = ( {
   setDesignAsideTabCollapsed,
   setDesignAsideTabMode,
 
-  onUpdateCss,
-  onUpdateSettings,
-  onUpdateStylesVariables,
+  onUpdateTemplatesVariables,
 
   referenceTypesVisible,
   setReferenceTypesVisible,
@@ -63,10 +61,9 @@ const AsideDesignColumn = ( {
   /**
    * Variables definition
    */
-  const { settings = {} } = story;
-  const { options = {} } = settings;
+  const { options } = getStyles( story );
 
-  const template = findTempateByVersion( story );
+  const template = findTempateByVersion( story, templates );
 
   /**
    * Computed variables
@@ -75,31 +72,6 @@ const AsideDesignColumn = ( {
    * Local functions
    */
   const translate = translateNameSpacer( t, 'Features.DesignView' );
-
-  /**
-   * Callbacks handlers
-   */
-  const handleOptionChange = ( key, value ) => {
-    onUpdateSettings( {
-      ...settings,
-      options: {
-        ...settings.options,
-        [key]: value
-      }
-    } );
-  };
-  const handleUpdateReferenceTypes = ( type ) => {
-    const referenceTypes = options.referenceTypes || [];
-    let newReferenceTypes;
-    if ( !referenceTypes.includes( type ) ) {
-      newReferenceTypes = [ ...referenceTypes, type ];
-    }
-    else {
-      newReferenceTypes = referenceTypes.filter( ( thatType ) => thatType !== type );
-    }
-    handleOptionChange( 'referenceTypes', newReferenceTypes );
-  };
-
   const handleSetAsideAsSettings = () => setDesignAsideTabMode( 'settings' );
   const handleSetAsideAsStyles = () => setDesignAsideTabMode( 'styles' );
   const handleToggleAsideCollapsed = () => setDesignAsideTabCollapsed( !designAsideTabCollapsed );
@@ -178,17 +150,14 @@ const AsideDesignColumn = ( {
               ...{
                 designAsideTabCollapsed,
                 designAsideTabMode,
-                handleOptionChange,
-                onUpdateStylesVariables,
+                onUpdateTemplatesVariables,
                 setReferenceTypesVisible,
                 template,
-                onUpdateCss,
                 story,
                 stylesMode,
                 setCssHelpVisible,
                 options,
                 resourceTypes,
-                handleUpdateReferenceTypes,
                 referenceTypesVisible,
               }
             }
