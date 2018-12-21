@@ -645,13 +645,14 @@
   "Features.HomeView.sort {n} stories by": "trier {n} récits par",
   "Components.PastingModal.Creating image {x} of {n}": "Creating image {x} of {n}",
   "Components.PastingModal.Creating {n} images": "Creating {n} images",
-  "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?": "Would you consent for a possible future publication of your story on one of Sciences Po websites ?",
-  "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.": "",
   "Components.MetadataForm.yes": "yes",
   "Components.MetadataForm.no": "no",
   "Features.DesignView.StylesVariables.relative": "relative",
   "Features.DesignView.StylesVariables.background": "background",
   "Features.DesignView.StylesVariables.Define background opacity": "Define background opacity",
   "Features.DesignView.StylesVariables.horizontal": "horizontal",
-  "Features.DesignView.StylesVariables.Features.DesignView.StylesVariables": "StylesVariables"
+  "Features.DesignView.StylesVariables.Features.DesignView.StylesVariables": "StylesVariables",
+  "Components.MetadataForm.publication-consent-message-1": "In order to enable you to collectively work on your project and to enable your teacher to review it, your work will be available through this website during the semester.",
+  "Components.MetadataForm.publication-consent-message-2": "At the end of the semester, your teachers may want to publish a selection of the best stories on a Sciences Po hosted website. Would you consent to it (you will be able to change your answer in your story's settings at any time) ?",
+  "Components.MetadataForm.You must consent or refuse a possible future publication of this story.": "You must consent or refuse a possible future publication of this story."
 }

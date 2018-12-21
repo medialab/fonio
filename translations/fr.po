@@ -2,7 +2,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2018-12-20\n"
-"PO-Revision-Date: Thu Dec 20 2018 18:40:57 GMT+0100 (GMT+01:00)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1931,39 +1930,6 @@ msgstr "yes"
 msgid "Components.MetadataForm.no"
 msgstr "no"
 
-msgid "Features.DesignView.StylesVariables.relative"
-msgstr "relative"
-
-msgid "Features.DesignView.StylesVariables.Define titles styles"
-msgstr "Define titles styles"
-
-msgid "Features.DesignView.StylesVariables.Define textes on cover styles"
-msgstr "Define textes on cover styles"
-
-msgid "Features.DesignView.StylesVariables.Define classic corpus text styles"
-msgstr "Define classic corpus text styles"
-
-msgid "Features.DesignView.StylesVariables.Define links styles"
-msgstr "Define links styles"
-
-msgid "Features.DesignView.StylesVariables.Define blockquotes styles"
-msgstr "Define blockquotes styles"
-
-msgid "Features.DesignView.StylesVariables.Define background color"
-msgstr "Define background color"
-
-msgid "Features.DesignView.StylesVariables.background"
-msgstr "background"
-
-msgid "Features.DesignView.StylesVariables.Define background opacity"
-msgstr "Define background opacity"
-
-msgid "Features.DesignView.StylesVariables.horizontal"
-msgstr "horizontal"
-
-msgid "Features.DesignView.StylesVariables.Features.DesignView.StylesVariables"
-msgstr "StylesVariables"
-
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
 
@@ -2005,3 +1971,6 @@ msgstr "\"{f}\" est trop gros"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">cette page</a> et de suivre la procédure proposée. Merci !"
+
+msgid "Components.MetadataForm.You must consent or refuse a possible future publication of this story."
+msgstr "Vous devez consentir ou refuser à la possible future publication de ce récit."

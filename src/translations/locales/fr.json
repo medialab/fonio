@@ -639,10 +639,6 @@
   "Features.HomeView.sort by": "sort by",
   "Components.PastingModal.Creating image {x} of {n}": "Récupération de l'image {x} sur {n}",
   "Components.PastingModal.Creating {n} images": "Récupération de {n} images",
-  "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?": "Consentiriez-vous à une possible future publication de ce récit sur l'un des sites web de Sciences Po ?",
-  "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.": "Une fois terminé et évalué, nous pourrions vouloir valoriser votre travail à travers les canaux de communication de Sciences Po. L'autorisation collective de tous les auteurs est nécessaire pour ce faire.",
-  "Components.MetadataForm.yes": "yes",
-  "Components.MetadataForm.no": "no",
   "Features.DesignView.StylesVariables.relative": "relative",
   "Features.DesignView.StylesVariables.Define titles styles": "Define titles styles",
   "Features.DesignView.StylesVariables.Define textes on cover styles": "Define textes on cover styles",
@@ -653,5 +649,10 @@
   "Features.DesignView.StylesVariables.background": "background",
   "Features.DesignView.StylesVariables.Define background opacity": "Define background opacity",
   "Features.DesignView.StylesVariables.horizontal": "horizontal",
-  "Features.DesignView.StylesVariables.Features.DesignView.StylesVariables": "StylesVariables"
+  "Features.DesignView.StylesVariables.Features.DesignView.StylesVariables": "StylesVariables",
+  "Components.MetadataForm.yes": "oui",
+  "Components.MetadataForm.no": "non",
+  "Components.MetadataForm.publication-consent-message-1": "Pour que vous puissiez travailler sur votre projet collectivement et que votre enseignant puisse le consulter, votre travail sera accessible sur ce site le temps du semestre.",
+  "Components.MetadataForm.publication-consent-message-2": "À l'issue du semestre, vos enseignants pourraient vouloir rendre publics les meilleurs travaux sur un site web hébergé par sciences po. Y consentiriez-vous (vous pourrez modifier votre réponse dans les paramètres du récit à tout moment) ?",
+  "Components.MetadataForm.You must consent or refuse a possible future publication of this story.": "Vous devez consentir ou refuser à la possible future publication de ce récit."
 }

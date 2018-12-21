@@ -11,6 +11,8 @@ import {
   Control,
   Icon,
 } from 'quinoa-design-library/components/';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 const PasswordInput = ( { id = 'password' } ) => (
   <Control hasIcons>
@@ -24,9 +26,8 @@ const PasswordInput = ( { id = 'password' } ) => (
       isSize={ 'small' }
       isAlign={ 'left' }
     >
-      <span
-        className={ 'fa fa-lock' }
-        aria-hidden={ 'true' }
+      <FontAwesomeIcon
+        icon={ faLock }
       />
     </Icon>
   </Control>

@@ -10,6 +10,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from 'react-tooltip';
 import Masonry from 'react-masonry-css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Imports Project utils
@@ -221,13 +223,13 @@ export default class PaginatedList extends Component {
                 onClick={ onPaginationPrev }
                 className={ `pagination-previous ${paginationPosition === 0 ? 'is-disabled' : ''}` }
               >
-                {minified ? <i className={ 'fas fa-chevron-left' } /> : translate( 'previous' )}
+                {minified ? <FontAwesomeIcon icon={ faChevronLeft } /> : translate( 'previous' )}
               </a>
               <a
                 onClick={ onPaginationNext }
                 className={ `pagination-next ${paginationPosition === numberOfPages - 1 ? 'is-disabled' : ''}` }
               >
-                {minified ? <i className={ 'fas fa-chevron-right' } /> : translate( 'next' )}
+                {minified ? <FontAwesomeIcon icon={ faChevronRight } /> : translate( 'next' )}
               </a>
               <ul className={ 'pagination-list' }>
                 {
