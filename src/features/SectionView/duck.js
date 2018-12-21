@@ -38,6 +38,7 @@ const SET_EDITED_SECTION_ID = 'SET_EDITED_SECTION_ID';
 const SET_DRAGGED_RESOURCE_ID = 'SET_DRAGGED_RESOURCE_ID';
 const SET_SHORTCUTS_HELP_VISIBLE = 'SET_SHORTCUTS_HELP_VISIBLE';
 const SET_LINK_MODAL_FOCUS_DATA = 'SET_LINK_MODAL_FOCUS_DATA';
+const SET_INTERNAL_LINK_MODAL_FOCUS_DATA = 'SET_INTERNAL_LINK_MODAL_FOCUS_DATA';
 const SET_UPLOAD_STATUS = 'SET_UPLOAD_STATUS';
 const SET_EDITOR_PASTING_STATUS = 'SET_EDITOR_PASTING_STATUS';
 const SET_SELECTED_CONTEXTUALIZATION_ID = 'SET_SELECTED_CONTEXTUALIZATION_ID';
@@ -143,6 +144,10 @@ export const setStoryIsSaved = ( payload ) => ( {
 
 export const setLinkModalFocusData = ( payload ) => ( {
   type: SET_LINK_MODAL_FOCUS_DATA,
+  payload,
+} );
+export const setInternalLinkModalFocusData = ( payload ) => ( {
+  type: SET_INTERNAL_LINK_MODAL_FOCUS_DATA,
   payload,
 } );
 
@@ -275,6 +280,7 @@ const UI_DEFAULT_STATE = {
   storyIsSaved: true,
   shortcutsHelpVisible: false,
   linkModalFocusData: undefined,
+  internalLinkModalFocusData: undefined,
   uploadStatus: undefined,
   editorPastingStatus: undefined,
   selectedContextualizationId: undefined,
@@ -305,6 +311,7 @@ function ui( state = UI_DEFAULT_STATE, action ) {
     case SET_SHORTCUTS_HELP_VISIBLE:
     case SET_STORY_IS_SAVED:
     case SET_LINK_MODAL_FOCUS_DATA:
+    case SET_INTERNAL_LINK_MODAL_FOCUS_DATA:
     case SET_UPLOAD_STATUS:
     case SET_EDITOR_PASTING_STATUS:
     case SET_SELECTED_CONTEXTUALIZATION_ID:
@@ -540,6 +547,7 @@ const editorBlocked = ( state ) => state.ui.editorBlocked;
 const storyIsSaved = ( state ) => state.ui.storyIsSaved;
 const shortcutsHelpVisible = ( state ) => state.ui.shortcutsHelpVisible;
 const linkModalFocusData = ( state ) => state.ui.linkModalFocusData;
+const internalLinkModalFocusData = ( state ) => state.ui.internalLinkModalFocusData;
 const uploadStatus = ( state ) => state.ui.uploadStatus;
 const editorPastingStatus = ( state ) => state.ui.editorPastingStatus;
 const selectedContextualizationId = ( state ) => state.ui.selectedContextualizationId;
@@ -564,6 +572,7 @@ export const selector = createStructuredSelector( {
   mainColumnMode,
   shortcutsHelpVisible,
   linkModalFocusData,
+  internalLinkModalFocusData,
   uploadStatus,
   editorPastingStatus,
   selectedContextualizationId,

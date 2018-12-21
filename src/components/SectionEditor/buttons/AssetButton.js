@@ -21,6 +21,7 @@ const AssetButton = ( {
       className={ `scholar-draft-AssetButton${active ? ' active' : ''}` }
       onMouseDown={ onMouseDown }
       onClick={ onClick }
+      data-for={ 'icon-btn-tooltip' }
       data-tip={ message }
       { ...otherProps }
     >

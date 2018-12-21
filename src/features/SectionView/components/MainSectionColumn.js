@@ -44,6 +44,7 @@ const MainSectionColumn = ( {
   assetRequestState,
   draggedResourceId,
   previousEditorFocus,
+  internalLinkModalFocusData,
 
   newResourceType,
   storyIsSaved,
@@ -86,6 +87,8 @@ const MainSectionColumn = ( {
   setAssetRequestContentId,
   handleStartNewResourceConfiguration,
   handleStartExistingResourceConfiguration,
+
+  setInternalLinkModalFocusData,
 
   submitMultiResources,
 
@@ -280,6 +283,7 @@ const MainSectionColumn = ( {
                         editorPastingStatus,
                         editorStates,
                         editorWidth,
+                        internalLinkModalFocusData,
                         previousEditorFocus,
                         selectedContextualizationId,
                         setAssetRequestContentId,
@@ -287,6 +291,7 @@ const MainSectionColumn = ( {
                         setEditorFocus,
                         setEditorPastingStatus,
                         setErrorMessage,
+                        setInternalLinkModalFocusData,
                         setSelectedContextualizationId,
                         setStoryIsSaved,
                         story,
