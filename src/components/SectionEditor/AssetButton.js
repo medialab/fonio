@@ -68,7 +68,7 @@ class AssetButton extends Component {
         onMouseDown={ handleMouseDown }
         onClick={ onClick }
         ref={ bindRef }
-        dataTip={ translate( 'add an element from your library (shortcut : cmd + l)' ) }
+        data-tip={ translate( 'add an element from your library (shortcut : cmd + l)' ) }
         src={ icon || icons.asset.black.svg }
       />
     );

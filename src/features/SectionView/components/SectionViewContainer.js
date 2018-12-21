@@ -13,9 +13,10 @@ import { v4 as genId } from 'uuid';
 import {
   withRouter,
 } from 'react-router';
-import { EditorState } from 'draft-js';
 import {
-  convertToRaw
+  EditorState,
+  convertToRaw,
+  Modifier
 } from 'draft-js';
 
 /**
@@ -91,6 +92,7 @@ class SectionViewContainer extends Component {
   static childContextTypes = {
     setDraggedResourceId: PropTypes.func,
     setLinkModalFocusData: PropTypes.func,
+    setInternalLinkModalFocusData: PropTypes.func,
     editorFocus: PropTypes.string,
   }
 
@@ -105,6 +107,7 @@ class SectionViewContainer extends Component {
   getChildContext = () => ( {
     setDraggedResourceId: this.setDraggedResourceId,
     setLinkModalFocusData: this.setLinkModalFocusData,
+    setInternalLinkModalFocusData: this.setInternalLinkModalFocusData,
     editorFocus: this.props.editorFocus,
   } )
 
@@ -266,6 +269,37 @@ class SectionViewContainer extends Component {
     const editorId = focusId === 'main' ? sectionId : focusId;
     const selection = this.props.editorStates[editorId].getSelection();
     this.props.actions.setLinkModalFocusData( { focusId, selection } );
+  }
+
+  getInactiveSections = () => {
+    const {
+      match: {
+        params: {
+          sectionId,
+          // storyId
+        }
+      },
+      editedStory,
+    } = this.props;
+    return editedStory.sectionsOrder.filter( ( id ) => id !== sectionId )
+      .map( ( id ) => ( {
+        id,
+        ...editedStory.sections[id].metadata
+      } ) );
+  }
+
+  setInternalLinkModalFocusData = ( focusId ) => {
+    const {
+      match: {
+        params: {
+          sectionId,
+          // storyId
+        }
+      },
+    } = this.props;
+    const editorId = focusId === 'main' ? sectionId : focusId;
+    const selection = this.props.editorStates[editorId].getSelection();
+    this.props.actions.setInternalLinkModalFocusData( { focusId, selection } );
   }
 
   unlockOnSection = ( props ) => {
@@ -440,7 +474,44 @@ class SectionViewContainer extends Component {
         contentId
       } );
     } );
+  }
 
+  onCreateInternalLink = ( { contentId, selection, selectedSectionId } ) => {
+    const {
+      match: {
+        params: {
+          // storyId,
+          sectionId,
+        }
+      },
+      // userId,
+      actions: {
+        // createResource,
+      }
+    } = this.props;
+    const editorStateId = contentId === 'main' ? sectionId : contentId;
+    let editorState = this.props.editorStates[editorStateId];
+    let selectionState = editorState.getSelection();
+    if ( selection ) {
+      editorState = EditorState.acceptSelection( editorState, selection );
+      selectionState = selection;
+      this.props.actions.updateDraftEditorState( editorStateId, editorState );
+    }
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      'INTERNAL_LINK',
+      'MUTABLE',
+      { sectionId: selectedSectionId }
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const contentStateWithLink = Modifier.applyEntity(
+      contentStateWithEntity,
+      selectionState,
+      entityKey
+    );
+    const newEditorState = EditorState.push( editorState, contentStateWithLink );
+    this.props.actions.updateDraftEditorState( editorStateId, newEditorState );
+    this.props.actions.setInternalLinkModalFocusData( undefined );
   }
 
   onContextualizeHyperlink = ( resourceId, contentId, selection ) => {
@@ -460,6 +531,7 @@ class SectionViewContainer extends Component {
     setTimeout( () => {
       this.onSummonAsset( contentId, resourceId );
       this.props.actions.setLinkModalFocusData( undefined );
+      this.props.actions.setInternalLinkModalFocusData( undefined );
     } );
   }
 
@@ -519,9 +591,11 @@ class SectionViewContainer extends Component {
       onSummonAsset,
       onContextualizeHyperlink,
       onCreateHyperlink,
+      onCreateInternalLink,
       submitMultiResources,
       embedLastResource,
       onResourceEditAttempt,
+      getInactiveSections,
     } = this;
 
     if ( editedStory ) {
@@ -541,8 +615,10 @@ class SectionViewContainer extends Component {
                 summonAsset={ onSummonAsset }
                 submitMultiResources={ submitMultiResources }
                 onCreateHyperlink={ onCreateHyperlink }
+                onCreateInternalLink={ onCreateInternalLink }
                 onContextualizeHyperlink={ onContextualizeHyperlink }
                 onResourceEditAttempt={ onResourceEditAttempt }
+                inactiveSections={ getInactiveSections() }
                 { ...this.props }
               />
               <PastingModal editorPastingStatus={ editorPastingStatus } />

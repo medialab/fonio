@@ -49,6 +49,7 @@ import ShortcutsModal from './ShortcutsModal';
 import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 import LoadingScreen from '../../../components/LoadingScreen';
 import LinkModal from '../../../components/LinkModal';
+import InternalLinkModal from '../../../components/InternalLinkModal';
 
 const SectionViewLayout = ( {
   asideTabMode,
@@ -60,6 +61,7 @@ const SectionViewLayout = ( {
   resourceSortValue,
   resourceSearchString,
   linkModalFocusData,
+  internalLinkModalFocusData,
   previousEditorFocus,
 
   lockingMap = {},
@@ -83,6 +85,7 @@ const SectionViewLayout = ( {
   storyIsSaved,
   selectedContextualizationId,
   uploadStatus,
+  inactiveSections,
 
   actions: {
     setAsideTabMode,
@@ -94,6 +97,7 @@ const SectionViewLayout = ( {
     setResourceSearchString,
     setNewResourceMode,
     setLinkModalFocusData,
+    setInternalLinkModalFocusData,
     setEditorPastingStatus,
 
     setPromptedToDeleteSectionId,
@@ -141,6 +145,7 @@ const SectionViewLayout = ( {
   submitMultiResources,
   embedLastResource,
   onCreateHyperlink: handleCreateHyperlink,
+  onCreateInternalLink: handleCreateInternalLink,
   onContextualizeHyperlink: handleContextualizeHyperlink,
   onResourceEditAttempt: handleResourceEditAttempt,
   history,
@@ -527,6 +532,7 @@ const SectionViewLayout = ( {
   const handleAbortDeleteSection = () => setPromptedToDeleteSectionId( undefined );
   const handleAbortDeleteResource = () => setPromptedToDeleteResourceId( undefined );
   const handleAbortLinkCreation = () => setLinkModalFocusData( undefined );
+  const handleAbortInternalLinkCreation = () => setInternalLinkModalFocusData( undefined );
   const handleCloseShortcuts = () => setShortcutsHelpVisible( false );
 
   return (
@@ -599,6 +605,7 @@ const SectionViewLayout = ( {
                 enterBlock,
                 handleStartExistingResourceConfiguration,
                 handleStartNewResourceConfiguration,
+                internalLinkModalFocusData,
                 leaveBlock,
                 mainColumnMode,
                 newResourceMode,
@@ -610,6 +617,7 @@ const SectionViewLayout = ( {
                 setAssetRequestContentId,
                 setEditorPastingStatus,
                 setErrorMessage,
+                setInternalLinkModalFocusData,
                 setMainColumnMode,
                 setNewResourceMode,
                 setShortcutsHelpVisible,
@@ -674,6 +682,13 @@ const SectionViewLayout = ( {
         hyperlinks={ hyperlinks }
         onCreateHyperlink={ handleCreateHyperlink }
         onContextualizeHyperlink={ handleContextualizeHyperlink }
+      />
+      <InternalLinkModal
+        isActive={ internalLinkModalFocusData !== undefined }
+        focusData={ internalLinkModalFocusData }
+        onClose={ handleAbortInternalLinkCreation }
+        inactiveSections={ inactiveSections }
+        onCreateInternalLink={ handleCreateInternalLink }
       />
       <ShortcutsModal
         isActive={ shortcutsHelpVisible }
