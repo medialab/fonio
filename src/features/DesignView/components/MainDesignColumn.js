@@ -14,6 +14,8 @@ import {
   Button,
   Icon,
 } from 'quinoa-design-library/components/';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPrint } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Imports Project utils
@@ -134,10 +136,7 @@ const MainDesignColumn = ( {
           isSize={ 'small' }
           isAlign={ 'left' }
         >
-          <span
-            className={ 'fa fa-print' }
-            aria-hidden={ 'true' }
-          />
+          <FontAwesomeIcon icon={ faPrint } />
         </Icon>
       </Button>
     </Column>

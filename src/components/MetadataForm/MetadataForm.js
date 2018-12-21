@@ -68,6 +68,7 @@ class MetadataForm extends Component {
     const errorValidator = ( values ) => {
       return {
         title: !values.title ? translate( 'Story title is required' ) : null,
+        publicationConsent: values.publicationConsent === undefined ? translate('You must consent or refuse a possible future publication of this story.') : null,
         password: ( !story.id && ( !values.password || values.password.length < 6 ) ) ? translate( 'Password should be at least 6 characters' ) : null,
       };
     };
@@ -100,6 +101,7 @@ class MetadataForm extends Component {
     const bindRef = ( form ) => {
       this.form = form;
     };
+
 
     return (
       <Form
@@ -169,34 +171,7 @@ class MetadataForm extends Component {
                 onChange={ onAuthorsChange }
                 authors={ formApi.getValue( 'authors' ) }
               />
-              <Field>
-                <ExplainedLabel
-                  title={ translate( 'Would you consent for a possible future publication of your story on one of Sciences Po websites ?' ) }
-                  explanation={ translate( 'Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.' ) }
-                />
-                <Control>
-                  <Radio
-                    checked={ formApi.getValue( 'publicationConsent' ) ? true : false }
-                    onChange={ () => formApi.setValue( 'publicationConsent', true ) }
-                  >
-                    {translate( 'yes' )}
-                  </Radio>
-                  <Radio
-                    checked={ formApi.getValue( 'publicationConsent' ) ? false : true }
-                    onChange={ () => formApi.setValue( 'publicationConsent', false ) }
-                  >
-                    {translate( 'no' )}
-                  </Radio>
-                </Control>
-                {/*<span>
-                <input type="radio" checked={formApi.getValue('publicationConsent') ? true : false} onChange={() => formApi.setValue('publicationConsent', true)} />
-                <label>{translate('yes')}</label>
-                </span>
-                <span>
-                <input type="radio" checked={formApi.getValue('publicationConsent') ? false: true} onChange={() => formApi.setValue('publicationConsent', false)} />
-                <label>{translate('no')}</label>
-                </span>*/}
-              </Field>
+              
               <Field>
                 <Label>{translate( 'Story Abstract' )}</Label>
                 <Control hasIcons>
@@ -209,6 +184,33 @@ class MetadataForm extends Component {
                   />
                 </Control>
               </Field>
+              <Field>
+                <p style={{marginTop: '2rem'}}>
+                  <i>{translate('publication-consent-message-1')}</i>
+                </p>
+                <Label style={{marginTop: '1rem'}}>
+                  {translate('publication-consent-message-2')}
+                </Label>
+                <Control>
+                  <Radio
+                    checked={ formApi.getValue( 'publicationConsent' ) === true ? true : false }
+                    onChange={ () => formApi.setValue( 'publicationConsent', true ) }
+                  >
+                    {translate( 'yes' )}
+                  </Radio>
+                  <Radio
+                    checked={ formApi.getValue( 'publicationConsent' ) === false ? true : false }
+                    onChange={ () => formApi.setValue( 'publicationConsent', false ) }
+                  >
+                    {translate( 'no' )}
+                  </Radio>
+                </Control>
+                {
+                  formApi.errors && formApi.errors.publicationConsent &&
+                    <Help isColor={ 'danger' }>{formApi.errors.publicationConsent}</Help>
+                }
+              </Field>
+              
               {!story.id && status === 'processing' && <Help>{translate( 'Creating story' )}</Help>}
               {!story.id && status === 'fail' && <Help isColor={ 'danger' }>{translate( 'Story could not be created' )}</Help>}
               <Columns>

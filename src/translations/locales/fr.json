@@ -646,5 +646,10 @@
   "Components.SectionEditor.add a link to a webpage": "ajouter un lien vers une page web",
   "Components.SectionEditor.add a link to another section": "ajouter un lien vers une autre section",
   "Components.SectionEditor.edit internal link": "éditer le lien vers une section",
-  "Components.SectionEditor.deleted section": "section supprimée"
+  "Components.SectionEditor.deleted section": "section supprimée",
+  "Components.MetadataForm.yes": "oui",
+  "Components.MetadataForm.no": "non",
+  "Components.MetadataForm.publication-consent-message-1": "Pour que vous puissiez travailler sur votre projet collectivement et que votre enseignant puisse le consulter, votre travail sera accessible sur ce site le temps du semestre.",
+  "Components.MetadataForm.publication-consent-message-2": "À l'issue du semestre, vos enseignants pourraient vouloir rendre publics les meilleurs travaux sur un site web hébergé par sciences po. Y consentiriez-vous (vous pourrez modifier votre réponse dans les paramètres du récit à tout moment) ?",
+  "Components.MetadataForm.You must consent or refuse a possible future publication of this story.": "Vous devez consentir ou refuser à la possible future publication de ce récit."
 }
