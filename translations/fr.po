@@ -1,6 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
+"POT-Creation-Date: 2018-12-22\n"
+"PO-Revision-Date: Sat Dec 22 2018 15:39:42 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5112,6 +5114,45 @@ msgstr "yes"
 msgid "Components.MetadataForm.no"
 msgstr "no"
 
+msgid "Components.MetadataForm.You must consent or refuse a possible future publication of this story."
+msgstr "Vous devez consentir ou refuser à la possible future publication de ce récit."
+
+msgid "Components.InternalLinkModal.Add a link to another section"
+msgstr "Ajouter un lien vers une autre section"
+
+msgid "Components.InternalLinkModal.Link to section"
+msgstr "Lien vers la section"
+
+msgid "Components.InternalLinkModal.Choose a section"
+msgstr "Choisir une section"
+
+msgid "Components.InternalLinkModal.Add section link"
+msgstr "Ajouter le lien vers la section"
+
+msgid "Components.InternalLinkModal.Cancel"
+msgstr "Annuler"
+
+msgid "Components.SectionEditor.add a link to a webpage"
+msgstr "ajouter un lien vers une page web"
+
+msgid "Components.SectionEditor.add a link to another section"
+msgstr "ajouter un lien vers une autre section"
+
+msgid "Components.SectionEditor.edit internal link"
+msgstr "éditer le lien vers une section"
+
+msgid "Components.SectionEditor.deleted section"
+msgstr "section supprimée"
+
+msgid "Components.MetadataForm.publication-consent-message-1"
+msgstr "Pour que vous puissiez travailler sur votre projet collectivement et que votre enseignant puisse le consulter, votre travail sera accessible sur ce site le temps du semestre."
+
+msgid "Components.MetadataForm.publication-consent-message-2"
+msgstr "À l'issue du semestre, vos enseignants pourraient vouloir rendre publics les meilleurs travaux sur un site web hébergé par sciences po. Y consentiriez-vous (vous pourrez modifier votre réponse dans les paramètres du récit à tout moment) ?"
+
+msgid "Components.InternalLinkModal.No section"
+msgstr "No section"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
 
@@ -5153,6 +5194,3 @@ msgstr "\"{f}\" est trop gros"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">cette page</a> et de suivre la procédure proposée. Merci !"
-
-msgid "Components.MetadataForm.You must consent or refuse a possible future publication of this story."
-msgstr "Vous devez consentir ou refuser à la possible future publication de ce récit."
