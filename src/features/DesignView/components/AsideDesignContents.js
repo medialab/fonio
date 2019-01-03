@@ -39,7 +39,8 @@ const AsideDesignContents = ( {
   options,
   resourceTypes,
   referenceTypesVisible,
-  onUpdateTemplatesVariables
+  onUpdateTemplatesVariables,
+  getTooltipContainer
 }, { t } ) => {
 
   const { acceptsOptions = [], stylesVariables } = template;
@@ -168,13 +169,12 @@ const AsideDesignContents = ( {
         return (
           <Column>
             {stylesVariables && story.settings.styles &&
-              <Column>
-                <StyleEditor
-                  options={ stylesVariables }
-                  onChange={ onUpdateStylesVariables }
-                  styles={ styles.stylesVariables }
-                />
-              </Column>
+              <StyleEditor
+                getTooltipContainer={ getTooltipContainer }
+                options={ stylesVariables }
+                onChange={ onUpdateStylesVariables }
+                styles={ styles.stylesVariables }
+              />
             }
             <Title isSize={ 3 }>
               {translate( 'Edit style with css' )}

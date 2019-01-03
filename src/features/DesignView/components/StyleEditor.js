@@ -57,7 +57,8 @@ SizeClass.contextTypes = {
 const Wysiwyg = ( {
   options,
   styles,
-  onChange
+  onChange,
+  getTooltipContainer
 }, { t } ) => {
   const translate = translateNameSpacer( t, 'Features.DesignView.StylesVariables' );
   const onSizeClassChange = ( value ) =>
@@ -141,6 +142,7 @@ const Wysiwyg = ( {
                     max={ options.properties.opacity.maximum * RANGE_VALUE_FORMAT }
                     defaultValue={ styles.opacity * RANGE_VALUE_FORMAT || options.properties.opacity.default * RANGE_VALUE_FORMAT }
                     onChange={ onOpacityChange }
+                    getTooltipContainer={ getTooltipContainer }
                   />
                 </StretchedLayoutItem>
               </StretchedLayoutContainer>
@@ -158,10 +160,11 @@ Wysiwyg.contextTypes = {
   t: PropTypes.func,
 };
 
-const StyleEditor = ( { styles, options, onChange } ) => (
+const StyleEditor = ( { styles, options, onChange, getTooltipContainer } ) => (
   <form>
     {mapFollowOrder( ( option, key ) => (
       <Wysiwyg
+        getTooltipContainer={ getTooltipContainer }
         key={ key }
         styles={ styles[key] }
         options={ option }

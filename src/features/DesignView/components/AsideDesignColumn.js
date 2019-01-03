@@ -5,7 +5,7 @@
 /**
  * Imports Libraries
  */
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   Column,
@@ -74,6 +74,7 @@ const AsideDesignColumn = ( {
   const handleSetAsideAsSettings = () => setDesignAsideTabMode( 'settings' );
   const handleSetAsideAsStyles = () => setDesignAsideTabMode( 'styles' );
   const handleToggleAsideCollapsed = () => setDesignAsideTabCollapsed( !designAsideTabCollapsed );
+  const containerRef = useRef( null );
   return (
     <Column
       style={ style }
@@ -143,10 +144,12 @@ const AsideDesignColumn = ( {
           isFlex={ 1 }
           isFlowing
           isOverflowVisible
+          ref={ containerRef }
         >
           <AsideDesignContents
             {
               ...{
+                getTooltipContainer: () => containerRef.current,
                 designAsideTabCollapsed,
                 designAsideTabMode,
                 onUpdateTemplatesVariables,
