@@ -220,22 +220,18 @@ class DesignViewContainer extends Component {
       }
     } = this.props;
 
-    const setter = isNewSchema( story ) ? set(
-      [
-        'styles',
-        getTemplateName( story ),
-        ...keys
-      ],
-      styles
-    ) : set(
-      keys,
-      styles
-    );
-
     updateStorySettings( {
       storyId: story.id,
       userId,
-      settings: setter( story.settings )
+      settings: set(
+        isNewSchema( story ) ? [
+          'styles',
+          getTemplateName( story ),
+          ...keys
+        ] : keys,
+        styles,
+        story.settings
+      )
     } );
   }
 

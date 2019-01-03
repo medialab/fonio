@@ -118,7 +118,7 @@ const AsideDesignContents = ( {
                         isActive={ referenceTypesVisible }
                         closeOnChange={ false }
                         onChange={ handleUpdateReferenceTypes }
-                        value={ ( options && options.referenceTypes ) || [ 'bib' ] }
+                        value={ ( options && options.referenceTypes ) || [ { id: 'bib', label: 'bib' } ] }
                         options={ resourceTypes.map( ( type ) => ( {
                                 id: type,
                                 label: (

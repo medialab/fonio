@@ -60,19 +60,16 @@ const Wysiwyg = ( {
   onChange
 }, { t } ) => {
   const translate = translateNameSpacer( t, 'Features.DesignView.StylesVariables' );
-
   const onSizeClassChange = ( value ) =>
     onChange( {
       ...styles,
       sizeClass: value
     } );
-
   const onColorChange = ( value ) =>
     onChange( {
       ...styles,
       color: value
     } );
-
   const onOpacityChange = debounce( 200, ( value ) =>
     onChange( {
       ...styles,
@@ -82,10 +79,8 @@ const Wysiwyg = ( {
 
   const { sizeClass, color, opacity } = options.properties;
 
-  let elements = <div />;
-
   if ( !sizeClass && !opacity && color ) {
-    elements = (
+    return (
       <StretchedLayoutContainer
         isDirection={ 'horizontal' }
         isOverflowVisible
@@ -110,7 +105,7 @@ const Wysiwyg = ( {
   }
 
   if ( sizeClass && color ) {
-    elements = (
+    return (
       <React.Fragment>
         <Field>
           <Control>
@@ -156,36 +151,33 @@ const Wysiwyg = ( {
     );
   }
 
-  return elements;
+  return <div />;
 };
 
 Wysiwyg.contextTypes = {
   t: PropTypes.func,
 };
 
-const StyleEditor = ( { styles, options, onChange } ) => {
-  options = deref( options );
-  return (
-    <form>
-      {mapFollowOrder( ( option, key ) => (
-        <Wysiwyg
-          key={ key }
-          styles={ styles[key] }
-          options={ option }
-          title={ key }
-          onChange={ ( style ) => {
-            onChange( {
-              ...styles,
-              [key]: style
-            } );
-          } }
-        />
-      ),
-      options,
-      [ 'background', 'coverText', 'titles', 'corpus', 'blockquotes', 'links' ]
-    )}
-    </form>
-  );
-};
+const StyleEditor = ( { styles, options, onChange } ) => (
+  <form>
+    {mapFollowOrder( ( option, key ) => (
+      <Wysiwyg
+        key={ key }
+        styles={ styles[key] }
+        options={ option }
+        title={ key }
+        onChange={ ( style ) => {
+          onChange( {
+            ...styles,
+            [key]: style
+          } );
+        } }
+      />
+    ),
+    deref( options ),
+    [ 'background', 'coverText', 'titles', 'corpus', 'blockquotes', 'links' ]
+  )}
+  </form>
+);
 
 export default StyleEditor;
