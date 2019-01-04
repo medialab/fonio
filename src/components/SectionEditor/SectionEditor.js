@@ -162,7 +162,6 @@ class ElementLayout extends Component {
    * }
    */
   render = () => {
-
     const {
       isSize = 12,
       isOffset = 0,

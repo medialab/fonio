@@ -14,6 +14,7 @@ import {
   Content,
   Button,
 } from 'quinoa-design-library/components';
+import { getStyles } from 'quinoa-schemas';
 
 /**
  * Imports Project utils
@@ -42,6 +43,7 @@ const DesignViewLayout = ( {
   },
   onUpdateCss,
   onUpdateSettings,
+  onUpdateTemplatesVariables,
 }, { t } ) => {
 
   /**
@@ -79,6 +81,7 @@ const DesignViewLayout = ( {
               setReferenceTypesVisible,
               onUpdateCss,
               onUpdateSettings,
+              onUpdateTemplatesVariables,
           }
         }
       />
@@ -112,7 +115,7 @@ const DesignViewLayout = ( {
                 {
                     cssHelpData.map( ( example, index ) => {
                       const handleAddCode = () => {
-                        const css = story.settings.css || '';
+                        const css = getStyles( story ).css || '';
                         const newCss = `${css.trim()}\n\n${example.code.trim()}`.trim();
                         onUpdateCss( newCss );
                       };

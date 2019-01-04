@@ -10,10 +10,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
+import { set } from 'lodash/fp';
 import {
   withRouter,
 } from 'react-router';
 import { toastr } from 'react-redux-toastr';
+
+import { isNewSchema } from 'quinoa-schemas';
 
 /**
  * Imports Project utils
@@ -40,6 +43,7 @@ import LoadingScreen from '../../../components/LoadingScreen';
  * Imports Assets
  */
 import config from '../../../config';
+import { getTemplateName } from 'quinoa-schemas';
 
 /**
  * Shared constants
@@ -186,21 +190,10 @@ class DesignViewContainer extends Component {
   }
 
   onUpdateCss = ( css ) => {
-    const {
-      editedStory: story,
-      userId,
-      actions: {
-        updateStorySettings
-      }
-    } = this.props;
-    updateStorySettings( {
-      storyId: story.id,
-      userId,
-      settings: {
-        ...story.settings,
-        css,
-      }
-    } );
+    this.onUpdateTemplatesVariables(
+      [ 'css' ],
+      css
+    );
   }
 
   onUpdateSettings = ( settings ) => {
@@ -218,6 +211,30 @@ class DesignViewContainer extends Component {
     } );
   }
 
+  onUpdateTemplatesVariables = ( keys, styles ) => {
+    const {
+      editedStory: story,
+      userId,
+      actions: {
+        updateStorySettings
+      }
+    } = this.props;
+
+    updateStorySettings( {
+      storyId: story.id,
+      userId,
+      settings: set(
+        isNewSchema( story ) ? [
+          'styles',
+          getTemplateName( story ),
+          ...keys
+        ] : keys,
+        styles,
+        story.settings
+      )
+    } );
+  }
+
   render() {
     const {
       props: {
@@ -227,6 +244,7 @@ class DesignViewContainer extends Component {
       },
       onUpdateCss,
       onUpdateSettings,
+      onUpdateTemplatesVariables
     } = this;
     if ( editedStory ) {
 
@@ -242,9 +260,10 @@ class DesignViewContainer extends Component {
             {
               hasLock ?
                 <DesignViewLayout
-                  story={ this.props.editedStory }
+                  story={ editedStory }
                   onUpdateCss={ onUpdateCss }
                   onUpdateSettings={ onUpdateSettings }
+                  onUpdateTemplatesVariables={ onUpdateTemplatesVariables }
                   { ...this.props }
                 />
               :

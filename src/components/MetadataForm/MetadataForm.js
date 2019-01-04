@@ -7,6 +7,7 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { omit } from 'lodash/fp';
 
 import { Form, Text, TextArea } from 'react-form';
 import {
@@ -68,7 +69,7 @@ class MetadataForm extends Component {
     const errorValidator = ( values ) => {
       return {
         title: !values.title ? translate( 'Story title is required' ) : null,
-        publicationConsent: values.publicationConsent === undefined ? translate('You must consent or refuse a possible future publication of this story.') : null,
+        publicationConsent: values.publicationConsent === undefined ? translate( 'You must consent or refuse a possible future publication of this story.' ) : null,
         password: ( !story.id && ( !values.password || values.password.length < 6 ) ) ? translate( 'Password should be at least 6 characters' ) : null,
       };
     };
@@ -77,19 +78,14 @@ class MetadataForm extends Component {
      * Callbacks handlers
      */
     const handleSubmitForm = ( values ) => {
-      const newValues = { ...values };
-      delete newValues.password;
-      // parse authors
-      const authors = newValues.authors
-                      // .reduce((result, item) => result.concat(item.split(',')), [])
-                      .map( ( d ) => d.trim() )
-                      .filter( ( d ) => d.length > 0 );
       const payload = {
         ...story,
         metadata: {
           ...story.metadata,
-          ...newValues,
-          authors
+          ...omit( [ 'password' ], values ),
+          authors: values.authors
+            .map( ( d ) => d.trim() )
+            .filter( ( d ) => d.length > 0 )
         },
       };
       onSubmit( { payload, password: values.password } );
@@ -101,7 +97,6 @@ class MetadataForm extends Component {
     const bindRef = ( form ) => {
       this.form = form;
     };
-
 
     return (
       <Form
@@ -171,7 +166,7 @@ class MetadataForm extends Component {
                 onChange={ onAuthorsChange }
                 authors={ formApi.getValue( 'authors' ) }
               />
-              
+
               <Field>
                 <Label>{translate( 'Story Abstract' )}</Label>
                 <Control hasIcons>
@@ -185,11 +180,11 @@ class MetadataForm extends Component {
                 </Control>
               </Field>
               <Field>
-                <p style={{marginTop: '2rem'}}>
-                  <i>{translate('publication-consent-message-1')}</i>
+                <p style={ { marginTop: '2rem' } }>
+                  <i>{translate( 'publication-consent-message-1' )}</i>
                 </p>
-                <Label style={{marginTop: '1rem'}}>
-                  {translate('publication-consent-message-2')}
+                <Label style={ { marginTop: '1rem' } }>
+                  {translate( 'publication-consent-message-2' )}
                 </Label>
                 <Control>
                   <Radio
@@ -210,7 +205,7 @@ class MetadataForm extends Component {
                     <Help isColor={ 'danger' }>{formApi.errors.publicationConsent}</Help>
                 }
               </Field>
-              
+
               {!story.id && status === 'processing' && <Help>{translate( 'Creating story' )}</Help>}
               {!story.id && status === 'fail' && <Help isColor={ 'danger' }>{translate( 'Story could not be created' )}</Help>}
               <Columns>

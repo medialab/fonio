@@ -5,9 +5,8 @@
 /**
  * Imports Libraries
  */
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { templates } from 'quinoa-story-player';
 import {
   Column,
   StretchedLayoutContainer,
@@ -22,6 +21,7 @@ import {
  * Imports Project utils
  */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
+import { findTempateByVersion, getStyles } from 'quinoa-schemas';
 
 /**
  * Imports Components
@@ -32,6 +32,7 @@ import AsideDesignContents from './AsideDesignContents';
  * Imports Assets
  */
 import resourceSchema from 'quinoa-schemas/resource';
+import { templates } from 'quinoa-story-player';
 
 /**
  * Shared variables
@@ -41,15 +42,13 @@ const resourceTypes = Object.keys( resourceSchema.definitions ).filter( ( t ) =>
 const AsideDesignColumn = ( {
   designAsideTabCollapsed,
   designAsideTabMode,
-  stylesMode = 'code',
   story = {},
   style = {},
 
   setDesignAsideTabCollapsed,
   setDesignAsideTabMode,
 
-  onUpdateCss,
-  onUpdateSettings,
+  onUpdateTemplatesVariables,
 
   referenceTypesVisible,
   setReferenceTypesVisible,
@@ -61,10 +60,9 @@ const AsideDesignColumn = ( {
   /**
    * Variables definition
    */
-  const { settings = {} } = story;
-  const { options = {} } = settings;
-  const template = templates.find( ( thatTemplate ) => thatTemplate.id === story.settings.template );
-  const templateOptions = template.acceptsOptions || [];
+  const { options } = getStyles( story );
+
+  const template = findTempateByVersion( story, templates );
 
   /**
    * Computed variables
@@ -73,35 +71,10 @@ const AsideDesignColumn = ( {
    * Local functions
    */
   const translate = translateNameSpacer( t, 'Features.DesignView' );
-
-  /**
-   * Callbacks handlers
-   */
-  const handleOptionChange = ( key, value ) => {
-    onUpdateSettings( {
-      ...settings,
-      options: {
-        ...settings.options,
-        [key]: value
-      }
-    } );
-  };
-  const handleUpdateReferenceTypes = ( type ) => {
-    const referenceTypes = options.referenceTypes || [];
-    let newReferenceTypes;
-    if ( !referenceTypes.includes( type ) ) {
-      newReferenceTypes = [ ...referenceTypes, type ];
-    }
-    else {
-      newReferenceTypes = referenceTypes.filter( ( thatType ) => thatType !== type );
-    }
-    handleOptionChange( 'referenceTypes', newReferenceTypes );
-  };
-
   const handleSetAsideAsSettings = () => setDesignAsideTabMode( 'settings' );
   const handleSetAsideAsStyles = () => setDesignAsideTabMode( 'styles' );
   const handleToggleAsideCollapsed = () => setDesignAsideTabCollapsed( !designAsideTabCollapsed );
-
+  const containerRef = useRef( null );
   return (
     <Column
       style={ style }
@@ -112,6 +85,8 @@ const AsideDesignColumn = ( {
       <StretchedLayoutContainer
         isDirection={ 'vertical' }
         isAbsolute
+        isOver
+        isOverflowVisible
       >
         <StretchedLayoutItem>
           <Column>
@@ -168,22 +143,22 @@ const AsideDesignColumn = ( {
         <StretchedLayoutItem
           isFlex={ 1 }
           isFlowing
+          isOverflowVisible
+          ref={ containerRef }
         >
           <AsideDesignContents
             {
               ...{
+                getTooltipContainer: () => containerRef.current,
                 designAsideTabCollapsed,
                 designAsideTabMode,
-                handleOptionChange,
+                onUpdateTemplatesVariables,
                 setReferenceTypesVisible,
-                templateOptions,
-                onUpdateCss,
+                template,
                 story,
-                stylesMode,
                 setCssHelpVisible,
                 options,
                 resourceTypes,
-                handleUpdateReferenceTypes,
                 referenceTypesVisible,
               }
             }

@@ -69,7 +69,6 @@ class PreviewWrapper extends Component {
           ...story.settings,
           css: processCustomCss( story.settings.css )
         }
-
       };
       render(
         <ContextProvider getResourceDataUrl={ getResourceDataUrl }>

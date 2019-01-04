@@ -11,7 +11,6 @@ import {
   Button,
   CodeEditor,
   Column,
-  Collapsable,
   Control,
   Dropdown,
   Field,
@@ -21,7 +20,9 @@ import {
   Select,
   Title,
 } from 'quinoa-design-library/components/';
+import { getStyles } from 'quinoa-schemas';
 import icons from 'quinoa-design-library/src/themes/millet/icons';
+import StyleEditor from './StyleEditor';
 
 /**
  * Imports Project utils
@@ -31,18 +32,19 @@ import { translateNameSpacer } from '../../../helpers/translateUtils';
 const AsideDesignContents = ( {
   designAsideTabCollapsed,
   designAsideTabMode,
-  handleOptionChange,
   setReferenceTypesVisible,
-  templateOptions,
-  onUpdateCss,
+  template,
   story,
-  stylesMode,
   setCssHelpVisible,
   options,
   resourceTypes,
-  handleUpdateReferenceTypes,
   referenceTypesVisible,
+  onUpdateTemplatesVariables,
+  getTooltipContainer
 }, { t } ) => {
+
+  const { acceptsOptions = [], stylesVariables } = template;
+  const styles = getStyles( story );
 
   /**
    * Local functions
@@ -52,9 +54,31 @@ const AsideDesignContents = ( {
   /**
    * Callbacks handlers
    */
-  const handleNotesPositionChange = ( e ) => handleOptionChange( 'notesPosition', e.target.value );
+  const handleNotesPositionChange = ( e ) => onUpdateTemplatesVariables(
+    [ 'options', 'notesPosition' ],
+    e.target.value
+  );
+  const handleReferenceStatusChange = ( e ) => onUpdateTemplatesVariables(
+    [ 'options', 'referenceStatus' ],
+    e.target.value
+  );
+  const onUpdateStylesVariables = ( style ) => onUpdateTemplatesVariables(
+    [ 'stylesVariables' ],
+    style
+  );
+  const onUpdateCss = ( css ) => onUpdateTemplatesVariables(
+    [ 'css' ],
+    css
+  );
+  const handleUpdateReferenceTypes = ( type ) => {
+    onUpdateTemplatesVariables(
+      [ 'options', 'referenceTypes' ],
+      options.referenceTypes.includes( type )
+        ? options.referenceTypes.filter( ( thatType ) => thatType !== type )
+        : [ ...options.referenceTypes, type ] );
+  };
+
   const handleToggleReferenceTypesVisibility = () => setReferenceTypesVisible( !referenceTypesVisible );
-  const handleReferenceStatusChange = ( e ) => handleOptionChange( 'referenceStatus', e.target.value );
   const handleShowCssHelp = () => setCssHelpVisible( true );
 
   if ( designAsideTabCollapsed ) {
@@ -65,7 +89,7 @@ const AsideDesignContents = ( {
         return (
           <Column>
             {
-              templateOptions.includes( 'notesPosition' ) &&
+              acceptsOptions.includes( 'notesPosition' ) &&
               <Level>
                 <form>
                   <Field>
@@ -84,7 +108,7 @@ const AsideDesignContents = ( {
               </Level>
             }
             {
-              templateOptions.includes( 'referenceTypes' ) &&
+              acceptsOptions.includes( 'referenceTypes' ) &&
               <Level>
                 <form>
                   <Field>
@@ -95,7 +119,7 @@ const AsideDesignContents = ( {
                         isActive={ referenceTypesVisible }
                         closeOnChange={ false }
                         onChange={ handleUpdateReferenceTypes }
-                        value={ ( story.settings.options && story.settings.options.referenceTypes ) || [ 'bib' ] }
+                        value={ ( options && options.referenceTypes ) || [ { id: 'bib', label: 'bib' } ] }
                         options={ resourceTypes.map( ( type ) => ( {
                                 id: type,
                                 label: (
@@ -120,7 +144,7 @@ const AsideDesignContents = ( {
               </Level>
             }
             {
-              templateOptions.includes( 'referenceStatus' ) &&
+              acceptsOptions.includes( 'referenceStatus' ) &&
               <Level>
                 <form>
                   <Field>
@@ -144,27 +168,31 @@ const AsideDesignContents = ( {
       default:
         return (
           <Column>
+            {stylesVariables && story.settings.styles &&
+              <StyleEditor
+                getTooltipContainer={ getTooltipContainer }
+                options={ stylesVariables }
+                onChange={ onUpdateStylesVariables }
+                styles={ styles.stylesVariables }
+              />
+            }
             <Title isSize={ 3 }>
               {translate( 'Edit style with css' )}
             </Title>
-            {stylesMode === 'code' && <Level />}
-            {/* @todo put here other style modes ui */}
-            <Collapsable isCollapsed={ stylesMode !== 'code' }>
-              <Column>
-                <CodeEditor
-                  value={ story.settings.css }
-                  onChange={ onUpdateCss }
-                />
-              </Column>
-              <Column>
-                <Button
-                  isFullWidth
-                  onClick={ handleShowCssHelp }
-                >
-                  {translate( 'Help' )}
-                </Button>
-              </Column>
-            </Collapsable>
+            <Column>
+              <CodeEditor
+                value={ styles.css }
+                onChange={ onUpdateCss }
+              />
+            </Column>
+            <Column>
+              <Button
+                isFullWidth
+                onClick={ handleShowCssHelp }
+              >
+                {translate( 'Help' )}
+              </Button>
+            </Column>
           </Column>
         );
     }
