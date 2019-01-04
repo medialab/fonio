@@ -61,6 +61,7 @@ const StoryCard = ( {
             <Column
               data-effect={ 'solid' }
               data-for={ 'tooltip' }
+              className={ 'story-card__title' }
               data-tip={ ( story.metadata.title || '' ).length > MAX_STR_LEN ? story.metadata.title : undefined }
               isSize={ 8 }
             >
