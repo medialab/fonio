@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2019-1-3\n"
-"PO-Revision-Date: Thu Jan 03 2019 16:23:20 GMT+0100 (GMT+01:00)\n"
+"POT-Creation-Date: 2019-1-4\n"
+"PO-Revision-Date: Fri Jan 04 2019 12:12:46 GMT+0100 (GMT+01:00)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1999,6 +1999,9 @@ msgstr "In order to enable you to collectively work on your project and to enabl
 
 msgid "Components.MetadataForm.publication-consent-message-2"
 msgstr "At the end of the semester, your teachers may want to publish a selection of the best stories on a Sciences Po hosted website. Would you consent to it (you will be able to change your answer in your story's settings at any time) ?"
+
+msgid "Components.InternalLinkModal.No section"
+msgstr "No section"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"

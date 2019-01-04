@@ -118,6 +118,14 @@ class InternalLinkModal extends Component {
       } );
     };
 
+    const getInactiveSectionTitle = ( id ) => {
+      const thatSection = inactiveSections.find( ( s ) => s.id === id );
+      if ( thatSection ) {
+        return thatSection.title;
+      }
+      return translate( 'No section' );
+    };
+
     /*
      * const handleToggleExistingLinksDropDown = () => this.setState( { dropdownOpen: !dropdownOpen } );
      * const handleChooseResource = ( thatId ) => this.setState( { choosenResource: choosenResource === thatId ? undefined : thatId } );
@@ -148,6 +156,7 @@ class InternalLinkModal extends Component {
                   onChange={ handleChooseSection }
                   value={ { id: selectedSectionId } }
                   options={ inactiveSections
+                              .filter( ( sectionMetadata ) => sectionMetadata )
                               .map( ( sectionMetadata ) => ( {
                               id: sectionMetadata.id,
                               label: (
@@ -161,13 +170,13 @@ class InternalLinkModal extends Component {
                                     src={ icons.section.black.svg }
                                   />
                                   <span >
-                                    {`${abbrevString( sectionMetadata.title, 30 )}`}
+                                    {`${sectionMetadata && sectionMetadata.title ? abbrevString( sectionMetadata.title, 30 ) : translate( 'No section' )}`}
                                   </span>
                                 </FlexContainer>
                                 )
                             } ) ) }
                 >
-                  {selectedSectionId ? abbrevString( `${inactiveSections.find( ( s ) => s.id === selectedSectionId ).title}`, 60 ) : translate( 'Choose a section' )}
+                  {selectedSectionId ? abbrevString( `${getInactiveSectionTitle( selectedSectionId )}`, 60 ) : translate( 'Choose a section' )}
                 </Dropdown>
               </StretchedLayoutItem>
             </StretchedLayoutContainer>
