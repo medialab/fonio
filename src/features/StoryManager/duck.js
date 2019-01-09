@@ -61,6 +61,7 @@ export const SET_COVER_IMAGE = 'SET_COVER_IMAGE';
 
 export const UPLOAD_RESOURCE = 'UPLOAD_RESOURCE';
 export const DELETE_UPLOADED_RESOURCE = 'DELETE_UPLOADED_RESOURCE';
+export const SAVE_STORY = 'SAVE_STORY';
 
 /**
  * ===================================================
