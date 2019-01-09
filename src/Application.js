@@ -76,7 +76,7 @@ const ProtectedRoutes = ( { match } ) => {
  * Renders the whole fonio application
  * @return {ReactComponent} component
  */
-@connect(
+export default @connect(
   ( state ) => ( {
     ...connectionsDuck.selector( state.connections ),
     ...userInfoDuck.selector( state.userInfo ),
@@ -89,8 +89,7 @@ const ProtectedRoutes = ( { match } ) => {
       ...connectionsDuck,
     }, dispatch )
   } )
-)
-export default class Application extends Component {
+) class Application extends Component {
 
   /**
    * constructorstorestore
