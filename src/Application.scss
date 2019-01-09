@@ -54,6 +54,10 @@
   background: darkgrey;
 }
 
+.color-picker-container{
+  position: fixed!important;
+}
+
 @media screen and (max-width: 1087px) {
   .aside-edition-container{
   &:not(.is-collapsed){
