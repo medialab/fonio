@@ -53,8 +53,7 @@ class ResourceCardWrapper extends Component {
   }
 }
 
-@DragDropContext( HTML5Backend )
-export default class ResourcesList extends Component {
+export default @DragDropContext( HTML5Backend ) class ResourcesList extends Component {
 
   constructor( props, context ) {
     super( props, context );
