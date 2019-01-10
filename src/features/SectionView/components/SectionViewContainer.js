@@ -541,7 +541,7 @@ class SectionViewContainer extends Component {
     }
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
-      'INTERNAL_LINK',
+      'SECTION_POINTER',
       'MUTABLE',
       { sectionId: selectedSectionId }
     );

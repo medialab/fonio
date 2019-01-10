@@ -446,7 +446,7 @@ class SectionEditor extends Component {
       const entitySelected = this.getEntityAtSelection( editorState );
       if ( entitySelected ) {
         const { entity: entityAtSelection, entityKey } = entitySelected;
-        if ( entityAtSelection.getType() === 'INTERNAL_LINK' ) {
+        if ( entityAtSelection.getType() === 'SECTION_POINTER' ) {
           // get selection for that entity
           let entity;
           const content = editorState.getCurrentContent();
@@ -528,7 +528,7 @@ class SectionEditor extends Component {
           }
 
         }
-        else if ( entityAtSelection.getType() === 'INTERNAL_LINK' ) {
+        else if ( entityAtSelection.getType() === 'SECTION_POINTER' ) {
           const targetSection = this.props.story && this.props.story.sections[entityAtSelection.getData().sectionId];
           const title = ( targetSection && targetSection.metadata.title ) || this.translate( 'deleted section' );
           try {
@@ -541,7 +541,7 @@ class SectionEditor extends Component {
                     x: selectionPosition.x - componentPosition.x,
                     y: selectionPosition.y - componentPosition.y - 20,
                     title,
-                    type: 'INTERNAL_LINK'
+                    type: 'SECTION_POINTER'
                   }
                 } );
               }
@@ -1025,7 +1025,7 @@ class SectionEditor extends Component {
           const entityKey = character.getEntity();
           if (
             entityKey !== null &&
-            contentState.getEntity( entityKey ).getType() === 'INTERNAL_LINK'
+            contentState.getEntity( entityKey ).getType() === 'SECTION_POINTER'
           ) {
             props = { ...contentState.getEntity( entityKey ).getData() };
             return true;
@@ -1214,7 +1214,7 @@ class SectionEditor extends Component {
             const resource = story.resources[contextualization.resourceId];
             cursorOnResourceType = resource.metadata.type;
           }
- else if ( content.getEntity( entityKey ).getType() === 'INTERNAL_LINK' ) {
+          else if ( content.getEntity( entityKey ).getType() === 'SECTION_POINTER' ) {
             cursorOnInternalLink = true;
           }
         }
