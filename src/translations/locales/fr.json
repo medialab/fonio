@@ -666,5 +666,16 @@
   "Components.InternalLinkModal.No section": "Pas de section",
   "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?": "Consentiriez-vous à une possible future publication de ce récit sur l'un des sites web de Sciences Po ?",
   "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.": "Une fois terminé et évalué, nous pourrions vouloir valoriser votre travail à travers les canaux de communication de Sciences Po. L'autorisation collective de tous les auteurs est nécessaire pour ce faire.",
-  "Features.DesignView.StylesVariables.background": "background"
+  "Features.DesignView.StylesVariables.background": "background",
+  "Components.GlossaryModal.Add a glossary entry": "Ajouter une entrée de glossaire",
+  "Components.GlossaryModal.Pick an existing glossary entry from your library": "Choisir une entrée existante dans la bibliothèque",
+  "Components.GlossaryModal.Choose an existing glossary entry": "Choisir une entrée de glossaire existante",
+  "Components.GlossaryModal.Create a new glossary entry": "Créer une nouvelle entrée de glossaire",
+  "Components.GlossaryModal.Name": "Nom",
+  "Components.GlossaryModal.Description of the entry": "Description de l'entrée",
+  "Components.GlossaryModal.Entry description": "Description de l'entrée",
+  "Components.GlossaryModal.Add entry": "Ajouter l'entrée",
+  "Components.GlossaryModal.Cancel": "Annuler",
+  "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another section.": "Votre récit n'a qu'une seule section pour l'instant, en conséquence vous ne pouvez pas encore faire de lien vers d'autres sections.",
+  "Components.SectionEditor.add a link to a glossary entry": "ajouter un lien vers une enrée de glossaire"
 }

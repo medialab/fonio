@@ -80,6 +80,7 @@ import IconBtn from '../IconBtn';
 import InlineCitation from './InlineCitation';
 import ItalicButton from './buttons/ItalicButton';
 import LinkButton from './buttons/LinkButton';
+import GlossaryButton from './buttons/GlossaryButton';
 import InternalLinkButton from './buttons/InternalLinkButton';
 import LinkContextualization from './LinkContextualization';
 import NoteButtonComponent from './NoteButton';
@@ -1069,13 +1070,17 @@ class SectionEditor extends Component {
       tooltip={ this.translate( 'remove formatting for selection' ) }
       key={ 9 }
     />,
+    <GlossaryButton
+      tooltip={ this.translate( 'add a link to a glossary entry' ) }
+      key={ 9 }
+    />,
     <LinkButton
       tooltip={ this.translate( 'add a link to a webpage' ) }
-      key={ 8 }
+      key={ 10 }
     />,
     <InternalLinkButton
       tooltip={ this.translate( 'add a link to another section' ) }
-      key={ 9 }
+      key={ 11 }
     />,
 
     /*<CodeBlockButton />,*/

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-1-10\n"
-"PO-Revision-Date: Thu Jan 10 2019 09:55:34 GMT+0100 (CET)\n"
+"PO-Revision-Date: Thu Jan 10 2019 11:16:30 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2003,6 +2003,39 @@ msgstr "At the end of the semester, your teachers may want to publish a selectio
 msgid "Components.InternalLinkModal.No section"
 msgstr "No section"
 
+msgid "Components.GlossaryModal.Add a glossary entry"
+msgstr "Add a glossary entry"
+
+msgid "Components.GlossaryModal.Pick an existing glossary entry from your library"
+msgstr "Pick an existing glossary entry from your library"
+
+msgid "Components.GlossaryModal.Choose an existing glossary entry"
+msgstr "Choose an existing glossary entry"
+
+msgid "Components.GlossaryModal.Create a new glossary entry"
+msgstr "Create a new glossary entry"
+
+msgid "Components.GlossaryModal.Name"
+msgstr "Name"
+
+msgid "Components.GlossaryModal.Description of the entry"
+msgstr "Description of the entry"
+
+msgid "Components.GlossaryModal.Entry description"
+msgstr "Entry description"
+
+msgid "Components.GlossaryModal.Add entry"
+msgstr "Add entry"
+
+msgid "Components.GlossaryModal.Cancel"
+msgstr "Cancel"
+
+msgid "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another section."
+msgstr ""
+
+msgid "Components.SectionEditor.add a link to a glossary entry"
+msgstr "add a link to a glossary entry"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"
 
@@ -2044,3 +2077,6 @@ msgstr "\"{f}\" is too big"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "For suggesting improvements or signaling bugs, please head to <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">this page</a> and to follow the proposed procedure. Thanks !"
+
+msgid "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another."
+msgstr ""

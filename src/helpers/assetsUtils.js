@@ -433,7 +433,6 @@ export const summonAsset = ( contentId, resourceId, props ) => {
     const contextualizer = {
       id: contextualizerId,
       type: resource.metadata.type,
-      // alias: hasAlias ? selectedText : undefined
     };
     createContextualizer( { storyId, contextualizerId, contextualizer, userId } );
 

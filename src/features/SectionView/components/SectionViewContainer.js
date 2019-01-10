@@ -92,6 +92,7 @@ class SectionViewContainer extends Component {
   static childContextTypes = {
     setDraggedResourceId: PropTypes.func,
     setLinkModalFocusData: PropTypes.func,
+    setGlossaryModalFocusData: PropTypes.func,
     setInternalLinkModalFocusData: PropTypes.func,
     editorFocus: PropTypes.string,
   }
@@ -107,6 +108,7 @@ class SectionViewContainer extends Component {
   getChildContext = () => ( {
     setDraggedResourceId: this.setDraggedResourceId,
     setLinkModalFocusData: this.setLinkModalFocusData,
+    setGlossaryModalFocusData: this.setGlossaryModalFocusData,
     setInternalLinkModalFocusData: this.setInternalLinkModalFocusData,
     editorFocus: this.props.editorFocus,
   } )
@@ -145,11 +147,9 @@ class SectionViewContainer extends Component {
         }
       },
       history,
-      pendingContextualization,
       promptedToDeleteSectionId,
       lockingMap,
       activeUsers,
-      editedStory,
       actions: {
         setPromptedToDeleteSectionId
       }
@@ -204,20 +204,6 @@ class SectionViewContainer extends Component {
       this.props.actions.setEditedSectionId( undefined );
     }
 
-    if ( pendingContextualization ) {
-      const {
-        resourceId,
-        contentId
-      } = pendingContextualization;
-      if ( editedStory && editedStory.resources && editedStory.resources[resourceId] ) {
-        nextProps.actions.setPendingContextualization( undefined );
-        setTimeout( () => {
-          this.onSummonAsset( contentId, resourceId );
-          nextProps.actions.setLinkModalFocusData( undefined );
-        } );
-      }
-    }
-
     /*
      * if modal to delete section was prompted and in the meantime someone has entered this section
      * then we unset the delete prompt on that section
@@ -269,6 +255,20 @@ class SectionViewContainer extends Component {
     const editorId = focusId === 'main' ? sectionId : focusId;
     const selection = this.props.editorStates[editorId].getSelection();
     this.props.actions.setLinkModalFocusData( { focusId, selection } );
+  }
+
+  setGlossaryModalFocusData = ( focusId ) => {
+    const {
+      match: {
+        params: {
+          sectionId,
+          // storyId
+        }
+      },
+    } = this.props;
+    const editorId = focusId === 'main' ? sectionId : focusId;
+    const selection = this.props.editorStates[editorId].getSelection();
+    this.props.actions.setGlossaryModalFocusData( { focusId, selection } );
   }
 
   getInactiveSections = () => {
@@ -467,12 +467,54 @@ class SectionViewContainer extends Component {
       storyId,
       userId,
       resource
+    }, ( err ) => {
+      if ( !err ) {
+        this.onContextualizeHyperlink( id, contentId, this.props.editorStates[editorStateId].getSelection() );
+      }
     } );
-    setTimeout( () => {
-      this.props.actions.setPendingContextualization( {
-        resourceId: id,
-        contentId
-      } );
+  }
+  onCreateGlossary = ( { name, description }, contentId, selection ) => {
+    const {
+      match: {
+        params: {
+          storyId,
+          sectionId,
+        }
+      },
+      userId,
+      actions: {
+        createResource,
+      }
+    } = this.props;
+    const editorStateId = contentId === 'main' ? sectionId : contentId;
+    if ( selection ) {
+      let editorState = this.props.editorStates[editorStateId];
+      editorState = EditorState.acceptSelection( editorState, selection );
+      this.props.actions.updateDraftEditorState( editorStateId, editorState );
+    }
+    const id = genId();
+    const resource = {
+      ...createDefaultResource(),
+      id,
+      metadata: {
+        type: 'glossary',
+        createdAt: new Date().getTime(),
+        lastModifiedAt: new Date().getTime(),
+      },
+      data: {
+        name,
+        description,
+      }
+    };
+    createResource( {
+      resourceId: id,
+      storyId,
+      userId,
+      resource
+    }, ( err ) => {
+      if ( !err ) {
+        this.onContextualizeGlossary( id, contentId, this.props.editorStates[editorStateId].getSelection() );
+      }
     } );
   }
 
@@ -535,6 +577,28 @@ class SectionViewContainer extends Component {
     } );
   }
 
+  onContextualizeGlossary = ( resourceId, contentId, selection ) => {
+    const {
+      match: {
+        params: {
+          sectionId,
+        }
+      },
+    } = this.props;
+    const editorStateId = contentId === 'main' ? sectionId : contentId;
+    if ( selection ) {
+      let editorState = this.props.editorStates[editorStateId];
+      editorState = EditorState.acceptSelection( editorState, selection );
+      this.props.actions.updateDraftEditorState( editorStateId, editorState );
+    }
+    setTimeout( () => {
+      this.onSummonAsset( contentId, resourceId );
+      this.props.actions.setLinkModalFocusData( undefined );
+      this.props.actions.setInternalLinkModalFocusData( undefined );
+      this.props.actions.setGlossaryModalFocusData( undefined );
+    } );
+  }
+
   embedLastResource = () => {
     const resources = this.props.editedStory.resources;
     const resourcesMap = Object.keys( resources ).map( ( id ) => resources[id] );
@@ -590,7 +654,9 @@ class SectionViewContainer extends Component {
       goToSection,
       onSummonAsset,
       onContextualizeHyperlink,
+      onContextualizeGlossary,
       onCreateHyperlink,
+      onCreateGlossary,
       onCreateInternalLink,
       submitMultiResources,
       embedLastResource,
@@ -616,7 +682,9 @@ class SectionViewContainer extends Component {
                 submitMultiResources={ submitMultiResources }
                 onCreateHyperlink={ onCreateHyperlink }
                 onCreateInternalLink={ onCreateInternalLink }
+                onCreateGlossary={ onCreateGlossary }
                 onContextualizeHyperlink={ onContextualizeHyperlink }
+                onContextualizeGlossary={ onContextualizeGlossary }
                 onResourceEditAttempt={ onResourceEditAttempt }
                 inactiveSections={ getInactiveSections() }
                 { ...this.props }

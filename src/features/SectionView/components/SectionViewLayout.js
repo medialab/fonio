@@ -49,6 +49,7 @@ import ShortcutsModal from './ShortcutsModal';
 import ConfirmToDeleteModal from '../../../components/ConfirmToDeleteModal';
 import LoadingScreen from '../../../components/LoadingScreen';
 import LinkModal from '../../../components/LinkModal';
+import GlossaryModal from '../../../components/GlossaryModal';
 import InternalLinkModal from '../../../components/InternalLinkModal';
 
 const SectionViewLayout = ( {
@@ -61,6 +62,7 @@ const SectionViewLayout = ( {
   resourceSortValue,
   resourceSearchString,
   linkModalFocusData,
+  glossaryModalFocusData,
   internalLinkModalFocusData,
   previousEditorFocus,
 
@@ -97,6 +99,7 @@ const SectionViewLayout = ( {
     setResourceSearchString,
     setNewResourceMode,
     setLinkModalFocusData,
+    setGlossaryModalFocusData,
     setInternalLinkModalFocusData,
     setEditorPastingStatus,
 
@@ -146,7 +149,10 @@ const SectionViewLayout = ( {
   embedLastResource,
   onCreateHyperlink: handleCreateHyperlink,
   onCreateInternalLink: handleCreateInternalLink,
+  onCreateGlossary: handleCreateGlossary,
+
   onContextualizeHyperlink: handleContextualizeHyperlink,
+  onContextualizeGlossary: handleContextualizeGlossary,
   onResourceEditAttempt: handleResourceEditAttempt,
   history,
 }, { t } ) => {
@@ -240,6 +246,9 @@ const SectionViewLayout = ( {
       } );
   const hyperlinks = linkModalFocusData ? Object.keys( story.resources )
     .filter( ( resourceId ) => story.resources[resourceId].metadata.type === 'webpage' )
+    .map( ( resourceId ) => story.resources[resourceId] ) : [];
+  const glossaryEntries = glossaryModalFocusData ? Object.keys( story.resources )
+    .filter( ( resourceId ) => story.resources[resourceId].metadata.type === 'glossary' )
     .map( ( resourceId ) => story.resources[resourceId] ) : [];
 
   /**
@@ -532,6 +541,7 @@ const SectionViewLayout = ( {
   const handleAbortDeleteSection = () => setPromptedToDeleteSectionId( undefined );
   const handleAbortDeleteResource = () => setPromptedToDeleteResourceId( undefined );
   const handleAbortLinkCreation = () => setLinkModalFocusData( undefined );
+  const handleAbortGlossaryCreation = () => setGlossaryModalFocusData( undefined );
   const handleAbortInternalLinkCreation = () => setInternalLinkModalFocusData( undefined );
   const handleCloseShortcuts = () => setShortcutsHelpVisible( false );
 
@@ -682,6 +692,14 @@ const SectionViewLayout = ( {
         hyperlinks={ hyperlinks }
         onCreateHyperlink={ handleCreateHyperlink }
         onContextualizeHyperlink={ handleContextualizeHyperlink }
+      />
+      <GlossaryModal
+        isActive={ glossaryModalFocusData !== undefined }
+        focusData={ glossaryModalFocusData }
+        onClose={ handleAbortGlossaryCreation }
+        glossaryEntries={ glossaryEntries }
+        onCreateGlossary={ handleCreateGlossary }
+        onContextualizeGlossary={ handleContextualizeGlossary }
       />
       <InternalLinkModal
         isActive={ internalLinkModalFocusData !== undefined }

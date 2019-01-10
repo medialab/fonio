@@ -666,5 +666,16 @@
   "Components.MetadataForm.You must consent or refuse a possible future publication of this story.": "You must consent or refuse a possible future publication of this story.",
   "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?": "Consentiriez-vous à une possible future publication de ce récit sur l'un des sites web de Sciences Po ?",
   "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.": "Une fois terminé et évalué, nous pourrions vouloir valoriser votre travail à travers les canaux de communication de Sciences Po. L'autorisation collective de tous les auteurs est nécessaire pour ce faire.",
-  "Components.InternalLinkModal.No section": "No section"
+  "Components.InternalLinkModal.No section": "No section",
+  "Components.GlossaryModal.Add a glossary entry": "Add a glossary entry",
+  "Components.GlossaryModal.Pick an existing glossary entry from your library": "Pick an existing glossary entry from your library",
+  "Components.GlossaryModal.Choose an existing glossary entry": "Choose an existing glossary entry",
+  "Components.GlossaryModal.Create a new glossary entry": "Create a new glossary entry",
+  "Components.GlossaryModal.Name": "Name",
+  "Components.GlossaryModal.Description of the entry": "Description of the entry",
+  "Components.GlossaryModal.Entry description": "Entry description",
+  "Components.GlossaryModal.Add entry": "Add entry",
+  "Components.GlossaryModal.Cancel": "Cancel",
+  "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another section.": "Your story has only one section for now, therefore you cannot yet link to another section.",
+  "Components.SectionEditor.add a link to a glossary entry": "add a link to a glossary entry"
 }

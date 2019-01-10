@@ -33,11 +33,11 @@ const SET_RESOURCE_OPTIONS_VISIBLE = 'SET_RESOURCE_OPTIONS_VISIBLE';
 const SET_RESOURCE_SORT_VALUE = 'SET_RESOURCE_SORT_VALUE';
 const SET_RESOURCE_SEARCH_STRING = 'SET_RESOURCE_SEARCH_STRING';
 const SET_NEW_RESOURCE_MODE = 'SET_NEW_RESOURCE_MODE';
-const SET_PENDING_CONTEXTUALIZATION = 'SET_PENDING_CONTEXTUALIZATION';
 const SET_EDITED_SECTION_ID = 'SET_EDITED_SECTION_ID';
 const SET_DRAGGED_RESOURCE_ID = 'SET_DRAGGED_RESOURCE_ID';
 const SET_SHORTCUTS_HELP_VISIBLE = 'SET_SHORTCUTS_HELP_VISIBLE';
 const SET_LINK_MODAL_FOCUS_DATA = 'SET_LINK_MODAL_FOCUS_DATA';
+const SET_GLOSSARY_MODAL_FOCUS_DATA = 'SET_GLOSSARY_MODAL_FOCUS_DATA';
 const SET_INTERNAL_LINK_MODAL_FOCUS_DATA = 'SET_INTERNAL_LINK_MODAL_FOCUS_DATA';
 const SET_UPLOAD_STATUS = 'SET_UPLOAD_STATUS';
 const SET_EDITOR_PASTING_STATUS = 'SET_EDITOR_PASTING_STATUS';
@@ -112,11 +112,6 @@ export const setNewResourceType = ( payload ) => ( {
   payload
 } );
 
-export const setPendingContextualization = ( payload ) => ( {
-  type: SET_PENDING_CONTEXTUALIZATION,
-  payload
-} );
-
 export const setEmbedResourceAfterCreation = ( payload ) => ( {
   type: SET_EMBED_RESOURCE_AFTER_CREATION,
   payload
@@ -144,6 +139,10 @@ export const setStoryIsSaved = ( payload ) => ( {
 
 export const setLinkModalFocusData = ( payload ) => ( {
   type: SET_LINK_MODAL_FOCUS_DATA,
+  payload,
+} );
+export const setGlossaryModalFocusData = ( payload ) => ( {
+  type: SET_GLOSSARY_MODAL_FOCUS_DATA,
   payload,
 } );
 export const setInternalLinkModalFocusData = ( payload ) => ( {
@@ -280,6 +279,7 @@ const UI_DEFAULT_STATE = {
   storyIsSaved: true,
   shortcutsHelpVisible: false,
   linkModalFocusData: undefined,
+  glossaryModalFocusData: undefined,
   internalLinkModalFocusData: undefined,
   uploadStatus: undefined,
   editorPastingStatus: undefined,
@@ -311,6 +311,7 @@ function ui( state = UI_DEFAULT_STATE, action ) {
     case SET_SHORTCUTS_HELP_VISIBLE:
     case SET_STORY_IS_SAVED:
     case SET_LINK_MODAL_FOCUS_DATA:
+    case SET_GLOSSARY_MODAL_FOCUS_DATA:
     case SET_INTERNAL_LINK_MODAL_FOCUS_DATA:
     case SET_UPLOAD_STATUS:
     case SET_EDITOR_PASTING_STATUS:
@@ -342,7 +343,6 @@ function ui( state = UI_DEFAULT_STATE, action ) {
 const RESOURCES_EMBED_SETTINGS_DEFAULT_STATE = {
   embedResourceAfterCreation: false,
   newResourceType: undefined,
-  pendingContextualization: undefined
 };
 
 /**
@@ -353,7 +353,6 @@ function resourcesEmbedSettings( state = RESOURCES_EMBED_SETTINGS_DEFAULT_STATE,
   switch ( type ) {
     case SET_EMBED_RESOURCE_AFTER_CREATION:
     case SET_NEW_RESOURCE_TYPE:
-    case SET_PENDING_CONTEXTUALIZATION:
       const propName = getStatePropFromActionSet( action.type );
       return {
         ...state,
@@ -547,6 +546,7 @@ const editorBlocked = ( state ) => state.ui.editorBlocked;
 const storyIsSaved = ( state ) => state.ui.storyIsSaved;
 const shortcutsHelpVisible = ( state ) => state.ui.shortcutsHelpVisible;
 const linkModalFocusData = ( state ) => state.ui.linkModalFocusData;
+const glossaryModalFocusData = ( state ) => state.ui.glossaryModalFocusData;
 const internalLinkModalFocusData = ( state ) => state.ui.internalLinkModalFocusData;
 const uploadStatus = ( state ) => state.ui.uploadStatus;
 const editorPastingStatus = ( state ) => state.ui.editorPastingStatus;
@@ -559,7 +559,6 @@ const editorFocus = ( state ) => state.editorFocusState.editorFocus;
 const previousEditorFocus = ( state ) => state.editorFocusState.previousEditorFocus;
 
 const embedResourceAfterCreation = ( state ) => state.resourcesEmbedSettings.embedResourceAfterCreation;
-const pendingContextualization = ( state ) => state.resourcesEmbedSettings.pendingContextualization;
 const newResourceType = ( state ) => state.resourcesEmbedSettings.newResourceType;
 
 /**
@@ -572,6 +571,7 @@ export const selector = createStructuredSelector( {
   mainColumnMode,
   shortcutsHelpVisible,
   linkModalFocusData,
+  glossaryModalFocusData,
   internalLinkModalFocusData,
   uploadStatus,
   editorPastingStatus,
@@ -586,8 +586,6 @@ export const selector = createStructuredSelector( {
   draggedResourceId,
   editorBlocked,
   storyIsSaved,
-
-  pendingContextualization,
 
   editorStates,
   assetRequestState,

@@ -96,9 +96,14 @@ class LinkModal extends Component {
       if ( url && url.length ) {
         onCreateHyperlink( { url, title }, focusData.focusId, focusData.selection );
       }
-      else {
+ else if ( choosenResource ) {
         onContextualizeHyperlink( choosenResource, focusData.focusId, focusData.selection );
       }
+    };
+    const handleSubmit = ( e ) => {
+      e.stopPropagation();
+      e.preventDefault();
+      handleConfirm();
     };
     const handleToggleExistingLinksDropDown = () => this.setState( { dropdownOpen: !dropdownOpen } );
     const handleChooseResource = ( thatId ) => this.setState( { choosenResource: choosenResource === thatId ? undefined : thatId } );
@@ -111,7 +116,7 @@ class LinkModal extends Component {
         headerContent={ translate( 'Add a hyperlink' ) }
         onClose={ onClose }
         mainContent={
-          <div>
+          <form onSubmit={ handleSubmit }>
             {hyperlinks.length > 0 &&
             <Field
               style={ {
@@ -187,7 +192,7 @@ class LinkModal extends Component {
                 </Control>
               </Field>
             </div>
-          </div>
+          </form>
         }
         footerContent={ [
           <Button

@@ -140,22 +140,25 @@ class InternalLinkModal extends Component {
         onClose={ onClose }
         mainContent={
           <div>
-            <StretchedLayoutContainer
-              style={ { alignItems: 'center' } }
-              isDirection={ 'horizontal' }
-            >
-              <StretchedLayoutItem>{translate( 'Link to section' )}</StretchedLayoutItem>
-              <StretchedLayoutItem
-                isFlex={ 1 }
-                style={ { padding: '1rem' } }
+            {
+            inactiveSections.length ?
+              <StretchedLayoutContainer
+                style={ { alignItems: 'center' } }
+                isDirection={ 'horizontal' }
               >
-                <Dropdown
-                  onToggle={ handleToggleDropdown }
-                  isActive={ dropdownOpen }
-                  closeOnChange
-                  onChange={ handleChooseSection }
-                  value={ { id: selectedSectionId } }
-                  options={ inactiveSections
+
+                <StretchedLayoutItem>{translate( 'Link to section' )}</StretchedLayoutItem>
+                <StretchedLayoutItem
+                  isFlex={ 1 }
+                  style={ { padding: '1rem' } }
+                >
+                  <Dropdown
+                    onToggle={ handleToggleDropdown }
+                    isActive={ dropdownOpen }
+                    closeOnChange
+                    onChange={ handleChooseSection }
+                    value={ { id: selectedSectionId } }
+                    options={ inactiveSections
                               .filter( ( sectionMetadata ) => sectionMetadata )
                               .map( ( sectionMetadata ) => ( {
                               id: sectionMetadata.id,
@@ -175,11 +178,17 @@ class InternalLinkModal extends Component {
                                 </FlexContainer>
                                 )
                             } ) ) }
-                >
-                  {selectedSectionId ? abbrevString( `${getInactiveSectionTitle( selectedSectionId )}`, 60 ) : translate( 'Choose a section' )}
-                </Dropdown>
-              </StretchedLayoutItem>
-            </StretchedLayoutContainer>
+                  >
+                    {selectedSectionId ? abbrevString( `${getInactiveSectionTitle( selectedSectionId )}`, 60 ) : translate( 'Choose a section' )}
+                  </Dropdown>
+                </StretchedLayoutItem>
+              </StretchedLayoutContainer>
+            :
+              <div>
+                {translate( 'Your story has only one section for now, therefore you cannot yet link to another.' )}
+              </div>
+          }
+
           </div>
         }
         footerContent={ [
