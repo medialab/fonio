@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-1-10\n"
-"PO-Revision-Date: Thu Jan 10 2019 11:49:07 GMT+0100 (CET)\n"
+"PO-Revision-Date: Thu Jan 10 2019 18:00:48 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2038,6 +2038,9 @@ msgstr "add a link to a glossary entry"
 
 msgid "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another."
 msgstr ""
+
+msgid "Features.EditionUiWrapper.logged as {u}"
+msgstr "logged as {u}"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"

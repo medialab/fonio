@@ -678,5 +678,6 @@
   "Components.GlossaryModal.Cancel": "Cancel",
   "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another section.": "Your story has only one section for now, therefore you cannot yet link to another section.",
   "Components.SectionEditor.add a link to a glossary entry": "add a link to a glossary entry",
-  "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another.": ""
+  "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another.": "",
+  "Features.EditionUiWrapper.logged as {u}": "logged as {u}"
 }
