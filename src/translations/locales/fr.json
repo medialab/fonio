@@ -677,5 +677,6 @@
   "Components.GlossaryModal.Add entry": "Ajouter l'entrée",
   "Components.GlossaryModal.Cancel": "Annuler",
   "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another section.": "Votre récit n'a qu'une seule section pour l'instant, en conséquence vous ne pouvez pas encore faire de lien vers d'autres sections.",
-  "Components.SectionEditor.add a link to a glossary entry": "ajouter un lien vers une enrée de glossaire"
+  "Components.SectionEditor.add a link to a glossary entry": "ajouter un lien vers une enrée de glossaire",
+  "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another.": "Votre récit n'a qu'une seule section pour l'instant, en conséquence vous ne pouvez pas encore faire de lien vers d'autres sections."
 }
