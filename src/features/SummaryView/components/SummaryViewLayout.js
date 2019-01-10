@@ -17,7 +17,6 @@ import {
   Container,
   Content,
   Collapsable,
-  Icon,
   Level,
   LevelItem,
   LevelLeft,
@@ -27,7 +26,7 @@ import {
   Title,
 } from 'quinoa-design-library/components/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
 
 /**
  * Imports Project utils
@@ -284,12 +283,7 @@ const SummaryViewLayout = ( {
                         <Level key={ index }>
                           <LevelLeft>
                             <LevelItem>
-                              <Icon
-                                isSize={ 'small' }
-                                isAlign={ 'left' }
-                              >
-                                <FontAwesomeIcon icon={ faUser } />
-                              </Icon>
+                              <FontAwesomeIcon icon={ faUser } />
                             </LevelItem>
                             <LevelItem>
                               {abbrevString( author, 60 )}

@@ -11,7 +11,8 @@ import PropTypes from 'prop-types';
 import Tooltip from 'react-tooltip';
 import Masonry from 'react-masonry-css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight';
 
 /**
  * Imports Project utils

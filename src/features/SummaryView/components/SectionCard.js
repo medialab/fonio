@@ -20,6 +20,8 @@ import {
   Title,
 } from 'quinoa-design-library/components/';
 import icons from 'quinoa-design-library/src/themes/millet/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowsAlt } from '@fortawesome/free-solid-svg-icons/faArrowsAlt';
 
 /**
  * Imports Project utils
@@ -147,7 +149,6 @@ const SectionCard = ( {
               >
                 <Icon
                   isSize={ 'medium' }
-                  isAlign={ 'left' }
                 >
                   <img src={ icons.section.black.svg } />
                 </Icon>
@@ -275,7 +276,9 @@ const SectionCard = ( {
                           style={ { cursor: 'move' } }
                           className={ 'button' }
                         >
-                          <Icon icon={ 'arrows-alt' } />
+                          <FontAwesomeIcon
+                            icon={ faArrowsAlt }
+                          />
                         </span>
                       )
                     ) }

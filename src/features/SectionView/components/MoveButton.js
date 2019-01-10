@@ -21,10 +21,7 @@ const MoveButton = ( {
     data-effect={ 'solid' }
     data-for={ 'tooltip' }
   >
-    <Icon
-      isSize={ 'small' }
-      isAlign={ 'left' }
-    >
+    <Icon>
       <img src={ icons.move.black.svg } />
     </Icon>
   </Button>

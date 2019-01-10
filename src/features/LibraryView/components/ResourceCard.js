@@ -263,10 +263,7 @@ class ResourceCard extends Component {
                     isColor={ coverImageId === resource.id ? 'info' : undefined }
                     data-tip={ translate( 'use as cover image' ) }
                   >
-                    <Icon
-                      isSize={ 'small' }
-                      isAlign={ 'left' }
-                    >
+                    <Icon>
                       <img src={ icons.cover.black.svg } />
                     </Icon>
                   </Button>

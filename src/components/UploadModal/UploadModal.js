@@ -10,12 +10,11 @@ import PropTypes from 'prop-types';
 import {
   ModalCard,
   Notification,
-  Icon,
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
 
 /**
  * Imports Project utils
@@ -50,9 +49,7 @@ const UploadModal = ( {
               >
                 <StretchedLayoutContainer isDirection={ 'horizontal' }>
                   <StretchedLayoutItem>
-                    <Icon>
-                      <FontAwesomeIcon icon={ faExclamationCircle } />
-                    </Icon>
+                    <FontAwesomeIcon icon={ faExclamationCircle } />
                   </StretchedLayoutItem>
                   <StretchedLayoutItem isFlex={ 1 }>
                     <span>

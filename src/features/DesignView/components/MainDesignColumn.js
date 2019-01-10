@@ -12,10 +12,9 @@ import { render } from 'react-dom';
 import {
   Column,
   Button,
-  Icon,
 } from 'quinoa-design-library/components/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPrint } from '@fortawesome/free-solid-svg-icons';
+import { faPrint } from '@fortawesome/free-solid-svg-icons/faPrint';
 
 /**
  * Imports Project utils
@@ -131,12 +130,7 @@ const MainDesignColumn = ( {
         className={ 'is-rounded' }
         onClick={ handleClickOnPrint }
       >
-        <Icon
-          isSize={ 'small' }
-          isAlign={ 'left' }
-        >
-          <FontAwesomeIcon icon={ faPrint } />
-        </Icon>
+        <FontAwesomeIcon icon={ faPrint } />
       </Button>
     </Column>
   );

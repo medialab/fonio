@@ -9,27 +9,36 @@ import React from 'react';
 import { Text } from 'react-form';
 import {
   Control,
-  Icon,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons/faLock';
 
 const PasswordInput = ( { id = 'password' } ) => (
-  <Control hasIcons>
-    <Text
-      className={ 'input' }
-      field={ 'password' }
-      id={ id }
-      type={ 'password' }
-    />
-    <Icon
-      isSize={ 'small' }
-      isAlign={ 'left' }
+  <Control>
+    <StretchedLayoutContainer
+      style={ { alignItems: 'center' } }
+      isDirection={ 'horizontal' }
     >
-      <FontAwesomeIcon
-        icon={ faLock }
-      />
-    </Icon>
+      <StretchedLayoutItem>
+        <FontAwesomeIcon
+          icon={ faLock }
+        />
+      </StretchedLayoutItem>
+      <StretchedLayoutItem
+        style={ { marginLeft: '1rem' } }
+        isFlex={ 1 }
+      >
+        <Text
+          className={ 'input' }
+          field={ 'password' }
+          id={ id }
+          type={ 'password' }
+        />
+      </StretchedLayoutItem>
+
+    </StretchedLayoutContainer>
   </Control>
 );
 

@@ -6,9 +6,11 @@
  * Imports Libraries
  */
 import React from 'react';
-import {
-  Icon,
-} from 'quinoa-design-library/components/';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 
 /**
  * Imports Project utils
@@ -60,7 +62,9 @@ const MovePad = ( {
           onClick={ handleClickLeft }
           className={ `move-item chevron-icon-left ${chevronsData.left.isDisabled ? 'is-disabled' : ''}` }
         >
-          <Icon icon={ 'chevron-left' } />
+          <FontAwesomeIcon
+            icon={ faChevronLeft }
+          />
         </div>
       }
       {
@@ -71,7 +75,9 @@ const MovePad = ( {
           onClick={ handleClickRight }
           className={ `move-item chevron-icon-right ${chevronsData.right.isDisabled ? 'is-disabled' : ''}` }
         >
-          <Icon icon={ 'chevron-right' } />
+          <FontAwesomeIcon
+            icon={ faChevronRight }
+          />
         </div>
       }
       {
@@ -82,7 +88,9 @@ const MovePad = ( {
           onClick={ handleClickUp }
           className={ `move-item chevron-icon-up ${chevronsData.up.isDisabled ? 'is-disabled' : ''}` }
         >
-          <Icon icon={ 'chevron-up' } />
+          <FontAwesomeIcon
+            icon={ faChevronUp }
+          />
         </div>
       }
       {
@@ -93,7 +101,9 @@ const MovePad = ( {
           onClick={ handleClickDown }
           className={ `move-item chevron-icon-down ${chevronsData.down.isDisabled ? 'is-disabled' : ''}` }
         >
-          <Icon icon={ 'chevron-down' } />
+          <FontAwesomeIcon
+            icon={ faChevronDown }
+          />
         </div>
       }
 

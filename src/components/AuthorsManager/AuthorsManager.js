@@ -13,12 +13,13 @@ import {
   Field,
   Level,
   HelpPin,
-  Icon,
   Label,
   Delete,
+  StretchedLayoutContainer,
+  StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
 
 /**
  * Imports Project utils
@@ -114,32 +115,31 @@ class AuthorsManager extends Component {
                 key={ index }
               >
                 <Control hasIcons>
-                  <input
-                    className={ 'input' }
-                    ref={ bindInput }
-                    placeholder={ translate( 'New author' ) }
-                    value={ author }
-                    onChange={ onAuthorChange }
-                  />
-                  <Icon
-                    isSize={ 'small' }
-                    isAlign={ 'left' }
+                  <StretchedLayoutContainer
+                    style={ { alignItems: 'center' } }
+                    isDirection={ 'horizontal' }
                   >
-                    <FontAwesomeIcon
-                      icon={ faUser }
-                    />
-                    {/*<span
-                      className={ 'fa fa-user' }
-                      aria-hidden={ 'true' }
-                    />*/}
-                  </Icon>
-                  <Icon
-                    isSize={ 'small' }
-                    isAlign={ 'right' }
-                    className={ 'is-clickable' }
-                  >
-                    <Delete onClick={ onRemoveAuthor } />
-                  </Icon>
+
+                    <StretchedLayoutItem>
+                      <span>
+                        <FontAwesomeIcon
+                          icon={ faUser }
+                        />
+                      </span>
+                    </StretchedLayoutItem>
+                    <StretchedLayoutItem isFlex={ 1 }>
+                      <input
+                        className={ 'input' }
+                        ref={ bindInput }
+                        placeholder={ translate( 'New author' ) }
+                        value={ author }
+                        onChange={ onAuthorChange }
+                      />
+                    </StretchedLayoutItem>
+                    <StretchedLayoutItem>
+                      <Delete onClick={ onRemoveAuthor } />
+                    </StretchedLayoutItem>
+                  </StretchedLayoutContainer>
                 </Control>
               </form>
             );
