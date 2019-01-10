@@ -87,6 +87,9 @@ const AsideDesignColumn = ( {
         isAbsolute
         isOver
         isOverflowVisible
+        style={ {
+            paddingLeft: designAsideTabCollapsed ? undefined : '1rem'
+          } }
       >
         <StretchedLayoutItem>
           <Column>
@@ -121,12 +124,17 @@ const AsideDesignColumn = ( {
                   className={ 'is-hidden-mobile' }
                   onClick={ handleToggleAsideCollapsed }
                   isActive={ designAsideTabCollapsed }
+                  style={ { flex: 0 } }
                 >
                   <TabLink
                     style={ {
                           boxShadow: 'none',
                           transform: designAsideTabCollapsed ? 'rotate(180deg)' : undefined,
-                          transition: 'all .5s ease'
+                          transition: 'all .5s ease',
+                          paddingRight: designAsideTabCollapsed ? '1rem' : undefined,
+                          display: designAsideTabCollapsed ? 'inline-block' : 'flex',
+                          justifyContent: designAsideTabCollapsed ? undefined : 'flex-end',
+                          textAlign: 'left'
                         } }
                     data-for={ 'tooltip' }
                     data-effect={ 'solid' }

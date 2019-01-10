@@ -256,7 +256,7 @@ class DesignViewContainer extends Component {
           storyId={ editedStory.id }
           serverUrl={ config.apiUrl }
         >
-          <EditionUiWrapper>
+          <EditionUiWrapper withLargeHeader>
             {
               hasLock ?
                 <DesignViewLayout

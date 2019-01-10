@@ -230,12 +230,17 @@ class AsideSectionColumn extends Component {
                     <Tab
                       onClick={ handleToggleAsideTabCollapsed }
                       isActive={ asideTabCollapsed }
+                      style={ { flex: 0 } }
                     >
                       <TabLink
                         style={ {
                           boxShadow: 'none',
                           transform: asideTabCollapsed ? 'rotate(180deg)' : undefined,
-                          transition: 'all .5s ease'
+                          transition: 'all .5s ease',
+                          display: asideTabCollapsed ? 'inline-block' : 'flex',
+                          justifyContent: asideTabCollapsed ? undefined : 'flex-end',
+                          paddingRight: asideTabCollapsed ? 0 : undefined,
+                          textAlign: 'left'
                         } }
                         data-for={ 'tooltip' }
                         data-effect={ 'solid' }

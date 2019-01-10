@@ -16,6 +16,11 @@
 }
 
 .aside-edition-container{
+  min-width: 0;
+  &.is-collapsed{
+    width: 5rem;
+    
+  }
   &:not(.is-collapsed){
     min-width: 30%;
   }

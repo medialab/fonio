@@ -606,7 +606,7 @@ class SectionViewContainer extends Component {
             storyId={ storyId }
             serverUrl={ config.apiUrl }
           >
-            <EditionUiWrapper>
+            <EditionUiWrapper withLargeHeader>
               <SectionViewLayout
                 section={ section }
                 goToSection={ goToSection }

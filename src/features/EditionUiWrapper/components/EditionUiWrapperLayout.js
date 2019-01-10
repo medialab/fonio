@@ -54,6 +54,7 @@ const EditionUiWrapperLayout = ( {
   navLocation,
   navbarOpen,
   lang,
+  withLargeHeader,
   actions: {
     setUserInfoTemp,
     setUserInfoModalOpen,
@@ -200,6 +201,7 @@ const EditionUiWrapperLayout = ( {
         isOpen={ navbarOpen === true }
         onToggle={ toggleNavbarOpen }
         style={ { zIndex: 2000 } }
+        withLargeHeader={ withLargeHeader }
 
         locationBreadCrumbs={ [
             {

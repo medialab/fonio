@@ -639,7 +639,6 @@
   "Features.HomeView.sort by": "sort by",
   "Components.PastingModal.Creating image {x} of {n}": "Récupération de l'image {x} sur {n}",
   "Components.PastingModal.Creating {n} images": "Récupération de {n} images",
-  
   "Features.DesignView.StylesVariables.relative": "relative",
   "Features.DesignView.StylesVariables.Define titles styles": "Style des titres",
   "Features.DesignView.StylesVariables.Define textes on cover styles": "Style du texte de couverture",
@@ -650,7 +649,6 @@
   "Features.DesignView.StylesVariables.Define background opacity": "Opacité de l'image de couverture",
   "Features.DesignView.StylesVariables.horizontal": "horizontal",
   "Features.DesignView.StylesVariables.Features.DesignView.StylesVariables": "StylesVariables",
-
   "Components.MetadataForm.yes": "oui",
   "Components.MetadataForm.no": "non",
   "Components.InternalLinkModal.Add a link to another section": "Ajouter un lien vers une autre section",
@@ -667,5 +665,6 @@
   "Components.MetadataForm.You must consent or refuse a possible future publication of this story.": "Vous devez consentir ou refuser à la possible future publication de ce récit.",
   "Components.InternalLinkModal.No section": "Pas de section",
   "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?": "Consentiriez-vous à une possible future publication de ce récit sur l'un des sites web de Sciences Po ?",
-  "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.": "Une fois terminé et évalué, nous pourrions vouloir valoriser votre travail à travers les canaux de communication de Sciences Po. L'autorisation collective de tous les auteurs est nécessaire pour ce faire."
+  "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter.": "Une fois terminé et évalué, nous pourrions vouloir valoriser votre travail à travers les canaux de communication de Sciences Po. L'autorisation collective de tous les auteurs est nécessaire pour ce faire.",
+  "Features.DesignView.StylesVariables.background": "background"
 }
