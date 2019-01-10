@@ -621,7 +621,7 @@
   "Features.ErrorMessageContainer.The file format (JSON) of the imported story is not valid.": "Le formatage du fichier (JSON) du récit importé n'est pas valide.",
   "Features.HomeView.Story exists, do you want to override it?": "Story exists, do you want to override it?",
   "Features.EditionUiWrapper.Untitled section": "Section sans titre",
-  "Features.EditionUiWrapper.Overview": "Vue d'ensemble",
+  "Features.EditionUiWrapper.Overview": "Contenus",
   "Features.SectionView.One item": "Un item",
   "Features.SectionView.Several items": "Plusieurs items",
   "Features.LibraryView.small": "small",
