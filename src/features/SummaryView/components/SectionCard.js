@@ -86,6 +86,7 @@ const SectionCard = ( {
     lockStatus = 'open';
   }
 
+
   const sectionTitle = (
     <span
       data-for={ 'tooltip' }
@@ -172,7 +173,6 @@ const SectionCard = ( {
                         </span>
                       </Link>
                       <StatusMarker
-                        style={ { marginLeft: '1rem' } }
                         lockStatus={ lockStatus }
                         statusMessage={ lockStatusMessage }
                       />
@@ -188,7 +188,6 @@ const SectionCard = ( {
                     {sectionTitle}
                   </span>
                   <StatusMarker
-                    style={ { marginLeft: '1rem' } }
                     lockStatus={ lockData ? 'locked' : 'open' }
                     statusMessage={ lockStatusMessage }
                   />
