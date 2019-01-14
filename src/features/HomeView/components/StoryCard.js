@@ -25,6 +25,12 @@ import { translateNameSpacer } from '../../../helpers/translateUtils';
 import {
   abbrevString
 } from '../../../helpers/misc';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons/faPencilAlt';
+import { faEye } from '@fortawesome/free-solid-svg-icons/faEye';
+import { faLock } from '@fortawesome/free-solid-svg-icons/faLock';
+import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy';
+import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash';
 
 /**
  * Shared variables
@@ -33,12 +39,17 @@ const MAX_STR_LEN = 80;
 const ABSTRACT_MAX_LENGTH = 300;
 
 const InlineIcon = ( {
-  icon
+  children
 } ) => (
-  <Icon
-    style={ { marginLeft: '.5rem', marginRight: '1rem' } }
-    icon={ icon }
-  />
+  <span
+      style={ { marginLeft: '.5rem', marginRight: '1rem' } }
+  >
+    <Icon
+      isSize={'small'}
+    >
+      {children}
+    </Icon>
+  </span>
 );
 
 const StoryCard = ( {
@@ -126,24 +137,24 @@ const StoryCard = ( {
         footerActions={ [] }
         asideActions={ [
           {
-            label: <span><InlineIcon icon={ 'pencil' } /> {translate( 'edit' )}</span>,
+            label: <span><InlineIcon><FontAwesomeIcon icon={faPencilAlt} /></InlineIcon> {translate( 'edit' )}</span>,
             isColor: 'primary',
             id: 'open',
           },
           {
-            label: <span><InlineIcon icon={ 'eye' } />{translate( 'read' )}</span>,
+            label: <span><InlineIcon><FontAwesomeIcon icon={faEye} /></InlineIcon>{translate( 'read' )}</span>,
             id: 'read',
           },
           {
-            label: <span><InlineIcon icon={ 'copy' } />{translate( 'duplicate' )}</span>,
+            label: <span><InlineIcon><FontAwesomeIcon icon={faCopy} /></InlineIcon>{translate( 'duplicate' )}</span>,
             id: 'duplicate',
           },
           {
-            label: <span><InlineIcon icon={ 'lock' } />{translate( 'change password' )}</span>,
+            label: <span><InlineIcon><FontAwesomeIcon icon={faLock} /></InlineIcon>{translate( 'change password' )}</span>,
             id: 'change password'
           },
           {
-            label: <span><InlineIcon icon={ 'trash' } />{translate( 'delete' )}</span>,
+            label: <span><InlineIcon><FontAwesomeIcon icon={faTrash} /></InlineIcon>{translate( 'delete' )}</span>,
             isColor: 'danger',
             id: 'delete',
             isDisabled: users.length > 0
