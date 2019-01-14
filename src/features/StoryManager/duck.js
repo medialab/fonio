@@ -150,7 +150,7 @@ export const updateStory = ( TYPE, payload, callback ) => {
           level: storySchema
                   .properties
                   .sections
-                  .patternProperties["[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"]
+                  .patternProperties['[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}']
                   .properties
                   .metadata
                   .properties

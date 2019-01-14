@@ -86,7 +86,6 @@ const SectionCard = ( {
     lockStatus = 'open';
   }
 
-
   const sectionTitle = (
     <span
       data-for={ 'tooltip' }
