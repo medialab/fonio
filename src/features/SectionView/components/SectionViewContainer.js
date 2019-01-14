@@ -429,6 +429,77 @@ class SectionViewContainer extends Component {
 
   onSummonAsset = ( contentId, resourceId ) => summonAsset( contentId, resourceId, this.props );
 
+  updateSectionRawContent = ( editorStateId ) => {
+    const {
+      match: {
+        params: {
+          storyId,
+          sectionId,
+        }
+      },
+      userId,
+    } = this.props;
+    const section = this.props.editedStory.sections[sectionId];
+    const finalEditorStateId = editorStateId === sectionId ? 'main' : editorStateId;
+    const finalEditorState = this.props.editorStates[editorStateId];
+
+    /*
+     * as the function is debounced it would be possible
+     * not to have access to the final editor state
+     */
+    if ( !finalEditorState ) {
+      return;
+    }
+    const rawContents = convertToRaw( finalEditorState.getCurrentContent() );
+
+    /**
+     * Note the following lines are not done in the right way (the ...rest way)
+     * because rawContents was not updated properly.
+     * @todo investigate that
+     */
+    const newSection = {
+      ...section,
+      // contents: rawContent
+    };
+    // this.props.update(this.state.editorState);
+    if ( finalEditorStateId === 'main' ) {
+
+      /*
+       * newSection = {
+       *   ...section,
+       *   contents: rawContent
+       * };
+       */
+      newSection.contents = rawContents;
+    }
+    else if ( newSection.notes[editorStateId] && newSection.notes[editorStateId].contents ) {
+      newSection.notes[editorStateId].contents = rawContents;
+
+      /*
+       * newSection = {
+       *   ...section,
+       *   notes: {
+       *     ...section.notes,
+       *     [editorStateId]: {
+       *       ...section.notes[editorStateId],
+       *       contents: rawContent
+       *     }
+       *   }
+       * };
+       */
+    }
+ else {
+      console.warn( 'could not update editor %s', editorStateId );/* eslint no-console: 0 */
+    }
+
+    this.props.actions.updateSection( {
+      storyId,
+      userId,
+      sectionId,
+      section: newSection,
+    } );
+  }
+
   onCreateHyperlink = ( { title, url }, contentId, selection ) => {
     const {
       match: {
@@ -554,6 +625,9 @@ class SectionViewContainer extends Component {
     const newEditorState = EditorState.push( editorState, contentStateWithLink );
     this.props.actions.updateDraftEditorState( editorStateId, newEditorState );
     this.props.actions.setInternalLinkModalFocusData( undefined );
+    setTimeout( () => {
+      this.updateSectionRawContent( editorStateId, this.props.editorStates[editorStateId] );
+    } );
   }
 
   onContextualizeHyperlink = ( resourceId, contentId, selection ) => {
