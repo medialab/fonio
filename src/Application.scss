@@ -41,10 +41,14 @@
 .modal{
   &.is-active{
     z-index: 1000;
+    .modal-card{
+      max-height: calc(100% - 9rem);
+    }
   }
   .modal-card-title{
     font-size: 2rem;
   }
+
 }
 
 
