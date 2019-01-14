@@ -169,15 +169,18 @@ class AssetPreview extends Component {
     switch ( metadata.type ) {
       case 'table':
         let columns;
-        if ( data.json && data.json[0] ) {
-          columns = Object.keys( data.json[0] ).map( ( key ) => ( {
+        const usableData = data.json || this.state.data;
+        if ( usableData && usableData[0] ) {
+          columns = Object.keys( usableData[0] )
+          .filter(key => key.trim().length)
+          .map( ( key ) => ( {
             Header: key,
             accessor: key
           } ) );
         }
         return (
           <ReactTable
-            data={ data.json || this.state.data }
+            data={ usableData }
             columns={ columns || this.state.columns }
             loading={ this.state.loading }
             previousText={ translate( 'table-previous' ) }
