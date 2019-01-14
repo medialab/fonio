@@ -147,7 +147,14 @@ export const updateStory = ( TYPE, payload, callback ) => {
         properties: {
           ...DEFAULT_PAYLOAD_SCHEMA.properties,
           sectionId: sectionSchema.properties.id,
-          level: storySchema.definitions.metadata.properties.level,
+          level: storySchema
+                  .properties
+                  .sections
+                  .patternProperties["[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"]
+                  .properties
+                  .metadata
+                  .properties
+                  .level,
         }
       };
       break;
