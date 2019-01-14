@@ -454,6 +454,8 @@ class HomeViewLayout extends Component {
                     </StretchedLayoutItem>
                     <StretchedLayoutItem isFluid>
                       <Column>
+                        {
+                          storiesList.length > 1 ?
                         <StretchedLayoutContainer
                           isDirection={ 'horizontal' }
                           isFluid
@@ -493,6 +495,7 @@ class HomeViewLayout extends Component {
                             </a>
                           </StretchedLayoutItem>
                         </StretchedLayoutContainer>
+                        : null}
                       </Column>
                     </StretchedLayoutItem>
                   </StretchedLayoutContainer>
