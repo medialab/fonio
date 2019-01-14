@@ -437,7 +437,7 @@ const SummaryViewLayout = ( {
                 <SortableSectionsList
                   items={ sectionsList }
                   story={ story }
-                  handleSortEnd={ handleSortEnd }
+                  onSortEnd={ handleSortEnd }
                   goToSection={ goToSection }
                   onSortStart={ handleActiveIsSorting }
                   isSorting={ isSorting }

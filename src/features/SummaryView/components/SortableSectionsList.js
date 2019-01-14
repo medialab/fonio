@@ -63,14 +63,16 @@ const SortableSectionsList = SortableContainer( ( {
     <FlipMove>
       {items
         .map( ( section, index ) => {
-          return ( <SortableItem
-            { ...props }
-            key={ section.id/*`item-${index}`*/ }
-            maxSectionIndex={ items.length - 1 }
-            sectionIndex={ index }
-            index={ index }
-            value={ section }
-                   /> );
+          return (
+            <SortableItem
+              { ...props }
+              key={ section.id/*`item-${index}`*/ }
+              maxSectionIndex={ items.length - 1 }
+              sectionIndex={ index }
+              index={ index }
+              value={ section }
+            />
+          );
         }
       )}
     </FlipMove>

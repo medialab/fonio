@@ -488,7 +488,7 @@ class SectionViewContainer extends Component {
        * };
        */
     }
- else {
+    else {
       console.warn( 'could not update editor %s', editorStateId );/* eslint no-console: 0 */
     }
 
