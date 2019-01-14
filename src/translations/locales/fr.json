@@ -641,7 +641,7 @@
   "Components.PastingModal.Creating {n} images": "Récupération de {n} images",
   "Features.DesignView.StylesVariables.relative": "relative",
   "Features.DesignView.StylesVariables.Define titles styles": "Style des titres",
-  "Features.DesignView.StylesVariables.Define textes on cover styles": "Style du texte de couverture  (quand une image de couverture est utilisée)",
+  "Features.DesignView.StylesVariables.Define textes on cover styles": "Style du texte de couverture",
   "Features.DesignView.StylesVariables.Define classic corpus text styles": "Style du corps de texte",
   "Features.DesignView.StylesVariables.Define links styles": "Style des liens",
   "Features.DesignView.StylesVariables.Define blockquotes styles": "Style des blocs de citation",
