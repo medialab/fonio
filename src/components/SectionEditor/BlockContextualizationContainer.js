@@ -141,7 +141,7 @@ class BlockContainer extends Component {
             data-tip={ translate( `delete mention (the ${resource.metadata.type} will not be delete from the library)` ) }
           >
             <Icon>
-              <FontAwesomeIcon icon={faTrash} />
+              <FontAwesomeIcon icon={ faTrash } />
             </Icon>
           </Button>
           <Button

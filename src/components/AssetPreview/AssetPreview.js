@@ -172,7 +172,7 @@ class AssetPreview extends Component {
         const usableData = data.json || this.state.data;
         if ( usableData && usableData[0] ) {
           columns = Object.keys( usableData[0] )
-          .filter(key => key.trim().length)
+          .filter( ( key ) => key.trim().length )
           .map( ( key ) => ( {
             Header: key,
             accessor: key
