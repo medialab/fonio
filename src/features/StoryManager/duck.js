@@ -117,7 +117,7 @@ export const updateStory = ( TYPE, payload, callback ) => {
         ...DEFAULT_PAYLOAD_SCHEMA,
         properties: {
           ...DEFAULT_PAYLOAD_SCHEMA.properties,
-          metadata: storySchema.definitions.metadata,
+          metadata: storySchema.properties.metadata,
         }
       };
       break;

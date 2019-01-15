@@ -29,7 +29,7 @@ import ExplainedLabel from '../../../components/ExplainedLabel';
 
 const ChangePasswordModal = ( {
   changePasswordStatus,
-  onChangePassword,
+  handleChangePassword,
   onCancel
 }, {
   t
@@ -51,7 +51,7 @@ const ChangePasswordModal = ( {
    * Callbacks handlers
    */
   const handleSubmitForm = ( values ) => {
-    onChangePassword( values.oldPassword, values.newPassword );
+    handleChangePassword( values.oldPassword, values.newPassword );
   };
 
   return (
@@ -131,8 +131,8 @@ const ChangePasswordModal = ( {
 
 ChangePasswordModal.propTypes = {
   changePasswordStatus: PropTypes.string,
+  handleChangePassword: PropTypes.func,
   onCancel: PropTypes.func,
-  onChangePassword: PropTypes.func,
 };
 
 ChangePasswordModal.contextTypes = {
