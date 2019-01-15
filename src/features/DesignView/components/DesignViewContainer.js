@@ -16,8 +16,6 @@ import {
 } from 'react-router';
 import { toastr } from 'react-redux-toastr';
 
-import { isNewSchema } from 'quinoa-schemas';
-
 /**
  * Imports Project utils
  */
@@ -43,7 +41,7 @@ import LoadingScreen from '../../../components/LoadingScreen';
  * Imports Assets
  */
 import config from '../../../config';
-import { getTemplateName } from 'quinoa-schemas';
+import { getTemplateName, isNewSchema } from 'quinoa-schemas';
 
 /**
  * Shared constants

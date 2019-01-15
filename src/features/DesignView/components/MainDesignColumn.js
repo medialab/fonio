@@ -8,13 +8,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import StoryPlayer from 'quinoa-story-player';
-import { render } from 'react-dom';
+import Frame, { FrameContextConsumer } from 'react-frame-component';
+import { set } from 'lodash/fp';
 import {
   Column,
   Button,
 } from 'quinoa-design-library/components/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrint } from '@fortawesome/free-solid-svg-icons/faPrint';
+import { getTemplateName, isNewSchema, getStyles } from 'quinoa-schemas';
 
 /**
  * Imports Project utils
@@ -35,70 +37,52 @@ class ContextProvider extends Component {
   }
 }
 
-class PreviewWrapper extends Component {
-
-  static contextTypes = {
-    getResourceDataUrl: PropTypes.func,
-  }
-
-  componentDidMount = () => {
-    setTimeout( () => this.update( this.props ) );
-  }
-  componentWillReceiveProps = ( nextProps ) => {
-    if ( this.props.story !== nextProps.story || this.props.lang !== nextProps.lang ) {
-      setTimeout( () => this.update( this.props ) );
-    }
-  }
-
-  update = ( props ) => {
-    const { story, lang } = props;
-    const { getResourceDataUrl } = this.context;
-    const contentDocument = this.iframe && this.iframe.contentDocument;
-    const contentWindow = this.iframe && this.iframe.contentWindow;
-    if ( contentDocument ) {
-      let mount = contentDocument.getElementById( 'mount' );
-      if ( !mount ) {
-        mount = contentDocument.createElement( 'div' );
-        mount.id = 'mount';
-        contentDocument.body.appendChild( mount );
+const PreviewWrapper = ( props, context ) => {
+  const { getResourceDataUrl } = context;
+  const { story, lang } = props;
+  const renderedStory = set(
+    isNewSchema( story ) ? [
+      'settings',
+      'styles',
+      getTemplateName( story ),
+      'css'
+    ] : [
+      'settings',
+      'css'
+    ],
+    processCustomCss( getStyles( story ).css ),
+    story
+  );
+  return (
+    <Frame
+      head={
+        <style>
+          {'@import url(\'https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i|Roboto:400,400i,700,700i,900\')'}
+        </style>
       }
-      const renderedStory = {
-        ...story,
-        settings: {
-          ...story.settings,
-          css: processCustomCss( story.settings.css )
-        }
-      };
-      render(
-        <ContextProvider getResourceDataUrl={ getResourceDataUrl }>
-          <StoryPlayer
-            locale={ lang }
-            story={ renderedStory }
-            usedDocument={ contentDocument }
-            usedWindow={ contentWindow }
-          />
-          <style>
-            {'@import url(\'https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i|Roboto:400,400i,700,700i,900\')'}
-          </style>
-        </ContextProvider>
-        , mount );
-    }
-  }
-  render = () => {
-    const bindRef = ( iframe ) => {
-      this.iframe = iframe;
-    };
+      name={ 'preview' }
+      id={ 'preview' }
+      style={ { width: '100%', height: '100%' } }
+    >
+      <FrameContextConsumer>
+        {( { document, window } ) => (
+          <ContextProvider getResourceDataUrl={ getResourceDataUrl }>
+            <StoryPlayer
+              locale={ lang }
+              story={ renderedStory }
+              usedDocument={ document }
+              usedWindow={ window }
+            />
+          </ContextProvider>
+        )}
+      </FrameContextConsumer>
+    </Frame>
+  );
+};
 
-    return (
-      <iframe
-        name={ 'preview' }
-        id={ 'preview' }
-        style={ { width: '100%', height: '100%' } }
-        ref={ bindRef }
-      />
-    );
-  }
-}
+PreviewWrapper.contextTypes = {
+  getResourceDataUrl: PropTypes.func
+};
 
 const MainDesignColumn = ( {
   story,

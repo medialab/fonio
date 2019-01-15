@@ -85,6 +85,7 @@
     "react-dropzone": "^4.2.8",
     "react-flip-move": "^3.0.2",
     "react-form": "^3.5.5",
+    "react-frame-component": "^4.0.2",
     "react-key-handler": "^1.0.1",
     "react-markdown": "^3.2.0",
     "react-masonry-css": "^1.0.11",
