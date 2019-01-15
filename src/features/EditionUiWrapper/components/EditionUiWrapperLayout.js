@@ -202,9 +202,9 @@ const EditionUiWrapperLayout = ( {
         onToggle={ toggleNavbarOpen }
         style={ { zIndex: 2000 } }
         withLargeHeader={ withLargeHeader }
-        messages={{
-          profileMessage: translate('logged as {u}', {u: userInfo && userInfo.name})
-        }}
+        messages={ {
+          profileMessage: translate( 'logged as {u}', { u: userInfo && userInfo.name } )
+        } }
 
         locationBreadCrumbs={ [
             {

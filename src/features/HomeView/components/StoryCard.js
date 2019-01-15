@@ -42,10 +42,10 @@ const InlineIcon = ( {
   children
 } ) => (
   <span
-      style={ { marginLeft: '.5rem', marginRight: '1rem' } }
+    style={ { marginLeft: '.5rem', marginRight: '1rem' } }
   >
     <Icon
-      isSize={'small'}
+      isSize={ 'small' }
     >
       {children}
     </Icon>
@@ -137,24 +137,24 @@ const StoryCard = ( {
         footerActions={ [] }
         asideActions={ [
           {
-            label: <span><InlineIcon><FontAwesomeIcon icon={faPencilAlt} /></InlineIcon> {translate( 'edit' )}</span>,
+            label: <span><InlineIcon><FontAwesomeIcon icon={ faPencilAlt } /></InlineIcon> {translate( 'edit' )}</span>,
             isColor: 'primary',
             id: 'open',
           },
           {
-            label: <span><InlineIcon><FontAwesomeIcon icon={faEye} /></InlineIcon>{translate( 'read' )}</span>,
+            label: <span><InlineIcon><FontAwesomeIcon icon={ faEye } /></InlineIcon>{translate( 'read' )}</span>,
             id: 'read',
           },
           {
-            label: <span><InlineIcon><FontAwesomeIcon icon={faCopy} /></InlineIcon>{translate( 'duplicate' )}</span>,
+            label: <span><InlineIcon><FontAwesomeIcon icon={ faCopy } /></InlineIcon>{translate( 'duplicate' )}</span>,
             id: 'duplicate',
           },
           {
-            label: <span><InlineIcon><FontAwesomeIcon icon={faLock} /></InlineIcon>{translate( 'change password' )}</span>,
+            label: <span><InlineIcon><FontAwesomeIcon icon={ faLock } /></InlineIcon>{translate( 'change password' )}</span>,
             id: 'change password'
           },
           {
-            label: <span><InlineIcon><FontAwesomeIcon icon={faTrash} /></InlineIcon>{translate( 'delete' )}</span>,
+            label: <span><InlineIcon><FontAwesomeIcon icon={ faTrash } /></InlineIcon>{translate( 'delete' )}</span>,
             isColor: 'danger',
             id: 'delete',
             isDisabled: users.length > 0
