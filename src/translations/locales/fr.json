@@ -642,8 +642,8 @@
   "Features.DesignView.StylesVariables.relative": "relative",
   "Features.DesignView.StylesVariables.Define titles styles": "Style des titres",
   "Features.DesignView.StylesVariables.Define textes on cover styles": "Style du texte de couverture",
-  "Features.DesignView.StylesVariables.Define classic corpus text styles": "Style du texte de couverture (quand une image de couverture est utilisée)",
-  "Features.DesignView.StylesVariables.Define links styles": "Style des titres",
+  "Features.DesignView.StylesVariables.Define classic corpus text styles": "Style du corps de texte",
+  "Features.DesignView.StylesVariables.Define links styles": "Style des liens",
   "Features.DesignView.StylesVariables.Define blockquotes styles": "Style des blocs de citation",
   "Features.DesignView.StylesVariables.Define background color": "Couleur d'arrière-plan",
   "Features.DesignView.StylesVariables.Define background opacity": "Opacité de l'image de couverture",
@@ -677,7 +677,8 @@
   "Components.GlossaryModal.Add entry": "Ajouter l'entrée",
   "Components.GlossaryModal.Cancel": "Annuler",
   "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another section.": "Votre récit n'a qu'une seule section pour l'instant, en conséquence vous ne pouvez pas encore faire de lien vers d'autres sections.",
-  "Components.SectionEditor.add a link to a glossary entry": "ajouter un lien vers une enrée de glossaire",
+  "Components.SectionEditor.add a link to a glossary entry": "ajouter un lien vers une entrée de glossaire",
   "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another.": "Votre récit n'a qu'une seule section pour l'instant, en conséquence vous ne pouvez pas encore faire de lien vers d'autres sections.",
-  "Features.EditionUiWrapper.logged as {u}": "identifié en tant que {u}"
+  "Features.EditionUiWrapper.logged as {u}": "identifié en tant que {u}",
+  "Components.BlockContextualization.tooltip": "tooltip"
 }

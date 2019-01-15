@@ -41,10 +41,14 @@
 .modal{
   &.is-active{
     z-index: 1000;
+    .modal-card{
+      max-height: calc(100% - 9rem);
+    }
   }
   .modal-card-title{
     font-size: 2rem;
   }
+
 }
 
 
@@ -60,7 +64,7 @@
 }
 
 .color-picker-container{
-  position: fixed!important;
+  right: 0;
 }
 
 @media screen and (max-width: 1087px) {
@@ -146,6 +150,13 @@
   input[type="radio"]{
     margin-right: .5rem;
   }
+}
+
+.image.is-16x16{
+  min-width: 16px;
+}
+.image.is-32x32{
+  min-width: 32px;
 }
 
 @media print

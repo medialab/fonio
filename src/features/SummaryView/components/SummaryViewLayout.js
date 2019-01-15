@@ -437,13 +437,13 @@ const SummaryViewLayout = ( {
                 <SortableSectionsList
                   items={ sectionsList }
                   story={ story }
-                  handleSortEnd={ handleSortEnd }
+                  onSortEnd={ handleSortEnd }
                   goToSection={ goToSection }
-                  handleSectionIndexChange={ handleSectionIndexChange }
                   onSortStart={ handleActiveIsSorting }
                   isSorting={ isSorting }
                   onDelete={ handleDeleteSection }
                   setSectionLevel={ handleSetSectionLevel }
+                  setSectionIndex={ handleSectionIndexChange }
                   useDragHandle
                   reverseSectionLockMap={ reverseSectionLockMap }
                 />

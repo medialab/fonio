@@ -74,7 +74,7 @@
     "postcss": "^6.0.19",
     "postcss-prefix-selector": "^1.6.0",
     "pouchdb": "^6.3.4",
-    "quinoa-design-library": "^0.1.4",
+    "quinoa-design-library": "^0.1.7",
     "quinoa-schemas": "1.1.1",
     "react": "^16.7.0-alpha",
     "react-citeproc": "^0.1.10",

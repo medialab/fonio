@@ -12,6 +12,8 @@ import {
   Icon
 } from 'quinoa-design-library/components';
 import icons from 'quinoa-design-library/src/themes/millet/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash';
 
 /**
  * Imports Project utils
@@ -138,7 +140,9 @@ class BlockContainer extends Component {
             data-effect={ 'solid' }
             data-tip={ translate( `delete mention (the ${resource.metadata.type} will not be delete from the library)` ) }
           >
-            <Icon icon={ 'trash' } />
+            <Icon>
+              <FontAwesomeIcon icon={ faTrash } />
+            </Icon>
           </Button>
           <Button
             isRounded

@@ -187,6 +187,8 @@ const EditionUiWrapperLayout = ( {
   };
   const handleOpenExportModal = () => setExportModalOpen( true );
   const handleCloseExportModal = () => setExportModalOpen( false );
+  const handleCloseUserInfoModal = () => setUserInfoModalOpen( false );
+  const handleOpenUserInfoModal = () => setUserInfoModalOpen( true );
 
   return (
     <StretchedLayoutContainer
@@ -263,7 +265,7 @@ const EditionUiWrapperLayout = ( {
           {
             content: <LanguageToggler />
           } ] }
-        onProfileClick={ handleOpenExportModal }
+        onProfileClick={ handleOpenUserInfoModal }
         profile={ {
             imageUri: userInfo && require( `../../../sharedAssets/avatars/${userInfo.avatar}` ),
             nickName: userInfo && userInfo.name
@@ -281,7 +283,7 @@ const EditionUiWrapperLayout = ( {
         userInfo={ userInfoTemp }
 
         onChange={ setUserInfoTemp }
-        onClose={ handleCloseExportModal }
+        onClose={ handleCloseUserInfoModal }
         onSubmit={ handleSubmitUserInfo }
       />
       <ExportModal

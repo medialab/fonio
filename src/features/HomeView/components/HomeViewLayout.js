@@ -454,45 +454,48 @@ class HomeViewLayout extends Component {
                     </StretchedLayoutItem>
                     <StretchedLayoutItem isFluid>
                       <Column>
-                        <StretchedLayoutContainer
-                          isDirection={ 'horizontal' }
-                          isFluid
-                        >
-                          <StretchedLayoutItem><i>{this.translate( 'sort {n} stories by', { n: storiesList.length } )}</i></StretchedLayoutItem>
-                          <StretchedLayoutItem>
-                            <span style={ { paddingLeft: '1rem', paddingRight: '.1rem' } } />
-                            <a onClick={ handleSortByEditedByMe }>
-                              {
+                        {
+                          storiesList.length > 1 ?
+                            <StretchedLayoutContainer
+                              isDirection={ 'horizontal' }
+                              isFluid
+                            >
+                              <StretchedLayoutItem><i>{this.translate( 'sort {n} stories by', { n: storiesList.length } )}</i></StretchedLayoutItem>
+                              <StretchedLayoutItem>
+                                <span style={ { paddingLeft: '1rem', paddingRight: '.1rem' } } />
+                                <a onClick={ handleSortByEditedByMe }>
+                                  {
                                 sortingMode === 'edited by me' ?
                                   <strong>{this.translate( 'edited by me' )}</strong>
                                   :
                                   this.translate( 'edited by me' )
                               }
-                            </a>
-                          </StretchedLayoutItem>
-                          <StretchedLayoutItem>
-                            <span style={ { paddingLeft: '1rem', paddingRight: '.1rem' } } />
-                            <a onClick={ handleSortByEditedRecently }>
-                              {
+                                </a>
+                              </StretchedLayoutItem>
+                              <StretchedLayoutItem>
+                                <span style={ { paddingLeft: '1rem', paddingRight: '.1rem' } } />
+                                <a onClick={ handleSortByEditedRecently }>
+                                  {
                                 sortingMode === 'edited recently' ?
                                   <strong>{this.translate( 'edited recently' )}</strong>
                                   :
                                   this.translate( 'edited recently' )
                               }
-                            </a>
-                          </StretchedLayoutItem>
-                          <StretchedLayoutItem>
-                            <span style={ { paddingLeft: '1rem', paddingRight: '.1rem' } } />
-                            <a onClick={ handleSortByTitle }>
-                              {
+                                </a>
+                              </StretchedLayoutItem>
+                              <StretchedLayoutItem>
+                                <span style={ { paddingLeft: '1rem', paddingRight: '.1rem' } } />
+                                <a onClick={ handleSortByTitle }>
+                                  {
                                 sortingMode === 'title' ?
                                   <strong>{this.translate( 'title' )}</strong>
                                   :
                                   this.translate( 'title' )
                               }
-                            </a>
-                          </StretchedLayoutItem>
-                        </StretchedLayoutContainer>
+                                </a>
+                              </StretchedLayoutItem>
+                            </StretchedLayoutContainer>
+                        : null}
                       </Column>
                     </StretchedLayoutItem>
                   </StretchedLayoutContainer>
