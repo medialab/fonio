@@ -152,6 +152,13 @@
   }
 }
 
+.image.is-16x16{
+  min-width: 16px;
+}
+.image.is-32x32{
+  min-width: 32px;
+}
+
 @media print
 {
   .navbar,
