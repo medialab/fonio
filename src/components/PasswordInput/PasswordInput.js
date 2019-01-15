@@ -32,7 +32,7 @@ const PasswordInput = ( { id = 'password' } ) => (
       >
         <Text
           className={ 'input' }
-          field={ 'password' }
+          field={ id }
           id={ id }
           type={ 'password' }
         />
