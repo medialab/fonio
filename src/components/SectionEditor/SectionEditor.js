@@ -223,7 +223,7 @@ class NoteLayout extends Component {/* eslint react/prefer-stateless-function : 
             <StretchedLayoutItem>
               <IconBtn
                 data-tip={ translate( 'Delete note' ) }
-                data-for="note-tooltip"
+                data-for={ 'note-tooltip' }
                 isColor={ 'danger' }
                 onClick={ onDelete }
                 src={ icons.remove.white.svg }
@@ -234,7 +234,7 @@ class NoteLayout extends Component {/* eslint react/prefer-stateless-function : 
         <Column>
           {children}
         </Column>
-        <ReactTooltip id="note-tooltip" />
+        <ReactTooltip id={ 'note-tooltip' } />
       </div>
     );
   }
@@ -722,7 +722,7 @@ class SectionEditor extends Component {
       updateDraftEditorState( id, undefined );
       // focus on main editor
       setTimeout( () => {
-        setEditorFocus( 'main' )
+        setEditorFocus( 'main' );
         ReactTooltip.rebuild();
       } );
     } );

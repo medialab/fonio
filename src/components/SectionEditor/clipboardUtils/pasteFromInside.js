@@ -10,7 +10,9 @@ import {
   CharacterMetadata,
 } from 'draft-js';
 
-import { v4 as generateId } from 'uuid';
+import {
+  v4 as generateId
+} from 'uuid';
 
 import {
   utils,
@@ -725,7 +727,7 @@ const pasteFromInside = ( {
         };
       }, { [activeSectionId]: mainEditorState
       } );
-      setTimeout(() => {
+      setTimeout( () => {
         updateDraftEditorsStates( newEditorStates );
         // ...then update the section with editorStates convert to serializable raw objects
         const newSection = {
@@ -746,8 +748,8 @@ const pasteFromInside = ( {
         };
         updateSection( newSection );
         setEditorPastingStatus( undefined );
-      })
-        
+      } );
+
     } )
     .catch( console.error );/* eslint no-console: 0 */
   } );
