@@ -725,7 +725,7 @@ const pasteFromInside = ( {
         };
       }, { [activeSectionId]: mainEditorState
       } );
-      setTimeout(() => {
+      setTimeout( () => {
         updateDraftEditorsStates( newEditorStates );
         // ...then update the section with editorStates convert to serializable raw objects
         const newSection = {
@@ -746,8 +746,8 @@ const pasteFromInside = ( {
         };
         updateSection( newSection );
         setEditorPastingStatus( undefined );
-      })
-        
+      } );
+
     } )
     .catch( console.error );/* eslint no-console: 0 */
   } );

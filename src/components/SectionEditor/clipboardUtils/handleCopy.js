@@ -169,26 +169,33 @@ const handleCopy = function( event ) {
               contents: rawContent
             } );
             // copying note's entities
+            const noteCopiedEntities = {};
             noteContent.getBlockMap().forEach( ( thatBlock ) => {
               thatBlock.getCharacterList().map( ( char ) => {
                 // copying note's entity and related contextualizations
                 if ( char.entity ) {
                   entityKey = char.entity;
-                  entity = currentContent.getEntity( entityKey );
-                  eData = entity.toJS();
-                  copiedEntities[noteId].push( {
-                    key: entityKey,
-                    entity: eData
-                  } );
-                  const contextualization = contextualizations[eData.data.asset.id];
-                  copiedContextualizations.push( {
-                    ...contextualization
-                  } );
-                  copiedContextualizers.push( {
-                    ...contextualizers[contextualization.contextualizerId],
-                    id: contextualization.contextualizerId
-                  } );
+                  if ( !noteCopiedEntities[entityKey] ) {
+                    entity = currentContent.getEntity( entityKey );
+                    eData = entity.toJS();
+                    noteCopiedEntities[entityKey] = eData;
+                  }
                 }
+              } );
+              Object.keys( noteCopiedEntities ).forEach( ( thatEntityKey ) => {
+                const entityInJS = noteCopiedEntities[thatEntityKey];
+                copiedEntities[noteId].push( {
+                  key: thatEntityKey,
+                  entity: entityInJS
+                } );
+                const contextualization = contextualizations[entityInJS.data.asset.id];
+                copiedContextualizations.push( {
+                  ...contextualization
+                } );
+                copiedContextualizers.push( {
+                  ...contextualizers[contextualization.contextualizerId],
+                  id: contextualization.contextualizerId
+                } );
               } );
               return true;
             } );
@@ -444,7 +451,7 @@ const handleCopy = function( event ) {
       try {
         localStorage.setItem( 'fonio/copied-resources', JSON.stringify( newCopiedResources ) );
       }
- catch ( err ) {
+      catch ( err ) {
         console.error( 'could not store copied resources to local storage, reason: ', err );/* eslint no-console: 0*/
       }
     } );
