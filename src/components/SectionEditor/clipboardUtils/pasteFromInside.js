@@ -647,7 +647,7 @@ const pasteFromInside = ( {
           .catch( reject );
 
       }
- else resolve();
+      else resolve();
     } ) )
 
     /*
@@ -725,28 +725,29 @@ const pasteFromInside = ( {
         };
       }, { [activeSectionId]: mainEditorState
       } );
-
-      updateDraftEditorsStates( newEditorStates );
-
-      // ...then update the section with editorStates convert to serializable raw objects
-      const newSection = {
-        ...activeSection,
-        contents: convertToRaw( mainEditorState.getCurrentContent() ),
-        notesOrder,
-        notes: {
-          ...activeSection.notes,
-          ...Object.keys( newNotes ).reduce( ( result, noteId ) => {
-                return {
-                  ...result,
-                  [noteId]: {
-                    ...newNotes[noteId],
-                  }
-                };
-              }, {} )
-        }
-      };
-      updateSection( newSection );
-      setEditorPastingStatus( undefined );
+      setTimeout(() => {
+        updateDraftEditorsStates( newEditorStates );
+        // ...then update the section with editorStates convert to serializable raw objects
+        const newSection = {
+          ...activeSection,
+          contents: convertToRaw( mainEditorState.getCurrentContent() ),
+          notesOrder,
+          notes: {
+            ...activeSection.notes,
+            ...Object.keys( newNotes ).reduce( ( result, noteId ) => {
+                  return {
+                    ...result,
+                    [noteId]: {
+                      ...newNotes[noteId],
+                    }
+                  };
+                }, {} )
+          }
+        };
+        updateSection( newSection );
+        setEditorPastingStatus( undefined );
+      })
+        
     } )
     .catch( console.error );/* eslint no-console: 0 */
   } );
