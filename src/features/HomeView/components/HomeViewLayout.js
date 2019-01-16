@@ -727,10 +727,10 @@ class HomeViewLayout extends Component {
           </HeroHeader>
 
           {/*screen-wide intro screen with session title */}
-          <HeroBody>
-            <Container hasTextAlign={ 'centered' }>
+          <HeroBody style={{paddingBottom: 0, paddingTop: '4rem'}}>
+            {/*<Container hasTextAlign={ 'centered' }>
               <Title>{config.sessionName}</Title>
-            </Container>
+            </Container>*/}
           </HeroBody>
 
           {/*main contents with tabs */}
