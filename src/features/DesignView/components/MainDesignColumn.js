@@ -5,8 +5,7 @@
 /**
  * Imports Libraries
  */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import StoryPlayer from 'quinoa-story-player';
 import Frame, { FrameContextConsumer } from 'react-frame-component';
 import { set } from 'lodash/fp';
@@ -23,22 +22,7 @@ import { getTemplateName, isNewSchema, getStyles } from 'quinoa-schemas';
  */
 import { processCustomCss } from '../../../helpers/postcss';
 
-class ContextProvider extends Component {
-
-  static childContextTypes = {
-    getResourceDataUrl: PropTypes.func
-  }
-
-  getChildContext = () => ( {
-    getResourceDataUrl: this.props.getResourceDataUrl,
-  } )
-  render = () => {
-    return this.props.children;
-  }
-}
-
-const PreviewWrapper = ( props, context ) => {
-  const { getResourceDataUrl } = context;
+const PreviewWrapper = ( props ) => {
   const { story, lang } = props;
   const renderedStory = set(
     isNewSchema( story ) ? [
@@ -66,22 +50,16 @@ const PreviewWrapper = ( props, context ) => {
     >
       <FrameContextConsumer>
         {( { document, window } ) => (
-          <ContextProvider getResourceDataUrl={ getResourceDataUrl }>
-            <StoryPlayer
-              locale={ lang }
-              story={ renderedStory }
-              usedDocument={ document }
-              usedWindow={ window }
-            />
-          </ContextProvider>
+          <StoryPlayer
+            locale={ lang }
+            story={ renderedStory }
+            usedDocument={ document }
+            usedWindow={ window }
+          />
         )}
       </FrameContextConsumer>
     </Frame>
   );
-};
-
-PreviewWrapper.contextTypes = {
-  getResourceDataUrl: PropTypes.func
 };
 
 const MainDesignColumn = ( {
