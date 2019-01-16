@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-1-16\n"
-"PO-Revision-Date: Wed Jan 16 2019 15:21:10 GMT+0100 (CET)\n"
+"PO-Revision-Date: Wed Jan 16 2019 15:24:15 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2044,6 +2044,9 @@ msgstr "logged as {u}"
 
 msgid "Components.BlockContextualization.tooltip"
 msgstr "tooltip"
+
+msgid "Components.PasswordInput.password"
+msgstr "password"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"
