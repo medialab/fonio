@@ -153,7 +153,7 @@ class MetadataForm extends Component {
                       title={ translate( 'Story password' ) }
                       explanation={ translate( 'Explanation about the story password' ) }
                     />
-                    <PasswordInput id={ 'password' } />
+                    <PasswordInput placeholder={translate( 'Explanation about the story password' )} id={ 'password' } />
                     {
                       formApi.touched.password && formApi.errors && formApi.errors.password &&
                         <Help isColor={ 'danger' }>{formApi.errors.password}</Help>
