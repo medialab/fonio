@@ -366,6 +366,7 @@ class SectionEditor extends Component {
    * @param {object} nextProps - the future properties of the component
    */
   componentWillReceiveProps = ( nextProps ) => {
+
     // changing section
     if ( this.props.activeSection.id !== nextProps.activeSection.id ) {
       const {
@@ -1326,12 +1327,14 @@ class SectionEditor extends Component {
       }, timers.medium );
     };
     const blockAssetTypes = [ 'image', 'table', 'video', 'embed' ];
+
     const handleDrop = ( contentId, payload, selection ) => {
       if ( draggedResourceId ) {
         let targetedEditorId = contentId;
         if ( !targetedEditorId ) {
           targetedEditorId = this.props.editorFocus;
         }
+
         const editorId = contentId === 'main' ? activeSection.id : contentId;
         const draggedResource = story.resources[draggedResourceId];
         if ( contentId !== 'main' && blockAssetTypes.includes( draggedResource.metadata.type ) ) {
