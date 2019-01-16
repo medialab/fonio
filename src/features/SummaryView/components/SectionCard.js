@@ -46,7 +46,7 @@ import config from '../../../config';
 /**
  * Shared variables
  */
-const MAX_TITLE_LEN = 15;
+const MAX_TITLE_LEN = 30;
 
 const SectionCard = ( {
   section,
@@ -168,7 +168,7 @@ const SectionCard = ( {
                         data-place={ 'bottom' }
                       >
                         <span>
-                          {abbrevString( section.metadata.title || translate( 'Untitled section' ), 30 )}
+                          {abbrevString( section.metadata.title || translate( 'Untitled section' ), MAX_TITLE_LEN )}
                         </span>
                       </Link>
                       <StatusMarker
@@ -180,7 +180,7 @@ const SectionCard = ( {
                 {!editable &&
                 <Title isSize={ titleSize }>
                   <span
-                    data-tip={ section.metadata.title.length > MAX_TITLE_LEN ? undefined : section.metadata.title }
+                    data-tip={ section.metadata.title.length > MAX_TITLE_LEN ? section.metadata.title : undefined }
                     data-for={ 'tooltip' }
                     data-place={ 'bottom' }
                   >

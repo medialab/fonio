@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-1-16\n"
-"PO-Revision-Date: Wed Jan 16 2019 18:06:57 GMT+0100 (CET)\n"
+"PO-Revision-Date: Wed Jan 16 2019 18:21:06 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -962,6 +962,27 @@ msgstr "big"
 msgid "Features.DesignView.StylesVariables.bigger"
 msgstr "bigger"
 
+msgid "Features.DesignView.StylesVariables.Define titles styles"
+msgstr "Titles style"
+
+msgid "Features.DesignView.StylesVariables.Define textes on cover styles"
+msgstr "Cover texts style"
+
+msgid "Features.DesignView.StylesVariables.Define background opacity"
+msgstr "Define background opacity (when a cover image is used)"
+
+msgid "Features.DesignView.StylesVariables.Define classic corpus text styles"
+msgstr "Normal text style"
+
+msgid "Features.DesignView.StylesVariables.Define links styles"
+msgstr "Links style"
+
+msgid "Features.DesignView.StylesVariables.Define blockquotes styles"
+msgstr "Blockquotes style"
+
+msgid "Features.DesignView.StylesVariables.Define background color"
+msgstr "Background color"
+
 msgid "Features.EditionUiWrapper.Design"
 msgstr "Design"
 
@@ -1848,7 +1869,7 @@ msgid "Features.EditionUiWrapper.Untitled section"
 msgstr "Untitled section"
 
 msgid "Features.EditionUiWrapper.Overview"
-msgstr "Overview"
+msgstr "Contents"
 
 msgid "Features.SectionView.One item"
 msgstr "One item"
@@ -1919,47 +1940,17 @@ msgstr "Creating image {x} of {n}"
 msgid "Components.PastingModal.Creating {n} images"
 msgstr "Creating {n} images"
 
-msgid "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?"
-msgstr "Would you consent for a possible future publication of your story on one of Sciences Po websites ?"
-
-msgid "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter."
-msgstr ""
-
 msgid "Components.MetadataForm.yes"
 msgstr "yes"
 
 msgid "Components.MetadataForm.no"
 msgstr "no"
 
-msgid "Components.MetadataForm.You must consent or refuse a possible future publication of this story."
-msgstr "You must consent or refuse a possible future publication of this story."
-
-msgid "Features.DesignView.StylesVariables.Define titles styles"
-msgstr "Titles styles"
-
-msgid "Features.DesignView.StylesVariables.Define textes on cover styles"
-msgstr "Textes on cover styles"
-
-msgid "Features.DesignView.StylesVariables.Define classic corpus text styles"
-msgstr "Classic corpus text styles"
-
-msgid "Features.DesignView.StylesVariables.Define links styles"
-msgstr "Links styles"
-
-msgid "Features.DesignView.StylesVariables.Define blockquotes styles"
-msgstr "Blockquotes styles"
-
-msgid "Features.DesignView.StylesVariables.Define background color"
-msgstr "Background color"
-
 msgid "Features.DesignView.StylesVariables.relative"
 msgstr "relative"
 
 msgid "Features.DesignView.StylesVariables.background"
 msgstr "background"
-
-msgid "Features.DesignView.StylesVariables.Define background opacity"
-msgstr "Define background opacity"
 
 msgid "Features.DesignView.StylesVariables.horizontal"
 msgstr "horizontal"
@@ -1995,10 +1986,19 @@ msgid "Components.SectionEditor.deleted section"
 msgstr "deleted section"
 
 msgid "Components.MetadataForm.publication-consent-message-1"
-msgstr "In order to enable you to collectively work on your project and to enable your teacher to review it, your work will be available through this website during the semester."
+msgstr "In order to enable you to collectively work on your project and to enable your teacher to review your production, your work will be available through this website during the semester."
 
 msgid "Components.MetadataForm.publication-consent-message-2"
 msgstr "At the end of the semester, your teachers may want to publish a selection of the best stories on a Sciences Po hosted website. Would you consent to it (you will be able to change your answer in your story's settings at any time) ?"
+
+msgid "Components.MetadataForm.You must consent or refuse a possible future publication of this story."
+msgstr "You must consent or refuse a possible future publication of this story."
+
+msgid "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?"
+msgstr "Consentiriez-vous à une possible future publication de ce récit sur l'un des sites web de Sciences Po ?"
+
+msgid "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter."
+msgstr "Une fois terminé et évalué, nous pourrions vouloir valoriser votre travail à travers les canaux de communication de Sciences Po. L'autorisation collective de tous les auteurs est nécessaire pour ce faire."
 
 msgid "Components.InternalLinkModal.No section"
 msgstr "No section"
@@ -2031,7 +2031,7 @@ msgid "Components.GlossaryModal.Cancel"
 msgstr "Cancel"
 
 msgid "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another section."
-msgstr ""
+msgstr "Your story has only one section for now, therefore you cannot yet link to another section."
 
 msgid "Components.SectionEditor.add a link to a glossary entry"
 msgstr "add a link to a glossary entry"
