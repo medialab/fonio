@@ -10,7 +10,9 @@ import {
   CharacterMetadata,
 } from 'draft-js';
 
-import { v4 as generateId } from 'uuid';
+import {
+  v4 as generateId
+} from 'uuid';
 
 import {
   utils,

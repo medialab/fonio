@@ -5,8 +5,8 @@
   "main": "dist/entry.js",
   "scripts": {
     "dev": "kotatsu serve --config ./webpack.config.dev.js --progress --sass --babel --index ./index.html --public ./ ./src/main.js",
-    "build": "kotatsu build client ./src/main.js -o build --progress --sass --config ./webpack.config.prod.js --babel",
-    "build:docker": "kotatsu build client ./src/main.js -o build --config ./webpack.config.docker.js --babel --quiet",
+    "build": "kotatsu build client ./src/main.js -o build --progress --sass --babel --config ./webpack.config.prod.js",
+    "build:docker": "kotatsu build client ./src/main.js -o build  --babel --sass --quiet --config ./webpack.config.docker.js",
     "lint": "eslint --fix src",
     "analyze": "webpack-bundle-analyzer build/stats.json",
     "comb": "csscomb src",
