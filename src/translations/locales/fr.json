@@ -646,7 +646,7 @@
   "Features.DesignView.StylesVariables.Define links styles": "Style des liens",
   "Features.DesignView.StylesVariables.Define blockquotes styles": "Style des blocs de citation",
   "Features.DesignView.StylesVariables.Define background color": "Couleur d'arrière-plan",
-  "Features.DesignView.StylesVariables.Define background opacity": "Opacité de l'image de couverture",
+  "Features.DesignView.StylesVariables.Define background opacity": "Opacité de l'image de couverture (quand une image de couverture est utilisée)",
   "Features.DesignView.StylesVariables.horizontal": "horizontal",
   "Features.DesignView.StylesVariables.Features.DesignView.StylesVariables": "StylesVariables",
   "Components.MetadataForm.yes": "oui",
