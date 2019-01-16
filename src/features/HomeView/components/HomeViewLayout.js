@@ -240,7 +240,7 @@ class HomeViewLayout extends Component {
           }
           return 1;
         case 'edited by me':
-          if ( editionHistory[a.id] > editionHistory[b.id] ) {
+          if ( !editionHistory[b.id] || editionHistory[a.id] > editionHistory[b.id] ) {
             return -1;
           }
           return 1;
