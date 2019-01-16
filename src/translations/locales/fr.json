@@ -680,5 +680,6 @@
   "Components.SectionEditor.add a link to a glossary entry": "ajouter un lien vers une entrée de glossaire",
   "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another.": "Votre récit n'a qu'une seule section pour l'instant, en conséquence vous ne pouvez pas encore faire de lien vers d'autres sections.",
   "Features.EditionUiWrapper.logged as {u}": "identifié en tant que {u}",
-  "Components.BlockContextualization.tooltip": "tooltip"
+  "Components.BlockContextualization.tooltip": "tooltip",
+  "Components.PasswordInput.password": "mot de passe"
 }
