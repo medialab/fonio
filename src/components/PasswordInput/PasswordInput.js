@@ -6,6 +6,7 @@
  * Imports Libraries
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Text } from 'react-form';
 import {
   Control,
@@ -50,6 +51,10 @@ const PasswordInput = ( { id = 'password' }, { t } ) => {
       </StretchedLayoutContainer>
     </Control>
   );
+};
+
+PasswordInput.contextTypes = {
+  t: PropTypes.func
 };
 
 export default PasswordInput;
