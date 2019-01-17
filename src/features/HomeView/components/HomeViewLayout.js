@@ -240,7 +240,7 @@ class HomeViewLayout extends Component {
           }
           return 1;
         case 'edited by me':
-          if ( editionHistory[a.id] > editionHistory[b.id] ) {
+          if ( !editionHistory[b.id] || editionHistory[a.id] > editionHistory[b.id] ) {
             return -1;
           }
           return 1;
@@ -727,10 +727,10 @@ class HomeViewLayout extends Component {
           </HeroHeader>
 
           {/*screen-wide intro screen with session title */}
-          <HeroBody style={ { paddingBottom: 0, paddingTop: '4rem' } }>
-            {/*<Container hasTextAlign={ 'centered' }>
+          <HeroBody style={ { paddingBottom: '10rem', paddingTop: '10rem' } }>
+            <Container hasTextAlign={ 'centered' }>
               <Title>{config.sessionName}</Title>
-            </Container>*/}
+            </Container>
           </HeroBody>
 
           {/*main contents with tabs */}

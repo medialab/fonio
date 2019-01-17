@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-1-17\n"
-"PO-Revision-Date: Thu Jan 17 2019 13:15:04 GMT+0100 (Central European Standard Time)\n"
+"PO-Revision-Date: Thu Jan 17 2019 14:51:36 GMT+0100 (GMT+01:00)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1866,7 +1866,7 @@ msgid "Features.EditionUiWrapper.Untitled section"
 msgstr "Section sans titre"
 
 msgid "Features.EditionUiWrapper.Overview"
-msgstr "Vue d'ensemble"
+msgstr "Contenus"
 
 msgid "Features.SectionView.One item"
 msgstr "Un item"
@@ -1919,53 +1919,41 @@ msgstr "Récupération de l'image {x} sur {n}"
 msgid "Components.PastingModal.Creating {n} images"
 msgstr "Récupération de {n} images"
 
-msgid "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?"
-msgstr "Consentiriez-vous à une possible future publication de ce récit sur l'un des sites web de Sciences Po ?"
-
-msgid "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter."
-msgstr "Une fois terminé et évalué, nous pourrions vouloir valoriser votre travail à travers les canaux de communication de Sciences Po. L'autorisation collective de tous les auteurs est nécessaire pour ce faire."
-
-msgid "Components.MetadataForm.yes"
-msgstr "yes"
-
-msgid "Components.MetadataForm.no"
-msgstr "no"
-
-msgid "Components.MetadataForm.You must consent or refuse a possible future publication of this story."
-msgstr "Vous devez consentir ou refuser à la possible future publication de ce récit."
-
 msgid "Features.DesignView.StylesVariables.relative"
 msgstr "relative"
 
 msgid "Features.DesignView.StylesVariables.Define titles styles"
-msgstr "Define titles styles"
+msgstr "Style des titres"
 
 msgid "Features.DesignView.StylesVariables.Define textes on cover styles"
-msgstr "Define textes on cover styles"
+msgstr "Style du texte de couverture"
 
 msgid "Features.DesignView.StylesVariables.Define classic corpus text styles"
-msgstr "Define classic corpus text styles"
+msgstr "Style du corps de texte"
 
 msgid "Features.DesignView.StylesVariables.Define links styles"
-msgstr "Define links styles"
+msgstr "Style des liens"
 
 msgid "Features.DesignView.StylesVariables.Define blockquotes styles"
-msgstr "Define blockquotes styles"
+msgstr "Style des blocs de citation"
 
 msgid "Features.DesignView.StylesVariables.Define background color"
-msgstr "Define background color"
-
-msgid "Features.DesignView.StylesVariables.background"
-msgstr "background"
+msgstr "Couleur d'arrière-plan"
 
 msgid "Features.DesignView.StylesVariables.Define background opacity"
-msgstr "Define background opacity"
+msgstr "Opacité de l'image de couverture (quand une image de couverture est utilisée)"
 
 msgid "Features.DesignView.StylesVariables.horizontal"
 msgstr "horizontal"
 
 msgid "Features.DesignView.StylesVariables.Features.DesignView.StylesVariables"
 msgstr "StylesVariables"
+
+msgid "Components.MetadataForm.yes"
+msgstr "oui"
+
+msgid "Components.MetadataForm.no"
+msgstr "non"
 
 msgid "Components.InternalLinkModal.Add a link to another section"
 msgstr "Ajouter un lien vers une autre section"
@@ -2000,47 +1988,59 @@ msgstr "Pour que vous puissiez travailler sur votre projet collectivement et que
 msgid "Components.MetadataForm.publication-consent-message-2"
 msgstr "À l'issue du semestre, vos enseignants pourraient vouloir rendre publics les meilleurs travaux sur un site web hébergé par sciences po. Y consentiriez-vous (vous pourrez modifier votre réponse dans les paramètres du récit à tout moment) ?"
 
+msgid "Components.MetadataForm.You must consent or refuse a possible future publication of this story."
+msgstr "Vous devez consentir ou refuser à la possible future publication de ce récit."
+
 msgid "Components.InternalLinkModal.No section"
-msgstr "No section"
+msgstr "Pas de section"
+
+msgid "Components.MetadataForm.Would you consent for a possible future publication of your story on one of Sciences Po websites ?"
+msgstr "Consentiriez-vous à une possible future publication de ce récit sur l'un des sites web de Sciences Po ?"
+
+msgid "Components.MetadataForm.Once finished and evaluated, we might want to valorize your work through Sciences Po communication channels. The collective authorization of all authors is needed for that matter."
+msgstr "Une fois terminé et évalué, nous pourrions vouloir valoriser votre travail à travers les canaux de communication de Sciences Po. L'autorisation collective de tous les auteurs est nécessaire pour ce faire."
+
+msgid "Features.DesignView.StylesVariables.background"
+msgstr "background"
 
 msgid "Components.GlossaryModal.Add a glossary entry"
-msgstr "Add a glossary entry"
+msgstr "Ajouter une entrée de glossaire"
 
 msgid "Components.GlossaryModal.Pick an existing glossary entry from your library"
-msgstr "Pick an existing glossary entry from your library"
+msgstr "Choisir une entrée existante dans la bibliothèque"
 
 msgid "Components.GlossaryModal.Choose an existing glossary entry"
-msgstr "Choose an existing glossary entry"
+msgstr "Choisir une entrée de glossaire existante"
 
 msgid "Components.GlossaryModal.Create a new glossary entry"
-msgstr "Create a new glossary entry"
+msgstr "Créer une nouvelle entrée de glossaire"
 
 msgid "Components.GlossaryModal.Name"
-msgstr "Name"
+msgstr "Nom"
 
 msgid "Components.GlossaryModal.Description of the entry"
-msgstr "Description of the entry"
+msgstr "Description de l'entrée"
 
 msgid "Components.GlossaryModal.Entry description"
-msgstr "Entry description"
+msgstr "Description de l'entrée"
 
 msgid "Components.GlossaryModal.Add entry"
-msgstr "Add entry"
+msgstr "Ajouter l'entrée"
 
 msgid "Components.GlossaryModal.Cancel"
-msgstr "Cancel"
+msgstr "Annuler"
 
 msgid "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another section."
-msgstr ""
+msgstr "Votre récit n'a qu'une seule section pour l'instant, en conséquence vous ne pouvez pas encore faire de lien vers d'autres sections."
 
 msgid "Components.SectionEditor.add a link to a glossary entry"
-msgstr "add a link to a glossary entry"
+msgstr "ajouter un lien vers une entrée de glossaire"
 
 msgid "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another."
-msgstr ""
+msgstr "Votre récit n'a qu'une seule section pour l'instant, en conséquence vous ne pouvez pas encore faire de lien vers d'autres sections."
 
 msgid "Features.EditionUiWrapper.logged as {u}"
-msgstr "logged as {u}"
+msgstr "identifié en tant que {u}"
 
 msgid "Components.BlockContextualization.tooltip"
 msgstr "tooltip"
