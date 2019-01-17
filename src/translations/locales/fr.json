@@ -674,5 +674,11 @@
   "Components.AssetPreview.primary": "primary",
   "Components.AssetPreview.source": "source",
   "Components.ChangePasswordModal.Change Password": "Modifier le mot de passe",
-  "Features.HomeView.Made by médialab Sciences Po": "Créé par le médialab Sciences Po"
+  "Features.HomeView.Made by médialab Sciences Po": "Créé par le médialab Sciences Po",
+  "Features.DesignView.StylesVariables.Features.DesignView.StylesVariables": "StylesVariables",
+  "Features.DesignView.StylesVariables.horizontal": "horizontal",
+  "Components.ChangePasswordModal.change password": "change password",
+  "Features.LibraryView.small": "small",
+  "Features.SectionView.tooltip": "tooltip",
+  "Features.SectionView.small": "small"
 }
