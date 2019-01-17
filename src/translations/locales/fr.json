@@ -680,5 +680,9 @@
   "Components.ChangePasswordModal.change password": "change password",
   "Features.LibraryView.small": "small",
   "Features.SectionView.tooltip": "tooltip",
-  "Features.SectionView.small": "small"
+  "Features.SectionView.small": "small",
+  "Features.LibraryView.another author in one section": "un·e autre auteur·e dans une autre section",
+  "Features.LibraryView.other authors in multiple sections": "les autre auteurs dans les sections multiples",
+  "Features.SectionView.another author in one section": "un·e autre auteur·e dans une autre section",
+  "Features.SectionView.other authors in multiple sections": "les autre auteurs dans les sections multiples"
 }

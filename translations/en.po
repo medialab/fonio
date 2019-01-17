@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-1-17\n"
-"PO-Revision-Date: Thu Jan 17 2019 12:58:02 GMT+0100 (GMT+01:00)\n"
+"PO-Revision-Date: Thu Jan 17 2019 13:15:04 GMT+0100 (Central European Standard Time)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2056,6 +2056,18 @@ msgstr "Who produced this code"
 
 msgid "Components.ChangePasswordModal.change password"
 msgstr "change password"
+
+msgid "Features.LibraryView.another author in one section"
+msgstr "another author in one section"
+
+msgid "Features.LibraryView.other authors in multiple sections"
+msgstr "other authors in multiple sections"
+
+msgid "Features.SectionView.another author in one section"
+msgstr "another author in one section"
+
+msgid "Features.SectionView.other authors in multiple sections"
+msgstr "other authors in multiple sections"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"
