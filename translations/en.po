@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2019-1-16\n"
-"PO-Revision-Date: Wed Jan 16 2019 18:30:53 GMT+0100 (GMT+01:00)\n"
+"POT-Creation-Date: 2019-1-17\n"
+"PO-Revision-Date: Thu Jan 17 2019 12:49:27 GMT+0100 (GMT+01:00)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2089,3 +2089,12 @@ msgstr "\"{f}\" is too big"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "For suggesting improvements or signaling bugs, please head to <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">this page</a> and to follow the proposed procedure. Thanks !"
+
+msgid "Components.ResourceForm.Authors of the embed"
+msgstr "Authors of the code"
+
+msgid "Components.ResourceForm.help about embed authors"
+msgstr "Who produced this code"
+
+msgid "Components.ChangePasswordModal.change password"
+msgstr "change password"
