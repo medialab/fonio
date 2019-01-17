@@ -3,7 +3,6 @@
  * in production mode (standard + minify)
  */
 var webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const config = require('config');
 const urlPrefix = config.get('urlPrefix');
 
@@ -13,8 +12,10 @@ module.exports = {
 
   module: sharedConfig.module,
 
+  mode: 'production',
+
   plugins: sharedConfig.plugins
-    .concat(new UglifyJsPlugin())
+    /*.concat(new UglifyJsPlugin())*/
     .concat(new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
@@ -24,9 +25,10 @@ module.exports = {
       openAnalyzer: false,
       generateStatsFile: true,
       analyzerMode: 'disabled'
-    })),
+    }))
+    ,
 
-  devtool: 'source-map',
+  // devtool: 'source-map',
 
   output: {
     path: '/build',

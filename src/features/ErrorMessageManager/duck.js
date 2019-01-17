@@ -1,17 +1,17 @@
 /**
- * This module exports logic-related elements for the fonio story manager
+ * This module exports logic-related elements for handling errors in the application
  * This module follows the ducks convention for putting in the same place actions, action types,
  * state selectors and reducers about a given feature (see https://github.com/erikras/ducks-modular-redux)
- * @module fonio/features/ErrorMessageManager
+ * @module fonio/features/ErrorMessage
  */
-import {combineReducers} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import { combineReducers } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
 import {
   // LOGIN_STORY,
   ENTER_BLOCK
 } from '../ConnectionsManager/duck';
-import {FETCH_STORIES,
+import { FETCH_STORIES,
   CREATE_STORY,
   OVERRIDE_STORY,
   IMPORT_STORY,
@@ -50,33 +50,34 @@ export const SET_BROWSER_WARNING = 'SET_BROWSER_WARNING';
 
 const CLEAR_ERROR_MESSAGES = 'CLEAR_ERROR_MESSAGES';
 
-export const setErrorMessage = payload => ({
+export const setErrorMessage = ( payload ) => ( {
   type: SET_ERROR_MESSAGE,
   payload
-});
+} );
 
-export const clearErrorMessages = () => ({
+export const clearErrorMessages = () => ( {
   type: CLEAR_ERROR_MESSAGES
-});
+} );
 
-export const setBrowserWarning = (payload) => ({
+export const setBrowserWarning = ( payload ) => ( {
   type: SET_BROWSER_WARNING,
   payload
-});
+} );
 
 const FAIL_DEFAULT_STATE = {
   requestFail: undefined,
   lastLockFail: undefined,
+  lastErrorMessage: undefined,
   needsReload: false,
   connectError: false,
   lastError: undefined,
   malformedStoryError: undefined,
   browserWarning: undefined,
 };
-const fails = (state = FAIL_DEFAULT_STATE, action) => {
-  const {payload} = action;
+const fails = ( state = FAIL_DEFAULT_STATE, action ) => {
+  const { payload } = action;
   let needsReload = false;
-  switch (action.type) {
+  switch ( action.type ) {
     case CLEAR_ERROR_MESSAGES:
       return FAIL_DEFAULT_STATE;
     case CONNECT_ERROR:
@@ -89,6 +90,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
         ...state,
         connectError: false
       };
+
     /**
      * Errors and failures management
      */
@@ -127,12 +129,13 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
     case `${UPDATE_CONTEXTUALIZER}_FAIL`:
     case `${DELETE_CONTEXTUALIZER}_FAIL`:
       // TODO: Need to find a better way to display this validation error in toaster
-      console.error(action);/* eslint no-console : 0 */
+      console.error( action );/* eslint no-console : 0 */
       return {
         ...state,
         requestFail: action.type,
         needsReload,
-        lastError: action.payload || {error: action.error},
+        lastError: action.payload || { error: action.error },
+        lastErrorMessage: action.message,
         lastErrorTime: new Date().getTime()
       };
 
@@ -143,6 +146,7 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
           ...payload,
           mode: 'enter',
         },
+        lastErrorMessage: action.message,
         lastErrorTime: new Date().getTime()
       };
     case `${DELETE_RESOURCE}_FAIL`:
@@ -162,12 +166,14 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
           mode: 'delete',
           blockType: 'sections'
         },
+        lastErrorMessage: action.message,
         lastErrorTime: new Date().getTime()
       };
     case `${ACTIVATE_STORY}_FAIL`:
-      if (action.error && action.error.response && action.error.response.status === 422) {
+      if ( action.error && action.error.response && action.error.response.status === 422 ) {
         return {
           ...state,
+        lastErrorMessage: action.message,
           malformedStoryError: true
         };
       }
@@ -182,20 +188,21 @@ const fails = (state = FAIL_DEFAULT_STATE, action) => {
   }
 };
 
-const requestFail = state => state.fails.requestFail;
-const lastLockFail = state => state.fails.lastLockFail;
-const needsReload = state => state.fails.needsReload;
-const connectError = state => state.fails.connectError;
-const lastError = state => state.fails.lastError;
-const lastErrorTime = state => state.fails.lastErrorTime;
-const malformedStoryError = state => state.fails.malformedStoryError;
-const browserWarning = state => state.fails.browserWarning;
+const requestFail = ( state ) => state.fails.requestFail;
+const lastLockFail = ( state ) => state.fails.lastLockFail;
+const needsReload = ( state ) => state.fails.needsReload;
+const connectError = ( state ) => state.fails.connectError;
+const lastError = ( state ) => state.fails.lastError;
+const lastErrorTime = ( state ) => state.fails.lastErrorTime;
+const lastErrorMessage = ( state ) => state.fails.lastErrorMessage;
+const malformedStoryError = ( state ) => state.fails.malformedStoryError;
+const browserWarning = ( state ) => state.fails.browserWarning;
 
-export default combineReducers({
+export default combineReducers( {
   fails,
-});
+} );
 
-export const selector = createStructuredSelector({
+export const selector = createStructuredSelector( {
   requestFail,
   lastLockFail,
   needsReload,
@@ -203,6 +210,7 @@ export const selector = createStructuredSelector({
   lastError,
   lastErrorTime,
   malformedStoryError,
+  lastErrorMessage,
   browserWarning,
-});
+} );
 

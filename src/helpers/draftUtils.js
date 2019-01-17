@@ -18,8 +18,8 @@ const {
  * @param {object} contextualization - the contextualization to link the entity to
  * @return {EditorState} newEditorState - a new editor state
  */
-export const insertInlineContextualization = (editorState, contextualization, mutable = false) => {
-  const newEditorState = insertInlineAssetInEditor(editorState, {id: contextualization.id}, editorState.getSelection(), mutable);
+export const insertInlineContextualization = ( editorState, contextualization, mutable = false ) => {
+  const newEditorState = insertInlineAssetInEditor( editorState, { id: contextualization.id }, editorState.getSelection(), mutable );
   return newEditorState ? newEditorState : editorState;
 };
 
@@ -29,11 +29,10 @@ export const insertInlineContextualization = (editorState, contextualization, mu
  * @param {object} contextualization - the contextualization to link the entity to
  * @return {EditorState} newEditorState - a new editor state
  */
-export const insertBlockContextualization = (editorState, contextualization) => {
-  const newEditorState = insertBlockAssetInEditor(editorState, {id: contextualization.id}, editorState.getSelection());
+export const insertBlockContextualization = ( editorState, contextualization ) => {
+  const newEditorState = insertBlockAssetInEditor( editorState, { id: contextualization.id }, editorState.getSelection() );
   return newEditorState ? newEditorState : editorState;
 };
-
 
 /**
  * Get current selected text
@@ -42,7 +41,7 @@ export const insertBlockContextualization = (editorState, contextualization) => 
  * @param  {String}
  * @return {String}
  */
-export const getTextSelection = (contentState, selection, blockDelimiter) => {
+export const getTextSelection = ( contentState, selection, blockDelimiter ) => {
     blockDelimiter = blockDelimiter || '\n';
     const startKey = selection.getStartKey();
     const endKey = selection.getEndKey();
@@ -50,36 +49,36 @@ export const getTextSelection = (contentState, selection, blockDelimiter) => {
 
     let lastWasEnd = false;
     const selectedBlock = blocks
-        .skipUntil(function(block) {
+        .skipUntil( function( block ) {
             return block.getKey() === startKey;
-        })
-        .takeUntil(function(block) {
+        } )
+        .takeUntil( function( block ) {
             const result = lastWasEnd;
 
-            if (block.getKey() === endKey) {
+            if ( block.getKey() === endKey ) {
                 lastWasEnd = true;
             }
 
             return result;
-        });
+        } );
 
     return selectedBlock
-        .map(function(block) {
+        .map( function( block ) {
             const key = block.getKey();
             let text = block.getText();
 
             let start = 0;
             let end = text.length;
 
-            if (key === startKey) {
+            if ( key === startKey ) {
                 start = selection.getStartOffset();
             }
-            if (key === endKey) {
+            if ( key === endKey ) {
                 end = selection.getEndOffset();
             }
 
-            text = text.slice(start, end);
+            text = text.slice( start, end );
             return text;
-        })
-        .join(blockDelimiter);
+        } )
+        .join( blockDelimiter );
 };

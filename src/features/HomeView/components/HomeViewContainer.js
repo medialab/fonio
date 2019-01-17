@@ -1,18 +1,25 @@
 /**
- * This module exports a stateful component connected to the redux logic of the app,
- * dedicated to rendering the interface container
+ * This module provides a connected component for handling the home view
  * @module fonio/features/HomeView
  */
-import React, {Component} from 'react';
+/**
+ * Imports Libraries
+ */
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {setLanguage} from 'redux-i18n';
-import {withRouter} from 'react-router';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { setLanguage } from 'redux-i18n';
+import { withRouter } from 'react-router';
 
-import {getEditionHistoryMap} from '../../../helpers/localStorageUtils';
+/**
+ * Imports Project utils
+ */
+import { getEditionHistoryMap } from '../../../helpers/localStorageUtils';
 
-import HomeViewLayout from './HomeViewLayout';
+/**
+ * Imports Ducks
+ */
 import * as duck from '../duck';
 import * as userInfoDuck from '../../UserInfoManager/duck';
 import * as connectionsDuck from '../../ConnectionsManager/duck';
@@ -21,19 +28,24 @@ import * as editionDuck from '../../EditionUiWrapper/duck';
 import * as errorMessageDuck from '../../ErrorMessageManager/duck';
 
 /**
+ * Imports Components
+ */
+import HomeViewLayout from './HomeViewLayout';
+
+/**
  * Redux-decorated component class rendering the takeaway dialog feature to the app
  */
 @connect(
-  state => ({
-    ...editionDuck.selector(state.editionUiWrapper),
-    ...duck.selector(state.home),
+  ( state ) => ( {
+    ...editionDuck.selector( state.editionUiWrapper ),
+    ...duck.selector( state.home ),
     lang: state.i18nState.lang,
-    ...userInfoDuck.selector(state.userInfo),
-    ...connectionsDuck.selector(state.connections),
-    ...authDuck.selector(state.auth),
-  }),
-  dispatch => ({
-    actions: bindActionCreators({
+    ...userInfoDuck.selector( state.userInfo ),
+    ...connectionsDuck.selector( state.connections ),
+    ...authDuck.selector( state.auth ),
+  } ),
+  ( dispatch ) => ( {
+    actions: bindActionCreators( {
       ...editionDuck,
       ...userInfoDuck,
       ...connectionsDuck,
@@ -41,8 +53,8 @@ import * as errorMessageDuck from '../../ErrorMessageManager/duck';
       ...errorMessageDuck,
       ...duck,
       setLanguage,
-    }, dispatch)
-  })
+    }, dispatch )
+  } )
 )
 class HomeViewContainer extends Component {
 
@@ -66,17 +78,16 @@ class HomeViewContainer extends Component {
    * constructor
    * @param {object} props - properties given to instance at instanciation
    */
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
   }
 
   componentWillMount() {
     this.props.actions.fetchStories();
     const editionHistoryMap = getEditionHistoryMap();
-    this.props.actions.setEditionHistory(editionHistoryMap);
-    this.props.actions.setStoryLoginId(undefined);
+    this.props.actions.setEditionHistory( editionHistoryMap );
+    this.props.actions.setStoryLoginId( undefined );
   }
-
 
   /**
    * Defines whether the component should re-render
@@ -89,7 +100,6 @@ class HomeViewContainer extends Component {
     return true;
   }
 
-
   /**
    * Renders the component
    * @return {ReactElement} component - the component
@@ -97,9 +107,10 @@ class HomeViewContainer extends Component {
   render() {
     return (
       <HomeViewLayout
-        {...this.props} />
+        { ...this.props }
+      />
     );
   }
 }
 
-export default withRouter(HomeViewContainer);
+export default withRouter( HomeViewContainer );

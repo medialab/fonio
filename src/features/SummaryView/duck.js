@@ -1,21 +1,22 @@
 /**
- * This module exports logic-related elements for the fonio global ui
+ * This module exports logic-related elements for the summary view
  * This module follows the ducks convention for putting in the same place actions, action types,
  * state selectors and reducers about a given feature (see https://github.com/erikras/ducks-modular-redux)
  * @module fonio/features/SummaryView
  */
 
-import {combineReducers} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import { combineReducers } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
-import {getStatePropFromActionSet} from '../../helpers/reduxUtils';
+import { getStatePropFromActionSet } from '../../helpers/reduxUtils';
 
 /**
  * ===================================================
  * ACTION NAMES
  * ===================================================
  */
- import {LEAVE_STORY} from '../ConnectionsManager/duck';
+ import { LEAVE_STORY } from '../ConnectionsManager/duck';
+
 /**
  * ui
  */
@@ -29,26 +30,27 @@ const SET_IS_SORTING = 'SET_IS_SORTING';
  * data
  */
 const SET_STORY_METADATA = 'SET_STORY_METADATA';
+
 /**
  * ===================================================
  * ACTION CREATORS
  * ===================================================
  */
 
-export const setStoryMetadata = payload => ({
+export const setStoryMetadata = ( payload ) => ( {
   type: SET_STORY_METADATA,
   payload
-});
+} );
 
-export const setNewSectionOpen = payload => ({
+export const setNewSectionOpen = ( payload ) => ( {
   type: SET_NEW_SECTION_OPEN,
   payload
-});
+} );
 
-export const setIsSorting = payload => ({
+export const setIsSorting = ( payload ) => ( {
   type: SET_IS_SORTING,
   payload
-});
+} );
 
 /**
  * ===================================================
@@ -59,6 +61,7 @@ export const setIsSorting = payload => ({
  * Default/fallback state of the ui state
  */
 const UI_DEFAULT_STATE = {
+
   /**
    * Whether new section dialog is open
    */
@@ -72,44 +75,46 @@ const UI_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function ui(state = UI_DEFAULT_STATE, action) {
-  const {payload} = action;
-  switch (action.type) {
+function ui( state = UI_DEFAULT_STATE, action ) {
+  const { payload } = action;
+  switch ( action.type ) {
     case LEAVE_STORY:
       return UI_DEFAULT_STATE;
     case SET_NEW_SECTION_OPEN:
     case SET_IS_SORTING:
-      const propName = getStatePropFromActionSet(action.type);
+      const propName = getStatePropFromActionSet( action.type );
       return {
         ...state,
         [propName]: payload
       };
-    // case `${ENTER_BLOCK}_SUCCESS`:
-    //   if (payload.location === 'storyMetadata') {
-    //     return {
-    //       ...state,
-    //       metadataOpen: true
-    //     };
-    //   }
-    //   return state;
-    // case `${ENTER_BLOCK}_FAIL`:
-    // case `${LEAVE_BLOCK}`:
-    //   if (payload.location === 'storyMetadata') {
-    //     return {
-    //       ...state,
-    //       metadataOpen: false
-    //     };
-    //   }
-    //   return state;
+
+    /*
+     * case `${ENTER_BLOCK}_SUCCESS`:
+     *   if (payload.location === 'storyMetadata') {
+     *     return {
+     *       ...state,
+     *       metadataOpen: true
+     *     };
+     *   }
+     *   return state;
+     * case `${ENTER_BLOCK}_FAIL`:
+     * case `${LEAVE_BLOCK}`:
+     *   if (payload.location === 'storyMetadata') {
+     *     return {
+     *       ...state,
+     *       metadataOpen: false
+     *     };
+     *   }
+     *   return state;
+     */
     default:
       return state;
   }
 }
 
-
-export default combineReducers({
+export default combineReducers( {
   ui,
-});
+} );
 
 /**
  * ===================================================
@@ -117,14 +122,14 @@ export default combineReducers({
  * ===================================================
  */
 
-const newSectionOpen = state => state.ui.newSectionOpen;
-const isSorting = state => state.ui.isSorting;
+const newSectionOpen = ( state ) => state.ui.newSectionOpen;
+const isSorting = ( state ) => state.ui.isSorting;
 
 /**
  * The selector is a set of functions for accessing this feature's state
  * @type {object}
  */
-export const selector = createStructuredSelector({
+export const selector = createStructuredSelector( {
   newSectionOpen,
   isSorting,
-});
+} );

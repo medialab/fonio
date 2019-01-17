@@ -1,5 +1,5 @@
 /**
- * Translations keys parser written by Robin de Mourat
+ * Translations keys parser
  */
 var fs = require('fs');
 var path = require('path');

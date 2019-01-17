@@ -16,6 +16,11 @@
 }
 
 .aside-edition-container{
+  min-width: 0;
+  &.is-collapsed{
+    width: 5rem;
+    
+  }
   &:not(.is-collapsed){
     min-width: 30%;
   }
@@ -36,10 +41,14 @@
 .modal{
   &.is-active{
     z-index: 1000;
+    .modal-card{
+      max-height: calc(100% - 9rem);
+    }
   }
   .modal-card-title{
     font-size: 2rem;
   }
+
 }
 
 
@@ -52,6 +61,10 @@
   padding: 1rem;
   color: white;
   background: darkgrey;
+}
+
+.color-picker-container{
+  right: 0;
 }
 
 @media screen and (max-width: 1087px) {
@@ -69,6 +82,10 @@
 
 .button{
   text-transform: lowercase;
+}
+
+.story-card__title {
+  word-break: keep-all;
 }
 
 .__react_component_tooltip{
@@ -125,6 +142,21 @@
   .navbar-item{
     color: black;
   }
+}
+
+.radio  {
+  margin-right: 1rem;
+  
+  input[type="radio"]{
+    margin-right: .5rem;
+  }
+}
+
+.image.is-16x16{
+  min-width: 16px;
+}
+.image.is-32x32{
+  min-width: 32px;
 }
 
 @media print

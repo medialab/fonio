@@ -1,5 +1,5 @@
 /**
- * Translations language adder written by Robin de Mourat
+ * Translations language adder
  */
 var fs = require('fs');
 var path = require('path');

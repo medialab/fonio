@@ -1,3 +1,7 @@
+/**
+ * This module provides a toolbar button for link modifier
+ * @module fonio/components/SectionEditor
+ */
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
@@ -10,28 +14,32 @@ import {
 
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 
+import { silentEvent } from '../../../helpers/misc';
 
-const LinkButton = ({tooltip}, {
+const LinkButton = ( { tooltip }, {
   // startNewResourceConfiguration,
   setLinkModalFocusData,
   editorFocus
-}) => {
-  const onClick = e => {
-    e.preventDefault();
-    e.stopPropagation();
+} ) => {
+  const onClick = ( e ) => {
+    silentEvent( e );
     // startNewResourceConfiguration(true, 'webpage');
-    setLinkModalFocusData(editorFocus);
+    setLinkModalFocusData( editorFocus );
   };
   return (
     <Button
-      data-tip={tooltip}
-      data-for="style-button"
-      onMouseDown={onClick}>
-      <Image style={{marginLeft: 0, marginRight: 0}} isSize={'24x24'} src={icons.webpage.black.svg} />
+      data-tip={ tooltip }
+      data-for={ 'style-button' }
+      onMouseDown={ onClick }
+    >
+      <Image
+        style={ { marginLeft: 0, marginRight: 0 } }
+        isSize={ '24x24' }
+        src={ icons.webpage.black.svg }
+      />
     </Button>
   );
 };
-
 
 LinkButton.contextTypes = {
   setLinkModalFocusData: PropTypes.func,

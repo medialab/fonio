@@ -1,5 +1,5 @@
 /**
- * Translations exporter written by Robin de Mourat
+ * Translations exporter
  */
 var fs = require('fs');
 var path = require('path');

@@ -6,8 +6,8 @@
  * @module fonio
  */
 import React from 'react';
-import {render} from 'react-dom';
-import {Provider} from 'react-redux';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 import I18n from 'redux-i18n';
 
 import configureStore from './redux/configureStore';
@@ -19,29 +19,32 @@ let CurrentApplication = Application;
 
 const initialState = {};
 
-const store = configureStore(initialState);
+const store = configureStore( initialState );
 window.store = store;
 
-const mountNode = document.getElementById('mount');
+const mountNode = document.getElementById( 'mount' );
 
-let browserLang = (navigator.language || navigator.userLanguage).split('-')[0];
-if (browserLang !== 'en' || browserLang !== 'fr') {
+let browserLang = ( navigator.language || navigator.userLanguage ).split( '-' )[0];
+if ( browserLang !== 'en' || browserLang !== 'fr' ) {
   browserLang = 'en';
 }
-const initialLang = localStorage.getItem('fonio-lang') || browserLang;
+const initialLang = localStorage.getItem( 'fonio-lang' ) || browserLang;
 
 /**
  * Mounts the application to the given mount node
  */
 export function renderApplication() {
   const group = (
-    <Provider store={store}>
-      <I18n translations={translations} initialLang={initialLang || 'en-GB'}>
+    <Provider store={ store }>
+      <I18n
+        translations={ translations }
+        initialLang={ initialLang || 'en-GB' }
+      >
         <CurrentApplication />
       </I18n>
     </Provider>
   );
-  render(group, mountNode);
+  render( group, mountNode );
 }
 
 renderApplication();
@@ -49,9 +52,9 @@ renderApplication();
 /**
  * Hot-reloading.
  */
-if (module.hot) {
-  module.hot.accept('./Application', function() {
-    CurrentApplication = require('./Application').default;
+if ( module.hot ) {
+  module.hot.accept( './Application', function() {
+    CurrentApplication = require( './Application' ).default;
     renderApplication();
-  });
+  } );
 }
