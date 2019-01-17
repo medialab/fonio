@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2019-1-16\n"
-"PO-Revision-Date: Wed Jan 16 2019 18:22:55 GMT+0100 (CET)\n"
+"POT-Creation-Date: 2019-1-17\n"
+"PO-Revision-Date: Thu Jan 17 2019 14:51:36 GMT+0100 (GMT+01:00)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -165,7 +165,7 @@ msgid "Components.ChangePasswordModal.password does not match"
 msgstr "les mots de passe ne correspondent pas"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "
-msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
+msgstr "Êtes-vous sûr·e de vouloir supprimer la ressource « {s} » ?"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "
 msgstr "Êtes-vous sûr·e de vouloir supprimer la section « {s} » ? Tous ses contenus seront perdus sans possibilité de les récupérer."
@@ -888,7 +888,7 @@ msgid "Features.DesignView.Styles"
 msgstr "Styles"
 
 msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="
-msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
+msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" rel=\"noopener\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
 
 msgid "Features.DesignView.What items to show in references"
 msgstr "Quels items montrer dans les références"
@@ -1152,7 +1152,7 @@ msgid "Features.HomeView.Learn"
 msgstr "Apprendre"
 
 msgid "Features.HomeView.Made at the <a target="
-msgstr "Fabriqué au <a target=\"blank\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, laboratoire de recherche qui connecte les sciences sociales avec de nouvelles méthodologies de recherche, d'ingénierie et de design."
+msgstr "Fabriqué au <a target=\"blank\" ref=\"noopener\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, laboratoire de recherche qui connecte les sciences sociales avec de nouvelles méthodologies de recherche, d'ingénierie et de design."
 
 msgid "Features.HomeView.Made by médialab Sciences Po"
 msgstr "Made by médialab Sciences Po"
@@ -1170,7 +1170,7 @@ msgid "Features.HomeView.Override story"
 msgstr "Override story"
 
 msgid "Features.HomeView.Provided by the <a target="
-msgstr "Fourni par le programme <a target=\"blank\" href=\"http://controverses.org/\">FORCCAST</a>, dédié au développement d'innovations pédagogiques pour l'analyse des controverses, sciences et techniques."
+msgstr "Fourni par le programme <a target=\"blank\" ref=\"noopener\" href=\"http://controverses.org/\">FORCCAST</a>, dédié au développement d'innovations pédagogiques pour l'analyse des controverses, sciences et techniques."
 
 msgid "Features.HomeView.Provided thanks to the FORCCAST program"
 msgstr "Provided thanks to the FORCCAST program"
@@ -1776,7 +1776,7 @@ msgid "Features.HomeView.Contributing and signaling bugs"
 msgstr "Contribuer et signaler des bugs"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="
-msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">cette page</a> et de suivre la procédure proposée. Merci !"
+msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\" rel=\"noopener\" >cette page</a> et de suivre la procédure proposée. Merci !"
 
 msgid "Features.HomeView.The source code of Fonio is licensed under free software license "
 msgstr "Le code source de fonio est placé sous license libre "
@@ -2048,20 +2048,41 @@ msgstr "tooltip"
 msgid "Components.PasswordInput.password"
 msgstr "mot de passe"
 
+msgid "Components.ResourceForm.Authors of the embed"
+msgstr "Auteurs du code"
+
+msgid "Components.ResourceForm.help about embed authors"
+msgstr "Qui a crée ce code"
+
+msgid "Components.ChangePasswordModal.change password"
+msgstr "change password"
+
+msgid "Features.LibraryView.another author in one section"
+msgstr "another author in one section"
+
+msgid "Features.LibraryView.other authors in multiple sections"
+msgstr "other authors in multiple sections"
+
+msgid "Features.SectionView.another author in one section"
+msgstr "another author in one section"
+
+msgid "Features.SectionView.other authors in multiple sections"
+msgstr "other authors in multiple sections"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
-msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
+msgstr "Êtes-vous sûr·e de vouloir supprimer la ressource « {s} » ?"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the section "{s}" ? All its content will be lost without possible recovery."
 msgstr "Êtes-vous sûr·e de vouloir supprimer la section « {s} » ? Tous ses contenus seront perdus sans possibilité de les récupérer."
 
 msgid "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target="blank" href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">this tutorial</a>"
-msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
+msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" rel=\"noopener\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
 
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
-msgstr "Fabriqué au <a target=\"blank\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, laboratoire de recherche qui connecte les sciences sociales avec de nouvelles méthodologies de recherche, d'ingénierie et de design."
+msgstr "Fabriqué au <a target=\"blank\" ref=\"noopener\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, laboratoire de recherche qui connecte les sciences sociales avec de nouvelles méthodologies de recherche, d'ingénierie et de design."
 
 msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
-msgstr "Fourni par le programme <a target=\"blank\" href=\"http://controverses.org/\">FORCCAST</a>, dédié au développement d'innovations pédagogiques pour l'analyse des controverses, sciences et techniques."
+msgstr "Fourni par le programme <a target=\"blank\" ref=\"noopener\" href=\"http://controverses.org/\">FORCCAST</a>, dédié au développement d'innovations pédagogiques pour l'analyse des controverses, sciences et techniques."
 
 msgid "Features.SectionView."#" then space"
 msgstr "« # » puis espace"
@@ -2088,4 +2109,4 @@ msgid "Components.UploadModal."{f}" is too big"
 msgstr "\"{f}\" est trop gros"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
-msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">cette page</a> et de suivre la procédure proposée. Merci !"
+msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\" rel=\"noopener\" >cette page</a> et de suivre la procédure proposée. Merci !"

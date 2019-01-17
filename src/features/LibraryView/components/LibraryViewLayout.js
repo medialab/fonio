@@ -200,7 +200,9 @@ class LibraryViewLayout extends Component {
         if ( activeCitedSections.length > 0 ) {
           return {
             ...result,
-            [context.resourceId]: { name: `other ${activeCitedSections.length} sections` }
+            [context.resourceId]: { name: activeCitedSections.length === 1 ?
+              translate( 'another author in one section' ) : translate( 'other authors in multiple sections' )
+            }
           };
         }
         return result;
@@ -760,7 +762,13 @@ class LibraryViewLayout extends Component {
     } = story;
 
     /**
+     * Local functions
+     */
+    const translate = translateNameSpacer( t, 'Features.LibraryView' );
+
+    /**
      * Computed variables
+     * TODO: Redundant code in render() and renderMainColumn()
      */
     const userLockedResourceId = getUserResourceLockId( lockingMap, userId, storyId );
     const reverseResourcesLockMap = getReverseResourcesLockMap( lockingMap, activeUsers, storyId );
@@ -777,18 +785,15 @@ class LibraryViewLayout extends Component {
         if ( activeCitedSections.length > 0 ) {
           return {
             ...result,
-            [context.resourceId]: { name: `other ${activeCitedSections.length} sections` }
+            [context.resourceId]: { name: activeCitedSections.length === 1 ?
+              translate( 'another author in one section' ) : translate( 'other authors in multiple sections' )
+            }
           };
         }
         return result;
       }, {} );
     const resourcesLockMap = isEmpty( reverseResourcesLockMap ) ? reverseResourcesSectionsMap : reverseResourcesLockMap;
     const actualResourcesPromptedToDelete = resourcesPromptedToDelete.filter( ( resourceId ) => resourcesLockMap[resourceId] === undefined );
-
-    /**
-     * Local functions
-     */
-    const translate = translateNameSpacer( t, 'Features.LibraryView' );
 
     /**
      * Callbacks handlers
