@@ -670,5 +670,9 @@
   "Components.BlockContextualization.tooltip": "tooltip",
   "Components.PasswordInput.password": "mot de passe",
   "Components.ResourceForm.Authors of the embed": "Auteurs du code",
-  "Components.ResourceForm.help about embed authors": "Qui a crée ce code"
+  "Components.ResourceForm.help about embed authors": "Qui a crée ce code",
+  "Components.AssetPreview.primary": "primary",
+  "Components.AssetPreview.source": "source",
+  "Components.ChangePasswordModal.Change Password": "Modifier le mot de passe",
+  "Features.HomeView.Made by médialab Sciences Po": "Créé par le médialab Sciences Po"
 }
