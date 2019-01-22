@@ -681,5 +681,6 @@
   "Components.InternalLinkModal.Your story has only one section for now, therefore you cannot yet link to another.": "",
   "Features.EditionUiWrapper.logged as {u}": "logged as {u}",
   "Components.BlockContextualization.tooltip": "tooltip",
-  "Components.PasswordInput.password": "password"
+  "Components.PasswordInput.password": "password",
+  "Features.DesignView.Story template": "Story template"
 }

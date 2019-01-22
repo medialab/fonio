@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2019-1-16\n"
-"PO-Revision-Date: Wed Jan 16 2019 18:22:55 GMT+0100 (CET)\n"
+"POT-Creation-Date: 2019-1-22\n"
+"PO-Revision-Date: Tue Jan 22 2019 18:00:14 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2047,6 +2047,9 @@ msgstr "tooltip"
 
 msgid "Components.PasswordInput.password"
 msgstr "mot de passe"
+
+msgid "Features.DesignView.Story template"
+msgstr "Story template"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer l'item  « {s} » ?"
