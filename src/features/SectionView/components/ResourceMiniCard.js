@@ -297,7 +297,11 @@ class ResourceCard extends Component {
                     {resourceTitle}
                   </span>
                   <StatusMarker
-                    style={ { marginLeft: '1rem' } }
+                    style={ {
+                      position: 'absolute',
+                      top: '1.5rem',
+                      right: '2rem'
+                    } }
                     lockStatus={ lockStatus }
                     statusMessage={ lockStatusMessage }
                   />

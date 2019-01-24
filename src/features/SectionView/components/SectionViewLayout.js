@@ -169,6 +169,11 @@ const SectionViewLayout = ( {
   const { id: sectionId } = section;
 
   /**
+   * Local functions
+   */
+  const translate = translateNameSpacer( t, 'Features.SectionView' );
+
+  /**
    * Computed variables
    */
   const defaultSection = createDefaultSection();
@@ -210,7 +215,9 @@ const SectionViewLayout = ( {
       if ( activeCitedSections.length > 0 ) {
         return {
           ...result,
-          [context.resourceId]: { name: `other ${activeCitedSections.length} sections` }
+          [context.resourceId]: { name: activeCitedSections.length === 1 ?
+            translate( 'another author in one section' ) : translate( 'other authors in multiple sections' )
+          }
         };
       }
       return result;
@@ -250,11 +257,6 @@ const SectionViewLayout = ( {
   const glossaryEntries = glossaryModalFocusData ? Object.keys( story.resources )
     .filter( ( resourceId ) => story.resources[resourceId].metadata.type === 'glossary' )
     .map( ( resourceId ) => story.resources[resourceId] ) : [];
-
-  /**
-   * Local functions
-   */
-  const translate = translateNameSpacer( t, 'Features.SectionView' );
 
   /**
    * Callbacks handlers

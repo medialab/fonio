@@ -110,7 +110,7 @@ const ChangePasswordModal = ( {
                     isFullWidth
                     key={ 0 }
                     isColor={ 'success' }
-                  >{translate( 'Change Password' )}
+                  >{translate( 'change password' )}
                   </Button>,
                   <Button
                     isFullWidth
