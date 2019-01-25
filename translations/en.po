@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2019-1-17\n"
-"PO-Revision-Date: Thu Jan 17 2019 14:51:36 GMT+0100 (GMT+01:00)\n"
+"POT-Creation-Date: 2019-1-24\n"
+"PO-Revision-Date: Thu Jan 24 2019 13:24:31 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2047,6 +2047,9 @@ msgstr "tooltip"
 
 msgid "Components.PasswordInput.password"
 msgstr "password"
+
+msgid "Features.DesignView.Story template"
+msgstr "Story template"
 
 msgid "Components.ResourceForm.Authors of the embed"
 msgstr "Authors of the code"

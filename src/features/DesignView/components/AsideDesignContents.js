@@ -40,11 +40,14 @@ const AsideDesignContents = ( {
   resourceTypes,
   referenceTypesVisible,
   onUpdateTemplatesVariables,
-  getTooltipContainer
+  getTooltipContainer,
+  onTemplateChange,
+  templates,
 }, { t } ) => {
 
   const { acceptsOptions = [], stylesVariables } = template;
   const styles = getStyles( story );
+
 
   /**
    * Local functions
@@ -54,6 +57,9 @@ const AsideDesignContents = ( {
   /**
    * Callbacks handlers
    */
+  const handleTemplateChange = ( e ) => {
+    onTemplateChange(e.target.value);
+  }
   const handleNotesPositionChange = ( e ) => onUpdateTemplatesVariables(
     [ 'options', 'notesPosition' ],
     e.target.value
@@ -88,6 +94,33 @@ const AsideDesignContents = ( {
       case 'settings':
         return (
           <Column>
+            {
+              templates.length > 1 &&
+              <Level>
+                <form>
+                  <Field>
+                    <Label>{translate( 'Story template' )}</Label>
+                    <Control>
+                      <Select
+                        onChange={ handleTemplateChange }
+                        value={ template.id }
+                      >
+                        {
+                          templates.map(temp => (
+                            <option 
+                              key={temp.id}
+                              value={temp.id}
+                            >
+                              {temp.name}
+                            </option>
+                          ))
+                        }
+                      </Select>
+                    </Control>
+                  </Field>
+                </form>
+              </Level>
+            }
             {
               acceptsOptions.includes( 'notesPosition' ) &&
               <Level>

@@ -55,6 +55,8 @@ const AsideDesignColumn = ( {
 
   setCssHelpVisible,
 
+  onTemplateChange,
+
 }, { t } ) => {
 
   /**
@@ -168,6 +170,8 @@ const AsideDesignColumn = ( {
                 options,
                 resourceTypes,
                 referenceTypesVisible,
+                onTemplateChange,
+                templates
               }
             }
           />

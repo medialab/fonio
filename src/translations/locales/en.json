@@ -673,6 +673,7 @@
   "Features.EditionUiWrapper.logged as {u}": "logged as {u}",
   "Components.BlockContextualization.tooltip": "tooltip",
   "Components.PasswordInput.password": "password",
+  "Features.DesignView.Story template": "Story template",
   "Components.ResourceForm.Authors of the embed": "Authors of the code",
   "Components.ResourceForm.help about embed authors": "Who produced this code",
   "Features.DesignView.StylesVariables.Features.DesignView.StylesVariables": "StylesVariables",

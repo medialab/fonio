@@ -44,6 +44,7 @@ const DesignViewLayout = ( {
   onUpdateCss,
   onUpdateSettings,
   onUpdateTemplatesVariables,
+  onTemplateChange,
 }, { t } ) => {
 
   /**
@@ -82,6 +83,7 @@ const DesignViewLayout = ( {
               onUpdateCss,
               onUpdateSettings,
               onUpdateTemplatesVariables,
+              onTemplateChange,
           }
         }
       />

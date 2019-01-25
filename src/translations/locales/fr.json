@@ -669,6 +669,7 @@
   "Features.EditionUiWrapper.logged as {u}": "identifié en tant que {u}",
   "Components.BlockContextualization.tooltip": "tooltip",
   "Components.PasswordInput.password": "mot de passe",
+  "Features.DesignView.Story template": "Gabarit du récit",
   "Components.ResourceForm.Authors of the embed": "Auteurs du code",
   "Components.ResourceForm.help about embed authors": "Qui a crée ce code",
   "Components.AssetPreview.primary": "primary",

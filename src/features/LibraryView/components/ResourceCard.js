@@ -126,12 +126,12 @@ class ResourceCard extends Component {
         lockStatusMessage = translate( 'edited by {a}', { a: lockData.name } );
         lockStatus = 'locked';
       }
- else {
+    else {
         lockStatusMessage = translate( 'edited by {a} (inactive)', { a: lockData.name } );
       }
       isEditable = false;
     }
- else {
+    else {
       isEditable = true;
       lockStatus = 'open';
       lockStatusMessage = translate( 'open to edition' );
