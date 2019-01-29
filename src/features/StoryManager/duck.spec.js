@@ -89,27 +89,78 @@ describe( 'story reducer test', () => {
         }
       }
     };
-    const action = {
+    const baseAction = {
       type: CREATE_SECTION,
-      payload: {
-        sectionId: 'e',
-        section: {},
-      },
+      payload: {},
     };
 
-    it( 'a section was added, section order changed', () => {
+    it( 'a section was added in summary view, section should be appended in section orders', () => {
       const expectedSectionsOrder = [ 'a', 'b', 'c', 'd', 'e' ];
+      const action = {
+        ...baseAction,
+        payload: {
+          storyId: 'storyOne',
+          sectionId: 'e',
+          section: {},
+          sectionIndex: 4
+        }
+      }
       const resultState = reducer( mockState, action );
       expect( resultState.story.story.sectionsOrder ).toEqual( expectedSectionsOrder );
     } );
 
-    it( 'a section was added, sections append', () => {
+    it( 'a section was added in summary view, section should be appended in sections', () => {
+      const action = {
+        ...baseAction,
+        payload: {
+          storyId: 'storyOne',
+          sectionId: 'e',
+          section: {},
+          sectionIndex: 4
+        }
+      };
       const expectedSections = {
         a: {},
         b: {},
         c: {},
         d: {},
         e: {}
+      };
+      const resultState = reducer( mockState, action );
+      expect( resultState.story.story.sections ).toEqual( expectedSections );
+    } );
+
+    it( 'a section was insert in section view, section should be inserted in section orders', () => {
+      const action = {
+        ...baseAction,
+        payload: {
+          storyId: 'storyOne',
+          sectionId: 'e',
+          section: {},
+          sectionIndex: 2
+        }
+      };
+      const expectedSectionsOrder = [ 'a', 'b', 'e', 'c', 'd' ];
+      const resultState = reducer( mockState, action );
+      expect( resultState.story.story.sectionsOrder ).toEqual( expectedSectionsOrder );
+    } );
+
+    it( 'a section was added in section view, section should be inserted in section orders', () => {
+      const action = {
+        ...baseAction,
+        payload: {
+          storyId: 'storyOne',
+          sectionId: 'e',
+          section: {},
+          sectionIndex: 2
+        }
+      };
+      const expectedSections = {
+        a: {},
+        b: {},
+        e: {},
+        c: {},
+        d: {},
       };
       const resultState = reducer( mockState, action );
       expect( resultState.story.story.sections ).toEqual( expectedSections );

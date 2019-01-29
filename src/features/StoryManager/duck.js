@@ -535,11 +535,12 @@ function story( state = STORY_DEFAULT_STATE, action ) {
       if ( !state.story ) {
         return state;
       }
-      newSectionsOrder = payload.sectionOrder < state.story.sectionsOrder.length ?
+      const sectionIndex = payload.sectionIndex || state.story.sectionsOrder.length - 1;
+      newSectionsOrder = sectionIndex < state.story.sectionsOrder.length ?
             [
-              ...state.story.sectionsOrder.slice( 0, payload.sectionOrder ),
+              ...state.story.sectionsOrder.slice( 0, sectionIndex ),
               payload.sectionId,
-              ...state.story.sectionsOrder.slice( payload.sectionOrder )
+              ...state.story.sectionsOrder.slice( sectionIndex )
             ]
             :
             [

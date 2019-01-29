@@ -271,12 +271,12 @@ const SectionViewLayout = ( {
       id: genId()
     };
 
-    const currentSectionOrder = sectionsOrder.indexOf( section.id ) || 0;
+    const currentSectionIndex = sectionsOrder.indexOf( section.id ) || 0;
     createSection( {
       section: newSection,
       sectionId: newSection.id,
       storyId,
-      sectionOrder: currentSectionOrder + 1,
+      sectionIndex: currentSectionIndex + 1,
       userId
     }, ( err ) => {
       if ( !err ) {
