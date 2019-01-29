@@ -8,11 +8,18 @@ import reducer, {
   UPDATE_SECTIONS_ORDER,
   CREATE_SECTION,
   DELETE_SECTION,
+  DELETE_RESOURCE,
 } from './duck';
 
 /**
- * * REDUCERS TESTING
- * TODO: better mockState -  initalization
+ * * TESTING - Async Actions
+ * ACTIVATE_STORY
+ * UPLOAD_RESOURCE
+ * DELETE_UPLOADED_RESOURCE
+ */
+
+/**
+ * * TESTING - Reducers
  */
 
 describe( 'story reducer test', () => {
@@ -82,32 +89,21 @@ describe( 'story reducer test', () => {
         }
       }
     };
-    const baseAction = {
+    const action = {
       type: CREATE_SECTION,
-      payload: {},
+      payload: {
+        sectionId: 'e',
+        section: {},
+      },
     };
 
     it( 'a section was added, section order changed', () => {
-      const action = {
-        ...baseAction,
-        payload: {
-          sectionId: 'e',
-          section: {},
-        }
-      };
       const expectedSectionsOrder = [ 'a', 'b', 'c', 'd', 'e' ];
       const resultState = reducer( mockState, action );
       expect( resultState.story.story.sectionsOrder ).toEqual( expectedSectionsOrder );
     } );
 
     it( 'a section was added, sections append', () => {
-      const action = {
-        ...baseAction,
-        payload: {
-          sectionId: 'e',
-          section: {},
-        }
-      };
       const expectedSections = {
         a: {},
         b: {},
@@ -132,46 +128,36 @@ describe( 'story reducer test', () => {
           },
           sectionsOrder: [ 'a', 'b', 'c', 'd' ],
           contextualizations: {
-            ctxtion1: {
-              id: 'ctxtion1',
-              resourceId: 'resource1',
-              contextualizerId: 'ctxlizer1',
+            ctxtionOne: {
+              id: 'ctxtionOne',
+              resourceId: 'resourceOne',
+              contextualizerId: 'ctxlizerOne',
               sectionId: 'b'
             },
           },
           contextualizers: {
-            ctxlizer1: {
-              id: 'ctxlizer1',
+            ctxlizerOne: {
+              id: 'ctxlizerOne',
               type: 'image'
             }
           }
         }
       }
     };
-    const baseAction = {
+    const action = {
       type: `${DELETE_SECTION}_SUCCESS`,
-      payload: {},
+      payload: {
+        sectionId: 'b'
+      },
     };
 
     it( 'a section was delete, section order should be updated', () => {
-      const action = {
-        ...baseAction,
-        payload: {
-          sectionId: 'b'
-        }
-      };
       const expectedSectionsOrder = [ 'a', 'c', 'd' ];
       const resultState = reducer( mockState, action );
       expect( resultState.story.story.sectionsOrder ).toEqual( expectedSectionsOrder );
     } );
 
     it( 'a section was delete, sections should be updated', () => {
-      const action = {
-        ...baseAction,
-        payload: {
-          sectionId: 'b'
-        }
-      };
       const expectedSections = {
         a: {},
         c: {},
@@ -182,24 +168,57 @@ describe( 'story reducer test', () => {
     } );
 
     it( 'a section was delete, contextualizations should be updated', () => {
-      const action = {
-        ...baseAction,
-        payload: {
-          sectionId: 'b'
-        }
-      };
       const expectedContextualizations = {};
       const resultState = reducer( mockState, action );
       expect( resultState.story.story.contextualizations ).toEqual( expectedContextualizations );
     } );
 
     it( 'a section was delete, contextualizers should be deleted', () => {
-      const action = {
-        ...baseAction,
-        payload: {
-          sectionId: 'b'
+      const expectedContextualizers = {};
+      const resultState = reducer( mockState, action );
+      expect( resultState.story.story.contextualizers ).toEqual( expectedContextualizers );
+    } );
+  } );
+
+  describe( 'DELETE_RESOURCE action', () => {
+    const mockState = {
+      story: {
+        story: {
+          resources: {
+            resourceOne: {}
+          },
+          contextualizations: {
+            ctxtionOne: {
+              id: 'ctxtionOne',
+              resourceId: 'resourceOne',
+              contextualizerId: 'ctxlizerOne',
+              sectionId: 'a'
+            }
+          },
+          contextualizers: {
+            ctxlizerOne: {
+              id: 'ctxlizerOne',
+              type: 'image'
+            }
+          }
         }
-      };
+      }
+    };
+
+    const action = {
+      type: `${DELETE_RESOURCE}_SUCCESS`,
+      payload: {
+        resourceId: 'resourceOne'
+      }
+    };
+
+    it( 'a resource was delete, contextualizations should be updated', () => {
+      const expectedContextualizations = {};
+      const resultState = reducer( mockState, action );
+      expect( resultState.story.story.contextualizations ).toEqual( expectedContextualizations );
+    } );
+
+    it( 'a resource was delete, contextualizers should be updated', () => {
       const expectedContextualizers = {};
       const resultState = reducer( mockState, action );
       expect( resultState.story.story.contextualizers ).toEqual( expectedContextualizers );
@@ -208,5 +227,5 @@ describe( 'story reducer test', () => {
 } );
 
 /**
- * * Selectors TESTING
+ * * TESTING - selectors (no ui selectors, no test for now)
  */
