@@ -48,7 +48,6 @@ const AsideDesignContents = ( {
   const { acceptsOptions = [], stylesVariables } = template;
   const styles = getStyles( story );
 
-
   /**
    * Local functions
    */
@@ -58,8 +57,8 @@ const AsideDesignContents = ( {
    * Callbacks handlers
    */
   const handleTemplateChange = ( e ) => {
-    onTemplateChange(e.target.value);
-  }
+    onTemplateChange( e.target.value );
+  };
   const handleNotesPositionChange = ( e ) => onUpdateTemplatesVariables(
     [ 'options', 'notesPosition' ],
     e.target.value
@@ -106,14 +105,14 @@ const AsideDesignContents = ( {
                         value={ template.id }
                       >
                         {
-                          templates.map(temp => (
-                            <option 
-                              key={temp.id}
-                              value={temp.id}
+                          templates.map( ( temp ) => (
+                            <option
+                              key={ temp.id }
+                              value={ temp.id }
                             >
                               {temp.name}
                             </option>
-                          ))
+                          ) )
                         }
                       </Select>
                     </Control>

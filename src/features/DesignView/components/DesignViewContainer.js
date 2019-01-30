@@ -223,20 +223,21 @@ class DesignViewContainer extends Component {
     const settings = {
       ...oldSettings,
       templateId
-    }
+    };
+
     /**
      * @todo update quinoa-schemas to be able to do this
      * with json-schema-defaults
      */
-    if (!settings.styles[templateId]) {
+    if ( !settings.styles[templateId] ) {
       settings.styles[templateId] = {
         options: {
           notesPosition: 'aside',
           referenceStatus: 'cited',
-          referenceTypes: ['bib']
+          referenceTypes: [ 'bib' ]
         },
         stylesVariables: {}
-      }
+      };
     }
     updateStorySettings( {
       storyId,
