@@ -352,7 +352,7 @@ export const inferMetadata = ( data, assetType ) => {
       return {
         title,
         fileName: data && data.file && data.file.name && data.file.name, // @todo use lodash/getIn
-        ext: data && data.file && data.file.name && data.file.name.split( '.' )[1],
+        ext: data && data.file && data.file.name && data.file.name.split( '.' ).reverse()[0],
         mimetype: data && data.file && data.file.type
       };
     default:
