@@ -174,23 +174,6 @@ function locking( state = LOCKING_DEFAULT_STATE, action ) {
       }
       return state;
 
-    /**
-     * @todo : following case not necessary ?
-     */
-    case `${ENTER_STORY}_INIT`:
-      locks = ( state[payload.storyId] && state[payload.storyId].locks ) || {};
-      // save log to local storage for history
-      updateEditionHistoryMap( payload.storyId );
-      return {
-        ...state,
-        [payload.storyId]: {
-          ...state[payload.storyId],
-          locks: {
-            ...locks,
-            ...payload.locks,
-          },
-        },
-      };
     case `${ACTIVATE_STORY}_SUCCESS`:
     case ENTER_STORY:
     case `${ENTER_STORY}_BROADCAST`:
