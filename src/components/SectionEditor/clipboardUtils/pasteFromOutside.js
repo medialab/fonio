@@ -19,7 +19,98 @@ import parsePastedImage from './parsePastedImage';
 const HTML_LENGTH_LOADING_SCREEN_THRESHOLD = 1000;
 const MEDIUM_TIMEOUT = 500;
 
-const pasteFromOutside = ( {
+/**
+ * Parses and structure pasted data into a copied content states + diverse objects
+ * that will be created by the parsing operation
+ */
+export const computePastedData = ( {
+  resources,
+  activeSection,
+  html
+} ) => {
+  const resourcesList = Object.keys( resources ).map( ( resourceId ) => resources[resourceId] );
+  const resourcesToAdd = [];
+  const contextualizationsToAdd = [];
+  const contextualizersToAdd = [];
+  const activeSectionId = activeSection.id;
+  const imagesToAdd = [];
+
+  const copiedContentState = convertFromHTML( {
+    htmlToEntity: ( nodeName, node, createEntity ) => {
+      if ( nodeName === 'a' ) {
+        const {
+          contextualization,
+          contextualizer,
+          resource,
+          entity
+        } = parsePastedLink(
+              node,
+              [ ...resourcesList, ...resourcesToAdd ],
+              activeSectionId
+        );
+
+        if ( contextualization ) {
+          contextualizationsToAdd.push( contextualization );
+        }
+        if ( contextualizer ) {
+          contextualizersToAdd.push( contextualizer );
+        }
+        if ( resource ) {
+          resourcesToAdd.push( resource );
+        }
+        if ( entity ) {
+          return createEntity( entity.type, entity.mutability, entity.data );
+        }
+      }
+      else if ( nodeName === 'img' ) {
+        const {
+          contextualization,
+          contextualizer,
+          resource,
+          entity
+        } = parsePastedImage(
+              node,
+              [ ...resourcesList, ...resourcesToAdd ],
+              activeSectionId
+        );
+
+        if ( contextualization ) {
+          contextualizationsToAdd.push( contextualization );
+        }
+        if ( contextualizer ) {
+          contextualizersToAdd.push( contextualizer );
+        }
+        if ( resource ) {
+          imagesToAdd.push( resource );
+        }
+        if ( entity ) {
+          return createEntity( entity.type, entity.mutability, entity.data );
+        }
+      }
+    },
+    htmlToBlock: ( nodeName ) => {
+      if ( nodeName === 'img' ) {
+        return {
+          type: 'atomic',
+          data: {}
+        };
+      }
+    }
+  } )( html );
+
+  return {
+    copiedContentState,
+    resourcesToAdd,
+    contextualizationsToAdd,
+    contextualizersToAdd,
+    imagesToAdd
+  };
+};
+
+/**
+ * Applies related operations for pasting external content
+ */
+export const handlePasting = ( {
   html = '',
   activeEditorState,
   updateSection,
@@ -41,100 +132,50 @@ const pasteFromOutside = ( {
   setEditorFocus,
 } ) => {
 
+  /*
+   * unset editor focus to avoid
+   * noisy draft-js editor updates
+   */
+  setEditorFocus( undefined );
+
   const editorId = editorFocus === 'main' ? activeSection.id : editorFocus;
 
-  const handle = () => {
-    const resourcesList = Object.keys( resources ).map( ( resourceId ) => resources[resourceId] );
-    const resourcesToAdd = [];
-    let contextualizationsToAdd = [];
-    let contextualizersToAdd = [];
-    const activeSectionId = activeSection.id;
-    const imagesToAdd = [];
+  const {
+    copiedContentState,
+    resourcesToAdd,
+    contextualizationsToAdd: tContextualizationsToAdd,
+    contextualizersToAdd: tContextualizersToAdd,
+    imagesToAdd
+  } = computePastedData( {
+    resources,
+    activeSection,
+    html
+  } );
 
-    /*
-     * unset editor focus to avoid
-     * noisy draft-js editor updates
-     */
-    setEditorFocus( undefined );
+  let contextualizationsToAdd = tContextualizationsToAdd;
+  let contextualizersToAdd = tContextualizersToAdd;
 
-    const copiedContentState = convertFromHTML( {
-      htmlToEntity: ( nodeName, node, createEntity ) => {
-        if ( nodeName === 'a' ) {
-          const {
-            contextualization,
-            contextualizer,
-            resource,
-            entity
-          } = parsePastedLink(
-                node,
-                [ ...resourcesList, ...resourcesToAdd ],
-                activeSectionId
-          );
-
-          if ( contextualization ) {
-            contextualizationsToAdd.push( contextualization );
-          }
-          if ( contextualizer ) {
-            contextualizersToAdd.push( contextualizer );
-          }
-          if ( resource ) {
-            resourcesToAdd.push( resource );
-          }
-          if ( entity ) {
-            return createEntity( entity.type, entity.mutability, entity.data );
-          }
-        }
-        else if ( nodeName === 'img' ) {
-          const {
-            contextualization,
-            contextualizer,
-            resource,
-            entity
-          } = parsePastedImage(
-                node,
-                [ ...resourcesList, ...resourcesToAdd ],
-                activeSectionId
-          );
-
-          if ( contextualization ) {
-            contextualizationsToAdd.push( contextualization );
-          }
-          if ( contextualizer ) {
-            contextualizersToAdd.push( contextualizer );
-          }
-          if ( resource ) {
-            imagesToAdd.push( resource );
-          }
-          if ( entity ) {
-            return createEntity( entity.type, entity.mutability, entity.data );
-          }
-        }
-      },
-      htmlToBlock: ( nodeName ) => {
-        if ( nodeName === 'img' ) {
-          return {
-            type: 'atomic',
-            data: {}
-          };
-        }
-      }
-    } )( html );
+  /**
+   * Append copied content state to existing editor state
+   */
+  let newContentState = Modifier.replaceWithFragment(
+    activeEditorState.getCurrentContent(),
+    activeEditorState.getSelection(),
+    copiedContentState.getBlockMap()
+  );
 
     /**
-     * Append copied content state to existing editor state
-     */
-    let newContentState = Modifier.replaceWithFragment(
-      activeEditorState.getCurrentContent(),
-      activeEditorState.getSelection(),
-      copiedContentState.getBlockMap()
-    );
-
-    /**
-     * Chaining all objects creations requiring server confirmation
+     * Chaining all objects creations requiring server confirmation at each step
      * (we will actually update editor state only after this
-     * to avoid discrepancies due to interruptions/errors)
+     * to avoid discrepancies due to interruptions/errors).
      */
     Promise.resolve()
+
+      /**
+       * fetching and creating images.
+       * we try to retrieve them from their source.
+       * if we fail (mostly due to CORS policies) then image is not added
+       */
       .then( () => {
         if ( imagesToAdd.length ) {
           setEditorPastingStatus( {
@@ -182,10 +223,10 @@ const pasteFromOutside = ( {
                 // get was not successful
                 /**
                  * @todo
-                 * a lot of these requests will fail because of CORS policies of most website
-                 * a workaround would be to use server as a proxy to get the image
+                 * a lot of these requests will fail because of CORS policies of most website.
+                 * a workaround would be to use server as a proxy to get the image.
                  * we did not choose this option for now because it would require a lot of care
-                 * regarding security rules and is overkill for the benefits of this feature
+                 * regarding security rules and may be overkill for the benefits of this feature
                  */
                 .catch( ( err ) => {
                   console.error( 'image fetching failed', err );/* eslint no-console: 0 */
@@ -226,6 +267,10 @@ const pasteFromOutside = ( {
         }, Promise.resolve() );
 
       } )
+
+      /**
+       * creating other resources
+       */
       .then( () => {
         if ( resourcesToAdd.length ) {
           setEditorPastingStatus( {
@@ -263,6 +308,10 @@ const pasteFromOutside = ( {
         }, Promise.resolve() );
 
       } )
+
+      /**
+       * Creating contextualizers & contextualizations
+       */
       .then( () => {
         if ( contextualizersToAdd.length ) {
           setEditorPastingStatus( {
@@ -316,6 +365,10 @@ const pasteFromOutside = ( {
         }, Promise.resolve() );
 
       } )
+
+      /**
+       * Updating related section draft contents
+       */
       .then( () => {
         setEditorPastingStatus( {
           status: 'updating-contents'
@@ -363,6 +416,28 @@ const pasteFromOutside = ( {
       } );
   };
 
+const pasteFromOutside = ( {
+  html = '',
+  activeEditorState,
+  updateSection,
+  createResource,
+  uploadResource,
+  createContextualization,
+  createContextualizer,
+  updateDraftEditorState,
+
+  setEditorPastingStatus,
+
+  userId,
+  activeEditorStateId,
+  activeSection,
+  storyId,
+  resources,
+  editorFocus,
+
+  setEditorFocus,
+} ) => {
+
   /**
    * We show a loading modal only if html content is big enough
    */
@@ -370,9 +445,51 @@ const pasteFromOutside = ( {
     setEditorPastingStatus( {
       status: 'converting-contents'
     } );
-    setTimeout( handle, MEDIUM_TIMEOUT );
+    setTimeout( () =>
+      handlePasting( {
+        html,
+        activeEditorState,
+        updateSection,
+        createResource,
+        uploadResource,
+        createContextualization,
+        createContextualizer,
+        updateDraftEditorState,
+
+        setEditorPastingStatus,
+
+        userId,
+        activeEditorStateId,
+        activeSection,
+        storyId,
+        resources,
+        editorFocus,
+
+        setEditorFocus,
+      } )
+      , MEDIUM_TIMEOUT );
   }
- else handle();
+  else handlePasting( {
+    html,
+    activeEditorState,
+    updateSection,
+    createResource,
+    uploadResource,
+    createContextualization,
+    createContextualizer,
+    updateDraftEditorState,
+
+    setEditorPastingStatus,
+
+    userId,
+    activeEditorStateId,
+    activeSection,
+    storyId,
+    resources,
+    editorFocus,
+
+    setEditorFocus,
+  } );
 
   return true;
 };
