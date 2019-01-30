@@ -1,7 +1,7 @@
 {
   "name": "fonio",
   "version": "0.4.0",
-  "description": "Quinoa story editor",
+  "description": "a scholarly dissertations editor allowing to build standalone HTML webpages",
   "main": "dist/entry.js",
   "scripts": {
     "dev": "kotatsu serve --config ./webpack.config.dev.js --progress --sass --babel --index ./index.html --public ./ ./src/main.js",
@@ -11,7 +11,6 @@
     "analyze": "webpack-bundle-analyzer build/stats.json",
     "comb": "csscomb src",
     "test": "mocha  --require @babel/register --require ignore-styles -R spec --recursive $(find src -name '*.spec.js')",
-    "deploy": "npm run build && surge ./",
     "translations:backfill": "node translationScripts/backfillTranslations --locales ../src/translations/locales",
     "translations:discover": "node translationScripts/discoverTranslations --locales ../src/translations/locales --src ../src --namespacer translateNameSpacer --translatorFn translate",
     "translations:update": "npm run translations:backfill;npm run translations:discover;npm run translations:update:po",
@@ -37,6 +36,7 @@
   "contributors": [
     "Robin de Mourat",
     "Mengying Du",
+    "Arnaud Pichon",
     "Guillaume Plique",
     "Jérémy Richard"
   ],
