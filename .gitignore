@@ -5,5 +5,4 @@ config/local.json
 build/
 data/
 index.prod.html
-__mocks__
 coverage
