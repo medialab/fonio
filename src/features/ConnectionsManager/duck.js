@@ -21,9 +21,9 @@ export const LEAVE_BLOCK = 'LEAVE_BLOCK';
 export const INACTIVATE_STORY = 'INACTIVATE_STORY';
 const IDLE_BLOCK = 'IDLE_BLOCK';
 
-const USER_CONNECTED = 'USER_CONNECTED';
-const USER_DISCONNECTING = 'USER_DISCONNECTING';
-const USER_DISCONNECTED = 'USER_DISCONNECTED';
+export const USER_CONNECTED = 'USER_CONNECTED';
+export const USER_DISCONNECTING = 'USER_DISCONNECTING';
+export const USER_DISCONNECTED = 'USER_DISCONNECTED';
 export const SET_USER_AS_IDLE_BROADCAST = 'SET_USER_AS_IDLE_BROADCAST';
 export const SET_USER_AS_ACTIVE_BROADCAST = 'SET_USER_AS_ACTIVE_BROADCAST';
 
@@ -180,7 +180,6 @@ function locking( state = LOCKING_DEFAULT_STATE, action ) {
       delete newState[payload.id];
       return newState;
     case `${ACTIVATE_STORY}_SUCCESS`:
-    case ENTER_STORY:
     case `${ENTER_STORY}_BROADCAST`:
       locks = ( state[payload.storyId] && state[payload.storyId].locks ) || {};
       return {

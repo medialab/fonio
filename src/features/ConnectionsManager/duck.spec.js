@@ -9,9 +9,14 @@ import reducer, {
   LEAVE_STORY,
   ENTER_BLOCK,
   LEAVE_BLOCK,
+  INACTIVATE_STORY,
   SET_USER_AS_ACTIVE_BROADCAST,
   SET_USER_AS_IDLE_BROADCAST,
+  USER_DISCONNECTING
 } from './duck';
+
+import { DELETE_STORY } from '../HomeView/duck';
+import { ACTIVATE_STORY } from '../StoryManager/duck';
 
 /**
  * * TESTING - Reducers
@@ -20,20 +25,32 @@ import reducer, {
 describe( 'locking reducer test', () => {
   let mockState;
   let action;
-  describe( 'ENTER_STORY action', () => {
+  describe( 'ACTIVATE_STORY/ENTER_STORY action', () => {
     beforeEach( () => {
       mockState = {
         locking: {}
       };
+    } );
+    it( 'an user activate(enter) a story success', () => {
       action = {
-        type: ENTER_STORY,
+        type: `${ACTIVATE_STORY}_SUCCESS`,
         payload: {
           storyId: 'storyOne',
           userId: 'userOne'
         }
       };
+      const resultState = reducer( mockState, action );
+      expect( resultState.locking.storyOne.locks.userOne ).toBeDefined();
     } );
-    it( 'an user enter a story', () => {
+
+    it( 'an user enter a story broadcast', () => {
+      action = {
+        type: `${ENTER_STORY}_BROADCAST`,
+        payload: {
+          storyId: 'storyOne',
+          userId: 'userOne'
+        }
+      };
       const resultState = reducer( mockState, action );
       expect( resultState.locking.storyOne.locks.userOne ).toBeDefined();
     } );
@@ -62,6 +79,40 @@ describe( 'locking reducer test', () => {
       const resultState = reducer( mockState, action );
       expect( resultState.locking.storyOne.locks.userOne ).toBeUndefined();
     } );
+  } );
+
+  describe( 'DELETE_STORY and INACTIVATE_STORY action', () => {
+    beforeEach( () => {
+      mockState = {
+        locking: {
+          storyOne: {
+            locks: {}
+          }
+        }
+      };
+    } );
+    it( 'user delete a story', () => {
+      action = {
+        type: `${DELETE_STORY}_BROADCAST`,
+        payload: {
+          id: 'storyOne',
+        }
+      };
+      const resultState = reducer( mockState, action );
+      expect( resultState.locking.storyOne ).toBeUndefined();
+    } );
+
+    it( 'user inactivate a story', () => {
+      action = {
+        type: INACTIVATE_STORY,
+        payload: {
+          id: 'storyOne',
+        }
+      };
+      const resultState = reducer( mockState, action );
+      expect( resultState.locking.storyOne ).toBeUndefined();
+    } );
+
   } );
 
   describe( 'ENTER_BLOCK action', () => {
@@ -169,6 +220,31 @@ describe( 'locking reducer test', () => {
     it( 'set a user as idle', () => {
       const resultState = reducer( mockState, action );
       expect( resultState.locking.storyOne.locks.userOne.status ).toEqual( 'active' );
+    } );
+  } );
+
+  describe( 'USER_DISCONNECTING action', () => {
+    beforeEach( () => {
+      mockState = {
+        locking: {
+          storyOne: {
+            locks: {
+              userOne: {}
+            }
+          }
+        }
+      };
+      action = {
+        type: USER_DISCONNECTING,
+        payload: {
+          userId: 'userOne',
+          rooms: [ 'storyOne' ]
+        }
+      };
+    } );
+    it( 'user disconnecting, should remove user lock from the story he in', () => {
+      const resultState = reducer( mockState, action );
+      expect( resultState.locking.storyOne.locks.userOne ).toBeUndefined();
     } );
   } );
 } );
