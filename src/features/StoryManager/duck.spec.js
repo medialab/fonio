@@ -30,9 +30,7 @@ describe( 'story reducer test', () => {
     beforeEach( () => {
       mockState = {
         story: {
-          story: {
-            sectionsOrder: [ 'a', 'b', 'c', 'd' ]
-          }
+          sectionsOrder: [ 'a', 'b', 'c', 'd' ]
         }
       };
       baseAction = {
@@ -50,7 +48,7 @@ describe( 'story reducer test', () => {
         }
       };
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.sectionsOrder ).toEqual( providedSectionsOrder );
+      expect( resultState.story.sectionsOrder ).toEqual( providedSectionsOrder );
     } );
     it( 'should successfully update sections order after a section was deleted', () => {
       const providedSectionsOrder = [ 'b', 'a', 'c', 'e', 'd' ];
@@ -63,7 +61,7 @@ describe( 'story reducer test', () => {
       };
 
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.sectionsOrder ).toEqual( expectedSectionsOrder );
+      expect( resultState.story.sectionsOrder ).toEqual( expectedSectionsOrder );
     } );
     it( 'should successfully update sections order after a section was added', () => {
       const providedSectionsOrder = [ 'b', 'a', 'c' ];
@@ -75,7 +73,7 @@ describe( 'story reducer test', () => {
         }
       };
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.sectionsOrder ).toEqual( expectedSectionsOrder );
+      expect( resultState.story.sectionsOrder ).toEqual( expectedSectionsOrder );
     } );
 
   } );
@@ -84,15 +82,13 @@ describe( 'story reducer test', () => {
     beforeEach( () => {
       mockState = {
         story: {
-          story: {
-            sections: {
-              a: {},
-              b: {},
-              c: {},
-              d: {},
-            },
-            sectionsOrder: [ 'a', 'b', 'c', 'd' ]
-          }
+          sections: {
+            a: {},
+            b: {},
+            c: {},
+            d: {},
+          },
+          sectionsOrder: [ 'a', 'b', 'c', 'd' ]
         }
       };
       baseAction = {
@@ -112,7 +108,7 @@ describe( 'story reducer test', () => {
         }
       };
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.sectionsOrder ).toEqual( expectedSectionsOrder );
+      expect( resultState.story.sectionsOrder ).toEqual( expectedSectionsOrder );
     } );
 
     it( 'a section was added in summary view, section should be appended in sections', () => {
@@ -133,7 +129,7 @@ describe( 'story reducer test', () => {
         e: {}
       };
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.sections ).toEqual( expectedSections );
+      expect( resultState.story.sections ).toEqual( expectedSections );
     } );
 
     it( 'a section was insert in section view, section should be inserted in section orders', () => {
@@ -148,7 +144,7 @@ describe( 'story reducer test', () => {
       };
       const expectedSectionsOrder = [ 'a', 'b', 'e', 'c', 'd' ];
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.sectionsOrder ).toEqual( expectedSectionsOrder );
+      expect( resultState.story.sectionsOrder ).toEqual( expectedSectionsOrder );
     } );
 
     it( 'a section was added in section view, section should be inserted in section orders', () => {
@@ -169,7 +165,7 @@ describe( 'story reducer test', () => {
         d: {},
       };
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.sections ).toEqual( expectedSections );
+      expect( resultState.story.sections ).toEqual( expectedSections );
     } );
   } );
 
@@ -177,27 +173,25 @@ describe( 'story reducer test', () => {
     beforeEach( () => {
       mockState = {
         story: {
-          story: {
-            sections: {
-              a: {},
-              b: {},
-              c: {},
-              d: {},
+          sections: {
+            a: {},
+            b: {},
+            c: {},
+            d: {},
+          },
+          sectionsOrder: [ 'a', 'b', 'c', 'd' ],
+          contextualizations: {
+            ctxtionOne: {
+              id: 'ctxtionOne',
+              resourceId: 'resourceOne',
+              contextualizerId: 'ctxlizerOne',
+              sectionId: 'b'
             },
-            sectionsOrder: [ 'a', 'b', 'c', 'd' ],
-            contextualizations: {
-              ctxtionOne: {
-                id: 'ctxtionOne',
-                resourceId: 'resourceOne',
-                contextualizerId: 'ctxlizerOne',
-                sectionId: 'b'
-              },
-            },
-            contextualizers: {
-              ctxlizerOne: {
-                id: 'ctxlizerOne',
-                type: 'image'
-              }
+          },
+          contextualizers: {
+            ctxlizerOne: {
+              id: 'ctxlizerOne',
+              type: 'image'
             }
           }
         }
@@ -213,7 +207,7 @@ describe( 'story reducer test', () => {
     it( 'a section was delete, section order should be updated', () => {
       const expectedSectionsOrder = [ 'a', 'c', 'd' ];
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.sectionsOrder ).toEqual( expectedSectionsOrder );
+      expect( resultState.story.sectionsOrder ).toEqual( expectedSectionsOrder );
     } );
 
     it( 'a section was delete, sections should be updated', () => {
@@ -223,19 +217,19 @@ describe( 'story reducer test', () => {
         d: {}
       };
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.sections ).toEqual( expectedSections );
+      expect( resultState.story.sections ).toEqual( expectedSections );
     } );
 
     it( 'a section was delete, contextualizations should be updated', () => {
       const expectedContextualizations = {};
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.contextualizations ).toEqual( expectedContextualizations );
+      expect( resultState.story.contextualizations ).toEqual( expectedContextualizations );
     } );
 
     it( 'a section was delete, contextualizers should be deleted', () => {
       const expectedContextualizers = {};
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.contextualizers ).toEqual( expectedContextualizers );
+      expect( resultState.story.contextualizers ).toEqual( expectedContextualizers );
     } );
   } );
 
@@ -243,23 +237,21 @@ describe( 'story reducer test', () => {
     beforeEach( () => {
       mockState = {
         story: {
-          story: {
-            resources: {
-              resourceOne: {}
-            },
-            contextualizations: {
-              ctxtionOne: {
-                id: 'ctxtionOne',
-                resourceId: 'resourceOne',
-                contextualizerId: 'ctxlizerOne',
-                sectionId: 'a'
-              }
-            },
-            contextualizers: {
-              ctxlizerOne: {
-                id: 'ctxlizerOne',
-                type: 'image'
-              }
+          resources: {
+            resourceOne: {}
+          },
+          contextualizations: {
+            ctxtionOne: {
+              id: 'ctxtionOne',
+              resourceId: 'resourceOne',
+              contextualizerId: 'ctxlizerOne',
+              sectionId: 'a'
+            }
+          },
+          contextualizers: {
+            ctxlizerOne: {
+              id: 'ctxlizerOne',
+              type: 'image'
             }
           }
         }
@@ -275,13 +267,13 @@ describe( 'story reducer test', () => {
     it( 'a resource was delete, contextualizations should be updated', () => {
       const expectedContextualizations = {};
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.contextualizations ).toEqual( expectedContextualizations );
+      expect( resultState.story.contextualizations ).toEqual( expectedContextualizations );
     } );
 
     it( 'a resource was delete, contextualizers should be updated', () => {
       const expectedContextualizers = {};
       const resultState = reducer( mockState, action );
-      expect( resultState.story.story.contextualizers ).toEqual( expectedContextualizers );
+      expect( resultState.story.contextualizers ).toEqual( expectedContextualizers );
     } );
   } );
 } );

@@ -431,7 +431,7 @@ const STORY_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function story( state = STORY_DEFAULT_STATE, action ) {
+export default function story( state = STORY_DEFAULT_STATE, action ) {
   const { result, payload } = action;
   let contextualizations;
   let contextualizers;
@@ -879,9 +879,6 @@ function story( state = STORY_DEFAULT_STATE, action ) {
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default combineReducers( {
-  story
-} );
 
 /**
  * ===================================================
@@ -889,7 +886,7 @@ export default combineReducers( {
  * ===================================================
  */
 
-const editedStory = ( state ) => state.story.story;
+const editedStory = ( state ) => state.story;
 
 /**
  * The selector is a set of functions for accessing this feature's state
