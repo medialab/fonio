@@ -25,9 +25,7 @@ export const setUserInfo = ( payload ) => ( {
   payload
 } );
 
-const DEFAULT_USER_INFO_STATE = {
-  userInfo: undefined
-};
+const DEFAULT_USER_INFO_STATE = {};
 
 /**
  * Reducer for the user info function
@@ -38,10 +36,7 @@ const DEFAULT_USER_INFO_STATE = {
 export default function userInfo( state = DEFAULT_USER_INFO_STATE, action ) {
   switch ( action.type ) {
     case SET_USER_INFO:
-      saveUserInfo( {
-        ...action.payload,
-        userInfo: undefined
-      } );
+      saveUserInfo( action.payload );
       return action.payload;
     default:
       return state;

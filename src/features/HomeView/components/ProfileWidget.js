@@ -26,7 +26,7 @@ const ProfileWidget = ( {
         {translate( 'Your profile' )}
         <HelpPin>{translate( 'choose how you will be identified by other writers' )}</HelpPin>
       </Title>
-      {userInfo !== undefined &&
+      {userInfo.userId !== undefined &&
         <StretchedLayoutContainer isDirection={ 'horizontal' }>
           <StretchedLayoutItem style={ { display: 'flex', alignItems: 'center' } }>
             <Image
