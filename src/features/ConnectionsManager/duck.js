@@ -10,22 +10,22 @@ import { post } from 'axios';
 
 import config from '../../config';
 
-import { updateEditionHistoryMap } from '../../helpers/localStorageUtils';
-
 import { ACTIVATE_STORY } from '../StoryManager/duck';
+import { DELETE_STORY } from '../HomeView/duck';
 
 const SET_SOCKET_ID = 'SET_SOCKET_ID';
 export const ENTER_STORY = 'ENTER_STORY';
 export const LEAVE_STORY = 'LEAVE_STORY';
 export const ENTER_BLOCK = 'ENTER_BLOCK';
 export const LEAVE_BLOCK = 'LEAVE_BLOCK';
+export const INACTIVATE_STORY = 'INACTIVATE_STORY';
 const IDLE_BLOCK = 'IDLE_BLOCK';
 
 const USER_CONNECTED = 'USER_CONNECTED';
 const USER_DISCONNECTING = 'USER_DISCONNECTING';
 const USER_DISCONNECTED = 'USER_DISCONNECTED';
-const SET_USER_AS_IDLE_BROADCAST = 'SET_USER_AS_IDLE_BROADCAST';
-const SET_USER_AS_ACTIVE_BROADCAST = 'SET_USER_AS_ACTIVE_BROADCAST';
+export const SET_USER_AS_IDLE_BROADCAST = 'SET_USER_AS_IDLE_BROADCAST';
+export const SET_USER_AS_ACTIVE_BROADCAST = 'SET_USER_AS_ACTIVE_BROADCAST';
 
 const CREATE_USER = 'CREATE_USER';
 
@@ -166,6 +166,7 @@ function locking( state = LOCKING_DEFAULT_STATE, action ) {
   let locks;
   let userLocks;
   let newLocks;
+  let newState;
   switch ( action.type ) {
     case USER_CONNECTED:
     case USER_DISCONNECTED:
@@ -173,7 +174,11 @@ function locking( state = LOCKING_DEFAULT_STATE, action ) {
         return { ...payload.locking };
       }
       return state;
-
+    case `${DELETE_STORY}_BROADCAST`:
+    case INACTIVATE_STORY:
+      newState = { ...state };
+      delete newState[payload.id];
+      return newState;
     case `${ACTIVATE_STORY}_SUCCESS`:
     case ENTER_STORY:
     case `${ENTER_STORY}_BROADCAST`:
@@ -328,7 +333,7 @@ function locking( state = LOCKING_DEFAULT_STATE, action ) {
      * update locking system by room manually (client)
      */
     case USER_DISCONNECTING:
-      const newState = { ...state };
+      newState = { ...state };
       payload.rooms.forEach( ( room ) => {
         if ( newState[room] && newState[room].locks ) {
           delete newState[room].locks[payload.userId];
