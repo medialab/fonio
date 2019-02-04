@@ -222,6 +222,73 @@ const updateEntityReferenceId = ( entity, newReferenceId ) => {
 };
 
 /**
+ * Update map of copied entities by ids
+ * @return {object} entitiesMap - 
+ */
+export const updateCopiedEntitiesMap = ({
+  copiedEntities,
+  notesIdTransformationMap,
+  editorFocus,
+  contentId,
+  newNotes,
+}) => {
+  const finalResult = Object.keys( copiedEntities )
+  .reduce( ( result, id ) => {
+    /*
+     * possibly transform copiedEntities map so that the target
+     * of main copied contents is followed
+     * (if it was copied from note to main editor, or from main editor to note
+     * then we have to modify the entities map to target appropriate contents)
+     */
+    if (id === editorFocus) {
+      return {
+        ...result,
+        [id]: copiedEntities[editorFocus]
+      }
+    }
+    else if ( id !== 'main' ) {
+      /*
+       * looking for note pointers that were attached
+       * to the original copied note in order to update them
+       * with the newly given note id
+       */
+      const newNoteId = notesIdTransformationMap[id];
+
+      /*
+       * if the target note is a "ghost" one
+       * (i.e. linked to an old note id), attribute correct id
+       */
+      if ( newNoteId && newNotes[newNoteId] ) {
+        return {
+          ...result,
+          [newNoteId]: copiedEntities[id]
+        };
+      }
+      else {
+        return result;
+      }
+    }
+    return {
+      ...result,
+      [id]: copiedEntities[id]
+    };
+  }, {
+    'main': copiedEntities.main
+  } );
+  /*
+   * possibly transform copiedEntities map so that the target
+   * of main copied contents is followed
+   * (if it was copied from note to main editor, or from main editor to note
+   * then we have to modify the entities map to target appropriate contents)
+   */
+  // if ( contentId !== editorFocus ) {
+  //   finalResult[editorFocus] = finalResult[data.contentId];
+  //   delete finalResult[contentId];
+  // }
+  return finalResult;
+}
+
+/**
  * Handle synchronously all the data computing
  * necessary to update a section state by an internal pasting
  * @param {object}
@@ -326,7 +393,7 @@ export const computePastedData = ( {
           if ( thatData.asset && thatData.asset.id ) {
             const thatContextualization = data.copiedContextualizations
               .find( ( thisContextualization ) =>
-                contextualizationsIdTransformationReverseMap( thisContextualization.id ) === thatData.asset.id
+                contextualizationsIdTransformationReverseMap[ thisContextualization.id ] === thatData.asset.id
               );
             const isValid = thatContextualization !== undefined;
             if ( !isValid ) {
@@ -339,29 +406,19 @@ export const computePastedData = ( {
       };
     }, {} );
 
-  /*
-   * possibly transform copiedEntities map so that the target
-   * of main copied contents is followed
-   * (if it was copied from note to main editor, or from main editor to note
-   * then we have to modify the entities map to target appropriate contents)
-   */
-  if ( data.contentId !== editorFocus ) {
-    data.copiedEntities[editorFocus] = data.copiedEntities[data.contentId];
-    delete data.copiedEntities[data.contentId];
-  }
-
   /**
    * HANDLING NOTES PASTING
    */
   /*
    * past notes (attributing them a new id to duplicate them if in situation of copy/paste)
-   * (if target is a note and copied contents contains notes these notes won't be pasted)
+   * (if copied contents contains notes these notes won't be pasted)
    */
-  if ( data.copiedNotes && editorFocus === 'main' ) {
+  if ( data.copiedNotes ) {
 
     /*
      * now we attribute to new notes a new id (to handle possible duplicates)
-     * and merge them with the past notes
+     * , merge them with the past notes
+     * and filter out invalid draft-js entities
      */
     newNotes = data.copiedNotes.reduce( ( result, note ) => {
       const noteNewId = generateId();
@@ -377,14 +434,15 @@ export const computePastedData = ( {
               const entity = note.contents.entityMap[entityKey];
               const assetId = entity.data && entity.data.asset && entity.data.asset.id;
               if (
-                // IF entity is a note pointer
-                entity.type === NOTE_POINTER ||
-                // ELSE IF if entity is an asset that does not have an asset id
-                !assetId ||
-                // ELSE IF if there are no invalid entities
+                // IF IF if there are no invalid entities
                 invalidEntities.length === 0 ||
                 // ELSE IF if the targeted asset is not invalid
-                !invalidEntities.includes( assetId )
+                !invalidEntities.includes( assetId ) ||
+                // ELSE IF entity is a note pointer
+                isEntityANoteReference(entity) ||
+                // ELSE IF if entity is an asset that does not have an asset id
+                !assetId
+                
               ) {
                 // THEN we accept this entity in new notes contents
                 return {
@@ -400,65 +458,18 @@ export const computePastedData = ( {
         }
       };
     }, {
-      ...notes
+      // ...notes
     } );
     notesIdTransformationReverseMap = reverseMap( notesIdTransformationMap );
-
-    /*
-     * we now have to update copied entities targets
-     * for entities stored in pasted notes
-     */
-    data.copiedEntities = Object.keys( data.copiedEntities )
-
-    /*
-     * reminder : copiedEntities is a map of editors (main + notes)
-     * that have been copied.
-     * each id is a content id ('main' or a note id)
-     */
-    .reduce( ( result, id ) => {
-
-      /*
-       * we are interested in updating only the entities in the main contents
-       * because it is only there that there are note pointers entities
-       */
-      if ( id !== 'main' ) {
-
-        /*
-         * looking for note pointers that were attached
-         * to the original copied note in order to update them
-         * with the newly given note id
-         */
-        const newNoteId = notesIdTransformationMap[id];
-
-        /*
-         * if the target note is a "ghost" one
-         * (i.e. linked to an old note id), attribute correct id
-         */
-        if ( newNoteId && newNotes[newNoteId] ) {
-          return {
-            ...result,
-            [newNoteId]: data.copiedEntities[id]
-          };
-        }
-        else {
-          return result;
-        }
-      }
-      return {
-        ...result,
-        [id]: data.copiedEntities[id]
-      };
-    }, {} );
   }
-
-  /*
-   * of no copied notes
-   * or pasting target is not the main contents
-   * then we do not touch the notes
-   */
-  else {
-    newNotes = notes;
-  }
+  
+  data.copiedEntities = updateCopiedEntitiesMap({
+    copiedEntities: data.copiedEntities,
+    notesIdTransformationMap,
+    editorFocus,
+    contentId: data.contentId,
+    newNotes,
+  })
 
   /**
    * DONE WITH NOTES TRANSFORMATIONS
@@ -480,7 +491,7 @@ export const computePastedData = ( {
      * update entities data with correct notes and contextualizations ids pointers
      * iterate through copied contents
      */
-    const copiedEntities = Object.keys( data.copiedEntities )
+    data.copiedEntities = Object.keys( data.copiedEntities )
     .reduce( ( result, contentId ) => {
       return {
         ...result,
@@ -489,13 +500,13 @@ export const computePastedData = ( {
           const entity = { ...inputEntity };
           const thatData = entity.entity.data;
           // case: copying note entity
-          if ( isEntityANoteReference( entity ) ) {
+          if ( isEntityANoteReference( entity.entity ) ) {
             const newNoteId = notesIdTransformationMap[thatData.noteId];
             if ( newNoteId ) {
               // attributing new id
               return {
                 ...entity,
-                entity: updateEntityReferenceId( entity, newNoteId )
+                entity: updateEntityReferenceId( entity.entity, newNoteId )
               };
             }
           }
@@ -506,7 +517,7 @@ export const computePastedData = ( {
             if ( newContextualizationId ) {
               return {
                 ...entity,
-                entity: updateEntityReferenceId( entity, newContextualizationId )
+                entity: updateEntityReferenceId( entity.entity, newContextualizationId )
               };
             }
           }
@@ -553,10 +564,10 @@ export const computePastedData = ( {
     /**
      * ADD COPIED ENTITIES TO THE NEW EDITOR STATES
      */
-    Object.keys( copiedEntities ).forEach( ( contentId ) => {
+    Object.keys( data.copiedEntities ).forEach( ( contentId ) => {
 
         // for each entity add it to related content state
-        copiedEntities[contentId].forEach( ( entity ) => {
+        data.copiedEntities[contentId].forEach( ( entity ) => {
           const editorStateId = contentId === 'main' ? activeSectionId : editorFocus;
           const editorState = editorStates[editorStateId];
 
@@ -565,6 +576,7 @@ export const computePastedData = ( {
           }
 
           newContentState = editorState.getCurrentContent();
+          console.log('create entity', entity.entity);
           newContentState = newContentState.createEntity( entity.entity.type, entity.entity.mutability, { ...entity.entity.data } );
 
           const newEntityKey = newContentState.getLastCreatedEntityKey();
@@ -611,7 +623,7 @@ export const computePastedData = ( {
        * to update its entities and the clipboard
        */
       if ( newNotes[contentId] ) {
-        copiedEntities[contentId].forEach( ( entity ) => {
+        data.copiedEntities[contentId].forEach( ( entity ) => {
           const editorState = editorStates[contentId]
             || EditorState.createWithContent(
                 convertFromRaw( newNotes[contentId].contents ),
@@ -722,7 +734,10 @@ export const computePastedData = ( {
     sectionId: activeSectionId,
     editorStates,
     editorFocus,
-    notes: newNotes,
+    notes: {
+        ...activeSection.notes,
+        ...newNotes,
+      },
     editor,
   } );
 
