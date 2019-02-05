@@ -49,22 +49,22 @@ import { abbrevString, silentEvent } from '../../helpers/misc';
 import {
   computeAssets,
   computeAssetChoiceProps,
-} from './utils';
+} from '../../helpers/editorUtils';
 
 import {
   getCitationModels,
   buildCitations,
-} from './citationUtils';
+} from '../../helpers/citationUtils';
 
 import {
   updateNotesFromSectionEditor,
   // updateContextualizationsFromEditor
-} from './editorToStoryUtils';
+} from '../../helpers/editorToStoryUtils';
 
 import {
   handleCopy,
   handlePaste,
-} from './clipboardUtils';
+} from '../../helpers/clipboardUtils';
 
 /**
  * Imports Components

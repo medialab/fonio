@@ -25,7 +25,7 @@ import {
   getCitationModels,
 } from '../citationUtils';
 
-import { loadResourceData } from '../../../helpers/assetsUtils';
+import { loadResourceData } from '../assetsUtils';
 
 import CSL from 'citeproc';
 

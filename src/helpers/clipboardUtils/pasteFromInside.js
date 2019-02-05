@@ -809,7 +809,6 @@ export const computePastedData = ( {
         ...newNotes,
       }
     };
-  console.log( 'new section', newSection );
 
   /**
    * THAT'S ALL FOLKS ;)
@@ -1025,11 +1024,9 @@ const pasteFromInside = ( {
         status: 'updating-contents'
       } );
       setTimeout( () => {
-        console.log( 'updating editor states' );
         // update live editor states
         updateDraftEditorsStates( newEditorStates );
         // ...then update the section with editorStates convert to serializable raw objects
-        console.log( 'updating section', newSection );
         updateSection( newSection );
         setEditorPastingStatus( undefined );
       } );

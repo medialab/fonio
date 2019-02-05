@@ -4,7 +4,7 @@
  */
 import { v4 as generateId } from 'uuid';
 
-import { createDefaultResource } from '../../../helpers/schemaUtils';
+import { createDefaultResource } from '../schemaUtils';
 
 import {
   constants,
