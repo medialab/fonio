@@ -21,7 +21,6 @@ import {
 
 const {
   NOTE_POINTER,
-  // SCHOLAR_DRAFT_CLIPBOARD_CODE,
   INLINE_ASSET,
   BLOCK_ASSET,
 } = constants;
@@ -170,7 +169,7 @@ export const removeBlockContextualizationsFromCopiedData = ( {
  * Creates a map of EditorStates for a given section
  * @return {object} new editor states map
  */
-const createEditorStatesMap = ( {
+export const createEditorStatesMap = ( {
   mainEditorState,
   editorStates,
   notes,
@@ -224,7 +223,7 @@ const updateEntityReferenceId = ( entity, newReferenceId ) => {
 
 /**
  * Update map of copied entities by ids
- * @return {object} entitiesMap -
+ * @return {object} entitiesMap
  */
 export const updateCopiedEntitiesMap = ( {
   copiedEntities,
@@ -276,6 +275,11 @@ export const updateCopiedEntitiesMap = ( {
   return finalResult;
 };
 
+/**
+ * Update draft entities js representation with proper
+ * notes references and contextualizations references
+ * return {object}
+ */
 export const updateCopiedEntities = ( {
   inputCopiedEntities,
   notesIdTransformationMap,
@@ -353,6 +357,7 @@ export const updateCopiedEntities = ( {
 /**
  * updates entities annotations in a given clipboard
  * @todo find a less performance-expensive way to do this
+ * return {DraftBlocksMap} updatedClipboard
  */
 export const cleanClipboardFromInvalidEntities = ( {
   invalidEntities,
@@ -376,7 +381,7 @@ export const cleanClipboardFromInvalidEntities = ( {
           }
         // remove note pointers if target is a note
         }
- else if ( isEntityANoteReference( thatEntity ) && editorFocus !== 'main' ) {
+        else if ( isEntityANoteReference( thatEntity ) && editorFocus !== 'main' ) {
           return CharacterMetadata.applyEntity( char, null );
         }
       }
@@ -387,6 +392,13 @@ export const cleanClipboardFromInvalidEntities = ( {
   } );
 };
 
+/**
+ * update a clipboard contentState with proper
+ * note references and contextualization references in its entities mentions
+ * @todo the performance of this function could be improved
+ * (lots of quadratic operations)
+ * return {DraftBlocksMap} updatedClipboard
+ */
 export const updateClipboard = ( {
   clipboard,
   editorFocus,
@@ -476,7 +488,10 @@ export const computePastedData = ( {
   let contextualizationsIdTransformationReverseMap = {};
   let notesIdTransformationReverseMap = {};
 
-  // filter out contextualizations that point to a resource that has been deleted
+  /*
+   * filter out contextualizations that point to a resource that is not available anymore
+   * (possible cases : other story, resource deleted,...)
+   */
   const {
     filteredContextualizations: newCopiedContextualizations,
     resourcesToCreate: newResourcesToCreate = [],
@@ -563,6 +578,7 @@ export const computePastedData = ( {
 
   /**
    * If target is not main we flush the additionnal copied notes
+   * because they won't be copied
    */
   }
   else {
@@ -570,11 +586,7 @@ export const computePastedData = ( {
   }
 
   /**
-   * DONE WITH NOTES TRANSFORMATIONS
-   */
-
-  /**
-   * UPDATING DRAFT ENTITIES INSIDE THE COPIED CONTENTS
+   * UPDATE DRAFT ENTITIES INSIDE THE COPIED CONTENTS
    * (note references, contextualization references)
    */
   /**
@@ -646,14 +658,14 @@ export const computePastedData = ( {
    }, {} );
 
   /*
-   * integrate new draftjs entities in respective editorStates
-   * editorStates are stored as a map in which each keys corresponds
+   * integrate new draftjs entities in respective editorStates.
+   * reminder : editorStates are stored as a map in which each keys corresponds
    * to a category of content ('main' for main contents or uuids for each note)
    */
   let newContentState;
 
   /*
-   * editor focus is related to live state in which the main editor state is represented in a 'main' key
+   * explanation about realEditorFocus : editor focus is related to live state in which the main editor state is represented in a 'main' key
    * while in contents map main editor state is represented by the section id
    */
   const realEditorFocus = editorFocus === 'main' ? activeSectionId : editorFocus;
@@ -822,6 +834,9 @@ export const computePastedData = ( {
   };
 };
 
+/**
+ * Handle the pasting operation and related actions triggering
+ */
 const pasteFromInside = ( {
   updateSection,
   createContextualization,

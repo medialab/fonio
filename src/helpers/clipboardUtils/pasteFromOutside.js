@@ -36,6 +36,12 @@ export const computePastedData = ( {
   const imagesToAdd = [];
 
   const copiedContentState = convertFromHTML( {
+
+    /**
+     * html nodes to entities hook.
+     * Besides providing the right entities we must
+     * also store objects that should be created in the story (resources, contextualizations, contextualizers)
+     */
     htmlToEntity: ( nodeName, node, createEntity ) => {
       if ( nodeName === 'a' ) {
         const {
@@ -108,7 +114,7 @@ export const computePastedData = ( {
 };
 
 /**
- * Applies related operations for pasting external content
+ * Apply related operations for pasting external content
  */
 export const handlePasting = ( {
   html = '',
@@ -416,6 +422,10 @@ export const handlePasting = ( {
       } );
   };
 
+/**
+ * Handle pasting from outside fonio
+ * (this is a wrapper handling wether to display a loading modal or not)
+ */
 const pasteFromOutside = ( {
   html = '',
   activeEditorState,

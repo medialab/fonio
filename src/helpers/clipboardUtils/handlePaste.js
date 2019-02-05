@@ -5,8 +5,13 @@
 import pasteFromOutside from './pasteFromOutside';
 import pasteFromInside from './pasteFromInside';
 
+/**
+ * Handle pasting operation
+ * (this is a dumb wrapper deciding which
+ * util to use depending on whether the contents come
+ * from fonio or from another application)
+ */
 const handlePaste = function( html ) {
-
     const {
       props,
 
