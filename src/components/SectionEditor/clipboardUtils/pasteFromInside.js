@@ -387,6 +387,63 @@ export const cleanClipboardFromInvalidEntities = ( {
   } );
 };
 
+export const updateClipboard = ( {
+  clipboard,
+  editorFocus,
+  editorStates,
+  copiedEntities,
+  activeSectionId,
+  notesIdTransformationReverseMap,
+  contextualizationsIdTransformationReverseMap,
+} ) => {
+  const entities = copiedEntities[editorFocus] || [];
+  const editorStateId = editorFocus === 'main' ? activeSectionId : editorFocus;
+  const editorState = editorStates[editorStateId];
+
+  let newClipboard = clipboard;
+
+  entities.forEach( ( entity ) => {
+    let newContentState = editorState.getCurrentContent();
+    newContentState = newContentState.createEntity( entity.entity.type, entity.entity.mutability, { ...entity.entity.data } );
+    const newEntityKey = newContentState.getLastCreatedEntityKey();
+
+    newClipboard = newClipboard.map( ( block ) => {
+      const characters = block.getCharacterList();
+      // iterate through each character
+      const newCharacters = characters.map( ( char ) => {
+        // if character has an entity
+        if ( char.getEntity() ) {
+          const thatEntityKey = char.getEntity();
+          const thatEntity = newContentState.getEntity( thatEntityKey ).toJS();
+          // update note reference
+          if ( isEntityANoteReference( entity.entity ) && isEntityANoteReference( thatEntity ) ) {
+
+            const entityNoteId = entity.entity.data.noteId;
+            const newNoteOldId = notesIdTransformationReverseMap[entityNoteId];
+
+            if ( newNoteOldId === thatEntity.data.noteId ) {
+              return CharacterMetadata.applyEntity( char, newEntityKey );
+            }
+          }
+          // update contextualization reference
+          else if ( isEntityAContextualizationReference( entity.entity ) && isEntityAContextualizationReference( thatEntity ) ) {
+            const targetId = thatEntity && thatEntity.data.asset.id;
+            const contextualizationOldId = contextualizationsIdTransformationReverseMap[targetId];
+            if ( targetId === contextualizationOldId ) {
+              return CharacterMetadata.applyEntity( char, newEntityKey );
+            }
+          }
+        }
+
+        return char;
+      } );
+      return block.set( 'characterList', newCharacters ); // block;
+    } );
+  } );
+
+  return newClipboard;
+};
+
 /**
  * Handle synchronously all the data computing
  * necessary to update a section state by an internal pasting
@@ -505,10 +562,10 @@ export const computePastedData = ( {
     notesIdTransformationReverseMap = reverseMap( notesIdTransformationMap );
 
   /**
-   * If target is not main we flush the notes
+   * If target is not main we flush the additionnal copied notes
    */
   }
- else {
+  else {
     data.copiedNotes = { ...notes };
   }
 
@@ -531,6 +588,10 @@ export const computePastedData = ( {
     copiedNotes: data.copiedNotes,
   } );
 
+  /**
+   * update copied entities data
+   * with proper contextualizations and notes ids
+   */
   const {
     invalidEntities,
     outputCopiedEntities,
@@ -544,7 +605,7 @@ export const computePastedData = ( {
   data.copiedEntities = outputCopiedEntities;
 
   /**
-   * filter out invalid draft-js entities from notes contents
+   * filter invalid draft-js entities from notes contents
    */
   newNotes = Object.keys( data.copiedNotes ).reduce( ( result, noteId ) => {
     const note = data.copiedNotes[noteId];
@@ -552,7 +613,7 @@ export const computePastedData = ( {
        ...result,
        [noteId]: {
          ...note,
-         // filter out invalid entities in copied notes
+         // filter invalid entities in copied notes
          contents: {
            ...note.contents,
            entityMap: Object.keys( note.contents.entityMap ).reduce( ( res, entityKey ) => {
@@ -566,7 +627,7 @@ export const computePastedData = ( {
                (
                 isEntityAContextualizationReference( entity )
                 && !invalidEntities.includes( entity.data.asset.id )
-              )
+               )
 
             ) {
                // THEN we accept this entity in new notes contents
@@ -598,8 +659,12 @@ export const computePastedData = ( {
   const realEditorFocus = editorFocus === 'main' ? activeSectionId : editorFocus;
   newContentState = editorStates[realEditorFocus].getCurrentContent();
 
+  /**
+   * UPDATE THE CLIPBOARD OBJECT
+   */
   /*
    * cleaning the clipboard of invalid entities
+   * (invalid contextualizations pointers, notes pointers if target is a note)
    */
   newClipboard = cleanClipboardFromInvalidEntities( {
     invalidEntities,
@@ -609,70 +674,39 @@ export const computePastedData = ( {
   } );
 
   /**
-   * ADD COPIED ENTITIES TO THE NEW EDITOR STATES
+   * Update clipboard with proper entities references
+   */
+  newClipboard = updateClipboard( {
+    clipboard: newClipboard,
+    editorFocus,
+    editorStates,
+    copiedEntities: data.copiedEntities,
+    activeSectionId,
+    notesIdTransformationReverseMap,
+    contextualizationsIdTransformationReverseMap,
+  } );
+
+  /**
+   * ADD COPIED ENTITIES TO THE NEW NOTES EDITOR STATES
    */
   Object.keys( data.copiedEntities ).forEach( ( contentId ) => {
-    const editorStateId = contentId === 'main' ? activeSectionId : editorFocus;
-    const editorState = editorStates[editorStateId];
-    // for each entity add it to related content state
-    data.copiedEntities[contentId].forEach( ( entity ) => {
-
-      if ( !editorState ) {
-        return;
-      }
-
-      newContentState = editorState.getCurrentContent();
-      newContentState = newContentState.createEntity( entity.entity.type, entity.entity.mutability, { ...entity.entity.data } );
-
-      const newEntityKey = newContentState.getLastCreatedEntityKey();
-      if ( contentId === editorFocus ) {
-        // updating the related clipboard if necessary
-        newClipboard = newClipboard.map( ( block ) => {
-          const characters = block.getCharacterList();
-          // iterate through each character
-          const newCharacters = characters.map( ( char ) => {
-            // if character has an entity
-            if ( char.getEntity() ) {
-              const thatEntityKey = char.getEntity();
-              const thatEntity = newContentState.getEntity( thatEntityKey ).toJS();
-              // update note reference
-              if ( isEntityANoteReference( entity.entity ) && isEntityANoteReference( thatEntity ) ) {
-
-                const entityNoteId = entity.entity.data.noteId;
-                const newNoteOldId = notesIdTransformationReverseMap[entityNoteId];
-
-                if ( newNoteOldId === thatEntity.data.noteId ) {
-                  return CharacterMetadata.applyEntity( char, newEntityKey );
-                }
-              }
-              // update contextualization reference
-              else if ( isEntityAContextualizationReference( entity.entity ) && isEntityAContextualizationReference( thatEntity ) ) {
-                const targetId = thatEntity && thatEntity.data.asset.id;
-                const contextualizationOldId = contextualizationsIdTransformationReverseMap[targetId];
-                if ( targetId === contextualizationOldId ) {
-                  return CharacterMetadata.applyEntity( char, newEntityKey );
-                }
-              }
-            }
-
-            return char;
-          } );
-          return block.set( 'characterList', newCharacters ); // block;
-        } );
-      }
-    } );
 
     /*
      * iterating through a note's editor's copied entities
      * to update its entities and the clipboard
      */
     if ( newNotes[contentId] ) {
+      let thatEditorState = editorStates[contentId]
+        || EditorState.createWithContent(
+            convertFromRaw( newNotes[contentId].contents ),
+            editor.mainEditor.createDecorator()
+          );
+
+      /**
+       * Rebuild the editor state of the note
+       * for each copied entity
+       */
       data.copiedEntities[contentId].forEach( ( entity ) => {
-        const thatEditorState = editorStates[contentId]
-          || EditorState.createWithContent(
-              convertFromRaw( newNotes[contentId].contents ),
-              editor.mainEditor.createDecorator()
-            );
         newContentState = thatEditorState.getCurrentContent();
         newContentState = newContentState.createEntity( entity.entity.type, entity.entity.mutability, { ...entity.entity.data } );
         // update related entity in content
@@ -680,58 +714,33 @@ export const computePastedData = ( {
           block.getCharacterList().map( ( char ) => {
             if ( char.getEntity() ) {
               const ent = newContentState.getEntity( char.getEntity() );
+              const entJS = ent.toJS();
               const eData = ent.getData();
-              const oldContextualizationId = contextualizationsIdTransformationReverseMap[entity.entity.data.asset.id];
-              if ( eData.asset && eData.asset.id && entity.entity.data.asset && eData.asset.id === oldContextualizationId ) {
-                newContentState = newContentState.mergeEntityData( char.getEntity(), {
-                  ...entity.entity.data
-                } );
+              if ( isEntityAContextualizationReference( entity.entity ) && isEntityAContextualizationReference( entJS ) ) {
+                const oldContextualizationId = contextualizationsIdTransformationReverseMap[entity.entity.data.asset.id];
+                if ( eData.asset && eData.asset.id && entity.entity.data.asset && eData.asset.id === oldContextualizationId ) {
+                  newContentState = newContentState.mergeEntityData( char.getEntity(), {
+                    ...entity.entity.data
+                  } );
+                }
               }
             }
           } );
         } );
-
-        /*
-         * updating raw contents of the notes
-         * from the new content state
-         */
-        newNotes[contentId].contents = convertToRaw(
-          EditorState.push(
-            editorState,
+        thatEditorState = EditorState.push(
+            thatEditorState,
             newContentState,
             'create-entity'
-          )
-          .getCurrentContent()
-        );
-        const newEntityKey = newContentState.getLastCreatedEntityKey();
-
-        /*
-         * update clipboard data
-         * iterating through each if its blocks
-         */
-        newClipboard = newClipboard.map( ( block ) => {
-          const characters = block.getCharacterList();
-          const newCharacters = characters.map( ( char ) => {
-            const thatEntityKey = char.getEntity();
-            if ( thatEntityKey ) {
-              const thatEntity = newContentState.getEntity( thatEntityKey ).toJS();
-              if ( isEntityAContextualizationReference( thatEntity ) ) {
-                const targetId = thatEntity.data.asset.id;
-                // if entity is invalid clean it
-                if ( invalidEntities.length > 0 && invalidEntities.includes( targetId ) ) {
-                  return CharacterMetadata.applyEntity( char, null );
-                }
-                // else apply new entity key
-                else if ( thatEntityKey === entity.key ) {
-                  return CharacterMetadata.applyEntity( char, newEntityKey );
-                }
-              }
-            }
-            return char;
-          } );
-          return block.set( 'characterList', newCharacters ); // block;
-        } );
+          );
       } );
+
+      /*
+       * updating raw contents of the notes
+       * from the new content state
+       */
+      newNotes[contentId].contents = convertToRaw(
+        thatEditorState.getCurrentContent()
+      );
     }
   } );
 
@@ -749,6 +758,7 @@ export const computePastedData = ( {
    */
   if ( editorFocus === 'main' ) {
     mainEditorState = insertFragment( mainEditorState, newClipboard );
+    // updating the notes order & co. from the editor state
     const { newNotes: newNewNotes, notesOrder: newNotesOrder } = updateNotesFromEditor( mainEditorState, newNotes );
     newNotes = newNewNotes;
     notesOrder = newNotesOrder;
@@ -756,7 +766,7 @@ export const computePastedData = ( {
 
   /*
    * ELSE IF pasting target is a note editor
-   * then we update the related note with clipboard contents
+   * then update the related note with clipboard contents
    */
   else {
     const noteEditorState = editorStates[editorFocus];
@@ -1015,9 +1025,11 @@ const pasteFromInside = ( {
         status: 'updating-contents'
       } );
       setTimeout( () => {
+        console.log( 'updating editor states' );
         // update live editor states
         updateDraftEditorsStates( newEditorStates );
         // ...then update the section with editorStates convert to serializable raw objects
+        console.log( 'updating section', newSection );
         updateSection( newSection );
         setEditorPastingStatus( undefined );
       } );
