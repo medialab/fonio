@@ -31,7 +31,7 @@ describe( 'HomeView ui reducer test', () => {
     [ false, SET_IDENTIFICATION_MODAL_SWITCH, false, 'identificationModalSwitch' ],
     [ 'testStoryId', SET_PREVIEWED_STORY_ID, 'testStoryId', 'previewedStoryId' ],
     [ 'testStoryId', SET_STORY_DELETE_ID, 'testStoryId', 'storyDeleteId' ],
-    [ 'testStoryId', SET_CHANGE_PASSWORD_ID,'testStoryId', 'changePasswordId' ],
+    [ 'testStoryId', SET_CHANGE_PASSWORD_ID, 'testStoryId', 'changePasswordId' ],
     [ false, SET_OVERRIDE_IMPORT, false, 'overrideImport' ],
     [ 'create', SET_OVERRIDE_STORY_MODE, 'create', 'overrideStoryMode' ],
     [ false, SET_NEW_STORY_OPEN, false, 'newStoryOpen' ],

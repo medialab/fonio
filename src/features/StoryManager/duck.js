@@ -5,7 +5,6 @@
  * @module fonio/features/StoryManager
  */
 
-import { combineReducers } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import { get, post, put, delete as del } from 'axios';
