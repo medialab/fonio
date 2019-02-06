@@ -29,20 +29,20 @@ import { loadUserInfo } from '../../helpers/localStorageUtils';
 import { RESET_VIEWS_UI } from '../EditionUiWrapper/duck';
 import { UPDATE_STORY_METADATA } from '../StoryManager/duck';
 
-const SET_TAB_MODE = 'SET_TAB_MODE';
-const SET_NEW_STORY_OPEN = 'SET_NEW_STORY_OPEN';
-const SET_NEW_STORY_TAB_MODE = 'SET_NEW_STORY_TAB_MODE';
-const SET_SEARCH_STRING = 'SET_SEARCH_STRING';
-const SET_SORTING_MODE = 'SET_SORTING_MODE';
-const SET_IDENTIFICATION_MODAL_SWITCH = 'SET_IDENTIFICATION_MODAL_SWITCH';
-const SET_PREVIEWED_STORY_ID = 'SET_PREVIEWED_STORY_ID';
-const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
-const SET_EDITION_HISTORY = 'SET_EDITION_HISTORY';
-const SET_STORY_DELETE_ID = 'SET_STORY_DELETE_ID';
+export const SET_TAB_MODE = 'SET_TAB_MODE';
+export const SET_NEW_STORY_OPEN = 'SET_NEW_STORY_OPEN';
+export const SET_NEW_STORY_TAB_MODE = 'SET_NEW_STORY_TAB_MODE';
+export const SET_SEARCH_STRING = 'SET_SEARCH_STRING';
+export const SET_SORTING_MODE = 'SET_SORTING_MODE';
+export const SET_IDENTIFICATION_MODAL_SWITCH = 'SET_IDENTIFICATION_MODAL_SWITCH';
+export const SET_PREVIEWED_STORY_ID = 'SET_PREVIEWED_STORY_ID';
+export const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
+export const SET_EDITION_HISTORY = 'SET_EDITION_HISTORY';
+export const SET_STORY_DELETE_ID = 'SET_STORY_DELETE_ID';
 export const SET_CHANGE_PASSWORD_ID = 'SET_CHANGE_PASSWORD_ID';
-const SET_PASSWORD_MODAL_OPEN = 'SET_PASSWORD_MODAL_OPEN';
-const SET_OVERRIDE_IMPORT = 'SET_OVERRIDE_IMPORT';
-const SET_OVERRIDE_STORY_MODE = 'SET_OVERRIDE_STORY_MODE';
+export const SET_PASSWORD_MODAL_OPEN = 'SET_PASSWORD_MODAL_OPEN';
+export const SET_OVERRIDE_IMPORT = 'SET_OVERRIDE_IMPORT';
+export const SET_OVERRIDE_STORY_MODE = 'SET_OVERRIDE_STORY_MODE';
 
 export const FETCH_STORIES = 'FETCH_STORIES';
 export const CREATE_STORY = 'CREATE_STORY';
@@ -320,7 +320,7 @@ const UI_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function ui( state = UI_DEFAULT_STATE, action ) {
+export function ui( state = UI_DEFAULT_STATE, action ) {
   const { payload } = action;
   let propName;
   switch ( action.type ) {
@@ -423,7 +423,7 @@ const DATA_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function data( state = DATA_DEFAULT_STATE, action ) {
+export function data( state = DATA_DEFAULT_STATE, action ) {
   const { payload } = action;
   let story;
   let newStory;
