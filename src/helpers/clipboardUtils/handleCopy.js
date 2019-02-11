@@ -112,21 +112,18 @@ export const packCopiedResources = ( {
 /**
  * Loads an array of copied resources with their data
  * @param {object} props
- * @param {object} props.selectedBlocksList
- * @param {object} props.selection
  * @param {string} props.editorFocus
  * @param {object} props.editorStates
- * @param {object} props.currentContent
+ * @param {object} props.activeSection
  * @param {object} props.story
  * @return {object} copiedData
  *
  */
+
 export const computeCopiedData = ( {
-  selectedBlocksList,
-  selection,
   editorFocus,
   editorStates,
-  currentContent,
+  activeSection,
   story,
 } ) => {
   const {
@@ -142,6 +139,40 @@ export const computeCopiedData = ( {
 
     // bootstrapping the list of copied entities accross editors
     copiedEntities[editorFocus] = [];
+
+    let editorState;
+
+    /*
+     * get proper editor state (wether copy event comes from a note or the main content)
+     */
+
+    // case 1 : data is copied from the main editor
+    if ( editorFocus === 'main' ) {
+      editorState = editorStates[activeSection.id];
+    }
+    // case 2: data is copied from a note
+    else {
+      editorState = editorStates[editorFocus];
+    }
+
+    const currentContent = editorState.getCurrentContent();
+
+    /*
+     * this function comes from draft-js-utils - it returns
+     * a fragment of content state that correspond to currently selected text
+     */
+    let selectedBlocksList = getSelectedBlocksList( editorState );
+
+    let selection = editorState.getSelection().toJS();
+    // normalizing selection regarding direction
+    selection = {
+      ...selection,
+      startOffset: selection.isBackward ? selection.focusOffset : selection.anchorOffset,
+      startKey: selection.isBackward ? selection.focusKey : selection.anchorKey,
+      endOffset: selection.isBackward ? selection.anchorOffset : selection.focusOffset,
+      endKey: selection.isBackward ? selection.anchorKey : selection.focusKey,
+    };
+    selectedBlocksList = selection.isBackward ? selectedBlocksList.reverse() : selectedBlocksList;
 
     /*
      * we are going to parse draft-js ContentBlock objects
@@ -274,14 +305,11 @@ export const computeCopiedData = ( {
 export const processCopy = ( {
   story,
   citations,
-  editor,
+  clipboard,
   editorFocus,
   activeSection,
   editorStates,
 } ) => {
-
-  let clipboard = null;
-  let editorState;
 
   /*
    * we will store all state modifications in this object
@@ -327,50 +355,14 @@ export const processCopy = ( {
     }
   };
 
-  /*
-   * first step is to retrieve draft-made clipboard ImmutableRecord
-   * and proper editor state (wether copy event comes from a note or the main content)
-   * case 1: data is copied from the main editor
-   */
-  // case 1 : data is copied from the main editor
-  if ( editorFocus === 'main' ) {
-    clipboard = editor.mainEditor.editor.getClipboard();
-    editorState = editorStates[activeSection.id];
-  // case 2: data is copied from a note
-  }
-  else {
-    editorState = editorStates[editorFocus];
-    clipboard = editor.notes[editorFocus].editor.editor.getClipboard();
-  }
-  const currentContent = editorState.getCurrentContent();
-
-  /*
-   * this function comes from draft-js-utils - it returns
-   * a fragment of content state that correspond to currently selected text
-   */
-  let selectedBlocksList = getSelectedBlocksList( editorState );
-
-  stateDiff.clipboard = clipboard;
-  let selection = editorState.getSelection().toJS();
-  // normalizing selection regarding direction
-  selection = {
-    ...selection,
-    startOffset: selection.isBackward ? selection.focusOffset : selection.anchorOffset,
-    startKey: selection.isBackward ? selection.focusKey : selection.anchorKey,
-    endOffset: selection.isBackward ? selection.anchorOffset : selection.focusOffset,
-    endKey: selection.isBackward ? selection.anchorKey : selection.focusKey,
-  };
-  selectedBlocksList = selection.isBackward ? selectedBlocksList.reverse() : selectedBlocksList;
-
   const copiedData = computeCopiedData( {
-    selectedBlocksList,
-    selection,
     editorFocus,
     editorStates,
-    currentContent,
+    activeSection,
     story,
   } );
 
+  stateDiff.clipboard = clipboard;
   const tempEditorState = EditorState.createEmpty();
   let clipboardContentState = Modifier.replaceWithFragment(
     tempEditorState.getCurrentContent(),
@@ -513,6 +505,20 @@ const handleCopy = function( event ) {
       getResourceDataUrl
     } = context;
 
+    /*
+     * first step is to retrieve draft-made clipboard ImmutableRecord
+     * case 1: data is copied from the main editor
+     */
+    let clipboard;
+    // case 1 : data is copied from the main editor
+    if ( editorFocus === 'main' ) {
+      clipboard = editor.mainEditor.editor.getClipboard();
+    }
+    // case 2: data is copied from a note
+    else {
+      clipboard = editor.notes[editorFocus].editor.editor.getClipboard();
+    }
+
     const {
       copiedData,
       stateDiff,
@@ -521,7 +527,7 @@ const handleCopy = function( event ) {
     } = processCopy( {
       story,
       citations,
-      editor,
+      clipboard,
       editorFocus,
       activeSection,
       editorStates,
