@@ -30,9 +30,9 @@ const getEditorStates = ( { story, isBackward } ) => {
 
   const newSelection = selection.merge( {
     anchorOffset: isBackward ? endOffset : 0,
-    anchorKey: isBackward ? firstKey : lastKey,
+    anchorKey: isBackward ? lastKey : firstKey,
     focusOffset: isBackward ? 0 : endOffset,
-    focusKey: isBackward ? lastKey : firstKey,
+    focusKey: isBackward ? firstKey : lastKey,
     isBackward
   } );
 

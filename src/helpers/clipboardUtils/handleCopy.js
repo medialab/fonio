@@ -161,7 +161,7 @@ export const computeCopiedData = ( {
      * this function comes from draft-js-utils - it returns
      * a fragment of content state that correspond to currently selected text
      */
-    let selectedBlocksList = getSelectedBlocksList( editorState );
+    const selectedBlocksList = getSelectedBlocksList( editorState );
 
     let selection = editorState.getSelection().toJS();
     // normalizing selection regarding direction
@@ -172,7 +172,6 @@ export const computeCopiedData = ( {
       endOffset: selection.isBackward ? selection.anchorOffset : selection.focusOffset,
       endKey: selection.isBackward ? selection.anchorKey : selection.focusKey,
     };
-    selectedBlocksList = selection.isBackward ? selectedBlocksList.reverse() : selectedBlocksList;
 
     /*
      * we are going to parse draft-js ContentBlock objects
