@@ -18,20 +18,25 @@ describe( 'test for handleCopy', () => {
   describe( 'test for computeCopiedData()', () => {
     describe( 'test copy content with contextualization from main editor', () => {
       describe.each( [
-        'copy-inline-bib-from-main',
-        'copy-inline-glossary-from-main',
-    ] )( 'test %s', ( testName ) => {
+        [ 'copy-inline-bib-from-main', 'main' ],
+        [ 'copy-inline-glossary-from-main', 'main' ],
+        [ 'copy-inline-glossary-from-note', 'note' ],
+    ] )( 'test %s', ( testName, editorFocus ) => {
         const story = stories.find( ( item ) => item.name === testName ).data;
         test.each( [
           [ 'forward copy', false ],
           [ 'backward copy', true ]
         ] )( 'test %s', ( testName, isBackward ) => {
+          const { sections, sectionsOrder } = story;
+          const { notesOrder } = sections[sectionsOrder[0]];
+
           const editorStates = services.getEditorStates( {
             story,
-            isBackward
+            isBackward,
+            editorFocus
           } );
           const copiedEditor = {
-            editorFocus: 'main',
+            editorFocus: editorFocus === 'main' ? 'main' : notesOrder[0],
             editorStates,
             activeSection: {
               id: story.sectionsOrder[0]

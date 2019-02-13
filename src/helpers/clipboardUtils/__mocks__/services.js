@@ -7,16 +7,23 @@ import {
   convertFromRaw
 } from 'draft-js';
 
-const getEditorStates = ( { story, isBackward = false } ) => {
+const getEditorStates = ( { story, isBackward = false, editorFocus = 'main' } ) => {
   const { sections, sectionsOrder } = story;
   if ( sections === undefined || Object.keys( sections ).length === 0 ) {
     return;
   }
   const activeSectionId = sectionsOrder[0];
-  const { contents, notes, notesOrder } = sections[activeSectionId];
+  const { notes, notesOrder } = sections[activeSectionId];
+  let contents;
+  if ( editorFocus === 'main' ) {
+    contents = sections[activeSectionId].contents;
+  }
+  else {
+    contents = notes[notesOrder[0]].contents;
+  }
 
   /*
-   * initalize editorState for main editor
+   * initalize editorState for focused editor
    * step 1: initialize editorState with convertFromRaw()
    * step 2: move selection/focus to the end of the editor
    * step 3: get first/last block's key
@@ -45,9 +52,18 @@ const getEditorStates = ( { story, isBackward = false } ) => {
   /*
    * initalize editorState for note editor
    */
-
-  if ( notesOrder.length > 0 ) {
-    const noteId = notesOrder[0];
+  let noteId;
+  if ( editorFocus === 'note' ) {
+    const mainContents = sections[activeSectionId].contents;
+    const mainEditorState = EditorState.createWithContent( convertFromRaw( mainContents ) );
+    noteId = notesOrder[0];
+    return {
+      [activeSectionId]: mainEditorState,
+      [noteId]: newEditorState
+    };
+  }
+  else if ( notesOrder.length > 0 ) {
+    noteId = notesOrder[0];
     const noteContents = notes[noteId].contents;
     const noteEditorState = EditorState.createWithContent( convertFromRaw( noteContents ) );
 
