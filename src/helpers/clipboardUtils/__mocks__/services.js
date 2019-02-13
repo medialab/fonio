@@ -7,7 +7,7 @@ import {
   convertFromRaw
 } from 'draft-js';
 
-const getEditorStates = ( { story, isBackward } ) => {
+const getEditorStates = ( { story, isBackward = false } ) => {
   const { sections, sectionsOrder } = story;
   if ( sections === undefined || Object.keys( sections ).length === 0 ) {
     return;
