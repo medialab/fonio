@@ -9,10 +9,14 @@ import {
 
 const getEditorStates = ( { story, isBackward } ) => {
   const { sections, sectionsOrder } = story;
+  if ( sections === undefined || Object.keys( sections ).length === 0 ) {
+    return;
+  }
   const activeSectionId = sectionsOrder[0];
-  const { contents } = sections[activeSectionId];
+  const { contents, notes, notesOrder } = sections[activeSectionId];
 
   /*
+   * initalize editorState for main editor
    * step 1: initialize editorState with convertFromRaw()
    * step 2: move selection/focus to the end of the editor
    * step 3: get first/last block's key
@@ -38,9 +42,25 @@ const getEditorStates = ( { story, isBackward } ) => {
 
   const newEditorState = EditorState.acceptSelection( editorState, newSelection );
 
-  return {
-    [activeSectionId]: newEditorState
-  };
+  /*
+   * initalize editorState for note editor
+   */
+
+  if ( notesOrder.length > 0 ) {
+    const noteId = notesOrder[0];
+    const noteContents = notes[noteId].contents;
+    const noteEditorState = EditorState.createWithContent( convertFromRaw( noteContents ) );
+
+    return {
+      [activeSectionId]: newEditorState,
+      [noteId]: noteEditorState
+    };
+  }
+  else {
+    return {
+      [activeSectionId]: newEditorState
+    };
+  }
 };
 
 module.exports = {
