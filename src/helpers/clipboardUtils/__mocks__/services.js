@@ -62,15 +62,22 @@ const getEditorStates = ( { story, isBackward = false, editorFocus = 'main' } ) 
       [noteId]: newEditorState
     };
   }
-  else if ( notesOrder.length > 0 ) {
-    noteId = notesOrder[0];
-    const noteContents = notes[noteId].contents;
-    const noteEditorState = EditorState.createWithContent( convertFromRaw( noteContents ) );
-
-    return {
-      [activeSectionId]: newEditorState,
-      [noteId]: noteEditorState
+  else if ( editorFocus === 'main' && notesOrder.length > 0 ) {
+    // const noteId = notesOrder[0];
+    let editorStates = {
+      [activeSectionId]: newEditorState
     };
+
+    notesOrder.forEach( ( id ) => {
+      const noteContents = notes[id].contents;
+      const noteEditorState = EditorState.createWithContent( convertFromRaw( noteContents ) );
+
+      editorStates = {
+        ...editorStates,
+        [id]: noteEditorState
+      };
+    } );
+    return editorStates;
   }
   else {
     return {
