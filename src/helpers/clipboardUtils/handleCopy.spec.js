@@ -8,10 +8,14 @@
  */
 
 import expect from 'expect';
-import services from './__mocks__/services.js';
+import {
+  getEditorStates,
+  getMockedClipboard
+} from './__mocks__/services.js';
 import stories from './__mocks__/stories';
 import {
-  computeCopiedData
+  computeCopiedData,
+  processCopy
 } from './handleCopy';
 
 describe( 'test for handleCopy', () => {
@@ -25,7 +29,7 @@ describe( 'test for handleCopy', () => {
       [ 'single-note-in-main', 'main' ],
       [ 'inline-bib-in-note', 'main' ],
       [ 'multiple-note-in-main', 'main' ]
-  ] )( 'test copy %s from %s', ( testName, editorFocus ) => {
+    ] )( 'test copy %s from %s', ( testName, editorFocus ) => {
       const story = stories.find( ( item ) => item.name === testName ).data;
       const {
         sections,
@@ -40,7 +44,7 @@ describe( 'test for handleCopy', () => {
         [ 'backward copy', true ]
       ] )( 'test %s', ( t, isBackward ) => {
 
-        const editorStates = services.getEditorStates( {
+        const editorStates = getEditorStates( {
           story,
           isBackward,
           editorFocus
@@ -80,6 +84,45 @@ describe( 'test for handleCopy', () => {
           expect( item ).toEqual( resources[item.id] );
         } );
       } );
+    } );
+  } );
+
+  describe( 'test processCopy()', () => {
+    const citations = {
+      citationItems: {},
+      citationData: []
+    };
+
+    test.each( [
+      [ 'inline-glossary-in-main', 'main' ],
+    ] )( 'test process %s from %s', ( testName, editorFocus ) => {
+      const story = stories.find( ( item ) => item.name === testName ).data;
+      const { sections, sectionsOrder } = story;
+      const activeSectionId = sectionsOrder[0];
+      const { notes, notesOrder } = sections[activeSectionId];
+
+      const editorStates = getEditorStates( {
+        story,
+        editorFocus
+      } );
+      const clipboard = getMockedClipboard( { story, editorFocus } );
+
+      const {
+        copiedData,
+        stateDiff,
+        clipboardPlainText,
+        clipboardHtml,
+      } = processCopy( {
+        editorFocus: editorFocus === 'main' ? 'main' : notesOrder[0],
+        editorStates,
+        activeSection: {
+          id: activeSectionId
+        },
+        story,
+        citations,
+        clipboard
+      } );
+      expect( copiedData ).toBeDefined();
     } );
   } );
 } );
