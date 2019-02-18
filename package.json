@@ -11,6 +11,7 @@
     "analyze": "webpack-bundle-analyzer build/stats.json",
     "comb": "csscomb src",
     "test": "jest --no-cache",
+    "test:watch": "jest --watch",
     "deploy": "npm run build && surge ./",
     "translations:backfill": "node translationScripts/backfillTranslations --locales ../src/translations/locales",
     "translations:discover": "node translationScripts/discoverTranslations --locales ../src/translations/locales --src ../src --namespacer translateNameSpacer --translatorFn translate",
@@ -168,8 +169,10 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|csl|xml)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js",
+      "english-locale.xml": "<rootDir>/__mocks__/xmlMock.js",
+      "apa.csl": "<rootDir>/__mocks__/cslMock.js"
     }
   }
 }
