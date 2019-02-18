@@ -10,7 +10,7 @@
 import expect from 'expect';
 import {
   getEditorStates,
-  getMockedClipboard
+  getClipboardContentState
 } from './__mocks__/services.js';
 import stories from './__mocks__/stories';
 import {
@@ -94,24 +94,30 @@ describe( 'test for handleCopy', () => {
     };
 
     test.each( [
+      [ 'inline-bib-in-main', 'main' ],
       [ 'inline-glossary-in-main', 'main' ],
+      [ 'block-video-in-main', 'main' ],
+      [ 'inline-glossary-in-note', 'note' ],
+      [ 'inline-bib-in-note', 'note' ],
+      [ 'single-note-in-main', 'main' ],
+      [ 'inline-bib-in-note', 'main' ],
+      [ 'multiple-note-in-main', 'main' ]
     ] )( 'test process %s from %s', ( testName, editorFocus ) => {
       const story = stories.find( ( item ) => item.name === testName ).data;
       const { sections, sectionsOrder } = story;
       const activeSectionId = sectionsOrder[0];
-      const { notes, notesOrder } = sections[activeSectionId];
+      const { notesOrder } = sections[activeSectionId];
 
       const editorStates = getEditorStates( {
         story,
         editorFocus
       } );
-      const clipboard = getMockedClipboard( { story, editorFocus } );
+      const clipboardContentState = getClipboardContentState( { story, editorFocus } );
+      const clipboard = clipboardContentState.getBlockMap();
 
       const {
         copiedData,
-        stateDiff,
         clipboardPlainText,
-        clipboardHtml,
       } = processCopy( {
         editorFocus: editorFocus === 'main' ? 'main' : notesOrder[0],
         editorStates,
@@ -122,7 +128,9 @@ describe( 'test for handleCopy', () => {
         citations,
         clipboard
       } );
+      const expectClipboardPlainText = clipboardContentState.getPlainText();
       expect( copiedData ).toBeDefined();
+      expect( clipboardPlainText ).toEqual( expectClipboardPlainText );
     } );
   } );
 } );

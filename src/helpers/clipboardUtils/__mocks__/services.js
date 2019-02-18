@@ -4,7 +4,6 @@
  */
 import {
   EditorState,
-  ContentState,
   convertFromRaw
 } from 'draft-js';
 
@@ -87,7 +86,7 @@ const getEditorStates = ( { story, isBackward = false, editorFocus = 'main' } ) 
   }
 };
 
-const getMockedClipboard = ( { story, editorFocus = 'main' } ) => {
+const getClipboardContentState = ( { story, editorFocus = 'main' } ) => {
   const { sections, sectionsOrder } = story;
   if ( sections === undefined || Object.keys( sections ).length === 0 ) {
     return;
@@ -96,22 +95,19 @@ const getMockedClipboard = ( { story, editorFocus = 'main' } ) => {
   const { notes, notesOrder } = sections[activeSectionId];
   let contents;
   let contentState;
-  let clipboard;
   if ( editorFocus === 'main' ) {
     contents = sections[activeSectionId].contents;
     contentState = convertFromRaw( contents );
-    clipboard = contentState.getBlockMap();
   }
   else if ( editorFocus === 'note' ) {
     const noteId = notesOrder[0];
     contents = notes[noteId].contents;
-    contentState = ContentState.createFromBlockArray( convertFromRaw( contents ) );
-    clipboard = contentState.getBlockMap();
+    contentState = convertFromRaw( contents );
   }
-  return clipboard;
+  return contentState;
 };
 
 module.exports = {
   getEditorStates,
-  getMockedClipboard
+  getClipboardContentState
 };
