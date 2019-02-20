@@ -6,6 +6,7 @@ import {
   EditorState,
   convertFromRaw
 } from 'draft-js';
+import { isEmpty } from 'lodash';
 
 const getEditorStates = ( { story, isBackward = false, editorFocus = 'main' } ) => {
   const { sections, sectionsOrder } = story;
@@ -29,9 +30,18 @@ const getEditorStates = ( { story, isBackward = false, editorFocus = 'main' } ) 
    * step 3: get first/last block's key
    * step 4: change selection from start/end to end/start
    */
-  const editorState = EditorState.moveFocusToEnd(
-    EditorState.createWithContent( convertFromRaw( contents ) )
-  );
+  let editorState;
+
+  if ( isEmpty( contents ) ) {
+    editorState = EditorState.moveFocusToEnd(
+      EditorState.createEmpty()
+    );
+  }
+  else {
+    editorState = EditorState.moveFocusToEnd(
+      EditorState.createWithContent( convertFromRaw( contents ) )
+    );
+  }
   const selection = editorState.getSelection();
   const firstBlock = editorState.getCurrentContent().getFirstBlock();
   const firstKey = firstBlock.getKey();

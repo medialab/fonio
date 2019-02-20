@@ -12,7 +12,7 @@ import {
   getEditorStates,
   getClipboardContentState
 } from './__mocks__/services.js';
-import stories from './__mocks__/stories';
+import copyTests from './__mocks__/copyTests';
 import {
   computeCopiedData,
   processCopy
@@ -30,7 +30,7 @@ describe( 'test for handleCopy', () => {
       [ 'inline-bib-in-note', 'main' ],
       [ 'multiple-note-in-main', 'main' ]
     ] )( 'test copy %s from %s', ( testName, editorFocus ) => {
-      const story = stories.find( ( item ) => item.name === testName ).data;
+      const story = copyTests.find( ( item ) => item.name === testName ).data;
       const {
         sections,
         sectionsOrder,
@@ -103,7 +103,7 @@ describe( 'test for handleCopy', () => {
       [ 'inline-bib-in-note', 'main' ],
       [ 'multiple-note-in-main', 'main' ]
     ] )( 'test process %s from %s', ( testName, editorFocus ) => {
-      const story = stories.find( ( item ) => item.name === testName ).data;
+      const story = copyTests.find( ( item ) => item.name === testName ).data;
       const { sections, sectionsOrder } = story;
       const activeSectionId = sectionsOrder[0];
       const { notesOrder } = sections[activeSectionId];
