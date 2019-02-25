@@ -7,7 +7,7 @@
  * @param {string} editorFocus - 'main' or noteId,
  * @param {immutable} editorStates - with {immutable} editorState mock from insidePaste.json,
  * @param {object} activeSection - {id},
- * @param {object} editor - call only when note copied (not test copy cases for now),
+ * @param {object} editor - need to provide only when note copied or paste into note editor(not test copy cases for now),
  * @param {object} notes - empty object when no note copied (not test copy cases for now),
  * @param {object} story - {resources} same mock data as computeCopiedData
  */
@@ -35,25 +35,27 @@ describe( 'test computePastedData()', () => {
     citationData: []
   };
   describe.each( [
-    [ 'inline-bib-in-main', 'main' ],
-  ] )( 'copy %s from %s', ( testName, editorFocus ) => {
-    const story = copyTests.find( ( item ) => item.name === testName ).data;
+    [ 'inline-bib-in-main', 'main', 'inline' ],
+    [ 'inline-glossary-in-main', 'main', 'inline' ],
+    [ 'block-video-in-main', 'main', 'block' ],
+  ] )( 'copy %s from %s', ( copyTestName, copyEditorFocus, contextType ) => {
+    const story = copyTests.find( ( item ) => item.name === copyTestName ).data;
     const { sectionsOrder } = story;
-    const activeSectionId = sectionsOrder[0];
-    const editorStates = getEditorStates( {
+    const copiedSectionId = sectionsOrder[0];
+    const copiedEditorStates = getEditorStates( {
       story,
-      editorFocus
+      editorFocus: copyEditorFocus
     } );
-    const clipboardContentState = getClipboardContentState( { story, editorFocus } );
+    const clipboardContentState = getClipboardContentState( { story, editorFocus: copyEditorFocus } );
     const clipboard = clipboardContentState.getBlockMap();
 
     const {
       copiedData,
     } = processCopy( {
-      editorFocus,
-      editorStates,
+      editorFocus: copyEditorFocus,
+      editorStates: copiedEditorStates,
       activeSection: {
-        id: activeSectionId
+        id: copiedSectionId
       },
       story,
       citations,
@@ -61,27 +63,44 @@ describe( 'test computePastedData()', () => {
     } );
 
     test.each( [
-      [ 'empty-main-editor', 'main' ]
-    ] )( 'test paste to %s', ( name, pasteEditorFocus ) => {
-      const pasteInsideTest = pasteInsideTests.find( ( item ) => item.name === name ).data;  
+      [ 'empty-main-editor', 'main' ],
+    ] )( 'test paste to %s', ( pasteTestName, pasteEditorFocus ) => {
+      const pasteInsideTest = pasteInsideTests.find( ( item ) => item.name === pasteTestName ).data;
+      const {
+        sections: pasteInsideSections,
+        sectionsOrder: pasteInsideSectionsOrder
+      } = pasteInsideTest;
+      const { notes, notesOrder } = pasteInsideSections[pasteInsideSectionsOrder[0]];
       const pasteEditorStates = getEditorStates( {
         story: pasteInsideTest,
         isBackward: false,
         editorFocus: pasteEditorFocus
       } );
-      const data = computePastedData( {
+      const {
+        resourcesToCreate,
+        contextualizersToCreate,
+        contextualizationsToCreate
+      } = computePastedData( {
         copiedData,
         copiedResources: copiedData.copiedResources,
-        editorFocus: pasteEditorFocus,
+        editorFocus: pasteEditorFocus === 'main' ? 'main' : notesOrder[0],
         editorStates: pasteEditorStates,
         activeSection: {
           id: pasteInsideTest.sectionsOrder[0]
         },
         editor: null,
-        notes: {},
+        notes,
         story
       } );
-      expect( data ).toBeDefined();
+      expect( resourcesToCreate.length ).toEqual( 0 );
+      if ( contextType === 'block' && pasteEditorFocus !== 'main' ) {
+        expect( contextualizationsToCreate.length ).toEqual( 0 );
+        expect( contextualizersToCreate.length ).toEqual( 0 );
+      }
+      else {
+        expect( contextualizationsToCreate.length ).toEqual( 1 );
+        expect( contextualizersToCreate.length ).toEqual( 1 );
+      }
     } );
   } );
 } );
