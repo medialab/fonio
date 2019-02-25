@@ -1,14 +1,14 @@
 # Generate mocked data for copy/paste utils test
 
-## Mocked data for copy test
+## copyTests.json (mocked data for editor copied from inside fonio)
 
 ```
 {
-  name, // test name 
+  name, // name of test case
   editorFocus, // focused editor when copy ('main' or 'note')
   data: {
-    sections, // for test purpose, require only one section
-    sectionsOrder,  // for test purpose, require only one section
+    sections, // for test purpose, only one section should inside the story, if editorFocus is note, only one note is required
+    sectionsOrder,  // for test purpose, only one section should inside the story
     resources,
     contextualizations,
     contextualizers,
@@ -16,11 +16,11 @@
 }
 ```
 
-## Mocked data for paste from outside fonio
+## pasteOutsideTests.json (mocked data for paste from outside fonio)
 
 ```
   {
-    name, // test name 
+    name, // name of test case
     html, // html text copied from outside
     resources, // exist resources in story
     expectedResourcesToAdd, // number of resources retrieved from html
@@ -29,15 +29,15 @@
     expectedImagesToAdd, // number of images retrieved from html
   }
 ```
-## Mocked data for paste from inside fonio
+## pasteInsideTests.json (mocked data for target editor pasted to inside fonio)
 
 ```
 {
-  name, // test name 
+  name, // name of test case
   editorFocus, // focused editor when paste ('main' or 'note')
   data: {
-    sections, // for test purpose, require only one section
-    sectionsOrder,  // for test purpose, require only one section
+    sections, // for test purpose, only one section should inside the story, if editorFocus is note, only one note is required
+    sectionsOrder,  // for test purpose, only one section should inside the story
   }
 }
 ```

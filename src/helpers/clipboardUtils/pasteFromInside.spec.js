@@ -29,6 +29,10 @@ import {
   computePastedData,
 } from './pasteFromInside';
 
+const testCases = pasteInsideTests.map( ( item ) => {
+  return [ item.name, item.editorFocus ];
+} );
+
 describe( 'test computePastedData()', () => {
   const citations = {
     citationItems: {},
@@ -39,6 +43,11 @@ describe( 'test computePastedData()', () => {
     [ 'inline-glossary-in-main', 'main', 'inline' ],
     [ 'block-video-in-main', 'main', 'block' ],
   ] )( 'copy %s from %s', ( copyTestName, copyEditorFocus, contextType ) => {
+
+    /*
+     * for test purpose, only one section should inside the story
+     * if editorFocus is note, only one note is required
+     */
     const story = copyTests.find( ( item ) => item.name === copyTestName ).data;
     const { sectionsOrder } = story;
     const copiedSectionId = sectionsOrder[0];
@@ -62,9 +71,14 @@ describe( 'test computePastedData()', () => {
       clipboard
     } );
 
-    test.each( [
-      [ 'empty-main-editor', 'main' ],
-    ] )( 'test paste to %s', ( pasteTestName, pasteEditorFocus ) => {
+    test.each( testCases )( 'test paste to %s', ( pasteTestName, pasteEditorFocus ) => {
+
+      /*
+       * for test purpose, only one section should inside the story
+       * if editorFocus is note, only one note is required
+       * TODO: test copy with note or paste to note editor is not testable
+       */
+
       const pasteInsideTest = pasteInsideTests.find( ( item ) => item.name === pasteTestName ).data;
       const {
         sections: pasteInsideSections,

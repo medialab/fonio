@@ -25,6 +25,11 @@ const testCases = copyTests.map( ( item ) => {
 describe( 'test for handleCopy', () => {
   describe( 'test computeCopiedData()', () => {
     describe.each( testCases )( 'test copy %s from %s', ( testName, editorFocus ) => {
+
+      /*
+       * for test purpose, only one section should inside the story
+       * if editorFocus is note, only one note is required
+       */
       const story = copyTests.find( ( item ) => item.name === testName ).data;
       const {
         sections,
@@ -91,6 +96,12 @@ describe( 'test for handleCopy', () => {
     test.each( testCases )( 'test process %s from %s', ( testName, editorFocus ) => {
       const story = copyTests.find( ( item ) => item.name === testName ).data;
       const { sections, sectionsOrder } = story;
+
+      /*
+       * for test purpose, only one section should inside the story
+       * if editorFocus is note, only one note is required
+       */
+
       const activeSectionId = sectionsOrder[0];
       const { notesOrder } = sections[activeSectionId];
 
