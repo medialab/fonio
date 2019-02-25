@@ -736,6 +736,251 @@
   },
   {
     "name": "inline-bib-in-note",
+    "editorFocus": "note",
+    "data": {
+      "sections": {
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7": {
+          "metadata": {
+            "title": "test copy",
+            "authors": [],
+            "level": 0
+          },
+          "contents": {
+            "blocks": [
+              {
+                "key": "dra3n",
+                "text": "main editor",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [],
+                "data": {}
+              },
+              {
+                "key": "3q831",
+                "text": "add a note  ",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [
+                  {
+                    "offset": 10,
+                    "length": 1,
+                    "key": 0
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "entityMap": {
+              "0": {
+                "type": "NOTE_POINTER",
+                "mutability": "IMMUTABLE",
+                "data": {
+                  "noteId": "2793d737-9a3d-44c5-b97f-aabd712e809b"
+                }
+              }
+            }
+          },
+          "notes": {
+            "2793d737-9a3d-44c5-b97f-aabd712e809b": {
+              "id": "2793d737-9a3d-44c5-b97f-aabd712e809b",
+              "editorState": {
+                "_immutable": {
+                  "allowUndo": true,
+                  "currentContent": {
+                    "entityMap": {},
+                    "blockMap": {
+                      "fh1tk": {
+                        "key": "fh1tk",
+                        "type": "unstyled",
+                        "text": "",
+                        "characterList": [],
+                        "depth": 0,
+                        "data": {}
+                      }
+                    },
+                    "selectionBefore": {
+                      "anchorKey": "fh1tk",
+                      "anchorOffset": 0,
+                      "focusKey": "fh1tk",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    },
+                    "selectionAfter": {
+                      "anchorKey": "fh1tk",
+                      "anchorOffset": 0,
+                      "focusKey": "fh1tk",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    }
+                  },
+                  "decorator": {
+                    "decorators": [
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      }
+                    ]
+                  },
+                  "directionMap": {
+                    "fh1tk": "LTR"
+                  },
+                  "forceSelection": false,
+                  "inCompositionMode": false,
+                  "inlineStyleOverride": null,
+                  "lastChangeType": null,
+                  "nativelyRenderedContent": null,
+                  "redoStack": [],
+                  "selection": {
+                    "anchorKey": "fh1tk",
+                    "anchorOffset": 0,
+                    "focusKey": "fh1tk",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false
+                  },
+                  "treeMap": {
+                    "fh1tk": [
+                      {
+                        "start": 0,
+                        "end": 0,
+                        "decoratorKey": null,
+                        "leaves": [
+                          {
+                            "start": 0,
+                            "end": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "undoStack": []
+                }
+              },
+              "contents": {
+                "blocks": [
+                  {
+                    "key": "3nqbp",
+                    "text": "a note with a bib citation ",
+                    "type": "unstyled",
+                    "depth": 0,
+                    "inlineStyleRanges": [],
+                    "entityRanges": [
+                      {
+                        "offset": 26,
+                        "length": 1,
+                        "key": 0
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "entityMap": {
+                  "0": {
+                    "type": "INLINE_ASSET",
+                    "mutability": "MUTABLE",
+                    "data": {
+                      "insertionType": "INLINE_ASSET",
+                      "asset": {
+                        "id": "6ae632d2-5721-4d78-80db-1a60472a28b5"
+                      }
+                    }
+                  }
+                }
+              },
+              "order": 1
+            }
+          },
+          "notesOrder": [
+            "2793d737-9a3d-44c5-b97f-aabd712e809b"
+          ],
+          "id": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7",
+          "lastUpdateAt": 1550139707459,
+          "createdAt": 1550052625012
+        }
+      },
+      "sectionsOrder": [
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+      ],
+      "resources": {
+        "d5639f07-bad2-4699-8c40-5e0019bcff2c": {
+          "type": "resource",
+          "metadata": {
+            "date": "",
+            "authors": [],
+            "description": "",
+            "source": "",
+            "type": "bib"
+          },
+          "data": [
+            {
+              "title": "Academics and their online networks: Exploring the role of academic social networking sites",
+              "volume": "19",
+              "ISSN": "13960466",
+              "URL": "http://ojs-prod-lib.cc.uic.edu/ojs/index.php/fm/article/view/4937",
+              "DOI": "10.5210/fm.v19i11.4937",
+              "language": "en",
+              "issue": "11",
+              "container-title": "First Monday",
+              "author": [
+                {
+                  "given": "Katy",
+                  "family": "Jordan"
+                }
+              ],
+              "type": "article-journal",
+              "citation-label": "jordan_academics_2014",
+              "id": "jordan_academics_2014",
+              "issued": {
+                "date-parts": [
+                  [
+                    2014,
+                    10
+                  ]
+                ]
+              },
+              "htmlPreview": "<div class=\"Bibliography\">  <div class=\"csl-entry\">Jordan, K. (2014). <a href=\"http://ojs-prod-lib.cc.uic.edu/ojs/index.php/fm/article/view/4937\" target=\"blank\">Academics and their online networks: Exploring the role of academic social networking sites</a>. <i>First Monday</i>, <i>19</i>(11). https://doi.org/10.5210/fm.v19i11.4937</div>\n</div>"
+            }
+          ],
+          "id": "d5639f07-bad2-4699-8c40-5e0019bcff2c",
+          "lastUpdateAt": 1550139644684
+        }
+      },
+      "contextualizers": {
+        "5099603e-39f1-4290-be20-bee41d76f1e8": {
+          "id": "5099603e-39f1-4290-be20-bee41d76f1e8",
+          "type": "bib"
+        }
+      },
+      "contextualizations": {
+        "6ae632d2-5721-4d78-80db-1a60472a28b5": {
+          "id": "6ae632d2-5721-4d78-80db-1a60472a28b5",
+          "resourceId": "d5639f07-bad2-4699-8c40-5e0019bcff2c",
+          "contextualizerId": "5099603e-39f1-4290-be20-bee41d76f1e8",
+          "sectionId": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+        }
+      }
+    }
+  },
+  {
+    "name": "inline-bib-in-note",
     "editorFocus": "main",
     "data": {
       "sections": {
