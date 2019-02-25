@@ -18,18 +18,13 @@ import {
   processCopy
 } from './handleCopy';
 
+const testCases = copyTests.map( ( item ) => {
+  return [ item.name, item.editorFocus ];
+} );
+
 describe( 'test for handleCopy', () => {
   describe( 'test computeCopiedData()', () => {
-    describe.each( [
-      [ 'inline-bib-in-main', 'main' ],
-      [ 'inline-glossary-in-main', 'main' ],
-      [ 'block-video-in-main', 'main' ],
-      [ 'inline-glossary-in-note', 'note' ],
-      [ 'inline-bib-in-note', 'note' ],
-      [ 'single-note-in-main', 'main' ],
-      [ 'inline-bib-in-note', 'main' ],
-      [ 'multiple-note-in-main', 'main' ]
-    ] )( 'test copy %s from %s', ( testName, editorFocus ) => {
+    describe.each( testCases )( 'test copy %s from %s', ( testName, editorFocus ) => {
       const story = copyTests.find( ( item ) => item.name === testName ).data;
       const {
         sections,
@@ -93,16 +88,7 @@ describe( 'test for handleCopy', () => {
       citationData: []
     };
 
-    test.each( [
-      [ 'inline-bib-in-main', 'main' ],
-      [ 'inline-glossary-in-main', 'main' ],
-      [ 'block-video-in-main', 'main' ],
-      [ 'inline-glossary-in-note', 'note' ],
-      [ 'inline-bib-in-note', 'note' ],
-      [ 'single-note-in-main', 'main' ],
-      [ 'inline-bib-in-note', 'main' ],
-      [ 'multiple-note-in-main', 'main' ]
-    ] )( 'test process %s from %s', ( testName, editorFocus ) => {
+    test.each( testCases )( 'test process %s from %s', ( testName, editorFocus ) => {
       const story = copyTests.find( ( item ) => item.name === testName ).data;
       const { sections, sectionsOrder } = story;
       const activeSectionId = sectionsOrder[0];

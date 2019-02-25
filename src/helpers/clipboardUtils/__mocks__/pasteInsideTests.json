@@ -1,0 +1,183 @@
+[
+  {
+    "name": "empty-main-editor",
+    "editorFocus": "main",
+    "data": {
+      "sections": {
+        "a74c950a-fb60-46a2-befe-42e410653814": {
+          "metadata": {
+            "title": "Introduction",
+            "authors": [],
+            "level": 0
+          },
+          "contents": {},
+          "notes": {},
+          "notesOrder": [],
+          "id": "a74c950a-fb60-46a2-befe-42e410653814"
+        }
+      },
+      "sectionsOrder": [
+        "a74c950a-fb60-46a2-befe-42e410653814"
+      ]
+    } 
+  },
+  {
+    "name": "empty-note-editor",
+    "data": {
+      "sections": {
+        "a74c950a-fb60-46a2-befe-42e410653814": {
+          "metadata": {
+            "title": "Introduction",
+            "authors": [],
+            "level": 0
+          },
+          "contents": {
+            "blocks": [
+              {
+                "key": "1r5ie",
+                "text": "here is a empty note  ",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [
+                  {
+                    "offset": 20,
+                    "length": 1,
+                    "key": 0
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "entityMap": {
+              "0": {
+                "type": "NOTE_POINTER",
+                "mutability": "IMMUTABLE",
+                "data": {
+                  "noteId": "618954ac-424b-4bbd-adf4-d5a4be24d0a1"
+                }
+              }
+            }
+          },
+          "notes": {
+            "618954ac-424b-4bbd-adf4-d5a4be24d0a1": {
+              "id": "618954ac-424b-4bbd-adf4-d5a4be24d0a1",
+              "editorState": {
+                "_immutable": {
+                  "allowUndo": true,
+                  "currentContent": {
+                    "entityMap": {},
+                    "blockMap": {
+                      "caj0u": {
+                        "key": "caj0u",
+                        "type": "unstyled",
+                        "text": "",
+                        "characterList": [],
+                        "depth": 0,
+                        "data": {}
+                      }
+                    },
+                    "selectionBefore": {
+                      "anchorKey": "caj0u",
+                      "anchorOffset": 0,
+                      "focusKey": "caj0u",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    },
+                    "selectionAfter": {
+                      "anchorKey": "caj0u",
+                      "anchorOffset": 0,
+                      "focusKey": "caj0u",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    }
+                  },
+                  "decorator": {
+                    "decorators": [
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      }
+                    ]
+                  },
+                  "directionMap": {
+                    "caj0u": "LTR"
+                  },
+                  "forceSelection": false,
+                  "inCompositionMode": false,
+                  "inlineStyleOverride": null,
+                  "lastChangeType": null,
+                  "nativelyRenderedContent": null,
+                  "redoStack": [],
+                  "selection": {
+                    "anchorKey": "caj0u",
+                    "anchorOffset": 0,
+                    "focusKey": "caj0u",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false
+                  },
+                  "treeMap": {
+                    "caj0u": [
+                      {
+                        "start": 0,
+                        "end": 0,
+                        "decoratorKey": null,
+                        "leaves": [
+                          {
+                            "start": 0,
+                            "end": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "undoStack": []
+                }
+              },
+              "contents": {
+                "blocks": [
+                  {
+                    "key": "1j508",
+                    "text": "",
+                    "type": "unstyled",
+                    "depth": 0,
+                    "inlineStyleRanges": [],
+                    "entityRanges": [],
+                    "data": {}
+                  }
+                ],
+                "entityMap": {}
+              },
+              "order": 1
+            }
+          },
+          "notesOrder": [
+            "618954ac-424b-4bbd-adf4-d5a4be24d0a1"
+          ],
+          "id": "a74c950a-fb60-46a2-befe-42e410653814",
+          "lastUpdateAt": 1551045121951
+        }
+      },
+      "sectionsOrder": [
+        "a74c950a-fb60-46a2-befe-42e410653814"
+      ]
+    }
+  }
+]

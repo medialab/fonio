@@ -1,0 +1,1400 @@
+[
+  {
+    "name": "inline-bib-in-main",
+    "editorFocus": "main",
+    "data": {
+      "sections": {
+        "438fb6ad-1a77-4cf6-ade4-b5c2f7e34461": {
+          "metadata": {
+            "title": "Introduction",
+            "authors": [],
+            "level": 0
+          },
+          "contents": {
+            "blocks": [
+              {
+                "key": "6n9ej",
+                "text": "single citation  ",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [
+                  {
+                    "offset": 15,
+                    "length": 1,
+                    "key": 0
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "key": "8null",
+                "text": "second block",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [],
+                "data": {}
+              }
+            ],
+            "entityMap": {
+              "0": {
+                "type": "INLINE_ASSET",
+                "mutability": "MUTABLE",
+                "data": {
+                  "insertionType": "INLINE_ASSET",
+                  "asset": {
+                    "id": "c95befd6-1d29-4eb1-af52-1e1f26d4408c"
+                  }
+                }
+              }
+            }
+          },
+          "notes": {},
+          "notesOrder": [],
+          "id": "438fb6ad-1a77-4cf6-ade4-b5c2f7e34461",
+          "lastUpdateAt": 1549897444920
+        }
+      },
+      "sectionsOrder": [
+        "438fb6ad-1a77-4cf6-ade4-b5c2f7e34461"
+      ],
+      "resources": {
+        "c41e55bb-9df1-480c-aaba-4277343a1428": {
+          "type": "resource",
+          "metadata": {
+            "date": "",
+            "authors": [],
+            "description": "",
+            "source": "",
+            "type": "bib"
+          },
+          "data": [
+            {
+              "title": "Wired Academia: Why Social Science Scholars Are Using Social Media",
+              "DOI": "10.1109/HICSS.2013.614",
+              "container-title": "2013 46th Hawaii International Conference on System Sciences (HICSS)",
+              "author": [
+                {
+                  "given": "A.",
+                  "family": "Gruzd"
+                },
+                {
+                  "given": "M.",
+                  "family": "Goertzen"
+                }
+              ],
+              "page": "3332-3341",
+              "type": "paper-conference",
+              "citation-label": "gruzd_wired_2013",
+              "id": "gruzd_wired_2013",
+              "issued": {
+                "date-parts": [
+                  [
+                    2013,
+                    1
+                  ]
+                ]
+              },
+              "htmlPreview": "<div class=\"Bibliography\">  <div class=\"csl-entry\">Gruzd, A., &amp; Goertzen, M. (2013). Wired Academia: Why Social Science Scholars Are Using Social Media. In <i>2013 46th Hawaii International Conference on System Sciences (HICSS)</i> (pp. 3332–3341). https://doi.org/10.1109/HICSS.2013.614</div>\n</div>"
+            }
+          ],
+          "id": "c41e55bb-9df1-480c-aaba-4277343a1428",
+          "lastUpdateAt": 1549534568625
+        }
+      },
+      "contextualizers": {
+        "53c2fd2b-b149-4fa4-9629-42b62e6d332a": {
+          "id": "53c2fd2b-b149-4fa4-9629-42b62e6d332a",
+          "type": "bib"
+        }
+      },
+      "contextualizations": {
+        "c95befd6-1d29-4eb1-af52-1e1f26d4408c": {
+          "id": "c95befd6-1d29-4eb1-af52-1e1f26d4408c",
+          "resourceId": "c41e55bb-9df1-480c-aaba-4277343a1428",
+          "contextualizerId": "53c2fd2b-b149-4fa4-9629-42b62e6d332a",
+          "sectionId": "438fb6ad-1a77-4cf6-ade4-b5c2f7e34461"
+        }
+      }
+    }
+  },
+  {
+    "name": "single-note-in-main",
+    "editorFocus": "main",
+    "data": {
+      "sections": {
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7": {
+          "metadata": {
+            "title": "test copy",
+            "authors": [],
+            "level": 0
+          },
+          "contents": {
+            "blocks": [
+              {
+                "key": "dra3n",
+                "text": "plain text",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [],
+                "data": {}
+              },
+              {
+                "key": "c34sd",
+                "text": "some text and a note   ",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [
+                  {
+                    "offset": 21,
+                    "length": 1,
+                    "key": 0
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "entityMap": {
+              "0": {
+                "type": "NOTE_POINTER",
+                "mutability": "IMMUTABLE",
+                "data": {
+                  "noteId": "fff222ae-c4cb-43e9-96c3-65f7c3b6d555"
+                }
+              }
+            }
+          },
+          "notes": {
+            "fff222ae-c4cb-43e9-96c3-65f7c3b6d555": {
+              "id": "fff222ae-c4cb-43e9-96c3-65f7c3b6d555",
+              "editorState": {
+                "_immutable": {
+                  "allowUndo": true,
+                  "currentContent": {
+                    "entityMap": {},
+                    "blockMap": {
+                      "3u416": {
+                        "key": "3u416",
+                        "type": "unstyled",
+                        "text": "",
+                        "characterList": [],
+                        "depth": 0,
+                        "data": {}
+                      }
+                    },
+                    "selectionBefore": {
+                      "anchorKey": "3u416",
+                      "anchorOffset": 0,
+                      "focusKey": "3u416",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    },
+                    "selectionAfter": {
+                      "anchorKey": "3u416",
+                      "anchorOffset": 0,
+                      "focusKey": "3u416",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    }
+                  },
+                  "decorator": {
+                    "decorators": [
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      }
+                    ]
+                  },
+                  "directionMap": {
+                    "3u416": "LTR"
+                  },
+                  "forceSelection": false,
+                  "inCompositionMode": false,
+                  "inlineStyleOverride": null,
+                  "lastChangeType": null,
+                  "nativelyRenderedContent": null,
+                  "redoStack": [],
+                  "selection": {
+                    "anchorKey": "3u416",
+                    "anchorOffset": 0,
+                    "focusKey": "3u416",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false
+                  },
+                  "treeMap": {
+                    "3u416": [
+                      {
+                        "start": 0,
+                        "end": 0,
+                        "decoratorKey": null,
+                        "leaves": [
+                          {
+                            "start": 0,
+                            "end": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "undoStack": []
+                }
+              },
+              "contents": {
+                "blocks": [
+                  {
+                    "key": "91rot",
+                    "text": "plain text",
+                    "type": "unstyled",
+                    "depth": 0,
+                    "inlineStyleRanges": [],
+                    "entityRanges": [],
+                    "data": {}
+                  }
+                ],
+                "entityMap": {}
+              },
+              "order": 1
+            }
+          },
+          "notesOrder": [
+            "fff222ae-c4cb-43e9-96c3-65f7c3b6d555"
+          ],
+          "id": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7",
+          "lastUpdateAt": 1550052803956,
+          "createdAt": 1550052625012
+        }
+      },
+      "sectionsOrder": [
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+      ],
+      "resources": {},
+      "contextualizers": {},
+      "contextualizations": {}
+    }
+
+  },
+  {
+    "name": "inline-glossary-in-main",
+    "editorFocus": "main",
+    "data": {
+      "sections": {
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7": {
+          "metadata": {
+            "title": "test copy",
+            "authors": [],
+            "level": 0
+          },
+          "contents": {
+            "blocks": [
+              {
+                "key": "dra3n",
+                "text": "first block",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [],
+                "data": {}
+              },
+              {
+                "key": "er15m",
+                "text": "some glossary myGlossary",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [
+                  {
+                    "offset": 14,
+                    "length": 10,
+                    "key": 0
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "key": "dcgml",
+                "text": "last block",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [],
+                "data": {}
+              }
+            ],
+            "entityMap": {
+              "0": {
+                "type": "INLINE_ASSET",
+                "mutability": "MUTABLE",
+                "data": {
+                  "insertionType": "INLINE_ASSET",
+                  "asset": {
+                    "id": "471accc5-714d-4549-ba6a-d8d7d4b93418"
+                  }
+                }
+              }
+            }
+          },
+          "notes": {},
+          "notesOrder": [],
+          "id": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7",
+          "lastUpdateAt": 1550069869252,
+          "createdAt": 1550052625012
+        }
+      },
+      "sectionsOrder": [
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+      ],
+      "resources": {
+        "25c0dab7-9c4e-4c8f-ace7-67a446cf9d89": {
+          "type": "resource",
+          "metadata": {
+            "title": "",
+            "date": "",
+            "authors": [],
+            "description": "",
+            "source": "",
+            "type": "glossary"
+          },
+          "data": {
+            "name": "myGlossary",
+            "description": "description of glossary"
+          },
+          "id": "25c0dab7-9c4e-4c8f-ace7-67a446cf9d89",
+          "lastUpdateAt": 1550069814639
+        }
+      },
+      "contextualizers": {
+        "8d4294e7-6b5a-4ece-b84c-48283ddfc4e9": {
+          "id": "8d4294e7-6b5a-4ece-b84c-48283ddfc4e9",
+          "type": "glossary"
+        }
+      },
+      "contextualizations": {
+        "471accc5-714d-4549-ba6a-d8d7d4b93418": {
+          "id": "471accc5-714d-4549-ba6a-d8d7d4b93418",
+          "resourceId": "25c0dab7-9c4e-4c8f-ace7-67a446cf9d89",
+          "contextualizerId": "8d4294e7-6b5a-4ece-b84c-48283ddfc4e9",
+          "sectionId": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+        }
+      }
+    }
+  },
+  {
+    "name": "inline-glossary-in-note",
+    "editorFocus": "main",
+    "data": {
+      "sections": {
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7": {
+          "metadata": {
+            "title": "test copy",
+            "authors": [],
+            "level": 0
+          },
+          "contents": {
+            "blocks": [
+              {
+                "key": "dra3n",
+                "text": "first block",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [],
+                "data": {}
+              },
+              {
+                "key": "clrtd",
+                "text": "add a note   ",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [
+                  {
+                    "offset": 11,
+                    "length": 1,
+                    "key": 0
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "entityMap": {
+              "0": {
+                "type": "NOTE_POINTER",
+                "mutability": "IMMUTABLE",
+                "data": {
+                  "noteId": "c9c1ef98-2665-4ace-b01b-b5ec357b7643"
+                }
+              }
+            }
+          },
+          "notes": {
+            "c9c1ef98-2665-4ace-b01b-b5ec357b7643": {
+              "id": "c9c1ef98-2665-4ace-b01b-b5ec357b7643",
+              "editorState": {
+                "_immutable": {
+                  "allowUndo": true,
+                  "currentContent": {
+                    "entityMap": {},
+                    "blockMap": {
+                      "377o1": {
+                        "key": "377o1",
+                        "type": "unstyled",
+                        "text": "",
+                        "characterList": [],
+                        "depth": 0,
+                        "data": {}
+                      }
+                    },
+                    "selectionBefore": {
+                      "anchorKey": "377o1",
+                      "anchorOffset": 0,
+                      "focusKey": "377o1",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    },
+                    "selectionAfter": {
+                      "anchorKey": "377o1",
+                      "anchorOffset": 0,
+                      "focusKey": "377o1",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    }
+                  },
+                  "decorator": {
+                    "decorators": [
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      }
+                    ]
+                  },
+                  "directionMap": {
+                    "377o1": "LTR"
+                  },
+                  "forceSelection": false,
+                  "inCompositionMode": false,
+                  "inlineStyleOverride": null,
+                  "lastChangeType": null,
+                  "nativelyRenderedContent": null,
+                  "redoStack": [],
+                  "selection": {
+                    "anchorKey": "377o1",
+                    "anchorOffset": 0,
+                    "focusKey": "377o1",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false
+                  },
+                  "treeMap": {
+                    "377o1": [
+                      {
+                        "start": 0,
+                        "end": 0,
+                        "decoratorKey": null,
+                        "leaves": [
+                          {
+                            "start": 0,
+                            "end": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "undoStack": []
+                }
+              },
+              "contents": {
+                "blocks": [
+                  {
+                    "key": "3dssf",
+                    "text": "myGlossary add a glossary",
+                    "type": "unstyled",
+                    "depth": 0,
+                    "inlineStyleRanges": [],
+                    "entityRanges": [
+                      {
+                        "offset": 0,
+                        "length": 10,
+                        "key": 0
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "entityMap": {
+                  "0": {
+                    "type": "INLINE_ASSET",
+                    "mutability": "MUTABLE",
+                    "data": {
+                      "insertionType": "INLINE_ASSET",
+                      "asset": {
+                        "id": "f49140d3-4422-479d-b7b5-e04b7d2a3b2c"
+                      }
+                    }
+                  }
+                }
+              },
+              "order": 1
+            }
+          },
+          "notesOrder": [
+            "c9c1ef98-2665-4ace-b01b-b5ec357b7643"
+          ],
+          "id": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7",
+          "lastUpdateAt": 1550073707187,
+          "createdAt": 1550052625012
+        }
+      },
+      "sectionsOrder": [
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+      ],
+      "resources": {
+        "25c0dab7-9c4e-4c8f-ace7-67a446cf9d89": {
+          "type": "resource",
+          "metadata": {
+            "title": "",
+            "date": "",
+            "authors": [],
+            "description": "",
+            "source": "",
+            "type": "glossary"
+          },
+          "data": {
+            "name": "myGlossary",
+            "description": "description of glossary"
+          },
+          "id": "25c0dab7-9c4e-4c8f-ace7-67a446cf9d89",
+          "lastUpdateAt": 1550069814639
+        }
+      },
+      "contextualizers": {
+        "a5e0ec24-99c0-43c1-98e8-90750acaa82d": {
+          "id": "a5e0ec24-99c0-43c1-98e8-90750acaa82d",
+          "type": "glossary"
+        }
+      },
+      "contextualizations": {
+        "f49140d3-4422-479d-b7b5-e04b7d2a3b2c": {
+          "id": "f49140d3-4422-479d-b7b5-e04b7d2a3b2c",
+          "resourceId": "25c0dab7-9c4e-4c8f-ace7-67a446cf9d89",
+          "contextualizerId": "a5e0ec24-99c0-43c1-98e8-90750acaa82d",
+          "sectionId": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+        }
+      }
+    }
+  },
+  {
+    "name": "block-video-in-main",
+    "editorFocus": "main",
+    "data": {
+      "sections": {
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7": {
+          "metadata": {
+            "title": "test copy",
+            "authors": [],
+            "level": 0
+          },
+          "contents": {
+            "blocks": [
+              {
+                "key": "dra3n",
+                "text": "first block",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [],
+                "data": {}
+              },
+              {
+                "key": "e8v82",
+                "text": "block context video",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [],
+                "data": {}
+              },
+              {
+                "key": "c0qbt",
+                "text": " ",
+                "type": "atomic",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [
+                  {
+                    "offset": 0,
+                    "length": 1,
+                    "key": 0
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "key": "347h8",
+                "text": " ",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [],
+                "data": {}
+              }
+            ],
+            "entityMap": {
+              "0": {
+                "type": "BLOCK_ASSET",
+                "mutability": "IMMUTABLE",
+                "data": {
+                  "insertionType": "BLOCK_ASSET",
+                  "asset": {
+                    "id": "8eabf2f3-da81-4c93-985c-8dd200703d3a"
+                  }
+                }
+              }
+            }
+          },
+          "notes": {},
+          "notesOrder": [],
+          "id": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7",
+          "lastUpdateAt": 1550139191102,
+          "createdAt": 1550052625012
+        }
+      },
+      "sectionsOrder": [
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+      ],
+      "resources": {
+        "dbfbe522-28f8-44a4-b95d-539ea6a87dbc": {
+          "type": "resource",
+          "metadata": {
+            "title": "Dan Abramov: Beyond React 16 | JSConf Iceland 2018",
+            "date": "",
+            "authors": [
+              "JSConf"
+            ],
+            "description": "https://2018.jsconf.is/speakers/dan-abramov/\n\nReact 16 was released several months ago. Even though this update was largely API-compatible, the rewritten internal engine included new long-requested features and opened the door for exciting future possibilities.\n\nIn this talk, Dan will share the React team’s vision for what the future of React might look like, including some never before seen prototypes.\n\nWhether or not you use React, Dan hopes that you will find something valuable in this talk, and that it sparks new conversations about building delightful user interfaces.",
+            "source": "JSConf (youtube: https://www.youtube.com/watch?v=nLF0n9SACd4)",
+            "type": "video",
+            "videoUrl": "https://www.youtube.com/watch?v=nLF0n9SACd4"
+          },
+          "data": {
+            "url": "https://www.youtube.com/watch?v=nLF0n9SACd4"
+          },
+          "id": "dbfbe522-28f8-44a4-b95d-539ea6a87dbc",
+          "lastUpdateAt": 1550139168612
+        }
+      },
+      "contextualizers": {
+        "828b2463-661b-4d6f-b131-4dccbe75e3ee": {
+          "id": "828b2463-661b-4d6f-b131-4dccbe75e3ee",
+          "type": "video"
+        }
+      },
+      "contextualizations": {
+        "8eabf2f3-da81-4c93-985c-8dd200703d3a": {
+          "id": "8eabf2f3-da81-4c93-985c-8dd200703d3a",
+          "resourceId": "dbfbe522-28f8-44a4-b95d-539ea6a87dbc",
+          "contextualizerId": "828b2463-661b-4d6f-b131-4dccbe75e3ee",
+          "sectionId": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+        }
+      }
+    }
+  },
+  {
+    "name": "inline-bib-in-note",
+    "editorFocus": "main",
+    "data": {
+      "sections": {
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7": {
+          "metadata": {
+            "title": "test copy",
+            "authors": [],
+            "level": 0
+          },
+          "contents": {
+            "blocks": [
+              {
+                "key": "dra3n",
+                "text": "main editor",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [],
+                "data": {}
+              },
+              {
+                "key": "3q831",
+                "text": "add a note  ",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [
+                  {
+                    "offset": 10,
+                    "length": 1,
+                    "key": 0
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "entityMap": {
+              "0": {
+                "type": "NOTE_POINTER",
+                "mutability": "IMMUTABLE",
+                "data": {
+                  "noteId": "2793d737-9a3d-44c5-b97f-aabd712e809b"
+                }
+              }
+            }
+          },
+          "notes": {
+            "2793d737-9a3d-44c5-b97f-aabd712e809b": {
+              "id": "2793d737-9a3d-44c5-b97f-aabd712e809b",
+              "editorState": {
+                "_immutable": {
+                  "allowUndo": true,
+                  "currentContent": {
+                    "entityMap": {},
+                    "blockMap": {
+                      "fh1tk": {
+                        "key": "fh1tk",
+                        "type": "unstyled",
+                        "text": "",
+                        "characterList": [],
+                        "depth": 0,
+                        "data": {}
+                      }
+                    },
+                    "selectionBefore": {
+                      "anchorKey": "fh1tk",
+                      "anchorOffset": 0,
+                      "focusKey": "fh1tk",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    },
+                    "selectionAfter": {
+                      "anchorKey": "fh1tk",
+                      "anchorOffset": 0,
+                      "focusKey": "fh1tk",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    }
+                  },
+                  "decorator": {
+                    "decorators": [
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      }
+                    ]
+                  },
+                  "directionMap": {
+                    "fh1tk": "LTR"
+                  },
+                  "forceSelection": false,
+                  "inCompositionMode": false,
+                  "inlineStyleOverride": null,
+                  "lastChangeType": null,
+                  "nativelyRenderedContent": null,
+                  "redoStack": [],
+                  "selection": {
+                    "anchorKey": "fh1tk",
+                    "anchorOffset": 0,
+                    "focusKey": "fh1tk",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false
+                  },
+                  "treeMap": {
+                    "fh1tk": [
+                      {
+                        "start": 0,
+                        "end": 0,
+                        "decoratorKey": null,
+                        "leaves": [
+                          {
+                            "start": 0,
+                            "end": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "undoStack": []
+                }
+              },
+              "contents": {
+                "blocks": [
+                  {
+                    "key": "3nqbp",
+                    "text": "a note with a bib citation ",
+                    "type": "unstyled",
+                    "depth": 0,
+                    "inlineStyleRanges": [],
+                    "entityRanges": [
+                      {
+                        "offset": 26,
+                        "length": 1,
+                        "key": 0
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "entityMap": {
+                  "0": {
+                    "type": "INLINE_ASSET",
+                    "mutability": "MUTABLE",
+                    "data": {
+                      "insertionType": "INLINE_ASSET",
+                      "asset": {
+                        "id": "6ae632d2-5721-4d78-80db-1a60472a28b5"
+                      }
+                    }
+                  }
+                }
+              },
+              "order": 1
+            }
+          },
+          "notesOrder": [
+            "2793d737-9a3d-44c5-b97f-aabd712e809b"
+          ],
+          "id": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7",
+          "lastUpdateAt": 1550139707459,
+          "createdAt": 1550052625012
+        }
+      },
+      "sectionsOrder": [
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+      ],
+      "resources": {
+        "d5639f07-bad2-4699-8c40-5e0019bcff2c": {
+          "type": "resource",
+          "metadata": {
+            "date": "",
+            "authors": [],
+            "description": "",
+            "source": "",
+            "type": "bib"
+          },
+          "data": [
+            {
+              "title": "Academics and their online networks: Exploring the role of academic social networking sites",
+              "volume": "19",
+              "ISSN": "13960466",
+              "URL": "http://ojs-prod-lib.cc.uic.edu/ojs/index.php/fm/article/view/4937",
+              "DOI": "10.5210/fm.v19i11.4937",
+              "language": "en",
+              "issue": "11",
+              "container-title": "First Monday",
+              "author": [
+                {
+                  "given": "Katy",
+                  "family": "Jordan"
+                }
+              ],
+              "type": "article-journal",
+              "citation-label": "jordan_academics_2014",
+              "id": "jordan_academics_2014",
+              "issued": {
+                "date-parts": [
+                  [
+                    2014,
+                    10
+                  ]
+                ]
+              },
+              "htmlPreview": "<div class=\"Bibliography\">  <div class=\"csl-entry\">Jordan, K. (2014). <a href=\"http://ojs-prod-lib.cc.uic.edu/ojs/index.php/fm/article/view/4937\" target=\"blank\">Academics and their online networks: Exploring the role of academic social networking sites</a>. <i>First Monday</i>, <i>19</i>(11). https://doi.org/10.5210/fm.v19i11.4937</div>\n</div>"
+            }
+          ],
+          "id": "d5639f07-bad2-4699-8c40-5e0019bcff2c",
+          "lastUpdateAt": 1550139644684
+        }
+      },
+      "contextualizers": {
+        "5099603e-39f1-4290-be20-bee41d76f1e8": {
+          "id": "5099603e-39f1-4290-be20-bee41d76f1e8",
+          "type": "bib"
+        }
+      },
+      "contextualizations": {
+        "6ae632d2-5721-4d78-80db-1a60472a28b5": {
+          "id": "6ae632d2-5721-4d78-80db-1a60472a28b5",
+          "resourceId": "d5639f07-bad2-4699-8c40-5e0019bcff2c",
+          "contextualizerId": "5099603e-39f1-4290-be20-bee41d76f1e8",
+          "sectionId": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+        }
+      }
+    }
+  },
+  {
+    "name": "multiple-note-in-main",
+    "editorFocus": "main",
+    "data": {
+      "sections": {
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7": {
+          "metadata": {
+            "title": "test copy",
+            "authors": [],
+            "level": 0
+          },
+          "contents": {
+            "blocks": [
+              {
+                "key": "dra3n",
+                "text": "main editor",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [],
+                "data": {}
+              },
+              {
+                "key": "3q831",
+                "text": "first note  ",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [
+                  {
+                    "offset": 10,
+                    "length": 1,
+                    "key": 0
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "key": "dmmto",
+                "text": "second note   ",
+                "type": "unstyled",
+                "depth": 0,
+                "inlineStyleRanges": [],
+                "entityRanges": [
+                  {
+                    "offset": 12,
+                    "length": 1,
+                    "key": 1
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "entityMap": {
+              "0": {
+                "type": "NOTE_POINTER",
+                "mutability": "IMMUTABLE",
+                "data": {
+                  "noteId": "2793d737-9a3d-44c5-b97f-aabd712e809b"
+                }
+              },
+              "1": {
+                "type": "NOTE_POINTER",
+                "mutability": "IMMUTABLE",
+                "data": {
+                  "noteId": "14b7fec4-7bfe-47cd-b442-661cc033c913"
+                }
+              }
+            }
+          },
+          "notes": {
+            "2793d737-9a3d-44c5-b97f-aabd712e809b": {
+              "id": "2793d737-9a3d-44c5-b97f-aabd712e809b",
+              "editorState": {
+                "_immutable": {
+                  "allowUndo": true,
+                  "currentContent": {
+                    "entityMap": {},
+                    "blockMap": {
+                      "fh1tk": {
+                        "key": "fh1tk",
+                        "type": "unstyled",
+                        "text": "",
+                        "characterList": [],
+                        "depth": 0,
+                        "data": {}
+                      }
+                    },
+                    "selectionBefore": {
+                      "anchorKey": "fh1tk",
+                      "anchorOffset": 0,
+                      "focusKey": "fh1tk",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    },
+                    "selectionAfter": {
+                      "anchorKey": "fh1tk",
+                      "anchorOffset": 0,
+                      "focusKey": "fh1tk",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    }
+                  },
+                  "decorator": {
+                    "decorators": [
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      }
+                    ]
+                  },
+                  "directionMap": {
+                    "fh1tk": "LTR"
+                  },
+                  "forceSelection": false,
+                  "inCompositionMode": false,
+                  "inlineStyleOverride": null,
+                  "lastChangeType": null,
+                  "nativelyRenderedContent": null,
+                  "redoStack": [],
+                  "selection": {
+                    "anchorKey": "fh1tk",
+                    "anchorOffset": 0,
+                    "focusKey": "fh1tk",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false
+                  },
+                  "treeMap": {
+                    "fh1tk": [
+                      {
+                        "start": 0,
+                        "end": 0,
+                        "decoratorKey": null,
+                        "leaves": [
+                          {
+                            "start": 0,
+                            "end": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "undoStack": []
+                }
+              },
+              "contents": {
+                "blocks": [
+                  {
+                    "key": "3nqbp",
+                    "text": "a note with a bib citation ",
+                    "type": "unstyled",
+                    "depth": 0,
+                    "inlineStyleRanges": [],
+                    "entityRanges": [
+                      {
+                        "offset": 26,
+                        "length": 1,
+                        "key": 0
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "entityMap": {
+                  "0": {
+                    "type": "INLINE_ASSET",
+                    "mutability": "MUTABLE",
+                    "data": {
+                      "insertionType": "INLINE_ASSET",
+                      "asset": {
+                        "id": "6ae632d2-5721-4d78-80db-1a60472a28b5"
+                      }
+                    }
+                  }
+                }
+              },
+              "order": 1
+            },
+            "14b7fec4-7bfe-47cd-b442-661cc033c913": {
+              "id": "14b7fec4-7bfe-47cd-b442-661cc033c913",
+              "editorState": {
+                "_immutable": {
+                  "allowUndo": true,
+                  "currentContent": {
+                    "entityMap": {},
+                    "blockMap": {
+                      "anvp6": {
+                        "key": "anvp6",
+                        "type": "unstyled",
+                        "text": "",
+                        "characterList": [],
+                        "depth": 0,
+                        "data": {}
+                      }
+                    },
+                    "selectionBefore": {
+                      "anchorKey": "anvp6",
+                      "anchorOffset": 0,
+                      "focusKey": "anvp6",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    },
+                    "selectionAfter": {
+                      "anchorKey": "anvp6",
+                      "anchorOffset": 0,
+                      "focusKey": "anvp6",
+                      "focusOffset": 0,
+                      "isBackward": false,
+                      "hasFocus": false
+                    }
+                  },
+                  "decorator": {
+                    "decorators": [
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      },
+                      {
+                        "decorated": {}
+                      }
+                    ]
+                  },
+                  "directionMap": {
+                    "anvp6": "LTR"
+                  },
+                  "forceSelection": false,
+                  "inCompositionMode": false,
+                  "inlineStyleOverride": null,
+                  "lastChangeType": null,
+                  "nativelyRenderedContent": null,
+                  "redoStack": [],
+                  "selection": {
+                    "anchorKey": "anvp6",
+                    "anchorOffset": 0,
+                    "focusKey": "anvp6",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false
+                  },
+                  "treeMap": {
+                    "anvp6": [
+                      {
+                        "start": 0,
+                        "end": 0,
+                        "decoratorKey": null,
+                        "leaves": [
+                          {
+                            "start": 0,
+                            "end": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "undoStack": []
+                }
+              },
+              "contents": {
+                "blocks": [
+                  {
+                    "key": "4vs8i",
+                    "text": "a note with hyperlink ESLint - Pluggable JavaScript linter ",
+                    "type": "unstyled",
+                    "depth": 0,
+                    "inlineStyleRanges": [],
+                    "entityRanges": [
+                      {
+                        "offset": 22,
+                        "length": 36,
+                        "key": 0
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "entityMap": {
+                  "0": {
+                    "type": "INLINE_ASSET",
+                    "mutability": "MUTABLE",
+                    "data": {
+                      "insertionType": "INLINE_ASSET",
+                      "asset": {
+                        "id": "12a4c4fb-7fc1-41a2-9142-db93c32d32d8"
+                      }
+                    }
+                  }
+                }
+              },
+              "order": 2
+            }
+          },
+          "notesOrder": [
+            "2793d737-9a3d-44c5-b97f-aabd712e809b",
+            "14b7fec4-7bfe-47cd-b442-661cc033c913"
+          ],
+          "id": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7",
+          "lastUpdateAt": 1550141750854,
+          "createdAt": 1550052625012
+        }
+      },
+      "sectionsOrder": [
+        "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+      ],
+      "resources": {
+        "d5639f07-bad2-4699-8c40-5e0019bcff2c": {
+          "type": "resource",
+          "metadata": {
+            "date": "",
+            "authors": [],
+            "description": "",
+            "source": "",
+            "type": "bib"
+          },
+          "data": [
+            {
+              "title": "Academics and their online networks: Exploring the role of academic social networking sites",
+              "volume": "19",
+              "ISSN": "13960466",
+              "URL": "http://ojs-prod-lib.cc.uic.edu/ojs/index.php/fm/article/view/4937",
+              "DOI": "10.5210/fm.v19i11.4937",
+              "language": "en",
+              "issue": "11",
+              "container-title": "First Monday",
+              "author": [
+                {
+                  "given": "Katy",
+                  "family": "Jordan"
+                }
+              ],
+              "type": "article-journal",
+              "citation-label": "jordan_academics_2014",
+              "id": "jordan_academics_2014",
+              "issued": {
+                "date-parts": [
+                  [
+                    2014,
+                    10
+                  ]
+                ]
+              },
+              "htmlPreview": "<div class=\"Bibliography\">  <div class=\"csl-entry\">Jordan, K. (2014). <a href=\"http://ojs-prod-lib.cc.uic.edu/ojs/index.php/fm/article/view/4937\" target=\"blank\">Academics and their online networks: Exploring the role of academic social networking sites</a>. <i>First Monday</i>, <i>19</i>(11). https://doi.org/10.5210/fm.v19i11.4937</div>\n</div>"
+            }
+          ],
+          "id": "d5639f07-bad2-4699-8c40-5e0019bcff2c",
+          "lastUpdateAt": 1550139644684
+        },
+        "22a8b714-55fe-40fd-8ab5-dcca2683861d": {
+          "type": "resource",
+          "metadata": {
+            "title": "ESLint - Pluggable JavaScript linter",
+            "date": "",
+            "authors": [],
+            "description": "",
+            "source": "",
+            "type": "webpage"
+          },
+          "data": {
+            "url": "https://eslint.org"
+          },
+          "id": "22a8b714-55fe-40fd-8ab5-dcca2683861d",
+          "lastUpdateAt": 1550141728520
+        }
+      },
+      "contextualizers": {
+        "5099603e-39f1-4290-be20-bee41d76f1e8": {
+          "id": "5099603e-39f1-4290-be20-bee41d76f1e8",
+          "type": "bib"
+        },
+        "bb4c2f32-87ea-4c3a-9f61-2e49a517a8e2": {
+          "id": "bb4c2f32-87ea-4c3a-9f61-2e49a517a8e2",
+          "type": "webpage"
+        }
+      },
+      "contextualizations": {
+        "6ae632d2-5721-4d78-80db-1a60472a28b5": {
+          "id": "6ae632d2-5721-4d78-80db-1a60472a28b5",
+          "resourceId": "d5639f07-bad2-4699-8c40-5e0019bcff2c",
+          "contextualizerId": "5099603e-39f1-4290-be20-bee41d76f1e8",
+          "sectionId": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+        },
+        "12a4c4fb-7fc1-41a2-9142-db93c32d32d8": {
+          "id": "12a4c4fb-7fc1-41a2-9142-db93c32d32d8",
+          "resourceId": "22a8b714-55fe-40fd-8ab5-dcca2683861d",
+          "contextualizerId": "bb4c2f32-87ea-4c3a-9f61-2e49a517a8e2",
+          "sectionId": "22028fd3-5b47-458e-8ca2-8cd0d4c4eae7"
+        }
+      }
+    }
+  }
+]

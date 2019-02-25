@@ -15,10 +15,11 @@ import {
   computePastedData,
 } from './pasteFromOutside';
 
+const testCases = tests.map( ( item ) => {
+  return [ item.name ];
+} );
 describe( 'test computePastedData()', () => {
-  test.each( [
-    'single-hyperlink',
-  ] )( 'test', ( testName ) => {
+  test.each( testCases )( 'test', ( testName ) => {
     const {
       html,
       resources,

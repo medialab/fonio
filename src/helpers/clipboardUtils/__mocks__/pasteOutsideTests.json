@@ -1,0 +1,11 @@
+[
+  {
+    "name": "single-hyperlink",
+    "html": "<b>Bold text</b>, <i>Italic text</i><br/ ><br /><a href=\"http://www.facebook.com\">Example link</a>",
+    "resources": {},
+    "expectedResourcesToAdd": 1,
+    "expectedContextualizationsToAdd": 1,
+    "expectedContextualizersToAdd": 1,
+    "expectedImagesToAdd": 0
+  }
+]
