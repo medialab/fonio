@@ -71,7 +71,7 @@ describe( 'test computePastedData()', () => {
       clipboard
     } );
 
-    test.each( testCases )( 'test paste to %s', ( pasteTestName, pasteEditorFocus ) => {
+    describe.each( testCases )( 'test paste to %s', ( pasteTestName, pasteEditorFocus ) => {
 
       /*
        * for test purpose, only one section should inside the story
@@ -90,31 +90,40 @@ describe( 'test computePastedData()', () => {
         isBackward: false,
         editorFocus: pasteEditorFocus
       } );
-      const {
-        resourcesToCreate,
-        contextualizersToCreate,
-        contextualizationsToCreate
-      } = computePastedData( {
-        copiedData,
-        copiedResources: copiedData.copiedResources,
-        editorFocus: pasteEditorFocus === 'main' ? 'main' : notesOrder[0],
-        editorStates: pasteEditorStates,
-        activeSection: {
-          id: pasteInsideTest.sectionsOrder[0]
-        },
-        editor: null,
-        notes,
-        story
+      test.each( [
+        [ 'new section of same story', false ],
+        [ 'new section of new story', true ]
+      ] )( 'test paste to a %s', ( t, isNewStory ) => {
+        const newStory = {
+          resources: {}
+        };
+        const {
+          resourcesToCreate,
+          contextualizersToCreate,
+          contextualizationsToCreate
+        } = computePastedData( {
+          copiedData,
+          copiedResources: copiedData.copiedResources,
+          editorFocus: pasteEditorFocus === 'main' ? 'main' : notesOrder[0],
+          editorStates: pasteEditorStates,
+          activeSection: {
+            id: pasteInsideTest.sectionsOrder[0]
+          },
+          editor: null,
+          notes,
+          story: isNewStory ? newStory : story
+        } );
+        const expectedResourcesToCreate = isNewStory ? copiedData.copiedResources.length : 0;
+        expect( resourcesToCreate.length ).toEqual( expectedResourcesToCreate );
+        if ( contextType === 'block' && pasteEditorFocus !== 'main' ) {
+          expect( contextualizationsToCreate.length ).toEqual( 0 );
+          expect( contextualizersToCreate.length ).toEqual( 0 );
+        }
+        else {
+          expect( contextualizationsToCreate.length ).toEqual( 1 );
+          expect( contextualizersToCreate.length ).toEqual( 1 );
+        }
       } );
-      expect( resourcesToCreate.length ).toEqual( 0 );
-      if ( contextType === 'block' && pasteEditorFocus !== 'main' ) {
-        expect( contextualizationsToCreate.length ).toEqual( 0 );
-        expect( contextualizersToCreate.length ).toEqual( 0 );
-      }
-      else {
-        expect( contextualizationsToCreate.length ).toEqual( 1 );
-        expect( contextualizersToCreate.length ).toEqual( 1 );
-      }
     } );
   } );
 } );
