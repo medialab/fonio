@@ -42,7 +42,7 @@ describe( 'test computePastedData()', () => {
     [ 'inline-bib-in-main', 'main', 'inline' ],
     [ 'inline-glossary-in-main', 'main', 'inline' ],
     [ 'block-video-in-main', 'main', 'block' ],
-  ] )( 'copy %s from %s', ( copyTestName, copyEditorFocus, contextType ) => {
+  ] )( 'copy %s from %s', ( copyTestName, copyEditorFocus, entityType ) => {
 
     /*
      * for test purpose, only one section should inside the story
@@ -70,7 +70,7 @@ describe( 'test computePastedData()', () => {
       citations,
       clipboard
     } );
-
+    const originalCopiedData = { ...copiedData };
     describe.each( testCases )( 'test paste to %s', ( pasteTestName, pasteEditorFocus ) => {
 
       /*
@@ -100,7 +100,8 @@ describe( 'test computePastedData()', () => {
         const {
           resourcesToCreate,
           contextualizersToCreate,
-          contextualizationsToCreate
+          contextualizationsToCreate,
+          newSection
         } = computePastedData( {
           copiedData,
           copiedResources: copiedData.copiedResources,
@@ -113,16 +114,51 @@ describe( 'test computePastedData()', () => {
           notes,
           story: isNewStory ? newStory : story
         } );
-        const expectedResourcesToCreate = isNewStory ? copiedData.copiedResources.length : 0;
-        expect( resourcesToCreate.length ).toEqual( expectedResourcesToCreate );
-        if ( contextType === 'block' && pasteEditorFocus !== 'main' ) {
-          expect( contextualizationsToCreate.length ).toEqual( 0 );
-          expect( contextualizersToCreate.length ).toEqual( 0 );
+        const { contents } = newSection;
+        if ( pasteEditorFocus === 'main' ) {
+
+          /**
+           * copy block/inline context to main editor caes
+           */
+          expect( contextualizationsToCreate.length ).toEqual( originalCopiedData.copiedContextualizations.length );
+          expect( contextualizersToCreate.length ).toEqual( originalCopiedData.copiedContextualizers.length );
+          expect( contextualizationsToCreate ).not.toEqual( originalCopiedData.copiedContextualizations );
+          expect( contextualizersToCreate ).not.toEqual( originalCopiedData.copiedContextualizers );
+
+          const assetsIds = Object.keys( contents.entityMap ).map( ( entityKey ) => {
+            const entity = contents.entityMap[entityKey];
+            if ( ( entity.type === 'BLOCK_ASSET' || entity.type === 'INLINE_ASSET' ) && entity.data && entity.data.asset && entity.data.asset.id ) {
+              return entity.data.asset.id;
+            }
+          } );
+          expect( assetsIds ).toEqual( contextualizationsToCreate.map( ( item ) => item.id ) );
+
+          /**
+           * TODO: copy note point to main editor case
+           */
         }
         else {
-          expect( contextualizationsToCreate.length ).toEqual( 1 );
-          expect( contextualizersToCreate.length ).toEqual( 1 );
+
+          /**
+           * copy block context to note editor case
+           */
+          if ( entityType === 'block' ) {
+            expect( contextualizationsToCreate.length ).toEqual( 0 );
+            expect( contextualizersToCreate.length ).toEqual( 0 );
+          }
+
+          /**
+           * TODO: copy note point to main editor case
+           */
+          // else if ( entityType === 'inline' ) {}
+
+          /**
+           * TODO: copy note point to main editor case
+           */
+          // else if ( entityType === 'note' ) {}
         }
+        const expectedResourcesToCreate = isNewStory ? copiedData.copiedResources.length : 0;
+        expect( resourcesToCreate.length ).toEqual( expectedResourcesToCreate );
       } );
     } );
   } );
