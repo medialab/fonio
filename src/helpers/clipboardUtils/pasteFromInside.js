@@ -228,12 +228,15 @@ const updateEntityReferenceId = ( entity, newReferenceId ) => {
 export const updateCopiedEntitiesMap = ( {
   copiedEntities,
   notesIdTransformationMap,
+  // contextualizationsIdTransformationMap,
   editorFocus,
   contentId,
   copiedNotes,
 } ) => {
   const finalResult = Object.keys( copiedEntities )
   .reduce( ( result, id ) => {
+
+    const newEntities = copiedEntities[contentId];
 
     /*
      * possibly transform copiedEntities map so that the target
@@ -244,7 +247,7 @@ export const updateCopiedEntitiesMap = ( {
     if ( id === editorFocus ) {
       return {
         ...result,
-        [editorFocus]: copiedEntities[contentId]
+        [editorFocus]: newEntities
       };
     }
     else if ( id !== 'main' ) {
@@ -263,7 +266,7 @@ export const updateCopiedEntitiesMap = ( {
       if ( newNoteId && copiedNotes[newNoteId] ) {
         return {
           ...result,
-          [newNoteId]: copiedEntities[id]
+          [newNoteId]: newEntities
         };
       }
       else {
@@ -284,68 +287,68 @@ export const updateCopiedEntities = ( {
   inputCopiedEntities,
   notesIdTransformationMap,
   contextualizationsIdTransformationMap,
-  contextualizationsIdTransformationReverseMap,
-  copiedContextualizations,
+
+  /*
+   * contextualizationsIdTransformationReverseMap,
+   * copiedContextualizations,
+   */
 } ) => {
   const invalidEntities = [];
   const outputCopiedEntities = Object.keys( inputCopiedEntities )
   .reduce( ( result, contentId ) => {
+    const newEntities = inputCopiedEntities[contentId]
+
+    /**
+     * filter out invalid entities
+     */
+    .filter( ( entity ) => {
+
+      // verifying that asset points to an existing contextualization
+      if ( isEntityAContextualizationReference( entity.entity ) ) {
+        const thatData = entity.entity.data;
+        const isValid = contextualizationsIdTransformationMap[entity.entity.data.asset.id] !== undefined;
+        if ( !isValid ) {
+          invalidEntities.push( thatData.asset.id );
+        }
+        return isValid;
+      }
+      return true;
+    } )
+
+    /*
+     * update entities data with correct notes and contextualizations ids pointers
+     * iterate through copied contents
+     */
+    .map( ( inputEntity ) => {
+      const entity = { ...inputEntity };
+      const thatData = entity.entity.data;
+      // case: copying note entity
+      if ( isEntityANoteReference( entity.entity ) ) {
+        const newNoteId = notesIdTransformationMap[thatData.noteId];
+        if ( newNoteId ) {
+          // attributing new id
+          return {
+            ...entity,
+            entity: updateEntityReferenceId( entity.entity, newNoteId )
+          };
+        }
+      }
+      // case: copying asset entity
+      else if ( isEntityAContextualizationReference( entity.entity ) ) {
+        const newContextualizationId = contextualizationsIdTransformationMap[thatData.asset.id];
+
+        if ( newContextualizationId ) {
+          return {
+            ...entity,
+            entity: updateEntityReferenceId( entity.entity, newContextualizationId )
+          };
+        }
+      }
+      return entity;
+    } );
     return {
       ...result,
-      [contentId]: inputCopiedEntities[contentId]
-
-        /**
-         * filter out invalid entities
-         */
-        .filter( ( entity ) => {
-
-          // verifying that asset points to a contextualization
-          if ( isEntityAContextualizationReference( entity.entity ) ) {
-            const thatData = entity.entity.data;
-            const thatContextualization = copiedContextualizations
-              .find( ( thisContextualization ) =>
-                contextualizationsIdTransformationReverseMap[thisContextualization.id] === thatData.asset.id
-              );
-            const isValid = thatContextualization !== undefined;
-            if ( !isValid ) {
-              invalidEntities.push( thatData.asset.id );
-            }
-            return isValid;
-          }
-          return true;
-        } )
-
-        /*
-         * update entities data with correct notes and contextualizations ids pointers
-         * iterate through copied contents
-         */
-        .map( ( inputEntity ) => {
-          const entity = { ...inputEntity };
-          const thatData = entity.entity.data;
-          // case: copying note entity
-          if ( isEntityANoteReference( entity.entity ) ) {
-            const newNoteId = notesIdTransformationMap[thatData.noteId];
-            if ( newNoteId ) {
-              // attributing new id
-              return {
-                ...entity,
-                entity: updateEntityReferenceId( entity.entity, newNoteId )
-              };
-            }
-          }
-          // case: copying asset entity
-          else if ( isEntityAContextualizationReference( entity.entity ) ) {
-            const newContextualizationId = contextualizationsIdTransformationMap[thatData.asset.id];
-
-            if ( newContextualizationId ) {
-              return {
-                ...entity,
-                entity: updateEntityReferenceId( entity.entity, newContextualizationId )
-              };
-            }
-          }
-          return entity;
-        } )
+      [contentId]: newEntities
       };
     }, {} );
   return {
@@ -406,7 +409,7 @@ export const updateClipboard = ( {
   copiedEntities,
   activeSectionId,
   notesIdTransformationReverseMap,
-  contextualizationsIdTransformationReverseMap,
+  contextualizationsIdTransformationMap,
 } ) => {
   const entities = copiedEntities[editorFocus] || [];
   const editorStateId = editorFocus === 'main' ? activeSectionId : editorFocus;
@@ -440,8 +443,8 @@ export const updateClipboard = ( {
           // update contextualization reference
           else if ( isEntityAContextualizationReference( entity.entity ) && isEntityAContextualizationReference( thatEntity ) ) {
             const targetId = thatEntity && thatEntity.data.asset.id;
-            const contextualizationOldId = contextualizationsIdTransformationReverseMap[targetId];
-            if ( targetId === contextualizationOldId ) {
+            // const contextualizationOldId = contextualizationsIdTransformationReverseMap[targetId];
+            if ( contextualizationsIdTransformationMap[targetId] === entity.entity.data.asset.id ) {
               return CharacterMetadata.applyEntity( char, newEntityKey );
             }
           }
@@ -488,6 +491,9 @@ export const computePastedData = ( {
   let contextualizationsIdTransformationReverseMap = {};
   let notesIdTransformationReverseMap = {};
 
+  let newContextualizations;
+  let newContextualizers;
+
   /*
    * filter out contextualizations that point to a resource that is not available anymore
    * (possible cases : other story, resource deleted,...)
@@ -502,26 +508,26 @@ export const computePastedData = ( {
     storyResources: story.resources,
     copiedResources,
   } );
-  data.copiedContextualizations = newCopiedContextualizations;
+  newContextualizations = newCopiedContextualizations;
   resourcesToCreate = [ ...resourcesToCreate, ...newResourcesToCreate ];
-  data.copiedContextualizers = newCopiedContextualizers;
+  newContextualizers = newCopiedContextualizers;
 
   /*
    * if target is a note, then filter out all block contextualizations
    * (because we do not allow them when directly modifying content)
    */
   if ( editorFocus !== 'main' ) {
-    data.copiedContextualizations = removeBlockContextualizationsFromCopiedData( {
-      contextualizationsList: data.copiedContextualizations,
-      contextualizersList: data.copiedContextualizers,
+    newContextualizations = removeBlockContextualizationsFromCopiedData( {
+      contextualizationsList: newContextualizations,
+      contextualizersList: newContextualizers,
     } );
   }
 
   /**
    * transform contextualizers by attributing them a new id
    */
-  if ( data.copiedContextualizers ) {
-    data.copiedContextualizers = data.copiedContextualizers.map( ( thatContextualizer ) => {
+  if ( newContextualizers ) {
+    newContextualizers = newContextualizers.map( ( thatContextualizer ) => {
       const contextualizerId = generateId();
       // modify contextualization with updated contextualizer id
       contextualizersIdTransformationMap[thatContextualizer.id] = contextualizerId;
@@ -536,8 +542,8 @@ export const computePastedData = ( {
    * transform contextualizations by attributing them a new id
    * and updating their contextualizer reference
    */
-  if ( data.copiedContextualizations ) {
-    data.copiedContextualizations = data.copiedContextualizations.map( ( thatContextualization ) => {
+  if ( newContextualizations ) {
+    newContextualizations = newContextualizations.map( ( thatContextualization ) => {
       const contextualizationId = generateId();
       // modify contextualization with updated contextualizer id
       contextualizationsIdTransformationMap[thatContextualization.id] = contextualizationId;
@@ -560,8 +566,9 @@ export const computePastedData = ( {
    * , merge them with the past notes
    * and filter out invalid draft-js entities
    */
+  let copiedNotes;
   if ( editorFocus === 'main' ) {
-    data.copiedNotes = ( data.copiedNotes || [] ).reduce( ( result, note ) => {
+      copiedNotes = ( data.copiedNotes || [] ).reduce( ( result, note ) => {
       const noteNewId = generateId();
       notesIdTransformationMap[note.id] = noteNewId;
       return {
@@ -582,7 +589,10 @@ export const computePastedData = ( {
    */
   }
   else {
-    data.copiedNotes = { ...notes };
+    copiedNotes = ( data.copiedNotes || [] ).reduce( ( result, note ) => ( {
+      ...result,
+      [note.id]: note
+    } ), {} );
   }
 
   /**
@@ -592,12 +602,12 @@ export const computePastedData = ( {
   /**
    * update map of copied entities
    */
-  data.copiedEntities = updateCopiedEntitiesMap( {
+  let newCopiedEntities = updateCopiedEntitiesMap( {
     copiedEntities: data.copiedEntities,
     notesIdTransformationMap,
     editorFocus,
     contentId: data.contentId,
-    copiedNotes: data.copiedNotes,
+    copiedNotes,
   } );
 
   /**
@@ -608,19 +618,19 @@ export const computePastedData = ( {
     invalidEntities,
     outputCopiedEntities,
   } = updateCopiedEntities( {
-    inputCopiedEntities: data.copiedEntities,
+    inputCopiedEntities: newCopiedEntities,
     notesIdTransformationMap,
     contextualizationsIdTransformationMap,
     contextualizationsIdTransformationReverseMap,
-    copiedContextualizations: data.copiedContextualizations,
+    copiedContextualizations: newContextualizations,
   } );
-  data.copiedEntities = outputCopiedEntities;
+  newCopiedEntities = outputCopiedEntities;
 
   /**
    * filter invalid draft-js entities from notes contents
    */
-  newNotes = Object.keys( data.copiedNotes ).reduce( ( result, noteId ) => {
-    const note = data.copiedNotes[noteId];
+  newNotes = Object.keys( copiedNotes ).reduce( ( result, noteId ) => {
+    const note = copiedNotes[noteId];
      return {
        ...result,
        [noteId]: {
@@ -692,10 +702,10 @@ export const computePastedData = ( {
     clipboard: newClipboard,
     editorFocus,
     editorStates,
-    copiedEntities: data.copiedEntities,
+    copiedEntities: newCopiedEntities,
     activeSectionId,
     notesIdTransformationReverseMap,
-    contextualizationsIdTransformationReverseMap,
+    contextualizationsIdTransformationMap,
   } );
 
   /**
@@ -827,8 +837,8 @@ export const computePastedData = ( {
    */
   return {
     resourcesToCreate,
-    contextualizersToCreate: data.copiedContextualizers,
-    contextualizationsToCreate: data.copiedContextualizations,
+    contextualizersToCreate: newContextualizers,
+    contextualizationsToCreate: newContextualizations,
     newSection,
     newEditorStates,
   };

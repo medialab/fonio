@@ -45,7 +45,7 @@ describe( 'test computePastedData()', () => {
   ] )( 'copy %s from %s', ( copyTestName, copyEditorFocus, entityType ) => {
 
     /*
-     * for test purpose, only one section should inside the story
+     * for test purpose, only one section should be inside the story
      * if editorFocus is note, only one note is required
      */
     const story = copyTests.find( ( item ) => item.name === copyTestName ).data;
@@ -97,6 +97,7 @@ describe( 'test computePastedData()', () => {
         const newStory = {
           resources: {}
         };
+
         const {
           resourcesToCreate,
           contextualizersToCreate,
@@ -118,7 +119,7 @@ describe( 'test computePastedData()', () => {
         if ( pasteEditorFocus === 'main' ) {
 
           /**
-           * copy block/inline context to main editor caes
+           * copy block/inline context to main editor cases
            */
           expect( contextualizationsToCreate.length ).toEqual( originalCopiedData.copiedContextualizations.length );
           expect( contextualizersToCreate.length ).toEqual( originalCopiedData.copiedContextualizers.length );
@@ -131,7 +132,7 @@ describe( 'test computePastedData()', () => {
               return entity.data.asset.id;
             }
           } );
-          expect( assetsIds ).toEqual( contextualizationsToCreate.map( ( item ) => item.id ) );
+          expect( assetsIds.sort() ).toEqual( contextualizationsToCreate.map( ( item ) => item.id ).sort() );
 
           /**
            * TODO: copy note point to main editor case

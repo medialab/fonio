@@ -21,6 +21,7 @@ import {
   Title,
 } from 'quinoa-design-library/components/';
 import { getStyles } from 'quinoa-schemas';
+import defaults from 'json-schema-defaults';
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 import StyleEditor from './StyleEditor';
 
@@ -198,6 +199,7 @@ const AsideDesignContents = ( {
         );
       case 'styles':
       default:
+        const variables = Object.keys(styles.stylesVariables).length ? styles.stylesVariables : defaults(stylesVariables);
         return (
           <Column>
             {stylesVariables && story.settings.styles &&
@@ -205,7 +207,7 @@ const AsideDesignContents = ( {
                 getTooltipContainer={ getTooltipContainer }
                 options={ stylesVariables }
                 onChange={ onUpdateStylesVariables }
-                styles={ styles.stylesVariables }
+                styles={ variables }
               />
             }
             <Title isSize={ 3 }>

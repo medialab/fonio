@@ -292,6 +292,7 @@ export const computeCopiedData = ( {
       copiedNotes,
       contentId: editorFocus
     };
+
     return copiedData;
 };
 
