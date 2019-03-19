@@ -199,7 +199,7 @@ const AsideDesignContents = ( {
         );
       case 'styles':
       default:
-        const variables = Object.keys(styles.stylesVariables).length ? styles.stylesVariables : defaults(stylesVariables);
+        const variables = Object.keys( styles.stylesVariables ).length ? styles.stylesVariables : defaults( stylesVariables );
         return (
           <Column>
             {stylesVariables && story.settings.styles &&
