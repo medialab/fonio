@@ -17,11 +17,19 @@ const handlePaste = function( html ) {
 
       editor,
 
+      getNotePointer,
+      getAdditionalEntities,
+      getInlineAssetComponents,
+
       /*
        * editor,
        * onEditorChange
        */
     } = this;
+
+    const NotePointer = getNotePointer();
+    const inlineEntities = getAdditionalEntities();
+    const inlineAssetComponents = getInlineAssetComponents();
     // ensuring this is happening while editing the content
     if ( !props.editorFocus ) {
       return;
@@ -86,6 +94,8 @@ const handlePaste = function( html ) {
         createContextualization,
         createContextualizer,
         updateDraftEditorState,
+        inlineEntities,
+        NotePointer,
 
         setEditorPastingStatus,
 
@@ -98,6 +108,7 @@ const handlePaste = function( html ) {
         uploadResource,
 
         setEditorFocus,
+
       } );
     }
 
@@ -110,7 +121,10 @@ const handlePaste = function( html ) {
       return pasteFromInside( {
         updateSection,
         createContextualization,
+        NotePointer,
         createContextualizer,
+        inlineEntities,
+        inlineAssetComponents,
         userId,
         updateDraftEditorsStates,
         activeSection,

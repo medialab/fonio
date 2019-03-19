@@ -16,7 +16,10 @@ import {
 
 import {
   utils,
-  constants
+  constants,
+  QuoteContainer,
+  InlineAssetContainer,
+  NotePointer,
 } from 'scholar-draft';
 
 const {
@@ -28,6 +31,10 @@ const {
 const {
   updateNotesFromEditor,
   insertFragment,
+  createDecorator,
+  findNotePointer,
+  findQuotes,
+  findInlineAsset
 } = utils;
 
 /**
@@ -173,18 +180,18 @@ export const createEditorStatesMap = ( {
   mainEditorState,
   editorStates,
   notes,
-  editor,
   sectionId,
-  editorFocus
+  editorFocus,
+  createLocalDecorator
 } ) => Object.keys( notes ).reduce( ( editors, noteId ) => {
   return {
     ...editors,
     [noteId]: noteId === editorFocus ?
         EditorState.forceSelection(
-          EditorState.createWithContent( convertFromRaw( notes[noteId].contents ), editor.mainEditor.createDecorator() ),
+          EditorState.createWithContent( convertFromRaw( notes[noteId].contents ), createLocalDecorator() ),
           editorStates[editorFocus].getSelection()
         )
-        : EditorState.createWithContent( convertFromRaw( notes[noteId].contents ), editor.mainEditor.createDecorator() )
+        : EditorState.createWithContent( convertFromRaw( notes[noteId].contents ), createLocalDecorator() )
   };
 }, {
   [sectionId]: mainEditorState
@@ -471,6 +478,9 @@ export const computePastedData = ( {
   editorFocus,
   editorStates,
   activeSection,
+  NotePointer: NotePointerComponent,
+  inlineEntities,
+  inlineAssetComponents,
   editor,
   notes,
   story
@@ -493,6 +503,26 @@ export const computePastedData = ( {
 
   let newContextualizations;
   let newContextualizers;
+
+  const createLocalDecorator = () => {
+    return createDecorator( {
+      NotePointerComponent: NotePointerComponent || NotePointer,
+      findInlineAsset: ( contentBlock, callback, inputContentState ) => findInlineAsset(
+        contentBlock,
+        callback,
+        inputContentState,
+        {
+          assets: {},
+          renderingMode: 'web',
+          inlineAssetComponents,
+        } ),
+      findNotePointer,
+      findQuotes,
+      InlineAssetContainerComponent: InlineAssetContainer,
+      QuoteContainerComponent: QuoteContainer,
+      inlineEntities, /* [{strategy: function, entity: component}] */
+    } );
+  };
 
   /*
    * filter out contextualizations that point to a resource that is not available anymore
@@ -721,7 +751,7 @@ export const computePastedData = ( {
       let thatEditorState = editorStates[contentId]
         || EditorState.createWithContent(
             convertFromRaw( newNotes[contentId].contents ),
-            editor.mainEditor.createDecorator()
+            editor.mainEditor.createLocalDecorator()
           );
 
       /**
@@ -817,6 +847,7 @@ export const computePastedData = ( {
         ...newNotes,
       },
     editor,
+    createLocalDecorator,
   } );
 
   /**
@@ -868,6 +899,10 @@ const pasteFromInside = ( {
   // copiedData,
   html = '',
   dataRegex,
+
+  NotePointer: NotePointerComponent,
+  inlineEntities,
+  inlineAssetComponents,
 } ) => {
 
   /**
@@ -914,6 +949,9 @@ const pasteFromInside = ( {
       editorFocus,
       editorStates,
       activeSection,
+      NotePointerComponent,
+      inlineEntities,
+      inlineAssetComponents,
       editor,
       notes,
       story

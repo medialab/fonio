@@ -781,7 +781,7 @@ class SectionEditor extends Component {
       ...fEditors,
       [nd]: editorStates[nd] || EditorState.createWithContent(
               convertFromRaw( notes[nd].contents ),
-              this.editor.mainEditor.createDecorator()
+              this.editor.mainEditor.createLocalDecorator()
             )
     } ), {
       [sectionId]: mainEditorState
@@ -875,7 +875,7 @@ class SectionEditor extends Component {
           [noteId]: activeSection.notes[noteId].contents && activeSection.notes[noteId].contents.entityMap ?
           EditorState.createWithContent(
             convertFromRaw( activeSection.notes[noteId].contents ),
-            this.editor.mainEditor.createDecorator()
+            this.editor.mainEditor.createLocalDecorator()
           )
           : this.editor.generateEmptyEditor()
         } ),
@@ -884,7 +884,7 @@ class SectionEditor extends Component {
           [activeSection.id]: activeSection.contents && activeSection.contents.entityMap ?
             EditorState.createWithContent(
               convertFromRaw( activeSection.contents ),
-              this.editor.mainEditor.createDecorator()
+              this.editor.mainEditor.createLocalDecorator()
             )
             : this.editor.generateEmptyEditor()
         } );
@@ -1116,6 +1116,62 @@ class SectionEditor extends Component {
     return false;
   }
 
+  getNotePointer = () => NotePointer;
+
+  getInlineAssetComponents = () => inlineAssetComponents;
+
+  getAdditionalEntities = () => {
+    return [
+      {
+        strategy: this.findDraftDropPlaceholder,
+        component: ( { children } ) =>
+          (
+            <Tag
+              style={ { pointerEvents: 'none' } }
+              className={ 'is-rounded' }
+              isColor={ 'dark' }
+            >
+              {this.translate( 'loading' )}
+              <span style={ { display: 'none' } }>{children}</span>
+            </Tag>
+          )
+      },
+      {
+        strategy: this.findLink,
+        component: ( { children, url } ) => {
+          return (
+            <span className={ 'native-link' }>
+              <span className={ 'link-content' }>
+                <span>{children}</span>
+                <span className={ 'pin-container' }>
+                  <HelpPin>
+                    {this.translate( 'native link to {u}', { u: url } )}
+                  </HelpPin>
+                </span>
+              </span>
+            </span>
+          );
+        }
+      },
+      {
+        strategy: this.findInternalLink,
+        component: ( { children/*, sectionId*/ } ) => {
+          return (
+            <span className={ 'internal-link' }>
+              <span className={ 'internal-link-content' }>
+                <span
+                  style={ { color: '#197212' } }
+                >{children}
+                </span>
+
+              </span>
+            </span>
+          );
+        }
+      }
+    ];
+  }
+
   /**
    * Renders the component
    * @return {ReactElement} component - the component
@@ -1229,62 +1285,14 @@ class SectionEditor extends Component {
     if ( cursorOnResourceType ) {
       RealAssetComponent = this.assetButtons[cursorOnResourceType];
     }
- else if ( cursorOnInternalLink ) {
+    else if ( cursorOnInternalLink ) {
       RealAssetComponent = this.internalLinkButton;
     }
 
     // define citation style and locales, falling back on defaults if needed
     const { style, locale } = getCitationModels( story );
     // additional inline entities to display in the editor
-    const additionalInlineEntities = [
-      {
-        strategy: this.findDraftDropPlaceholder,
-        component: ( { children } ) =>
-          (
-            <Tag
-              style={ { pointerEvents: 'none' } }
-              className={ 'is-rounded' }
-              isColor={ 'dark' }
-            >
-              {this.translate( 'loading' )}
-              <span style={ { display: 'none' } }>{children}</span>
-            </Tag>
-          )
-      },
-      {
-        strategy: this.findLink,
-        component: ( { children, url } ) => {
-          return (
-            <span className={ 'native-link' }>
-              <span className={ 'link-content' }>
-                <span>{children}</span>
-                <span className={ 'pin-container' }>
-                  <HelpPin>
-                    {this.translate( 'native link to {u}', { u: url } )}
-                  </HelpPin>
-                </span>
-              </span>
-            </span>
-          );
-        }
-      },
-      {
-        strategy: this.findInternalLink,
-        component: ( { children/*, sectionId*/ } ) => {
-          return (
-            <span className={ 'internal-link' }>
-              <span className={ 'internal-link-content' }>
-                <span
-                  style={ { color: '#197212' } }
-                >{children}
-                </span>
-
-              </span>
-            </span>
-          );
-        }
-      }
-    ];
+    const additionalInlineEntities = this.getAdditionalEntities();
     const inlineButtons = this.inlineButtons();
 
     let shouldHidePlaceholder;
