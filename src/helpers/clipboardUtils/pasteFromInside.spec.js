@@ -42,6 +42,10 @@ describe( 'test computePastedData()', () => {
     [ 'inline-bib-in-main', 'main', 'inline' ],
     [ 'inline-glossary-in-main', 'main', 'inline' ],
     [ 'block-video-in-main', 'main', 'block' ],
+    [ 'single-note-in-main', 'main', 'note' ],
+    [ 'inline-glossary-in-note', 'main', 'note' ],
+    [ 'inline-bib-in-note', 'main', 'note' ],
+    [ 'multiple-note-in-main', 'main', 'note' ],
   ] )( 'copy %s from %s', ( copyTestName, copyEditorFocus, entityType ) => {
 
     /*
@@ -117,26 +121,51 @@ describe( 'test computePastedData()', () => {
         } );
         const { contents } = newSection;
         if ( pasteEditorFocus === 'main' ) {
+          if ( contextualizationsToCreate.length > 0 && entityType !== 'note' ) {
 
-          /**
-           * copy block/inline context to main editor cases
-           */
-          expect( contextualizationsToCreate.length ).toEqual( originalCopiedData.copiedContextualizations.length );
-          expect( contextualizersToCreate.length ).toEqual( originalCopiedData.copiedContextualizers.length );
-          expect( contextualizationsToCreate ).not.toEqual( originalCopiedData.copiedContextualizations );
-          expect( contextualizersToCreate ).not.toEqual( originalCopiedData.copiedContextualizers );
+            /**
+             * copy block/inline context to main editor cases
+             */
+            expect( contextualizationsToCreate.length ).toEqual( originalCopiedData.copiedContextualizations.length );
+            expect( contextualizersToCreate.length ).toEqual( originalCopiedData.copiedContextualizers.length );
+            expect( contextualizationsToCreate ).not.toEqual( originalCopiedData.copiedContextualizations );
+            expect( contextualizersToCreate ).not.toEqual( originalCopiedData.copiedContextualizers );
 
-          const assetsIds = Object.keys( contents.entityMap ).map( ( entityKey ) => {
-            const entity = contents.entityMap[entityKey];
-            if ( ( entity.type === 'BLOCK_ASSET' || entity.type === 'INLINE_ASSET' ) && entity.data && entity.data.asset && entity.data.asset.id ) {
-              return entity.data.asset.id;
+            const assetsIds = Object.keys( contents.entityMap ).map( ( entityKey ) => {
+              const entity = contents.entityMap[entityKey];
+              if ( ( entity.type === 'BLOCK_ASSET' || entity.type === 'INLINE_ASSET' ) && entity.data && entity.data.asset && entity.data.asset.id ) {
+                return entity.data.asset.id;
+              }
+            } );
+
+            expect( assetsIds.sort() ).toEqual( contextualizationsToCreate.map( ( item ) => item.id ).sort() );
+          }
+          else if ( entityType === 'note' ) {
+
+            /**
+             * copy note point (w/o asset) to main editor case
+             */
+
+            const assetsIds = Object.keys( contents.entityMap ).map( ( entityKey ) => {
+              const entity = contents.entityMap[entityKey];
+              if ( entity.data && entity.data && entity.data.noteId ) {
+                return entity.data.noteId;
+              }
+            } );
+            expect( assetsIds.length ).toEqual( originalCopiedData.copiedNotes.length );
+            if ( contextualizationsToCreate.length > 0 ) {
+              assetsIds.forEach( ( id ) => {
+                const noteContents = newSection.notes[id].contents;
+                const noteAssetIds = Object.keys( noteContents.entityMap ).map( ( entityKey ) => {
+                  const entity = noteContents.entityMap[entityKey];
+                  if ( ( entity.type === 'BLOCK_ASSET' || entity.type === 'INLINE_ASSET' ) && entity.data && entity.data.asset && entity.data.asset.id ) {
+                    return entity.data.asset.id;
+                  }
+                } );
+                expect( contextualizationsToCreate.map( ( item ) => item.id ) ).toEqual( expect.arrayContaining( noteAssetIds ) );
+              } );
             }
-          } );
-          expect( assetsIds.sort() ).toEqual( contextualizationsToCreate.map( ( item ) => item.id ).sort() );
-
-          /**
-           * TODO: copy note point to main editor case
-           */
+          }
         }
         else {
 
@@ -149,12 +178,12 @@ describe( 'test computePastedData()', () => {
           }
 
           /**
-           * TODO: copy note point to main editor case
+           * TODO: copy inline to note editor case
            */
           // else if ( entityType === 'inline' ) {}
 
           /**
-           * TODO: copy note point to main editor case
+           * TODO: copy note point to note editor case
            */
           // else if ( entityType === 'note' ) {}
         }
