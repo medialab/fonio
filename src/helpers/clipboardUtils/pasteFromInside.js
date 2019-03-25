@@ -310,7 +310,6 @@ export const updateCopiedEntities = ( {
      * filter out invalid entities
      */
     .filter( ( entity ) => {
-
       // verifying that asset points to an existing contextualization
       if ( isEntityAContextualizationReference( entity.entity ) ) {
         const thatData = entity.entity.data;
@@ -375,7 +374,14 @@ export const cleanClipboardFromInvalidEntities = ( {
   newContentState,
   editorFocus
 } ) => {
-  return clipboard.map( ( block ) => {
+  return clipboard
+  .filter( ( block ) => {
+    if ( editorFocus !== 'main' ) {
+      return block.getType() !== 'atomic';
+    }
+    return true;
+  } )
+  .map( ( block ) => {
     const characters = block.getCharacterList();
     const newCharacters = characters.map( ( char ) => {
       if ( char.getEntity() ) {
@@ -547,6 +553,7 @@ export const computePastedData = ( {
    * (because we do not allow them when directly modifying content)
    */
   if ( editorFocus !== 'main' ) {
+    console.log( 'remove block contextualizations' );
     newContextualizations = removeBlockContextualizationsFromCopiedData( {
       contextualizationsList: newContextualizations,
       contextualizersList: newContextualizers,
