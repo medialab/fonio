@@ -757,7 +757,7 @@ export const computePastedData = ( {
       let thatEditorState = editorStates[contentId]
         || EditorState.createWithContent(
             convertFromRaw( newNotes[contentId].contents ),
-            editor.mainEditor.createLocalDecorator()
+            createLocalDecorator()
           );
 
       /**
