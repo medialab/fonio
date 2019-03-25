@@ -45,7 +45,7 @@ describe( 'test computePastedData()', () => {
     [ 'single-note-in-main', 'main', 'note' ],
     [ 'inline-glossary-in-note', 'main', 'note' ],
     [ 'inline-bib-in-note', 'main', 'note' ],
-    [ 'multiple-note-in-main', 'main', 'note' ],
+    // [ 'multiple-note-in-main', 'main', 'note' ],
   ] )( 'copy %s from %s', ( copyTestName, copyEditorFocus, entityType ) => {
 
     /*
@@ -119,8 +119,9 @@ describe( 'test computePastedData()', () => {
           notes,
           story: isNewStory ? newStory : story
         } );
-        const { contents } = newSection;
+        let contents;
         if ( pasteEditorFocus === 'main' ) {
+          contents = newSection.contents;
           if ( contextualizationsToCreate.length > 0 && entityType !== 'note' ) {
 
             /**
@@ -168,24 +169,53 @@ describe( 'test computePastedData()', () => {
           }
         }
         else {
+          const {
+            notes: newSectionNotes,
+          } = newSection;
+          const newSectionNotesOrder = Object.keys( newSectionNotes );
+          contents = newSectionNotes[newSectionNotesOrder[0]].contents;
+
+          expect( newSection.contents ).toEqual( pasteInsideSections[pasteInsideSectionsOrder[0]].contents );
 
           /**
            * copy block context to note editor case
            */
-          if ( entityType === 'block' ) {
+          if ( entityType === 'block' || entityType === 'note' ) {
             expect( contextualizationsToCreate.length ).toEqual( 0 );
             expect( contextualizersToCreate.length ).toEqual( 0 );
           }
 
           /**
-           * TODO: copy inline to note editor case
+           * copy inline to note editor case
            */
-          // else if ( entityType === 'inline' ) {}
+          else if ( entityType === 'inline' ) {
+            expect( contextualizationsToCreate.length ).toEqual( originalCopiedData.copiedContextualizations.length );
+            expect( contextualizersToCreate.length ).toEqual( originalCopiedData.copiedContextualizers.length );
+            expect( contextualizationsToCreate ).not.toEqual( originalCopiedData.copiedContextualizations );
+            expect( contextualizersToCreate ).not.toEqual( originalCopiedData.copiedContextualizers );
+
+            const assetsIds = Object.keys( contents.entityMap ).map( ( entityKey ) => {
+              const entity = contents.entityMap[entityKey];
+              if ( ( entity.type === 'INLINE_ASSET' ) && entity.data && entity.data.asset && entity.data.asset.id ) {
+                return entity.data.asset.id;
+              }
+            } );
+
+            expect( assetsIds.sort() ).toEqual( contextualizationsToCreate.map( ( item ) => item.id ).sort() );
+          }
 
           /**
            * TODO: copy note point to note editor case
            */
-          // else if ( entityType === 'note' ) {}
+          else if ( entityType === 'note' ) {
+            const assetsIds = Object.keys( contents.entityMap ).map( ( entityKey ) => {
+              const entity = contents.entityMap[entityKey];
+              if ( entity.data && entity.data && entity.data.noteId ) {
+                return entity.data.noteId;
+              }
+            } );
+            expect( assetsIds.length ).toEqual( 0 );
+          }
         }
         const expectedResourcesToCreate = isNewStory ? copiedData.copiedResources.length : 0;
         expect( resourcesToCreate.length ).toEqual( expectedResourcesToCreate );
