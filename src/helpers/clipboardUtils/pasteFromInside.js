@@ -237,7 +237,7 @@ export const updateCopiedEntitiesMap = ( {
   notesIdTransformationMap,
   // contextualizationsIdTransformationMap,
   editorFocus,
-  // contentId,
+  contentId,
   copiedNotes,
 } ) => {
   const finalResult = Object.keys( copiedEntities )
@@ -252,13 +252,7 @@ export const updateCopiedEntitiesMap = ( {
      * (if it was copied from note to main editor, or from main editor to note
      * then we have to modify the entities map to target appropriate contents)
      */
-    if ( id === editorFocus ) {
-      return {
-        ...result,
-        [editorFocus]: newEntities
-      };
-    }
-    else if ( id !== 'main' ) {
+    if ( id !== 'main' ) {
 
       /*
        * looking for note pointers that were attached
@@ -282,7 +276,9 @@ export const updateCopiedEntitiesMap = ( {
       }
     }
     return result;
-  }, {} );
+  }, {
+    [editorFocus]: copiedEntities[contentId]
+  } );
   return finalResult;
 };
 
@@ -553,7 +549,6 @@ export const computePastedData = ( {
    * (because we do not allow them when directly modifying content)
    */
   if ( editorFocus !== 'main' ) {
-    console.log( 'remove block contextualizations' );
     newContextualizations = removeBlockContextualizationsFromCopiedData( {
       contextualizationsList: newContextualizations,
       contextualizersList: newContextualizers,
@@ -642,7 +637,7 @@ export const computePastedData = ( {
     copiedEntities: data.copiedEntities,
     notesIdTransformationMap,
     editorFocus,
-    // contentId: data.contentId,
+    contentId: data.contentId,
     copiedNotes,
   } );
 
@@ -662,11 +657,16 @@ export const computePastedData = ( {
   } );
   newCopiedEntities = outputCopiedEntities;
 
+  const notesToUpdate = copiedNotes;
+  if ( editorFocus !== 'main' ) {
+    notesToUpdate[editorFocus] = { ...activeSection.notes[editorFocus] };
+  }
+
   /**
    * filter invalid draft-js entities from notes contents
    */
-  newNotes = Object.keys( copiedNotes ).reduce( ( result, noteId ) => {
-    const note = copiedNotes[noteId];
+  newNotes = Object.keys( notesToUpdate ).reduce( ( result, noteId ) => {
+    const note = notesToUpdate[noteId];
      return {
        ...result,
        [noteId]: {
@@ -697,6 +697,10 @@ export const computePastedData = ( {
                       [entityKey]: newEntity && { ...newEntity.entity }, // note.contents.entityMap[entityKey]
                     };
                   }
+                  return {
+                    ...res,
+                    [entityKey]: note.contents.entityMap[entityKey]
+                  };
               }
 
                return res;
@@ -836,6 +840,7 @@ export const computePastedData = ( {
   else {
     const noteEditorState = editorStates[editorFocus];
     newNotes = {
+      ...notes,
       ...newNotes,
       [editorFocus]: {
         ...newNotes[editorFocus],
