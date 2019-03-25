@@ -553,6 +553,10 @@ export const computePastedData = ( {
       contextualizationsList: newContextualizations,
       contextualizersList: newContextualizers,
     } );
+    newContextualizers = newContextualizers.filter(contextualizer => {
+      const hasContextualization = newContextualizations.find( ( contextualization ) => contextualizer.id === contextualization.contextualizerId );
+      return hasContextualization !== undefined;
+    });
   }
 
   /**
@@ -659,7 +663,7 @@ export const computePastedData = ( {
 
   const notesToUpdate = copiedNotes;
   if ( editorFocus !== 'main' ) {
-    notesToUpdate[editorFocus] = { ...activeSection.notes[editorFocus] };
+    notesToUpdate[editorFocus] = { ...notes[editorFocus]};
   }
 
   /**
