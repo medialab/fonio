@@ -237,13 +237,14 @@ export const updateCopiedEntitiesMap = ( {
   notesIdTransformationMap,
   // contextualizationsIdTransformationMap,
   editorFocus,
-  contentId,
+  // contentId,
   copiedNotes,
 } ) => {
   const finalResult = Object.keys( copiedEntities )
   .reduce( ( result, id ) => {
 
-    const newEntities = copiedEntities[contentId];
+    // const newEntities = copiedEntities[contentId];
+    const newEntities = copiedEntities[id];
 
     /*
      * possibly transform copiedEntities map so that the target
@@ -343,7 +344,6 @@ export const updateCopiedEntities = ( {
       // case: copying asset entity
       else if ( isEntityAContextualizationReference( entity.entity ) ) {
         const newContextualizationId = contextualizationsIdTransformationMap[thatData.asset.id];
-
         if ( newContextualizationId ) {
           return {
             ...entity,
@@ -593,7 +593,6 @@ export const computePastedData = ( {
 
   /*
    * now we attribute to new notes a new id (to handle possible duplicates)
-   * , merge them with the past notes
    * and filter out invalid draft-js entities
    */
   let copiedNotes;
@@ -609,7 +608,7 @@ export const computePastedData = ( {
         }
       };
     }, {
-      ...notes
+      // ...notes
     } );
     notesIdTransformationReverseMap = reverseMap( notesIdTransformationMap );
 
@@ -636,7 +635,7 @@ export const computePastedData = ( {
     copiedEntities: data.copiedEntities,
     notesIdTransformationMap,
     editorFocus,
-    contentId: data.contentId,
+    // contentId: data.contentId,
     copiedNotes,
   } );
 
@@ -671,7 +670,7 @@ export const computePastedData = ( {
            entityMap: Object.keys( note.contents.entityMap ).reduce( ( res, entityKey ) => {
              const entity = note.contents.entityMap[entityKey];
              if (
-               // IF IF if there are no invalid entities
+               // IF there are no invalid entities
                invalidEntities.length === 0 ||
                // ELSE IF entity is a note pointer
                 isEntityANoteReference( entity ) ||
@@ -682,11 +681,18 @@ export const computePastedData = ( {
                )
 
             ) {
-               // THEN we accept this entity in new notes contents
-               return {
-                 ...res,
-                [entityKey]: note.contents.entityMap[entityKey]
-               };
+              if ( newCopiedEntities[noteId] ) {
+                  const newEntity = newCopiedEntities[noteId].find( ( thatEntity ) => thatEntity.entity.data.asset.id === contextualizationsIdTransformationMap[entity.data.asset.id] );
+                  if ( newEntity ) {
+                    // THEN we accept this entity in new notes contents
+                    return {
+                      ...res,
+                      [entityKey]: newEntity && { ...newEntity.entity }, // note.contents.entityMap[entityKey]
+                    };
+                  }
+              }
+
+               return res;
              }
              // ELSE we don't
              return res;
@@ -741,7 +747,7 @@ export const computePastedData = ( {
   /**
    * ADD COPIED ENTITIES TO THE NEW NOTES EDITOR STATES
    */
-  Object.keys( data.copiedEntities ).forEach( ( contentId ) => {
+  Object.keys( newCopiedEntities ).forEach( ( contentId ) => {
 
     /*
      * iterating through a note's editor's copied entities
@@ -758,7 +764,7 @@ export const computePastedData = ( {
        * Rebuild the editor state of the note
        * for each copied entity
        */
-      data.copiedEntities[contentId].forEach( ( entity ) => {
+      newCopiedEntities[contentId].forEach( ( entity ) => {
         newContentState = thatEditorState.getCurrentContent();
         newContentState = newContentState.createEntity( entity.entity.type, entity.entity.mutability, { ...entity.entity.data } );
         // update related entity in content
@@ -811,7 +817,7 @@ export const computePastedData = ( {
   if ( editorFocus === 'main' ) {
     mainEditorState = insertFragment( mainEditorState, newClipboard );
     // updating the notes order & co. from the editor state
-    const { newNotes: newNewNotes, notesOrder: newNotesOrder } = updateNotesFromEditor( mainEditorState, newNotes );
+    const { newNotes: newNewNotes, notesOrder: newNotesOrder } = updateNotesFromEditor( mainEditorState, { ...notes, ...newNotes } );
     newNotes = newNewNotes;
     notesOrder = newNotesOrder;
   }
@@ -842,10 +848,7 @@ export const computePastedData = ( {
     sectionId: activeSectionId,
     editorStates,
     editorFocus,
-    notes: {
-        ...activeSection.notes,
-        ...newNotes,
-      },
+    notes: newNotes,
     editor,
     createLocalDecorator,
   } );
@@ -857,10 +860,7 @@ export const computePastedData = ( {
       ...activeSection,
       contents: convertToRaw( mainEditorState.getCurrentContent() ),
       notesOrder,
-      notes: {
-        // ...activeSection.notes,
-        ...newNotes,
-      }
+      notes: newNotes,
     };
 
   /**
