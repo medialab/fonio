@@ -553,10 +553,14 @@ export const computePastedData = ( {
       contextualizationsList: newContextualizations,
       contextualizersList: newContextualizers,
     } );
-    newContextualizers = newContextualizers.filter(contextualizer => {
+    newContextualizers = newContextualizers.filter( ( contextualizer ) => {
+
+      /**
+       *  @todo find a way to go around this quadratic operation (a map of new contextualizations ?)
+       */
       const hasContextualization = newContextualizations.find( ( contextualization ) => contextualizer.id === contextualization.contextualizerId );
       return hasContextualization !== undefined;
-    });
+    } );
   }
 
   /**
@@ -624,11 +628,39 @@ export const computePastedData = ( {
    */
   }
   else {
+
+    /**
+     * we find contextualizations in the copied notes and filter them out
+     */
+    const unusedContextualizationsIds = data.copiedNotes.reduce( ( result, note ) => {
+      const entities = Object.keys( note.contents.entityMap ).map( ( key ) => note.contents.entityMap[key] );
+      return [
+        ...result,
+        ...entities.filter( ( entity ) => isEntityAContextualizationReference( entity ) ).map( ( e ) => e.data.asset.id )
+      ];
+    }, [] )
+    .reduce( ( res, id ) => ( {
+      ...res, [id]: id
+    } ), {} );
+    newContextualizations = newContextualizations.filter( ( thisContextualization ) => {
+      const contextualizationId = contextualizationsIdTransformationReverseMap[thisContextualization.id];
+      if ( contextualizationId && unusedContextualizationsIds[contextualizationId] ) {
+        delete contextualizationsIdTransformationMap[contextualizationsIdTransformationReverseMap[contextualizationId]];
+        delete contextualizationsIdTransformationReverseMap[contextualizationId];
+        return false;
+      }
+      return true;
+    } );
+
     copiedNotes = ( data.copiedNotes || [] ).reduce( ( result, note ) => ( {
       ...result,
       [note.id]: note
     } ), {} );
   }
+
+  /**
+   * @todo filter out resources that might not be to create anymore (e.g. related to filtered out contextualizations)
+   */
 
   /**
    * UPDATE DRAFT ENTITIES INSIDE THE COPIED CONTENTS
@@ -660,10 +692,11 @@ export const computePastedData = ( {
     copiedContextualizations: newContextualizations,
   } );
   newCopiedEntities = outputCopiedEntities;
+  console.log( 'new copied entities', newCopiedEntities );
 
   const notesToUpdate = copiedNotes;
   if ( editorFocus !== 'main' ) {
-    notesToUpdate[editorFocus] = { ...notes[editorFocus]};
+    notesToUpdate[editorFocus] = { ...notes[editorFocus] };
   }
 
   /**
@@ -693,7 +726,12 @@ export const computePastedData = ( {
 
             ) {
               if ( newCopiedEntities[noteId] ) {
-                  const newEntity = newCopiedEntities[noteId].find( ( thatEntity ) => thatEntity.entity.data.asset.id === contextualizationsIdTransformationMap[entity.data.asset.id] );
+                  const newEntity = newCopiedEntities[noteId].find( ( thatEntity ) => {
+                    if ( isEntityAContextualizationReference( thatEntity.entity ) ) {
+                      return thatEntity.entity.data.asset.id === contextualizationsIdTransformationMap[entity.data.asset.id];
+                    }
+                    return false;
+                  } );
                   if ( newEntity ) {
                     // THEN we accept this entity in new notes contents
                     return {
