@@ -483,6 +483,7 @@ export const computePastedData = ( {
   NotePointer: NotePointerComponent,
   inlineEntities,
   inlineAssetComponents,
+  contextualizations,
   editor,
   notes,
   story
@@ -507,14 +508,16 @@ export const computePastedData = ( {
   let newContextualizers;
 
   const createLocalDecorator = () => {
-    return createDecorator( {
+    return editor ?
+     editor.mainEditor.createLocalDecorator()
+     : createDecorator( {
       NotePointerComponent: NotePointerComponent || NotePointer,
       findInlineAsset: ( contentBlock, callback, inputContentState ) => findInlineAsset(
         contentBlock,
         callback,
         inputContentState,
         {
-          assets: {},
+          assets: contextualizations || {},
           renderingMode: 'web',
           inlineAssetComponents,
         } ),
@@ -606,6 +609,7 @@ export const computePastedData = ( {
    * and filter out invalid draft-js entities
    */
   let copiedNotes;
+  let unusedContextualizationsIds = [];
   if ( editorFocus === 'main' ) {
       copiedNotes = ( data.copiedNotes || [] ).reduce( ( result, note ) => {
       const noteNewId = generateId();
@@ -632,7 +636,7 @@ export const computePastedData = ( {
     /**
      * we find contextualizations in the copied notes and filter them out
      */
-    const unusedContextualizationsIds = data.copiedNotes.reduce( ( result, note ) => {
+    unusedContextualizationsIds = data.copiedNotes.reduce( ( result, note ) => {
       const entities = Object.keys( note.contents.entityMap ).map( ( key ) => note.contents.entityMap[key] );
       return [
         ...result,
@@ -642,12 +646,13 @@ export const computePastedData = ( {
     .reduce( ( res, id ) => ( {
       ...res, [id]: id
     } ), {} );
-    newContextualizations = newContextualizations.filter( ( thisContextualization ) => {
-      const contextualizationId = contextualizationsIdTransformationReverseMap[thisContextualization.id];
-      if ( contextualizationId && unusedContextualizationsIds[contextualizationId] ) {
-        const contextualizerToRemove = newContextualizers.find( ( thatContexgtualizer ) => thatContexgtualizer.id === thisContextualization.contextualizerId );
-        console.log( 'contextualizer to remove', contextualizerToRemove );
 
+     newContextualizations = newContextualizations.filter( ( thisContextualization ) => {
+       const contextualizationId = contextualizationsIdTransformationReverseMap[thisContextualization.id];
+       if ( contextualizationId && unusedContextualizationsIds[contextualizationId] ) {
+        // const contextualizerToRemove = newContextualizers.find( ( thatContexgtualizer ) => thatContexgtualizer.id === thisContextualization.contextualizerId );
+        newContextualizers = newContextualizers.filter( ( thatContexgtualizer ) => thatContexgtualizer.id !== thisContextualization.contextualizerId );
+        //  console.log( 'contextualizer to remove', contextualizerToRemove );
         /**
          * @todo delete related contextualizers
          */
@@ -665,8 +670,18 @@ export const computePastedData = ( {
   }
 
   /**
-   * @todo filter out resources that might not be to create anymore (e.g. related to filtered out contextualizations)
+   * filter out resources that might not be to create anymore (e.g. related to filtered out contextualizations)
    */
+  if ( unusedContextualizationsIds.length ) {
+    resourcesToCreate = resourcesToCreate.filter( ( resource ) => {
+      const resourceId = resource.id;
+      const stillHasContextualizations = newContextualizations.find( ( thatContextualization ) => thatContextualization.resourceId === resourceId );
+      if ( stillHasContextualizations ) {
+        return true;
+      }
+      return false;
+    } );
+  }
 
   /**
    * UPDATE DRAFT ENTITIES INSIDE THE COPIED CONTENTS
@@ -698,7 +713,6 @@ export const computePastedData = ( {
     copiedContextualizations: newContextualizations,
   } );
   newCopiedEntities = outputCopiedEntities;
-  console.log( 'new copied entities', newCopiedEntities );
 
   const notesToUpdate = copiedNotes;
   if ( editorFocus !== 'main' ) {
@@ -886,6 +900,7 @@ export const computePastedData = ( {
    * then update the related note with clipboard contents
    */
   else {
+    mainEditorState = EditorState.createWithContent( mainEditorState.getCurrentContent(), createLocalDecorator() );
     const noteEditorState = editorStates[editorFocus];
     newNotes = {
       ...notes,
@@ -1013,6 +1028,7 @@ const pasteFromInside = ( {
       NotePointerComponent,
       inlineEntities,
       inlineAssetComponents,
+      contextualizations: story.contextualizations,
       editor,
       notes,
       story
