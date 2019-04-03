@@ -134,6 +134,8 @@ const handlePaste = function( html ) {
         createResource,
         uploadResource,
 
+        setEditorFocus,
+
         story,
         editor,
         notes,

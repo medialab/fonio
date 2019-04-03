@@ -645,6 +645,12 @@ export const computePastedData = ( {
     newContextualizations = newContextualizations.filter( ( thisContextualization ) => {
       const contextualizationId = contextualizationsIdTransformationReverseMap[thisContextualization.id];
       if ( contextualizationId && unusedContextualizationsIds[contextualizationId] ) {
+        const contextualizerToRemove = newContextualizers.find( ( thatContexgtualizer ) => thatContexgtualizer.id === thisContextualization.contextualizerId );
+        console.log( 'contextualizer to remove', contextualizerToRemove );
+
+        /**
+         * @todo delete related contextualizers
+         */
         delete contextualizationsIdTransformationMap[contextualizationsIdTransformationReverseMap[contextualizationId]];
         delete contextualizationsIdTransformationReverseMap[contextualizationId];
         return false;
@@ -945,6 +951,7 @@ const pasteFromInside = ( {
   storyId,
   editorFocus,
   setEditorPastingStatus,
+  setEditorFocus,
 
   story,
   editor,
@@ -1142,9 +1149,13 @@ const pasteFromInside = ( {
       } );
       setTimeout( () => {
         // update live editor states
+        setEditorFocus( undefined );
+
         updateDraftEditorsStates( newEditorStates );
         // ...then update the section with editorStates convert to serializable raw objects
-        updateSection( newSection );
+        updateSection( newSection, () => {
+          setEditorFocus( editorFocus );
+        } );
         setEditorPastingStatus( undefined );
       } );
 
