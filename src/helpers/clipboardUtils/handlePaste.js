@@ -20,6 +20,7 @@ const handlePaste = function( html ) {
       getNotePointer,
       getAdditionalEntities,
       getInlineAssetComponents,
+      updateSectionRawContent,
 
       /*
        * editor,
@@ -131,6 +132,7 @@ const handlePaste = function( html ) {
         storyId,
         editorFocus,
         setEditorPastingStatus,
+        updateSectionRawContent,
         createResource,
         uploadResource,
 

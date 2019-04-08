@@ -594,6 +594,7 @@ export const computePastedData = ( {
           ...thatContextualization,
           // use new contextualizer id
           contextualizerId: contextualizersIdTransformationMap[thatContextualization.contextualizerId],
+          sectionId: activeSection.id,
           id: contextualizationId
         };
     } );
@@ -961,6 +962,7 @@ const pasteFromInside = ( {
   uploadResource,
   userId,
   updateDraftEditorsStates,
+  updateSectionRawContent,
 
   activeSection,
   storyId,
@@ -1171,6 +1173,7 @@ const pasteFromInside = ( {
         // ...then update the section with editorStates convert to serializable raw objects
         updateSection( newSection, () => {
           setEditorFocus( editorFocus );
+          updateSectionRawContent( editorFocus, storyId, newSection.id );
         } );
         setEditorPastingStatus( undefined );
       } );
