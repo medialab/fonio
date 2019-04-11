@@ -60,6 +60,13 @@ const Wysiwyg = ( {
   onChange,
   getTooltipContainer
 }, { t } ) => {
+
+  /**
+   *  @todo find a solution for styles consistency problems
+   */
+  if ( !styles ) {
+    return null;
+  }
   const translate = translateNameSpacer( t, 'Features.DesignView.StylesVariables' );
   const onSizeClassChange = ( value ) =>
     onChange( {
