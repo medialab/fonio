@@ -153,9 +153,12 @@ const AsideDesignContents = ( {
                             {
                               id: 'none',
                               label: (
-                                <span>
-                                  {translate( 'No cover image' )}
-                                </span>
+                                <span style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', minHeight: '32px' } }>
+                                    <span
+                                      style={ { display: 'inline-block', marginRight: '1em' , minWidth: '32px', minHeight: '20px', background: 'lightgrey'} }
+                                    />
+                                    {translate( 'No cover image' )}
+                                  </span>
                               )
                             },
                             ...availableCoverImages.map( ( image ) => ( {
@@ -189,7 +192,11 @@ const AsideDesignContents = ( {
                             {abbrevString( story.resources[coverImageId].metadata.title, 20 ) }
                           </span>
                         </span>
-                        : translate( 'No cover image' )}
+                        :
+                        translate( 'No cover image' )
+                        
+                      }
+                         
                     </Dropdown>
                   </Control>
                 </Field>
