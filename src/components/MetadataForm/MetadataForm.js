@@ -98,7 +98,11 @@ class MetadataForm extends Component {
      * References bindings
      */
     const bindRef = ( form ) => {
+      // console.log('bind', form);
       this.form = form;
+    };
+    const bindValues = ( values ) => {
+      this.values = values;
     };
 
     return (
@@ -110,6 +114,7 @@ class MetadataForm extends Component {
         {( formApi ) => {
           const onAuthorsChange = ( authors ) => formApi.setValue( 'authors', authors );
           const handleSubmit = formApi.submitForm;
+          bindValues( formApi.values );
           return (
             <form
               ref={ bindRef }
