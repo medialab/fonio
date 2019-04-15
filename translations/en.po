@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-4-15\n"
-"PO-Revision-Date: Mon Apr 15 2019 15:37:06 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Apr 15 2019 16:22:43 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2074,6 +2074,18 @@ msgstr "other authors in multiple sections"
 
 msgid "Components.AuthorsManager.Explanation aboory authors"
 msgstr "Authors will be displayed on your story webpage."
+
+msgid "Features.DesignView.template choice explanation"
+msgstr "template choice explanation"
+
+msgid "Features.DesignView.Cover image"
+msgstr "Cover image"
+
+msgid "Features.DesignView.cover image choice explanation"
+msgstr "cover image choice explanation"
+
+msgid "Features.DesignView.No cover image"
+msgstr "No cover image"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"

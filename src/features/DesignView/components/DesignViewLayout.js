@@ -34,17 +34,20 @@ const DesignViewLayout = ( {
   editedStory: story,
   referenceTypesVisible,
   cssHelpVisible,
+  coverImageChoiceVisible,
   lang,
   actions: {
     setDesignAsideTabMode,
     setDesignAsideTabCollapsed,
     setReferenceTypesVisible,
     setCssHelpVisible,
+    setCoverImageChoiceVisible,
   },
   onUpdateCss,
   onUpdateSettings,
   onUpdateTemplatesVariables,
   onTemplateChange,
+  onSetCoverImage,
 }, { t } ) => {
 
   /**
@@ -75,6 +78,8 @@ const DesignViewLayout = ( {
               story,
               designAsideTabCollapsed,
               designAsideTabMode,
+              coverImageChoiceVisible,
+              onSetCoverImage,
               setCssHelpVisible,
               setDesignAsideTabMode,
               setDesignAsideTabCollapsed,
@@ -84,6 +89,7 @@ const DesignViewLayout = ( {
               onUpdateSettings,
               onUpdateTemplatesVariables,
               onTemplateChange,
+              setCoverImageChoiceVisible,
           }
         }
       />

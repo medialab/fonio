@@ -297,7 +297,7 @@
   "Features.DesignView.You might need to use the !important suffix for some rules as you want to override initial ones.": "You might need to use the !important suffix for some rules as you want to override initial ones.",
   "Features.DesignView.You will need to use the !important suffix for some rules as you want to override initial rules.": "You will need to use the !important suffix for some rules as you want to override initial rules.",
   "Features.DesignView.add": "add",
-  "Features.DesignView.all items": "all items",
+  "Features.DesignView.all items": "cited and uncited items",
   "Features.DesignView.bib": "references",
   "Features.DesignView.cited items only": "cited items only",
   "Features.DesignView.disable": "disable",
@@ -686,5 +686,9 @@
   "Features.LibraryView.other authors in multiple sections": "other authors in multiple sections",
   "Features.SectionView.another author in one section": "another author in one section",
   "Features.SectionView.other authors in multiple sections": "other authors in multiple sections",
-  "Components.AuthorsManager.Explanation about the story authors": "Les auteur·e·s seront affiché·e·s sur la page web de ce récit"
+  "Components.AuthorsManager.Explanation about the story authors": "Les auteur·e·s seront affiché·e·s sur la page web de ce récit",
+  "Features.DesignView.template choice explanation": "choose a way to present and organize the story's website",
+  "Features.DesignView.Cover image": "Cover image",
+  "Features.DesignView.cover image choice explanation": "choose an image coming from the story's library to display as cover",
+  "Features.DesignView.No cover image": "No cover image"
 }

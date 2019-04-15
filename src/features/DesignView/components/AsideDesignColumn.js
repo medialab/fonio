@@ -44,14 +44,17 @@ const AsideDesignColumn = ( {
   designAsideTabMode,
   story = {},
   style = {},
+  coverImageChoiceVisible,
 
   setDesignAsideTabCollapsed,
   setDesignAsideTabMode,
+  setCoverImageChoiceVisible,
 
   onUpdateTemplatesVariables,
 
   referenceTypesVisible,
   setReferenceTypesVisible,
+  onSetCoverImage,
 
   setCssHelpVisible,
 
@@ -164,6 +167,9 @@ const AsideDesignColumn = ( {
                 designAsideTabMode,
                 onUpdateTemplatesVariables,
                 setReferenceTypesVisible,
+                coverImageChoiceVisible,
+                setCoverImageChoiceVisible,
+                onSetCoverImage,
                 template,
                 story,
                 setCssHelpVisible,

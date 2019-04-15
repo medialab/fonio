@@ -269,6 +269,26 @@ class DesignViewContainer extends Component {
       )
     } );
   }
+  onSetCoverImage = ( id ) => {
+    const {
+      editedStory: story,
+      userId,
+      actions: {
+        updateStoryMetadata
+      }
+    } = this.props;
+
+    updateStoryMetadata( {
+      storyId: story.id,
+      userId,
+      metadata: {
+        ...story.metadata,
+        coverImage: {
+          resourceId: id
+        }
+      }
+    } );
+  }
 
   render() {
     const {
@@ -281,6 +301,7 @@ class DesignViewContainer extends Component {
       onUpdateSettings,
       onUpdateTemplatesVariables,
       onTemplateChange,
+      onSetCoverImage,
     } = this;
     if ( editedStory ) {
 
@@ -300,6 +321,7 @@ class DesignViewContainer extends Component {
                   onUpdateCss={ onUpdateCss }
                   onUpdateSettings={ onUpdateSettings }
                   onTemplateChange={ onTemplateChange }
+                  onSetCoverImage={ onSetCoverImage }
                   onUpdateTemplatesVariables={ onUpdateTemplatesVariables }
                   { ...this.props }
                 />

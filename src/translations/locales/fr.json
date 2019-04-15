@@ -294,7 +294,7 @@
   "Features.DesignView.You can style your story output with custom css rules.": "Vous pouvez mettre en forme votre page web au moyen de règles css spécifiques à ce récit.",
   "Features.DesignView.You might need to use the !important suffix for some rules as you want to override initial ones.": "Il est possible qu'il vous faille utiliser le suffixe !important pour certaines des règles afin d'écraser les règles initiales.",
   "Features.DesignView.add": "ajouter",
-  "Features.DesignView.all items": "toutes les ressources",
+  "Features.DesignView.all items": "ressources citées et non citées",
   "Features.DesignView.bib": "références",
   "Features.DesignView.cited items only": "uniquement les ressources citées",
   "Features.DesignView.disable": "désactivé",
@@ -686,5 +686,9 @@
   "Features.LibraryView.other authors in multiple sections": "les autre auteurs dans les sections multiples",
   "Features.SectionView.another author in one section": "un·e autre auteur·e dans une autre section",
   "Features.SectionView.other authors in multiple sections": "les autre auteurs dans les sections multiples",
-  "Components.AuthorsManager.Explanation aboory authors": "Authors will be displayed on your story webpage."
+  "Components.AuthorsManager.Explanation aboory authors": "Les auteurs seront affichés sur le site web du récit.",
+  "Features.DesignView.template choice explanation": "choisir une méthode de présentation et d'organisation pour le site web du récit",
+  "Features.DesignView.Cover image": "Image de couverture",
+  "Features.DesignView.cover image choice explanation": "Choisir une image issue de votre bibliothèque à afficher comme couverture",
+  "Features.DesignView.No cover image": "Pas d'image de couverture"
 }

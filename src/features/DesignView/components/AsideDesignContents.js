@@ -14,6 +14,7 @@ import {
   Control,
   Dropdown,
   Field,
+  HelpPin,
   Image,
   Label,
   Level,
@@ -29,6 +30,7 @@ import StyleEditor from './StyleEditor';
  * Imports Project utils
  */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
+import { abbrevString } from '../../../helpers/misc';
 
 const AsideDesignContents = ( {
   designAsideTabCollapsed,
@@ -37,17 +39,22 @@ const AsideDesignContents = ( {
   template,
   story,
   setCssHelpVisible,
+  setCoverImageChoiceVisible,
+  coverImageChoiceVisible,
   options,
   resourceTypes,
   referenceTypesVisible,
   onUpdateTemplatesVariables,
   getTooltipContainer,
   onTemplateChange,
+  onSetCoverImage,
   templates,
-}, { t } ) => {
+}, { t, getResourceDataUrl } ) => {
 
   const { acceptsOptions = [], stylesVariables } = template;
   const styles = getStyles( story );
+  const coverImageId = ( story.metadata.coverImage && story.metadata.coverImage.resourceId && story.resources[story.metadata.coverImage.resourceId] && story.metadata.coverImage.resourceId ) || 'none';
+  const availableCoverImages = Object.keys( story.resources ).filter( ( resourceId ) => story.resources[resourceId].metadata.type === 'image' ).map( ( resourceId ) => story.resources[resourceId] );
 
   /**
    * Local functions
@@ -84,7 +91,16 @@ const AsideDesignContents = ( {
         : [ ...options.referenceTypes, type ] );
   };
 
+  const handleCoverImageChange = ( id ) => {
+    if ( id === 'none' ) {
+      onSetCoverImage( undefined );
+    }
+ else onSetCoverImage( id );
+    setCoverImageChoiceVisible( false );
+  };
+
   const handleToggleReferenceTypesVisibility = () => setReferenceTypesVisible( !referenceTypesVisible );
+  const handleToggleCoverImageChoiceVisible = () => setCoverImageChoiceVisible( !coverImageChoiceVisible );
   const handleShowCssHelp = () => setCssHelpVisible( true );
 
   if ( designAsideTabCollapsed ) {
@@ -99,7 +115,7 @@ const AsideDesignContents = ( {
               <Level>
                 <form>
                   <Field>
-                    <Label>{translate( 'Story template' )}</Label>
+                    <Label>{translate( 'Story template' )}<HelpPin>{translate( 'template choice explanation' )}</HelpPin></Label>
                     <Control>
                       <Select
                         onChange={ handleTemplateChange }
@@ -121,6 +137,65 @@ const AsideDesignContents = ( {
                 </form>
               </Level>
             }
+            <Level>
+              <form>
+                <Field>
+                  <Label>{translate( 'Cover image' )}<HelpPin>{translate( 'cover image choice explanation' )}</HelpPin></Label>
+                  <Control>
+                    <Dropdown
+                      onToggle={ handleToggleCoverImageChoiceVisible }
+                      isActive={ coverImageChoiceVisible }
+                      closeOnChange={ false }
+                      onChange={ handleCoverImageChange }
+                      value={ coverImageId }
+                      options={
+                          [
+                            {
+                              id: 'none',
+                              label: (
+                                <span>
+                                  {translate( 'No cover image' )}
+                                </span>
+                              )
+                            },
+                            ...availableCoverImages.map( ( image ) => ( {
+                              id: image.id,
+                              label: (
+                                <span style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' } }>
+                                  <Image
+                                    style={ { display: 'inline-block', marginRight: '1em' } }
+                                    isSize={ '32x32' }
+                                    src={ getResourceDataUrl( image.data ) }
+                                  />
+                                  <span title={ image.metadata.title }>
+                                    {abbrevString( image.metadata.title, 20 )}
+                                  </span>
+                                </span>
+                              )
+                            } ) )
+
+                          ]
+
+                            }
+                    >
+                      {coverImageId !== 'none' ?
+                        <span style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' } }>
+                          <Image
+                            style={ { display: 'inline-block', marginRight: '1em' } }
+                            isSize={ '16x16' }
+                            src={ getResourceDataUrl( story.resources[coverImageId].data ) }
+                          />
+                          <span>
+                            {abbrevString( story.resources[coverImageId].metadata.title, 20 ) }
+                          </span>
+                        </span>
+                        : translate( 'No cover image' )}
+                    </Dropdown>
+                  </Control>
+                </Field>
+              </form>
+            </Level>
+
             {
               acceptsOptions.includes( 'notesPosition' ) &&
               <Level>
@@ -234,6 +309,7 @@ const AsideDesignContents = ( {
 
 AsideDesignContents.contextTypes = {
   t: PropTypes.func,
+  getResourceDataUrl: PropTypes.func,
 };
 
 export default AsideDesignContents;
