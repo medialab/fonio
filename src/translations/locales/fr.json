@@ -289,7 +289,7 @@
   "Features.DesignView.Settings": "Réglages",
   "Features.DesignView.Styles": "Styles",
   "Features.DesignView.To do so, you must be familiar with css syntax. To get started, we advise you to go to <a target=\"blank\" href=\"https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS\">this tutorial</a>": "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" rel=\"noopener\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>",
-  "Features.DesignView.What items to show in references": "Quels ressources montrer dans les références",
+  "Features.DesignView.What items to show in references": "Quelles ressources montrer dans les références",
   "Features.DesignView.What types of items to show in references": "Quels types de ressources montrer dans les références",
   "Features.DesignView.You can style your story output with custom css rules.": "Vous pouvez mettre en forme votre page web au moyen de règles css spécifiques à ce récit.",
   "Features.DesignView.You might need to use the !important suffix for some rules as you want to override initial ones.": "Il est possible qu'il vous faille utiliser le suffixe !important pour certaines des règles afin d'écraser les règles initiales.",
