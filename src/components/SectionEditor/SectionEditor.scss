@@ -37,16 +37,16 @@
         &:before
         {
             position: absolute;
-            top: $gutter-small;
-            left: $gutter-small;
+            top: 0;
+            left: $gutter-small / 2;
 
             content: open-quote;
         }
         &:after
         {
             position: absolute;
-            right: $gutter-small;
-            bottom: $gutter-small;
+            right: $gutter-small / 2;
+            bottom: 0;
 
             content: close-quote;
         }
