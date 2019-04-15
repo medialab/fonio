@@ -35,7 +35,7 @@
   "Components.AssetPreview.table-row": "row",
   "Components.AuthorsManager.Add an author": "Add an author",
   "Components.AuthorsManager.Authors": "Authors",
-  "Components.AuthorsManager.Explanation about the story authors": "Authors will be displayed on your story webpage.",
+  "Components.AuthorsManager.Explanation aboory authors": "Authors will be displayed on your story webpage.",
   "Components.AuthorsManager.New auhthor": "New author",
   "Components.AuthorsManager.New author": "New author",
   "Components.ChangePasswordModal.Cancel": "Cancel",
@@ -113,10 +113,10 @@
   "Components.MetadataForm.Password should be at least 6 characters": "Password should be at least 6 characters",
   "Components.MetadataForm.Story Abstract": "Story Abstract",
   "Components.MetadataForm.Story could not be created": "Story could not be created",
-  "Components.MetadataForm.Story password": "Story password",
+  "Components.MetadataForm.Story password": "Story password (required)",
   "Components.MetadataForm.Story subtitle": "Story subtitle",
   "Components.MetadataForm.Story title is required": "Story title is required",
-  "Components.MetadataForm.Story title": "Story title",
+  "Components.MetadataForm.Story title": "Story title (required)",
   "Components.MetadataForm.Update settings": "Update settings",
   "Components.MetadataForm.abstract": "abstract",
   "Components.MetadataForm.subtitle": "subtitle",
@@ -685,5 +685,6 @@
   "Features.LibraryView.another author in one section": "another author in one section",
   "Features.LibraryView.other authors in multiple sections": "other authors in multiple sections",
   "Features.SectionView.another author in one section": "another author in one section",
-  "Features.SectionView.other authors in multiple sections": "other authors in multiple sections"
+  "Features.SectionView.other authors in multiple sections": "other authors in multiple sections",
+  "Components.AuthorsManager.Explanation about the story authors": "Les auteur·e·s seront affiché·e·s sur la page web de ce récit"
 }

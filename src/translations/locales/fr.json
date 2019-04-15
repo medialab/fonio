@@ -111,10 +111,10 @@
   "Components.MetadataForm.Password should be at least 6 characters": "Le mot de passe devrait faire au moins 6 caractères de long",
   "Components.MetadataForm.Story Abstract": "Résumé du récit",
   "Components.MetadataForm.Story could not be created": "Le récit n'a pas pu être créé",
-  "Components.MetadataForm.Story password": "Mot de passe du récit",
+  "Components.MetadataForm.Story password": "Mot de passe du récit (obligatoire)",
   "Components.MetadataForm.Story subtitle": "Sous-titre du récit",
   "Components.MetadataForm.Story title is required": "Il est obligatoire de donner un titre au récit",
-  "Components.MetadataForm.Story title": "Titre du récit",
+  "Components.MetadataForm.Story title": "Titre du récit (obligatoire)",
   "Components.MetadataForm.Update settings": "Mettre à jour",
   "Components.MetadataForm.abstract": "résumé",
   "Components.MetadataForm.subtitle": "sous-titre",
@@ -685,5 +685,6 @@
   "Features.LibraryView.another author in one section": "un·e autre auteur·e dans une autre section",
   "Features.LibraryView.other authors in multiple sections": "les autre auteurs dans les sections multiples",
   "Features.SectionView.another author in one section": "un·e autre auteur·e dans une autre section",
-  "Features.SectionView.other authors in multiple sections": "les autre auteurs dans les sections multiples"
+  "Features.SectionView.other authors in multiple sections": "les autre auteurs dans les sections multiples",
+  "Components.AuthorsManager.Explanation aboory authors": "Authors will be displayed on your story webpage."
 }
