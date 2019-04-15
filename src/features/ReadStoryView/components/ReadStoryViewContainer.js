@@ -18,6 +18,8 @@ import {
 } from 'quinoa-design-library/components';
 import StoryPlayer from 'quinoa-story-player';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons/faHome';
 
 /**
  * Imports Project utils
@@ -47,7 +49,9 @@ const HomeBtn = () => (
       style={ { color: 'black' } }
       to={ '/' }
     >
-      <Icon icon={ 'home' } />
+      <Icon>
+        <FontAwesomeIcon icon={ faHome } />
+      </Icon>
     </Link>
   </Button>
 );
