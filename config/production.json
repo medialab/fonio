@@ -8,5 +8,6 @@
   "maxBatchNumber": 50,
   "sessionName": "My super classroom name",
   "urlPrefix": "",
-  "backgroundColor": "lightblue"
+  "backgroundColor": "lightblue",
+  "requirePublicationConsent": true
 }

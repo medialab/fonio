@@ -25,6 +25,7 @@ import {
  * Imports Project utils
  */
 import { translateNameSpacer } from '../../helpers/translateUtils';
+import config from '../../config';
 
 /**
  * Imports Components
@@ -32,6 +33,8 @@ import { translateNameSpacer } from '../../helpers/translateUtils';
 import AuthorsManager from '../AuthorsManager';
 import ExplainedLabel from '../ExplainedLabel';
 import PasswordInput from '../PasswordInput';
+
+const { requirePublicationConsent } = config;
 
 class MetadataForm extends Component {
 
@@ -69,7 +72,7 @@ class MetadataForm extends Component {
     const errorValidator = ( values ) => {
       return {
         title: !values.title ? translate( 'Story title is required' ) : null,
-        publicationConsent: values.publicationConsent === undefined ? translate( 'You must consent or refuse a possible future publication of this story.' ) : null,
+        publicationConsent: requirePublicationConsent && values.publicationConsent === undefined ? translate( 'You must consent or refuse a possible future publication of this story.' ) : null,
         password: ( !story.id && ( !values.password || values.password.length < 6 ) ) ? translate( 'Password should be at least 6 characters' ) : null,
       };
     };
@@ -182,6 +185,7 @@ class MetadataForm extends Component {
                   />
                 </Control>
               </Field>
+              {requirePublicationConsent &&
               <Field>
                 <p style={ { marginTop: '2rem' } }>
                   <i>{translate( 'publication-consent-message-1' )}</i>
@@ -207,7 +211,7 @@ class MetadataForm extends Component {
                   formApi.errors && formApi.errors.publicationConsent &&
                     <Help isColor={ 'danger' }>{formApi.errors.publicationConsent}</Help>
                 }
-              </Field>
+              </Field>}
 
               {!story.id && status === 'processing' && <Help>{translate( 'Creating story' )}</Help>}
               {!story.id && status === 'fail' && <Help isColor={ 'danger' }>{translate( 'Story could not be created' )}</Help>}
