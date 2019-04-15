@@ -16,7 +16,6 @@ import { createDefaultStory, validateStory } from '../../helpers/schemaUtils';
 
 import { getFileAsText } from '../../helpers/fileLoader';
 import { getStatePropFromActionSet } from '../../helpers/reduxUtils';
-import { loadUserInfo } from '../../helpers/localStorageUtils';
 
 /**
  * ===================================================
@@ -52,8 +51,6 @@ export const DELETE_STORY = 'DELETE_STORY';
 export const IMPORT_STORY = 'IMPORT_STORY';
 
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
-
-import { SET_USER_INFO } from '../UserInfoManager/duck';
 
 /**
  * data
@@ -96,10 +93,6 @@ export const setPreviewedStoryId = ( payload ) => ( {
 
 export const setNewStoryMetadata = ( payload ) => ( {
   type: SET_NEW_STORY_METADATA,
-  payload
-} );
-export const setUserInfoTemp = ( payload ) => ( {
-  type: SET_USER_INFO_TEMP,
   payload
 } );
 export const setEditionHistory = ( payload ) => ( {
@@ -526,20 +519,6 @@ export function data( state = DATA_DEFAULT_STATE, action ) {
           }
         }
       };
-    case SET_USER_INFO:
-    case SET_USER_INFO_TEMP:
-      return {
-        ...state,
-        userInfoTemp: payload,
-      };
-    case SET_IDENTIFICATION_MODAL_SWITCH:
-      if ( payload === false ) {
-        return {
-          ...state,
-          userInfoTemp: loadUserInfo()
-        };
-      }
-      return state;
     default:
       return state;
   }
