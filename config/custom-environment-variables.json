@@ -8,6 +8,5 @@
   "maxFolderSize": "MAX_FOLDER_SIZE",
   "maxStorySize": "MAX_STORY_SIZE",
   "maxBatchNumber": "MAX_BATCH_NUMBER",
-  "backgroundColor": "BACKGROUND_COLOR",
   "requirePublicationConsent": "REQUIRE_PUBICATION_CONSENT"
 }
