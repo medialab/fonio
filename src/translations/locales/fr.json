@@ -136,7 +136,7 @@
   "Components.ResourceForm.Add glossary to library": "Ajouter",
   "Components.ResourceForm.Add image to library": "Ajouter",
   "Components.ResourceForm.Add item to library": "ajouter la ressource",
-  "Components.ResourceForm.Add item to the library": "Ajouter la ressource à la bibliothèque",
+  "Components.ResourceForm.Add item to the library": "Ajouter une ressource à la bibliothèque",
   "Components.ResourceForm.Add table to library": "Ajouter",
   "Components.ResourceForm.Add video to library": "Ajouter",
   "Components.ResourceForm.Add webpage to library": "Ajouter",
@@ -262,7 +262,7 @@
   "Components.SectionEditor.summon-asset": "mentionner une ressource",
   "Components.SectionEditor.unordered list": "liste simple",
   "Components.StoryCard.change password": "changer le mot de passe",
-  "Components.StoryCard.delete": "supprimer",
+  "Components.StoryCard.delete": "supprimer ...",
   "Components.StoryCard.duplicate": "dupliquer",
   "Components.StoryCard.edited by {a}": "édité par {a}",
   "Components.StoryCard.edit": "éditer",
@@ -501,7 +501,7 @@
   "Features.SectionView.edited recently": "edité récemment",
   "Features.SectionView.embed": "code",
   "Features.SectionView.find a resource": "trouver une ressource",
-  "Features.SectionView.glossary": "entrée glossaire",
+  "Features.SectionView.glossary": "entrée de glossaire",
   "Features.SectionView.hide summary and library pannels": "cacher les panneaux sommaire et bibliothèque",
   "Features.SectionView.higher level of importance": "plus importante",
   "Features.SectionView.image": "image",
@@ -690,5 +690,6 @@
   "Features.DesignView.template choice explanation": "choisir une méthode de présentation et d'organisation pour le site web du récit",
   "Features.DesignView.Cover image": "Image de couverture",
   "Features.DesignView.cover image choice explanation": "Choisir une image issue de votre bibliothèque à afficher comme couverture",
-  "Features.DesignView.No cover image": "Pas d'image de couverture"
+  "Features.DesignView.No cover image": "Pas d'image de couverture",
+  "Features.HomeView.back to the classroom": "retour à la salle de classe"
 }

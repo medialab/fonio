@@ -264,7 +264,7 @@
   "Components.SectionEditor.summon-asset": "summon-asset",
   "Components.SectionEditor.unordered list": "unordered list",
   "Components.StoryCard.change password": "change password",
-  "Components.StoryCard.delete": "delete",
+  "Components.StoryCard.delete": "delete...",
   "Components.StoryCard.duplicate": "duplicate",
   "Components.StoryCard.edited by {a}": "edited by {a}",
   "Components.StoryCard.edit": "edit",
@@ -690,5 +690,6 @@
   "Features.DesignView.template choice explanation": "choose a way to present and organize the story's website",
   "Features.DesignView.Cover image": "Cover image",
   "Features.DesignView.cover image choice explanation": "choose an image coming from the story's library to display as cover",
-  "Features.DesignView.No cover image": "No cover image"
+  "Features.DesignView.No cover image": "No cover image",
+  "Features.HomeView.back to the classroom": "back to the classroom"
 }
