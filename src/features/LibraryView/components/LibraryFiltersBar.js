@@ -49,6 +49,7 @@ const LibraryFiltersBar = ( {
           value={ searchString }
           onChange={ onSearchStringChange }
           placeholder={ translate( 'Find a resource' ) }
+          style={{paddingTop: '1.3rem'}}
         />
       </Field>
       <LevelItem>

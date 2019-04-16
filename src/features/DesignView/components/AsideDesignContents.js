@@ -154,11 +154,11 @@ const AsideDesignContents = ( {
                               id: 'none',
                               label: (
                                 <span style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', minHeight: '32px' } }>
-                                    <span
-                                      style={ { display: 'inline-block', marginRight: '1em' , minWidth: '32px', minHeight: '20px', background: 'lightgrey'} }
-                                    />
-                                    {translate( 'No cover image' )}
-                                  </span>
+                                  <span
+                                    style={ { display: 'inline-block', marginRight: '1em', minWidth: '32px', minHeight: '20px', background: 'lightgrey' } }
+                                  />
+                                  {translate( 'No cover image' )}
+                                </span>
                               )
                             },
                             ...availableCoverImages.map( ( image ) => ( {
@@ -194,9 +194,9 @@ const AsideDesignContents = ( {
                         </span>
                         :
                         translate( 'No cover image' )
-                        
+
                       }
-                         
+
                     </Dropdown>
                   </Control>
                 </Field>

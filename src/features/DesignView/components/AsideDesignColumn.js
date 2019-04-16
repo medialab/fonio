@@ -136,7 +136,7 @@ const AsideDesignColumn = ( {
                           boxShadow: 'none',
                           transform: designAsideTabCollapsed ? 'rotate(180deg)' : undefined,
                           transition: 'all .5s ease',
-                          paddingRight: designAsideTabCollapsed ? '1rem' : undefined,
+                          paddingRight: designAsideTabCollapsed ? undefined : 0,
                           display: designAsideTabCollapsed ? 'inline-block' : 'flex',
                           justifyContent: designAsideTabCollapsed ? undefined : 'flex-end',
                           textAlign: 'left'

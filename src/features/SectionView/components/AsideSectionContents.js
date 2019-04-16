@@ -204,7 +204,7 @@ const AsideSectionContents = ( {
                       isFullWidth
                       style={ { overflow: 'visible' } }
                       onClick={ handleClickAddItemsToLibrary }
-                      isColor={ mainColumnMode === 'newresource' ? 'primary' : 'info' }
+                      isColor={ mainColumnMode === 'newresource' ? 'primary' : 'primary' }
                       isDisabled={ userLockedResourceId !== undefined }
                     >
                       <span style={ { paddingRight: '1rem' } }>{translate( 'Add items to library' )}</span>

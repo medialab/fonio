@@ -199,7 +199,7 @@ const SectionCard = ( {
                 isOffset={ 1 }
                 isSize={ 7 }
               >
-                <i>{computeSectionFirstWords( section )}</i>
+                <i style={ { fontSize: '0.7rem' } }>{computeSectionFirstWords( section )}</i>
                 <div style={ { marginTop: '1rem' } }>
                   <Button
                     onClick={ handleEdit }

@@ -174,7 +174,7 @@ class SummaryViewLayout extends Component {
                   resolve();
                 } );
               }
- else resolve();
+              else resolve();
             } ) )
             .then( () => {
                 // leave metadata edition
@@ -307,8 +307,8 @@ class SummaryViewLayout extends Component {
               isFlex={ 1 }
               isFlowing
             >
-              <Column>
-                <Level style={ { marginBottom: '.4rem' } }>
+              <Column style={ { paddingTop: '0.45rem', paddingLeft: '1.3rem' } }>
+                <Level style={ { marginBottom: metadataOpen ? 0 : '.4rem' } }>
                   <Collapsable
                     maxHeight={ '100%' }
                     isCollapsed={ metadataOpen }
@@ -321,10 +321,13 @@ class SummaryViewLayout extends Component {
                         <i>{abbrevString( subtitle, 60 )}</i>
                       </Title>
                     }
-                    <div style={ { maxHeight: '15rem', overflow: 'auto' } }>
+                    <div style={ { maxHeight: '15rem', overflow: 'auto', marginBottom: '1rem' } }>
                       {
                           authors.map( ( author, index ) => (
-                            <Level key={ index }>
+                            <Level
+                              style={ { marginBottom: '.5rem' } }
+                              key={ index }
+                            >
                               <LevelLeft>
                                 <LevelItem>
                                   <FontAwesomeIcon icon={ faUser } />
@@ -337,19 +340,18 @@ class SummaryViewLayout extends Component {
                           ) )
                         }
                     </div>
-                    {abstract && abstract.trim().length > 0 ? <Level /> : null}
                     <Content>
                       <i>{abbrevString( abstract, ABSTRACT_MAX_LENGTH )}</i>
                     </Content>
                   </Collapsable>
                 </Level>
 
-                <Level />
+                <Level style={ { marginBottom: metadataOpen ? 0 : '1rem' } } />
 
                 <Level isFullWidth>
                   <Button
                     isFullWidth
-                    isColor={ metadataOpen ? 'primary' : 'info' }
+                    isColor={ metadataOpen ? 'primary' : 'primary' }
                     disabled={ metadataLockStatus === 'locked' }
                     onClick={ handleMetadataEditionToggleWithSave }
                   >
@@ -395,8 +397,7 @@ class SummaryViewLayout extends Component {
                   }
                 </Collapsable>
                 <Level />
-                <Level />
-                <Level />
+
                 {
                   activeAuthors.length > 1 &&
                     <Title isSize={ 4 }>
@@ -467,7 +468,7 @@ class SummaryViewLayout extends Component {
                 >
                   <Column>
                     <Column>
-                      <Title isSize={ 2 }>
+                      <Title isSize={ 3 }>
                         {translate( 'Summary' )}
                       </Title>
                     </Column>
