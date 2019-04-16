@@ -155,7 +155,7 @@ const StoryCard = ( {
           },
           {
             label: <span><InlineIcon><FontAwesomeIcon icon={ faTrash } /></InlineIcon>{translate( 'delete' )}</span>,
-            isColor: 'danger',
+            isColor: 'warning',
             id: 'delete',
             isDisabled: users.length > 0
           },

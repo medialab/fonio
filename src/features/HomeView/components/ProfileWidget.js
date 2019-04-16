@@ -41,7 +41,7 @@ const ProfileWidget = ( {
           >
             {userInfo.name}
           </StretchedLayoutItem>
-          <StretchedLayoutItem style={ { display: 'flex', alignItems: 'center', paddingRight: '1rem' } }>
+          <StretchedLayoutItem style={ { display: 'flex', alignItems: 'center', paddingRight: '0.1rem' } }>
             <Button onClick={ onEdit }>
               {translate( 'edit' )}
             </Button>
