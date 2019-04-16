@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-4-16\n"
-"PO-Revision-Date: Tue Apr 16 2019 17:16:25 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Tue Apr 16 2019 18:33:11 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2087,6 +2087,9 @@ msgstr "cover image choice explanation"
 msgid "Features.DesignView.No cover image"
 msgstr "No cover image"
 
+msgid "Features.HomeView.back to the classroom"
+msgstr "back to the classroom"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer la ressource « {s} » ?"
 
@@ -2128,6 +2131,3 @@ msgstr "\"{f}\" est trop gros"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\" rel=\"noopener\" >cette page</a> et de suivre la procédure proposée. Merci !"
-
-msgid "Features.HomeView.back to the classroom"
-msgstr "back to the classroom"
