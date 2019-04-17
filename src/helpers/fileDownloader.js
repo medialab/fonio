@@ -11,12 +11,12 @@ import FileSaver from 'file-saver';
  */
 export default function downloadFile( text, extension = 'txt', fileName = 'fonio' ) {
   let type;
-  switch(extension) {
+  switch ( extension ) {
     case 'zip':
       type = 'octet/stream';
       break;
     case 'html':
-      type = 'text/html;charset=utf-8'
+      type = 'text/html;charset=utf-8';
       break;
     default:
       type = 'text/plain;charset=utf-8';

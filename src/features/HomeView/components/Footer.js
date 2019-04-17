@@ -63,12 +63,12 @@ const FooterComponent = ( {
           >
             <p
               dangerouslySetInnerHTML={ {
-                        __html: translate( 'Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.' )
+                        __html: translate( 'Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.' )
                       } }
             />
             <p
               dangerouslySetInnerHTML={ {
-                        __html: translate( 'Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.' )
+                        __html: translate( 'Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.' )
                       } }
             />
 

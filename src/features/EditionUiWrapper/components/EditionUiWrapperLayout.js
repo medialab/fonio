@@ -182,7 +182,7 @@ const EditionUiWrapperLayout = ( {
         .catch( onRejection );
         break;
       case 'html-multi':
-        get( `${config.restUrl}/stories/${storyId}?edit=false&&format=html&&locale=${lang}&&mode=multi`, {responseType: 'arraybuffer'} )
+        get( `${config.restUrl}/stories/${storyId}?edit=false&&format=html&&locale=${lang}&&mode=multi`, { responseType: 'arraybuffer' } )
         .then( ( { data } ) => {
           if ( data ) {
             downloadFile( data, 'zip', title );

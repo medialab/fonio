@@ -434,7 +434,7 @@ class SummaryViewLayout extends Component {
                         isDirection={ 'vertical' }
                       >
                         <StretchedLayoutItem>
-                          <Title isSize={ 2 }>
+                          <Title isSize={ 3 }>
                             <StretchedLayoutContainer
                               style={ { paddingTop: '1rem' } }
                               isDirection={ 'horizontal' }
