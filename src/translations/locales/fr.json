@@ -121,7 +121,7 @@
   "Components.MetadataForm.title": "titre",
   "Components.NewSectionForm.Authors": "Auteur·e·s",
   "Components.NewSectionForm.Cancel": "Annuler",
-  "Components.NewSectionForm.Create and start editing": "Créer et commencer l'édition",
+  "Components.NewSectionForm.Create and start editing": "Créer et commencer à écrire",
   "Components.NewSectionForm.Explanation about the section title": "C'est le titre qui sera affiché pour cette section",
   "Components.NewSectionForm.Section authors": "Auteur·e·s de la section",
   "Components.NewSectionForm.Section title": "Titre de la section",
@@ -467,7 +467,7 @@
   "Features.SectionView.New section": "Nouvelle section",
   "Features.SectionView.Open item citation widget": "Ouvrir le widget de citation rapide",
   "Features.SectionView.Options": "Options",
-  "Features.SectionView.Save changes": "Sauvegarde",
+  "Features.SectionView.Save changes": "Sauvegarder",
   "Features.SectionView.Saving...": "Sauvegarde...",
   "Features.SectionView.Section content": "Contenus de la section",
   "Features.SectionView.Shortcut": "Raccourci",
@@ -692,6 +692,10 @@
   "Features.DesignView.cover image choice explanation": "Choisir une image issue de votre bibliothèque à afficher comme couverture",
   "Features.DesignView.No cover image": "Pas d'image de couverture",
   "Features.HomeView.back to the classroom": "retour à la salle de classe",
+
+  "Features.DesignView.garlic template description": "une organisation en une page permettant de jouer avec des interactions basées sur le défilement",
+  "Features.DesignView.pepper template description": "une organisation en plusieurs pages permettant de jouer avec l'hypertexte",
+
   "Components.ExportModal.Export your story to publish it": "Exporter le récit pour le publier",
   "Components.ExportModal.multiple-html-help": "télécharger le récit sous la forme d'un site web statique",
   "Components.ExportModal.Export your story to archive it": "Exporter le récit pour l'archiver",
@@ -699,5 +703,6 @@
   "Components.ExportModal.Export your story to backup it": "Exporter le récit pour le sauvegarder",
   "Components.ExportModal.json-help": "télécharger le récit sous la forme d'un fichier de travail pour pouvoir le ré-importer dans une salle de classe fonio plus tard",
   "Features.DesignView.reset styles": "reset styles",
-  "Features.DesignView.reset styles to template defaults": "rétablir les styles par défaut"
+  "Features.DesignView.reset styles to template defaults": "rétablir les styles par défaut",
+  "Components.StoryCard.Last update {t}": "Last update {t}"
 }

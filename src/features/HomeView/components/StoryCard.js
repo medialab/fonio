@@ -130,6 +130,12 @@ const StoryCard = ( {
               {abbrevString( story.metadata.abstract, ABSTRACT_MAX_LENGTH )}
             </Content>
           }
+            {
+            story.lastUpdateAt &&
+            <Content>
+              <i>{translate( 'Last update {t}', { t: new Date( story.lastUpdateAt ).toLocaleString() } )}</i>
+            </Content>
+          }
           </div>
       }
         statusMessage={ story.edited ? `Edited by ${story.metadata.subtitle}` : undefined }

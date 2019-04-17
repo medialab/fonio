@@ -22,7 +22,10 @@ const ProfileWidget = ( {
 } ) => {
   return (
     <div>
-      <Title isSize={ 5 }>
+      <Title
+        isSize={ 5 }
+        style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' } }
+      >
         {translate( 'Your profile' )}
         <HelpPin>{translate( 'choose how you will be identified by other writers' )}</HelpPin>
       </Title>

@@ -17,6 +17,7 @@ import {
   BigSelect,
   Button,
   Column,
+  CodeEditor,
   Columns,
   Control,
   Delete,
@@ -267,6 +268,9 @@ class DataForm extends Component {
         </Field>
       );
     case 'embed':
+      const handleChange = ( html ) => {
+        formApi.setValue( 'data', { html } );
+      };
       return (
         <Field>
           <Control>
@@ -276,12 +280,10 @@ class DataForm extends Component {
                 {translate( 'Explanation about the embed' )}
               </HelpPin>
             </Label>
-            <TextArea
-              className={ 'textarea' }
-              field={ 'html' }
-              id={ 'html' }
-              type={ 'text' }
-              placeholder={ translate( 'Embed code' ) }
+
+            <CodeEditor
+              value={ formApi.getValue( 'data.html' ) }
+              onChange={ handleChange }
             />
           </Control>
           {

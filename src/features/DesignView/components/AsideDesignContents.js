@@ -18,7 +18,6 @@ import {
   Image,
   Label,
   Level,
-  Select,
   Title,
 } from 'quinoa-design-library/components/';
 import { getStyles } from 'quinoa-schemas';
@@ -48,6 +47,13 @@ const AsideDesignContents = ( {
   getTooltipContainer,
   onTemplateChange,
   onSetCoverImage,
+
+  templateChoiceVisible,
+  referenceStatusChoiceVisible,
+  notesPositionChoiceVisible,
+  setTemplateChoiceVisible,
+  setReferenceStatusChoiceVisible,
+  setNotesPositionChoiceVisible,
   templates,
 }, { t, getResourceDataUrl } ) => {
 
@@ -64,16 +70,16 @@ const AsideDesignContents = ( {
   /**
    * Callbacks handlers
    */
-  const handleTemplateChange = ( e ) => {
-    onTemplateChange( e.target.value );
+  const handleTemplateChange = ( id ) => {
+    onTemplateChange( id );
   };
-  const handleNotesPositionChange = ( e ) => onUpdateTemplatesVariables(
+  const handleNotesPositionChange = ( val ) => onUpdateTemplatesVariables(
     [ 'options', 'notesPosition' ],
-    e.target.value
+    val
   );
-  const handleReferenceStatusChange = ( e ) => onUpdateTemplatesVariables(
+  const handleReferenceStatusChange = ( val ) => onUpdateTemplatesVariables(
     [ 'options', 'referenceStatus' ],
-    e.target.value
+    val
   );
   const onUpdateStylesVariables = ( style ) => onUpdateTemplatesVariables(
     [ 'stylesVariables' ],
@@ -112,32 +118,37 @@ const AsideDesignContents = ( {
           <Column>
             {
               templates.length > 1 &&
-              <Level>
+              <div>
                 <form>
                   <Field>
                     <Label>{translate( 'Story template' )}<HelpPin>{translate( 'template choice explanation' )}</HelpPin></Label>
                     <Control>
-                      <Select
+                      <Dropdown
+                        onToggle={ () => setTemplateChoiceVisible( !templateChoiceVisible ) }
+                        isActive={ templateChoiceVisible }
+                        closeOnChange
                         onChange={ handleTemplateChange }
                         value={ template.id }
+                        options={ templates.map( ( temp ) => ( {
+                                id: temp.id,
+                                label: (
+                                  <span style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' } }>
+                                    <span>
+                                      {temp.id}
+                                    </span>
+                                    <HelpPin>{translate( `${temp.id } template description` )}</HelpPin>
+                                  </span>
+                                )
+                              } ) ) }
                       >
-                        {
-                          templates.map( ( temp ) => (
-                            <option
-                              key={ temp.id }
-                              value={ temp.id }
-                            >
-                              {temp.name}
-                            </option>
-                          ) )
-                        }
-                      </Select>
+                        {template.id}
+                      </Dropdown>
                     </Control>
                   </Field>
                 </form>
-              </Level>
+              </div>
             }
-            <Level>
+            <div>
               <form>
                 <Field>
                   <Label>{translate( 'Cover image' )}<HelpPin>{translate( 'cover image choice explanation' )}</HelpPin></Label>
@@ -201,30 +212,43 @@ const AsideDesignContents = ( {
                   </Control>
                 </Field>
               </form>
-            </Level>
+            </div>
 
             {
               acceptsOptions.includes( 'notesPosition' ) &&
-              <Level>
+              <div>
                 <form>
                   <Field>
                     <Label>{translate( 'Notes position' )}</Label>
                     <Control>
-                      <Select
+                      <Dropdown
+                        onToggle={ () => setNotesPositionChoiceVisible( !notesPositionChoiceVisible ) }
+                        isActive={ notesPositionChoiceVisible }
+                        closeOnChange
                         onChange={ handleNotesPositionChange }
                         value={ options.notesPosition }
+                        options={ [
+                          {
+                            id: 'aside',
+                            label: translate( 'side notes' )
+                          },
+                          {
+                            id: 'foot',
+                            label: translate( 'foot notes' )
+                          }
+
+                        ] }
                       >
-                        <option value={ 'aside' } >{translate( 'side notes' )}</option>
-                        <option value={ 'foot' }>{translate( 'foot notes' )}</option>
-                      </Select>
+                        {options.notesPosition === 'aside' ? translate( 'side notes' ) : translate( 'foot notes' )}
+                      </Dropdown>
                     </Control>
                   </Field>
                 </form>
-              </Level>
+              </div>
             }
             {
               acceptsOptions.includes( 'referenceTypes' ) &&
-              <Level>
+              <div>
                 <form>
                   <Field>
                     <Label>{translate( 'What types of items to show in references' )}</Label>
@@ -256,26 +280,39 @@ const AsideDesignContents = ( {
                     </Control>
                   </Field>
                 </form>
-              </Level>
+              </div>
             }
             {
               acceptsOptions.includes( 'referenceStatus' ) &&
-              <Level>
+              <div>
                 <form>
                   <Field>
                     <Label>{translate( 'What items to show in references' )}</Label>
                     <Control>
-                      <Select
+                      <Dropdown
+                        onToggle={ () => setReferenceStatusChoiceVisible( !referenceStatusChoiceVisible ) }
+                        isActive={ referenceStatusChoiceVisible }
+                        closeOnChange
                         onChange={ handleReferenceStatusChange }
                         value={ options.referenceStatus }
+                        options={ [
+                          {
+                            id: 'cited',
+                            label: translate( 'cited items only' )
+                          },
+                          {
+                            id: 'foot',
+                            label: translate( 'all items' )
+                          }
+
+                        ] }
                       >
-                        <option value={ 'cited' }>{translate( 'cited items only' )}</option>
-                        <option value={ 'all' }>{translate( 'all items' )}</option>
-                      </Select>
+                        {options.referenceStatus === 'cited' ? translate( 'cited items only' ) : translate( 'all items' )}
+                      </Dropdown>
                     </Control>
                   </Field>
                 </form>
-              </Level>
+              </div>
             }
           </Column>
         );

@@ -689,6 +689,8 @@
   "Components.AuthorsManager.Explanation about the story authors": "Les auteur·e·s seront affiché·e·s sur la page web de ce récit",
   "Features.DesignView.template choice explanation": "choose a way to present and organize the story's website",
   "Features.DesignView.Cover image": "Cover image",
+  "Features.DesignView.garlic template description": "a single-page layout allowing to play with scroll-based interactions",
+  "Features.DesignView.pepper template description": "a multi-page layout allowing to play with hypertext",
   "Features.DesignView.cover image choice explanation": "choose an image coming from the story's library to display as cover",
   "Features.DesignView.No cover image": "No cover image",
   "Features.HomeView.back to the classroom": "back to the classroom",
@@ -699,5 +701,6 @@
   "Components.ExportModal.Export your story to backup it": "Export your story to backup it",
   "Components.ExportModal.json-help": "download the story as a workfile to be able to re-import it in a fonio classroom later",
   "Features.DesignView.reset styles": "reset styles",
-  "Features.DesignView.reset styles to template defaults": "reset styles to template defaults"
+  "Features.DesignView.reset styles to template defaults": "reset styles to template defaults",
+  "Components.StoryCard.Last update {t}": "Last update {t}"
 }

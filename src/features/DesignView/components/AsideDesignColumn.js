@@ -60,6 +60,13 @@ const AsideDesignColumn = ( {
 
   onTemplateChange,
 
+  templateChoiceVisible,
+  notesPositionChoiceVisible,
+  referenceStatusChoiceVisible,
+  setTemplateChoiceVisible,
+  setNotesPositionChoiceVisible,
+  setReferenceStatusChoiceVisible,
+
 }, { t } ) => {
 
   /**
@@ -169,6 +176,12 @@ const AsideDesignColumn = ( {
                 setReferenceTypesVisible,
                 coverImageChoiceVisible,
                 setCoverImageChoiceVisible,
+                templateChoiceVisible,
+                notesPositionChoiceVisible,
+                referenceStatusChoiceVisible,
+                setTemplateChoiceVisible,
+                setNotesPositionChoiceVisible,
+                setReferenceStatusChoiceVisible,
                 onSetCoverImage,
                 template,
                 story,

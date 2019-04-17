@@ -35,6 +35,9 @@ const DesignViewLayout = ( {
   referenceTypesVisible,
   cssHelpVisible,
   coverImageChoiceVisible,
+  templateChoiceVisible,
+  notesPositionChoiceVisible,
+  referenceStatusChoiceVisible,
   lang,
   actions: {
     setDesignAsideTabMode,
@@ -42,6 +45,9 @@ const DesignViewLayout = ( {
     setReferenceTypesVisible,
     setCssHelpVisible,
     setCoverImageChoiceVisible,
+    setTemplateChoiceVisible,
+    setNotesPositionChoiceVisible,
+    setReferenceStatusChoiceVisible,
   },
   onUpdateCss,
   onUpdateSettings,
@@ -90,6 +96,12 @@ const DesignViewLayout = ( {
               onUpdateTemplatesVariables,
               onTemplateChange,
               setCoverImageChoiceVisible,
+              templateChoiceVisible,
+              referenceStatusChoiceVisible,
+              notesPositionChoiceVisible,
+              setTemplateChoiceVisible,
+              setNotesPositionChoiceVisible,
+              setReferenceStatusChoiceVisible,
           }
         }
       />

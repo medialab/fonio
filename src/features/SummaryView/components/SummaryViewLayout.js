@@ -348,7 +348,10 @@ class SummaryViewLayout extends Component {
 
                 <Level style={ { marginBottom: metadataOpen ? 0 : '1rem' } } />
 
-                <Level isFullWidth>
+                <Level
+                  style={ { marginBottom: metadataOpen ? '.6rem' : undefined } }
+                  isFullWidth
+                >
                   <Button
                     isFullWidth
                     isColor={ metadataOpen ? 'primary' : 'primary' }
@@ -466,7 +469,7 @@ class SummaryViewLayout extends Component {
                   isFlex={ 2 }
                   isFlowing
                 >
-                  <Column>
+                  <Column style={ { paddingRight: '0.2rem' } }>
                     <Column>
                       <Title isSize={ 3 }>
                         {translate( 'Summary' )}

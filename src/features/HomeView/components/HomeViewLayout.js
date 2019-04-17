@@ -475,7 +475,7 @@ class HomeViewLayout extends Component {
                       </Field>
                     </StretchedLayoutItem>
                     <StretchedLayoutItem isFluid>
-                      <Column>
+                      <Column style={ { paddingRight: 0 } }>
                         {
                           storiesList.length > 1 ?
                             <StretchedLayoutContainer
