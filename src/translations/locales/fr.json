@@ -691,5 +691,11 @@
   "Features.DesignView.Cover image": "Image de couverture",
   "Features.DesignView.cover image choice explanation": "Choisir une image issue de votre bibliothèque à afficher comme couverture",
   "Features.DesignView.No cover image": "Pas d'image de couverture",
-  "Features.HomeView.back to the classroom": "retour à la salle de classe"
+  "Features.HomeView.back to the classroom": "retour à la salle de classe",
+  "Components.ExportModal.Export your story to publish it": "Exporter le récit pour le publier",
+  "Components.ExportModal.multiple-html-help": "télécharger le récit sous la forme d'un site web statique",
+  "Components.ExportModal.Export your story to archive it": "Exporter le récit pour l'archiver",
+  "Components.ExportModal.single-html-help": "télécharger le récit sous la forme d'un seul fichier HTML tont-en-un",
+  "Components.ExportModal.Export your story to backup it": "Exporter le récit pour le sauvegarder",
+  "Components.ExportModal.json-help": "télécharger le récit sous la forme d'un fichier de travail pour pouvoir le ré-importer dans une salle de classe fonio plus tard"
 }

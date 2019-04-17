@@ -10,6 +10,18 @@ import FileSaver from 'file-saver';
  * @param {string} fileName - the name to attribute to the downloaded file
  */
 export default function downloadFile( text, extension = 'txt', fileName = 'fonio' ) {
-  const blob = new Blob( [ text ], { type: 'text/plain;charset=utf-8' } );
+  let type;
+  switch(extension) {
+    case 'zip':
+      type = 'octet/stream';
+      break;
+    case 'html':
+      type = 'text/html;charset=utf-8'
+      break;
+    default:
+      type = 'text/plain;charset=utf-8';
+      break;
+  }
+  const blob = new Blob( [ text ], { type } );
   FileSaver.saveAs( blob, `${fileName }.${ extension}` );
 }

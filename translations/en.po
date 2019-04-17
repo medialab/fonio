@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-4-17\n"
-"PO-Revision-Date: Wed Apr 17 2019 08:45:47 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Apr 17 2019 11:43:53 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2089,6 +2089,24 @@ msgstr "No cover image"
 
 msgid "Features.HomeView.back to the classroom"
 msgstr "back to the classroom"
+
+msgid "Components.ExportModal.Export your story to publish it"
+msgstr "Export your story to publish it"
+
+msgid "Components.ExportModal.multiple-html-help"
+msgstr "multiple-html-help"
+
+msgid "Components.ExportModal.Export your story to archive it"
+msgstr "Export your story to archive it"
+
+msgid "Components.ExportModal.single-html-help"
+msgstr "single-html-help"
+
+msgid "Components.ExportModal.Export your story to backup it"
+msgstr "Export your story to backup it"
+
+msgid "Components.ExportModal.json-help"
+msgstr "json-help"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"

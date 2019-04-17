@@ -691,5 +691,11 @@
   "Features.DesignView.Cover image": "Cover image",
   "Features.DesignView.cover image choice explanation": "choose an image coming from the story's library to display as cover",
   "Features.DesignView.No cover image": "No cover image",
-  "Features.HomeView.back to the classroom": "back to the classroom"
+  "Features.HomeView.back to the classroom": "back to the classroom",
+  "Components.ExportModal.Export your story to publish it": "Export your story to publish it",
+  "Components.ExportModal.multiple-html-help": "download the story as a static website",
+  "Components.ExportModal.Export your story to archive it": "Export your story to archive it",
+  "Components.ExportModal.single-html-help": "download the story as a single all-in-one HTML file",
+  "Components.ExportModal.Export your story to backup it": "Export your story to backup it",
+  "Components.ExportModal.json-help": "download the story as a workfile to be able to re-import it in a fonio classroom later"
 }
