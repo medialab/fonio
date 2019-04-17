@@ -697,5 +697,7 @@
   "Components.ExportModal.Export your story to archive it": "Export your story to archive it",
   "Components.ExportModal.single-html-help": "download the story as a single all-in-one HTML file",
   "Components.ExportModal.Export your story to backup it": "Export your story to backup it",
-  "Components.ExportModal.json-help": "download the story as a workfile to be able to re-import it in a fonio classroom later"
+  "Components.ExportModal.json-help": "download the story as a workfile to be able to re-import it in a fonio classroom later",
+  "Features.DesignView.reset styles": "reset styles",
+  "Features.DesignView.reset styles to template defaults": "reset styles to template defaults"
 }

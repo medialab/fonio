@@ -27,17 +27,11 @@ const SizeClass = ( props, { t } ) => {
   const translate = translateNameSpacer( t, 'Features.DesignView.StylesVariables' );
   const options = map( ( d ) => ( { id: d, label: translate( d ) } ), props.options.enum );
   const [ showDropdown, setShowDropdown ] = useState( false );
-  const [ value, setValue ] = useState(
-    () => options.find( ( option ) => option.id === props.value )
-  );
+  const value = options.find( ( option ) => option.id === props.value );
   const onToggle = () => setShowDropdown( !showDropdown );
   const onDropdownChange = ( val ) => {
     props.onChange( val );
-    setValue(
-      options.find( ( option ) => option.id === val )
-    );
   };
-
   return (
     <Dropdown
       isFullWidth

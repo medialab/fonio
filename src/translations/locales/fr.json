@@ -697,5 +697,7 @@
   "Components.ExportModal.Export your story to archive it": "Exporter le récit pour l'archiver",
   "Components.ExportModal.single-html-help": "télécharger le récit sous la forme d'un seul fichier HTML tont-en-un",
   "Components.ExportModal.Export your story to backup it": "Exporter le récit pour le sauvegarder",
-  "Components.ExportModal.json-help": "télécharger le récit sous la forme d'un fichier de travail pour pouvoir le ré-importer dans une salle de classe fonio plus tard"
+  "Components.ExportModal.json-help": "télécharger le récit sous la forme d'un fichier de travail pour pouvoir le ré-importer dans une salle de classe fonio plus tard",
+  "Features.DesignView.reset styles": "reset styles",
+  "Features.DesignView.reset styles to template defaults": "rétablir les styles par défaut"
 }

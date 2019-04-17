@@ -282,6 +282,10 @@ const AsideDesignContents = ( {
       case 'styles':
       default:
         const variables = Object.keys( styles.stylesVariables ).length ? styles.stylesVariables : defaults( stylesVariables );
+        const handleResetStyles = () => {
+          const defaultStyles = defaults( stylesVariables );
+          onUpdateStylesVariables( defaultStyles );
+        };
         return (
           <Column>
             {stylesVariables && story.settings.styles &&
@@ -292,6 +296,13 @@ const AsideDesignContents = ( {
                 styles={ variables }
               />
             }
+            <Level>
+              <Button
+                onClick={ handleResetStyles }
+                isFullWidth
+              >{translate( 'reset styles to template defaults' )}
+              </Button>
+            </Level>
             <Title isSize={ 3 }>
               {translate( 'Edit style with css' )}
             </Title>
