@@ -70,7 +70,8 @@ const Wysiwyg = ( {
   const onColorChange = ( value ) =>
     onChange( {
       ...styles,
-      color: value
+      // act as toggle
+      color: value === styles.color ? undefined : value
     } );
   const onOpacityChange = debounce( 200, ( value ) =>
     onChange( {
