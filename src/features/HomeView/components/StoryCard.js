@@ -118,21 +118,23 @@ const StoryCard = ( {
         subtitle={ abbrevString( story.metadata.subtitle, MAX_STR_LEN ) }
         bodyContent={
           <div>
-            {
-            story.metadata.authors && story.metadata.authors.length > 0 &&
-            <Content>
-              <i>{abbrevString( story.metadata.authors.join( ', ' ), MAX_STR_LEN )}</i>
-            </Content>
-          }
-            {
-            story.metadata.abstract && story.metadata.abstract.length > 0 &&
-            <Content>
-              {abbrevString( story.metadata.abstract, ABSTRACT_MAX_LENGTH )}
-            </Content>
-          }
+            <div style={ { paddingBottom: '3rem' } }>
+              {
+                story.metadata.authors && story.metadata.authors.length > 0 &&
+                <Content>
+                  <i>{abbrevString( story.metadata.authors.join( ', ' ), MAX_STR_LEN )}</i>
+                </Content>
+              }
+              {
+                story.metadata.abstract && story.metadata.abstract.length > 0 &&
+                <Content>
+                  {abbrevString( story.metadata.abstract, ABSTRACT_MAX_LENGTH )}
+                </Content>
+              }
+            </div>
             {
             story.lastUpdateAt &&
-            <Content>
+            <Content style={ { alignSelf: 'flex-end', position: 'absolute', bottom: '2.5rem', left: '1.5rem' } }>
               <i>{translate( 'Last update {t}', { t: new Date( story.lastUpdateAt ).toLocaleString() } )}</i>
             </Content>
           }

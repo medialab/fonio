@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2019-4-17\n"
-"PO-Revision-Date: Wed Apr 17 2019 18:28:23 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2019-4-18\n"
+"PO-Revision-Date: Thu Apr 18 2019 09:57:30 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2117,6 +2117,12 @@ msgstr "reset styles to template defaults"
 msgid "Components.StoryCard.Last update {t}"
 msgstr "Last update {t}"
 
+msgid "Features.DesignView.garlic template description"
+msgstr "une organisation en une page permettant de jouer avec des interactions basées sur le défilement"
+
+msgid "Features.DesignView.pepper template description"
+msgstr "une organisation en plusieurs pages permettant de jouer avec l'hypertexte"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer la ressource « {s} » ?"
 
@@ -2159,8 +2165,5 @@ msgstr "\"{f}\" est trop gros"
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\" rel=\"noopener\" >cette page</a> et de suivre la procédure proposée. Merci !"
 
-msgid "Features.DesignView.garlic template description"
-msgstr "une organisation en une page permettant de jouer avec des interactions basées sur le défilement"
-
-msgid "Features.DesignView.pepper template description"
-msgstr "une organisation en plusieurs pages permettant de jouer avec l'hypertexte"
+msgid "Features.DesignView.2rem"
+msgstr "2rem"

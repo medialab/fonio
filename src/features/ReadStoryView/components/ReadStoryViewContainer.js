@@ -132,8 +132,13 @@ class ReadStoryViewContainer extends Component {
             storyId={ story.id }
             serverUrl={ config.apiUrl }
           >
+          
             <StoryPlayer story={ story } />
             <HomeBtn />
+            
+          <link href="https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i|Roboto:400,400i,500,500i,700,700i" rel="stylesheet" />
+
+
           </DataUrlProvider>
           );
       case 'error':

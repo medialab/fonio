@@ -21,7 +21,10 @@ const ProfileWidget = ( {
   userInfo,
 } ) => {
   return (
-    <div>
+    <div
+      onClick={onEdit}
+      style={{cursor: 'pointer'}}
+    >
       <Title
         isSize={ 5 }
         style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' } }
@@ -35,6 +38,7 @@ const ProfileWidget = ( {
             <Image
               isRounded
               isSize={ '64x64' }
+              
               src={ require( `../../../sharedAssets/avatars/${userInfo.avatar}` ) }
             />
           </StretchedLayoutItem>

@@ -851,7 +851,7 @@ class LibraryViewLayout extends Component {
           </StretchedLayoutItem>
           <StretchedLayoutItem isFlex={ '3' }>
             <Column
-              style={ { paddingTop: '1.8rem' } }
+              style={ { paddingTop: '1.1rem', paddingRight: 0 } }
               isWrapper
             >
               {this.renderMainColumn()}

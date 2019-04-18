@@ -118,7 +118,7 @@ const AsideDesignContents = ( {
           <Column>
             {
               templates.length > 1 &&
-              <div>
+              <div style={{marginBottom: '2rem'}}>
                 <form>
                   <Field>
                     <Label>{translate( 'Story template' )}<HelpPin>{translate( 'template choice explanation' )}</HelpPin></Label>
@@ -148,7 +148,7 @@ const AsideDesignContents = ( {
                 </form>
               </div>
             }
-            <div>
+            <div style={{marginBottom: '2rem'}}>
               <form>
                 <Field>
                   <Label>{translate( 'Cover image' )}<HelpPin>{translate( 'cover image choice explanation' )}</HelpPin></Label>
@@ -216,7 +216,7 @@ const AsideDesignContents = ( {
 
             {
               acceptsOptions.includes( 'notesPosition' ) &&
-              <div>
+              <div style={{marginBottom: '2rem'}}>
                 <form>
                   <Field>
                     <Label>{translate( 'Notes position' )}</Label>
@@ -248,7 +248,7 @@ const AsideDesignContents = ( {
             }
             {
               acceptsOptions.includes( 'referenceTypes' ) &&
-              <div>
+              <div style={{marginBottom: '2rem'}}>
                 <form>
                   <Field>
                     <Label>{translate( 'What types of items to show in references' )}</Label>
@@ -284,7 +284,7 @@ const AsideDesignContents = ( {
             }
             {
               acceptsOptions.includes( 'referenceStatus' ) &&
-              <div>
+              <div style={{marginBottom: '2rem'}}>
                 <form>
                   <Field>
                     <Label>{translate( 'What items to show in references' )}</Label>

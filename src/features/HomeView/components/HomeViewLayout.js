@@ -423,7 +423,7 @@ class HomeViewLayout extends Component {
                 <Button
                   isFullWidth
                   onClick={ handleToggleNewStoryOpened }
-                  isColor={ newStoryOpen ? 'info' : 'primary' }
+                  isColor={ newStoryOpen ? 'primary' : 'primary' }
                 >
                   {this.translate( 'New story' )}
                 </Button>
