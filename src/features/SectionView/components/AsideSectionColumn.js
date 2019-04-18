@@ -256,7 +256,7 @@ class AsideSectionColumn extends Component {
             </Column>
           </StretchedLayoutItem>
           <StretchedLayoutItem isFlex={ 1 }>
-            <Column style={{paddingLeft: 0}}>
+            <Column style={ { paddingLeft: 0 } }>
               <AsideSectionContents
                 {
                   ...{

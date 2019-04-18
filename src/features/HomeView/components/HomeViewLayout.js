@@ -117,14 +117,18 @@ class HomeViewLayout extends Component {
       <Container>
         <Columns style={ { paddingTop: '1rem' } }>
           <Column
-            style={ { marginLeft: '1rem' , paddingRight: 0} }
+            style={ { marginLeft: '1rem', paddingRight: 0 } }
             isSize={ '1/3' }
-            className="about-aside"
+            className={ 'about-aside' }
           >
             <Title isSize={ 3 }>{this.translate( 'About fonio' )}</Title>
             <Button onClick={ handleCloseAbout }>{'◀ '}{this.translate( 'back to the classroom' )}</Button>
           </Column>
-          <Column isSize={ '2/3' } style={{paddingLeft: 0}} className="about-content">
+          <Column
+            isSize={ '2/3' }
+            style={ { paddingLeft: 0 } }
+            className={ 'about-content' }
+          >
             <Content style={ { paddingTop: '.5rem' } }>
               <p>
                 {this.translate( 'about fonio details' )}
