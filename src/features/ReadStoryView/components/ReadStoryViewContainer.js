@@ -20,6 +20,7 @@ import StoryPlayer from 'quinoa-story-player';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome';
+import Frame, { FrameContextConsumer } from 'react-frame-component';
 
 /**
  * Imports Project utils
@@ -133,23 +134,37 @@ class ReadStoryViewContainer extends Component {
     switch ( status ) {
       case 'loaded':
         return (
-          <DataUrlProvider
-            storyId={ story.id }
-            serverUrl={ config.apiUrl }
-          >
+          <div>
+            <Frame
+              head={
+                <style>
+                  {'@import url(\'https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i|Roboto:400,400i,700,700i,900\')'}
+                </style>
+            }
+              name={ 'read' }
+              id={ 'read' }
+              style={ { width: '100%', height: '100%', position: 'absolute', left: 0, top: 0 } }
+            >
+              <FrameContextConsumer>
+                {( { document, window } ) => (
+                  <DataUrlProvider
+                    storyId={ story.id }
+                    serverUrl={ config.apiUrl }
+                  >
+                    <StoryPlayer
+                      locale={ lang }
+                      story={ story }
+                      usedDocument={ document }
+                      usedWindow={ window }
+                    />
+                  </DataUrlProvider>
+          )}
+              </FrameContextConsumer>
+            </Frame>
 
-            <StoryPlayer
-              story={ story }
-              locale={ lang }
-            />
             <HomeBtn />
+          </div>
 
-            <link
-              href={ 'https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i|Roboto:400,400i,500,500i,700,700i' }
-              rel={ 'stylesheet' }
-            />
-
-          </DataUrlProvider>
           );
       case 'error':
         return <Centered>{translate( 'Story not found' )}</Centered>;
