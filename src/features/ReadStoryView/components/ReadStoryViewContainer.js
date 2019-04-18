@@ -124,6 +124,11 @@ class ReadStoryViewContainer extends Component {
       story
     } = this.state;
 
+    const search = this.props.location.search;
+    const query = search && search.substr( 1 ).split( '&' ).map( ( item ) => item.split( '=' ) );
+    const langParam = query && query.find( ( tuple ) => tuple[0] === 'lang' );
+    const lang = langParam ? langParam[1] : 'en';
+
     const translate = translateNameSpacer( this.context.t, 'Features.ReadOnly' );
     switch ( status ) {
       case 'loaded':
@@ -133,7 +138,10 @@ class ReadStoryViewContainer extends Component {
             serverUrl={ config.apiUrl }
           >
 
-            <StoryPlayer story={ story } />
+            <StoryPlayer
+              story={ story }
+              locale={ lang }
+            />
             <HomeBtn />
 
             <link

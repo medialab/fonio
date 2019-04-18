@@ -87,13 +87,13 @@ class HomeViewLayout extends Component {
     this.translate = translateNameSpacer( context.t, 'Features.HomeView' );
   }
 
-  componentWillUpdate = ( nextProps, nextState, nextContext ) => {
+  componentWillUpdate = ( _nextProps, _nextState, nextContext ) => {
     if ( this.context.t !== nextContext.t ) {
        this.translate = translateNameSpacer( nextContext.t, 'Features.HomeView' );
     }
   }
 
-  renderLearnTab = ( mode, lang = 'en' ) => {
+  renderLearnTab = ( _mode, lang = 'en' ) => {
     return (
       <Container>
         <Column>
@@ -204,7 +204,7 @@ class HomeViewLayout extends Component {
         );
   }
 
-  renderStoriesTab = () => {
+  renderStoriesTab = ( __mode, lang ) => {
 
     /**
      * Variables definition
@@ -553,7 +553,7 @@ class HomeViewLayout extends Component {
                                 break;
                               case 'read':
                                 history.push( {
-                                  pathname: `/read/${story.id}`
+                                  pathname: `/read/${story.id}?lang=${lang}`
                                 } );
                                 break;
                               case 'duplicate':
