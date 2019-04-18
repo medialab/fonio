@@ -20,6 +20,7 @@ import StoryPlayer from 'quinoa-story-player';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome';
+import { faPrint } from '@fortawesome/free-solid-svg-icons/faPrint';
 import Frame, { FrameContextConsumer } from 'react-frame-component';
 
 /**
@@ -54,6 +55,21 @@ const HomeBtn = () => (
         <FontAwesomeIcon icon={ faHome } />
       </Icon>
     </Link>
+  </Button>
+);
+const PrintBtn = ({onClick}) => (
+  <Button
+    isRounded
+    style={ {
+      position: 'fixed',
+      bottom: '1rem',
+      right: '4rem'
+    } }
+    onClick={onClick}
+  >
+      <Icon>
+        <FontAwesomeIcon icon={ faPrint } />
+      </Icon>
   </Button>
 );
 
@@ -130,6 +146,11 @@ class ReadStoryViewContainer extends Component {
     const langParam = query && query.find( ( tuple ) => tuple[0] === 'lang' );
     const lang = langParam ? langParam[1] : 'en';
 
+    const handlePrint = () => {
+      window.frames.read.focus();
+    window.frames.read.print();
+    }
+
     const translate = translateNameSpacer( this.context.t, 'Features.ReadOnly' );
     switch ( status ) {
       case 'loaded':
@@ -163,6 +184,7 @@ class ReadStoryViewContainer extends Component {
             </Frame>
 
             <HomeBtn />
+            <PrintBtn onClick={handlePrint} />
           </div>
 
           );
