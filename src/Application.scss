@@ -235,35 +235,13 @@
   min-height: 10rem;
 }
 
-//  .button.is-primary,
-//  .card.is-active{
-//   background-color: #00a99d;
-//  } 
-//  .button.is-primary.is-hovered, .button.is-primary:hover{
-//   background-color: #158e85;
-//  }
+@media screen and (max-width: 768px) {
+  .about-content{
+    padding-left: 2rem!important;
+    padding-right: 2rem;
+  }
+  .about-aside{
 
-//  .button.is-success{
-//   background-color: #00a99d;
-//  }
-
-//  .button.is-success.is-hovered, .button.is-success:hover{
-//   background-color: #158e85;
-//  }
-
-//  .button.is-info{
-//    background-color: #6FC2E7;
-//  }
-
-//  .button.is-info.is-hovered, .button.is-info:hover{
-//    background-color: #589cba;
-//  }
-
-//  .navbar > .container{
-//   padding-right: 1rem;
-//  }
-
-//  .navbar.with-large-header > .container{
-//   //  padding-right: 0;
-//    margin-right: 0;
-//  }
+    padding-left: 1rem;
+  }
+}

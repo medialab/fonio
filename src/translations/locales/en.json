@@ -396,7 +396,7 @@
   "Features.HomeView.Story is not valid": "Story is not valid",
   "Features.HomeView.Who else is online ?": "Who else is online ?",
   "Features.HomeView.Your profile": "Your profile",
-  "Features.HomeView.about fonio details": "Fonio is a tool aimed at building rich html pages featuring text, bibliographic references, images, interactive items such as videos.",
+  "Features.HomeView.about fonio details": "Fonio is a collaborative writing software aimed at building rich digital scholarly dissertations using the architecture of websites to structure arguments and the possibility to harness the richness of your work by featuring bibliographic references, images, tables, videos, and interactive elements.",
   "Features.HomeView.choose how you will be identified by other writers": "choose how you will be identified by other writers",
   "Features.HomeView.edit": "edit",
   "Features.HomeView.edited by me": "last edition by me",
@@ -702,5 +702,10 @@
   "Components.ExportModal.json-help": "download the story as a workfile to be able to re-import it in a fonio classroom later",
   "Features.DesignView.reset styles": "reset styles",
   "Features.DesignView.reset styles to template defaults": "reset styles to template defaults",
-  "Components.StoryCard.Last update {t}": "Last update {t}"
+  "Components.StoryCard.Last update {t}": "Last update {t}",
+  "Features.DesignView.2rem": "2rem",
+  "Features.HomeView.about fonio documentation": "Fonio puts an emphasis on documentation, allowing you to describe all the resources gathered during your inquiry in a rich and homogeneous way (date, source, author, ...). It also allows you to build an augmented glossary in order to define key terms and browse them in an interactive way.",
+  "Features.HomeView.about fonio design": "Besides, the application is aimed at allowing to work extensively on the information design of your dissertation: choose a way to organize the reading experience of your readers, and customize the visual identity of your work in a meaningful way.",
+  "Features.HomeView.about fonio collaboration": "Fonio is collaborative and allows several writers to work simultaneously on contents, design and documentation. According to this collaborative state of mind, works in progress are readable by the whole classroom, but their edition is restricted to your team.",
+  "Features.HomeView.about fonio workflow": "This \"classroom\" corresponds to a specific course and exists during a limited period of time. All works will be saved and privately archived after the semester is finished, but the application also allows you to download your work at anytime to backup it or to publish it online in a clean and easy way."
 }

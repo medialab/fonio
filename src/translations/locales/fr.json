@@ -386,7 +386,7 @@
   "Features.HomeView.Story is not valid": "Le récit déposé n'est pas valide",
   "Features.HomeView.Who else is online ?": "Qui d'autre est en ligne ?",
   "Features.HomeView.Your profile": "Votre profil",
-  "Features.HomeView.about fonio details": "Fonio est un outil qui sert à fabriquer des pages html riches d'images, vidéos, et autres éléments interactifs permettant de construire un argument en s'aidant de documents.",
+  "Features.HomeView.about fonio details": "Fonio est un logiciel d'écriture collaborative conçu pour l'élaboration de dissertations étudiantes numériques. Il permet d'utiliser l'architecture des sites web pour structurer des arguments, et de tirer parti de la richesse de votre travail en présentant des références bibliographiques, des images, des tableaux, des vidéos, et des éléments interactifs.",
   "Features.HomeView.choose how you will be identified by other writers": "choisir comment vous serez identifié·e par les autres auteur·e·s",
   "Features.HomeView.edit": "éditer",
   "Features.HomeView.edited by me": "dernière édition par moi",
@@ -702,5 +702,10 @@
   "Components.ExportModal.json-help": "télécharger le récit sous la forme d'un fichier de travail pour pouvoir le ré-importer dans une salle de classe fonio plus tard",
   "Features.DesignView.reset styles": "reset styles",
   "Features.DesignView.reset styles to template defaults": "rétablir les styles par défaut",
-  "Components.StoryCard.Last update {t}": "Dernière mise à jour le {t}"
+  "Components.StoryCard.Last update {t}": "Dernière mise à jour le {t}",
+  "Features.DesignView.2rem": "2rem",
+  "Features.HomeView.about fonio documentation": "Fonio est conçu pour favoriser de bonnes pratiques de documentation, en vous permettant de décrire toutes les ressources réunies durant votre enquête d'une manière riche et homogène (date, source, auteurs,...). Il vous permet également de fabriquer un glossaire étendu pour décrire des termes clés et les consulter de manière interactive.",
+  "Features.HomeView.about fonio design": "De plus, le logiciel entend permettre un travail approfondi du design informationnel de votre travail : choisissez une manière d'organiser l'expérience de lecture de vos lecteurs, et spécifiez l'identité visuelle de votre travail de manière pertinente.",
+  "Features.HomeView.about fonio collaboration": "Fonio est collaboratif et permet à plusieurs auteur.e.s de travailler simultanément sur les contenus, le design et la documentation. Selon le même état d'esprit collaboratif, les travaux en cours sont lisibles par toute la salle de classe, mais leur édition est réservée à votre équipe.",
+  "Features.HomeView.about fonio workflow": "Cette salle de classe correspond à un cours spécifique et existe durant une période de temps limitée. Tous les travaux seront sauvegardés et archivés de manière privée après la fin du semestre, mais l'application vous permet également de télécharger votre travail à tout moment pour le sauvegarder ou pour le publier en ligne de manière propre et simple."
 }
