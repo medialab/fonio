@@ -57,7 +57,7 @@ const HomeBtn = () => (
     </Link>
   </Button>
 );
-const PrintBtn = ({onClick}) => (
+const PrintBtn = ( { onClick } ) => (
   <Button
     isRounded
     style={ {
@@ -65,11 +65,11 @@ const PrintBtn = ({onClick}) => (
       bottom: '1rem',
       right: '4rem'
     } }
-    onClick={onClick}
+    onClick={ onClick }
   >
-      <Icon>
-        <FontAwesomeIcon icon={ faPrint } />
-      </Icon>
+    <Icon>
+      <FontAwesomeIcon icon={ faPrint } />
+    </Icon>
   </Button>
 );
 
@@ -149,7 +149,7 @@ class ReadStoryViewContainer extends Component {
     const handlePrint = () => {
       window.frames.read.focus();
     window.frames.read.print();
-    }
+    };
 
     const translate = translateNameSpacer( this.context.t, 'Features.ReadOnly' );
     switch ( status ) {
@@ -184,7 +184,7 @@ class ReadStoryViewContainer extends Component {
             </Frame>
 
             <HomeBtn />
-            <PrintBtn onClick={handlePrint} />
+            <PrintBtn onClick={ handlePrint } />
           </div>
 
           );
