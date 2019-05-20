@@ -174,6 +174,14 @@ class ResourceSearchWidget extends Component {
         return !blockAssetTypes.includes( option.metadata.type );
       }
       return option;
+    } )
+    .sort( ( a, b ) => {
+      const aD = a.lastUpdateAt || a.createdAt;
+      const bD = b.lastUpdateAt || b.createdAt;
+      if ( aD > bD ) {
+        return -1;
+      }
+      return 1;
     } );
     const filteredOptions = this.state.searchTerm.length === 0 ? allowedOptions : searchResources( allowedOptions, this.state.searchTerm );
 
