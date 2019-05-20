@@ -542,9 +542,17 @@ const SectionViewLayout = ( {
 
   const handleAbortDeleteSection = () => setPromptedToDeleteSectionId( undefined );
   const handleAbortDeleteResource = () => setPromptedToDeleteResourceId( undefined );
-  const handleAbortLinkCreation = () => setLinkModalFocusData( undefined );
-  const handleAbortGlossaryCreation = () => setGlossaryModalFocusData( undefined );
-  const handleAbortInternalLinkCreation = () => setInternalLinkModalFocusData( undefined );
+  const handleAbortLinkCreation = () => {
+    setEditorFocus( linkModalFocusData.focusId );
+    setLinkModalFocusData( undefined );
+  };
+  const handleAbortGlossaryCreation = () => {
+    setEditorFocus( glossaryModalFocusData.focusId );
+    setGlossaryModalFocusData( undefined );
+  };
+  const handleAbortInternalLinkCreation = () => {
+    setInternalLinkModalFocusData( undefined );
+  };
   const handleCloseShortcuts = () => setShortcutsHelpVisible( false );
 
   return (
