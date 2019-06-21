@@ -1,12 +1,12 @@
 # Fonio - *a scholarly dissertations editor allowing to build standalone HTML webpages*
 
-Fonio is a collaborative writing software aimed at building rich digital scholarly dissertations, using the architecture of websites to structure arguments, and the possibility to feature an axtensible array of resources such as bibliographic references, images, tables, videos, and interactive elements.
+Fonio is a collaborative writing software aimed at building rich digital scholarly dissertations, using the architecture of websites to structure arguments, and the possibility to feature an extensible array of resources such as bibliographic references, images, tables, videos, and interactive elements.
 
-Fonio puts an emphasis on documentation, allowing writers to describe all the resources gathered during their inquiry in a rich and homogeneous way (date, source, author, ...). It also allows themyou to build an augmented glossary in order to define key terms and browse them in an interactive way.
+Fonio puts an emphasis on documentation, allowing writers to describe all the resources gathered during their inquiry in a rich and homogeneous way (date, source, author, ...). It also allows them to build an augmented glossary in order to define key terms and browse them in an interactive way.
 
-Besides, the application is aimed at allowing to work extensively on the information design of a dissertation: one can choose a way to organize the reading experience of your readers, and customize the visual identity of your work in a meaningful way.
+Besides, the application is aimed at allowing to work extensively on the information design of a dissertation: one can choose a way to organize the reading experience of their readers, and customize the visual identity of their work in a meaningful way.
 
-Fonio is collaborative and allows several writers to work simultaneously on contents, design and documentation. According to this collaborative state of mind, works in progress are readable by the whole classroom, but their edition is restricted to your team.
+Fonio is collaborative and allows several writers to work simultaneously on contents, design and documentation. According to this collaborative state of mind, works in progress are readable by the whole classroom, but their edition is restricted to each team.
 
 Each "classroom" corresponds to a specific course and exists during a limited period of time. All works are saved and privately archived after the semester is finished, but the application also allows writers to download their work at anytime to backup it or to publish it online in a clean and easy way.
 
