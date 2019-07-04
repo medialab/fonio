@@ -1044,18 +1044,7 @@ class SectionEditor extends Component {
     }
 
   inlineButtons = () => [
-    <BoldButton
-      tooltip={ this.translate( 'bold text' ) }
-      key={ 1 }
-    />,
-    <ItalicButton
-      tooltip={ this.translate( 'italic text' ) }
-      key={ 2 }
-    />,
-    <BlockQuoteButton
-      tooltip={ this.translate( 'quote' ) }
-      key={ 3 }
-    />,
+    
     <HeaderOneButton
       tooltip={ this.translate( 'big title' ) }
       key={ 4 }
@@ -1072,10 +1061,24 @@ class SectionEditor extends Component {
       tooltip={ this.translate( 'unordered list' ) }
       key={ 7 }
     />,
+    <BlockQuoteButton
+      tooltip={ this.translate( 'quote' ) }
+      key={ 3 }
+    />,
+    <Button isDisabled key={'sep-2'} />,
+    <BoldButton
+      tooltip={ this.translate( 'bold text' ) }
+      key={ 1 }
+    />,
+    <ItalicButton
+      tooltip={ this.translate( 'italic text' ) }
+      key={ 2 }
+    />,
     <RemoveFormattingButton
       tooltip={ this.translate( 'remove formatting for selection' ) }
       key={ 9 }
     />,
+    <Button isDisabled key={'sep-1'} />,
     <GlossaryButton
       tooltip={ this.translate( 'add a link to a glossary entry' ) }
       key={ 9 }
