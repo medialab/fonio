@@ -686,7 +686,7 @@
   "Features.LibraryView.other authors in multiple sections": "other authors in multiple sections",
   "Features.SectionView.another author in one section": "another author in one section",
   "Features.SectionView.other authors in multiple sections": "other authors in multiple sections",
-  "Components.AuthorsManager.Explanation about the story authors": "Les auteur·e·s seront affiché·e·s sur la page web de ce récit",
+  "Components.AuthorsManager.Explanation about the story authors": "Authors will be displayed on the cover of the website",
   "Features.DesignView.template choice explanation": "choose a way to present and organize the story's website",
   "Features.DesignView.Cover image": "Cover image",
   "Features.DesignView.garlic template description": "a single-page layout allowing to play with scroll-based interactions",
@@ -707,5 +707,8 @@
   "Features.HomeView.about fonio documentation": "Fonio puts an emphasis on documentation, allowing you to describe all the resources gathered during your inquiry in a rich and homogeneous way (date, source, author, ...). It also allows you to build an augmented glossary in order to define key terms and browse them in an interactive way.",
   "Features.HomeView.about fonio design": "Besides, the application is aimed at allowing to work extensively on the information design of your dissertation: choose a way to organize the reading experience of your readers, and customize the visual identity of your work in a meaningful way.",
   "Features.HomeView.about fonio collaboration": "Fonio is collaborative and allows several writers to work simultaneously on contents, design and documentation. According to this collaborative state of mind, works in progress are readable by the whole classroom, but their edition is restricted to your team.",
-  "Features.HomeView.about fonio workflow": "This \"classroom\" corresponds to a specific course and exists during a limited period of time. All works will be saved and privately archived after the semester is finished, but the application also allows you to download your work at anytime to backup it or to publish it online in a clean and easy way."
+  "Features.HomeView.about fonio workflow": "This \"classroom\" corresponds to a specific course and exists during a limited period of time. All works will be saved and privately archived after the semester is finished, but the application also allows you to download your work at anytime to backup it or to publish it online in a clean and easy way.",
+  "Components.MetadataForm.Edition comment": "Edition comment",
+  "Components.MetadataForm.Explanation about the story edition comment": "Add a commentary about the date, version, comment... of the story which will be visible on the website cover",
+  "Components.MetadataForm.edition comment": "edition comment"
 }

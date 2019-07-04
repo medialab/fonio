@@ -139,21 +139,6 @@ class MetadataForm extends Component {
                     <Help isColor={ 'danger' }>{formApi.errors.title}</Help>
                 }
               </Field>
-              <Field>
-                <Control>
-                  <ExplainedLabel
-                    title={ translate( 'Story subtitle' ) }
-                    explanation={ translate( 'Explanation about the story subtitle' ) }
-                  />
-                  <Text
-                    className={ 'input' }
-                    field={ 'subtitle' }
-                    id={ 'subtitle' }
-                    type={ 'text' }
-                    placeholder={ translate( 'subtitle' ) }
-                  />
-                </Control>
-              </Field>
               {
                 !story.id &&
                   <Field>
@@ -171,6 +156,37 @@ class MetadataForm extends Component {
                     }
                   </Field>
               }
+              <Field>
+                <Control>
+                  <ExplainedLabel
+                    title={ translate( 'Story subtitle' ) }
+                    explanation={ translate( 'Explanation about the story subtitle' ) }
+                  />
+                  <Text
+                    className={ 'input' }
+                    field={ 'subtitle' }
+                    id={ 'subtitle' }
+                    type={ 'text' }
+                    placeholder={ translate( 'subtitle' ) }
+                  />
+                </Control>
+              </Field>
+              <Field>
+                <Control>
+                  <ExplainedLabel
+                    title={ translate( 'Edition comment' ) }
+                    explanation={ translate( 'Explanation about the story edition comment' ) }
+                  />
+                  <Text
+                    className={ 'input' }
+                    field={ 'edition' }
+                    id={ 'edition' }
+                    type={ 'text' }
+                    placeholder={ translate( 'edition comment' ) }
+                  />
+                </Control>
+              </Field>
+              
               <AuthorsManager
                 field={ 'authors' }
                 id={ 'authors' }

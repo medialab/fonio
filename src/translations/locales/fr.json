@@ -33,7 +33,7 @@
   "Components.AssetPreview.table-row": "ligne",
   "Components.AuthorsManager.Add an author": "Ajouter un·e auteur·e",
   "Components.AuthorsManager.Authors": "Auteur·e·s",
-  "Components.AuthorsManager.Explanation about the story authors": "Les auteur·e·s seront affiché·e·s sur la page web de ce récit",
+  "Components.AuthorsManager.Explanation about the story authors": "Les auteur·e·s seront affiché·e·s sur la couverture du site web",
   "Components.AuthorsManager.New auhthor": "Nouvel·le auteur·e",
   "Components.AuthorsManager.New author": "Nouvel·le auteur·e",
   "Components.ChangePasswordModal.Cancel": "Annuler",
@@ -707,5 +707,8 @@
   "Features.HomeView.about fonio documentation": "Fonio est conçu pour favoriser de bonnes pratiques de documentation, en vous permettant de décrire toutes les ressources réunies durant votre enquête d'une manière riche et homogène (date, source, auteurs,...). Il vous permet également de fabriquer un glossaire étendu pour décrire des termes clés et les consulter de manière interactive.",
   "Features.HomeView.about fonio design": "De plus, le logiciel entend permettre un travail approfondi du design informationnel de votre travail : choisissez une manière d'organiser l'expérience de lecture de vos lecteurs, et spécifiez l'identité visuelle de votre travail de manière pertinente.",
   "Features.HomeView.about fonio collaboration": "Fonio est collaboratif et permet à plusieurs auteur.e.s de travailler simultanément sur les contenus, le design et la documentation. Selon le même état d'esprit collaboratif, les travaux en cours sont lisibles par toute la salle de classe, mais leur édition est réservée à votre équipe.",
-  "Features.HomeView.about fonio workflow": "Cette salle de classe correspond à un cours spécifique et existe durant une période de temps limitée. Tous les travaux seront sauvegardés et archivés de manière privée après la fin du semestre, mais l'application vous permet également de télécharger votre travail à tout moment pour le sauvegarder ou pour le publier en ligne de manière propre et simple."
+  "Features.HomeView.about fonio workflow": "Cette salle de classe correspond à un cours spécifique et existe durant une période de temps limitée. Tous les travaux seront sauvegardés et archivés de manière privée après la fin du semestre, mais l'application vous permet également de télécharger votre travail à tout moment pour le sauvegarder ou pour le publier en ligne de manière propre et simple.",
+  "Components.MetadataForm.Edition comment": "Commentaire sur l'édition",
+  "Components.MetadataForm.Explanation about the story edition comment": "Ajouter un commentaire sur la date, la version, le contexte... de la publication qui sera affiché sur la couverture du site web",
+  "Components.MetadataForm.edition comment": "commentaire d'édition"
 }

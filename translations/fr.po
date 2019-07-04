@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-7-4\n"
-"PO-Revision-Date: Thu Jul 04 2019 10:50:55 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Thu Jul 04 2019 11:43:07 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2137,6 +2137,15 @@ msgstr "about fonio collaboration"
 
 msgid "Features.HomeView.about fonio workflow"
 msgstr "about fonio workflow"
+
+msgid "Components.MetadataForm.Edition comment"
+msgstr "Edition comment"
+
+msgid "Components.MetadataForm.Explanation about the story edition comment"
+msgstr "Explanation about the story edition comment"
+
+msgid "Components.MetadataForm.edition comment"
+msgstr "edition comment"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer la ressource « {s} » ?"
