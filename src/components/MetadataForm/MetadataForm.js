@@ -186,7 +186,7 @@ class MetadataForm extends Component {
                   />
                 </Control>
               </Field>
-              
+
               <AuthorsManager
                 field={ 'authors' }
                 id={ 'authors' }

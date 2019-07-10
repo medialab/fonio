@@ -58,6 +58,7 @@ import {
 import AuthorsManager from '../AuthorsManager';
 import BibRefsEditor from '../BibRefsEditor';
 import AssetPreview from '../AssetPreview';
+import EmbedHelpModal from '../EmbedHelpModal';
 
 /**
  * Shared variables
@@ -74,6 +75,10 @@ class DataForm extends Component {
 
   constructor( props ) {
     super( props );
+
+    this.state = {
+      embedHelpOpen: false
+    };
   }
 
   componentWillReceiveProps( nextProps ) {
@@ -81,6 +86,13 @@ class DataForm extends Component {
       nextProps.formApi.setAllValues( { data: nextProps.resource.data } );
     }
   }
+
+  toggleEmbedHelpOpen = () => {
+    this.setState( {
+      embedHelpOpen: !this.state.embedHelpOpen,
+    } );
+  }
+
   render = () => {
 
     /**
@@ -271,19 +283,44 @@ class DataForm extends Component {
       const handleChange = ( html ) => {
         formApi.setValue( 'data', { html } );
       };
+      const onChooseSample = ( html ) => {
+        handleChange( html );
+        this.toggleEmbedHelpOpen();
+      };
+      const handlEmbedHelpToggleRequest = this.toggleEmbedHelpOpen;
       return (
         <Field>
           <Control>
             <Label>
-              {translate( 'Embed code' )}
-              <HelpPin place={ 'right' }>
-                {translate( 'Explanation about the embed' )}
-              </HelpPin>
+              <StretchedLayoutContainer
+                style={ { padding: '1rem 0' } }
+                isDirection={ 'horizontal' }
+              >
+                <StretchedLayoutItem isFlex={ 1 }>
+                  {translate( 'Embed code' )}
+                  <HelpPin place={ 'right' }>
+                    {translate( 'Explanation about the embed' )}
+                  </HelpPin>
+                </StretchedLayoutItem>
+                <StretchedLayoutItem>
+                  <Button
+                    isColor={ 'info' }
+                    onClick={ handlEmbedHelpToggleRequest }
+                  >
+                    {translate( 'help about advanced block' )}
+                  </Button>
+                </StretchedLayoutItem>
+              </StretchedLayoutContainer>
             </Label>
 
             <CodeEditor
               value={ formApi.getValue( 'data.html' ) }
               onChange={ handleChange }
+            />
+            <EmbedHelpModal
+              isOpen={ this.state.embedHelpOpen }
+              onRequestClose={ handlEmbedHelpToggleRequest }
+              onChooseSample={ onChooseSample }
             />
           </Control>
           {

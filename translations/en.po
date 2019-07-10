@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-7-10\n"
-"PO-Revision-Date: Wed Jul 10 2019 15:03:24 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Jul 10 2019 16:39:51 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2156,6 +2156,51 @@ msgstr "one word"
 msgid "Features.SummaryView.one printed page (approximately)"
 msgstr "one printed page (approximately)"
 
+msgid "Features.SummaryView.{n} printed pages (approximately)"
+msgstr "{n} printed pages (approximately)"
+
+msgid "Features.SummaryView.{n} words"
+msgstr "{n} words"
+
+msgid "Features.SummaryView.{n} characters"
+msgstr "{n} signs"
+
+msgid "Components.ResourceForm.help about advanced block"
+msgstr "help about advanced block"
+
+msgid "Components.EmbedHelpModal.Annotate an image"
+msgstr "Annotate an image"
+
+msgid "Components.EmbedHelpModal.Make a timeline"
+msgstr "Make a timeline"
+
+msgid "Components.EmbedHelpModal.Share an audio interview"
+msgstr "Share an audio interview"
+
+msgid "Components.EmbedHelpModal.Build a network of people, organization, issues"
+msgstr "Build a network of people, organization, issues"
+
+msgid "Components.EmbedHelpModal.Tag and annotate online videos"
+msgstr "Tag and annotate online videos"
+
+msgid "Components.EmbedHelpModal.Advanced block help"
+msgstr "Advanced block help"
+
+msgid "Components.EmbedHelpModal.The advanced block let you add to your story any block of code provided by an external application. Here are some examples of tools and code blocks you could include in your story:"
+msgstr " Here are some examples of tools and code blocks you could include in your story:"
+
+msgid "Components.EmbedHelpModal.What for"
+msgstr "What for"
+
+msgid "Components.EmbedHelpModal.What tool"
+msgstr "What tool"
+
+msgid "Components.EmbedHelpModal.Example code to paste"
+msgstr "Example code to paste"
+
+msgid "Components.EmbedHelpModal.test it"
+msgstr "test it"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"
 
@@ -2197,12 +2242,3 @@ msgstr "\"{f}\" is too big"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "For suggesting improvements or signaling bugs, please head to <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">this page</a> and to follow the proposed procedure. Thanks !"
-
-msgid "Features.SummaryView.{n} printed pages (approximately)"
-msgstr "{n} printed pages (approximately)"
-
-msgid "Features.SummaryView.{n} words"
-msgstr "{n} words"
-
-msgid "Features.SummaryView.{n} characters"
-msgstr "{n} signs"
