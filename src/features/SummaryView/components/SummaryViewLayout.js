@@ -27,13 +27,15 @@ import {
 } from 'quinoa-design-library/components/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
+import { faFile } from '@fortawesome/free-solid-svg-icons/faFile';
+import { faFont } from '@fortawesome/free-solid-svg-icons/faFont';
 
 /**
  * Imports Project utils
  */
 import { translateNameSpacer } from '../../../helpers/translateUtils';
 import { createDefaultSection } from '../../../helpers/schemaUtils';
-import { abbrevString } from '../../../helpers/misc';
+import { abbrevString, getStoryStats } from '../../../helpers/misc';
 
 import {
   getReverseSectionsLockMap,
@@ -118,6 +120,7 @@ class SummaryViewLayout extends Component {
       const reverseSectionLockMap = getReverseSectionsLockMap( lockingMap, activeUsers, storyId );
       const metadataOpen = checkIfUserHasLockOnMetadata( lockingMap, userId, storyId );
       const activeAuthors = getStoryActiveAuthors( lockingMap, activeUsers, storyId );
+      const stats = getStoryStats( story );
 
       const userLockedOnMetadataId = lockingMap[storyId] && lockingMap[storyId].locks &&
         Object.keys( lockingMap[storyId].locks )
@@ -421,6 +424,20 @@ class SummaryViewLayout extends Component {
                         )
                       )
                     }
+                {!metadataOpen &&
+                <div>
+                  <Content>
+                    <p>
+                      <FontAwesomeIcon icon={ faFont } /> {translate( [ 'one character', '{n} characters', 'n' ], { n: stats.numberOfCharacters } )}
+                    </p>
+                    <p>
+                      <FontAwesomeIcon icon={ faFont } /> {translate( [ 'one word', '{n} words', 'n' ], { n: stats.numberOfWords } )}
+                    </p>
+                    <p>
+                      <FontAwesomeIcon icon={ faFile } /> {translate( [ 'one printed page (approximately)', '{n} printed pages (approximately)', 'n' ], { n: stats.numberOfPages } )}
+                    </p>
+                  </Content>
+                </div>}
               </Column>
             </StretchedLayoutItem>
             {

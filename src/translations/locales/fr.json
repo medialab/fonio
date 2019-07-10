@@ -421,9 +421,9 @@
   "Features.LibraryView.Up to {n} files, with a maximum size of {s} Mb each": "Jusqu'à {n} fichiers, avec une taille maximale de {s} Mo chacun",
   "Features.LibraryView.You will destroy one item mention in your content if you delete these items.": "Vous allez détruire une mention de cette ressource dans vos contenus si vous la supprimez.",
   "Features.LibraryView.You will destroy {n} item mentions in your content if your delete these items.": "Vous allez détruire {n} mentions de cette ressource dans vos contenus si vous la supprimez.",
-  "Features.LibraryView.Your library contains all the items (references, images, visualizations...) that can be used within the story.": "Votre bibliothèque contient toutes les ressources pouvant être utilisés dans votre récit.",
+  "Features.LibraryView.Your library contains all the items (references, images, visualizations...) that can be used within the story.": "Votre bibliothèque contient toutes les ressources pouvant être utilisées dans votre récit.",
   "Features.LibraryView.Your library contains all the items that can be used within the story.": "La bibliothèque accueille toutes les ressources qui ont été créées dans ce récit.",
-  "Features.LibraryView.Your library contains all the resources (references, images, visualizations...) that can be used within the story.": "La bibliothèque contient toutes les ressources (références, images, visualisations,...) pouvant être utilisés dans le récit.",
+  "Features.LibraryView.Your library contains all the resources (references, images, visualizations...) that can be used within the story.": "La bibliothèque contient toutes les ressources (références, images, visualisations,...) pouvant être utilisées dans le récit.",
   "Features.LibraryView.all items": "toutes les ressource",
   "Features.LibraryView.bib": "référence",
   "Features.LibraryView.edited by {a}": "editée par {a}",
@@ -710,5 +710,11 @@
   "Features.HomeView.about fonio workflow": "Cette salle de classe correspond à un cours spécifique et existe durant une période de temps limitée. Tous les travaux seront sauvegardés et archivés de manière privée après la fin du semestre, mais l'application vous permet également de télécharger votre travail à tout moment pour le sauvegarder ou pour le publier en ligne de manière propre et simple.",
   "Components.MetadataForm.Edition comment": "Commentaire sur l'édition",
   "Components.MetadataForm.Explanation about the story edition comment": "Ajouter un commentaire sur la date, la version, le contexte... de la publication qui sera affiché sur la couverture du site web",
-  "Components.MetadataForm.edition comment": "commentaire d'édition"
+  "Components.MetadataForm.edition comment": "commentaire d'édition",
+  "Features.SummaryView.one printed page (approximately)": "une page imprimée (environ)",
+  "Features.SummaryView.{n} printed pages (approximately)": "{n} pages imprimées (environ)",
+  "Features.SummaryView.{n} words": "{n} mots",
+  "Features.SummaryView.one word": "un mot",
+  "Features.SummaryView.{n} characters": "{n} signes",
+  "Features.SummaryView.one character": "un signe"
 }

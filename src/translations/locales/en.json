@@ -710,5 +710,11 @@
   "Features.HomeView.about fonio workflow": "This \"classroom\" corresponds to a specific course and exists during a limited period of time. All works will be saved and privately archived after the semester is finished, but the application also allows you to download your work at anytime to backup it or to publish it online in a clean and easy way.",
   "Components.MetadataForm.Edition comment": "Edition comment",
   "Components.MetadataForm.Explanation about the story edition comment": "Add a commentary about the date, version, comment... of the story which will be visible on the website cover",
-  "Components.MetadataForm.edition comment": "edition comment"
+  "Components.MetadataForm.edition comment": "edition comment",
+  "Features.SummaryView.one printed page (approximately)": "one printed page (approximately)",
+  "Features.SummaryView.{n} printed pages (approximately)": "{n} printed pages (approximately)",
+  "Features.SummaryView.{n} words": "{n} words",
+  "Features.SummaryView.one word": "one word",
+  "Features.SummaryView.{n} characters": "{n} signs",
+  "Features.SummaryView.one character": "one sign"
 }
