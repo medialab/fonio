@@ -6,8 +6,8 @@ import {
   constants
 } from 'scholar-draft';
 
-import defaultStyle from 'raw-loader!../sharedAssets/apa.csl';
-import defaultLocale from 'raw-loader!../sharedAssets/english-locale.xml';
+import defaultStyle from 'raw-loader!../sharedAssets/bibAssets/apa.csl';
+import defaultLocale from 'raw-loader!../sharedAssets/bibAssets/english-locale.xml';
 
 const { INLINE_ASSET, BLOCK_ASSET } = constants;
 

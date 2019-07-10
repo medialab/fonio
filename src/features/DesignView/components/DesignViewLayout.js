@@ -54,6 +54,7 @@ const DesignViewLayout = ( {
   onUpdateTemplatesVariables,
   onTemplateChange,
   onSetCoverImage,
+  onUpdateCitationStyle,
 }, { t } ) => {
 
   /**
@@ -102,6 +103,7 @@ const DesignViewLayout = ( {
               setTemplateChoiceVisible,
               setNotesPositionChoiceVisible,
               setReferenceStatusChoiceVisible,
+              setCitationStyle: onUpdateCitationStyle,
           }
         }
       />

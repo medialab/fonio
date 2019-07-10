@@ -24,6 +24,7 @@ import { getStyles } from 'quinoa-schemas';
 import defaults from 'json-schema-defaults';
 import icons from 'quinoa-design-library/src/themes/millet/icons';
 import StyleEditor from './StyleEditor';
+import CitationStyleSelector from '../../../components/CitationStyleSelector';
 
 /**
  * Imports Project utils
@@ -54,6 +55,7 @@ const AsideDesignContents = ( {
   setTemplateChoiceVisible,
   setReferenceStatusChoiceVisible,
   setNotesPositionChoiceVisible,
+  setCitationStyle,
   templates,
 }, { t, getResourceDataUrl } ) => {
 
@@ -108,6 +110,7 @@ const AsideDesignContents = ( {
   const handleToggleReferenceTypesVisibility = () => setReferenceTypesVisible( !referenceTypesVisible );
   const handleToggleCoverImageChoiceVisible = () => setCoverImageChoiceVisible( !coverImageChoiceVisible );
   const handleShowCssHelp = () => setCssHelpVisible( true );
+  const handleCitationStyleChange = ( style ) => setCitationStyle( style );
 
   if ( designAsideTabCollapsed ) {
       return null;
@@ -282,6 +285,7 @@ const AsideDesignContents = ( {
                 </form>
               </div>
             }
+
             {
               acceptsOptions.includes( 'referenceStatus' ) &&
               <div style={ { marginBottom: '2rem' } }>
@@ -314,6 +318,19 @@ const AsideDesignContents = ( {
                 </form>
               </div>
             }
+            <div style={ { marginBottom: '2rem' } }>
+              <form>
+                <Field>
+                  <Label>{translate( 'Bibliographic citation style' )}</Label>
+                  <Control>
+                    <CitationStyleSelector
+                      story={ story }
+                      onChange={ handleCitationStyleChange }
+                    />
+                  </Control>
+                </Field>
+              </form>
+            </div>
           </Column>
         );
       case 'styles':

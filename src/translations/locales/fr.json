@@ -728,5 +728,6 @@
   "Components.EmbedHelpModal.What for": "Pour quoi faire",
   "Components.EmbedHelpModal.What tool": "Quel outil",
   "Components.EmbedHelpModal.Example code to paste": "Exemple de code à coller",
-  "Components.EmbedHelpModal.test it": "tester"
+  "Components.EmbedHelpModal.test it": "tester",
+  "Features.DesignView.Bibliographic citation style": "Style de citation bibliographique"
 }

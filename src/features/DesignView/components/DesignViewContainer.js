@@ -290,6 +290,25 @@ class DesignViewContainer extends Component {
     } );
   }
 
+  onUpdateCitationStyle = ( style ) => {
+    const {
+      editedStory: story,
+      userId,
+      actions: {
+        updateStorySettings
+      }
+    } = this.props;
+
+    updateStorySettings( {
+      storyId: story.id,
+      userId,
+      settings: {
+        ...story.settings,
+        citationStyle: style,
+      }
+    } );
+  }
+
   render() {
     const {
       props: {
@@ -302,6 +321,7 @@ class DesignViewContainer extends Component {
       onUpdateTemplatesVariables,
       onTemplateChange,
       onSetCoverImage,
+      onUpdateCitationStyle,
     } = this;
     if ( editedStory ) {
 
@@ -323,6 +343,7 @@ class DesignViewContainer extends Component {
                   onTemplateChange={ onTemplateChange }
                   onSetCoverImage={ onSetCoverImage }
                   onUpdateTemplatesVariables={ onUpdateTemplatesVariables }
+                  onUpdateCitationStyle={ onUpdateCitationStyle }
                   { ...this.props }
                 />
               :

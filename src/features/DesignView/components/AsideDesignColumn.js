@@ -66,6 +66,7 @@ const AsideDesignColumn = ( {
   setTemplateChoiceVisible,
   setNotesPositionChoiceVisible,
   setReferenceStatusChoiceVisible,
+  setCitationStyle,
 
 }, { t } ) => {
 
@@ -182,6 +183,7 @@ const AsideDesignColumn = ( {
                 setTemplateChoiceVisible,
                 setNotesPositionChoiceVisible,
                 setReferenceStatusChoiceVisible,
+                setCitationStyle,
                 onSetCoverImage,
                 template,
                 story,
