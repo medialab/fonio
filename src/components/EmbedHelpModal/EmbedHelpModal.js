@@ -17,7 +17,7 @@ const EmbedHelpModal = ( {
     {
         toolName: 'Tesselle',
         toolURL: 'https://medialab.github.io/tesselle',
-        embedCode: 'Coming soon',
+        embedCode: '<iframe allowfullscreen="true" src="https://medialab.github.io/tesselle-example/"></iframe>',
         whatFor: translate( 'Annotate an image' )
     },
     {
