@@ -729,5 +729,6 @@
   "Components.EmbedHelpModal.What tool": "What tool",
   "Components.EmbedHelpModal.Example code to paste": "Example code to paste",
   "Components.EmbedHelpModal.test it": "test it",
-  "Features.DesignView.Bibliographic citation style": "Bibliographic citation style"
+  "Features.DesignView.Bibliographic citation style": "Bibliographic citation style",
+  "Components.CitationStyleSelector.Example:": "Example:"
 }

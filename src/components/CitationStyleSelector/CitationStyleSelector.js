@@ -1,8 +1,9 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import {
     Box,
     Label,
+    Content,
     StretchedLayoutContainer,
     StretchedLayoutItem,
     Button,
@@ -11,6 +12,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft } from '@fortawesome/free-solid-svg-icons/faCaretLeft';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
+
+import { translateNameSpacer } from '../../helpers/translateUtils';
 
 import BibliographicPreview from '../BibliographicPreview';
 
@@ -84,7 +87,9 @@ const sample = {
 const CitationStyleSelector = ( {
     story,
     onChange
-} ) => {
+}, { t } ) => {
+  const translate = translateNameSpacer( t, 'Components.CitationStyleSelector' );
+
     const citationStyleId = story.settings.citationStyle.id;
     let currentIndex = 0;
     styles.some( ( style, index ) => {
@@ -129,10 +134,13 @@ const CitationStyleSelector = ( {
           </StretchedLayoutItem>
           <StretchedLayoutItem isFlex={ 1 }>
             <Label>{currentItem.title}</Label>
-            <BibliographicPreview
-              items={ sample }
-              style={ currentItem.data }
-            />
+            <Content isSize={ 'small' }>
+              <p><i>{translate( 'Example:' )}</i></p>
+              <BibliographicPreview
+                items={ sample }
+                style={ currentItem.data }
+              />
+            </Content>
           </StretchedLayoutItem>
           <StretchedLayoutItem>
             <Button
@@ -146,6 +154,10 @@ const CitationStyleSelector = ( {
 
       </Box>
     );
+};
+
+CitationStyleSelector.contextTypes = {
+  t: PropTypes.func,
 };
 
 export default CitationStyleSelector;

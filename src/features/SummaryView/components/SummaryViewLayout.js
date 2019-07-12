@@ -404,6 +404,20 @@ class SummaryViewLayout extends Component {
                 </Collapsable>
                 <Level />
 
+                {!metadataOpen &&
+                <div style={ { paddingBottom: '2rem' } }>
+                  <Content>
+                    <p>
+                      <FontAwesomeIcon icon={ faFont } /> {translate( [ 'one character', '{n} characters', 'n' ], { n: stats.numberOfCharacters } )}
+                    </p>
+                    <p>
+                      <FontAwesomeIcon icon={ faFont } /> {translate( [ 'one word', '{n} words', 'n' ], { n: stats.numberOfWords } )}
+                    </p>
+                    <p>
+                      <FontAwesomeIcon icon={ faFile } /> {translate( [ 'one printed page (approximately)', '{n} printed pages (approximately)', 'n' ], { n: stats.numberOfPages } )}
+                    </p>
+                  </Content>
+                </div>}
                 {
                   activeAuthors.length > 1 &&
                     <Title isSize={ 4 }>
@@ -424,20 +438,6 @@ class SummaryViewLayout extends Component {
                         )
                       )
                     }
-                {!metadataOpen &&
-                <div>
-                  <Content>
-                    <p>
-                      <FontAwesomeIcon icon={ faFont } /> {translate( [ 'one character', '{n} characters', 'n' ], { n: stats.numberOfCharacters } )}
-                    </p>
-                    <p>
-                      <FontAwesomeIcon icon={ faFont } /> {translate( [ 'one word', '{n} words', 'n' ], { n: stats.numberOfWords } )}
-                    </p>
-                    <p>
-                      <FontAwesomeIcon icon={ faFile } /> {translate( [ 'one printed page (approximately)', '{n} printed pages (approximately)', 'n' ], { n: stats.numberOfPages } )}
-                    </p>
-                  </Content>
-                </div>}
               </Column>
             </StretchedLayoutItem>
             {
