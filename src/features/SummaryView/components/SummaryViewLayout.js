@@ -29,6 +29,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
 import { faFile } from '@fortawesome/free-solid-svg-icons/faFile';
 import { faFont } from '@fortawesome/free-solid-svg-icons/faFont';
+import { faAlignJustify } from '@fortawesome/free-solid-svg-icons/faAlignJustify';
 
 /**
  * Imports Project utils
@@ -407,14 +408,23 @@ class SummaryViewLayout extends Component {
                 {!metadataOpen &&
                 <div style={ { paddingBottom: '2rem' } }>
                   <Content>
-                    <p>
-                      <FontAwesomeIcon icon={ faFont } /> {translate( [ 'one character', '{n} characters', 'n' ], { n: stats.numberOfCharacters } )}
+                    <p style={ { display: 'flex', flexFlow: 'row nowrap' } }>
+                      <FontAwesomeIcon
+                        style={ { marginRight: '1rem' } }
+                        icon={ faFont }
+                      /> {translate( [ 'one character', '{n} characters', 'n' ], { n: stats.numberOfCharacters } )}
                     </p>
-                    <p>
-                      <FontAwesomeIcon icon={ faFont } /> {translate( [ 'one word', '{n} words', 'n' ], { n: stats.numberOfWords } )}
+                    <p style={ { display: 'flex', flexFlow: 'row nowrap' } }>
+                      <FontAwesomeIcon
+                        style={ { marginRight: '1rem' } }
+                        icon={ faAlignJustify }
+                      /> {translate( [ 'one word', '{n} words', 'n' ], { n: stats.numberOfWords } )}
                     </p>
-                    <p>
-                      <FontAwesomeIcon icon={ faFile } /> {translate( [ 'one printed page (approximately)', '{n} printed pages (approximately)', 'n' ], { n: stats.numberOfPages } )}
+                    <p style={ { display: 'flex', flexFlow: 'row nowrap' } }>
+                      <FontAwesomeIcon
+                        style={ { marginRight: '1rem' } }
+                        icon={ faFile }
+                      /> {translate( [ 'one printed page (approximately)', '{n} printed pages (approximately)', 'n' ], { n: stats.numberOfPages } )}
                     </p>
                   </Content>
                 </div>}

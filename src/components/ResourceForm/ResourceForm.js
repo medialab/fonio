@@ -59,6 +59,7 @@ import AuthorsManager from '../AuthorsManager';
 import BibRefsEditor from '../BibRefsEditor';
 import AssetPreview from '../AssetPreview';
 import EmbedHelpModal from '../EmbedHelpModal';
+import BibHelpModal from '../BibHelpModal';
 
 /**
  * Shared variables
@@ -77,7 +78,8 @@ class DataForm extends Component {
     super( props );
 
     this.state = {
-      embedHelpOpen: false
+      embedHelpOpen: false,
+      bibHelpOpen: false,
     };
   }
 
@@ -90,6 +92,11 @@ class DataForm extends Component {
   toggleEmbedHelpOpen = () => {
     this.setState( {
       embedHelpOpen: !this.state.embedHelpOpen,
+    } );
+  }
+  toggleBibHelpOpen = () => {
+    this.setState( {
+      bibHelpOpen: !this.state.bibHelpOpen,
     } );
   }
 
@@ -212,14 +219,34 @@ class DataForm extends Component {
         </Field>
       );
     case 'bib':
+      const handlBibHelpToggleRequest = this.toggleBibHelpOpen;
+      const handleChooseExample = ( bib ) => {
+        handleEditBib( bib );
+        this.toggleBibHelpOpen();
+      };
       return (
         <Field>
           <Control>
             <Label>
-              {translate( 'Bib file' )}
-              <HelpPin place={ 'right' }>
-                {translate( 'Explanation about the bib' )}
-              </HelpPin>
+              <StretchedLayoutContainer
+                style={ { padding: '1rem 0', alignItems: 'center' } }
+                isDirection={ 'horizontal' }
+              >
+                <StretchedLayoutItem isFlex={ 1 }>
+                  {translate( 'Bib file' )}
+                  <HelpPin place={ 'right' }>
+                    {translate( 'Explanation about the bib' )}
+                  </HelpPin>
+                </StretchedLayoutItem>
+                <StretchedLayoutItem>
+                  <Button
+                    isColor={ 'info' }
+                    onClick={ handlBibHelpToggleRequest }
+                  >
+                    {translate( 'help about bibliographic references' )}
+                  </Button>
+                </StretchedLayoutItem>
+              </StretchedLayoutContainer>
             </Label>
             {
               asNewResource ?
@@ -236,6 +263,11 @@ class DataForm extends Component {
                 />
             }
           </Control>
+          <BibHelpModal
+            isOpen={ this.state.bibHelpOpen }
+            onRequestClose={ handlBibHelpToggleRequest }
+            onChooseSample={ handleChooseExample }
+          />
           {
             formApi.errors && formApi.errors.data &&
               <Help isColor={ 'danger' }>{formApi.errors.data}</Help>
@@ -293,7 +325,7 @@ class DataForm extends Component {
           <Control>
             <Label>
               <StretchedLayoutContainer
-                style={ { padding: '1rem 0' } }
+                style={ { padding: '1rem 0', alignItems: 'center' } }
                 isDirection={ 'horizontal' }
               >
                 <StretchedLayoutItem isFlex={ 1 }>

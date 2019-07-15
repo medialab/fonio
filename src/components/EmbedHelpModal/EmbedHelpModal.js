@@ -5,6 +5,7 @@ import { translateNameSpacer } from '../../helpers/translateUtils';
 import {
     ModalCard,
     Button,
+    Content,
   } from 'quinoa-design-library/components/';
 const EmbedHelpModal = ( {
     isOpen,
@@ -56,9 +57,12 @@ const EmbedHelpModal = ( {
         } }
         mainContent={
           <div>
-            <p>
-              {translate( 'The advanced block let you add to your story any block of code provided by an external application. Here are some examples of tools and code blocks you could include in your story:' )}
-            </p>
+            <Content>
+              <p>{translate( 'Advanced blocks allow you to feature (HTML) contents coming from the various online tools and platform that can help you mobilize the documents and data of your inquiry in your website.' )}</p>
+              <p>
+                {translate( 'Here are some examples of tools and code blocks you could include:' )}
+              </p>
+            </Content>
             <table
               style={ { maxWidth: '100%' } }
               className={ 'table' }
@@ -91,7 +95,7 @@ const EmbedHelpModal = ( {
                                       </a>
                                     </th>
                                     <th>
-                                      <code>{tool.embedCode}</code>
+                                      <code style={ { wordBreak: 'break-word' } }>{tool.embedCode}</code>
                                       <br />
                                       <Button onClick={ handleClick }>
                                         {translate( 'test it' )}
