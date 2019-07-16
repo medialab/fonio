@@ -1,6 +1,5 @@
 {
   "apiUrl": "API_URL",
-  "youtubeAPIKey": "YOUTUBE_API_KEY",
   "sessionName": "SESSION_NAME",
   "urlPrefix": "URL_PREFIX",
   "maxSectionLevel": "MAX_SECTION_LEVEL",

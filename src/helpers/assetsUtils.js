@@ -236,70 +236,63 @@ const vimeoRegexp = /^(https?\:\/\/)?(www\.)?(vimeo\.com)/gi;
  * @param {object} credentials - potential api keys to be used by the function
  * @return {Promise} process - loading is wrapped in a promise for consistence matters
  */
-export const retrieveMediaMetadata = ( url, credentials = {} ) => {
+export const retrieveMediaMetadata = ( url ) => {
   return new Promise( ( resolve, reject ) => {
+
     // case youtube
     if ( url.match( youtubeRegexp ) ) {
       // must provide a youtube simple api key
-      if ( credentials.youtubeAPIKey ) {
-        let videoId = url.match( /(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/ );
-        if ( videoId !== null ) {
-           videoId = videoId[1];
-           // for a simple metadata retrieval we can use this route that includes the api key
-            const endPoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${videoId}&key=${credentials.youtubeAPIKey}`;
-            get( endPoint )
-            .then( ( res ) => {
-              const info = res.data && res.data.items && res.data.items[0] && res.data.items[0].snippet;
-              return resolve( {
-                  url,
-                  metadata: {
-                    description: info.description,
-                    source: `${info.channelTitle } (youtube: ${url})`,
-                    title: info.title,
-                    videoUrl: url,
-                    authors: [ info.channelTitle ]
-                  }
-                } );
-            } )
-            .catch( ( e ) => reject( e ) );
-        }
-        else {
-          return resolve( { url, metadata: {
-          videoUrl: url
-        } } );
-        }
+      let videoId = url.match( /(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/ );
+      if ( videoId !== null ) {
+          videoId = videoId[1];
+          // for a simple metadata retrieval we can use this route that includes the api key
+          const endPoint = `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`;
+          get( endPoint )
+          .then( ( res ) => {
+            const info = res.data;
+            return resolve( {
+                url,
+                metadata: {
+                  source: `Youtube: ${url}`,
+                  title: info.title,
+                  videoUrl: url,
+                  authors: [ info.author_name ]
+                }
+              } );
+          } )
+          .catch( ( e ) => reject( e ) );
       }
       else {
         return resolve( { url, metadata: {
           videoUrl: url
         } } );
       }
-    }
-    // case vimeo: go through the oembed endpoint of vimeo api
-    else if ( url.match( vimeoRegexp ) ) {
-      const endpoint = `https://vimeo.com/api/oembed.json?url=${ url}`;
-      get( endpoint )
-      .then( ( res ) => {
-        const data = res.data;
-        resolve( {
-          url,
-          metadata: {
-            source: `${data.author_name } (vimeo: ${url})`,
-            title: data.title,
-            description: data.description,
-            videoUrl: url
-          }
-        } );
-      } )
-      .catch( ( e ) => reject( e ) );
-    }
-    // default - do nothing
-    else {
-      return resolve( { url, metadata: {
-        videoUrl: url
-      } } );
-    }
-  } );
+  }
+  // case vimeo: go through the oembed endpoint of vimeo api
+  else if ( url.match( vimeoRegexp ) ) {
+    const endpoint = `https://vimeo.com/api/oembed.json?url=${ url}`;
+    get( endpoint )
+    .then( ( res ) => {
+      const data = res.data;
+      resolve( {
+        url,
+        metadata: {
+          source: `${data.author_name } (vimeo: ${url})`,
+          title: data.title,
+          description: data.description,
+          videoUrl: url,
+          authors: [ data.author_name ]
+        }
+      } );
+    } )
+    .catch( ( e ) => reject( e ) );
+  }
+ else {
+    resolve( { url, metadata: {
+      videoUrl: url
+    } } );
+  }
+} );
 };
 
 /**

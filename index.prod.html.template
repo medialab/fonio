@@ -113,7 +113,6 @@
   <script type="text/javascript">
     window.FONIO_CONFIG = {
       apiUrl: '${API_URL}',
-      youtubeAPIKey: '${YOUTUBE_API_KEY}',
       maxSectionLevel: ${MAX_SECTION_LEVEL},
       sessionName: '${SESSION_NAME}',
       urlPrefix: '${URL_PREFIX}',

@@ -65,7 +65,6 @@ import BibHelpModal from '../BibHelpModal';
  * Shared variables
  */
 const resourceTypes = Object.keys( resourceSchema.definitions );
-const credentials = { youtubeAPIKey: config.youtubeAPIKey };
 const { maxResourceSize } = config;
 const realMaxFileSize = base64ToBytesLength( maxResourceSize );
 
@@ -276,7 +275,7 @@ class DataForm extends Component {
       );
     case 'video':
       const handleVideoURLChange = ( thatUrl ) => {
-        retrieveMediaMetadata( thatUrl, credentials )
+        retrieveMediaMetadata( thatUrl )
           .then( ( { metadata } ) => {
             Object.keys( metadata )
               .forEach( ( key ) => {
