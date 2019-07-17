@@ -124,7 +124,7 @@ export const filterInvalidContextualizations = ( {
     let isValid = true;
     // resource does not exist anymore -> try to fetch it from copiedResources (retrieved from local storage previously)
     if ( !storyResources[contextualization.resourceId] ) {
-      const savedResource = copiedResources.find( ( resource ) => resource.id === contextualization.resourceId );
+      const savedResource = ( copiedResources || [] ).find( ( resource ) => resource.id === contextualization.resourceId );
       if ( savedResource ) {
         resourcesToCreate.push( savedResource );
       // if resource is not there and not saved, then it is invalid
