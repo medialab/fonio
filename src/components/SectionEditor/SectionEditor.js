@@ -87,6 +87,7 @@ import OrderedListItemButton from './buttons/OrderedListItemButton';
 import RemoveFormattingButton from './buttons/RemoveFormattingButton';
 import ResourceSearchWidget from './ResourceSearchWidget';
 import UnorderedListItemButton from './buttons/UnorderedListItemButton';
+import Separator from './buttons/Separator';
 
 /**
  * Imports Assets
@@ -1066,10 +1067,11 @@ class SectionEditor extends Component {
       tooltip={ this.translate( 'quote' ) }
       key={ 3 }
     />,
-    <Button
-      isDisabled
+    
+    <Separator
       key={ 'sep-2' }
     />,
+  
     <BoldButton
       tooltip={ this.translate( 'bold text' ) }
       key={ 1 }
@@ -1082,10 +1084,11 @@ class SectionEditor extends Component {
       tooltip={ this.translate( 'remove formatting for selection' ) }
       key={ 9 }
     />,
-    <Button
-      isDisabled
+    
+    <Separator
       key={ 'sep-1' }
     />,
+    
     <GlossaryButton
       tooltip={ this.translate( 'add a link to a glossary entry' ) }
       key={ 9 }
@@ -1094,6 +1097,7 @@ class SectionEditor extends Component {
       tooltip={ this.translate( 'add a link to a webpage' ) }
       key={ 10 }
     />,
+    
     <InternalLinkButton
       tooltip={ this.translate( 'add a link to another section' ) }
       key={ 11 }
