@@ -6,6 +6,6 @@ import {
 
   export default () => (
     <Button
-        isDisabled
+      isDisabled
     />
-  )
+  );
