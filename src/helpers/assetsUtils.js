@@ -14,6 +14,7 @@ import {
   convertToRaw,
   Modifier,
   EditorState,
+  SelectionState,
 } from 'draft-js';
 
 import {
@@ -486,9 +487,25 @@ export const summonAsset = ( contentId, resourceId, props ) => {
       insertBlockContextualization( newEditorState, contextualization, contextualizer, resource ) :
       insertInlineContextualization( newEditorState, contextualization, contextualizer, resource, isMutable );
 
+    // update selection to put cursor after newly created item
+    const newContentState = newEditorState.getCurrentContent();
+    const lastEntityKey = newContentState.getLastCreatedEntityKey();
+    const entity = newContentState.getEntity( lastEntityKey );
+    let newSelection = newEditorState.getSelection();
+    const activeSelection = newEditorState.getSelection();
+    if ( insertionType === 'block' ) {
+      const offsetKey = activeSelection.getFocusKey();
+      const blockAfter = newContentState.getBlockAfter( offsetKey );
+      if ( blockAfter ) {
+        newSelection = SelectionState.createEmpty( blockAfter.getKey() );
+      }
+    }
+    newEditorState = EditorState.forceSelection( newEditorState, newSelection );
+
     // update immutable editor state
 
     updateDraftEditorState( editorStateId, newEditorState );
+
     // update serialized editor state
     let newSection;
     if ( contentId === 'main' ) {
@@ -510,6 +527,7 @@ export const summonAsset = ( contentId, resourceId, props ) => {
       };
     }
     updateSection( { storyId, sectionId, section: newSection, userId } );
+
     setEditorFocus( undefined );
     setTimeout( () => setEditorFocus( contentId ) );
   };

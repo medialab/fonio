@@ -119,6 +119,11 @@
                     }
                 }
             }
+            .public-DraftEditorPlaceholder-root{
+                z-index: 1000;
+                width: 100%;
+                top: 0;
+            }
             .public-DraftEditor-content,
             .public-DraftEditorPlaceholder-inner
             {
@@ -140,6 +145,10 @@
                     margin-bottom: .5rem;
                     // display: flex;
                     // flex-flow: row nowrap;
+                }
+
+                .public-DraftStyleDefault-depth0{
+                    margin-left: 0rem;
                 }
 
                 .public-DraftStyleDefault-depth1{

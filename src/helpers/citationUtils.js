@@ -6,6 +6,11 @@ import {
   constants
 } from 'scholar-draft';
 
+import CSL from 'citeproc';
+import { Parser } from 'html-to-react';
+
+const htmlToReactParser = new Parser();
+
 import defaultStyle from 'raw-loader!../sharedAssets/bibAssets/apa.csl';
 import defaultLocale from 'raw-loader!../sharedAssets/bibAssets/english-locale.xml';
 
@@ -31,19 +36,86 @@ export const getCitationModels = ( story ) => {
   return { style, locale };
 };
 
+const buildCitationComponents = ( { style, locale, citationItems, citationData } ) => {
+  const sys = {
+    retrieveLocale: () => {
+      return locale;
+    },
+    retrieveItem: ( id ) => {
+      return citationItems[id];
+    },
+    variableWrapper: ( params, prePunct, str, postPunct ) => {
+      if ( params.variableNames[0] === 'title'
+          && params.itemData.URL
+          && params.context === 'bibliography' ) {
+        return `${prePunct
+            }<a href="${
+              params.itemData.URL
+            }" target="blank">${
+              str
+            }</a>${
+              postPunct}`;
+      }
+      else if ( params.variableNames[0] === 'URL' ) {
+        return `${prePunct
+            }<a href="${
+              str
+            }" target="blank">${
+              str
+            }</a>${
+              postPunct}`;
+      }
+      else {
+        return ( prePunct + str + postPunct );
+      }
+    }
+  };
+
+  const processor = new CSL.Engine( sys, style );
+  return citationData.reduce( ( inputCitations, thatCitationData ) => {
+    const citations = { ...inputCitations };
+    const citation = thatCitationData[0];
+    const citationsPre = thatCitationData[1];
+    const citationsPost = thatCitationData[2];
+    let citationObjects;
+    try {
+      citationObjects = processor.processCitationCluster( citation, citationsPre, citationsPost );
+      citationObjects = citationObjects[1];
+      citationObjects.forEach( ( cit ) => {
+        const order = cit[0];
+        const html = cit[1];
+        const ThatComponent = htmlToReactParser.parse( cit[1] );
+        const citationId = cit[2];
+        citations[citationId] = {
+          order,
+          html,
+          Component: ThatComponent
+        };
+      } );
+    }
+ catch ( e ) {
+      console.error( e );/* eslint no-console : 0 */
+    }
+    return citations;
+  }, {} );
+};
+
 /**
  * Builds citation data for react-citeproc
  * @return {object} formatted data
  */
 export const buildCitations = ( assets, props ) => {
   const {
-    story: {
-      contextualizations,
-      resources,
-      contextualizers
-    },
+    story,
     activeSection
   } = props;
+
+  const {
+    contextualizations,
+    resources,
+    contextualizers
+  } = story;
+  const { style, locale } = getCitationModels( story );
 
     /*
      * Citations preparation
@@ -140,5 +212,7 @@ export const buildCitations = ( assets, props ) => {
        */
     ] );
 
-    return { citationItems, citationData };
+    const citationComponents = buildCitationComponents( { style, locale, citationItems, citationData } );
+
+    return { citationItems, citationData, citationComponents };
 };

@@ -33,8 +33,7 @@ class InlineCitation extends Component {
    */
   static contextTypes = {
     t: PropTypes.func.isRequired,
-    citations: PropTypes.object,
-    startExistingResourceConfiguration: PropTypes.func
+    startExistingResourceConfiguration: PropTypes.func,
   }
 
   /**
@@ -86,6 +85,7 @@ class InlineCitation extends Component {
       asset,
       onAssetChange,
       onAssetFocus,
+      customContext = {},
     } = this.props;
     const {
       contextualizerOpen
@@ -96,7 +96,7 @@ class InlineCitation extends Component {
     const {
       t,
       startExistingResourceConfiguration,
-      citations,
+      // citations,
     } = this.context;
 
     const {
@@ -107,7 +107,9 @@ class InlineCitation extends Component {
     /**
      * Computed variables
      */
-    const representation = asset && citations && citations[asset.id];
+    // const representation = asset && citations && citations[asset.id];
+    const representation = asset && customContext && customContext.citations
+     && customContext.citations.citationComponents && customContext.citations.citationComponents[asset.id];
 
     /**
      * Local functions
