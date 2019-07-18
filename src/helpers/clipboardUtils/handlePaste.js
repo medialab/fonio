@@ -78,8 +78,8 @@ const handlePaste = function( html ) {
     const activeEditorState = editorStates[activeEditorStateId];
 
     // check whether the clipboard contains fonio data
-    const dataRegex = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>$/gm;
-    const hasScript = dataRegex.test( html );
+    const dataRegex = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>/gm;
+    const hasScript = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>/gm.test( html );
 
     /**
      * ======================================

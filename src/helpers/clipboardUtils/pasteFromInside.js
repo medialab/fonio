@@ -508,6 +508,7 @@ export const computePastedData = ( {
   let newContextualizers;
 
   const createLocalDecorator = () => {
+
     return editor ?
      editor.mainEditor.createLocalDecorator()
      : createDecorator( {
