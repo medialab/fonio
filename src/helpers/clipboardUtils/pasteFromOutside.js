@@ -192,7 +192,7 @@ export const handlePasting = ( {
         }
         return imagesToAdd.reduce( ( cur, next, index ) => {
           return cur.then( () => {
-            return new Promise( ( resolve, reject ) => {
+            return new Promise( ( resolve ) => {
                setEditorPastingStatus( {
                 status: 'creating-images',
                 statusParameters: {
@@ -218,7 +218,43 @@ export const handlePasting = ( {
                     resource
                   }, 'create', ( err ) => {
                     if ( err ) {
-                      reject( err );
+                      resolve();
+
+                      /**
+                       * somehow the image was fetched but could not be created.
+                       * We have to filter out related contextualizations
+                       */
+                      contextualizationsToAdd = contextualizationsToAdd.filter( ( contextualization ) => {
+
+                        if ( contextualization.resourceId === next.id ) {
+                          // remove contextualizer to create
+                          contextualizersToAdd = contextualizersToAdd.filter( ( contextualizer ) => contextualizer.id !== contextualization.contextualizerId );
+                          // remove entity from new content state to avoid discrepancies
+                          newContentState.getBlocksAsArray()
+                          .forEach( ( contentBlock ) => {
+                            contentBlock.getCharacterList()
+                              .forEach( ( character, charIndex ) => {
+                                let entity = character.getEntity();
+                                if ( entity ) {
+                                  entity = newContentState.getEntity( entity );
+                                  entity = entity.toJS();
+                                  if ( entity.type === 'BLOCK_ASSET' && entity.data && entity.data.asset && entity.data.asset.id === contextualization.id ) {
+                                    let selection = SelectionState.createEmpty( contentBlock.getKey() );
+                                    selection = selection.merge( {
+                                      anchorOffset: charIndex,
+                                      focusOffset: charIndex + 1,
+                                    } );
+                                    newContentState = Modifier.applyEntity( newContentState, selection, null );
+                                  }
+                                }
+                              } );
+                          } );
+                          return false;
+                        }
+                        return true;
+                      } );
+                      resolve();
+                      // reject( err );
                     }
                     else {
                       resolve();
@@ -238,6 +274,7 @@ export const handlePasting = ( {
                   // cancel contextualizations creation and entities attached to this resource
                   const resourceId = next.id;
                   contextualizationsToAdd = contextualizationsToAdd.filter( ( contextualization ) => {
+
                     if ( contextualization.resourceId === resourceId ) {
                       // remove contextualizer to create
                       contextualizersToAdd = contextualizersToAdd.filter( ( contextualizer ) => contextualizer.id !== contextualization.contextualizerId );
@@ -342,7 +379,7 @@ export const handlePasting = ( {
             if ( err ) {
               reject( err );
             }
- else {
+            else {
               return resolve();
             }
           } );
