@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-7-19\n"
-"PO-Revision-Date: Fri Jul 19 2019 11:49:12 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Fri Jul 19 2019 14:43:05 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2240,6 +2240,27 @@ msgstr ""
 msgid "Components.EmbedHelpModal.Here are some examples of tools and code blocks you could include:"
 msgstr "Here are some examples of tools and code blocks you could include:"
 
+msgid "Features.LibraryView.delete this bib"
+msgstr "delete this reference"
+
+msgid "Features.LibraryView.delete this embed"
+msgstr "delete this advanced block"
+
+msgid "Features.LibraryView.delete this image"
+msgstr "delete this image"
+
+msgid "Features.LibraryView.delete this resource"
+msgstr "delete this item"
+
+msgid "Features.LibraryView.delete this table"
+msgstr "delete this table"
+
+msgid "Features.LibraryView.delete this video"
+msgstr "delete this video"
+
+msgid "Features.LibraryView.delete this webpage"
+msgstr "delete this hyperlink"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"
 
@@ -2278,27 +2299,6 @@ msgstr "Adding \"{n}\""
 
 msgid "Components.UploadModal."{f}" is too big"
 msgstr "\"{f}\" is too big"
-
-msgid "Features.LibraryView.delete this bib"
-msgstr "delete this reference"
-
-msgid "Features.LibraryView.delete this embed"
-msgstr "delete this advanced block"
-
-msgid "Features.LibraryView.delete this image"
-msgstr "delete this image"
-
-msgid "Features.LibraryView.delete this resource"
-msgstr "delete this item"
-
-msgid "Features.LibraryView.delete this table"
-msgstr "delete this table"
-
-msgid "Features.LibraryView.delete this video"
-msgstr "delete this video"
-
-msgid "Features.LibraryView.delete this webpage"
-msgstr "delete this hyperlink"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "For suggesting improvements or signaling bugs, please head to <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">this page</a> and to follow the proposed procedure. Thanks !"

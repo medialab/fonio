@@ -741,11 +741,11 @@
   "Components.BibHelpModal.Help with bibliographic citations": "Help with bibliographic citations",
   "Components.BibHelpModal.In higher education and scientific research, a good practice for managing references and bibliographies is to use specialized software for storing and documenting references in a form which is independent of a specific citation style.": "In higher education and scientific research, a good practice for managing references and bibliographies is to use specialized software for storing and documenting references in a form which is independent of a specific citation style.",
   "Components.BibHelpModal.For a fast bibliography making tool, you can use zbib which helps building small bibliographies online:": "For a fast & lightweight bibliography making tool, you can use zbib which helps building small bibliographies online:",
-  "Components.BibHelpModal.For a more substantial bibliography making tool, you may want to install zotero software:": "For a more substantial (and collaborative) bibliography making tool, you may want to install zotero software:",
+  "Components.BibHelpModal.For a more substantial bibliography making tool, you may want to install zotero software:": "For a more substantial (and collaborative) bibliography making tool, you may want to install zotero software: ",
   "Components.BibHelpModal.Fonio accepts citation files in the form of bibtex files, which can be exported from all bibliography-related tools and websites.": "Fonio accepts citation files coming from this type of software in the form of bibtex files.",
   "Components.BibHelpModal.Bibtex is a standard format for exchanging academic references accross tools. You should not have to manipulate them directly, but Bibtex data looks like this: ": "Bibtex is a standard format for exchanging academic references accross tools. You should not have to manipulate them directly, but Bibtex data looks like this: ",
   "Components.BibHelpModal.Try it !": "Try it !",
-  "Components.ResourceForm.help about bibliographic references": "help about bibliographic references",
+  "Components.ResourceForm.help about bibliographic references": "help",
   "Components.EmbedHelpModal.Advanced blocks allow you to feature (HTML) contents coming from the various online tools and platform that can help you mobilize the documents and data of your inquiry in your website.": "Advanced blocks allow you to feature (HTML) contents coming from the various online tools and platform that can help you mobilize the documents and data of your inquiry in your website.",
   "Components.EmbedHelpModal.Here are some examples of tools and code blocks you could include:": "Here are some examples of tools and code blocks you could include:"
 }
