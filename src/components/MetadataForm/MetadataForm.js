@@ -59,6 +59,7 @@ class MetadataForm extends Component {
         status,
         onSubmit,
         onCancel,
+        isCreationForm,
       },
       context: {
         t
@@ -156,6 +157,34 @@ class MetadataForm extends Component {
                     }
                   </Field>
               }
+              {requirePublicationConsent &&
+              <Field>
+                {isCreationForm &&
+                <p style={ { marginTop: '2rem' } }>
+                  <i>{translate( 'publication-consent-message-1' )}</i>
+                </p>}
+                <Label style={ { marginTop: '1rem' } }>
+                  {translate( 'publication-consent-message-2' )}
+                </Label>
+                <Control>
+                  <Radio
+                    checked={ formApi.getValue( 'publicationConsent' ) === true ? true : false }
+                    onChange={ () => formApi.setValue( 'publicationConsent', true ) }
+                  >
+                    {translate( 'yes' )}
+                  </Radio>
+                  <Radio
+                    checked={ formApi.getValue( 'publicationConsent' ) === false ? true : false }
+                    onChange={ () => formApi.setValue( 'publicationConsent', false ) }
+                  >
+                    {translate( 'no' )}
+                  </Radio>
+                </Control>
+                {
+                  formApi.errors && formApi.errors.publicationConsent &&
+                    <Help isColor={ 'danger' }>{formApi.errors.publicationConsent}</Help>
+                }
+              </Field>}
               <Field>
                 <Control>
                   <ExplainedLabel
@@ -206,33 +235,6 @@ class MetadataForm extends Component {
                   />
                 </Control>
               </Field>
-              {requirePublicationConsent &&
-              <Field>
-                <p style={ { marginTop: '2rem' } }>
-                  <i>{translate( 'publication-consent-message-1' )}</i>
-                </p>
-                <Label style={ { marginTop: '1rem' } }>
-                  {translate( 'publication-consent-message-2' )}
-                </Label>
-                <Control>
-                  <Radio
-                    checked={ formApi.getValue( 'publicationConsent' ) === true ? true : false }
-                    onChange={ () => formApi.setValue( 'publicationConsent', true ) }
-                  >
-                    {translate( 'yes' )}
-                  </Radio>
-                  <Radio
-                    checked={ formApi.getValue( 'publicationConsent' ) === false ? true : false }
-                    onChange={ () => formApi.setValue( 'publicationConsent', false ) }
-                  >
-                    {translate( 'no' )}
-                  </Radio>
-                </Control>
-                {
-                  formApi.errors && formApi.errors.publicationConsent &&
-                    <Help isColor={ 'danger' }>{formApi.errors.publicationConsent}</Help>
-                }
-              </Field>}
 
               {!story.id && status === 'processing' && <Help>{translate( 'Creating story' )}</Help>}
               {!story.id && status === 'fail' && <Help isColor={ 'danger' }>{translate( 'Story could not be created' )}</Help>}

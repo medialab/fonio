@@ -78,6 +78,7 @@ const NewStoryForm = ( {
               status={ createStoryStatus }
               onSubmit={ onCreateNewStory }
               onCancel={ onCloseNewStory }
+              isCreationForm
             />
                 :
             <Column>
