@@ -142,6 +142,8 @@ const SectionViewLayout = ( {
     setStoryIsSaved,
     setErrorMessage,
     setSelectedContextualizationId,
+
+    createStoryObjects,
   },
   goToSection,
   summonAsset,
@@ -656,6 +658,7 @@ const SectionViewLayout = ( {
                 uploadStatus,
                 userId,
                 userLockedResourceId,
+                createStoryObjects,
               }
             }
 

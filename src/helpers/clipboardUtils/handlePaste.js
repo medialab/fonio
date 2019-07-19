@@ -51,6 +51,7 @@ const handlePaste = function( html ) {
       setEditorPastingStatus,
       setEditorFocus,
       uploadResource,
+      createStoryObjects,
     } = props;
 
     const {
@@ -110,6 +111,8 @@ const handlePaste = function( html ) {
 
         setEditorFocus,
 
+        createStoryObjects,
+
       } );
     }
 
@@ -145,6 +148,8 @@ const handlePaste = function( html ) {
         copiedData,
         html,
         dataRegex,
+
+        createStoryObjects,
       } );
     }
   };

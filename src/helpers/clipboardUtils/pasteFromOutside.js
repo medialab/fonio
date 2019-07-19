@@ -122,8 +122,7 @@ export const handlePasting = ( {
   updateSection,
   createResource,
   uploadResource,
-  createContextualization,
-  createContextualizer,
+  createStoryObjects,
   updateDraftEditorState,
 
   setEditorPastingStatus,
@@ -328,47 +327,70 @@ export const handlePasting = ( {
           } );
         }
 
-        return contextualizersToAdd.reduce( ( cur, next, index ) => {
-          return cur.then( () => {
-            return new Promise( ( resolve, reject ) => {
-               setEditorPastingStatus( {
-                status: 'attaching-contextualizers',
-                statusParameters: {
-                  length: contextualizersToAdd.length,
-                  iteration: index + 1
-                }
-              } );
-              const contextualizationToCreate = contextualizationsToAdd[index];
-
-              createContextualizer( {
-                storyId,
-                userId,
-                contextualizerId: next.id,
-                contextualizer: next
-              }, ( err ) => {
-                if ( err ) {
-                  reject( err );
-                }
-                // then creating the contextualization
-                else {
-                  createContextualization( {
-                    storyId,
-                    userId,
-                    contextualizationId: contextualizationToCreate.id,
-                    contextualization: contextualizationToCreate
-                  }, ( err2 ) => {
-                    if ( err2 ) {
-                      reject( err2 );
-                    }
-                    else {
-                      resolve();
-                    }
-                  } );
-                }
-              } );
-            } );
+        return new Promise( ( resolve, reject ) => {
+          createStoryObjects( {
+            storyId,
+            contextualizers: contextualizersToAdd.reduce( ( res, cont ) => ( {
+              ...res,
+              [cont.id]: cont,
+            } ), {} ),
+            contextualizations: contextualizationsToAdd.reduce( ( res, cont ) => ( {
+              ...res,
+              [cont.id]: cont,
+            } ), {} ),
+          }, ( err ) => {
+            if ( err ) {
+              reject( err );
+            }
+ else {
+              return resolve();
+            }
           } );
-        }, Promise.resolve() );
+        } );
+
+        /*
+         *return contextualizersToAdd.reduce( ( cur, next, index ) => {
+         * return cur.then( () => {
+         * return new Promise( ( resolve, reject ) => {
+         * setEditorPastingStatus( {
+         * status: 'attaching-contextualizers',
+         * statusParameters: {
+         * length: contextualizersToAdd.length,
+         * iteration: index + 1
+         * }
+         * } );
+         * const contextualizationToCreate = contextualizationsToAdd[index];
+         *
+         * createContextualizer( {
+         * storyId,
+         * userId,
+         * contextualizerId: next.id,
+         * contextualizer: next
+         * }, ( err ) => {
+         * if ( err ) {
+         * reject( err );
+         * }
+         * // then creating the contextualization
+         * else {
+         * createContextualization( {
+         * storyId,
+         * userId,
+         * contextualizationId: contextualizationToCreate.id,
+         * contextualization: contextualizationToCreate
+         * }, ( err2 ) => {
+         * if ( err2 ) {
+         * reject( err2 );
+         * }
+         * else {
+         * resolve();
+         * }
+         * } );
+         * }
+         * } );
+         * } );
+         * } );
+         *}, Promise.resolve() );
+         */
 
       } )
 
@@ -432,8 +454,7 @@ const pasteFromOutside = ( {
   updateSection,
   createResource,
   uploadResource,
-  createContextualization,
-  createContextualizer,
+  createStoryObjects,
   updateDraftEditorState,
 
   setEditorPastingStatus,
@@ -462,8 +483,7 @@ const pasteFromOutside = ( {
         updateSection,
         createResource,
         uploadResource,
-        createContextualization,
-        createContextualizer,
+        createStoryObjects,
         updateDraftEditorState,
 
         setEditorPastingStatus,
@@ -485,8 +505,7 @@ const pasteFromOutside = ( {
     updateSection,
     createResource,
     uploadResource,
-    createContextualization,
-    createContextualizer,
+    createStoryObjects,
     updateDraftEditorState,
 
     setEditorPastingStatus,

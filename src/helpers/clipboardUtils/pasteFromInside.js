@@ -957,8 +957,7 @@ export const computePastedData = ( {
  */
 const pasteFromInside = ( {
   updateSection,
-  createContextualization,
-  createContextualizer,
+  createStoryObjects,
   createResource,
   uploadResource,
   userId,
@@ -1087,7 +1086,7 @@ const pasteFromInside = ( {
         } ) )
 
         /**
-         * Create contextualizers
+         * Create contextualizers and contextualizations
          */
         .then( () => new Promise( ( res1, rej1 ) => {
           // paste contextualizers (attributing them a new id)
@@ -1098,62 +1097,29 @@ const pasteFromInside = ( {
                 length: contextualizersToCreate.length
               }
             } );
-            contextualizersToCreate.reduce( ( cur, contextualizer ) => {
-              return cur.then( () => new Promise( ( res2, rej2 ) => {
-
-                createContextualizer( {
-                  storyId,
-                  contextualizerId: contextualizer.id,
-                  contextualizer: { ...contextualizer, id: contextualizer.id }, userId
-                }, ( err ) => {
-                  if ( err ) {
-                    rej2( err );
-                  }
-                  else res2();
-                } );
-
-              } ) );
-
-            }, Promise.resolve() )
-            .then( () => res1() )
-            .catch( rej1 );
-          }
-          else res1();
-        } ) )
-
-        /**
-         * Create contextualizations
-         */
-        .then( () => new Promise( ( res1, rej1 ) => {
-          // paste assets/contextualizations (attributing them a new id)
-          if ( contextualizationsToCreate.length ) {
-
-            contextualizationsToCreate.reduce( ( cur, contextualization ) => {
-              return cur.then( () => new Promise( ( res2, rej2 ) => {
-
-                createContextualization( {
-                  storyId,
-                  contextualizationId: contextualization.id,
-                  contextualization,
-                  userId,
-                }, ( err ) => {
-                  if ( err ) {
-                    rej2( err );
-                  }
-                  else res2();
-                } );
-
-              } ) );
-
-            }, Promise.resolve() )
-            .then( () => res1() )
-            .catch( rej1 );
+            createStoryObjects( {
+              storyId,
+              contextualizers: contextualizersToCreate.reduce( ( res, cont ) => ( {
+                ...res,
+                [cont.id]: cont,
+              } ), {} ),
+              contextualizations: contextualizationsToCreate.reduce( ( res, cont ) => ( {
+                ...res,
+                [cont.id]: cont,
+              } ), {} ),
+            }, ( err ) => {
+              if ( err ) {
+                rej1( err );
+              }
+ else {
+                return res1();
+              }
+            } );
           }
           else res1();
         } ) )
         .then( resolve )
         .catch( reject );
-
     } ) )
 
     /*

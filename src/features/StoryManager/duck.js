@@ -56,6 +56,8 @@ export const CREATE_CONTEXTUALIZATION = 'CREATE_CONTEXTUALIZATION';
 export const UPDATE_CONTEXTUALIZATION = 'UPDATE_CONTEXTUALIZATION';
 export const DELETE_CONTEXTUALIZATION = 'DELETE_CONTEXTUALIZATION';
 
+export const CREATE_STORY_OBJECTS = 'CREATE_STORY_OBJECTS';
+
 export const SET_COVER_IMAGE = 'SET_COVER_IMAGE';
 
 export const UPLOAD_RESOURCE = 'UPLOAD_RESOURCE';
@@ -190,6 +192,17 @@ export const updateStory = ( TYPE, payload, callback ) => {
         }
       };
       break;
+      case CREATE_STORY_OBJECTS:
+          payloadSchema = {
+            ...DEFAULT_PAYLOAD_SCHEMA,
+            properties: {
+              ...DEFAULT_PAYLOAD_SCHEMA.properties,
+              contextualizations: storySchema.properties.contextualizations,
+              contextualizers: storySchema.properties.contextualizers,
+            },
+            definitions: storySchema.definitions,
+          };
+          break;
     case CREATE_CONTEXTUALIZATION:
     case UPDATE_CONTEXTUALIZATION:
       payloadSchema = {
@@ -328,6 +341,8 @@ export const deleteContextualizer = ( payload, callback ) => updateStory( DELETE
 export const createContextualization = ( payload, callback ) => updateStory( CREATE_CONTEXTUALIZATION, payload, callback );
 export const updateContextualization = ( payload, callback ) => updateStory( UPDATE_CONTEXTUALIZATION, payload, callback );
 export const deleteContextualization = ( payload, callback ) => updateStory( DELETE_CONTEXTUALIZATION, payload, callback );
+
+export const createStoryObjects = ( payload, callback ) => updateStory( CREATE_STORY_OBJECTS, payload, callback );
 
 export const setCoverImage = ( payload ) => updateStory( SET_COVER_IMAGE, payload );
 
@@ -772,6 +787,31 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
     /**
      * CONTEXTUALIZATION RELATED
      */
+    case CREATE_STORY_OBJECTS:
+    case `${CREATE_STORY_OBJECTS}_BROADCAST`:
+      if ( !state.story ) {
+        return state;
+      }
+      const {
+        contextualizations: newContextualizations,
+        contextualizers: newContextualizers,
+        lastUpdateAt,
+      } = payload;
+      return {
+        ...state,
+        story: {
+          ...state.story,
+          contextualizations: {
+            ...state.story.contextualizations,
+            ...newContextualizations,
+          },
+          contextualizers: {
+            ...state.story.contextualizers,
+            ...newContextualizers,
+          },
+          lastUpdateAt,
+        }
+      };
     // contextualizations CUD
     case UPDATE_CONTEXTUALIZATION:
     case `${UPDATE_CONTEXTUALIZATION}_BROADCAST`:
