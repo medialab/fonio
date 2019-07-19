@@ -429,12 +429,14 @@ class SummaryViewLayout extends Component {
                   </Content>
                 </div>}
                 {
+                  !metadataOpen &&
                   activeAuthors.length > 1 &&
                     <Title isSize={ 4 }>
                       {translate( 'What are other authors doing ?' )}
                     </Title>
                 }
                 {
+                  !metadataOpen &&
                       activeAuthors
                       .filter( ( a ) => a.userId !== userId )
                       .map( ( author, authorIndex ) =>
