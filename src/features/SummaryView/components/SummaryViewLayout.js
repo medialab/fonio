@@ -226,7 +226,7 @@ class SummaryViewLayout extends Component {
           section: newSection,
           storyId,
           userId,
-          sectionIndex: sectionsList.length - 1
+          sectionIndex: sectionsList.length
         } );
         setNewSectionOpen( false );
         goToSection( newSection.id );
