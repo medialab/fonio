@@ -18,32 +18,37 @@ const EmbedHelpModal = ( {
     {
         toolName: 'Tesselle',
         toolURL: 'https://medialab.github.io/tesselle',
-        embedCode: '<iframe allowfullscreen="true" src="https://medialab.github.io/tesselle-example/"></iframe>',
-        whatFor: translate( 'Annotate an image' )
+        embedCode: '<iframe allowfullscreen src="https://medialab.github.io/tesselle-example/"></iframe>',
+        whatFor: translate( 'Annotate an image' ),
+        tempTitle: translate( 'Image annotation example' ),
     },
     {
         toolName: 'Timeline JS',
         toolURL: 'https://timeline.knightlab.com',
-        embedCode: '<iframe allowfullscreen="true" src="https://timeline.knightlab.com/examples/republican/index.html"></iframe>',
-        whatFor: translate( 'Make a timeline' )
+        embedCode: '<iframe allowfullscreen src="https://timeline.knightlab.com/examples/republican/index.html"></iframe>',
+        whatFor: translate( 'Make a timeline' ),
+        tempTitle: translate( 'Timeline example' ),
     },
     {
         toolName: 'Soundcloud',
         toolURL: 'https://soundcloud.com',
         embedCode: '<iframe scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/573509655&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>',
-        whatFor: translate( 'Share an audio interview' )
+        whatFor: translate( 'Share an audio interview' ),
+        tempTitle: translate( 'Audio interview example' ),
     },
     {
         toolName: 'Graphcommons',
         toolURL: 'https://graphcommons.com/',
-        embedCode: '<iframe allowfullscreen="true" src="https://graphcommons.com/graphs/f613de7b-4d02-49eb-aa43-1d9ee5168182/embed?fitgraph=true" frameborder="0" style="overflow:hidden;width:1px;min-width:100%;height: 100vh;min-height:400px;" width="100%" height="100%" allowfullscreen></iframe>',
-        whatFor: translate( 'Build a network of people, organization, issues' )
+        embedCode: '<iframe allowfullscreen" src="https://graphcommons.com/graphs/f613de7b-4d02-49eb-aa43-1d9ee5168182/embed?fitgraph=true" frameborder="0" style="overflow:hidden;width:1px;min-width:100%;height: 100vh;min-height:400px;" width="100%" height="100%" allowfullscreen></iframe>',
+        whatFor: translate( 'Build a network of people, organization, issues' ),
+        tempTitle: translate( 'Network example' ),
     },
     {
         toolName: 'Dicto',
         toolURL: 'https://dictoapp.github.io',
-        embedCode: '<iframe allowfullscreen="true" src="https://dictoapp.github.io/corpus-example/"></iframe>',
-        whatFor: translate( 'Tag and annotate online videos' )
+        embedCode: '<iframe allowfullscreen src="https://dictoapp.github.io/corpus-example/"></iframe>',
+        whatFor: translate( 'Tag and annotate online videos' ),
+        tempTitle: translate( 'Video corpus example' ),
     }
     ];
     return (
@@ -80,7 +85,7 @@ const EmbedHelpModal = ( {
                                 const handleClick = ( e ) => {
                                     e.stopPropagation();
                                     e.preventDefault();
-                                    onChooseSample( tool.embedCode );
+                                    onChooseSample( tool.embedCode, tool.tempTitle );
                                 };
                                 return (
                                   <tr key={ index }>

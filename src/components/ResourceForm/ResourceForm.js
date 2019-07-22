@@ -314,8 +314,9 @@ class DataForm extends Component {
       const handleChange = ( html ) => {
         formApi.setValue( 'data', { html } );
       };
-      const onChooseSample = ( html ) => {
+      const onChooseSample = ( html, title ) => {
         handleChange( html );
+        formApi.setValue( 'metadata.title', title );
         this.toggleEmbedHelpOpen();
       };
       const handlEmbedHelpToggleRequest = this.toggleEmbedHelpOpen;

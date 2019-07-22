@@ -47,6 +47,7 @@ const PreviewWrapper = ( props ) => {
       name={ 'preview' }
       id={ 'preview' }
       style={ { width: '100%', height: '100%' } }
+      allowFullScreen
     >
       <FrameContextConsumer>
         {( { document, window } ) => (
