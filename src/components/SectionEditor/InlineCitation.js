@@ -43,8 +43,17 @@ class InlineCitation extends Component {
   constructor( props ) {
     super( props );
     this.state = {
-      contextualizerOpen: false
+      contextualizerOpen: false,
+      asset: props.asset,
     };
+  }
+
+  componentWillReceiveProps ( nextProps, nextState ) {
+    if ( this.props.asset !== nextProps.asset || this.state.contextualizerOpen !== nextState.contextualizerOpen ) {
+      this.setState( {
+        asset: nextProps.asset,
+      } );
+    }
   }
 
   /**
@@ -58,13 +67,30 @@ class InlineCitation extends Component {
       this.props.asset !== nextProps.asset
       || this.props.customContext !== nextProps.customContext
       || this.state.contextualizerOpen !== nextState.contextualizerOpen
+      || this.state.asset !== nextState.asset
     );
+  }
+
+  componentDidUpdate = ( prevProps, prevState ) => {
+    if ( !prevState.contextualizerOpen && this.state.contextualizerOpen && this.locatorInput ) {
+      this.locatorInput.blur();
+    }
   }
 
   toggleContextualizer = () => {
     this.setState( {
       contextualizerOpen: !this.state.contextualizerOpen
     } );
+  }
+
+  handleSubmit = () => {
+    const {
+      asset: {
+        contextualizer
+      }
+    } = this.state;
+    this.props.onAssetChange( 'contextualizer', contextualizer.id, contextualizer );
+    this.toggleContextualizer();
   }
 
   /**
@@ -82,16 +108,21 @@ class InlineCitation extends Component {
      */
     const {
       children,
-      asset,
-      onAssetChange,
+
+      /*
+       * asset,
+       * onAssetChange,
+       */
       onAssetFocus,
       customContext = {},
     } = this.props;
     const {
+      asset,
       contextualizerOpen
     } = this.state;
     const {
-      toggleContextualizer
+      toggleContextualizer,
+      handleSubmit,
     } = this;
     const {
       t,
@@ -119,19 +150,34 @@ class InlineCitation extends Component {
     /**
      * Callbacks handlers
      */
+    const onAssetChange = ( key, id, value ) => {
+      const newAsset = {
+        ...asset,
+        [key]: {
+          ...value
+        }
+      };
+      this.setState( {
+        asset: newAsset
+      } );
+    };
     const handleClickOnEdit = () => {
       this.toggleContextualizer();
       startExistingResourceConfiguration( resource.id );
     };
 
-    const handleLocatorChange = ( { target: { value: locator } } ) => {
+    const handleLocatorChange = ( event ) => {
+      const { target: { value: locator } } = event;
+      event.stopPropagation();
       const newContextualizer = {
         ...contextualizer,
         locator
       };
       onAssetChange( 'contextualizer', contextualizer.id, newContextualizer );
     };
-    const handleSuffixChange = ( { target: { value: suffix } } ) => {
+    const handleSuffixChange = ( event ) => {
+      const { target: { value: suffix } } = event;
+      event.stopPropagation();
       const newContextualizer = {
         ...contextualizer,
         suffix
@@ -141,6 +187,11 @@ class InlineCitation extends Component {
 
     const handleInputClick = ( e ) => {
       onAssetFocus( e );
+      e.stopPropagation();
+    };
+
+    const bindLocatorInput = ( locatorInput ) => {
+      this.locatorInput = locatorInput;
     };
     return [
       <span
@@ -178,6 +229,7 @@ class InlineCitation extends Component {
                     onClick={ handleInputClick }
                     value={ contextualizer.locator || '' }
                     field={ 'locator' }
+                    ref={ bindLocatorInput }
                     id={ 'locator' }
                     type={ 'text' }
                     onChange={ handleLocatorChange }
@@ -213,7 +265,7 @@ class InlineCitation extends Component {
             type={ 'submit' }
             isFullWidth
             key={ 0 }
-            onClick={ toggleContextualizer }
+            onClick={ handleSubmit }
             isColor={ 'primary' }
           >
             {translate( 'Validate' )}
