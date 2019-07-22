@@ -27,7 +27,7 @@ import {
 } from 'quinoa-design-library/components/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
-import { faFile } from '@fortawesome/free-solid-svg-icons/faFile';
+// import { faFile } from '@fortawesome/free-solid-svg-icons/faFile';
 import { faFont } from '@fortawesome/free-solid-svg-icons/faFont';
 import { faAlignJustify } from '@fortawesome/free-solid-svg-icons/faAlignJustify';
 
@@ -420,12 +420,12 @@ class SummaryViewLayout extends Component {
                         icon={ faAlignJustify }
                       /> {translate( [ 'one word', '{n} words', 'n' ], { n: stats.numberOfWords } )}
                     </p>
-                    <p style={ { display: 'flex', flexFlow: 'row nowrap' } }>
+                    {/*<p style={ { display: 'flex', flexFlow: 'row nowrap' } }>
                       <FontAwesomeIcon
                         style={ { marginRight: '1rem' } }
                         icon={ faFile }
                       /> {translate( [ 'one printed page (approximately)', '{n} printed pages (approximately)', 'n' ], { n: stats.numberOfPages } )}
-                    </p>
+                    </p>*/}
                   </Content>
                 </div>}
                 {
