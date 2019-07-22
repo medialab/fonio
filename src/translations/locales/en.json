@@ -752,5 +752,10 @@
   "Components.EmbedHelpModal.Timeline example": "Timeline example",
   "Components.EmbedHelpModal.Audio interview example": "Audio interview example",
   "Components.EmbedHelpModal.Network example": "Network example",
-  "Components.EmbedHelpModal.Video corpus example": "Video corpus example"
+  "Components.EmbedHelpModal.Video corpus example": "Video corpus example",
+  "Features.DesignView.Notes position help": "Choose where to display notes regarding the main contents",
+  "Features.DesignView.Figures position": "Figures position",
+  "Features.DesignView.Figures position help": "Choose how to present figures (images, tables, videos, advanced blocks)",
+  "Features.DesignView.in content body": "in content body",
+  "Features.DesignView.relative to scroll": "relative to scroll"
 }

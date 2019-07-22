@@ -752,5 +752,10 @@
   "Components.EmbedHelpModal.Timeline example": "Exempled de frise chronologique",
   "Components.EmbedHelpModal.Audio interview example": "Exemple d'enregistrement d'interview",
   "Components.EmbedHelpModal.Network example": "Exemple de réseau interactif",
-  "Components.EmbedHelpModal.Video corpus example": "Exemple de corpus vidéo"
+  "Components.EmbedHelpModal.Video corpus example": "Exemple de corpus vidéo",
+  "Features.DesignView.Notes position help": "Choisir où afficher les notes par rapport au contenu principal",
+  "Features.DesignView.Figures position": "Position des figures",
+  "Features.DesignView.Figures position help": "Choisir comment afficher les figures (images, tableaux, vidéos, blocs avancés)",
+  "Features.DesignView.in content body": "dans le corps des contenus",
+  "Features.DesignView.relative to scroll": "en fonction du défilement"
 }

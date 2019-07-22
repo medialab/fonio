@@ -37,6 +37,7 @@ const DesignViewLayout = ( {
   coverImageChoiceVisible,
   templateChoiceVisible,
   notesPositionChoiceVisible,
+  figuresPositionChoiceVisible,
   referenceStatusChoiceVisible,
   lang,
   actions: {
@@ -47,6 +48,7 @@ const DesignViewLayout = ( {
     setCoverImageChoiceVisible,
     setTemplateChoiceVisible,
     setNotesPositionChoiceVisible,
+    setFiguresPositionChoiceVisible,
     setReferenceStatusChoiceVisible,
   },
   onUpdateCss,
@@ -100,8 +102,10 @@ const DesignViewLayout = ( {
               templateChoiceVisible,
               referenceStatusChoiceVisible,
               notesPositionChoiceVisible,
+              figuresPositionChoiceVisible,
               setTemplateChoiceVisible,
               setNotesPositionChoiceVisible,
+              setFiguresPositionChoiceVisible,
               setReferenceStatusChoiceVisible,
               setCitationStyle: onUpdateCitationStyle,
           }

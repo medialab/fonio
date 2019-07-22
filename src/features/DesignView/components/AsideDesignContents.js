@@ -52,9 +52,11 @@ const AsideDesignContents = ( {
   templateChoiceVisible,
   referenceStatusChoiceVisible,
   notesPositionChoiceVisible,
+  figuresPositionChoiceVisible,
   setTemplateChoiceVisible,
   setReferenceStatusChoiceVisible,
   setNotesPositionChoiceVisible,
+  setFiguresPositionChoiceVisible,
   setCitationStyle,
   templates,
 }, { t, getResourceDataUrl } ) => {
@@ -77,6 +79,10 @@ const AsideDesignContents = ( {
   };
   const handleNotesPositionChange = ( val ) => onUpdateTemplatesVariables(
     [ 'options', 'notesPosition' ],
+    val
+  );
+  const handleFiguresPositionChange = ( val ) => onUpdateTemplatesVariables(
+    [ 'options', 'figuresPosition' ],
     val
   );
   const handleReferenceStatusChange = ( val ) => onUpdateTemplatesVariables(
@@ -222,7 +228,7 @@ const AsideDesignContents = ( {
               <div style={ { marginBottom: '2rem' } }>
                 <form>
                   <Field>
-                    <Label>{translate( 'Notes position' )}</Label>
+                    <Label>{translate( 'Notes position' )}<HelpPin>{translate( 'Notes position help' )}</HelpPin></Label>
                     <Control>
                       <Dropdown
                         onToggle={ () => setNotesPositionChoiceVisible( !notesPositionChoiceVisible ) }
@@ -243,6 +249,38 @@ const AsideDesignContents = ( {
                         ] }
                       >
                         {options.notesPosition === 'aside' ? translate( 'side notes' ) : translate( 'foot notes' )}
+                      </Dropdown>
+                    </Control>
+                  </Field>
+                </form>
+              </div>
+            }
+            {
+              acceptsOptions.includes( 'figuresPosition' ) &&
+              <div style={ { marginBottom: '2rem' } }>
+                <form>
+                  <Field>
+                    <Label>{translate( 'Figures position' )}<HelpPin>{translate( 'Figures position help' )}</HelpPin></Label>
+                    <Control>
+                      <Dropdown
+                        onToggle={ () => setFiguresPositionChoiceVisible( !figuresPositionChoiceVisible ) }
+                        isActive={ figuresPositionChoiceVisible }
+                        closeOnChange
+                        onChange={ handleFiguresPositionChange }
+                        value={ options.figuresPosition }
+                        options={ [
+                          {
+                            id: 'body',
+                            label: translate( 'in content body' )
+                          },
+                          {
+                            id: 'aside',
+                            label: translate( 'relative to scroll' )
+                          }
+
+                        ] }
+                      >
+                        {options.figuresPosition === 'body' ? translate( 'in content body' ) : translate( 'relative to scroll' )}
                       </Dropdown>
                     </Control>
                   </Field>

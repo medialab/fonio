@@ -62,9 +62,11 @@ const AsideDesignColumn = ( {
 
   templateChoiceVisible,
   notesPositionChoiceVisible,
+  figuresPositionChoiceVisible,
   referenceStatusChoiceVisible,
   setTemplateChoiceVisible,
   setNotesPositionChoiceVisible,
+  setFiguresPositionChoiceVisible,
   setReferenceStatusChoiceVisible,
   setCitationStyle,
 
@@ -179,9 +181,11 @@ const AsideDesignColumn = ( {
                 setCoverImageChoiceVisible,
                 templateChoiceVisible,
                 notesPositionChoiceVisible,
+                figuresPositionChoiceVisible,
                 referenceStatusChoiceVisible,
                 setTemplateChoiceVisible,
                 setNotesPositionChoiceVisible,
+                setFiguresPositionChoiceVisible,
                 setReferenceStatusChoiceVisible,
                 setCitationStyle,
                 onSetCoverImage,

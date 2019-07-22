@@ -27,6 +27,7 @@ const SET_COVER_IMAGE_CHOICE_VISIBLE = 'SET_COVER_IMAGE_CHOICE_VISIBLE';
 const SET_CSS_HELP_VISIBLE = 'SET_CSS_HELP_VISIBLE';
 const SET_TEMPLATE_CHOICE_VISIBLE = 'SET_TEMPLATE_CHOICE_VISIBLE';
 const SET_NOTES_POSITION_CHOICE_VISIBLE = 'SET_NOTES_POSITION_CHOICE_VISIBLE';
+const SET_FIGURES_POSITION_CHOICE_VISIBLE = 'SET_FIGURES_POSITION_CHOICE_VISIBLE';
 const SET_REFERENCE_STATUS_CHOICE_VISIBLE = 'SET_REFERENCE_STATUS_CHOICE_VISIBLE';
 
 /**
@@ -69,6 +70,11 @@ export const setNotesPositionChoiceVisible = ( payload ) => ( {
   payload,
 } );
 
+export const setFiguresPositionChoiceVisible = ( payload ) => ( {
+  type: SET_FIGURES_POSITION_CHOICE_VISIBLE,
+  payload,
+} );
+
 export const setReferenceStatusChoiceVisible = ( payload ) => ( {
   type: SET_REFERENCE_STATUS_CHOICE_VISIBLE,
   payload,
@@ -89,6 +95,7 @@ const UI_DEFAULT_STATE = {
 
   templateChoiceVisible: false,
   notesPositionChoiceVisible: false,
+  figuresPositionChoiceVisible: false,
   referenceStatusChoiceVisible: false,
 };
 
@@ -110,6 +117,7 @@ function ui( state = UI_DEFAULT_STATE, action ) {
     case SET_COVER_IMAGE_CHOICE_VISIBLE:
     case SET_TEMPLATE_CHOICE_VISIBLE:
     case SET_NOTES_POSITION_CHOICE_VISIBLE:
+    case SET_FIGURES_POSITION_CHOICE_VISIBLE:
     case SET_REFERENCE_STATUS_CHOICE_VISIBLE:
       const propName = getStatePropFromActionSet( action.type );
       return {
@@ -141,6 +149,7 @@ const cssHelpVisible = ( state ) => state.ui.cssHelpVisible;
 const coverImageChoiceVisible = ( state ) => state.ui.coverImageChoiceVisible;
 const templateChoiceVisible = ( state ) => state.ui.templateChoiceVisible;
 const notesPositionChoiceVisible = ( state ) => state.ui.notesPositionChoiceVisible;
+const figuresPositionChoiceVisible = ( state ) => state.ui.figuresPositionChoiceVisible;
 const referenceStatusChoiceVisible = ( state ) => state.ui.referenceStatusChoiceVisible;
 
 /**
@@ -155,5 +164,6 @@ export const selector = createStructuredSelector( {
   coverImageChoiceVisible,
   templateChoiceVisible,
   notesPositionChoiceVisible,
+  figuresPositionChoiceVisible,
   referenceStatusChoiceVisible,
 } );

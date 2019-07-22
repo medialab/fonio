@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-7-22\n"
-"PO-Revision-Date: Mon Jul 22 2019 10:28:29 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Mon Jul 22 2019 16:45:16 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2275,6 +2275,21 @@ msgstr "Network example"
 
 msgid "Components.EmbedHelpModal.Video corpus example"
 msgstr "Video corpus example"
+
+msgid "Features.DesignView.Notes position help"
+msgstr "Notes position help"
+
+msgid "Features.DesignView.Figures position"
+msgstr "Figures position"
+
+msgid "Features.DesignView.Figures position help"
+msgstr "Figures position help"
+
+msgid "Features.DesignView.in content body"
+msgstr "in content body"
+
+msgid "Features.DesignView.relative to scroll"
+msgstr "relative to scroll"
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"
