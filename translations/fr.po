@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2019-7-19\n"
-"PO-Revision-Date: Fri Jul 19 2019 15:22:11 GMT+0200 (CEST)\n"
+"POT-Creation-Date: 2019-7-22\n"
+"PO-Revision-Date: Mon Jul 22 2019 09:40:09 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2261,6 +2261,21 @@ msgstr "supprimer cette vidéo"
 msgid "Features.LibraryView.delete this webpage"
 msgstr "supprimer cet hyperlien"
 
+msgid "Components.EmbedHelpModal.Image annotation example"
+msgstr "Image annotation example"
+
+msgid "Components.EmbedHelpModal.Timeline example"
+msgstr "Timeline example"
+
+msgid "Components.EmbedHelpModal.Audio interview example"
+msgstr "Audio interview example"
+
+msgid "Components.EmbedHelpModal.Network example"
+msgstr "Network example"
+
+msgid "Components.EmbedHelpModal.Video corpus example"
+msgstr "Video corpus example"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer la ressource « {s} » ?"
 
@@ -2271,10 +2286,10 @@ msgid "Features.DesignView.To do so, you must be familiar with css syntax. To ge
 msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" rel=\"noopener\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
 
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
-msgstr "Fabriqué au <a target=\"blank\" ref=\"noopener\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, laboratoire de recherche qui connecte les sciences sociales avec de nouvelles méthodologies de recherche, d'ingénierie et de design."
+msgstr "Fonio est fabriqué et entretenu au <a target=\"blank\" ref=\"noopener\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, laboratoire de recherche qui connecte les sciences sociales avec de nouvelles méthodologies de recherche, d'ingénierie et de design."
 
 msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
-msgstr "Fourni par le programme <a target=\"blank\" ref=\"noopener\" href=\"http://controverses.org/\">FORCCAST</a>, dédié au développement d'innovations pédagogiques pour l'analyse des controverses, sciences et techniques."
+msgstr "Fonio est produit par le programme <a target=\"blank\" ref=\"noopener\" href=\"http://controverses.org/\">FORCCAST</a>, dédié au développement d'innovations pédagogiques pour l'analyse des controverses, sciences et techniques."
 
 msgid "Features.SectionView."#" then space"
 msgstr "« # » puis espace"
