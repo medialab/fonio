@@ -128,7 +128,7 @@
             .public-DraftEditorPlaceholder-inner
             {
                 // font-family: $editable-font-stack;
-                line-height: 2em;
+                line-height: 1.75;
 
                 padding: 1rem;
 
@@ -137,7 +137,7 @@
                 // @extend .animated;
                 .public-DraftStyleDefault-block
                 {
-                    line-height: 1.75rem;
+                    // line-height: 1.75rem;
 
                     margin-bottom: 1.5rem;
                 }
