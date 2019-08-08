@@ -12,7 +12,6 @@ import { v4 as generateId } from 'uuid';
 import ReactTooltip from 'react-tooltip';
 import {
   EditorState,
-  ContentState,
   convertToRaw,
   convertFromRaw,
   SelectionState,
@@ -40,7 +39,6 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
 import Editor, {
   utils,
 } from 'scholar-draft';
-
 
 /**
  * Imports Project utils
@@ -952,6 +950,7 @@ class SectionEditor extends Component {
     const { id: sectionId } = activeSection;
     const editorState = editorFocus === 'main' ? editorStates[sectionId] : activeSection.notes[editorFocus].contents;
     const initialSelection = editorState.getSelection();
+
     /**
      * remove styles
      */
@@ -971,64 +970,66 @@ class SectionEditor extends Component {
         'remove-inline-style'
       );
     } );
+
     /**
      * Remove entities except notes
      */
     const selection = newEditorState.getSelection();
     const startKey = selection.getStartKey();
-    const endKey = selection.getEndKey()
+    const endKey = selection.getEndKey();
     let lastWasEnd = false;
     let currentContent = newEditorState.getCurrentContent();
     const selectedBlocks = currentContent
     .getBlockMap()
-    .skipUntil(function(block) {
+    .skipUntil( function( block ) {
         return block.getKey() === startKey;
-    })
-    .takeUntil(function(block) {
-        let result = lastWasEnd;
+    } )
+    .takeUntil( function( block ) {
+        const result = lastWasEnd;
 
-        if (block.getKey() === endKey) {
+        if ( block.getKey() === endKey ) {
             lastWasEnd = true;
         }
 
         return result;
-    });
-    selectedBlocks.forEach(block => {
+    } );
+    selectedBlocks.forEach( ( block ) => {
       let start = 0;
       let end = block.getText().length;
       const blockKey = block.getKey();
-      if (blockKey === startKey) {
+      if ( blockKey === startKey ) {
         start = selection.getStartOffset();
-      } else if (blockKey === endKey) {
+      }
+ else if ( blockKey === endKey ) {
         end = selection.endOffset();
       }
       const characters = block.getCharacterList();
-      for (let i = start ; i < end ; i++) {
-        const entityKey = characters.get(i).getEntity();
-        if (entityKey) {
-          const entity = currentContent.getEntity(entityKey);
-          if(entity.getType() !== 'NOTE_POINTER') {
-            const sel = new SelectionState({
+      for ( let i = start; i < end; i++ ) {
+        const entityKey = characters.get( i ).getEntity();
+        if ( entityKey ) {
+          const entity = currentContent.getEntity( entityKey );
+          if ( entity.getType() !== 'NOTE_POINTER' ) {
+            const sel = new SelectionState( {
               anchorKey: blockKey,
               anchorOffset: i,
               focusKey: blockKey,
               focusOffset: i + 1
-            })
+            } );
             currentContent = Modifier.applyEntity(
               currentContent,
               sel,
               null
-            )
+            );
           }
         }
       }
-    })
+    } );
     newEditorState = EditorState.push(
       newEditorState,
       currentContent,
       'remove-entity'
-    )
-    newEditorState = EditorState.acceptSelection(newEditorState, initialSelection);
+    );
+    newEditorState = EditorState.acceptSelection( newEditorState, initialSelection );
 
     this.onEditorChange( editorFocus, newEditorState );
 
