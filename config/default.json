@@ -7,5 +7,5 @@
   "maxBatchNumber": 50,
   "sessionName": "Introduction aux cours de cartographie des controverses 2018-2019",
   "urlPrefix": "",
-  "requirePublicationConsent": true
+  "requirePublicationConsent": false
 }
