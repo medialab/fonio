@@ -35,7 +35,6 @@ import ExplainedLabel from '../ExplainedLabel';
 import PasswordInput from '../PasswordInput';
 
 const { requirePublicationConsent = true } = config;
-
 class MetadataForm extends Component {
 
   componentDidMount = () => {
