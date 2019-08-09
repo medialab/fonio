@@ -52,6 +52,14 @@ class LinkModal extends Component {
         url: ''
       } );
     }
+    else if ( !this.props.isActive && nextProps.isActive ) {
+      setTimeout( () => {
+        const bodies = this.modal.modal.getElementsByClassName( 'modal-card-body' );
+        if ( bodies[0] ) {
+          bodies[0].scrollTop = 0;
+        }
+      }, 100 );
+    }
   }
 
   render = () => {
@@ -96,7 +104,7 @@ class LinkModal extends Component {
       if ( url && url.length ) {
         onCreateHyperlink( { url, title }, focusData.focusId, focusData.selection );
       }
- else if ( choosenResource ) {
+      else if ( choosenResource ) {
         onContextualizeHyperlink( choosenResource, focusData.focusId, focusData.selection );
       }
     };
@@ -110,9 +118,14 @@ class LinkModal extends Component {
     const handleNewURLChange = ( e ) => this.setState( { url: e.target.value } );
     const handleNewTitleChange = ( e ) => this.setState( { title: e.target.value } );
 
+    const bindRef = ( modal ) => {
+      this.modal = modal;
+    };
+
     return (
       <ModalCard
         isActive={ isActive }
+        ref={ bindRef }
         headerContent={ translate( 'Add a hyperlink' ) }
         onClose={ onClose }
         mainContent={

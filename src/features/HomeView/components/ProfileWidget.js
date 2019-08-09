@@ -21,17 +21,24 @@ const ProfileWidget = ( {
   userInfo,
 } ) => {
   return (
-    <div>
-      <Title isSize={ 5 }>
+    <div
+      onClick={ onEdit }
+      style={ { cursor: 'pointer' } }
+    >
+      <Title
+        isSize={ 5 }
+        style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' } }
+      >
         {translate( 'Your profile' )}
         <HelpPin>{translate( 'choose how you will be identified by other writers' )}</HelpPin>
       </Title>
-      {userInfo !== undefined &&
+      {userInfo.userId !== undefined &&
         <StretchedLayoutContainer isDirection={ 'horizontal' }>
           <StretchedLayoutItem style={ { display: 'flex', alignItems: 'center' } }>
             <Image
               isRounded
               isSize={ '64x64' }
+
               src={ require( `../../../sharedAssets/avatars/${userInfo.avatar}` ) }
             />
           </StretchedLayoutItem>
@@ -41,7 +48,7 @@ const ProfileWidget = ( {
           >
             {userInfo.name}
           </StretchedLayoutItem>
-          <StretchedLayoutItem style={ { display: 'flex', alignItems: 'center', paddingRight: '1rem' } }>
+          <StretchedLayoutItem style={ { display: 'flex', alignItems: 'center', paddingRight: '0.1rem' } }>
             <Button onClick={ onEdit }>
               {translate( 'edit' )}
             </Button>

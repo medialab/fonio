@@ -6,7 +6,7 @@
  */
 
 import { createStructuredSelector } from 'reselect';
-import { saveUserInfo } from '../../helpers/localStorageUtils';
+import { saveUserInfo, loadUserInfo } from '../../helpers/localStorageUtils';
 
 /**
  * ===================================================
@@ -14,6 +14,9 @@ import { saveUserInfo } from '../../helpers/localStorageUtils';
  * ===================================================
  */
 export const SET_USER_INFO = 'SET_USER_INFO';
+export const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
+
+import { SET_IDENTIFICATION_MODAL_SWITCH } from '../HomeView/duck';
 
 /**
  * ===================================================
@@ -25,8 +28,22 @@ export const setUserInfo = ( payload ) => ( {
   payload
 } );
 
+export const setUserInfoTemp = ( payload ) => ( {
+  type: SET_USER_INFO_TEMP,
+  payload
+} );
+
 const DEFAULT_USER_INFO_STATE = {
-  userInfo: undefined
+
+  /**
+   *  User info
+   */
+  userInfo: loadUserInfo(),
+
+  /**
+   * temp value of user info
+   */
+  userInfoTemp: loadUserInfo(),
 };
 
 /**
@@ -38,16 +55,31 @@ const DEFAULT_USER_INFO_STATE = {
 export default function userInfo( state = DEFAULT_USER_INFO_STATE, action ) {
   switch ( action.type ) {
     case SET_USER_INFO:
-      saveUserInfo( {
-        ...action.payload,
-        userInfo: undefined
-      } );
-      return action.payload;
+      saveUserInfo( action.payload );
+      return {
+        ...state,
+        userInfo: action.payload,
+        userInfoTemp: action.payload,
+      };
+      case SET_USER_INFO_TEMP:
+        return {
+          ...state,
+        userInfoTemp: action.payload,
+      };
+      case SET_IDENTIFICATION_MODAL_SWITCH:
+        if ( action.payload === false ) {
+          return {
+            ...state,
+            userInfoTemp: loadUserInfo()
+          };
+        }
+        return state;
     default:
       return state;
   }
 }
 
 export const selector = createStructuredSelector( {
-  userInfo: ( state ) => state,
+  userInfo: ( state ) => state.userInfo,
+  userInfoTemp: ( state ) => state.userInfoTemp,
 } );

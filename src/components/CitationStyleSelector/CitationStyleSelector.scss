@@ -1,0 +1,17 @@
+/**
+ * style definitions for the CitationStyleSelector component
+ *
+ * @module fonio/components/CitationStyleSelector
+ */
+ @import '../../parameters.scss';
+
+ .citation-style-selector{
+     .button{
+         margin: .5rem;
+         min-width: 2.5rem;
+     }
+     .content blockquote{
+         border: none;
+         padding: 0;
+     }
+ }

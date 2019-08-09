@@ -27,17 +27,11 @@ const SizeClass = ( props, { t } ) => {
   const translate = translateNameSpacer( t, 'Features.DesignView.StylesVariables' );
   const options = map( ( d ) => ( { id: d, label: translate( d ) } ), props.options.enum );
   const [ showDropdown, setShowDropdown ] = useState( false );
-  const [ value, setValue ] = useState(
-    () => options.find( ( option ) => option.id === props.value )
-  );
+  const value = options.find( ( option ) => option.id === props.value );
   const onToggle = () => setShowDropdown( !showDropdown );
   const onDropdownChange = ( val ) => {
     props.onChange( val );
-    setValue(
-      options.find( ( option ) => option.id === val )
-    );
   };
-
   return (
     <Dropdown
       isFullWidth
@@ -60,6 +54,13 @@ const Wysiwyg = ( {
   onChange,
   getTooltipContainer
 }, { t } ) => {
+
+  /**
+   *  @todo find a solution for styles consistency problems
+   */
+  if ( !styles ) {
+    return null;
+  }
   const translate = translateNameSpacer( t, 'Features.DesignView.StylesVariables' );
   const onSizeClassChange = ( value ) =>
     onChange( {
@@ -69,7 +70,8 @@ const Wysiwyg = ( {
   const onColorChange = ( value ) =>
     onChange( {
       ...styles,
-      color: value
+      // act as toggle
+      color: value === styles.color ? undefined : value
     } );
   const onOpacityChange = debounce( 200, ( value ) =>
     onChange( {

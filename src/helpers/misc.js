@@ -73,3 +73,25 @@ export const silentEvent = ( event ) => {
     event.preventDefault();
   }
 };
+
+const getContentsRawText = ( contentObj ) => {
+  return contentObj.blocks ? contentObj.blocks.map( ( b ) => b.text ).join( '\n' ) : '';
+};
+
+const getSectionRawText = ( section ) => {
+  return section.notesOrder.reduce( ( sum, noteId ) => {
+    return `${sum} ${getContentsRawText( section.notes[noteId].contents )} `;
+  }, getContentsRawText( section.contents ) );
+};
+
+export const getStoryStats = ( story ) => {
+  const rawText = story.sectionsOrder.reduce( ( sum, sectionId ) => {
+    return `${sum} ${story.sections[sectionId].metadata.title} ${getSectionRawText( story.sections[sectionId] )}`;
+  }, '' );
+  const numberOfWords = rawText.match( /\S+/g ).length;
+  return {
+    numberOfCharacters: rawText.length,
+    numberOfWords,
+    numberOfPages: Math.ceil( numberOfWords / 300 )
+  };
+};

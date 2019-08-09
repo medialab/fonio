@@ -13,6 +13,7 @@ import {
   BigSelect,
   Notification,
   StretchedLayoutContainer,
+  HelpPin,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -37,6 +38,7 @@ const ExportModal = ( {
       isActive={ isActive }
       headerContent={ translate( 'Export story' ) }
       onClose={ onClose }
+      style={ { width: '70vw' } }
       mainContent={
         <StretchedLayoutContainer isDirection={ 'vertical' }>
           <StretchedLayoutItem isFlex={ 1 }>
@@ -44,16 +46,22 @@ const ExportModal = ( {
               <BigSelect
                 activeOptionId={ activeOptionId }
                 onChange={ onChange }
+                columns={ 3 }
                 boxStyle={ { minHeight: '12rem', textAlign: 'center' } }
                 options={ [
                     {
-                      id: 'html',
-                      label: translate( 'Export your story to publish it (HTML format)' ),
-                      iconUrl: activeOptionId === 'html' ? icons.takeAway.white.svg : icons.takeAway.black.svg
+                      id: 'html-multi',
+                      label: <span><span>{translate( 'Export your story to publish it' )}</span><HelpPin>{translate( 'multiple-html-help' )}</HelpPin></span>,
+                      iconUrl: activeOptionId === 'html-multi' ? icons.takeAway.white.svg : icons.takeAway.black.svg
+                    },
+                    {
+                      id: 'html-single',
+                      label: <span><span>{translate( 'Export your story to archive it' )}</span><HelpPin>{translate( 'single-html-help' )}</HelpPin></span>,
+                      iconUrl: activeOptionId === 'html-single' ? icons.takeAway.white.svg : icons.takeAway.black.svg
                     },
                     {
                       id: 'json',
-                      label: translate( 'Export your story to backup it (fonio JSON format)' ),
+                      label: <span><span>{translate( 'Export your story to backup it' )}</span><HelpPin>{translate( 'json-help' )}</HelpPin></span>,
                       iconUrl: activeOptionId === 'json' ? icons.takeAway.white.svg : icons.takeAway.black.svg
                     }
                   ] }

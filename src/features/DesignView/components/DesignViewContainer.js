@@ -209,6 +209,43 @@ class DesignViewContainer extends Component {
     } );
   }
 
+  onTemplateChange = ( templateId ) => {
+    const {
+      editedStory: {
+        id: storyId,
+        settings: oldSettings
+      },
+      userId,
+      actions: {
+        updateStorySettings
+      }
+    } = this.props;
+    const settings = {
+      ...oldSettings,
+      templateId
+    };
+
+    /**
+     * @todo update quinoa-schemas to be able to do this
+     * with json-schema-defaults
+     */
+    if ( !settings.styles[templateId] ) {
+      settings.styles[templateId] = {
+        options: {
+          notesPosition: 'aside',
+          referenceStatus: 'cited',
+          referenceTypes: [ 'bib' ]
+        },
+        stylesVariables: {}
+      };
+    }
+    updateStorySettings( {
+      storyId,
+      userId,
+      settings,
+    } );
+  }
+
   onUpdateTemplatesVariables = ( keys, styles ) => {
     const {
       editedStory: story,
@@ -232,6 +269,45 @@ class DesignViewContainer extends Component {
       )
     } );
   }
+  onSetCoverImage = ( id ) => {
+    const {
+      editedStory: story,
+      userId,
+      actions: {
+        updateStoryMetadata
+      }
+    } = this.props;
+
+    updateStoryMetadata( {
+      storyId: story.id,
+      userId,
+      metadata: {
+        ...story.metadata,
+        coverImage: {
+          resourceId: id
+        }
+      }
+    } );
+  }
+
+  onUpdateCitationStyle = ( style ) => {
+    const {
+      editedStory: story,
+      userId,
+      actions: {
+        updateStorySettings
+      }
+    } = this.props;
+
+    updateStorySettings( {
+      storyId: story.id,
+      userId,
+      settings: {
+        ...story.settings,
+        citationStyle: style,
+      }
+    } );
+  }
 
   render() {
     const {
@@ -242,7 +318,10 @@ class DesignViewContainer extends Component {
       },
       onUpdateCss,
       onUpdateSettings,
-      onUpdateTemplatesVariables
+      onUpdateTemplatesVariables,
+      onTemplateChange,
+      onSetCoverImage,
+      onUpdateCitationStyle,
     } = this;
     if ( editedStory ) {
 
@@ -261,7 +340,10 @@ class DesignViewContainer extends Component {
                   story={ editedStory }
                   onUpdateCss={ onUpdateCss }
                   onUpdateSettings={ onUpdateSettings }
+                  onTemplateChange={ onTemplateChange }
+                  onSetCoverImage={ onSetCoverImage }
                   onUpdateTemplatesVariables={ onUpdateTemplatesVariables }
+                  onUpdateCitationStyle={ onUpdateCitationStyle }
                   { ...this.props }
                 />
               :

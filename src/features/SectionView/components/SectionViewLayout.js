@@ -142,6 +142,8 @@ const SectionViewLayout = ( {
     setStoryIsSaved,
     setErrorMessage,
     setSelectedContextualizationId,
+
+    createStoryObjects,
   },
   goToSection,
   summonAsset,
@@ -271,12 +273,12 @@ const SectionViewLayout = ( {
       id: genId()
     };
 
-    const currentSectionOrder = sectionsOrder.indexOf( section.id ) || 0;
+    const currentSectionIndex = sectionsOrder.indexOf( section.id ) || 0;
     createSection( {
       section: newSection,
       sectionId: newSection.id,
       storyId,
-      sectionOrder: currentSectionOrder + 1,
+      sectionIndex: currentSectionIndex + 1,
       userId
     }, ( err ) => {
       if ( !err ) {
@@ -542,9 +544,17 @@ const SectionViewLayout = ( {
 
   const handleAbortDeleteSection = () => setPromptedToDeleteSectionId( undefined );
   const handleAbortDeleteResource = () => setPromptedToDeleteResourceId( undefined );
-  const handleAbortLinkCreation = () => setLinkModalFocusData( undefined );
-  const handleAbortGlossaryCreation = () => setGlossaryModalFocusData( undefined );
-  const handleAbortInternalLinkCreation = () => setInternalLinkModalFocusData( undefined );
+  const handleAbortLinkCreation = () => {
+    setEditorFocus( linkModalFocusData.focusId );
+    setLinkModalFocusData( undefined );
+  };
+  const handleAbortGlossaryCreation = () => {
+    setEditorFocus( glossaryModalFocusData.focusId );
+    setGlossaryModalFocusData( undefined );
+  };
+  const handleAbortInternalLinkCreation = () => {
+    setInternalLinkModalFocusData( undefined );
+  };
   const handleCloseShortcuts = () => setShortcutsHelpVisible( false );
 
   return (
@@ -648,6 +658,7 @@ const SectionViewLayout = ( {
                 uploadStatus,
                 userId,
                 userLockedResourceId,
+                createStoryObjects,
               }
             }
 

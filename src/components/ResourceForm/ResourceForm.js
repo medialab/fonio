@@ -17,6 +17,7 @@ import {
   BigSelect,
   Button,
   Column,
+  CodeEditor,
   Columns,
   Control,
   Delete,
@@ -57,12 +58,13 @@ import {
 import AuthorsManager from '../AuthorsManager';
 import BibRefsEditor from '../BibRefsEditor';
 import AssetPreview from '../AssetPreview';
+import EmbedHelpModal from '../EmbedHelpModal';
+import BibHelpModal from '../BibHelpModal';
 
 /**
  * Shared variables
  */
 const resourceTypes = Object.keys( resourceSchema.definitions );
-const credentials = { youtubeAPIKey: config.youtubeAPIKey };
 const { maxResourceSize } = config;
 const realMaxFileSize = base64ToBytesLength( maxResourceSize );
 
@@ -73,6 +75,11 @@ class DataForm extends Component {
 
   constructor( props ) {
     super( props );
+
+    this.state = {
+      embedHelpOpen: false,
+      bibHelpOpen: false,
+    };
   }
 
   componentWillReceiveProps( nextProps ) {
@@ -80,6 +87,18 @@ class DataForm extends Component {
       nextProps.formApi.setAllValues( { data: nextProps.resource.data } );
     }
   }
+
+  toggleEmbedHelpOpen = () => {
+    this.setState( {
+      embedHelpOpen: !this.state.embedHelpOpen,
+    } );
+  }
+  toggleBibHelpOpen = () => {
+    this.setState( {
+      bibHelpOpen: !this.state.bibHelpOpen,
+    } );
+  }
+
   render = () => {
 
     /**
@@ -199,14 +218,34 @@ class DataForm extends Component {
         </Field>
       );
     case 'bib':
+      const handlBibHelpToggleRequest = this.toggleBibHelpOpen;
+      const handleChooseExample = ( bib ) => {
+        handleEditBib( bib );
+        this.toggleBibHelpOpen();
+      };
       return (
         <Field>
           <Control>
             <Label>
-              {translate( 'Bib file' )}
-              <HelpPin place={ 'right' }>
-                {translate( 'Explanation about the bib' )}
-              </HelpPin>
+              <StretchedLayoutContainer
+                style={ { padding: '1rem 0', alignItems: 'center' } }
+                isDirection={ 'horizontal' }
+              >
+                <StretchedLayoutItem isFlex={ 1 }>
+                  {translate( 'Bib file' )}
+                  <HelpPin place={ 'right' }>
+                    {translate( 'Explanation about the bib' )}
+                  </HelpPin>
+                </StretchedLayoutItem>
+                <StretchedLayoutItem>
+                  <Button
+                    isColor={ 'info' }
+                    onClick={ handlBibHelpToggleRequest }
+                  >
+                    {translate( 'help about bibliographic references' )}
+                  </Button>
+                </StretchedLayoutItem>
+              </StretchedLayoutContainer>
             </Label>
             {
               asNewResource ?
@@ -223,6 +262,11 @@ class DataForm extends Component {
                 />
             }
           </Control>
+          <BibHelpModal
+            isOpen={ this.state.bibHelpOpen }
+            onRequestClose={ handlBibHelpToggleRequest }
+            onChooseSample={ handleChooseExample }
+          />
           {
             formApi.errors && formApi.errors.data &&
               <Help isColor={ 'danger' }>{formApi.errors.data}</Help>
@@ -231,7 +275,7 @@ class DataForm extends Component {
       );
     case 'video':
       const handleVideoURLChange = ( thatUrl ) => {
-        retrieveMediaMetadata( thatUrl, credentials )
+        retrieveMediaMetadata( thatUrl )
           .then( ( { metadata } ) => {
             Object.keys( metadata )
               .forEach( ( key ) => {
@@ -267,21 +311,48 @@ class DataForm extends Component {
         </Field>
       );
     case 'embed':
+      const handleChange = ( html ) => {
+        formApi.setValue( 'data', { html } );
+      };
+      const onChooseSample = ( html, title ) => {
+        handleChange( html );
+        formApi.setValue( 'metadata.title', title );
+        this.toggleEmbedHelpOpen();
+      };
+      const handlEmbedHelpToggleRequest = this.toggleEmbedHelpOpen;
       return (
         <Field>
           <Control>
             <Label>
-              {translate( 'Embed code' )}
-              <HelpPin place={ 'right' }>
-                {translate( 'Explanation about the embed' )}
-              </HelpPin>
+              <StretchedLayoutContainer
+                style={ { padding: '1rem 0', alignItems: 'center' } }
+                isDirection={ 'horizontal' }
+              >
+                <StretchedLayoutItem isFlex={ 1 }>
+                  {translate( 'Embed code' )}
+                  <HelpPin place={ 'right' }>
+                    {translate( 'Explanation about the embed' )}
+                  </HelpPin>
+                </StretchedLayoutItem>
+                <StretchedLayoutItem>
+                  <Button
+                    isColor={ 'info' }
+                    onClick={ handlEmbedHelpToggleRequest }
+                  >
+                    {translate( 'help about advanced block' )}
+                  </Button>
+                </StretchedLayoutItem>
+              </StretchedLayoutContainer>
             </Label>
-            <TextArea
-              className={ 'textarea' }
-              field={ 'html' }
-              id={ 'html' }
-              type={ 'text' }
-              placeholder={ translate( 'Embed code' ) }
+
+            <CodeEditor
+              value={ formApi.getValue( 'data.html' ) }
+              onChange={ handleChange }
+            />
+            <EmbedHelpModal
+              isOpen={ this.state.embedHelpOpen }
+              onRequestClose={ handlEmbedHelpToggleRequest }
+              onChooseSample={ onChooseSample }
             />
           </Control>
           {

@@ -108,7 +108,7 @@ class IdentificationModal extends Component {
       )
     } ) );
 
-    return userInfo ? (
+    return userInfo.userId ? (
       <ModalCard
         isActive={ isActive }
         onClose={ onClose }

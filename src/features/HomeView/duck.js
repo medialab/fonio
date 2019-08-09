@@ -16,7 +16,6 @@ import { createDefaultStory, validateStory } from '../../helpers/schemaUtils';
 
 import { getFileAsText } from '../../helpers/fileLoader';
 import { getStatePropFromActionSet } from '../../helpers/reduxUtils';
-import { loadUserInfo } from '../../helpers/localStorageUtils';
 
 /**
  * ===================================================
@@ -29,20 +28,20 @@ import { loadUserInfo } from '../../helpers/localStorageUtils';
 import { RESET_VIEWS_UI } from '../EditionUiWrapper/duck';
 import { UPDATE_STORY_METADATA } from '../StoryManager/duck';
 
-const SET_TAB_MODE = 'SET_TAB_MODE';
-const SET_NEW_STORY_OPEN = 'SET_NEW_STORY_OPEN';
-const SET_NEW_STORY_TAB_MODE = 'SET_NEW_STORY_TAB_MODE';
-const SET_SEARCH_STRING = 'SET_SEARCH_STRING';
-const SET_SORTING_MODE = 'SET_SORTING_MODE';
-const SET_IDENTIFICATION_MODAL_SWITCH = 'SET_IDENTIFICATION_MODAL_SWITCH';
-const SET_PREVIEWED_STORY_ID = 'SET_PREVIEWED_STORY_ID';
-const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
-const SET_EDITION_HISTORY = 'SET_EDITION_HISTORY';
-const SET_STORY_DELETE_ID = 'SET_STORY_DELETE_ID';
+export const SET_TAB_MODE = 'SET_TAB_MODE';
+export const SET_NEW_STORY_OPEN = 'SET_NEW_STORY_OPEN';
+export const SET_NEW_STORY_TAB_MODE = 'SET_NEW_STORY_TAB_MODE';
+export const SET_SEARCH_STRING = 'SET_SEARCH_STRING';
+export const SET_SORTING_MODE = 'SET_SORTING_MODE';
+export const SET_IDENTIFICATION_MODAL_SWITCH = 'SET_IDENTIFICATION_MODAL_SWITCH';
+export const SET_PREVIEWED_STORY_ID = 'SET_PREVIEWED_STORY_ID';
+export const SET_USER_INFO_TEMP = 'SET_USER_INFO_TEMP';
+export const SET_EDITION_HISTORY = 'SET_EDITION_HISTORY';
+export const SET_STORY_DELETE_ID = 'SET_STORY_DELETE_ID';
 export const SET_CHANGE_PASSWORD_ID = 'SET_CHANGE_PASSWORD_ID';
-const SET_PASSWORD_MODAL_OPEN = 'SET_PASSWORD_MODAL_OPEN';
-const SET_OVERRIDE_IMPORT = 'SET_OVERRIDE_IMPORT';
-const SET_OVERRIDE_STORY_MODE = 'SET_OVERRIDE_STORY_MODE';
+export const SET_PASSWORD_MODAL_OPEN = 'SET_PASSWORD_MODAL_OPEN';
+export const SET_OVERRIDE_IMPORT = 'SET_OVERRIDE_IMPORT';
+export const SET_OVERRIDE_STORY_MODE = 'SET_OVERRIDE_STORY_MODE';
 
 export const FETCH_STORIES = 'FETCH_STORIES';
 export const CREATE_STORY = 'CREATE_STORY';
@@ -52,8 +51,6 @@ export const DELETE_STORY = 'DELETE_STORY';
 export const IMPORT_STORY = 'IMPORT_STORY';
 
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
-
-import { SET_USER_INFO } from '../UserInfoManager/duck';
 
 /**
  * data
@@ -96,10 +93,6 @@ export const setPreviewedStoryId = ( payload ) => ( {
 
 export const setNewStoryMetadata = ( payload ) => ( {
   type: SET_NEW_STORY_METADATA,
-  payload
-} );
-export const setUserInfoTemp = ( payload ) => ( {
-  type: SET_USER_INFO_TEMP,
   payload
 } );
 export const setEditionHistory = ( payload ) => ( {
@@ -320,7 +313,7 @@ const UI_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function ui( state = UI_DEFAULT_STATE, action ) {
+export function ui( state = UI_DEFAULT_STATE, action ) {
   const { payload } = action;
   let propName;
   switch ( action.type ) {
@@ -423,7 +416,7 @@ const DATA_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function data( state = DATA_DEFAULT_STATE, action ) {
+export function data( state = DATA_DEFAULT_STATE, action ) {
   const { payload } = action;
   let story;
   let newStory;
@@ -526,20 +519,6 @@ function data( state = DATA_DEFAULT_STATE, action ) {
           }
         }
       };
-    case SET_USER_INFO:
-    case SET_USER_INFO_TEMP:
-      return {
-        ...state,
-        userInfoTemp: payload,
-      };
-    case SET_IDENTIFICATION_MODAL_SWITCH:
-      if ( payload === false ) {
-        return {
-          ...state,
-          userInfoTemp: loadUserInfo()
-        };
-      }
-      return state;
     default:
       return state;
   }

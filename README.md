@@ -1,41 +1,18 @@
-# Fonio - *data stories editor*
+# Fonio - *a scholarly dissertations editor allowing to build standalone HTML webpages*
 
-Fonio is a tool dedicated to the making of webpages telling stories with datasets, called *data stories*.
-Users import their data from their computer, then compose their data stories, then finally export it to static html or to a web publication.
+Fonio is a collaborative writing software aimed at building rich digital scholarly dissertations, using the architecture of websites to structure arguments, and the possibility to feature an extensible array of resources such as bibliographic references, images, tables, videos, and interactive elements.
+
+Fonio puts an emphasis on documentation, allowing writers to describe all the resources gathered during their inquiry in a rich and homogeneous way (date, source, author, ...). It also allows them to build an augmented glossary in order to define key terms and browse them in an interactive way.
+
+Besides, the application is aimed at allowing to work extensively on the information design of a dissertation: one can choose a way to organize the reading experience of their readers, and customize the visual identity of their work in a meaningful way.
+
+Fonio is collaborative and allows several writers to work simultaneously on contents, design and documentation. According to this collaborative state of mind, works in progress are readable by the whole classroom, but their edition is restricted to each team.
+
+Each "classroom" corresponds to a specific course and exists during a limited period of time. All works are saved and privately archived after the semester is finished, but the application also allows writers to download their work at anytime to backup it or to publish it online in a clean and easy way.
 
 Fonio is part of the ``quinoa`` project family, a suite of digital storytelling tools tailored for the [FORCCAST](http://controverses.org/) pedagogical program and [médialab sciences po](http://www.medialab.sciences-po.fr/) scientific activities.
 
-It is supposed to be used along with the [bulgur](https://github.com/medialab/bulgur) project, which allows to make "data presentations" to be embed in data stories.
-
-# Features
-
-Create a new story :
-
-* set story-level metadata which will be consumed for SEO-friendly html outputs
-* set section-level metadata (chapters, sections) that can have their own authors and description.
-
-Import a story :
-
-* import from a story json file
-* import from a forccast or gist url
-
-Write a rich story with a wysiwyg editor :
-
-* write your content with a seamless editing interface
-* use markdown shortcuts if you're familiar with the language
-* write footnotes connected to your main text
-* embed resources within your text thanks to drag&drop or resource picking inteface within the text editor
-
-Embed and manage various resources :
-
-* embed data presentations to build data-based arguments within your story
-* embed images, videos, and embed code coming from web services
-* embed academic references in various formatting styles and languages - you can import citation data in bibTeX format or edit it manually thanks to a graphical interface
-
-Output your data to high-quality and very robust documents :
-
-* choose a stories template and personalize it with custom css code and various examples
-* save your document as a all-in-one html document that can be hosted on any server/service later on
+It works with the [quinoa-server](https://github.com/medialab/quinoa-server) application which provides a server to store stories and handles collaborative edition through websockets.
 
 # Requirements
 
@@ -44,6 +21,22 @@ Output your data to high-quality and very robust documents :
 
 # Installation
 
+You have to install both fonio (client) and [quinoa-server](https://github.com/medialab/quinoa-server) to be able to run this application.
+
+Install quinoa-server :
+
+```
+git clone https://github.com/medialab/quinoa-server
+cd quinoa-server
+npm install
+cp config/sample.json config/default.json
+```
+
+Then edit the ``config/default.json`` file with your own settings.
+
+
+Install fonio :
+
 ```
 git clone https://github.com/medialab/fonio
 cd fonio
@@ -51,9 +44,12 @@ npm install
 cp config/sample.json config/default.json
 ```
 
-Then edit the ``config/default.json`` file with your own data.
+Then edit the ``config/default.json`` file with your own settings.
+
 
 # Development
+
+For both fonio and quinoa-server, run in two different terminal tabs :
 
 ```
 npm run dev
@@ -61,27 +57,24 @@ npm run dev
 
 Fonio is compatible with the [Redux Devtools](https://github.com/gaearon/redux-devtools) browser extension for an optimal developer experience.
 
+# Deployment
+
+Fonio is supposed to run in a docker infrastructure in production.
+
+Please look at the [`docker-compose.yml`](https://github.com/medialab/quinoa-server/blob/master/docker-compose.yml) file present on [quinoa-server](https://github.com/medialab/quinoa-server) repository for that matter.
+
 # Contributing
 
 See the [contributing guide](https://github.com/medialab/fonio/blob/master/CONTRIBUTING.md) in order to give a hand on translations, report bugs, or propose pull requests.
-
-# Deployment
-
-Fonio needs a [youtube API key](https://developers.google.com/youtube/registering_an_application) if you want to be able to retrieve metadata from youtube assets.
-
-For now Fonio deploys to a [surge](http://surge.sh/) instance for preproduction tests. If you plan to do the same, be sure to change the `CNAME` file to your own destination, then :
-
-```
-npm run deploy
-```
 
 # Other scripts
 
 ```
 npm run build # builds the app to build dir
 npm run lint # lints (auto-fix on) the js code
-npm run comb # prettifies scss code
+npm run comb # prettifies (s)css code
 npm run test # launch tests for all .spec.js suffixed js scripts within src dir
+npm run analyze # analyze webpack bundle
 
 # translation management
 

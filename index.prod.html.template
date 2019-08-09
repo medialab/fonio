@@ -113,7 +113,6 @@
   <script type="text/javascript">
     window.FONIO_CONFIG = {
       apiUrl: '${API_URL}',
-      youtubeAPIKey: '${YOUTUBE_API_KEY}',
       maxSectionLevel: ${MAX_SECTION_LEVEL},
       sessionName: '${SESSION_NAME}',
       urlPrefix: '${URL_PREFIX}',
@@ -121,7 +120,7 @@
       maxStorySize: ${MAX_STORY_SIZE},
       maxFolderSize: ${MAX_FOLDER_SIZE},
       maxBatchNumber: ${MAX_BATCH_NUMBER},
-      backgroundColor: '${BACKGROUND_COLOR}'
+      requirePublicationConsent: ${REQUIRE_PUBLICATION_CONSENT}
     };
   </script>
   <!-- Loading Bundle -->

@@ -25,6 +25,7 @@ import {
  * Imports Project utils
  */
 import { translateNameSpacer } from '../../helpers/translateUtils';
+import config from '../../config';
 
 /**
  * Imports Components
@@ -33,6 +34,7 @@ import AuthorsManager from '../AuthorsManager';
 import ExplainedLabel from '../ExplainedLabel';
 import PasswordInput from '../PasswordInput';
 
+const { requirePublicationConsent = true } = config;
 class MetadataForm extends Component {
 
   componentDidMount = () => {
@@ -56,6 +58,7 @@ class MetadataForm extends Component {
         status,
         onSubmit,
         onCancel,
+        isCreationForm,
       },
       context: {
         t
@@ -69,7 +72,7 @@ class MetadataForm extends Component {
     const errorValidator = ( values ) => {
       return {
         title: !values.title ? translate( 'Story title is required' ) : null,
-        publicationConsent: values.publicationConsent === undefined ? translate( 'You must consent or refuse a possible future publication of this story.' ) : null,
+        publicationConsent: requirePublicationConsent && values.publicationConsent === undefined ? translate( 'You must consent or refuse a possible future publication of this story.' ) : null,
         password: ( !story.id && ( !values.password || values.password.length < 6 ) ) ? translate( 'Password should be at least 6 characters' ) : null,
       };
     };
@@ -95,7 +98,11 @@ class MetadataForm extends Component {
      * References bindings
      */
     const bindRef = ( form ) => {
+      // console.log('bind', form);
       this.form = form;
+    };
+    const bindValues = ( values ) => {
+      this.values = values;
     };
 
     return (
@@ -107,6 +114,7 @@ class MetadataForm extends Component {
         {( formApi ) => {
           const onAuthorsChange = ( authors ) => formApi.setValue( 'authors', authors );
           const handleSubmit = formApi.submitForm;
+          bindValues( formApi.values );
           return (
             <form
               ref={ bindRef }
@@ -131,21 +139,6 @@ class MetadataForm extends Component {
                     <Help isColor={ 'danger' }>{formApi.errors.title}</Help>
                 }
               </Field>
-              <Field>
-                <Control>
-                  <ExplainedLabel
-                    title={ translate( 'Story subtitle' ) }
-                    explanation={ translate( 'Explanation about the story subtitle' ) }
-                  />
-                  <Text
-                    className={ 'input' }
-                    field={ 'subtitle' }
-                    id={ 'subtitle' }
-                    type={ 'text' }
-                    placeholder={ translate( 'subtitle' ) }
-                  />
-                </Control>
-              </Field>
               {
                 !story.id &&
                   <Field>
@@ -163,29 +156,12 @@ class MetadataForm extends Component {
                     }
                   </Field>
               }
-              <AuthorsManager
-                field={ 'authors' }
-                id={ 'authors' }
-                onChange={ onAuthorsChange }
-                authors={ formApi.getValue( 'authors' ) }
-              />
-
+              {requirePublicationConsent &&
               <Field>
-                <Label>{translate( 'Story Abstract' )}</Label>
-                <Control hasIcons>
-                  <TextArea
-                    className={ 'textarea' }
-                    field={ 'abstract' }
-                    id={ 'abstract' }
-                    type={ 'text' }
-                    placeholder={ translate( 'abstract' ) }
-                  />
-                </Control>
-              </Field>
-              <Field>
+                {isCreationForm &&
                 <p style={ { marginTop: '2rem' } }>
                   <i>{translate( 'publication-consent-message-1' )}</i>
-                </p>
+                </p>}
                 <Label style={ { marginTop: '1rem' } }>
                   {translate( 'publication-consent-message-2' )}
                 </Label>
@@ -207,6 +183,56 @@ class MetadataForm extends Component {
                   formApi.errors && formApi.errors.publicationConsent &&
                     <Help isColor={ 'danger' }>{formApi.errors.publicationConsent}</Help>
                 }
+              </Field>}
+              <Field>
+                <Control>
+                  <ExplainedLabel
+                    title={ translate( 'Story subtitle' ) }
+                    explanation={ translate( 'Explanation about the story subtitle' ) }
+                  />
+                  <Text
+                    className={ 'input' }
+                    field={ 'subtitle' }
+                    id={ 'subtitle' }
+                    type={ 'text' }
+                    placeholder={ translate( 'subtitle' ) }
+                  />
+                </Control>
+              </Field>
+              <Field>
+                <Control>
+                  <ExplainedLabel
+                    title={ translate( 'Edition comment' ) }
+                    explanation={ translate( 'Explanation about the story edition comment' ) }
+                  />
+                  <Text
+                    className={ 'input' }
+                    field={ 'edition' }
+                    id={ 'edition' }
+                    type={ 'text' }
+                    placeholder={ translate( 'edition comment' ) }
+                  />
+                </Control>
+              </Field>
+
+              <AuthorsManager
+                field={ 'authors' }
+                id={ 'authors' }
+                onChange={ onAuthorsChange }
+                authors={ formApi.getValue( 'authors' ) }
+              />
+
+              <Field>
+                <Label>{translate( 'Story Abstract' )}</Label>
+                <Control hasIcons>
+                  <TextArea
+                    className={ 'textarea' }
+                    field={ 'abstract' }
+                    id={ 'abstract' }
+                    type={ 'text' }
+                    placeholder={ translate( 'abstract' ) }
+                  />
+                </Control>
               </Field>
 
               {!story.id && status === 'processing' && <Help>{translate( 'Creating story' )}</Help>}

@@ -81,6 +81,33 @@ class ResourceSearchWidget extends Component {
     }
   }
 
+  getFilteredOptions = () => {
+    const {
+      options = []
+    } = this.props;
+    const blockAssetTypes = [ 'image', 'table', 'video', 'embed' ];
+
+    /**
+     * Computed variables
+     */
+    const allowedOptions = options.filter( ( option ) => {
+      if ( this.props.contentId !== 'main' ) {
+        return !blockAssetTypes.includes( option.metadata.type );
+      }
+      return option;
+    } )
+    .sort( ( a, b ) => {
+      const aD = a.lastUpdateAt || a.createdAt;
+      const bD = b.lastUpdateAt || b.createdAt;
+      if ( aD > bD ) {
+        return -1;
+      }
+      return 1;
+    } );
+    const filteredOptions = this.state.searchTerm.length === 0 ? allowedOptions : searchResources( allowedOptions, this.state.searchTerm );
+    return filteredOptions;
+  }
+
   /**
    * Callbacks when the search term is changed
    */
@@ -125,16 +152,11 @@ class ResourceSearchWidget extends Component {
    */
   onSubmit = ( e ) => {
     silentEvent( e );
-    const matching = this.props.options
-            .filter( ( option ) => JSON.stringify( option ).toLowerCase().includes( this.state.searchTerm.toLowerCase() ) );
+    const filteredOptions = this.getFilteredOptions();
     // add an asset
-    if ( matching.length ) {
+    if ( filteredOptions.length ) {
       const index = this.state.selectedItemIndex || 0;
-      this.props.onAssetChoice( matching[index], this.props.contentId );
-    }
-    // else interpret input as text to insert within contents
-   else {
-      this.props.addPlainText( `@${ this.state.searchTerm}`, this.props.contentId );
+      this.props.onAssetChoice( filteredOptions[index], this.props.contentId );
     }
   }
 
@@ -164,18 +186,11 @@ class ResourceSearchWidget extends Component {
       options = []
     } = this.props;
     const context = this.context;
-    const blockAssetTypes = [ 'image', 'table', 'video', 'embed' ];
 
     /**
      * Computed variables
      */
-    const allowedOptions = options.filter( ( option ) => {
-      if ( this.props.contentId !== 'main' ) {
-        return !blockAssetTypes.includes( option.metadata.type );
-      }
-      return option;
-    } );
-    const filteredOptions = this.state.searchTerm.length === 0 ? allowedOptions : searchResources( allowedOptions, this.state.searchTerm );
+    const filteredOptions = this.getFilteredOptions();
 
     /**
      * Local functions

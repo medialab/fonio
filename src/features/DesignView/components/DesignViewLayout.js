@@ -34,16 +34,29 @@ const DesignViewLayout = ( {
   editedStory: story,
   referenceTypesVisible,
   cssHelpVisible,
+  coverImageChoiceVisible,
+  templateChoiceVisible,
+  notesPositionChoiceVisible,
+  figuresPositionChoiceVisible,
+  referenceStatusChoiceVisible,
   lang,
   actions: {
     setDesignAsideTabMode,
     setDesignAsideTabCollapsed,
     setReferenceTypesVisible,
     setCssHelpVisible,
+    setCoverImageChoiceVisible,
+    setTemplateChoiceVisible,
+    setNotesPositionChoiceVisible,
+    setFiguresPositionChoiceVisible,
+    setReferenceStatusChoiceVisible,
   },
   onUpdateCss,
   onUpdateSettings,
   onUpdateTemplatesVariables,
+  onTemplateChange,
+  onSetCoverImage,
+  onUpdateCitationStyle,
 }, { t } ) => {
 
   /**
@@ -67,13 +80,15 @@ const DesignViewLayout = ( {
       isAbsolute
     >
       <AsideDesignColumn
-        style={ { minWidth: designAsideTabCollapsed ? undefined : '30%' } }
+        style={ { minWidth: designAsideTabCollapsed ? undefined : '30%', maxWidth: designAsideTabCollapsed ? '4rem' : '100%' } }
         className={ `aside-edition-container ${designAsideTabCollapsed ? 'is-collapsed' : ''} is-hidden-mobile` }
         {
           ...{
               story,
               designAsideTabCollapsed,
               designAsideTabMode,
+              coverImageChoiceVisible,
+              onSetCoverImage,
               setCssHelpVisible,
               setDesignAsideTabMode,
               setDesignAsideTabCollapsed,
@@ -82,6 +97,17 @@ const DesignViewLayout = ( {
               onUpdateCss,
               onUpdateSettings,
               onUpdateTemplatesVariables,
+              onTemplateChange,
+              setCoverImageChoiceVisible,
+              templateChoiceVisible,
+              referenceStatusChoiceVisible,
+              notesPositionChoiceVisible,
+              figuresPositionChoiceVisible,
+              setTemplateChoiceVisible,
+              setNotesPositionChoiceVisible,
+              setFiguresPositionChoiceVisible,
+              setReferenceStatusChoiceVisible,
+              setCitationStyle: onUpdateCitationStyle,
           }
         }
       />

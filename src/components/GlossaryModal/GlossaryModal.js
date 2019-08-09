@@ -52,6 +52,14 @@ class GlossaryModal extends Component {
         description: ''
       } );
     }
+    else if ( !this.props.isActive && nextProps.isActive ) {
+      setTimeout( () => {
+        const bodies = this.modal.modal.getElementsByClassName( 'modal-card-body' );
+        if ( bodies[0] ) {
+          bodies[0].scrollTop = 0;
+        }
+      }, 100 );
+    }
   }
 
   render = () => {
@@ -110,11 +118,16 @@ class GlossaryModal extends Component {
     const handleNewNameChange = ( e ) => this.setState( { name: e.target.value } );
     const handleNewDescriptionChange = ( e ) => this.setState( { description: e.target.value } );
 
+    const bindRef = ( modal ) => {
+      this.modal = modal;
+    };
+
     return (
       <ModalCard
         isActive={ isActive }
         headerContent={ translate( 'Add a glossary entry' ) }
         onClose={ onClose }
+        ref={ bindRef }
         mainContent={
           <form onSubmit={ handleSubmit }>
             {glossaryEntries.length > 0 &&

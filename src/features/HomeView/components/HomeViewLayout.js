@@ -23,8 +23,11 @@ import {
   Field,
   Help,
   Hero,
-  HeroBody,
-  HeroFooter,
+
+  /*
+   * HeroBody,
+   * HeroFooter,
+   */
   HeroHeader,
   Input,
   Level,
@@ -32,10 +35,13 @@ import {
   Navbar,
   StretchedLayoutContainer,
   StretchedLayoutItem,
-  Tab,
-  TabLink,
-  TabList,
-  Tabs,
+
+  /*
+   * Tab,
+   * TabLink,
+   * TabList,
+   * Tabs,
+   */
   Title,
 } from 'quinoa-design-library/components/';
 import icons from 'quinoa-design-library/src/themes/millet/icons';
@@ -81,13 +87,13 @@ class HomeViewLayout extends Component {
     this.translate = translateNameSpacer( context.t, 'Features.HomeView' );
   }
 
-  componentWillUpdate = ( nextProps, nextState, nextContext ) => {
+  componentWillUpdate = ( _nextProps, _nextState, nextContext ) => {
     if ( this.context.t !== nextContext.t ) {
        this.translate = translateNameSpacer( nextContext.t, 'Features.HomeView' );
     }
   }
 
-  renderLearnTab = ( mode, lang = 'en' ) => {
+  renderLearnTab = ( _mode, lang = 'en' ) => {
     return (
       <Container>
         <Column>
@@ -104,72 +110,101 @@ class HomeViewLayout extends Component {
   }
 
   renderAboutTab = () => {
+    const handleCloseAbout = () => {
+      this.props.actions.setTabMode( 'stories' );
+    };
     return (
       <Container>
-        <Column>
-          <Content>
-            <h1>{this.translate( 'About fonio' )}</h1>
-            <p>
-              {this.translate( 'about fonio details' )}
-            </p>
-          </Content>
-          <Content>
-            <p
-              dangerouslySetInnerHTML={ {
-                      __html: this.translate( 'Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.' )
-                    } }
-            />
-            <p
-              dangerouslySetInnerHTML={ {
-                      __html: this.translate( 'Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.' )
-                    } }
-            />
-            <p>{this.translate( 'Avatar icons courtesy of ' )}
-              <a
-                target={ 'blank' }
-                href={ 'https://www.flaticon.com/packs/people-faces' }
-              >
-                    Freepik
-              </a>.
-            </p>
-
-          </Content>
-          <Title>
-            {this.translate( 'Contributing and signaling bugs' )}
-          </Title>
-          <Content>
-            <p>
-              <span
+        <Columns style={ { paddingTop: '1rem' } }>
+          <Column
+            style={ { marginLeft: '1rem', paddingRight: 0 } }
+            isSize={ '1/3' }
+            className={ 'about-aside' }
+          >
+            <Title isSize={ 3 }>{this.translate( 'About fonio' )}</Title>
+            <Button onClick={ handleCloseAbout }>{'◀ '}{this.translate( 'back to the classroom' )}</Button>
+          </Column>
+          <Column
+            isSize={ '2/3' }
+            style={ { paddingLeft: 0 } }
+            className={ 'about-content' }
+          >
+            <Content style={ { paddingTop: '.5rem' } }>
+              <p>
+                {this.translate( 'about fonio details' )}
+              </p>
+              <p>
+                {this.translate( 'about fonio documentation' )}
+              </p>
+              <p>
+                {this.translate( 'about fonio design' )}
+              </p>
+              <p>
+                {this.translate( 'about fonio collaboration' )}
+              </p>
+              <p>
+                {this.translate( 'about fonio workflow' )}
+              </p>
+            </Content>
+            <Content>
+              <p
                 dangerouslySetInnerHTML={ {
-                       __html: this.translate( 'The source code of Fonio is licensed under free software license ' )
-                } }
+                        __html: this.translate( 'Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.' )
+                      } }
               />
-              <a
-                target={ 'blank' }
-                href={ 'http://www.gnu.org/licenses/agpl-3.0.html' }
-              >AGPL v3
-              </a>
-              {this.translate( ' and is hosted on ' )}
-              <a
-                target={ 'blank' }
-                href={ 'https://github.com/medialab/fonio/' }
-              >Github
-              </a>.
-            </p>
+              <p
+                dangerouslySetInnerHTML={ {
+                        __html: this.translate( 'Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods.' )
+                      } }
+              />
+              <p>{this.translate( 'Avatar icons courtesy of ' )}
+                <a
+                  target={ 'blank' }
+                  href={ 'https://www.flaticon.com/packs/people-faces' }
+                >
+                      Freepik
+                </a>.
+              </p>
 
-            <p
-              dangerouslySetInnerHTML={ {
-                    __html: this.translate( 'For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !' )
+            </Content>
+            <Title>
+              {this.translate( 'Contributing and signaling bugs' )}
+            </Title>
+            <Content>
+              <p>
+                <span
+                  dangerouslySetInnerHTML={ {
+                        __html: this.translate( 'The source code of Fonio is licensed under free software license ' )
                   } }
-            />
-          </Content>
+                />
+                <a
+                  target={ 'blank' }
+                  href={ 'http://www.gnu.org/licenses/agpl-3.0.html' }
+                >AGPL v3
+                </a>
+                {this.translate( ' and is hosted on ' )}
+                <a
+                  target={ 'blank' }
+                  href={ 'https://github.com/medialab/fonio/' }
+                >Github
+                </a>.
+              </p>
 
-        </Column>
+              <p
+                dangerouslySetInnerHTML={ {
+                      __html: this.translate( 'For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !' )
+                    } }
+              />
+            </Content>
+          </Column>
+
+        </Columns>
+
       </Container>
         );
   }
 
-  renderStoriesTab = () => {
+  renderStoriesTab = ( __mode, lang ) => {
 
     /**
      * Variables definition
@@ -393,7 +428,10 @@ class HomeViewLayout extends Component {
     return (
       <Container>
         <Columns>
-          <Column isSize={ '1/3' }>
+          <Column
+            style={ { paddingLeft: '1.3rem', paddingTop: '1.4rem' } }
+            isSize={ '1/3' }
+          >
             <Column>
               <Title isSize={ 3 }>
                 {config.sessionName /* eslint no-undef: 0 */}
@@ -402,7 +440,7 @@ class HomeViewLayout extends Component {
                 <Button
                   isFullWidth
                   onClick={ handleToggleNewStoryOpened }
-                  isColor={ newStoryOpen ? 'primary' : 'info' }
+                  isColor={ newStoryOpen ? 'primary' : 'primary' }
                 >
                   {this.translate( 'New story' )}
                 </Button>
@@ -446,6 +484,7 @@ class HomeViewLayout extends Component {
                         <Control>
                           <Input
                             value={ searchString }
+                            style={ { top: '.75rem' } }
                             onChange={ handleSearchStringChange }
                             placeholder={ this.translate( 'find a story' ) }
                           />
@@ -453,12 +492,13 @@ class HomeViewLayout extends Component {
                       </Field>
                     </StretchedLayoutItem>
                     <StretchedLayoutItem isFluid>
-                      <Column>
+                      <Column style={ { paddingRight: 0 } }>
                         {
                           storiesList.length > 1 ?
                             <StretchedLayoutContainer
                               isDirection={ 'horizontal' }
                               isFluid
+                              style={ { paddingTop: '.5rem' } }
                             >
                               <StretchedLayoutItem><i>{this.translate( 'sort {n} stories by', { n: storiesList.length } )}</i></StretchedLayoutItem>
                               <StretchedLayoutItem>
@@ -513,7 +553,7 @@ class HomeViewLayout extends Component {
                                 break;
                               case 'read':
                                 history.push( {
-                                  pathname: `/read/${story.id}`
+                                  pathname: `/read/${story.id}?lang=${lang}`
                                 } );
                                 break;
                               case 'duplicate':
@@ -690,8 +730,17 @@ class HomeViewLayout extends Component {
       setUserInfo( userInfoTemp );
       setIdentificationModalSwitch( false );
     };
-    const handleSetTabModeStories = () => setTabMode( 'stories' );
-    const handleSetTabModeAbout = () => setTabMode( 'about' );
+
+    /*
+     * const handleSetTabModeStories = () => setTabMode( 'stories' );
+     * const handleSetTabModeAbout = () => setTabMode( 'about' );
+     */
+    const handleSwitchAbout = () => {
+      if ( tabMode === 'stories' ) {
+        setTabMode( 'about' );
+      }
+ else setTabMode( 'stories' );
+    };
     const handleCloseIdentificationModal = () => setIdentificationModalSwitch( false );
 
     return (
@@ -711,14 +760,24 @@ class HomeViewLayout extends Component {
               brandImage={ icons.fonioBrand.svg }
 
               locationBreadCrumbs={ [
-              {
-                href: '/',
-                content: <strong>{config.sessionName /* eslint no-undef: 0 */}</strong>,
-                isActive: true
-              },
+              // {
+              //   href: '/',
+              //   content:  <strong>{config.sessionName /* eslint no-undef: 0 */}</strong>,
+              //   isActive: true
+              // },
             ] }
 
               actionOptions={ [
+            {
+              content: (
+                <Button
+                  onClick={ handleSwitchAbout }
+                  isColor={ tabMode === 'about' ? 'primary' : undefined }
+                >
+                  {this.translate( 'About' )}
+                </Button>
+              )
+            },
             {
               content: <LanguageToggler />
             }
@@ -727,15 +786,15 @@ class HomeViewLayout extends Component {
           </HeroHeader>
 
           {/*screen-wide intro screen with session title */}
-          <HeroBody style={ { paddingBottom: '10rem', paddingTop: '10rem' } }>
+          {/*<HeroBody style={ { paddingBottom: '10rem', paddingTop: '10rem' } }>
             <Container hasTextAlign={ 'centered' }>
               <Title>{config.sessionName}</Title>
             </Container>
-          </HeroBody>
+          </HeroBody>*/}
+          <Level />
 
           {/*main contents with tabs */}
-          <HeroFooter>
-            {/*tabs */}
+          {/* <HeroFooter>
             <Tabs
               isBoxed
               isFullWidth
@@ -747,7 +806,6 @@ class HomeViewLayout extends Component {
                     isActive={ tabMode === 'stories' }
                   ><TabLink>{this.translate( 'Stories' )}</TabLink>
                   </Tab>
-                  {/*<Tab onClick={() => setTabMode('learn')} isActive={tabMode === 'learn'}><TabLink>{this.translate('Learn')}</TabLink></Tab>*/}
                   <Tab
                     onClick={ handleSetTabModeAbout }
                     isActive={ tabMode === 'about' }
@@ -756,12 +814,12 @@ class HomeViewLayout extends Component {
                 </TabList>
               </Container>
             </Tabs>
-          </HeroFooter>
+          </HeroFooter> */}
         </Hero>
 
         {/* main contents */}
         <Container>
-          <Level />
+          <Level style={ { height: '3rem' } } />
           {renderVisibleTab( tabMode, lang )}
           <Level />
           <Level />

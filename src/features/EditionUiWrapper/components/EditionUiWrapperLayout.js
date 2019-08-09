@@ -168,11 +168,24 @@ const EditionUiWrapperLayout = ( {
         } )
         .catch( onRejection );
         break;
-      case 'html':
-        get( `${config.restUrl}/stories/${storyId}?edit=false&&format=html&&locale=${lang}` )
+      case 'html-single':
+        get( `${config.restUrl}/stories/${storyId}?edit=false&&format=html&&locale=${lang}&&mode=single` )
         .then( ( { data } ) => {
           if ( data ) {
             downloadFile( data, 'html', title );
+            setExportModalOpen( false );
+          }
+          else {
+            onRejection( 'no data retrieved' );
+          }
+        } )
+        .catch( onRejection );
+        break;
+      case 'html-multi':
+        get( `${config.restUrl}/stories/${storyId}?edit=false&&format=html&&locale=${lang}&&mode=multi`, { responseType: 'arraybuffer' } )
+        .then( ( { data } ) => {
+          if ( data ) {
+            downloadFile( data, 'zip', title );
             setExportModalOpen( false );
           }
           else {

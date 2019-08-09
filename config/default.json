@@ -1,12 +1,11 @@
 {
   "apiUrl": "http://localhost:3001",
-  "youtubeAPIKey": "AIzaSyARZnXNhr9FhbE8j0igfs9KjjVxT29-F8A",
   "maxSectionLevel": 2,
   "maxResourceSize": 4000000,
   "maxFolderSize": 50000000,
   "maxStorySize": 60000000,
   "maxBatchNumber": 50,
-  "sessionName": "Scube 2019 : introduction aux cours de cartographie des controverses 2018-2019",
+  "sessionName": "Introduction aux cours de cartographie des controverses 2018-2019",
   "urlPrefix": "",
-  "backgroundColor": "lightblue"
+  "requirePublicationConsent": false
 }

@@ -30,11 +30,14 @@ class NotePointer extends Component {
   }
 
   componentDidMount() {
+    const entity = this.props.contentState.getEntity( this.props.entityKey );
+    const { noteId } = entity.getData();
     this.setState( {
-      note: this.context.notes && this.context.notes[this.props.noteId]
+      note: this.context.notes && this.context.notes[noteId],
+      noteId
     } );
     this.unsubscribe = this.context.emitter.subscribeToNotes( ( notes ) => {
-      const note = notes[this.props.noteId];
+      const note = notes[this.state.noteId];
       if ( !this.state.note || ( note && note.order !== this.state.note.order ) ) {
         this.setState( {
           note

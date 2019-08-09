@@ -63,6 +63,7 @@ const MainSectionColumn = ( {
   createContextualizer,
   createResource,
   uploadResource,
+  createStoryObjects,
 
   setEditorPastingStatus,
   editorPastingStatus,
@@ -275,6 +276,7 @@ const MainSectionColumn = ( {
                         createContextualization,
                         createContextualizer,
                         createResource,
+                        createStoryObjects,
                         deleteContextualization,
                         deleteContextualizationFromId,
                         deleteContextualizer,

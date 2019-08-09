@@ -23,7 +23,12 @@ import { RESET_VIEWS_UI } from '../EditionUiWrapper/duck';
 const SET_DESIGN_ASIDE_TAB_MODE = 'SET_DESIGN_ASIDE_TAB_MODE';
 const SET_DESIGN_ASIDE_TAB_COLLAPSED = 'SET_DESIGN_ASIDE_TAB_COLLAPSED';
 const SET_REFERENCE_TYPES_VISIBLE = 'SET_REFERENCE_TYPES_VISIBLE';
+const SET_COVER_IMAGE_CHOICE_VISIBLE = 'SET_COVER_IMAGE_CHOICE_VISIBLE';
 const SET_CSS_HELP_VISIBLE = 'SET_CSS_HELP_VISIBLE';
+const SET_TEMPLATE_CHOICE_VISIBLE = 'SET_TEMPLATE_CHOICE_VISIBLE';
+const SET_NOTES_POSITION_CHOICE_VISIBLE = 'SET_NOTES_POSITION_CHOICE_VISIBLE';
+const SET_FIGURES_POSITION_CHOICE_VISIBLE = 'SET_FIGURES_POSITION_CHOICE_VISIBLE';
+const SET_REFERENCE_STATUS_CHOICE_VISIBLE = 'SET_REFERENCE_STATUS_CHOICE_VISIBLE';
 
 /**
  * ===================================================
@@ -50,6 +55,31 @@ export const setCssHelpVisible = ( payload ) => ( {
   payload,
 } );
 
+export const setCoverImageChoiceVisible = ( payload ) => ( {
+  type: SET_COVER_IMAGE_CHOICE_VISIBLE,
+  payload,
+} );
+
+export const setTemplateChoiceVisible = ( payload ) => ( {
+  type: SET_TEMPLATE_CHOICE_VISIBLE,
+  payload,
+} );
+
+export const setNotesPositionChoiceVisible = ( payload ) => ( {
+  type: SET_NOTES_POSITION_CHOICE_VISIBLE,
+  payload,
+} );
+
+export const setFiguresPositionChoiceVisible = ( payload ) => ( {
+  type: SET_FIGURES_POSITION_CHOICE_VISIBLE,
+  payload,
+} );
+
+export const setReferenceStatusChoiceVisible = ( payload ) => ( {
+  type: SET_REFERENCE_STATUS_CHOICE_VISIBLE,
+  payload,
+} );
+
 /**
  * ===================================================
  * REDUCERS
@@ -61,6 +91,12 @@ const UI_DEFAULT_STATE = {
   designAsideTabCollapsed: false,
   referenceTypesVisible: false,
   cssHelpVisible: false,
+  coverImageChoiceVisible: false,
+
+  templateChoiceVisible: false,
+  notesPositionChoiceVisible: false,
+  figuresPositionChoiceVisible: false,
+  referenceStatusChoiceVisible: false,
 };
 
 /**
@@ -78,6 +114,11 @@ function ui( state = UI_DEFAULT_STATE, action ) {
     case SET_DESIGN_ASIDE_TAB_COLLAPSED:
     case SET_REFERENCE_TYPES_VISIBLE:
     case SET_CSS_HELP_VISIBLE:
+    case SET_COVER_IMAGE_CHOICE_VISIBLE:
+    case SET_TEMPLATE_CHOICE_VISIBLE:
+    case SET_NOTES_POSITION_CHOICE_VISIBLE:
+    case SET_FIGURES_POSITION_CHOICE_VISIBLE:
+    case SET_REFERENCE_STATUS_CHOICE_VISIBLE:
       const propName = getStatePropFromActionSet( action.type );
       return {
         ...state,
@@ -105,6 +146,11 @@ const designAsideTabMode = ( state ) => state.ui.designAsideTabMode;
 const designAsideTabCollapsed = ( state ) => state.ui.designAsideTabCollapsed;
 const referenceTypesVisible = ( state ) => state.ui.referenceTypesVisible;
 const cssHelpVisible = ( state ) => state.ui.cssHelpVisible;
+const coverImageChoiceVisible = ( state ) => state.ui.coverImageChoiceVisible;
+const templateChoiceVisible = ( state ) => state.ui.templateChoiceVisible;
+const notesPositionChoiceVisible = ( state ) => state.ui.notesPositionChoiceVisible;
+const figuresPositionChoiceVisible = ( state ) => state.ui.figuresPositionChoiceVisible;
+const referenceStatusChoiceVisible = ( state ) => state.ui.referenceStatusChoiceVisible;
 
 /**
  * The selector is a set of functions for accessing this feature's state
@@ -115,4 +161,9 @@ export const selector = createStructuredSelector( {
   designAsideTabCollapsed,
   referenceTypesVisible,
   cssHelpVisible,
+  coverImageChoiceVisible,
+  templateChoiceVisible,
+  notesPositionChoiceVisible,
+  figuresPositionChoiceVisible,
+  referenceStatusChoiceVisible,
 } );

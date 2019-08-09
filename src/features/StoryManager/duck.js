@@ -5,7 +5,6 @@
  * @module fonio/features/StoryManager
  */
 
-import { combineReducers } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import { get, post, put, delete as del } from 'axios';
@@ -56,6 +55,8 @@ export const DELETE_CONTEXTUALIZER = 'DELETE_CONTEXTUALIZER';
 export const CREATE_CONTEXTUALIZATION = 'CREATE_CONTEXTUALIZATION';
 export const UPDATE_CONTEXTUALIZATION = 'UPDATE_CONTEXTUALIZATION';
 export const DELETE_CONTEXTUALIZATION = 'DELETE_CONTEXTUALIZATION';
+
+export const CREATE_STORY_OBJECTS = 'CREATE_STORY_OBJECTS';
 
 export const SET_COVER_IMAGE = 'SET_COVER_IMAGE';
 
@@ -191,6 +192,17 @@ export const updateStory = ( TYPE, payload, callback ) => {
         }
       };
       break;
+      case CREATE_STORY_OBJECTS:
+          payloadSchema = {
+            ...DEFAULT_PAYLOAD_SCHEMA,
+            properties: {
+              ...DEFAULT_PAYLOAD_SCHEMA.properties,
+              contextualizations: storySchema.properties.contextualizations,
+              contextualizers: storySchema.properties.contextualizers,
+            },
+            definitions: storySchema.definitions,
+          };
+          break;
     case CREATE_CONTEXTUALIZATION:
     case UPDATE_CONTEXTUALIZATION:
       payloadSchema = {
@@ -330,6 +342,8 @@ export const createContextualization = ( payload, callback ) => updateStory( CRE
 export const updateContextualization = ( payload, callback ) => updateStory( UPDATE_CONTEXTUALIZATION, payload, callback );
 export const deleteContextualization = ( payload, callback ) => updateStory( DELETE_CONTEXTUALIZATION, payload, callback );
 
+export const createStoryObjects = ( payload, callback ) => updateStory( CREATE_STORY_OBJECTS, payload, callback );
+
 export const setCoverImage = ( payload ) => updateStory( SET_COVER_IMAGE, payload );
 
 /**
@@ -431,7 +445,7 @@ const STORY_DEFAULT_STATE = {
  * @param {object} action - the action to use to produce new state
  * @return {object} newState - the resulting state
  */
-function story( state = STORY_DEFAULT_STATE, action ) {
+export default function story( state = STORY_DEFAULT_STATE, action ) {
   const { result, payload } = action;
   let contextualizations;
   let contextualizers;
@@ -535,11 +549,12 @@ function story( state = STORY_DEFAULT_STATE, action ) {
       if ( !state.story ) {
         return state;
       }
-      newSectionsOrder = payload.sectionOrder < state.story.sectionsOrder.length ?
+      const sectionIndex = payload.sectionIndex || state.story.sectionsOrder.length - 1;
+      newSectionsOrder = sectionIndex < state.story.sectionsOrder.length ?
             [
-              ...state.story.sectionsOrder.slice( 0, payload.sectionOrder ),
+              ...state.story.sectionsOrder.slice( 0, sectionIndex ),
               payload.sectionId,
-              ...state.story.sectionsOrder.slice( payload.sectionOrder )
+              ...state.story.sectionsOrder.slice( sectionIndex )
             ]
             :
             [
@@ -772,6 +787,31 @@ function story( state = STORY_DEFAULT_STATE, action ) {
     /**
      * CONTEXTUALIZATION RELATED
      */
+    case CREATE_STORY_OBJECTS:
+    case `${CREATE_STORY_OBJECTS}_BROADCAST`:
+      if ( !state.story ) {
+        return state;
+      }
+      const {
+        contextualizations: newContextualizations,
+        contextualizers: newContextualizers,
+        lastUpdateAt,
+      } = payload;
+      return {
+        ...state,
+        story: {
+          ...state.story,
+          contextualizations: {
+            ...state.story.contextualizations,
+            ...newContextualizations,
+          },
+          contextualizers: {
+            ...state.story.contextualizers,
+            ...newContextualizers,
+          },
+          lastUpdateAt,
+        }
+      };
     // contextualizations CUD
     case UPDATE_CONTEXTUALIZATION:
     case `${UPDATE_CONTEXTUALIZATION}_BROADCAST`:
@@ -878,9 +918,6 @@ function story( state = STORY_DEFAULT_STATE, action ) {
 /**
  * The module exports a reducer connected to pouchdb thanks to redux-pouchdb
  */
-export default combineReducers( {
-  story
-} );
 
 /**
  * ===================================================
@@ -888,7 +925,7 @@ export default combineReducers( {
  * ===================================================
  */
 
-const editedStory = ( state ) => state.story.story;
+const editedStory = ( state ) => state.story;
 
 /**
  * The selector is a set of functions for accessing this feature's state

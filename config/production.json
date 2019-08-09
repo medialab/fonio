@@ -1,6 +1,5 @@
 {
   "apiUrl": "http://localhost:3001",
-  "youtubeAPIKey": "my youtube api key",
   "maxSectionLevel": 2,
   "maxResourceSize": 4000000,
   "maxFolderSize": 50000000,
@@ -8,5 +7,5 @@
   "maxBatchNumber": 50,
   "sessionName": "My super classroom name",
   "urlPrefix": "",
-  "backgroundColor": "lightblue"
+  "requirePublicationConsent": true
 }

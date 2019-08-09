@@ -18,6 +18,10 @@ import {
 } from 'quinoa-design-library/components';
 import StoryPlayer from 'quinoa-story-player';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons/faHome';
+import { faPrint } from '@fortawesome/free-solid-svg-icons/faPrint';
+import Frame, { FrameContextConsumer } from 'react-frame-component';
 
 /**
  * Imports Project utils
@@ -47,8 +51,25 @@ const HomeBtn = () => (
       style={ { color: 'black' } }
       to={ '/' }
     >
-      <Icon icon={ 'home' } />
+      <Icon>
+        <FontAwesomeIcon icon={ faHome } />
+      </Icon>
     </Link>
+  </Button>
+);
+const PrintBtn = ( { onClick } ) => (
+  <Button
+    isRounded
+    style={ {
+      position: 'fixed',
+      bottom: '1rem',
+      right: '4rem'
+    } }
+    onClick={ onClick }
+  >
+    <Icon>
+      <FontAwesomeIcon icon={ faPrint } />
+    </Icon>
   </Button>
 );
 
@@ -120,17 +141,52 @@ class ReadStoryViewContainer extends Component {
       story
     } = this.state;
 
+    const search = this.props.location.search;
+    const query = search && search.substr( 1 ).split( '&' ).map( ( item ) => item.split( '=' ) );
+    const langParam = query && query.find( ( tuple ) => tuple[0] === 'lang' );
+    const lang = langParam ? langParam[1] : 'en';
+
+    const handlePrint = () => {
+      window.frames.read.focus();
+    window.frames.read.print();
+    };
+
     const translate = translateNameSpacer( this.context.t, 'Features.ReadOnly' );
     switch ( status ) {
       case 'loaded':
         return (
-          <DataUrlProvider
-            storyId={ story.id }
-            serverUrl={ config.apiUrl }
-          >
-            <StoryPlayer story={ story } />
+          <div>
+            <Frame
+              head={
+                <style>
+                  {'@import url(\'https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i|Roboto:400,400i,700,700i,900\')'}
+                </style>
+            }
+              name={ 'read' }
+              id={ 'read' }
+              style={ { width: '100%', height: '100%', position: 'absolute', left: 0, top: 0 } }
+            >
+              <FrameContextConsumer>
+                {( { document, window } ) => (
+                  <DataUrlProvider
+                    storyId={ story.id }
+                    serverUrl={ config.apiUrl }
+                  >
+                    <StoryPlayer
+                      locale={ lang }
+                      story={ story }
+                      usedDocument={ document }
+                      usedWindow={ window }
+                    />
+                  </DataUrlProvider>
+          )}
+              </FrameContextConsumer>
+            </Frame>
+
             <HomeBtn />
-          </DataUrlProvider>
+            <PrintBtn onClick={ handlePrint } />
+          </div>
+
           );
       case 'error':
         return <Centered>{translate( 'Story not found' )}</Centered>;

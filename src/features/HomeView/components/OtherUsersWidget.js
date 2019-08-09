@@ -26,7 +26,10 @@ const OtherUsersWidget = ( {
         users &&
         Object.keys( users )
         .filter( ( thatUserId ) => userId !== thatUserId ).length > 0 &&
-        <Title isSize={ 5 }>
+        <Title
+          isSize={ 5 }
+          style={ { display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' } }
+        >
           {translate( 'Who else is online ?' )}
           <HelpPin>{translate( 'writers connected to this classroom right now' )}</HelpPin>
         </Title>

@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 import { v4 as generateId } from 'uuid';
 import ReactTooltip from 'react-tooltip';
-import { ReferencesManager } from 'react-citeproc';
 import {
   EditorState,
   convertToRaw,
@@ -49,22 +48,21 @@ import { abbrevString, silentEvent } from '../../helpers/misc';
 import {
   computeAssets,
   computeAssetChoiceProps,
-} from './utils';
+} from '../../helpers/editorUtils';
 
 import {
-  getCitationModels,
   buildCitations,
-} from './citationUtils';
+} from '../../helpers/citationUtils';
 
 import {
   updateNotesFromSectionEditor,
   // updateContextualizationsFromEditor
-} from './editorToStoryUtils';
+} from '../../helpers/editorToStoryUtils';
 
 import {
   handleCopy,
   handlePaste,
-} from './clipboardUtils';
+} from '../../helpers/clipboardUtils';
 
 /**
  * Imports Components
@@ -89,6 +87,7 @@ import OrderedListItemButton from './buttons/OrderedListItemButton';
 import RemoveFormattingButton from './buttons/RemoveFormattingButton';
 import ResourceSearchWidget from './ResourceSearchWidget';
 import UnorderedListItemButton from './buttons/UnorderedListItemButton';
+import Separator from './buttons/Separator';
 
 /**
  * Imports Assets
@@ -358,7 +357,8 @@ class SectionEditor extends Component {
     // wrapped in setTimeout to prevent firefox "DOM Not found" bug
     setTimeout( () => {
       this.props.setEditorFocus( 'main' );
-    } );
+      this.updateStateFromProps( this.props );
+  } );
   }
 
   /**
@@ -437,8 +437,8 @@ class SectionEditor extends Component {
     this.debouncedCleanStuffFromEditorInspection.flush();
   }
 
-  componentDidCatch( error, info ) {
-    console.log( error, info );/* eslint no-console: 0 */
+  componentDidCatch() {
+    this.updateStateFromProps( this.props );
   }
 
   onEditCursoredInternalLink = () => {
@@ -629,6 +629,7 @@ class SectionEditor extends Component {
       },
       citations,
     } );
+
   }
 
   ElementLayoutComponent = ( { children } ) => (
@@ -781,7 +782,7 @@ class SectionEditor extends Component {
       ...fEditors,
       [nd]: editorStates[nd] || EditorState.createWithContent(
               convertFromRaw( notes[nd].contents ),
-              this.editor.mainEditor.createDecorator()
+              this.editor.mainEditor.createLocalDecorator()
             )
     } ), {
       [sectionId]: mainEditorState
@@ -875,7 +876,7 @@ class SectionEditor extends Component {
           [noteId]: activeSection.notes[noteId].contents && activeSection.notes[noteId].contents.entityMap ?
           EditorState.createWithContent(
             convertFromRaw( activeSection.notes[noteId].contents ),
-            this.editor.mainEditor.createDecorator()
+            this.editor.mainEditor.createLocalDecorator()
           )
           : this.editor.generateEmptyEditor()
         } ),
@@ -884,7 +885,7 @@ class SectionEditor extends Component {
           [activeSection.id]: activeSection.contents && activeSection.contents.entityMap ?
             EditorState.createWithContent(
               convertFromRaw( activeSection.contents ),
-              this.editor.mainEditor.createDecorator()
+              this.editor.mainEditor.createLocalDecorator()
             )
             : this.editor.generateEmptyEditor()
         } );
@@ -933,11 +934,12 @@ class SectionEditor extends Component {
     // checking that component is mounted
     if ( this.component ) {
       const citations = buildCitations( this.state.assets, this.props );
+
       this.setState( {
         citations,
         customContext: {
           citations,
-          selectedContextualizationId: this.props.selectedContextualizationId
+          selectedContextualizationId: this.props.selectedContextualizationId,
         }
       } );
     }
@@ -947,7 +949,11 @@ class SectionEditor extends Component {
     const { editorFocus, editorStates, activeSection } = this.props;
     const { id: sectionId } = activeSection;
     const editorState = editorFocus === 'main' ? editorStates[sectionId] : activeSection.notes[editorFocus].contents;
-    // const styles = editorState.getCurrentInlineStyle().toList().toJS();
+    const initialSelection = editorState.getSelection();
+
+    /**
+     * remove styles
+     */
     const styles = [
       'BOLD',
       'ITALIC',
@@ -964,6 +970,66 @@ class SectionEditor extends Component {
         'remove-inline-style'
       );
     } );
+
+    /**
+     * Remove entities except notes
+     */
+    const selection = newEditorState.getSelection();
+    const startKey = selection.getStartKey();
+    const endKey = selection.getEndKey();
+    let lastWasEnd = false;
+    let currentContent = newEditorState.getCurrentContent();
+    const selectedBlocks = currentContent
+    .getBlockMap()
+    .skipUntil( function( block ) {
+        return block.getKey() === startKey;
+    } )
+    .takeUntil( function( block ) {
+        const result = lastWasEnd;
+
+        if ( block.getKey() === endKey ) {
+            lastWasEnd = true;
+        }
+
+        return result;
+    } );
+    selectedBlocks.forEach( ( block ) => {
+      let start = 0;
+      let end = block.getText().length;
+      const blockKey = block.getKey();
+      if ( blockKey === startKey ) {
+        start = selection.getStartOffset();
+      }
+ else if ( blockKey === endKey ) {
+        end = selection.endOffset();
+      }
+      const characters = block.getCharacterList();
+      for ( let i = start; i < end; i++ ) {
+        const entityKey = characters.get( i ).getEntity();
+        if ( entityKey ) {
+          const entity = currentContent.getEntity( entityKey );
+          if ( entity.getType() !== 'NOTE_POINTER' ) {
+            const sel = new SelectionState( {
+              anchorKey: blockKey,
+              anchorOffset: i,
+              focusKey: blockKey,
+              focusOffset: i + 1
+            } );
+            currentContent = Modifier.applyEntity(
+              currentContent,
+              sel,
+              null
+            );
+          }
+        }
+      }
+    } );
+    newEditorState = EditorState.push(
+      newEditorState,
+      currentContent,
+      'remove-entity'
+    );
+    newEditorState = EditorState.acceptSelection( newEditorState, initialSelection );
 
     this.onEditorChange( editorFocus, newEditorState );
 
@@ -1044,18 +1110,7 @@ class SectionEditor extends Component {
     }
 
   inlineButtons = () => [
-    <BoldButton
-      tooltip={ this.translate( 'bold text' ) }
-      key={ 1 }
-    />,
-    <ItalicButton
-      tooltip={ this.translate( 'italic text' ) }
-      key={ 2 }
-    />,
-    <BlockQuoteButton
-      tooltip={ this.translate( 'quote' ) }
-      key={ 3 }
-    />,
+
     <HeaderOneButton
       tooltip={ this.translate( 'big title' ) }
       key={ 4 }
@@ -1072,10 +1127,32 @@ class SectionEditor extends Component {
       tooltip={ this.translate( 'unordered list' ) }
       key={ 7 }
     />,
+    <BlockQuoteButton
+      tooltip={ this.translate( 'quote' ) }
+      key={ 3 }
+    />,
+
+    <Separator
+      key={ 'sep-2' }
+    />,
+
+    <BoldButton
+      tooltip={ this.translate( 'bold text' ) }
+      key={ 1 }
+    />,
+    <ItalicButton
+      tooltip={ this.translate( 'italic text' ) }
+      key={ 2 }
+    />,
     <RemoveFormattingButton
       tooltip={ this.translate( 'remove formatting for selection' ) }
       key={ 9 }
     />,
+
+    <Separator
+      key={ 'sep-1' }
+    />,
+
     <GlossaryButton
       tooltip={ this.translate( 'add a link to a glossary entry' ) }
       key={ 9 }
@@ -1084,6 +1161,7 @@ class SectionEditor extends Component {
       tooltip={ this.translate( 'add a link to a webpage' ) }
       key={ 10 }
     />,
+
     <InternalLinkButton
       tooltip={ this.translate( 'add a link to another section' ) }
       key={ 11 }
@@ -1116,127 +1194,23 @@ class SectionEditor extends Component {
     return false;
   }
 
-  /**
-   * Renders the component
-   * @return {ReactElement} component - the component
-   */
-  render = () => {
+  getNotePointer = () => NotePointer;
 
-    /**
-     * Variables definition
-     */
-    const {
-      addNote,
-      deleteNote,
-      onAssetRequest: handleAssetRequest,
-      onDataChange: handleDataChange,
-      state,
-      props,
-      onEditorChange: handleEditorChange,
-      handleEditorPaste,
-      ElementLayoutComponent,
-      // onEditCursoredInternalLink,
-    } = this;
-    const {
-      story,
-      activeSection,
-      // updateSection,
-      editorStates,
-      editorFocus,
-      setEditorFocus,
-      assetRequestContentId,
-
-      updateDraftEditorState,
-      assetRequestPosition,
-      cancelAssetRequest,
-      summonAsset,
-      draggedResourceId,
-
-      /*
-       * selectedContextualizationId,
-       * editorWidth,
-       * editorOffset,
-       */
-      style: componentStyle = {},
-    } = props;
-
-    const {
-      clipboard,
-      assets = {},
-      assetChoiceProps = {},
-      citations,
-      customContext,
-      linkPopupData,
-    } = state;
-
-    const {
-        citationItems,
-        citationData
-      } = citations;
-    if ( !story || !activeSection ) {
-      return null;
+  getAssetComponent = ( asset ) => {
+    if ( asset ) {
+      const { contextualizer: { type } } = asset;
+      return inlineAssetComponents[type];
     }
 
-    const {
-      notes: inputNotes,
-      notesOrder,
-      id: sectionId,
-    } = activeSection;
+    return null;
+  }
 
-    /**
-     * Computed variables
-     */
-    const mainEditorState = editorStates[sectionId];
-    // replacing notes with dynamic non-serializable editor states
-    const notes = inputNotes ? Object.keys( inputNotes ).reduce( ( no, id ) => ( {
-      ...no,
-      [id]: {
-        ...inputNotes[id],
-        editorState: editorStates[id]
-      }
-    } ), {} ) : {};
+  getInlineAssetComponents = () => {
+    return inlineAssetComponents;
+  }
 
-    let RealAssetComponent = EmbedAssetComponent;
-
-    // let clipboard;
-    const focusedEditorId = editorFocus;
-
-    const editorStateId = focusedEditorId === 'main' ? sectionId : focusedEditorId;
-
-    const editedEditorState = editorStates[editorStateId];
-    let cursorOnResourceType;
-    let cursorOnInternalLink;
-    if ( editedEditorState ) {
-      const selection = editedEditorState.getSelection();
-      if ( selection.isCollapsed() ) {
-        const content = editedEditorState.getCurrentContent();
-        const selectedBlockKey = selection.getStartKey();
-        const selectedBlock = content.getBlockForKey( selectedBlockKey );
-        const entityKey = selectedBlock.getEntityAt( selection.getStartOffset() );
-        if ( entityKey ) {
-          const entityData = content.getEntity( entityKey ).getData();
-          if ( entityData.asset && entityData.asset.id ) {
-            const contextualization = story.contextualizations[entityData.asset.id];
-            const resource = story.resources[contextualization.resourceId];
-            cursorOnResourceType = resource.metadata.type;
-          }
-          else if ( content.getEntity( entityKey ).getType() === 'SECTION_POINTER' ) {
-            cursorOnInternalLink = true;
-          }
-        }
-      }
-    }
-    if ( cursorOnResourceType ) {
-      RealAssetComponent = this.assetButtons[cursorOnResourceType];
-    }
- else if ( cursorOnInternalLink ) {
-      RealAssetComponent = this.internalLinkButton;
-    }
-
-    // define citation style and locales, falling back on defaults if needed
-    const { style, locale } = getCitationModels( story );
-    // additional inline entities to display in the editor
-    const additionalInlineEntities = [
+  getAdditionalEntities = () => {
+    return [
       {
         strategy: this.findDraftDropPlaceholder,
         component: ( { children } ) =>
@@ -1285,6 +1259,125 @@ class SectionEditor extends Component {
         }
       }
     ];
+  }
+
+  /**
+   * Renders the component
+   * @return {ReactElement} component - the component
+   */
+  render = () => {
+
+    /**
+     * Variables definition
+     */
+    const {
+      addNote,
+      deleteNote,
+      onAssetRequest: handleAssetRequest,
+      onDataChange: handleDataChange,
+      state,
+      props,
+      onEditorChange: handleEditorChange,
+      handleEditorPaste,
+      ElementLayoutComponent,
+      getAssetComponent,
+      // onEditCursoredInternalLink,
+    } = this;
+    const {
+      story,
+      activeSection,
+      // updateSection,
+      editorStates,
+      editorFocus,
+      setEditorFocus,
+      assetRequestContentId,
+
+      updateDraftEditorState,
+      assetRequestPosition,
+      cancelAssetRequest,
+      summonAsset,
+      draggedResourceId,
+
+      /*
+       * selectedContextualizationId,
+       * editorWidth,
+       * editorOffset,
+       */
+      style: componentStyle = {},
+    } = props;
+
+    const {
+      clipboard,
+      assets = {},
+      assetChoiceProps = {},
+      customContext,
+      linkPopupData,
+    } = state;
+    if ( !story || !activeSection ) {
+      return null;
+    }
+
+    const {
+      notes: inputNotes,
+      notesOrder,
+      id: sectionId,
+    } = activeSection;
+
+    /**
+     * Computed variables
+     */
+    const mainEditorState = editorStates[sectionId];
+    // replacing notes with dynamic non-serializable editor states
+    const notes = inputNotes ? Object.keys( inputNotes ).reduce( ( no, id ) => ( {
+      ...no,
+      [id]: {
+        ...inputNotes[id],
+        editorState: editorStates[id]
+      }
+    } ), {} ) : {};
+
+    let RealAssetComponent = EmbedAssetComponent;
+
+    // let clipboard;
+    const focusedEditorId = editorFocus;
+
+    const editorStateId = focusedEditorId === 'main' ? sectionId : focusedEditorId;
+
+    const editedEditorState = editorStates[editorStateId];
+    let cursorOnResourceType;
+    let cursorOnInternalLink;
+    if ( editedEditorState ) {
+      const selection = editedEditorState.getSelection();
+      if ( selection.isCollapsed() ) {
+        const content = editedEditorState.getCurrentContent();
+        const selectedBlockKey = selection.getStartKey();
+        const selectedBlock = content.getBlockForKey( selectedBlockKey );
+        let entityKey;
+        if ( selectedBlock ) {
+          entityKey = selectedBlock.getEntityAt( selection.getStartOffset() );
+        }
+        if ( entityKey ) {
+          const entityData = content.getEntity( entityKey ).getData();
+          if ( entityData.asset && entityData.asset.id ) {
+            const contextualization = story.contextualizations[entityData.asset.id];
+            const resource = story.resources[contextualization.resourceId];
+            cursorOnResourceType = resource.metadata.type;
+          }
+          else if ( content.getEntity( entityKey ).getType() === 'SECTION_POINTER' ) {
+            cursorOnInternalLink = true;
+          }
+        }
+      }
+    }
+    if ( cursorOnResourceType ) {
+      RealAssetComponent = this.assetButtons[cursorOnResourceType];
+    }
+    else if ( cursorOnInternalLink ) {
+      RealAssetComponent = this.internalLinkButton;
+    }
+
+    // additional inline entities to display in the editor
+    const additionalInlineEntities = this.getAdditionalEntities();
     const inlineButtons = this.inlineButtons();
 
     let shouldHidePlaceholder;
@@ -1318,12 +1411,13 @@ class SectionEditor extends Component {
         targetedEditorId = this.props.editorFocus;
       }
       cancelAssetRequest();
+
       summonAsset( targetedEditorId, id );
-      setEditorFocus( undefined );
+      setTimeout( () => setEditorFocus( undefined ) );
       setTimeout( () => {
         setEditorFocus( targetedEditorId );
         this.updateStateFromProps( this.props );
-        setTimeout( () => this.updateStateFromProps( this.props ) );
+        // setTimeout( () => this.updateStateFromProps( this.props ) );
       }, timers.medium );
     };
     const blockAssetTypes = [ 'image', 'table', 'video', 'embed' ];
@@ -1441,40 +1535,34 @@ class SectionEditor extends Component {
           className={ `editor-wrapper ${shouldHidePlaceholder ? 'hide-placeholder' : ''}` }
           onScroll={ handleScroll }
         >
-          <ReferencesManager
-            style={ style }
-            locale={ locale }
-            items={ citationItems }
-            citations={ citationData }
-          >
-            <Editor
-              AssetButtonComponent={ RealAssetComponent }
-              AssetChoiceComponent={ ResourceSearchWidget }
-              NotePointerComponent={ NotePointer }
-              editorPlaceholder={ placeholderText }
-              inlineEntities={ additionalInlineEntities }
-              onAssetChange={ handleDataChange }
-              onAssetChoice={ handleAssetChoice }
-              onAssetRequest={ handleAssetRequest }
-              onAssetRequestCancel={ handleAssetRequestCancel }
-              onBlur={ handleBlur }
-              onClick={ handleClick }
-              onDragOver={ handleDragOver }
-              onDrop={ handleDrop }
-              onEditorChange={ handleEditorChange }
-              onNoteAdd={ addNote }
-              onNoteDelete={ deleteNote }
-              onNotePointerMouseClick={ handleNotePointerMouseClick }
-              ref={ bindEditorRef }
-              BibliographyComponent={ null }
-              assets={ assets }
-              customContext={ customContext }
-              handlePastedText={ handleEditorPaste }
-              mainEditorState={ mainEditorState }
-              notes={ notes }
-              notesOrder={ notesOrder }
+          <Editor
+            AssetButtonComponent={ RealAssetComponent }
+            AssetChoiceComponent={ ResourceSearchWidget }
+            NotePointerComponent={ NotePointer }
+            editorPlaceholder={ placeholderText }
+            inlineEntities={ additionalInlineEntities }
+            onAssetChange={ handleDataChange }
+            onAssetChoice={ handleAssetChoice }
+            onAssetRequest={ handleAssetRequest }
+            onAssetRequestCancel={ handleAssetRequestCancel }
+            onBlur={ handleBlur }
+            onClick={ handleClick }
+            onDragOver={ handleDragOver }
+            onDrop={ handleDrop }
+            onEditorChange={ handleEditorChange }
+            onNoteAdd={ addNote }
+            onNoteDelete={ deleteNote }
+            onNotePointerMouseClick={ handleNotePointerMouseClick }
+            ref={ bindEditorRef }
+            BibliographyComponent={ null }
+            assets={ assets }
+            customContext={ customContext }
+            handlePastedText={ handleEditorPaste }
+            mainEditorState={ mainEditorState }
+            notes={ notes }
+            notesOrder={ notesOrder }
 
-              {
+            {
                 ...{
                    clipboard,
                    focusedEditorId,
@@ -1488,11 +1576,10 @@ class SectionEditor extends Component {
                    ElementLayoutComponent,
                    inlineAssetComponents,
                    blockAssetComponents,
+                   getAssetComponent,
                 }
               }
-
-            />
-          </ReferencesManager>
+          />
         </div>
         {
           linkPopupData &&

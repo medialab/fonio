@@ -5,18 +5,32 @@
 import pasteFromOutside from './pasteFromOutside';
 import pasteFromInside from './pasteFromInside';
 
+/**
+ * Handle pasting operation
+ * (this is a dumb wrapper deciding which
+ * util to use depending on whether the contents come
+ * from fonio or from another application)
+ */
 const handlePaste = function( html ) {
-
     const {
       props,
 
       editor,
+
+      getNotePointer,
+      getAdditionalEntities,
+      getInlineAssetComponents,
+      updateSectionRawContent,
 
       /*
        * editor,
        * onEditorChange
        */
     } = this;
+
+    const NotePointer = getNotePointer();
+    const inlineEntities = getAdditionalEntities();
+    const inlineAssetComponents = getInlineAssetComponents();
     // ensuring this is happening while editing the content
     if ( !props.editorFocus ) {
       return;
@@ -37,6 +51,7 @@ const handlePaste = function( html ) {
       setEditorPastingStatus,
       setEditorFocus,
       uploadResource,
+      createStoryObjects,
     } = props;
 
     const {
@@ -64,8 +79,8 @@ const handlePaste = function( html ) {
     const activeEditorState = editorStates[activeEditorStateId];
 
     // check whether the clipboard contains fonio data
-    const dataRegex = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>$/gm;
-    const hasScript = dataRegex.test( html );
+    const dataRegex = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>/gm;
+    const hasScript = /<script id="fonio-copied-data" type="application\/json">(.*)<\/script>/gm.test( html );
 
     /**
      * ======================================
@@ -81,6 +96,8 @@ const handlePaste = function( html ) {
         createContextualization,
         createContextualizer,
         updateDraftEditorState,
+        inlineEntities,
+        NotePointer,
 
         setEditorPastingStatus,
 
@@ -93,6 +110,9 @@ const handlePaste = function( html ) {
         uploadResource,
 
         setEditorFocus,
+
+        createStoryObjects,
+
       } );
     }
 
@@ -105,15 +125,21 @@ const handlePaste = function( html ) {
       return pasteFromInside( {
         updateSection,
         createContextualization,
+        NotePointer,
         createContextualizer,
+        inlineEntities,
+        inlineAssetComponents,
         userId,
         updateDraftEditorsStates,
         activeSection,
         storyId,
         editorFocus,
         setEditorPastingStatus,
+        updateSectionRawContent,
         createResource,
         uploadResource,
+
+        setEditorFocus,
 
         story,
         editor,
@@ -122,6 +148,8 @@ const handlePaste = function( html ) {
         copiedData,
         html,
         dataRegex,
+
+        createStoryObjects,
       } );
     }
   };

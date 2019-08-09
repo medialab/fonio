@@ -48,7 +48,7 @@ const NewStoryForm = ( {
               <Column isSize={ 11 }>
                 {translate( 'New Story' )}
               </Column>
-              <Column>
+              <Column style={ { textAlign: 'right' } }>
                 <Delete onClick={ onClose } />
               </Column>
             </Columns>
@@ -78,6 +78,7 @@ const NewStoryForm = ( {
               status={ createStoryStatus }
               onSubmit={ onCreateNewStory }
               onCancel={ onCloseNewStory }
+              isCreationForm
             />
                 :
             <Column>

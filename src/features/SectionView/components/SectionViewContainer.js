@@ -255,6 +255,7 @@ class SectionViewContainer extends Component {
     const editorId = focusId === 'main' ? sectionId : focusId;
     const selection = this.props.editorStates[editorId].getSelection();
     this.props.actions.setLinkModalFocusData( { focusId, selection } );
+    this.props.actions.setEditorFocus( undefined );
   }
 
   setGlossaryModalFocusData = ( focusId ) => {
@@ -269,6 +270,7 @@ class SectionViewContainer extends Component {
     const editorId = focusId === 'main' ? sectionId : focusId;
     const selection = this.props.editorStates[editorId].getSelection();
     this.props.actions.setGlossaryModalFocusData( { focusId, selection } );
+    this.props.actions.setEditorFocus( undefined );
   }
 
   getInactiveSections = () => {

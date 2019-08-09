@@ -677,7 +677,7 @@ class LibraryViewLayout extends Component {
           <StretchedLayoutContainer isAbsolute>
             <StretchedLayoutItem>
               <Level />
-              <Column style={ { paddingRight: 0 } }>
+              <Column style={ { paddingRight: 0, paddingTop: 0 } }>
                 <LibraryFiltersBar
                   filterValues={ filterValues }
                   onDeleteSelection={ handleDeleteSelection }
@@ -816,7 +816,7 @@ class LibraryViewLayout extends Component {
             className={ 'is-hidden-mobile' }
             isFlex={ '1' }
           >
-            <Column>
+            <Column style={ { paddingLeft: '1.3rem', paddingTop: '1rem' } }>
               <Level />
               <Level>
                 <Content>
@@ -828,7 +828,7 @@ class LibraryViewLayout extends Component {
                   isDisabled={ userLockedResourceId !== undefined }
                   isFullWidth
                   onClick={ handleNewResourceClick }
-                  isColor={ mainColumnMode === 'new' ? 'primary' : 'info' }
+                  isColor={ mainColumnMode === 'new' ? 'primary' : 'primary' }
                 >
                   {translate( 'New resource' )}
                 </Button>
@@ -850,7 +850,10 @@ class LibraryViewLayout extends Component {
             </Column>
           </StretchedLayoutItem>
           <StretchedLayoutItem isFlex={ '3' }>
-            <Column isWrapper>
+            <Column
+              style={ { paddingTop: '1.1rem', paddingRight: 0 } }
+              isWrapper
+            >
               {this.renderMainColumn()}
             </Column>
           </StretchedLayoutItem>

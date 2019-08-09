@@ -44,16 +44,31 @@ const AsideDesignColumn = ( {
   designAsideTabMode,
   story = {},
   style = {},
+  coverImageChoiceVisible,
 
   setDesignAsideTabCollapsed,
   setDesignAsideTabMode,
+  setCoverImageChoiceVisible,
 
   onUpdateTemplatesVariables,
 
   referenceTypesVisible,
   setReferenceTypesVisible,
+  onSetCoverImage,
 
   setCssHelpVisible,
+
+  onTemplateChange,
+
+  templateChoiceVisible,
+  notesPositionChoiceVisible,
+  figuresPositionChoiceVisible,
+  referenceStatusChoiceVisible,
+  setTemplateChoiceVisible,
+  setNotesPositionChoiceVisible,
+  setFiguresPositionChoiceVisible,
+  setReferenceStatusChoiceVisible,
+  setCitationStyle,
 
 }, { t } ) => {
 
@@ -131,7 +146,7 @@ const AsideDesignColumn = ( {
                           boxShadow: 'none',
                           transform: designAsideTabCollapsed ? 'rotate(180deg)' : undefined,
                           transition: 'all .5s ease',
-                          paddingRight: designAsideTabCollapsed ? '1rem' : undefined,
+                          paddingRight: designAsideTabCollapsed ? undefined : 0,
                           display: designAsideTabCollapsed ? 'inline-block' : 'flex',
                           justifyContent: designAsideTabCollapsed ? undefined : 'flex-end',
                           textAlign: 'left'
@@ -162,12 +177,26 @@ const AsideDesignColumn = ( {
                 designAsideTabMode,
                 onUpdateTemplatesVariables,
                 setReferenceTypesVisible,
+                coverImageChoiceVisible,
+                setCoverImageChoiceVisible,
+                templateChoiceVisible,
+                notesPositionChoiceVisible,
+                figuresPositionChoiceVisible,
+                referenceStatusChoiceVisible,
+                setTemplateChoiceVisible,
+                setNotesPositionChoiceVisible,
+                setFiguresPositionChoiceVisible,
+                setReferenceStatusChoiceVisible,
+                setCitationStyle,
+                onSetCoverImage,
                 template,
                 story,
                 setCssHelpVisible,
                 options,
                 resourceTypes,
                 referenceTypesVisible,
+                onTemplateChange,
+                templates
               }
             }
           />

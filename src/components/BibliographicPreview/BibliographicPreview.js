@@ -17,8 +17,8 @@ import { Bibliography } from 'react-citeproc';
  * Imports Assets
  */
 import './BibliographicPreview.scss';
-const english = require( 'raw-loader!./english-locale.xml' );
-const apa = require( 'raw-loader!./apa.csl' );
+const english = require( 'raw-loader!../../sharedAssets/bibAssets/english-locale.xml' );
+const apa = require( 'raw-loader!../../sharedAssets/bibAssets/apa.csl' );
 
 /**
  * Renders the BibliographicPreview component as a pure function
@@ -27,14 +27,16 @@ const apa = require( 'raw-loader!./apa.csl' );
  * @return {ReactElement} component - the resulting component
  */
 const BibliographicPreview = ( {
-  items
+  items,
+  style = apa,
+  locale = english
 } ) => (
   <Content>
     <blockquote>
       <Bibliography
         items={ items }
-        style={ apa }
-        locale={ english }
+        style={ style }
+        locale={ locale }
       />
     </blockquote>
   </Content>

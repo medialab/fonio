@@ -37,16 +37,16 @@
         &:before
         {
             position: absolute;
-            top: $gutter-small;
-            left: $gutter-small;
+            top: 0;
+            left: $gutter-small / 2;
 
             content: open-quote;
         }
         &:after
         {
             position: absolute;
-            right: $gutter-small;
-            bottom: $gutter-small;
+            right: $gutter-small / 2;
+            bottom: 0;
 
             content: close-quote;
         }
@@ -119,11 +119,16 @@
                     }
                 }
             }
+            .public-DraftEditorPlaceholder-root{
+                z-index: 1000;
+                width: 100%;
+                top: 0;
+            }
             .public-DraftEditor-content,
             .public-DraftEditorPlaceholder-inner
             {
                 // font-family: $editable-font-stack;
-                line-height: 2em;
+                line-height: 1.75;
 
                 padding: 1rem;
 
@@ -132,7 +137,6 @@
                 // @extend .animated;
                 .public-DraftStyleDefault-block
                 {
-                    line-height: 1.75rem;
 
                     margin-bottom: 1.5rem;
                 }
@@ -140,6 +144,10 @@
                     margin-bottom: .5rem;
                     // display: flex;
                     // flex-flow: row nowrap;
+                }
+
+                .public-DraftStyleDefault-depth0{
+                    margin-left: 0rem;
                 }
 
                 .public-DraftStyleDefault-depth1{

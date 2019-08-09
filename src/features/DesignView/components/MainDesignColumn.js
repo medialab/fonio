@@ -47,6 +47,7 @@ const PreviewWrapper = ( props ) => {
       name={ 'preview' }
       id={ 'preview' }
       style={ { width: '100%', height: '100%' } }
+      allowFullScreen
     >
       <FrameContextConsumer>
         {( { document, window } ) => (
@@ -86,8 +87,8 @@ const MainDesignColumn = ( {
       <Button
         style={ {
           position: 'absolute',
-          right: '1rem',
-          bottom: '1rem'
+          right: '1.5rem',
+          bottom: '1.5rem'
         } }
         className={ 'is-rounded' }
         onClick={ handleClickOnPrint }

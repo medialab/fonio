@@ -5,3 +5,4 @@ config/local.json
 build/
 data/
 index.prod.html
+coverage
