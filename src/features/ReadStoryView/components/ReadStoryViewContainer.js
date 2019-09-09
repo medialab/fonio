@@ -141,8 +141,11 @@ class ReadStoryViewContainer extends Component {
       story
     } = this.state;
 
-    const search = this.props.location.search;
-    const query = search && search.substr( 1 ).split( '&' ).map( ( item ) => item.split( '=' ) );
+    const search = this.props.location.search && this.props.location.search.length ?
+      this.props.location.search.substr( 1 )
+      :
+      this.props.location.pathname.split( '?' ).pop();
+    const query = search && search.split( '&' ).map( ( item ) => item.split( '=' ) );
     const langParam = query && query.find( ( tuple ) => tuple[0] === 'lang' );
     const lang = langParam ? langParam[1] : 'en';
 
