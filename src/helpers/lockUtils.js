@@ -102,3 +102,16 @@ export const getUserResourceLockId = ( lockingMap = {}, userId, storyId ) => {
   }
   return undefined;
 };
+
+export const validateEditAction = ( localStory, payload, actionType ) => {
+  if ( localStory && payload ) {
+    if ( actionType.includes( '_BROADCAST' ) ) {
+      if ( payload.storyId === localStory.id ) {
+        return true;
+      }
+ else return false;
+    }
+ else return true;
+  }
+  return false;
+};

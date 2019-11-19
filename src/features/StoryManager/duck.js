@@ -18,6 +18,7 @@ import { LEAVE_STORY } from '../ConnectionsManager/duck';
 import config from '../../config';
 
 import { updateEditionHistoryMap, loadStoryToken } from '../../helpers/localStorageUtils';
+import { validateEditAction } from '../../helpers/lockUtils';
 
 /**
  * ===================================================
@@ -469,7 +470,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
      */
     case `${UPDATE_STORY_METADATA}_SUCCESS`:
     case `${UPDATE_STORY_METADATA}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       return {
@@ -486,7 +487,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
      */
     case `${UPDATE_STORY_SETTINGS}_SUCCESS`:
     case `${UPDATE_STORY_SETTINGS}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       return {
@@ -503,7 +504,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
      */
     case `${UPDATE_SECTIONS_ORDER}`:
     case `${UPDATE_SECTIONS_ORDER}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       const oldSectionsOrder = [ ...state.story.sectionsOrder ];
@@ -546,7 +547,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
      */
     case `${CREATE_SECTION}`:
     case `${CREATE_SECTION}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       const sectionIndex = payload.sectionIndex || state.story.sectionsOrder.length - 1;
@@ -579,7 +580,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
       };
     case `${UPDATE_SECTION}_SUCCESS`:
     case `${UPDATE_SECTION}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       return {
@@ -599,7 +600,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
     case `${SET_SECTION_LEVEL}`:
     case `${SET_SECTION_LEVEL}_SUCCESS`:
     case `${SET_SECTION_LEVEL}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       return {
@@ -622,7 +623,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
       };
     case `${DELETE_SECTION}_SUCCESS`:
     case `${DELETE_SECTION}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       contextualizations = { ...state.story.contextualizations };
@@ -672,7 +673,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
      */
     case `${CREATE_RESOURCE}`:
     case `${CREATE_RESOURCE}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       return {
@@ -692,7 +693,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
       };
     case `${UPDATE_RESOURCE}`:
     case `${UPDATE_RESOURCE}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       return {
@@ -730,7 +731,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
     case `${DELETE_RESOURCE}_SUCCESS`:
     case `${DELETE_RESOURCE}_BROADCAST`:
     case `${DELETE_UPLOADED_RESOURCE}_SUCCESS`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       contextualizations = { ...state.story.contextualizations };
@@ -789,7 +790,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
      */
     case CREATE_STORY_OBJECTS:
     case `${CREATE_STORY_OBJECTS}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       const {
@@ -817,7 +818,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
     case `${UPDATE_CONTEXTUALIZATION}_BROADCAST`:
     case CREATE_CONTEXTUALIZATION:
     case `${CREATE_CONTEXTUALIZATION}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       const {
@@ -837,6 +838,9 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
       };
     case DELETE_CONTEXTUALIZATION:
     case `${DELETE_CONTEXTUALIZATION}_BROADCAST`:
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
+        return state;
+      }
       contextualizations = { ...state.story.contextualizations };
       delete contextualizations[payload.contextualizationId];
       return {
@@ -856,7 +860,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
     case `${CREATE_CONTEXTUALIZER}_BROADCAST`:
     case UPDATE_CONTEXTUALIZER:
     case `${UPDATE_CONTEXTUALIZER}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       // storyId = action.storyId;
@@ -877,7 +881,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
       };
     case DELETE_CONTEXTUALIZER:
     case `${DELETE_CONTEXTUALIZER}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       contextualizers = { ...state.story.contextualizers };
@@ -893,7 +897,7 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
 
     case SET_COVER_IMAGE:
     case `${SET_COVER_IMAGE}_BROADCAST`:
-      if ( !state.story ) {
+      if ( !validateEditAction( state.story, payload, action.type ) ) {
         return state;
       }
       const { resourceId } = payload;
