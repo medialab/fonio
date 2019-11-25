@@ -10,5 +10,9 @@
   "requirePublicationConsent": {
     "__name": "REQUIRE_PUBLICATION_CONSENT",
     "__format": "boolean"
+  },
+  "demoMode": {
+    "__name": "DEMO_MODE",
+    "__format": "boolean"
   }
 }

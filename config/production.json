@@ -7,5 +7,6 @@
   "maxBatchNumber": 50,
   "sessionName": "My super classroom name",
   "urlPrefix": "",
-  "requirePublicationConsent": true
+  "requirePublicationConsent": true,
+  "demoMode": false
 }
