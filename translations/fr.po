@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-11-25\n"
-"PO-Revision-Date: Mon Nov 25 2019 13:24:58 GMT+0100 (heure normale d’Europe centrale)\n"
+"PO-Revision-Date: Mon Nov 25 2019 13:26:33 GMT+0100 (heure normale d’Europe centrale)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2294,6 +2294,18 @@ msgstr "relative to scroll"
 msgid "Features.HomeView.Welcome to the demo version of Fonio !"
 msgstr "Welcome to the demo version of Fonio !"
 
+msgid "Features.HomeView.In this demo version, you can browse tutorials and example stories, and create your own to discover the tool numerous features."
+msgstr "Dans cette version démo, vous pouvez visiter les tutoriels et des exemples de récits, et créer le votre pour découvrir les nombreuses fonctionnalités du logiciel."
+
+msgid "Features.HomeView.Demo version limitations: do not use for real projects"
+msgstr "Version démo limitée : ne pas utiliser pour de vrais projets"
+
+msgid "Features.HomeView.For technical and legal reasons, the stories you might create on this demo version of Fonio will not persist in time and will be erased as soon as you leave them."
+msgstr "Pour des raisons techniques et légales, les récits que vous seriez amenés à créer sur cette version démo de Fonio seront supprimés dès que vous les quitterez."
+
+msgid "Features.HomeView.In order to use Fonio for real use cases, please head to the project free and open source repository"
+msgstr "Afin d'utiliser Fonio pour des cas d'usage réels, merci de vous rendre sur le répertoire libre et ouvert du projet : "
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Êtes-vous sûr·e de vouloir supprimer la ressource « {s} » ?"
 
@@ -2335,15 +2347,3 @@ msgstr "\"{f}\" est trop gros"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\" rel=\"noopener\" >cette page</a> et de suivre la procédure proposée. Merci !"
-
-msgid "Features.HomeView.In this demo version, you can browse tutorials and example stories, and create your own to discover the tool numerous features."
-msgstr "Dans cette version démo, vous pouvez visiter les tutoriels et des exemples de récits, et créer le votre pour découvrir les nombreuses fonctionnalités du logiciel."
-
-msgid "Features.HomeView.Demo version limitations: do not use for real projects"
-msgstr "Version démo limitée : ne pas utiliser pour de vrais projets"
-
-msgid "Features.HomeView.For technical and legal reasons, the stories you might create on this demo version of Fonio will not persist in time and will be erased as soon as you leave them."
-msgstr "Pour des raisons techniques et légales, les récits que vous seriez amenés à créer sur cette version démo de Fonio seront supprimés dès que vous les quitterez."
-
-msgid "Features.HomeView.In order to use Fonio for real use cases, please head to the project free and open source repository"
-msgstr "Afin d'utiliser Fonio pour des cas d'usage réels, merci de vous rendre sur le répertoire libre et ouvert du projet : "

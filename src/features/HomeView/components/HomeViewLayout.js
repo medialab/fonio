@@ -23,6 +23,7 @@ import {
   Field,
   Help,
   Hero,
+  Notification,
 
   /*
    * HeroBody,
@@ -77,7 +78,7 @@ import pdfEn from 'file-loader!../assets/user-guide-fr.pdf';
 /**
  * Shared variables
  */
-const { maxStorySize } = config;
+const { maxStorySize, demoMode } = config;
 const DEFAULT_BACKGROUND_COLOR = 'lightblue';
 
 class HomeViewLayout extends Component {
@@ -466,7 +467,7 @@ class HomeViewLayout extends Component {
             </Column>
           </Column>
           {
-            storiesList.length > 0 &&
+            ( storiesList.length > 0 || demoMode ) &&
               <Column
                 isHidden={ newStoryOpen }
                 isSize={ '2/3' }
@@ -541,6 +542,41 @@ class HomeViewLayout extends Component {
                   </StretchedLayoutContainer>
                 </Column>
                 <FlipMove>
+                  {
+                    demoMode &&
+                    <Column style={ { paddingTop: '2rem' } }>
+                      <Notification isColor={ 'primary' }>
+                        <Title isSize={ 5 }>{this.translate( 'Welcome to the demo version of Fonio !' )}</Title>
+                        <p>
+                          {this.translate( 'about fonio details' )}
+                        </p>
+                        <p>
+                          {this.translate( 'In this demo version, you can browse tutorials and example stories, and create your own to discover the tool numerous features.' )}
+                        </p>
+
+                      </Notification>
+                      <Notification isColor={ 'warning' }>
+                        <Title isSize={ 5 }>{this.translate( 'Demo version limitations: do not use for real projects' )}</Title>
+                        <p>
+                          <strong>
+                            {this.translate( 'For technical and legal reasons, the stories you might create on this demo version of Fonio will not persist in time and will be erased as soon as you leave them.' )}
+                          </strong>
+                        </p>
+                        <p>
+                          {this.translate( 'In order to use Fonio for real use cases, please head to the project free and open source repository' )}
+                          <a
+                            target={ '_blank' }
+                            rel={ 'noopener' }
+                            href={ 'https://github.com/medialab/fonio/#installation' }
+                          >
+                            Fonio on github
+                          </a>
+                        </p>
+
+                      </Notification>
+                    </Column>
+                  }
+
                   {
                         visibleStoriesList.map( ( story ) => {
                           const handleAction = ( id, event ) => {

@@ -757,5 +757,10 @@
   "Features.DesignView.Figures position": "Position des figures",
   "Features.DesignView.Figures position help": "Choisir comment afficher les figures (images, tableaux, vidéos, blocs avancés)",
   "Features.DesignView.in content body": "dans le corps des contenus",
-  "Features.DesignView.relative to scroll": "en fonction du défilement"
+  "Features.DesignView.relative to scroll": "en fonction du défilement",
+  "Features.HomeView.Welcome to the demo version of Fonio !": "Bienvenue sur la version démo de Fonio !",
+  "Features.HomeView.In this demo version, you can browse tutorials and example stories, and create your own to discover the tool numerous features.": "Dans cette version démo, vous pouvez visiter les tutoriels et des exemples de récits, et créer le votre pour découvrir les nombreuses fonctionnalités du logiciel.",
+  "Features.HomeView.Demo version limitations: do not use for real projects": "Version démo limitée : ne pas utiliser pour de vrais projets",
+  "Features.HomeView.For technical and legal reasons, the stories you might create on this demo version of Fonio will not persist in time and will be erased as soon as you leave them.": "Pour des raisons techniques et légales, les récits que vous seriez amenés à créer sur cette version démo de Fonio seront supprimés dès que vous les quitterez.",
+  "Features.HomeView.In order to use Fonio for real use cases, please head to the project free and open source repository": "Afin d'utiliser Fonio pour des cas d'usage réels, merci de vous rendre sur le répertoire libre et ouvert du projet : "
 }
