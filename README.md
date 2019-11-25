@@ -21,9 +21,15 @@ It works with the [quinoa-server](https://github.com/medialab/quinoa-server) app
 
 # Installation
 
-You have to install both fonio (client) and [quinoa-server](https://github.com/medialab/quinoa-server) to be able to run this application.
+Nota bene: you have to install both fonio (the client/visual interface) and [quinoa-server](https://github.com/medialab/quinoa-server) (the server/data management application) to be able to run this application.
 
-Install quinoa-server :
+Prerequisites :
+
+* install [node](https://nodejs.org/en/)
+* install [git](https://git-scm.com/downloads)
+* learn to use [macos terminal](https://macpaw.com/fr/how-to/use-terminal-on-mac), [windows command line](https://www.computerhope.com/issues/chusedos.htm) or [linux command line](https://tutorials.ubuntu.com/tutorial/command-line-for-beginners#0) depending on your operating system
+
+To install `quinoa-server`, open your terminal/command line tool and run the following commands in a directory of your choice :
 
 ```
 git clone https://github.com/medialab/quinoa-server
@@ -35,7 +41,7 @@ cp config/sample.json config/default.json
 Then edit the ``config/default.json`` file with your own settings.
 
 
-Install fonio :
+Then, to install `fonio`, open your terminal/command line tool and run the following commands in a directory of your choice :
 
 ```
 git clone https://github.com/medialab/fonio
@@ -49,17 +55,19 @@ Then edit the ``config/default.json`` file with your own settings.
 
 # Development
 
-For both fonio and quinoa-server, run in two different terminal tabs :
+In both fonio and quinoa-server folders, run in two different terminal/command line tabs :
 
 ```
 npm run dev
 ```
 
+Fonio application is then available locally at the following address: [localhost:3000](localhost:3000)
+
 Fonio is compatible with the [Redux Devtools](https://github.com/gaearon/redux-devtools) browser extension for an optimal developer experience.
 
 # Deployment
 
-Fonio is supposed to run in a docker infrastructure in production.
+For matters of deploying fonio to an online/"production" version, Fonio is supposed to run in a [docker](https://www.docker.com/) infrastructure.
 
 Please look at the [`docker-compose.yml`](https://github.com/medialab/quinoa-server/blob/master/docker-compose.yml) file present on [quinoa-server](https://github.com/medialab/quinoa-server) repository for that matter.
 
