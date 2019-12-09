@@ -25,7 +25,7 @@ import { translateNameSpacer } from '../../../helpers/translateUtils';
  */
 import PasswordInput from '../../../components/PasswordInput';
 import ExplainedLabel from '../../../components/ExplainedLabel';
-import PageNotFound from '../../../components/PageNotFound';
+import PageNotFound from '../../../components/PageNotFound/PageNotFound';
 
 const AuthManagerLayout = ( {
   storyLoginId,
@@ -79,6 +79,12 @@ const AuthManagerLayout = ( {
       pathname: '/'
     } );
   };
+
+  if ( loginStatus === 'not-found' ) {
+    return (
+      <PageNotFound />
+    );
+  }
 
   return storyLoginId ? (
     <Form onSubmit={ handleLoginSubmit }>
@@ -136,8 +142,7 @@ const AuthManagerLayout = ( {
       }
     </Form>
   )
-    :
-  <PageNotFound />;
+  : null;
 };
 
 AuthManagerLayout.contextTypes = {
