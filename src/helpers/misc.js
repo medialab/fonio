@@ -88,7 +88,7 @@ export const getStoryStats = ( story ) => {
   const rawText = story.sectionsOrder.reduce( ( sum, sectionId ) => {
     return `${sum} ${story.sections[sectionId].metadata.title} ${getSectionRawText( story.sections[sectionId] )}`;
   }, '' );
-  const numberOfWords = rawText.match( /\S+/g ).length;
+  const numberOfWords = rawText.match( /\S+/g ) ? rawText.match( /\S+/g ).length : 0;
   return {
     numberOfCharacters: rawText.length,
     numberOfWords,
