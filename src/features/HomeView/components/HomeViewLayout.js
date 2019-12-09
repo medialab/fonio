@@ -20,6 +20,7 @@ import {
   Container,
   Content,
   Control,
+  Delete,
   Field,
   Help,
   Hero,
@@ -84,6 +85,10 @@ const DEFAULT_BACKGROUND_COLOR = 'lightblue';
 class HomeViewLayout extends Component {
   constructor( props, context ) {
     super( props );
+
+    this.state = {
+      showDemoIntro: config.demoMode
+    };
 
     this.translate = translateNameSpacer( context.t, 'Features.HomeView' );
   }
@@ -258,6 +263,8 @@ class HomeViewLayout extends Component {
         setErrorMessage,
       }
     } = this.props;
+
+    const { showDemoIntro } = this.state;
 
     /**
      * Computed variables
@@ -541,44 +548,83 @@ class HomeViewLayout extends Component {
                     </StretchedLayoutItem>
                   </StretchedLayoutContainer>
                 </Column>
-                <FlipMove>
-                  {
-                    demoMode &&
-                    <Column style={ { paddingTop: '2rem' } }>
-                      <Notification isColor={ 'primary' }>
-                        <Title isSize={ 5 }>{this.translate( 'Welcome to the demo version of Fonio !' )}</Title>
-                        <p>
-                          {this.translate( 'about fonio details' )}
-                        </p>
-                        <p>
-                          {this.translate( 'In this demo version, you can browse tutorials and example stories, and create your own to discover the tool numerous features.' )}
-                        </p>
+                {
+                    ( demoMode ) ?
+                      <Column style={ { paddingTop: '2rem' } }>
+                        <Notification isColor={ 'primary' }>
+                          <StretchedLayoutContainer isDirection={ 'horizontal' }>
+                            <StretchedLayoutItem isFlex={ '1' }>
+                              <Title
+                                onClick={ () => this.setState( { showDemoIntro: !showDemoIntro } ) }
+                                isSize={ 5 }
+                                style={ { cursor: 'pointer' } }
+                              >
+                                {this.translate( 'Welcome to the demo version of Fonio !' )}
+                              </Title>
 
-                      </Notification>
-                      <Notification isColor={ 'warning' }>
-                        <Title isSize={ 5 }>{this.translate( 'Demo version limitations: do not use for real projects' )}</Title>
-                        <p>
-                          <strong>
-                            {this.translate( 'For technical and legal reasons, the stories you might create on this demo version of Fonio will not persist in time and will be erased as soon as you leave them.' )}
-                          </strong>
-                        </p>
-                        <p>
-                          {this.translate( 'In order to use Fonio for real use cases, please head to the project free and open source repository' )}
-                          <a
-                            target={ '_blank' }
-                            rel={ 'noopener' }
-                            href={ 'https://github.com/medialab/fonio/#installation' }
+                            </StretchedLayoutItem>
+                            <StretchedLayoutItem>
+                              <Delete
+                                onClick={ () => this.setState( { showDemoIntro: !showDemoIntro } ) }
+                                style={ {
+                                transition: '.5s',
+                                transform: showDemoIntro ? 'rotate(0)' : 'rotate(45deg)'
+                              } }
+                              />
+                            </StretchedLayoutItem>
+                          </StretchedLayoutContainer>
+                          <div
+                            style={ {
+                            transition: '.5s',
+                            maxHeight: showDemoIntro ? '100vh' : 0,
+                            overflow: 'hidden',
+                            paddingTop: showDemoIntro ? '1rem' : 0
+                          } }
                           >
-                            Fonio on github
-                          </a>
-                        </p>
+                            <p>
+                              {this.translate( 'about fonio details' )}
+                            </p>
+                            <p>
+                              {this.translate( 'In this demo version, you can browse tutorials and example stories, and create your own to discover the tool numerous features.' )}
+                            </p>
+                          </div>
 
-                      </Notification>
-                    </Column>
+                        </Notification>
+                        <Notification
+                          isColor={ 'warning' }
+                          style={ {
+                          transition: '.5s',
+                          maxHeight: showDemoIntro ? '100vh' : 0,
+                          padding: showDemoIntro ? undefined : 0,
+                          overflow: 'hidden'
+                        } }
+                        >
+                          <Title isSize={ 5 }>{this.translate( 'Demo version limitations: do not use for real projects' )}</Title>
+                          <p>
+                            <strong>
+                              {this.translate( 'For technical and legal reasons, the stories you might create on this demo version of Fonio will not persist in time and will be erased as soon as you leave them.' )}
+                            </strong>
+                          </p>
+                          <p>
+                            {this.translate( 'In order to use Fonio for real use cases, please head to the project free and open source repository' )}
+                            <a
+                              target={ '_blank' }
+                              rel={ 'noopener' }
+                              href={ 'https://github.com/medialab/fonio/#installation' }
+                            >
+                            Fonio on github
+                            </a>
+                          </p>
+
+                        </Notification>
+                      </Column>
+                    : null
                   }
+                <FlipMove>
 
                   {
-                        visibleStoriesList.map( ( story ) => {
+                        visibleStoriesList
+                        .map( ( story ) => {
                           const handleAction = ( id, event ) => {
                             event.stopPropagation();
                             switch ( id ) {

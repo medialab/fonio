@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-12-9\n"
-"PO-Revision-Date: Mon Dec 09 2019 11:02:50 GMT+0100 (CET)\n"
+"PO-Revision-Date: Mon Dec 09 2019 11:05:41 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2336,6 +2336,9 @@ msgstr "Yes, let this story go !"
 msgid "Features.EditionUiWrapper.Demo version"
 msgstr "Demo version"
 
+msgid "Features.EditionUiWrapper.demo version"
+msgstr "demo version"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"
 
@@ -2377,6 +2380,3 @@ msgstr "\"{f}\" is too big"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "For suggesting improvements or signaling bugs, please head to <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">this page</a> and to follow the proposed procedure. Thanks !"
-
-msgid "Features.EditionUiWrapper.demo version"
-msgstr "demo version"
