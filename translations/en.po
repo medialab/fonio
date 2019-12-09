@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-12-9\n"
-"PO-Revision-Date: Mon Dec 09 2019 09:15:39 GMT+0100 (CET)\n"
+"PO-Revision-Date: Mon Dec 09 2019 11:02:50 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2306,6 +2306,36 @@ msgstr "For technical and legal reasons, the stories you might create on this de
 msgid "Features.HomeView.In order to use Fonio for real use cases, please head to the project free and open source repository"
 msgstr "In order to use Fonio for real use cases, please head to the project's free and open source repository: "
 
+msgid "Components.DemoLeaveConfirmModal.Returning to the demo home"
+msgstr "Returning to the demo home"
+
+msgid "Components.DemoLeaveConfirmModal.You are the last person editing this story !"
+msgstr "You are the last person editing this story !"
+
+msgid "Components.DemoLeaveConfirmModal.As you are in the demonstration version, this means all the contents of this story will be deleted if you leave it."
+msgstr ""
+
+msgid "Components.DemoLeaveConfirmModal.Please note that, before leaving, you can retrieve a publishable version of your by clicking on the export button on the top right corner of the screen (you can also save it as a data file and reimport it later from the home page)."
+msgstr ""
+
+msgid "Components.DemoLeaveConfirmModal.So, are you ready to leave this test story and let it be deleted ?"
+msgstr "So, are you ready to leave this test story and let it be deleted ?"
+
+msgid "Components.DemoLeaveConfirmModal.No, let me continue to edit this story"
+msgstr "No, let me continue to edit this story"
+
+msgid "Components.DemoLeaveConfirmModal.Yes, go to the demo home and let this story go !"
+msgstr "Yes, go to the demo home and let this story go !"
+
+msgid "Components.DemoLeaveConfirmModal.Before leaving, you can retrieve a publishable version of your by clicking on the export button on the top right corner of the screen (you can also save it as a data file and reimport it later from the home page)."
+msgstr "Before leaving, you can retrieve a publishable version of your work by clicking on the export button on the top right corner of the screen (you can also save it as a data file and reimport it later from the home page)."
+
+msgid "Components.DemoLeaveConfirmModal.Yes, let this story go !"
+msgstr "Yes, let this story go !"
+
+msgid "Features.EditionUiWrapper.Demo version"
+msgstr "Demo version"
+
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"
 
@@ -2347,3 +2377,6 @@ msgstr "\"{f}\" is too big"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "For suggesting improvements or signaling bugs, please head to <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\">this page</a> and to follow the proposed procedure. Thanks !"
+
+msgid "Features.EditionUiWrapper.demo version"
+msgstr "demo version"

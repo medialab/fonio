@@ -10,7 +10,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { loadUserInfo } from './helpers/localStorageUtils';
 
 import {
@@ -136,8 +135,15 @@ export default @connect(
         userId
       }
     } = this;
+
+    function getConfirmation( message, callback ) {
+      console.log( 'Inside getConfirmation function...' );
+    }
     return (
-      <Router basename={ config.urlPrefix || '/' }>
+      <Router
+        getUserConfirmation={ getConfirmation }
+        basename={ config.urlPrefix || '/' }
+      >
         <ErrorMessageContainer>
           <div
             id={ 'wrapper' }
@@ -163,6 +169,7 @@ export default @connect(
                   <PageNotFound pathName={ props.location.pathname } />
                     ) }
                 />
+
               </Switch>
               }
             <ReduxToastr
@@ -175,6 +182,7 @@ export default @connect(
             />
           </div>
         </ErrorMessageContainer>
+
       </Router>
     );
   }
