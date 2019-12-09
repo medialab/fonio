@@ -31,10 +31,13 @@ const DeleteStoryModal = ( {
   loginStatus,
   deleteStatus,
   onSubmitPassword,
-  onCancel
+  onCancel,
+  storyToDelete,
 }, {
   t
 } ) => {
+
+  const title = storyToDelete && storyToDelete.metadata && storyToDelete.metadata.title;
 
   /**
    * Local functions
@@ -64,6 +67,9 @@ const DeleteStoryModal = ( {
                 onClose={ onCancel }
                 mainContent={
                   <Field>
+                    <Content>
+                      {translate('You are about to delete story "{t}"', {t: title})}
+                    </Content>
                     <Content>
                       {translate( 'Deleting a story cannot be undone. Are you sure ?' )}
                     </Content>

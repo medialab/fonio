@@ -757,5 +757,6 @@
   "Features.DesignView.Figures position": "Figures position",
   "Features.DesignView.Figures position help": "Choose how to present figures (images, tables, videos, advanced blocks)",
   "Features.DesignView.in content body": "in content body",
-  "Features.DesignView.relative to scroll": "relative to scroll"
+  "Features.DesignView.relative to scroll": "relative to scroll",
+  "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "You are about to delete story \"{t}\"."
 }

@@ -757,5 +757,6 @@
   "Features.DesignView.Figures position": "Position des figures",
   "Features.DesignView.Figures position help": "Choisir comment afficher les figures (images, tableaux, vidéos, blocs avancés)",
   "Features.DesignView.in content body": "dans le corps des contenus",
-  "Features.DesignView.relative to scroll": "en fonction du défilement"
+  "Features.DesignView.relative to scroll": "en fonction du défilement",
+  "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "Vous êtes sur le point de supprimer le récit \"{t}\"."
 }
