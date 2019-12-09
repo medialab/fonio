@@ -282,9 +282,7 @@ class HomeViewLayout extends Component {
       return data.includes( searchStringLower );
     } )
     .sort( ( a, b ) => {
-      if ( a.metadata.isSpecial && !b.metadata.isSpecial ) {
-        return -1;
-      }
+
       switch ( sortingMode ) {
         case 'edited recently':
           if ( a.lastUpdateAt > b.lastUpdateAt ) {
@@ -298,7 +296,10 @@ class HomeViewLayout extends Component {
           return 1;
         case 'title':
         default:
-          if ( a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim() ) {
+          if ( a.metadata.isSpecial && !b.metadata.isSpecial ) {
+            return -1;
+          }
+ else if ( a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim() ) {
             return 1;
           }
           return -1;
