@@ -697,6 +697,7 @@ class HomeViewLayout extends Component {
                     deleteStatus={ deleteStoryStatus }
                     onSubmitPassword={ handleDeleteStory }
                     onCancel={ handleAbortStoryDeletion }
+                    storyToDelete={ stories[storyDeleteId] }
                   />
                 }
                 {changePasswordId &&

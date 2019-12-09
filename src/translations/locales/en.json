@@ -768,6 +768,7 @@
   "Components.DemoLeaveConfirmModal.As you are in the demonstration version, this means all the contents of this story will be deleted if you leave it.": "As you are in the demonstration version, all the contents of this story will be deleted if you leave it.",
   "Components.DemoLeaveConfirmModal.Before leaving, you can retrieve a publishable version of your by clicking on the export button on the top right corner of the screen (you can also save it as a data file and reimport it later from the home page).": "Before leaving, you can retrieve a publishable version of your work by clicking on the export button on the top right corner of the screen (you can also save it as a data file and reimport it later from the home page).",
   "Components.DemoLeaveConfirmModal.So, are you ready to leave this test story and let it be deleted ?": "So, are you ready to leave this test story and let it be deleted ?",
+  "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "You are about to delete story \"{t}\".",
   "Components.DemoLeaveConfirmModal.No, let me continue to edit this story": "No, let me continue to edit this story",
   "Components.DemoLeaveConfirmModal.Yes, let this story go !": "Yes, let this story go !",
   "Features.EditionUiWrapper.demo version": "demo version"
