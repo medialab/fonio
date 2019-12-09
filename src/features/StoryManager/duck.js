@@ -464,11 +464,6 @@ export default function story( state = STORY_DEFAULT_STATE, action ) {
         ...state,
         story: result.data
       };
-    case `${ACTIVATE_STORY}_FAIL`:
-      console.log('fail', action)
-      return {
-        ...state
-      }
 
     /**
      * STORY METADATA

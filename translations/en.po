@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-12-9\n"
-"PO-Revision-Date: Mon Dec 09 2019 15:11:00 GMT+0100 (CET)\n"
+"PO-Revision-Date: Mon Dec 09 2019 15:15:28 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2341,6 +2341,9 @@ msgstr "demo version"
 
 msgid "Components.DeleteStoryModal.You are about to delete story "
 msgstr "You are about to delete story \"{t}\"."
+
+msgid "Components.PageNotFound.The page you are looking does not exist on this fonio instance, go back to "
+msgstr "The page you are looking does not exist on this fonio instance, go back to "
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"

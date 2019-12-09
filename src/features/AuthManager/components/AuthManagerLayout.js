@@ -25,6 +25,7 @@ import { translateNameSpacer } from '../../../helpers/translateUtils';
  */
 import PasswordInput from '../../../components/PasswordInput';
 import ExplainedLabel from '../../../components/ExplainedLabel';
+import PageNotFound from '../../../components/PageNotFound';
 
 const AuthManagerLayout = ( {
   storyLoginId,
@@ -134,7 +135,9 @@ const AuthManagerLayout = ( {
 }
       }
     </Form>
-  ) : null;
+  )
+    :
+  <PageNotFound />;
 };
 
 AuthManagerLayout.contextTypes = {

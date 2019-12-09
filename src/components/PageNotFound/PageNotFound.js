@@ -30,7 +30,11 @@ const PageNotFound = ( {
       headerContent={ translate( 'Fonio - page not found' ) }
       mainContent={
         <p>
-          {translate( 'No match for {u}, go back to ', { u: pathName } )}
+          {pathName ?
+            translate( 'No match for {u}, go back to ', { u: pathName } ) 
+            :
+            translate( 'The page you are looking does not exist on this fonio instance, go back to ' ) 
+          }
           <Link to={ '/' }>
             {translate( 'home page' )}
           </Link>

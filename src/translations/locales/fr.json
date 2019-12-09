@@ -771,5 +771,6 @@
   "Components.DemoLeaveConfirmModal.No, let me continue to edit this story": "Non, laissez-moi continuer l'édition !",
   "Components.DemoLeaveConfirmModal.Yes, let this story go !": "Oui, laissez ce récit être supprimé !",
   "Features.EditionUiWrapper.demo version": "version démo",
-  "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "Vous êtes sur le point de supprimer le récit \"{t}\"."
+  "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "Vous êtes sur le point de supprimer le récit \"{t}\".",
+  "Components.PageNotFound.The page you are looking does not exist on this fonio instance, go back to ": "La page que vous recherchez n'existe pas sur cette instance fonio, revenir à la "
 }
