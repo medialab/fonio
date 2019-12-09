@@ -1,0 +1,14 @@
+
+
+.ovide-StoryCard{
+  &.is-special{
+    .card{
+      background: #4a4a4a;
+      color: #fff;
+    }
+      
+  }
+  .title,.subtitle{
+    color: inherit;
+  }
+}

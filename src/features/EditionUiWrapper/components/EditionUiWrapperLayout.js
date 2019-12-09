@@ -207,7 +207,7 @@ const EditionUiWrapperLayout = ( {
   const handleOpenUserInfoModal = () => setUserInfoModalOpen( true );
 
   const shouldDemoWarn = ( _crntLocation, nextLocation ) => {
-    return config.demoMode && Object.keys( lockMap ).length < 2 && nextLocation.pathname === '/' && !editedStory.isSpecial;
+    return config.demoMode && Object.keys( lockMap ).length < 2 && nextLocation.pathname === '/' && !editedStory.metadata.isSpecial;
   };
   return (
     <StretchedLayoutContainer

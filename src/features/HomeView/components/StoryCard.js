@@ -60,11 +60,12 @@ const StoryCard = ( {
 }, {
   t
 } ) => {
+  const isSpecial = story.metadata.isSpecial;
   const translate = translateNameSpacer( t, 'Components.StoryCard' );
   return (
     <div
       onClick={ onClick }
-      className={ 'is-clickable' }
+      className={ `is-clickable ovide-StoryCard ${isSpecial ? 'is-special' : ''}` }
     >
       <Card
         title={
@@ -74,7 +75,7 @@ const StoryCard = ( {
               data-for={ 'tooltip' }
               className={ 'story-card__title' }
               data-tip={ ( story.metadata.title || '' ).length > MAX_STR_LEN ? story.metadata.title : undefined }
-              isSize={ 8 }
+              isSize={ users.length ? 8 : 12 }
             >
               <Link
                 style={ { color: 'inherit' } }
@@ -84,12 +85,13 @@ const StoryCard = ( {
               </Link>
 
             </Column>
-            <Column
-              style={ { maxHeight: '30rem', overflowX: 'auto' } }
-              isSize={ 4 }
-            >
-              <div style={ { display: 'flex', flexFlow: 'row wrap' } }>
-                {
+            {users.length ?
+              <Column
+                style={ { maxHeight: '30rem', overflowX: 'auto' } }
+                isSize={ 4 }
+              >
+                <div style={ { display: 'flex', flexFlow: 'row wrap' } }>
+                  {
               users
               .map( ( user, index ) => (
                 <div
@@ -111,8 +113,9 @@ const StoryCard = ( {
                 </div>
               ) )
             }
-              </div>
-            </Column>
+                </div>
+              </Column>
+            : null}
           </Columns>
       }
         subtitle={ abbrevString( story.metadata.subtitle, MAX_STR_LEN ) }

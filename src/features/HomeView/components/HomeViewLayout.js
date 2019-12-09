@@ -75,6 +75,7 @@ import StoryCardWrapper from './StoryCardWrapper';
 import config from '../../../config';
 import pdfFr from 'file-loader!../assets/user-guide-fr.pdf';
 import pdfEn from 'file-loader!../assets/user-guide-fr.pdf';
+import './HomeViewLayout.scss';
 
 /**
  * Shared variables
@@ -272,10 +273,18 @@ class HomeViewLayout extends Component {
     const storiesList = Object.keys( stories ).map( ( id ) => ( { id, ...stories[id] } ) );
     const searchStringLower = searchString.toLowerCase();
     const visibleStoriesList = storiesList.filter( ( s ) => {
+      if ( s.metadata.specificLanguage ) {
+        if ( s.metadata.specificLanguage !== lang ) {
+          return false;
+        }
+      }
       const data = JSON.stringify( s ).toLowerCase();
       return data.includes( searchStringLower );
     } )
     .sort( ( a, b ) => {
+      if ( a.metadata.isSpecial && !b.metadata.isSpecial ) {
+        return -1;
+      }
       switch ( sortingMode ) {
         case 'edited recently':
           if ( a.lastUpdateAt > b.lastUpdateAt ) {
