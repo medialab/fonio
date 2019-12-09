@@ -135,13 +135,8 @@ export default @connect(
         userId
       }
     } = this;
-
-    function getConfirmation( message, callback ) {
-      console.log( 'Inside getConfirmation function...' );
-    }
     return (
       <Router
-        getUserConfirmation={ getConfirmation }
         basename={ config.urlPrefix || '/' }
       >
         <ErrorMessageContainer>

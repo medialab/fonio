@@ -18,7 +18,6 @@ import {
  * Imports Project utils
  */
 import { translateNameSpacer } from '../../helpers/translateUtils';
-import { silentEvent } from '../../helpers/misc';
 
 const DemoLeaveConfirmModal = ( {
   onConfirm,
