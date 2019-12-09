@@ -68,7 +68,7 @@ const DeleteStoryModal = ( {
                 mainContent={
                   <Field>
                     <Content>
-                      {translate('You are about to delete story "{t}"', {t: title})}
+                      {translate( 'You are about to delete story "{t}"', { t: title } )}
                     </Content>
                     <Content>
                       {translate( 'Deleting a story cannot be undone. Are you sure ?' )}
