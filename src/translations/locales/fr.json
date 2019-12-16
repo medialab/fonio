@@ -760,5 +760,20 @@
   "Features.DesignView.relative to scroll": "en fonction du défilement",
   "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "Vous êtes sur le point de supprimer le récit \"{t}\".",
   "Features.SummaryView.click to add this name to authors list": "cliquer pour ajouter ce nom à la liste des auteurs",
-  "Features.SummaryView.{a} (you)": "{a} (vous)"
+  "Features.SummaryView.{a} (you)": "{a} (vous)",
+  "Features.HomeView.Welcome to the demo version of Fonio !": "Bienvenue sur la version démo de Fonio !",
+  "Features.HomeView.In this demo version, you can browse tutorials and example stories, and create your own to discover the tool numerous features.": "Dans cette version démo, vous pouvez visiter les tutoriels et des exemples de récits, et créer le vôtre pour découvrir les nombreuses fonctionnalités du logiciel.",
+  "Features.HomeView.Demo version limitations: do not use for real projects": "Ne pas utiliser pour de vrais projets",
+  "Features.HomeView.For technical and legal reasons, the stories you might create on this demo version of Fonio will not persist in time and will be erased as soon as you leave them.": "Pour des raisons techniques et légales, les récits que vous serez amené à créer sur cette version démo de Fonio seront supprimés dès que vous les quitterez.",
+  "Features.HomeView.In order to use Fonio for real use cases, please head to the project free and open source repository": "Afin d'utiliser Fonio pour des cas d'usage réels, merci de vous rendre sur le répertoire libre et ouvert du projet pour apprendre comment l'installer sur votre ordinateur ou votre infrastructure : ",
+  "Components.DemoLeaveConfirmModal.Returning to the demo home": "Retourner à l'accueil de la démo",
+  "Components.DemoLeaveConfirmModal.You are the last person editing this story !": "Vous êtes la dernière personne à éditer ce récit !",
+  "Components.DemoLeaveConfirmModal.As you are in the demonstration version, this means all the contents of this story will be deleted if you leave it.": "Comme vous êtes sur la version de démonstration, tous les contenus de ce récit seront supprimés si vous le quittez.",
+  "Components.DemoLeaveConfirmModal.Before leaving, you can retrieve a publishable version of your by clicking on the export button on the top right corner of the screen (you can also save it as a data file and reimport it later from the home page).": "Avant de partir, vous pouvez récupérer une version publiable de votre travail en cliquant sur le bouton exporter en haut à droite de l'écran (vous pouvez aussi le sauvegarder comme fichier de données et le réimporter plus tard depuis la page d'accueil).",
+  "Components.DemoLeaveConfirmModal.So, are you ready to leave this test story and let it be deleted ?": "Donc, êtes-vous prêt.e à quitter ce récit d'essai et le laisser être supprimé ?",
+  "Components.DemoLeaveConfirmModal.No, let me continue to edit this story": "Non, laissez-moi continuer l'édition !",
+  "Components.DemoLeaveConfirmModal.Yes, let this story go !": "Oui, laissez ce récit être supprimé !",
+  "Features.EditionUiWrapper.demo version": "version démo",
+  "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "Vous êtes sur le point de supprimer le récit \"{t}\".",
+  "Components.PageNotFound.The page you are looking does not exist on this fonio instance, go back to ": "La page que vous recherchez n'existe pas sur cette instance fonio, revenir à la "
 }

@@ -44,6 +44,7 @@ export const SET_OVERRIDE_IMPORT = 'SET_OVERRIDE_IMPORT';
 export const SET_OVERRIDE_STORY_MODE = 'SET_OVERRIDE_STORY_MODE';
 
 export const FETCH_STORIES = 'FETCH_STORIES';
+export const UPDATE_STORIES_LIST = 'UPDATE_STORIES_LIST';
 export const CREATE_STORY = 'CREATE_STORY';
 export const OVERRIDE_STORY = 'OVERRIDE_STORY';
 export const DUPLICATE_STORY = 'DUPLICATE_STORY';
@@ -467,6 +468,11 @@ export function data( state = DATA_DEFAULT_STATE, action ) {
         ...state,
         newStory: action.result
       };
+    case `${UPDATE_STORIES_LIST}`:
+        return {
+          ...state,
+          stories: action.payload.stories,
+        };
     case `${FETCH_STORIES}_SUCCESS`:
       const { data: thatData } = action.result;
       return {

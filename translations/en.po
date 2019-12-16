@@ -1,8 +1,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2019-12-16\n"
 "PO-Revision-Date: Mon Dec 16 2019 14:52:35 GMT+0100 (CET)\n"
+=======
+"POT-Creation-Date: 2019-12-9\n"
+"PO-Revision-Date: Mon Dec 09 2019 15:29:25 GMT+0100 (CET)\n"
+>>>>>>> demo-version
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2291,8 +2296,62 @@ msgstr "in content body"
 msgid "Features.DesignView.relative to scroll"
 msgstr "relative to scroll"
 
+msgid "Features.HomeView.Welcome to the demo version of Fonio !"
+msgstr "Welcome to the demo version of Fonio !"
+
+msgid "Features.HomeView.In this demo version, you can browse tutorials and example stories, and create your own to discover the tool numerous features."
+msgstr "In this demo version, you can browse tutorials and example stories, and create your own to discover the tool's numerous features."
+
+msgid "Features.HomeView.Demo version limitations: do not use for real projects"
+msgstr "Limited demo version: do not use for real projects"
+
+msgid "Features.HomeView.For technical and legal reasons, the stories you might create on this demo version of Fonio will not persist in time and will be erased as soon as you leave them."
+msgstr "For technical and legal reasons, the stories you might create on this demo version of Fonio will be erased as soon as you leave them."
+
+msgid "Features.HomeView.In order to use Fonio for real use cases, please head to the project free and open source repository"
+msgstr "In order to use Fonio for real use cases, please head to the project's free and open source repository: "
+
+msgid "Components.DemoLeaveConfirmModal.Returning to the demo home"
+msgstr "Returning to the demo home"
+
+msgid "Components.DemoLeaveConfirmModal.You are the last person editing this story !"
+msgstr "You are the last person editing this story !"
+
+msgid "Components.DemoLeaveConfirmModal.As you are in the demonstration version, this means all the contents of this story will be deleted if you leave it."
+msgstr ""
+
+msgid "Components.DemoLeaveConfirmModal.Please note that, before leaving, you can retrieve a publishable version of your by clicking on the export button on the top right corner of the screen (you can also save it as a data file and reimport it later from the home page)."
+msgstr ""
+
+msgid "Components.DemoLeaveConfirmModal.So, are you ready to leave this test story and let it be deleted ?"
+msgstr "So, are you ready to leave this test story and let it be deleted ?"
+
+msgid "Components.DemoLeaveConfirmModal.No, let me continue to edit this story"
+msgstr "No, let me continue to edit this story"
+
+msgid "Components.DemoLeaveConfirmModal.Yes, go to the demo home and let this story go !"
+msgstr "Yes, go to the demo home and let this story go !"
+
+msgid "Components.DemoLeaveConfirmModal.Before leaving, you can retrieve a publishable version of your by clicking on the export button on the top right corner of the screen (you can also save it as a data file and reimport it later from the home page)."
+msgstr "Before leaving, you can retrieve a publishable version of your work by clicking on the export button on the top right corner of the screen (you can also save it as a data file and reimport it later from the home page)."
+
+msgid "Components.DemoLeaveConfirmModal.Yes, let this story go !"
+msgstr "Yes, let this story go !"
+
+msgid "Features.EditionUiWrapper.Demo version"
+msgstr "Demo version"
+
+msgid "Features.EditionUiWrapper.demo version"
+msgstr "demo version"
+
 msgid "Components.DeleteStoryModal.You are about to delete story "
 msgstr "You are about to delete story \"{t}\"."
+<<<<<<< HEAD
+=======
+
+msgid "Components.PageNotFound.The page you are looking does not exist on this fonio instance, go back to "
+msgstr "The page you are looking does not exist on this fonio instance, go back to "
+>>>>>>> demo-version
 
 msgid "Components.ConfirmToDeleteModal.Are you sure you want to delete the resource "{s}" ?"
 msgstr "Are you sure you want to delete the item \"{s}\" ?"

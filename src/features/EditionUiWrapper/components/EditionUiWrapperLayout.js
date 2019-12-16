@@ -12,10 +12,12 @@ import ReactTooltip from 'react-tooltip';
 import {
   Button,
   Navbar,
+  Tag,
   StretchedLayoutContainer,
   StretchedLayoutItem,
 } from 'quinoa-design-library/components/';
 import icons from 'quinoa-design-library/src/themes/millet/icons';
+import NavigationPrompt from 'react-router-navigation-prompt';
 
 /**
  * Imports Project utils
@@ -35,6 +37,7 @@ import {
 import LanguageToggler from '../../../components/LanguageToggler';
 import IdentificationModal from '../../../components/IdentificationModal';
 import ExportModal from '../../../components/ExportModal';
+import DemoLeaveConfirmModal from '../../../components/DemoLeaveConfirmModal';
 
 /**
  * Imports Assets
@@ -203,6 +206,12 @@ const EditionUiWrapperLayout = ( {
   const handleCloseUserInfoModal = () => setUserInfoModalOpen( false );
   const handleOpenUserInfoModal = () => setUserInfoModalOpen( true );
 
+  const shouldDemoWarn = ( _crntLocation, nextLocation ) => {
+    return config.demoMode
+    && Object.keys( lockMap ).length < 2
+    && ( !nextLocation || nextLocation.pathname === '/' )
+    && !editedStory.metadata.isSpecial;
+  };
   return (
     <StretchedLayoutContainer
       style={ {
@@ -225,7 +234,15 @@ const EditionUiWrapperLayout = ( {
             {
               href: '/',
               isActive: false,
-              content: `${translate( 'Home' )}`,
+              content: config.demoMode ?
+                <Tag
+                  isColor={ 'primary' }
+                  className={ 'is-rounded' }
+                >
+                  {translate( 'demo version' )}
+                </Tag>
+              :
+               `${translate( 'Home' )}`,
             },
             {
               href: `/story/${storyId}`,
@@ -299,12 +316,24 @@ const EditionUiWrapperLayout = ( {
         onClose={ handleCloseUserInfoModal }
         onSubmit={ handleSubmitUserInfo }
       />
+      <NavigationPrompt
+        match={ '/' }
+        when={ shouldDemoWarn }
+      >
+        {( { onConfirm, onCancel } ) => (
+          <DemoLeaveConfirmModal
+            onConfirm={ onConfirm }
+            onCancel={ onCancel }
+          />
+        )}
+      </NavigationPrompt>
       <ExportModal
         isActive={ exportModalOpen }
         onClose={ handleCloseExportModal }
         onChange={ handleExportToFile }
       />
       <ReactTooltip id={ 'tooltip' } />
+
     </StretchedLayoutContainer>
   );
 };

@@ -26,6 +26,15 @@
     margin-left: .5rem;
     margin-right: 1rem;
   }
+  .title,.subtitle{
+    color: inherit;
+  }
+  &.is-special{
+    .card{
+      background: #4a4a4a;
+      color: #fff;
+    }
+  }
   @media screen and (max-width:789px) {
     .card-content{
       padding-bottom: 0;

@@ -20,9 +20,11 @@ import {
   Container,
   Content,
   Control,
+  Delete,
   Field,
   Help,
   Hero,
+  Notification,
 
   /*
    * HeroBody,
@@ -77,12 +79,16 @@ import pdfEn from 'file-loader!../assets/user-guide-fr.pdf';
 /**
  * Shared variables
  */
-const { maxStorySize } = config;
+const { maxStorySize, demoMode } = config;
 const DEFAULT_BACKGROUND_COLOR = 'lightblue';
 
 class HomeViewLayout extends Component {
   constructor( props, context ) {
     super( props );
+
+    this.state = {
+      showDemoIntro: config.demoMode
+    };
 
     this.translate = translateNameSpacer( context.t, 'Features.HomeView' );
   }
@@ -258,16 +264,24 @@ class HomeViewLayout extends Component {
       }
     } = this.props;
 
+    const { showDemoIntro } = this.state;
+
     /**
      * Computed variables
      */
     const storiesList = Object.keys( stories ).map( ( id ) => ( { id, ...stories[id] } ) );
     const searchStringLower = searchString.toLowerCase();
     const visibleStoriesList = storiesList.filter( ( s ) => {
+      if ( s.metadata.specificLanguage ) {
+        if ( s.metadata.specificLanguage !== lang ) {
+          return false;
+        }
+      }
       const data = JSON.stringify( s ).toLowerCase();
       return data.includes( searchStringLower );
     } )
     .sort( ( a, b ) => {
+
       switch ( sortingMode ) {
         case 'edited recently':
           if ( a.lastUpdateAt > b.lastUpdateAt ) {
@@ -281,7 +295,10 @@ class HomeViewLayout extends Component {
           return 1;
         case 'title':
         default:
-          if ( a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim() ) {
+          if ( a.metadata.isSpecial && !b.metadata.isSpecial ) {
+            return -1;
+          }
+ else if ( a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim() ) {
             return 1;
           }
           return -1;
@@ -466,7 +483,7 @@ class HomeViewLayout extends Component {
             </Column>
           </Column>
           {
-            storiesList.length > 0 &&
+            ( storiesList.length > 0 || demoMode ) &&
               <Column
                 isHidden={ newStoryOpen }
                 isSize={ '2/3' }
@@ -539,9 +556,83 @@ class HomeViewLayout extends Component {
                     </StretchedLayoutItem>
                   </StretchedLayoutContainer>
                 </Column>
+                {
+                    ( demoMode ) ?
+                      <Column style={ { paddingTop: '2rem' } }>
+                        <Notification isColor={ 'primary' }>
+                          <StretchedLayoutContainer isDirection={ 'horizontal' }>
+                            <StretchedLayoutItem isFlex={ '1' }>
+                              <Title
+                                onClick={ () => this.setState( { showDemoIntro: !showDemoIntro } ) }
+                                isSize={ 5 }
+                                style={ { cursor: 'pointer' } }
+                              >
+                                {this.translate( 'Welcome to the demo version of Fonio !' )}
+                              </Title>
+
+                            </StretchedLayoutItem>
+                            <StretchedLayoutItem>
+                              <Delete
+                                onClick={ () => this.setState( { showDemoIntro: !showDemoIntro } ) }
+                                style={ {
+                                transition: '.5s',
+                                transform: showDemoIntro ? 'rotate(0)' : 'rotate(45deg)'
+                              } }
+                              />
+                            </StretchedLayoutItem>
+                          </StretchedLayoutContainer>
+                          <div
+                            style={ {
+                            transition: '.5s',
+                            maxHeight: showDemoIntro ? '100vh' : 0,
+                            overflow: 'hidden',
+                            paddingTop: showDemoIntro ? '1rem' : 0
+                          } }
+                          >
+                            <p>
+                              {this.translate( 'about fonio details' )}
+                            </p>
+                            <p>
+                              {this.translate( 'In this demo version, you can browse tutorials and example stories, and create your own to discover the tool numerous features.' )}
+                            </p>
+                          </div>
+
+                        </Notification>
+                        <Notification
+                          isColor={ 'warning' }
+                          style={ {
+                          transition: '.5s',
+                          maxHeight: showDemoIntro ? '100vh' : 0,
+                          padding: showDemoIntro ? undefined : 0,
+                          overflow: 'hidden'
+                        } }
+                        >
+                          <Title isSize={ 5 }>{this.translate( 'Demo version limitations: do not use for real projects' )}</Title>
+                          <p>
+                            <strong>
+                              {this.translate( 'For technical and legal reasons, the stories you might create on this demo version of Fonio will not persist in time and will be erased as soon as you leave them.' )}
+                            </strong>
+                          </p>
+                          <p>
+                            {this.translate( 'In order to use Fonio for real use cases, please head to the project free and open source repository' )}
+                            <a
+                              target={ '_blank' }
+                              rel={ 'noopener' }
+                              href={ 'https://github.com/medialab/fonio/#installation' }
+                            >
+                            Fonio on github
+                            </a>
+                          </p>
+
+                        </Notification>
+                      </Column>
+                    : null
+                  }
                 <FlipMove>
+
                   {
-                        visibleStoriesList.map( ( story ) => {
+                        visibleStoriesList
+                        .map( ( story ) => {
                           const handleAction = ( id, event ) => {
                             event.stopPropagation();
                             switch ( id ) {

@@ -10,7 +10,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { loadUserInfo } from './helpers/localStorageUtils';
 
 import {
@@ -137,7 +136,9 @@ export default @connect(
       }
     } = this;
     return (
-      <Router basename={ config.urlPrefix || '/' }>
+      <Router
+        basename={ config.urlPrefix || '/' }
+      >
         <ErrorMessageContainer>
           <div
             id={ 'wrapper' }
@@ -163,6 +164,7 @@ export default @connect(
                   <PageNotFound pathName={ props.location.pathname } />
                     ) }
                 />
+
               </Switch>
               }
             <ReduxToastr
@@ -175,6 +177,7 @@ export default @connect(
             />
           </div>
         </ErrorMessageContainer>
+
       </Router>
     );
   }

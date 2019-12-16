@@ -152,11 +152,18 @@ class AuthManagerContainer extends Component {
     const token = loadStoryToken( storyId );
     this.props.actions.activateStory( { storyId, userId, token } )
     .then( ( res ) => {
-      if ( res.error && res.error.response && res.error.response.data && res.error.response.data.auth === false ) {
-        this.props.actions.setStoryLoginId( storyId );
+      if ( res.error && res.error.response && res.error.response.data ) {
+        if ( res.error.response.data.auth === false ) {
+          this.props.actions.setStoryLoginId( storyId );
+          this.props.actions.setLoginStatus( undefined );
+        }
+ else {
+          this.props.actions.setLoginStatus( 'not-found' );
+        }
       }
       else {
         this.props.actions.setStoryLoginId( undefined );
+        this.props.actions.setLoginStatus( undefined );
       }
     } );
   }
