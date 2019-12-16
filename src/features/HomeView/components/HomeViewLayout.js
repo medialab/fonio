@@ -473,7 +473,6 @@ class HomeViewLayout extends Component {
               >
                 <Column>
                   <StretchedLayoutContainer
-                    isFluid
                     isDirection={ 'horizontal' }
                   >
                     <StretchedLayoutItem

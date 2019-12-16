@@ -1,0 +1,59 @@
+
+
+.fonio-StoryCard{
+  .users-container{
+    max-height: 30rem;
+    overflow-x: auto;
+  }
+  .users-wrapper{
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .user-container{
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+  }
+  .authors-container{
+    padding-bottom: 3rem;
+  }
+  .last-update-container{
+    align-self: flex-end;
+    position: absolute;
+    bottom: 2.5rem;
+    left: 1.5rem;
+  }
+  .inline-icon-container{
+    margin-left: .5rem;
+    margin-right: 1rem;
+  }
+  @media screen and (max-width:789px) {
+    .card-content{
+      padding-bottom: 0;
+    }
+    .column.is-two-fifth{
+      padding-top: 0;
+    
+    }
+    .aside-actions{
+      padding-top: 0;
+      padding-bottom: 1.5rem;
+    }
+    .authors-container{
+      padding-bottom: 0;
+      .content{
+        margin-bottom: 0;
+      }
+    }
+    .users-container{
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+    .last-update-container{
+      padding-top: 1rem;
+      align-self: unset;
+      position: relative;
+      bottom: unset;
+      left: unset;
+    }
+  }
+}

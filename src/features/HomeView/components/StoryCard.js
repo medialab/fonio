@@ -17,6 +17,7 @@ import {
   Content,
   Icon,
 } from 'quinoa-design-library/components/';
+import './StoryCard.scss';
 
 /**
  * Imports Project utils
@@ -42,7 +43,7 @@ const InlineIcon = ( {
   children
 } ) => (
   <span
-    style={ { marginLeft: '.5rem', marginRight: '1rem' } }
+    className={ 'inline-icon-container' }
   >
     <Icon
       isSize={ 'small' }
@@ -64,7 +65,7 @@ const StoryCard = ( {
   return (
     <div
       onClick={ onClick }
-      className={ 'is-clickable' }
+      className={ 'fonio-StoryCard is-clickable' }
     >
       <Card
         title={
@@ -85,15 +86,15 @@ const StoryCard = ( {
 
             </Column>
             <Column
-              style={ { maxHeight: '30rem', overflowX: 'auto' } }
+              className={ 'users-container' }
               isSize={ 4 }
             >
-              <div style={ { display: 'flex', flexFlow: 'row wrap' } }>
+              <div className={ 'users-wrapper' }>
                 {
               users
               .map( ( user, index ) => (
                 <div
-                  style={ { marginRight: '1rem', marginBottom: '1rem' } }
+                  className={ 'user-container' }
                   key={ index }
                 >
                   <Image
@@ -118,7 +119,7 @@ const StoryCard = ( {
         subtitle={ abbrevString( story.metadata.subtitle, MAX_STR_LEN ) }
         bodyContent={
           <div>
-            <div style={ { paddingBottom: '3rem' } }>
+            <div className={ 'authors-container' }>
               {
                 story.metadata.authors && story.metadata.authors.length > 0 &&
                 <Content>
@@ -134,7 +135,7 @@ const StoryCard = ( {
             </div>
             {
             story.lastUpdateAt &&
-            <Content style={ { alignSelf: 'flex-end', position: 'absolute', bottom: '2.5rem', left: '1.5rem' } }>
+            <Content className={ 'last-update-container' }>
               <i>{translate( 'Last update {t}', { t: new Date( story.lastUpdateAt ).toLocaleString() } )}</i>
             </Content>
           }
