@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-12-16\n"
-"PO-Revision-Date: Mon Dec 16 2019 14:24:48 GMT+0100 (CET)\n"
+"PO-Revision-Date: Mon Dec 16 2019 14:52:35 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2309,6 +2309,9 @@ msgstr "Fonio est fabriqué et entretenu au <a target=\"blank\" ref=\"noopener\"
 msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
 msgstr "Fonio est produit par le programme <a target=\"blank\" ref=\"noopener\" href=\"http://controverses.org/\">FORCCAST</a>, dédié au développement d'innovations pédagogiques pour l'analyse des controverses, sciences et techniques."
 
+msgid "Features.HomeView.Who is online ?"
+msgstr "Qui est en ligne ?"
+
 msgid "Features.SectionView."#" then space"
 msgstr "« # » puis espace"
 
@@ -2324,6 +2327,9 @@ msgstr "« * » puis espace"
 msgid "Features.SectionView.">" then space"
 msgstr "« > » puis espace"
 
+msgid "Features.SummaryView.What are authors doing ?"
+msgstr "Que font les auteur·e·s ?"
+
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} travaille sur la section « {t} »"
 
@@ -2338,3 +2344,9 @@ msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous re
 
 msgid "Components.DeleteStoryModal.You are about to delete story "{t}""
 msgstr "Vous êtes sur le point de supprimer le récit \"{t}\"."
+
+msgid "Features.SummaryView.click to add this name to authors list"
+msgstr "cliquer pour ajouter ce nom à la liste des auteurs"
+
+msgid "Features.SummaryView.{a} (you)"
+msgstr "{a} (vous)"

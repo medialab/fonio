@@ -384,7 +384,7 @@
   "Features.HomeView.Provided by the <a target=\"blank\" href=\"http://controverses.org/\">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.": "Fonio est produit par le programme <a target=\"blank\" ref=\"noopener\" href=\"http://controverses.org/\">FORCCAST</a>, dédié au développement d'innovations pédagogiques pour l'analyse des controverses, sciences et techniques.",
   "Features.HomeView.Stories": "Récits",
   "Features.HomeView.Story is not valid": "Le récit déposé n'est pas valide",
-  "Features.HomeView.Who else is online ?": "Qui d'autre est en ligne ?",
+  "Features.HomeView.Who is online ?": "Qui est en ligne ?",
   "Features.HomeView.Your profile": "Votre profil",
   "Features.HomeView.about fonio details": "Fonio est un logiciel d'écriture collaborative conçu pour l'élaboration de dissertations étudiantes numériques. Il permet d'utiliser l'architecture des sites web pour structurer des arguments, et de tirer parti de la richesse de votre travail en présentant des références bibliographiques, des images, des tableaux, des vidéos, et des éléments interactifs.",
   "Features.HomeView.choose how you will be identified by other writers": "choisir comment vous serez identifié·e par les autres auteur·e·s",
@@ -530,7 +530,7 @@
   "Features.SummaryView.Edit story settings": "Éditer les propriétés",
   "Features.SummaryView.New section": "Nouvelle section",
   "Features.SummaryView.Summary": "Sommaire",
-  "Features.SummaryView.What are other authors doing ?": "Que font les autres auteur·e·s ?",
+  "Features.SummaryView.What are authors doing ?": "Que font les auteur·e·s ?",
   "Features.SummaryView.edited by you": "édité par vous",
   "Features.SummaryView.edited by {a}": "édité par {a}",
   "Features.SummaryView.open to edition": "ouvert à l'édition",
@@ -758,5 +758,7 @@
   "Features.DesignView.Figures position help": "Choisir comment afficher les figures (images, tableaux, vidéos, blocs avancés)",
   "Features.DesignView.in content body": "dans le corps des contenus",
   "Features.DesignView.relative to scroll": "en fonction du défilement",
-  "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "Vous êtes sur le point de supprimer le récit \"{t}\"."
+  "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "Vous êtes sur le point de supprimer le récit \"{t}\".",
+  "Features.SummaryView.click to add this name to authors list": "cliquer pour ajouter ce nom à la liste des auteurs",
+  "Features.SummaryView.{a} (you)": "{a} (vous)"
 }

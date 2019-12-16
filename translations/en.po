@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2019-12-16\n"
-"PO-Revision-Date: Mon Dec 16 2019 14:24:48 GMT+0100 (CET)\n"
+"PO-Revision-Date: Mon Dec 16 2019 14:52:35 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2309,6 +2309,9 @@ msgstr "Made at the <a target=\"blank\" href=\"http://medialab.sciencespo.fr/\">
 msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
 msgstr "Provided by the <a target=\"blank\" href=\"http://controverses.org/\">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
 
+msgid "Features.HomeView.Who is online ?"
+msgstr "Who is online ?"
+
 msgid "Features.SectionView."#" then space"
 msgstr "\"#\" then space"
 
@@ -2324,6 +2327,9 @@ msgstr "\"*\" then space"
 msgid "Features.SectionView.">" then space"
 msgstr "\">\" then space"
 
+msgid "Features.SummaryView.What are authors doing ?"
+msgstr "What are authors doing ?"
+
 msgid "Features.SummaryView.{a} is working on section "{t}""
 msgstr "{a} is working on section \"{t}\""
 
@@ -2338,3 +2344,9 @@ msgstr "For suggesting improvements or signaling bugs, please head to <a href=\"
 
 msgid "Components.DeleteStoryModal.You are about to delete story "{t}""
 msgstr "You are about to delete story \"{t}\"."
+
+msgid "Features.SummaryView.click to add this name to authors list"
+msgstr "click to add this name to authors list"
+
+msgid "Features.SummaryView.{a} (you)"
+msgstr "{a} (you)"

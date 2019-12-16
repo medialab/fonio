@@ -63,6 +63,14 @@ class SummaryViewLayout extends Component {
     super( props );
   }
 
+  componentDidUpdate = ( prevProps ) => {
+    if (
+      this.props.metadata !== prevProps.metadata
+    ) {
+      setTimeout( () => ReactTooltip.rebuild() );
+    }
+  }
+
   render = () => {
     const {
       props: {
@@ -204,14 +212,16 @@ class SummaryViewLayout extends Component {
 
       const handleMetadataEditionToggleWithSave = () => handleMetadataEditionToggle( true );
 
-      const handleMetadataSubmit = ( { payload: { metadata } } ) => {
+      const handleMetadataSubmit = ( { payload: { metadata } }, toggle = true ) => {
         const payload = {
           storyId,
           userId,
           metadata,
         };
         updateStoryMetadata( payload );
-        handleMetadataEditionToggle();
+        if ( toggle ) {
+          handleMetadataEditionToggle();
+        }
       };
 
       const handleNewSectionSubmit = ( metadata ) => {
@@ -299,7 +309,9 @@ class SummaryViewLayout extends Component {
       };
 
       return (
-        <Container style={ { position: 'relative', height: '100%' } }>
+        <Container
+          style={ { position: 'relative', height: '100%' } }
+        >
           <StretchedLayoutContainer
             isFluid
             isDirection={ 'horizontal' }
@@ -430,26 +442,45 @@ class SummaryViewLayout extends Component {
                 </div>}
                 {
                   !metadataOpen &&
-                  activeAuthors.length > 1 &&
                     <Title isSize={ 4 }>
-                      {translate( 'What are other authors doing ?' )}
+                      {translate( 'What are authors doing ?' )}
                     </Title>
                 }
                 {
                   !metadataOpen &&
                       activeAuthors
-                      .filter( ( a ) => a.userId !== userId )
-                      .map( ( author, authorIndex ) =>
-                        (
+                      // .filter( ( a ) => a.userId !== userId )
+                      .map( ( author, authorIndex ) => {
+                        const handleClick = () => {
+                          if ( !authors.includes( author.name ) ) {
+                            const newAuthors = [
+                              ...authors,
+                              author.name
+                            ];
+                            handleMetadataSubmit( {
+                              payload: {
+                                metadata: {
+                                  ...story.metadata,
+                                  authors: newAuthors
+                                }
+                              }
+                            }, false );
+                          }
+
+                        };
+                        return (
                           <AuthorItem
+                            onClick={ handleClick }
                             author={ author }
+                            clickable={ !authors.includes( author.name ) }
+                            userId={ userId }
                             key={ authorIndex }
                             translate={ translate }
                             sections={ sections }
                           />
-                        )
-                      )
-                    }
+                        );
+                      } )
+                }
               </Column>
             </StretchedLayoutItem>
             {

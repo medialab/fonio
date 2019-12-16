@@ -22,12 +22,22 @@ const AuthorItem = ( {
   author,
   translate,
   sections,
+  onClick,
+  userId,
+  clickable
 } ) => {
 
   /**
    * Computed variables
    */
-  const { name, locks = {} } = author;
+  const { name: initialName, locks = {} } = author;
+  let name;
+  if ( author.userId === userId ) {
+    name = translate( '{a} (you)', { a: initialName } );
+  }
+ else {
+    name = initialName;
+  }
   const lockNames = Object.keys( locks ).filter( ( thatName ) => locks[thatName] && thatName !== 'status' && thatName !== 'lastActivityAt' );
   let message;
   if ( lockNames.length === 1 && lockNames[0] === 'summary' ) {
@@ -72,22 +82,30 @@ const AuthorItem = ( {
   }
 
   return (
-    <StretchedLayoutContainer
-      isDirection={ 'horizontal' }
+    <div
+      data-tip={ clickable ? translate( 'click to add this name to authors list' ) : undefined }
+      data-for={ clickable ? 'tooltip' : undefined }
+      data-effect={ 'solid' }
+      onClick={ onClick }
+      style={ { cursor: clickable ? 'pointer' : '' } }
     >
-      <StretchedLayoutItem style={ { marginRight: '1rem' } }>
-        <Image
-          isRounded
-          isSize={ '32x32' }
-          src={ require( `../../../sharedAssets/avatars/${author.avatar}` ) }
-        />
-      </StretchedLayoutItem>
-      <StretchedLayoutItem isFlex={ 1 }>
-        <Help>
-          {message}
-        </Help>
-      </StretchedLayoutItem>
-    </StretchedLayoutContainer>
+      <StretchedLayoutContainer isDirection={ 'horizontal' }>
+        <StretchedLayoutItem
+          style={ { marginRight: '1rem' } }
+        >
+          <Image
+            isRounded
+            isSize={ '32x32' }
+            src={ require( `../../../sharedAssets/avatars/${author.avatar}` ) }
+          />
+        </StretchedLayoutItem>
+        <StretchedLayoutItem isFlex={ 1 }>
+          <Help>
+            {message}
+          </Help>
+        </StretchedLayoutItem>
+      </StretchedLayoutContainer>
+    </div>
   );
 };
 

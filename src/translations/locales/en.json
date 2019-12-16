@@ -394,7 +394,7 @@
   "Features.HomeView.Provided by the <a target=\"blank\" href=\"http://controverses.org/\">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.": "Provided by the <a target=\"blank\" href=\"http://controverses.org/\">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping.",
   "Features.HomeView.Stories": "Stories",
   "Features.HomeView.Story is not valid": "Story is not valid",
-  "Features.HomeView.Who else is online ?": "Who else is online ?",
+  "Features.HomeView.Who is online ?": "Who is online ?",
   "Features.HomeView.Your profile": "Your profile",
   "Features.HomeView.about fonio details": "Fonio is a collaborative writing software aimed at building rich digital scholarly dissertations using the architecture of websites to structure arguments and the possibility to harness the richness of your work by featuring bibliographic references, images, tables, videos, and interactive elements.",
   "Features.HomeView.choose how you will be identified by other writers": "choose how you will be identified by other writers",
@@ -523,7 +523,7 @@
   "Features.SummaryView.Edit story settings": "Edit story settings",
   "Features.SummaryView.New section": "New section",
   "Features.SummaryView.Summary": "Summary",
-  "Features.SummaryView.What are other authors doing ?": "What are other authors doing ?",
+  "Features.SummaryView.What are authors doing ?": "What are authors doing ?",
   "Features.SummaryView.edited by you": "edited by you",
   "Features.SummaryView.edited by {a}": "edited by {a}",
   "Features.SummaryView.open to edition": "open to edition",
@@ -758,5 +758,8 @@
   "Features.DesignView.Figures position help": "Choose how to present figures (images, tables, videos, advanced blocks)",
   "Features.DesignView.in content body": "in content body",
   "Features.DesignView.relative to scroll": "relative to scroll",
-  "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "You are about to delete story \"{t}\"."
+  "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "You are about to delete story \"{t}\".",
+
+  "Features.SummaryView.click to add this name to authors list": "click to add this name to authors list",
+  "Features.SummaryView.{a} (you)": "{a} (you)"
 }
