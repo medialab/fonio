@@ -9,10 +9,10 @@
   "maxBatchNumber": "MAX_BATCH_NUMBER",
   "requirePublicationConsent": {
     "__name": "REQUIRE_PUBLICATION_CONSENT",
-    "__format": "boolean"
+    "__format": "json"
   },
   "demoMode": {
     "__name": "DEMO_MODE",
-    "__format": "boolean"
+    "__format": "json"
   }
 }
