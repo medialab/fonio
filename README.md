@@ -1,4 +1,4 @@
-# Fonio - *a scholarly dissertations editor allowing to build standalone HTML webpages*
+# Fonio - *a collaborative scholarly text editor allowing to build static websites*
 
 Fonio is a collaborative writing software aimed at building rich digital scholarly dissertations, using the architecture of websites to structure arguments, and the possibility to feature an extensible array of resources such as bibliographic references, images, tables, videos, and interactive elements.
 
