@@ -120,6 +120,7 @@
       maxStorySize: ${MAX_STORY_SIZE},
       maxFolderSize: ${MAX_FOLDER_SIZE},
       maxBatchNumber: ${MAX_BATCH_NUMBER},
+      demoMode: ${DEMO_MODE},
       requirePublicationConsent: ${REQUIRE_PUBLICATION_CONSENT}
     };
   </script>
