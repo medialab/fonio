@@ -558,8 +558,11 @@ class HomeViewLayout extends Component {
                 </Column>
                 {
                     ( demoMode ) ?
-                      <Column style={ { paddingTop: '2rem' } }>
-                        <Notification isColor={ 'primary' }>
+                      <Column style={ { paddingTop: 0 } }>
+                        <Notification
+                          isColor={ 'primary' }
+                          style={ { marginBottom: '.5rem' } }
+                        >
                           <StretchedLayoutContainer isDirection={ 'horizontal' }>
                             <StretchedLayoutItem isFlex={ '1' }>
                               <Title
@@ -603,7 +606,8 @@ class HomeViewLayout extends Component {
                           style={ {
                           transition: '.5s',
                           maxHeight: showDemoIntro ? '100vh' : 0,
-                          padding: showDemoIntro ? undefined : 0,
+                          paddingTop: showDemoIntro ? undefined : 0,
+                          paddingBottom: showDemoIntro ? undefined : 0,
                           overflow: 'hidden'
                         } }
                         >
