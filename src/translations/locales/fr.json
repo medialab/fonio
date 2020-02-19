@@ -368,6 +368,7 @@
   "Features.HomeView. and is hosted on ": " et est hébergé sur la plateforme ",
   "Features.HomeView.About fonio": "À propos de fonio",
   "Features.HomeView.About": "À propos",
+  "Features.HomeView.Who else is online ?": "Qui d'autre est en ligne ?",
   "Features.HomeView.Avatar icons courtesy of ": "Les images d'avatar sont l'oeuvre de ",
   "Features.HomeView.Cancel": "Annuler",
   "Features.HomeView.Create a story": "Créer un récit",
@@ -774,6 +775,5 @@
   "Components.DemoLeaveConfirmModal.No, let me continue to edit this story": "Non, laissez-moi continuer l'édition !",
   "Components.DemoLeaveConfirmModal.Yes, let this story go !": "Oui, laissez ce récit être supprimé !",
   "Features.EditionUiWrapper.demo version": "version démo",
-  "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "Vous êtes sur le point de supprimer le récit \"{t}\".",
   "Components.PageNotFound.The page you are looking does not exist on this fonio instance, go back to ": "La page que vous recherchez n'existe pas sur cette instance fonio, revenir à la "
 }

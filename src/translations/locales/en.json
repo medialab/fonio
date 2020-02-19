@@ -375,6 +375,7 @@
   "Features.ErrorMessageContainer.in this page": "in this page",
   "Features.ErrorMessageContainer.{n} is too big": "{n} is too big",
   "Features.HomeView. and is hosted on ": " and is hosted on ",
+  "Features.HomeView.Who else is online ?": "Who else is online?",
   "Features.HomeView.About fonio": "About fonio",
   "Features.HomeView.About": "About",
   "Features.HomeView.Avatar icons courtesy of ": "Avatar icons courtesy of ",
@@ -759,7 +760,6 @@
   "Features.DesignView.in content body": "in content body",
   "Features.DesignView.relative to scroll": "relative to scroll",
   "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "You are about to delete story \"{t}\".",
-
   "Features.SummaryView.click to add this name to authors list": "click to add this name to authors list",
   "Features.SummaryView.{a} (you)": "{a} (you)",
   "Features.HomeView.Welcome to the demo version of Fonio !": "Welcome to the demonstration version of Fonio!",
@@ -772,7 +772,6 @@
   "Components.DemoLeaveConfirmModal.As you are in the demonstration version, this means all the contents of this story will be deleted if you leave it.": "As you are in the demonstration version, all the contents of this story will be deleted if you leave it.",
   "Components.DemoLeaveConfirmModal.Before leaving, you can retrieve a publishable version of your by clicking on the export button on the top right corner of the screen (you can also save it as a data file and reimport it later from the home page).": "Before leaving, you can retrieve a publishable version of your work by clicking on the export button on the top right corner of the screen (you can also save it as a data file and reimport it later from the home page).",
   "Components.DemoLeaveConfirmModal.So, are you ready to leave this test story and let it be deleted ?": "So, are you ready to leave this test story and let it be deleted ?",
-  "Components.DeleteStoryModal.You are about to delete story \"{t}\"": "You are about to delete story \"{t}\".",
   "Components.DemoLeaveConfirmModal.No, let me continue to edit this story": "No, let me continue to edit this story",
   "Components.DemoLeaveConfirmModal.Yes, let this story go !": "Yes, let this story go !",
   "Features.EditionUiWrapper.demo version": "demo version",
