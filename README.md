@@ -1,6 +1,6 @@
 # Fonio - *a collaborative scholarly text editor allowing to build static websites*
 
-Fonio is a collaborative writing software aimed at building rich digital scholarly dissertations, using the architecture of websites to structure arguments, and the possibility to feature an extensible array of resources such as bibliographic references, images, tables, videos, and interactive elements.
+Fonio is a a collaborative scholarly text editor allowing to build high quality static websites, using the architecture of websites to structure arguments, and the possibility to feature an extensible array of resources such as bibliographic references, images, tables, videos, and interactive elements.
 
 Fonio puts an emphasis on documentation, allowing writers to describe all the resources gathered during their inquiry in a rich and homogeneous way (date, source, author, ...). It also allows them to build an augmented glossary in order to define key terms and browse them in an interactive way.
 
@@ -8,9 +8,9 @@ Besides, the application is aimed at allowing to work extensively on the informa
 
 Fonio is collaborative and allows several writers to work simultaneously on contents, design and documentation. According to this collaborative state of mind, works in progress are readable by the whole classroom, but their edition is restricted to each team.
 
-Each "classroom" corresponds to a specific course and exists during a limited period of time. All works are saved and privately archived after the semester is finished, but the application also allows writers to download their work at anytime to backup it or to publish it online in a clean and easy way.
+Each session corresponds to a specific course and exists during a limited period of time. All works are saved and privately archived after the semester is finished, but the application also allows writers to download their work at anytime to backup it or to publish it online in a clean and easy way.
 
-Fonio is part of the ``quinoa`` project family, a suite of digital storytelling tools tailored for the [FORCCAST](http://controverses.org/) pedagogical program and [médialab sciences po](http://www.medialab.sciences-po.fr/) scientific activities.
+Fonio is part of a suite of digital storytelling tools tailored for the [FORCCAST](http://controverses.org/) pedagogical program and [médialab sciences po](http://www.medialab.sciences-po.fr/) scientific activities.
 
 It works with the [quinoa-server](https://github.com/medialab/quinoa-server) application which provides a server to store stories and handles collaborative edition through websockets.
 

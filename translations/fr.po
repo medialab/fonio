@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
 "POT-Creation-Date: 2020-3-2\n"
-"PO-Revision-Date: Mon Mar 02 2020 11:23:44 GMT+0100 (heure normale d’Europe centrale)\n"
+"PO-Revision-Date: Mon Mar 02 2020 11:44:29 GMT+0100 (CET)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2367,7 +2367,7 @@ msgid "Features.DesignView.To do so, you must be familiar with css syntax. To ge
 msgstr "Pour ce faire, vous devez être familier de la syntaxe CSS. Pour commencer à apprendre CSS, nous vous conseillons de commencer par <a target=\"blank\" rel=\"noopener\" href=\"https://developer.mozilla.org/fr-FR/docs/Learn/CSS/Introduction_to_CSS\">ce tutoriel</a>"
 
 msgid "Features.HomeView.Made at the <a target="blank" href="http://medialab.sciencespo.fr/">médialab SciencesPo</a>, a research laboratory that connects social sciences with inventive methods."
-msgstr "Fonio est fabriqué et entretenu au <a target=\"blank\" ref=\"noopener\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, laboratoire de recherche qui connecte les sciences sociales avec de nouvelles méthodologies de recherche, d'ingénierie et de design."
+msgstr "Fonio est fabriqué et maintenu au <a target=\"blank\" ref=\"noopener\" href=\"http://medialab.sciencespo.fr/\">médialab SciencesPo</a>, laboratoire de recherche qui connecte les sciences sociales avec de nouvelles méthodologies de recherche, d'ingénierie et de design."
 
 msgid "Features.HomeView.Provided by the <a target="blank" href="http://controverses.org/">FORCCAST</a> program, fostering pedagogical innovations in controversy mapping."
 msgstr "Fonio est produit par le programme <a target=\"blank\" ref=\"noopener\" href=\"http://controverses.org/\">FORCCAST</a>, dédié au développement d'innovations pédagogiques pour l'analyse des controverses, sciences et techniques."
