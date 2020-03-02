@@ -461,7 +461,14 @@ export function data( state = DATA_DEFAULT_STATE, action ) {
       const { data: newData } = action.result;
       return {
         ...state,
-        newStory: newData
+        newStory: {
+          ...newData,
+          metadata: {
+            ...newData.metadata,
+            specificLanguage: undefined,
+            isSpecial: false
+          }
+        }
       };
     case `${IMPORT_STORY}_SUCCESS`:
       return {
