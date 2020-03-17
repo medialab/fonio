@@ -12,7 +12,7 @@ import { get, post, put, delete as del } from 'axios';
 
 import config from '../../config';
 
-import { createDefaultStory, validateStory } from '../../helpers/schemaUtils';
+import { createDefaultStory, validateStory, peritextToQuinoa } from '../../helpers/schemaUtils';
 
 import { getFileAsText } from '../../helpers/fileLoader';
 import { getStatePropFromActionSet } from '../../helpers/reduxUtils';
@@ -161,6 +161,9 @@ export const importStory = ( file ) => ( {
                 }
                 catch ( jsonError ) {
                   return reject( 'malformed json' );
+                }
+                if ( story.type === 'production' ) {
+                  story = peritextToQuinoa( story );
                 }
                 const validation = validateStory( story );
                 if ( validation.valid ) {
