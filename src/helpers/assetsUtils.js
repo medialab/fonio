@@ -392,7 +392,20 @@ export const summonAsset = ( contentId, resourceId, props ) => {
     const resource = story.resources[resourceId];
 
     const editorStateId = contentId === 'main' ? sectionId : contentId;
-    const editorState = editorStates[editorStateId];
+    let editorState = editorStates[editorStateId];
+    const inJs = editorState.getSelection().toJS();
+    if ( inJs.isBackward ) {
+      editorState = EditorState.forceSelection(
+        editorState,
+        editorState.getSelection().merge( {
+          isBackward: false,
+          anchorOffset: inJs.focusOffset,
+          focusOffset: inJs.anchorOffset,
+          anchorKey: inJs.focusKey,
+          focusKey: inJs.anchorKey,
+        } )
+      );
+    }
 
     /*
      * choose if inline or block
@@ -491,7 +504,7 @@ export const summonAsset = ( contentId, resourceId, props ) => {
     const newContentState = newEditorState.getCurrentContent();
     const lastEntityKey = newContentState.getLastCreatedEntityKey();
     const entity = newContentState.getEntity( lastEntityKey );
-    let newSelection = newEditorState.getSelection();
+    let newSelection = editorState.getSelection();
     const activeSelection = newEditorState.getSelection();
     if ( insertionType === 'block' ) {
       const offsetKey = activeSelection.getFocusKey();
