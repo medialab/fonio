@@ -118,7 +118,7 @@ export const peritextToQuinoa = ( production ) => {
       };
     // if a resource has contents we add it as a section
     }
- else if ( resource.data && resource.data.contents && resource.data.contents.contents && resource.data.contents.contents.blocks.length ) {
+    else if ( resource.data && resource.data.contents && resource.data.contents.contents && resource.data.contents.contents.blocks && resource.data.contents.contents.blocks.length ) {
       const newId = genId();
       additionalResourcesIds.push( newId );
       return {
