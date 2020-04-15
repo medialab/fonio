@@ -114,7 +114,6 @@ export const peritextToQuinoa = ( production ) => {
           data: undefined,
           ...resource.data.contents
         }
-
       };
     // if a resource has contents we add it as a section
     }

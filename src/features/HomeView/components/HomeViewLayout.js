@@ -593,7 +593,7 @@ class HomeViewLayout extends Component {
                           } }
                           >
                             <p>
-                              {this.translate( 'about fonio details' )}
+                              <b>{this.translate( 'about fonio details' )}</b>
                             </p>
                             <p>
                               {this.translate( 'In this demo version, you can browse tutorials and example stories, and create your own to discover the tool numerous features.' )}
