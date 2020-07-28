@@ -269,14 +269,17 @@ class HomeViewLayout extends Component {
     /**
      * Computed variables
      */
-    const storiesList = Object.keys( stories ).map( ( id ) => ( { id, ...stories[id] } ) );
-    const searchStringLower = searchString.toLowerCase();
-    const visibleStoriesList = storiesList.filter( ( s ) => {
+    const storiesList = Object.keys( stories ).map( ( id ) => ( { id, ...stories[id] } ) )
+    .filter( ( s ) => {
       if ( s.metadata.specificLanguage ) {
         if ( s.metadata.specificLanguage !== lang ) {
           return false;
         }
       }
+      return true;
+    } );
+    const searchStringLower = searchString.toLowerCase();
+    const visibleStoriesList = storiesList.filter( ( s ) => {
       const data = JSON.stringify( s ).toLowerCase();
       return data.includes( searchStringLower );
     } )
