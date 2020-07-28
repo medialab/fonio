@@ -147,7 +147,7 @@ const StoryCard = ( {
         statusMessage={ story.edited ? `Edited by ${story.metadata.subtitle}` : undefined }
         onAction={ onAction }
         footerActions={ [] }
-        asideActions={ [
+        asideActions={ isSpecial ? [] : [
           {
             label: <span><InlineIcon><FontAwesomeIcon icon={ faPencilAlt } /></InlineIcon> {translate( 'edit' )}</span>,
             isColor: 'primary',

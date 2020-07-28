@@ -683,7 +683,13 @@ class HomeViewLayout extends Component {
 
                           const handleClick = ( e ) => {
                             e.stopPropagation();
-                            history.push( `/story/${story.id}` );
+                            if (story.metadata.isSpecial) {
+                              history.push( {
+                                pathname: `/read/${story.id}?lang=${lang}`
+                              } );
+                            } else {
+                              history.push( `/story/${story.id}` );
+                            }
                           };
                           return (
                             <StoryCardWrapper
