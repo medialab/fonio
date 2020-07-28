@@ -83,10 +83,20 @@ export const getResourceTitle = ( resource ) => {
  */
 export const searchResources = ( items, string ) => {
   const options = {
-    keys: [ 'metadata.title', 'data.name', 'data.title', 'metadata.type' ],
+    keys: [ 'metadata.title', 'data.name', 'data.title', 'metadata.type', 'authors' ],
     threshold: 0.5
   };
-  const fuse = new Fuse( items, options );
+  const transformedItems = items.map( ( item ) => {
+    let authors = JSON.stringify( item.metadata.authors );
+    if ( item.metadata.type === 'bib' ) {
+      authors += JSON.stringify( item.data[0].author );
+    }
+    return {
+      ...item,
+      authors
+    };
+  } );
+  const fuse = new Fuse( transformedItems, options );
   return fuse.search( string );
 };
 
