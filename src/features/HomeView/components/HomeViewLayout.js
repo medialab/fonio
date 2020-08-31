@@ -284,6 +284,12 @@ class HomeViewLayout extends Component {
       return data.includes( searchStringLower );
     } )
     .sort( ( a, b ) => {
+      if ( a.metadata.isSpecial && !b.metadata.isSpecial ) {
+        return -1;
+      }
+      else if ( b.metadata.isSpecial && !a.metadata.isSpecial ) {
+        return 1;
+      }
 
       switch ( sortingMode ) {
         case 'edited recently':
@@ -301,7 +307,7 @@ class HomeViewLayout extends Component {
           if ( a.metadata.isSpecial && !b.metadata.isSpecial ) {
             return -1;
           }
- else if ( a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim() ) {
+          else if ( a.metadata.title.toLowerCase().trim() > b.metadata.title.toLowerCase().trim() ) {
             return 1;
           }
           return -1;
@@ -683,11 +689,12 @@ class HomeViewLayout extends Component {
 
                           const handleClick = ( e ) => {
                             e.stopPropagation();
-                            if (story.metadata.isSpecial) {
+                            if ( story.metadata.isSpecial ) {
                               history.push( {
                                 pathname: `/read/${story.id}?lang=${lang}`
                               } );
-                            } else {
+                            }
+                            else {
                               history.push( `/story/${story.id}` );
                             }
                           };

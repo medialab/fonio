@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sample Project\n"
-"POT-Creation-Date: 2020-7-28\n"
-"PO-Revision-Date: Tue Jul 28 2020 16:05:42 GMT+0200 (heure d’été d’Europe centrale)\n"
+"POT-Creation-Date: 2020-8-31\n"
+"PO-Revision-Date: Mon Aug 31 2020 15:40:51 GMT+0200 (CEST)\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2398,6 +2398,9 @@ msgstr "\"{f}\" est trop gros"
 
 msgid "Features.HomeView.For suggesting improvements or signaling bugs, please head to <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link">this page</a> and fill the questionnaire. Thanks !"
 msgstr "Pour suggérer des améliorations ou signaler des bugs, merci de vous rendre sur <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfbo6ShhqQeSdZxnuBvqyskVGiC3NKbdyPpIFL1SIA04wkmZA/viewform?usp=sf_link\" rel=\"noopener\" >cette page</a> et de suivre la procédure proposée. Merci !"
+
+msgid "Features.DesignView.mint template description"
+msgstr "une organisation en plusieurs pages avec un menu horizontal classique"
 
 msgid "Components.DeleteStoryModal.You are about to delete story "{t}""
 msgstr "Vous êtes sur le point de supprimer le récit \"{t}\"."
