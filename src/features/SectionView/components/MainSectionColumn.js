@@ -182,7 +182,6 @@ const MainSectionColumn = ( {
     }
   };
   const handleOpenShortcutsHelp = () => setShortcutsHelpVisible( true );
-
   return (
     <Column
       isSize={ 'fullwidth' }

@@ -613,7 +613,8 @@ export const deleteContextualizationFromId = ( {
                     contentId = key;
                     if ( newEditorState && contentId ) {
                       // apply change
-                      const newSection = contentId === 'main' ? {
+                      const newSection = contentId === section.id ?
+                      {
                         ...section,
                         contents: convertToRaw( newEditorState.getCurrentContent() )
                       } : {
@@ -627,10 +628,10 @@ export const deleteContextualizationFromId = ( {
                         }
                       };
                       // update section
-                      updateSection( newSection );
+                      updateSection( { ...newSection } );
                       if ( typeof updateDraftEditorState === 'function' ) {
                         // update real time editor state
-                        updateDraftEditorState( contentId, newEditorState );
+                         updateDraftEditorState( contentId, newEditorState );
                       }
                     }
                   }
