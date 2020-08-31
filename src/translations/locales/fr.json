@@ -702,6 +702,7 @@
   "Features.HomeView.back to the classroom": "retour à la salle de classe",
   "Features.DesignView.garlic template description": "une organisation en une page permettant de jouer avec des interactions basées sur le défilement",
   "Features.DesignView.pepper template description": "une organisation en plusieurs pages permettant de jouer avec l'hypertextualité",
+  "Features.DesignView.mint template description": "une organisation en plusieurs pages avec un menu horizontal classique",
   "Components.ExportModal.Export your story to publish it": "Exporter le récit pour le publier",
   "Components.ExportModal.multiple-html-help": "télécharger le récit sous la forme d'un site web statique",
   "Components.ExportModal.Export your story to archive it": "Exporter le récit pour l'archiver",
