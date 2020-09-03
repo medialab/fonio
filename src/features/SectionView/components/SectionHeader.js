@@ -20,7 +20,6 @@ import icons from 'quinoa-design-library/src/themes/millet/icons';
  * Imports Project utils
  */
 import {
-  abbrevString,
   silentEvent
 } from '../../../helpers/misc';
 
@@ -122,13 +121,14 @@ class SectionHeader extends Component {
               border: 'none',
               outline: 'none',
               paddingLeft: '1rem',
+              textOverflow: 'ellipsis'
             } }
             data-tip={ inputTip }
             data-for={ 'tooltip' }
             data-effect={ 'solid' }
             data-place={ 'bottom' }
             ref={ bindInput }
-            value={ isFocused ? title : abbrevString( title, 30 ) }
+            value={ title }
             onFocus={ onFocus }
             onBlur={ onBlur }
             onChange={ onChange }
