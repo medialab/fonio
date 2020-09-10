@@ -245,7 +245,6 @@ const AsideDesignContents = ( {
                             id: 'foot',
                             label: translate( 'foot notes' )
                           }
-
                         ] }
                       >
                         {options.notesPosition === 'aside' ? translate( 'side notes' ) : translate( 'foot notes' )}
@@ -277,7 +276,6 @@ const AsideDesignContents = ( {
                             id: 'aside',
                             label: translate( 'relative to scroll' )
                           }
-
                         ] }
                       >
                         {options.figuresPosition === 'body' ? translate( 'in content body' ) : translate( 'relative to scroll' )}
