@@ -579,7 +579,7 @@ class SectionEditor extends Component {
 
     const contentState = editorState.getCurrentContent();
     const block = contentState.getBlockForKey( selection.getStartKey() );
-    if ( !!block.getEntityAt( selection.getStartOffset() - 1 ) ) {
+    if ( block && !!block.getEntityAt( selection.getStartOffset() - 1 ) ) {
       const entityKey = block.getEntityAt( selection.getStartOffset() - 1 );
       return { entity: contentState.getEntity( entityKey ), entityKey };
     }
