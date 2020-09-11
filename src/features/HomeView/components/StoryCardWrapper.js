@@ -26,7 +26,7 @@ export default class StoryCardWrapper extends Component {
       onClick: handleClick,
     } = this.props;
     return (
-      <Level style={ { marginBottom: 0 } }>
+      <Level>
         <Column>
           <StoryCard
             story={ story }
